@@ -1,4 +1,4 @@
-# Introduction to CS and Programming Using Python
+# Introduction to Programming Using Python
 
 ---
 
