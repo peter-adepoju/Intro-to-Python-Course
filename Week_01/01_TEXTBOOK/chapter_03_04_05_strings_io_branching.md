@@ -1,11 +1,8 @@
-# Chapter 3: Strings and Sequence Thinking
-# Chapter 4: Input, Output, and Formatting
-# Chapter 5: Branching — Programs That Make Decisions
-### Week 1 — Days 3, 4, and 5 Textbook
-
+# Days 3
 ---
 
 # Chapter 3: Strings and Sequence Thinking
+---
 
 ## 3.1 What Is a String?
 
