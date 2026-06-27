@@ -1,4 +1,4 @@
-﻿# ðŸ§  Quiz â€” Day 9
+﻿# Quiz - Day 9
 ## Approximation and Brute-Force Search
 
 ---
@@ -121,8 +121,3 @@ A) `"13"`
 B) `"1101"`
 C) `"1011"`
 D) `"110"`
-
----
----
-
----
