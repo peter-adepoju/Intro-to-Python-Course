@@ -7,10 +7,6 @@ Instructions:
 - Each exercise has a comment describing the goal.
 - Write your code directly below the instructions.
 - Run this file with: python day01_practice.py
-- Compare your output with the expected output noted in each exercise.
-
-Do NOT look at the answer key (bottom of this file, separated clearly)
-until you've attempted every exercise yourself.
 """
 
 # ============================================================
@@ -80,46 +76,3 @@ grams_available = 500
 
 number = 7392
 # YOUR CODE HERE
-
-
-# ============================================================
-# ANSWER KEY (Don't peek until you've tried everything above!)
-# ============================================================
-"""
-# Exercise 1:
-print("Sum:", 47 + 89)                  # 136
-print("Product:", 13 * 7)               # 91
-print("True division:", 100 / 7)        # 14.285714285714286
-print("Floor division:", 100 // 7)      # 14
-print("Remainder:", 100 % 7)            # 2
-
-# Exercise 2:
-value = 19.87
-print(type(value))           # <class 'float'>
-print(int(value))            # 19 (truncates)
-print(round(value))          # 20 (rounds to nearest)
-# int() always truncates toward zero regardless of how close the
-# decimal is to the next integer. round() finds the nearest integer.
-
-# Exercise 3:
-print(144 % 12 == 0)         # True
-
-# Exercise 4:
-cups_needed = 3.5
-grams_available = 500
-grams_needed = cups_needed * 120
-cups_from_grams = grams_available / 120
-print(f"{cups_needed} cups of flour = {grams_needed}g")
-print(f"{grams_available}g of flour = {cups_from_grams:.2f} cups")
-
-# Challenge:
-number = 7392
-digit4 = number % 10        # 2
-number = number // 10       # 739
-digit3 = number % 10        # 9
-number = number // 10       # 73
-digit2 = number % 10        # 3
-number = number // 10       # 7
-digit1 = number % 10        # 7
-print(digit1, digit2, digit3, digit4)   # 7 3 9 2
-"""
