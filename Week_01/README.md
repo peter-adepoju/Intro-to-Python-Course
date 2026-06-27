@@ -15,14 +15,16 @@ This is the first week of a 14-week course.
 
 ```
 CS_Python_Semester/
-├── MANIFEST.md                          ← Full course index
 ├── README.md                            ← This file
 ├── 00_SCHEDULE/
-│   ├── semester_overview.md             ← All 14 weeks at a glance
 │   └── week_01_schedule.md              ← Week 1 day-by-day plan
 ├── 01_TEXTBOOK/week_01/
-│   ├── chapter_01_02_types_variables.md
-│   └── chapter_03_04_05_strings_io_branching.md
+│   ├── chapter_01_computation.md
+│   ├── chapter_02_types_variables_expressions.md
+│   ├── chapter_03_strings.md
+│   ├── chapter_04_Input_Output_Formatting.md
+│   ├── chapter_05_branching.md
+│   └── practice_problems_chapter_03-05.md
 ├── 02_NOTEBOOKS/
 │   ├── day01_types_variables.ipynb
 │   ├── day02_variables_expressions.ipynb
@@ -33,8 +35,7 @@ CS_Python_Semester/
 │   ├── day01_practice.py ... day05_practice.py
 ├── 04_ASSIGNMENTS/
 │   ├── daily_quizzes/quiz_day01.md ... quiz_day05.md
-│   ├── weekend_assignment_01.md
-│   └── INSTRUCTOR_ANSWER_KEYS/weekend_assignment_01_solutions.py
+│   └── weekend_assignment_01.md
 ├── 05_MINI_PROJECTS/                    ← (empty — projects begin Week 3)
 ├── 06_ASSESSMENTS/                      ← (midterm/final added later)
 ├── 07_RESOURCES/
