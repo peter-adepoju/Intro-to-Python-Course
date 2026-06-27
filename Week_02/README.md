@@ -15,7 +15,6 @@ This is the second week of a 14-week course. Week 2 builds directly on Week 1 by
 
 ~~~text
 CS_Python_Semester/
-|-- MANIFEST.md                          <- Full course index
 |-- README.md                            <- This file
 |-- 00_SCHEDULE/
 |   |-- __init__.py
@@ -46,13 +45,6 @@ CS_Python_Semester/
 |   |   |-- quiz_day09.md
 |   |   |-- quiz_day10.md
 |   |   |-- quiz_solutions.md
-|   |-- INSTRUCTOR_ANSWER_KEYS/          <- Instructor-only answer files
-|   |   |-- day06_practice_solutions.py
-|   |   |-- day07_practice_solutions.py
-|   |   |-- day08_practice_solutions.py
-|   |   |-- day09_practice_solutions.py
-|   |   |-- day10_practice_solutions.py
-|   |   |-- weekend_assignment_02_solutions.py
 |   '-- weekend_assignment_02.md
 |-- 05_MINI_PROJECTS/                    <- No mini-project this week. Weekend work consists of the Week 2 weekend assignment.
 |   |-- README.md
