@@ -1,6 +1,26 @@
 const repoBase = "https://github.com/peter-adepoju/Intro-to-Python-Course";
 const colabBase = "https://colab.research.google.com/github/peter-adepoju/Intro-to-Python-Course/blob/main";
 
+function weekFolder(week) {
+  return `Week_${String(week).padStart(2, "0")}`;
+}
+
+function weekResources(week) {
+  const folder = weekFolder(week);
+  return [
+    ["Week overview", folder],
+    ["Environment setup", `${folder}/08_ENVIRONMENT_SETUP`],
+    ["Weekly schedule", `${folder}/00_SCHEDULE`],
+    ["Textbook chapters", `${folder}/01_TEXTBOOK`],
+    ["Jupyter notebooks", `${folder}/02_NOTEBOOKS`],
+    ["Coding practice", `${folder}/03_CODING_PRACTICE`],
+    ["Assignments and quizzes", `${folder}/04_ASSIGNMENTS`],
+    ["Mini-projects", `${folder}/05_MINI_PROJECTS`],
+    ["Resources", `${folder}/07_RESOURCES`],
+    ["Progress tracker", `${folder}/09_PROGRESS_TRACKER`]
+  ];
+}
+
 const weeks = [
   {
     week: 1,
@@ -21,54 +41,91 @@ const weeks = [
       ["Day 4", "Input, output, and formatting", "day04_input_output.ipynb"],
       ["Day 5", "Branching", "day05_branching.ipynb"]
     ],
-    resources: [
-      ["Environment setup", "Week_01/08_ENVIRONMENT_SETUP"],
-      ["Weekly schedule", "Week_01/00_SCHEDULE"],
-      ["Textbook chapters", "Week_01/01_TEXTBOOK"],
-      ["Coding practice", "Week_01/03_CODING_PRACTICE"],
-      ["Assignments and quizzes", "Week_01/04_ASSIGNMENTS"],
-      ["Progress tracker", "Week_01/09_PROGRESS_TRACKER"]
-    ],
+    resources: weekResources(1),
     keywords: "types variables strings input output f-strings branching foundations"
   },
   {
     week: 2,
     unit: "1",
     title: "Iteration",
-    status: "Planned",
-    summary: "while loops, for loops, range, loop tracing, and nested repetition.",
-    objectives: ["Trace loop state by hand.", "Use while and for loops to repeat work.", "Recognize common off-by-one mistakes."],
-    days: [["Day 1", "while loops"], ["Day 2", "for and range"], ["Day 3", "Nested loops"], ["Day 4", "Approximation"], ["Day 5", "Loop patterns"]],
+    status: "Available",
+    summary: "while loops, for loops, range(), nested loops, approximation, brute-force search, and loop patterns.",
+    objectives: [
+      "Trace loop state by hand and explain how variables change during repetition.",
+      "Use while loops for indefinite iteration and for loops with range() for definite iteration.",
+      "Build nested loops, approximation searches, and common loop-control patterns."
+    ],
+    days: [
+      ["Day 6", "while loops", "day06_while_loops.ipynb"],
+      ["Day 7", "for loops and range()", "day07_for_range.ipynb"],
+      ["Day 8", "Nested loops", "day08_nested_loops.ipynb"],
+      ["Day 9", "Approximation and brute-force search", "day09_approximation.ipynb"],
+      ["Day 10", "Loop patterns", "day10_loop_patterns.ipynb"]
+    ],
+    resources: weekResources(2),
     keywords: "loops while for range nested approximation iteration"
   },
   {
     week: 3,
     unit: "1",
     title: "Functions",
-    status: "Planned",
-    summary: "Function definitions, parameters, return values, scope, and docstrings.",
-    objectives: ["Write reusable functions.", "Choose clear parameters and return values.", "Read and write simple docstrings."],
-    days: [["Day 1", "Defining functions"], ["Day 2", "Parameters"], ["Day 3", "Return and scope"], ["Day 4", "Docstrings"], ["Day 5", "Practice"]],
-    keywords: "functions parameters return scope docstrings"
+    status: "Available",
+    summary: "Function definitions, parameters, arguments, return values, scope, specifications, docstrings, and decomposition.",
+    objectives: [
+      "Write reusable functions with clear names, parameters, and return values.",
+      "Explain local scope and how data moves into and out of function calls.",
+      "Use specifications and decomposition to organize larger programs."
+    ],
+    days: [
+      ["Day 11", "Defining functions", "day11_defining_functions.ipynb"],
+      ["Day 12", "Parameters and arguments", "day12_parameters.ipynb"],
+      ["Day 13", "Return values and scope", "day13_return_scope.ipynb"],
+      ["Day 14", "Specifications and decomposition", "day14_specs_decomposition.ipynb"],
+      ["Day 15", "Functions calling functions", "day15_functions_calling_functions.ipynb"]
+    ],
+    resources: weekResources(3),
+    keywords: "functions parameters arguments return scope specifications docstrings decomposition"
   },
   {
     week: 4,
     unit: "1",
     title: "Recursion",
-    status: "Planned",
-    summary: "Recursive thinking, base cases, call stacks, and classic recursive examples.",
-    objectives: ["Identify base and recursive cases.", "Trace recursive calls.", "Compare recursive and iterative solutions."],
-    days: [["Day 1", "Recursive thinking"], ["Day 2", "Base cases"], ["Day 3", "Call stack"], ["Day 4", "Fibonacci"], ["Day 5", "Mutual recursion"]],
-    keywords: "recursion base cases call stack fibonacci"
+    status: "Available",
+    summary: "Recursive thinking, base cases, termination, call stacks, classic recursive problems, and recursion vs. iteration.",
+    objectives: [
+      "Identify base cases, recursive cases, and termination conditions.",
+      "Trace recursive calls through the call stack.",
+      "Compare recursive and iterative approaches for classic problems."
+    ],
+    days: [
+      ["Day 16", "Recursive thinking", "day16_recursive_thinking.ipynb"],
+      ["Day 17", "Base cases and termination", "day17_base_cases.ipynb"],
+      ["Day 18", "The call stack", "day18_call_stack.ipynb"],
+      ["Day 19", "Classic recursive problems", "day19_classic_problems.ipynb"],
+      ["Day 20", "Mutual recursion", "day20_mutual_recursion.ipynb"]
+    ],
+    resources: weekResources(4),
+    keywords: "recursion base cases termination call stack classic recursive problems mutual recursion"
   },
   {
     week: 5,
     unit: "2",
     title: "Tuples and Lists",
-    status: "Planned",
-    summary: "Sequences, indexing, mutation, aliasing, and list methods.",
-    objectives: ["Use sequences to store related values.", "Explain mutation and aliasing.", "Choose tuples or lists appropriately."],
-    days: [["Day 1", "Tuples"], ["Day 2", "Lists"], ["Day 3", "Mutation and aliasing"], ["Day 4", "List methods"], ["Day 5", "Iteration patterns"]],
+    status: "Available",
+    summary: "Tuples, lists, sequence operations, list methods, mutation, aliasing, cloning, nested lists, and list-processing functions.",
+    objectives: [
+      "Use tuples and lists to store ordered collections of values.",
+      "Explain mutation, aliasing, cloning, and when side effects occur.",
+      "Process lists with functions, loops, and nested structures."
+    ],
+    days: [
+      ["Day 21", "Tuples", "day21_tuples.ipynb"],
+      ["Day 22", "Lists: introduction and operations", "day22_lists_intro.ipynb"],
+      ["Day 23", "List methods and mutation", "day23_list_methods.ipynb"],
+      ["Day 24", "Aliasing, mutation, and cloning", "day24_aliasing.ipynb"],
+      ["Day 25", "Lists, functions, and nested lists", "day25_lists_functions_nested.ipynb"]
+    ],
+    resources: weekResources(5),
     keywords: "tuples lists mutation alias methods sequences"
   },
   {
@@ -236,16 +293,16 @@ function githubUrl(path) {
   return `${repoBase}/tree/main/${path}`;
 }
 
-function notebookPath(fileName) {
-  return `Week_01/02_NOTEBOOKS/${fileName}`;
+function notebookPath(week, fileName) {
+  return `${weekFolder(week)}/02_NOTEBOOKS/${fileName}`;
 }
 
-function colabUrl(fileName) {
-  return `${colabBase}/${notebookPath(fileName)}`;
+function colabUrl(week, fileName) {
+  return `${colabBase}/${notebookPath(week, fileName)}`;
 }
 
-function githubNotebookUrl(fileName) {
-  return `${repoBase}/blob/main/${notebookPath(fileName)}`;
+function githubNotebookUrl(week, fileName) {
+  return `${repoBase}/blob/main/${notebookPath(week, fileName)}`;
 }
 
 function renderSidebar() {
@@ -274,7 +331,7 @@ function renderLesson() {
     <div class="day-row">
       <strong>${day[0]}</strong>
       <span>${day[1]}</span>
-      ${day[2] ? `<a class="button secondary" href="${colabUrl(day[2])}" target="_blank" rel="noreferrer">Open in Colab</a>` : `<span class="tag">Planned</span>`}
+      ${day[2] ? `<a class="button secondary" href="${colabUrl(item.week, day[2])}" target="_blank" rel="noreferrer">Open in Colab</a>` : `<span class="tag">Planned</span>`}
     </div>
   `).join("");
   const resources = (item.resources || []).map(([label, path]) => `
@@ -283,13 +340,14 @@ function renderLesson() {
       <span>GitHub</span>
     </a>
   `).join("") || `<p class="sidebar-copy">Materials will be added as this week becomes available.</p>`;
-  const notebookCards = item.week === 1 ? item.days.map(day => `
+  const availableNotebooks = item.days.filter(day => day[2]);
+  const notebookCards = availableNotebooks.length ? availableNotebooks.map(day => `
     <article class="notebook-card">
       <strong>${day[0]}: ${day[1]}</strong>
-      <small>${notebookPath(day[2])}</small>
+      <small>${notebookPath(item.week, day[2])}</small>
       <div class="notebook-actions">
-        <a href="${colabUrl(day[2])}" target="_blank" rel="noreferrer">Colab</a>
-        <a href="${githubNotebookUrl(day[2])}" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="${colabUrl(item.week, day[2])}" target="_blank" rel="noreferrer">Colab</a>
+        <a href="${githubNotebookUrl(item.week, day[2])}" target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </article>
   `).join("") : `<p class="sidebar-copy">Notebook links will appear here when the week's files are published.</p>`;
@@ -320,7 +378,7 @@ function renderLesson() {
       <section class="lesson-column">
         <h3>Course materials</h3>
         <div class="action-stack">${resources}</div>
-        <h3>Week 1 notebooks</h3>
+        <h3>Week ${item.week} notebooks</h3>
         <div class="notebook-grid">${notebookCards}</div>
       </section>
     </div>
