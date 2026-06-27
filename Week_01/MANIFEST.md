@@ -1,4 +1,4 @@
-# CS_Python_Semester — Course Package Manifest
+# Course Package Manifest
 ## Introduction to Programming Using Python
 ---
 
