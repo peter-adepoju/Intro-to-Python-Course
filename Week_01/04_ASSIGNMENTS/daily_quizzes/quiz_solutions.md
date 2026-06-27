@@ -62,4 +62,22 @@
 ---
 ---
 
+## Day 4
+
+| Q | Answer | Explanation |
+|---|---|---|
+| 1 | C — `str` | `input()` ALWAYS returns a string. You must convert manually with `int()`, `float()`, etc. |
+| 2 | B — `"a-b-c"` | The `sep=` keyword argument changes the separator placed between printed arguments |
+| 3 | C — `int(input("..."))` | Wrap the call to `input()` inside `int()` to convert the returned string into an integer |
+| 4 | B — `"3.14"` | `.2f` format spec rounds and displays exactly 2 decimal places |
+| 5 | B — `\n` is newline, `\t` is tab | Two of the most commonly used escape sequences — worth memorizing |
+| 6 | B — `"1,234,567"` | The `,` format spec inserts thousands separators automatically |
+| 7 | B — `"HelloWorld"` | `end=""` suppresses the default trailing newline, so the next `print()` continues on the same line |
+| 8 | C — `float` | `float()` converts the string `"3.14"` into the float value `3.14` |
+| 9 | C — Both A and B | A manually multiplies by 100 and formats as a float; B uses the built-in `%` format spec which does the multiplication automatically |
+| 10 | B — an aligned table | `<8` left-aligns within an 8-character field, `>6` right-aligns within a 6-character field, producing neat columns |
+
+---
+---
+
 
