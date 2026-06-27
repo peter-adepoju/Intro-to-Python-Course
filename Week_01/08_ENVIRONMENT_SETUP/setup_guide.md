@@ -143,7 +143,7 @@ The course notebooks live in `02_NOTEBOOKS/`. To open them:
 
 You can also open notebooks from the terminal:
 ```bash
-jupyter notebook "CS_Python_Semester/02_NOTEBOOKS/week_01/day01_types_variables.ipynb"
+jupyter notebook "Intro-to-Python-Course/week_01/02_NOTEBOOKS/day01_types_variables.ipynb"
 ```
 
 ---
