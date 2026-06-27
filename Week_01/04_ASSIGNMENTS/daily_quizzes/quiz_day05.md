@@ -1,4 +1,4 @@
-# 🧠 Quiz — Day 5
+# Quiz — Day 5
 ## Branching and Conditionals
 
 ---
@@ -141,29 +141,3 @@ C) "odd_big"
 D) "oddeven_big"
 
 ---
----
-
-## 📋 Answer Key — Day 5
-
-| Q | Answer | Explanation |
-|---|---|---|
-| 1 | C — "big" then "done" | "done" is at the same indentation as `if`, meaning it's outside the if-block and always runs |
-| 2 | B — False | `and` requires BOTH operands to be True for the result to be True |
-| 3 | B — `if x == 5:` | No `then` keyword in Python, needs `==` (not `=`) for comparison, lowercase `if`, and a trailing colon |
-| 4 | A — "positive" only | The first condition (`x > 0`) is True, so its block runs and the `elif`/`else` are skipped entirely — even though `x > 5` is also true |
-| 5 | B — False | `not True` evaluates first to `False`; then `False or False` is `False` |
-| 6 | A — should be `x == 5` | `=` is the assignment operator; `==` is needed for equality comparison inside a condition |
-| 7 | B — `y = 10` | When `x == y` (both 10), neither `if` nor `elif` condition is True, so control falls to `else` |
-| 8 | B — "C" and "D" | These are four independent `if` statements, not `elif` chains — both `score >= 70` and `score >= 60` are True for `score = 75` |
-| 9 | D — Both B and C | Python supports Python-specific chained comparisons (`0 <= x <= 100`), which is equivalent to the `and` version |
-| 10 | C — "odd_big" | x=3 is odd (3 % 2 = 1, not 0) → result becomes "odd"; then 3 > 2 is True → result becomes "odd_big" |
-
----
-
-## Week 1 Complete!
-
-If you scored well on most of these questions, you're ready for Week 2.
-If several answers surprised you, spend extra time this weekend re-reading
-the relevant textbook sections before moving on.
-
-*Next: `04_ASSIGNMENTS/week_01/weekend_assignment_01.md`*
