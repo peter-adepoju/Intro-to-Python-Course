@@ -1,4 +1,4 @@
-﻿# ðŸ§  Quiz â€” Day 7
+﻿# Quiz - Day 7
 ## `for` Loops and `range()`
 
 ---
