@@ -15,7 +15,6 @@ This is the third week of a 14-week course. Week 3 introduces functions, paramet
 
 ~~~text
 CS_Python_Semester/
-|-- MANIFEST.md                          <- Full course index
 |-- README.md                            <- This file
 |-- 00_SCHEDULE/
 |   |-- __init__.py
@@ -46,13 +45,6 @@ CS_Python_Semester/
 |   |   |-- quiz_day14.md
 |   |   |-- quiz_day15.md
 |   |   |-- quiz_solutions.md
-|   |-- INSTRUCTOR_ANSWER_KEYS/          <- Instructor-only answer files
-|   |   |-- day11_practice_solutions.py
-|   |   |-- day12_practice_solutions.py
-|   |   |-- day13_practice_solutions.py
-|   |   |-- day14_practice_solutions.py
-|   |   |-- day15_practice_solutions.py
-|   |   |-- weekend_assignment_03_solutions.py
 |   '-- weekend_assignment_03.md
 |-- 05_MINI_PROJECTS/                    <- Mini-Project 1: Word Guessing Game is included in 05_MINI_PROJECTS.
 |   |-- mini_project_1_starter.py
