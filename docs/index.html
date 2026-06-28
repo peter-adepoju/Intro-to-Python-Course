@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Introduction to Programming Using Python | Course Dashboard</title>
+  <meta name="description" content="A dark course dashboard for Peter Oluwafemi Adepoju's Introduction to Programming Using Python course." />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Introduction to Programming Using Python">
+      <span class="brand-mark">Py</span>
+      <span>
+        <strong>Intro to Python</strong>
+        <small>created by Peter Adepoju</small>
+      </span>
+    </a>
+    <nav class="top-actions" aria-label="Primary navigation">
+      <a href="#course-map">Weeks</a>
+      <a href="textbook/index.html">Textbook</a>
+      <a href="materials/index.html">Materials</a>
+      <a href="quizzes/index.html">Quizzes</a>
+      <a href="#playground">Python Playground</a>
+      <a href="#resources">Resources</a>
+      <a href="https://github.com/peter-adepoju/Intro-to-Python-Course" target="_blank" rel="noreferrer">GitHub</a>
+    </nav>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+  </header>
+
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+    <a href="#course-map">Weeks</a>
+    <a href="textbook/index.html">Textbook</a>
+    <a href="materials/index.html">Materials</a>
+    <a href="quizzes/index.html">Quizzes</a>
+    <a href="#playground">Python Playground</a>
+    <a href="#resources">Resources</a>
+    <a href="https://github.com/peter-adepoju/Intro-to-Python-Course" target="_blank" rel="noreferrer">GitHub</a>
+  </nav>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Structured Python course</p>
+        <h1>Learn Python one working week at a time.</h1>
+        <p class="hero-text">
+          A 14-week programming course organized around reading materials, jupyter notebooks, coding drills,
+          daily quizzes, weekend assignments, progress tracking, and projects.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="#course-map">Open the course map</a>
+          <a class="button secondary" href="textbook/index.html">Read the textbook</a>
+          <a class="button secondary" href="materials/index.html">Browse materials</a>
+          <a class="button secondary" href="quizzes/index.html">Practice quizzes</a>
+          <a class="button secondary" href="#playground">Try the Python playground</a>
+        </div>
+        <div class="hero-stats" aria-label="Course summary">
+          <div><strong>5</strong><span>Weeks live</span></div>
+          <div><strong>25</strong><span>Notebooks</span></div>
+          <div><strong>25</strong><span>Daily quizzes</span></div>
+          <div><strong>14</strong><span>Week path</span></div>
+        </div>
+      </div>
+
+      <aside class="course-console" aria-label="Course structure preview">
+        <div class="console-bar">
+          <span></span><span></span><span></span>
+        </div>
+        <pre><code>course = {
+  "weeks_live": [1, 2, 3, 4, 5],
+  "daily_flow": [
+    "read",
+    "run notebook",
+    "practice",
+    "quiz",
+    "reflect"
+  ],
+  "next_step": "open Week 1"
+}</code></pre>
+      </aside>
+    </section>
+
+    <section class="section band" id="course-map">
+      <div class="section-heading">
+        <p class="eyebrow">Course dashboard</p>
+        <h2>Weeks and materials</h2>
+        <p>Search the syllabus, filter by unit, open available notebooks in Colab, and track progress in this browser.</p>
+      </div>
+      <div class="toolbar" role="search">
+        <label class="visually-hidden" for="course-search">Search weeks</label>
+        <input id="course-search" type="search" placeholder="Search loops, recursion, lists, sorting..." />
+        <label class="visually-hidden" for="unit-filter">Filter by unit</label>
+        <select id="unit-filter">
+          <option value="all">All units</option>
+          <option value="1">Unit 1: Python foundations</option>
+          <option value="2">Unit 2: Compound data</option>
+          <option value="3">Unit 3: Program quality</option>
+          <option value="midterm">Midterm</option>
+          <option value="4">Unit 4: OOP</option>
+          <option value="5">Unit 5: Algorithms</option>
+          <option value="6">Unit 6: Real-world programs</option>
+        </select>
+      </div>
+      <div class="progress-panel" aria-live="polite">
+        <span><strong id="completed-count">0</strong> of 14 weeks checked</span>
+        <div class="progress-track"><span id="progress-bar"></span></div>
+      </div>
+      <div class="week-cards" id="week-cards" aria-live="polite"></div>
+    </section>
+
+    <section class="section tools" id="playground">
+      <div class="section-heading">
+        <p class="eyebrow">Practice</p>
+        <h2>Python playground</h2>
+        <p>Run small Python examples in the browser while reading the course materials.</p>
+      </div>
+      <div class="tool-grid">
+        <article class="tool-panel">
+          <div class="editor-toolbar">
+            <button id="load-python" class="button small" type="button">Load Python</button>
+            <button id="run-code" class="button small secondary" type="button" disabled>Run code</button>
+            <button id="reset-code" class="button small ghost" type="button">Reset</button>
+            <span id="py-status" role="status">Python is not loaded yet.</span>
+          </div>
+          <label class="visually-hidden" for="code-editor">Python code editor</label>
+          <textarea id="code-editor" spellcheck="false">numbers = [3, 7, 10, 14]
+total = 0
+
+for value in numbers:
+    total = total + value
+
+print(f"Total: {total}")
+print(f"Average: {total / len(numbers)}")</textarea>
+        </article>
+        <article class="tool-panel output-panel" aria-live="polite">
+          <h3>Output</h3>
+          <pre id="output">Click "Load Python", then "Run code".</pre>
+        </article>
+      </div>
+    </section>
+<section class="section" id="student-notes">
+      <div class="section-heading">
+        <p class="eyebrow">Study notes</p>
+        <h2>What should future-you remember?</h2>
+        <p>Notes are saved only in this browser.</p>
+      </div>
+      <label class="visually-hidden" for="notes-area">Course notes</label>
+      <textarea id="notes-area" class="notes" placeholder="Today I learned..."></textarea>
+      <div class="note-actions">
+        <button id="clear-notes" class="button small secondary" type="button">Clear notes</button>
+        <span id="notes-status" role="status"></span>
+      </div>
+    </section>
+
+    <section class="section band" id="resources">
+      <div class="section-heading">
+        <p class="eyebrow">Resources</p>
+        <h2>Course links</h2>
+      </div>
+      <div class="resource-grid">
+        <a class="resource-card" href="quizzes/index.html">
+          <strong>Interactive quizzes</strong>
+          <span>Practice all daily quizzes from Weeks 1-5 with selectable answers and instant explanations.</span>
+        </a>
+        <a class="resource-card" href="materials/index.html">
+          <strong>Materials reader</strong>
+          <span>Read schedules, assignments, quizzes, resources, setup guides, and trackers as web pages.</span>
+        </a>
+        <a class="resource-card" href="textbook/index.html">
+          <strong>Textbook reader</strong>
+          <span>Read each chapter as a polished web page with navigation and section links.</span>
+        </a>
+        <a class="resource-card" href="https://github.com/peter-adepoju/Intro-to-Python-Course" target="_blank" rel="noreferrer">
+          <strong>Main repository</strong>
+          <span>Weekly folders, notebooks, assignments, quizzes, and projects.</span>
+        </a>
+        <a class="resource-card" href="https://github.com/peter-adepoju/Intro-to-Python-Course/tree/main/Week_01/08_ENVIRONMENT_SETUP" target="_blank" rel="noreferrer">
+          <strong>Setup guide</strong>
+          <span>Start here before opening notebooks or practice scripts.</span>
+        </a>
+        <a class="resource-card" href="https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/" target="_blank" rel="noreferrer">
+          <strong>MIT OCW inspiration</strong>
+          <span>External reference acknowledged by the course repository.</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Introduction to Programming Using Python</p>
+    <a href="https://github.com/peter-adepoju/Intro-to-Python-Course" target="_blank" rel="noreferrer">Source repository</a>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
