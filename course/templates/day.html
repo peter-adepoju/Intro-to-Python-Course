@@ -1,0 +1,27 @@
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-{{week}}">Week {{week}}: {{week_title}}</a>
+      <ol class="rail-toc">{{toc}}</ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="{{colab}}" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">{{phase}} <span>Week {{week}}, Day {{day}}</span></p>
+      <h1>{{title}}</h1>
+      <div class="day-intro">{{intro}}</div>
+      <div class="day-cards">
+        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul>{{goals}}</ul></section>
+        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol>{{plan}}</ol></section>
+      </div>
+      <p class="day-links"><a href="{{colab}}" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="{{notebook}}" download>download it</a>. Exercises today are worth {{points}} points.</p>
+    </header>
+    <div class="day-body">
+{{body}}
+    </div>
+    <nav class="day-nav" aria-label="Day navigation">{{nav}}</nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{{data}}</script>

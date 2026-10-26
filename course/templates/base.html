@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="{{root}}">
+<meta name="site-version" content="{{version}}">
+<title>{{title}} — Python Atlas</title>
+<meta name="description" content="Learn Python from zero to senior level by watching your code run: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
+<link rel="icon" href="{{root}}assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="{{root}}assets/vendor/codemirror.css?v={{version}}">
+<link rel="stylesheet" href="{{root}}assets/css/site.css?v={{version}}">
+<script>try { const t = localStorage.getItem("atlas.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script src="{{root}}assets/config.js?v={{version}}"></script>
+<script src="{{root}}assets/vendor/codemirror.js?v={{version}}" defer></script>
+{{extra_head}}
+</head>
+<body class="{{page_class}}">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="{{root}}index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="{{root}}map.html">Course map</a>
+    <a href="{{root}}playground.html">Playground</a>
+    <a href="{{root}}review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="{{root}}guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="btn btn-quiet" id="account-link" href="{{root}}account.html">Sign in</a>
+  </div>
+</header>
+<main id="main">
+{{body}}
+</main>
+<footer class="foot">
+  <p>Python Atlas — created by Peter Oluwafemi Adepoju.</p>
+  <p><a href="{{root}}guide.html">How this course works</a> <a href="{{root}}map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
+</footer>
+{{scripts}}
+</body>
+</html>

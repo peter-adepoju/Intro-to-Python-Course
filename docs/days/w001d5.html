@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="2026.10.1">
+<title>Week 1 Day 5: Strings I: quotes, escapes, length, indexing and slicing — Python Atlas</title>
+<meta name="description" content="Learn Python from zero to senior level by watching your code run: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=2026.10.1">
+<link rel="stylesheet" href="../assets/css/site.css?v=2026.10.1">
+<script>try { const t = localStorage.getItem("atlas.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script src="../assets/config.js?v=2026.10.1"></script>
+<script src="../assets/vendor/codemirror.js?v=2026.10.1" defer></script>
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="btn btn-quiet" id="account-link" href="../account.html">Sign in</a>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-1">Week 1: First steps</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#a-string-is-a-sequence-of-characters" data-sec="a-string-is-a-sequence-of-characters">A string is a sequence of characters</a></li><li><a href="#writing-strings" data-sec="writing-strings">Writing strings</a></li><li><a href="#length-joining-and-repeating" data-sec="length-joining-and-repeating">Length, joining and repeating</a></li><li><a href="#indexing-one-character" data-sec="indexing-one-character">Indexing: one character</a></li><li><a href="#slicing-cutting-out-pieces" data-sec="slicing-cutting-out-pieces">Slicing: cutting out pieces</a></li><li><a href="#strings-can-t-be-changed" data-sec="strings-can-t-be-changed">Strings can’t be changed</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 1, Day 5</span></p>
+      <h1>Strings I: quotes, escapes, length, indexing and slicing</h1>
+      <div class="day-intro"><p>Most data that programs handle is text — names, messages, web pages, DNA, code itself. Today you&rsquo;ll learn how Python stores text, how to write any character (even invisible ones), and how to pick out exactly the characters you want with indexing and slicing.</p></div>
+      <div class="day-cards">
+        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Write strings with single, double and triple quotes, and include quotes and special characters with escapes</li><li>Find a string&rsquo;s length with <code>len()</code> and join and repeat strings with <code>+</code> and <code>*</code></li><li>Pick out one character with an index, counting from the start (0) or the end (-1)</li><li>Cut out any piece of a string with a slice <code>s[start:stop:step]</code>, including reversing it</li><li>Explain why you can&rsquo;t change a character inside a string</li></ul></section>
+        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>10 min</span> Warm-up</li><li><span class='plan-min'>25 min</span> Writing strings: quotes and escapes</li><li><span class='plan-min'>20 min</span> Length, joining and repeating</li><li><span class='plan-min'>30 min</span> Indexing: one character at a time</li><li><span class='plan-min'>40 min</span> Slicing: cutting out pieces</li><li><span class='plan-min'>45 min</span> Practice</li><li><span class='plan-min'>10 min</span> Quiz and daily challenge</li></ol></section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w001d5.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d5-p1"><textarea class="pc-src pc-code" hidden>n = 7
+print(n // 2, n % 2, round(n / 2))
+print(&quot;7&quot; * 2)</textarea></div>
+<p>The last line is a preview: <code>*</code> works on strings too. Let&rsquo;s find out why.</p>
+<h2 id="a-string-is-a-sequence-of-characters">A string is a sequence of characters</h2>
+<p>A <strong>string</strong> (<code>str</code>) is a sequence of characters in a particular order. Each character sits at a numbered position, called its <strong>index</strong>. Python starts counting at <strong>0</strong>.</p>
+<figure class="widget" data-widget="strruler"><script type="application/json">{"text": "Python", "mode": "index"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each character has two addresses: its position from the left (blue, starting at 0) and from the right (purple, starting at -1). Change the string and the index.</figcaption></figure>
+<p>Spaces and punctuation are characters too: <code>"Hi there!"</code> has 9 characters.</p>
+<h2 id="writing-strings">Writing strings</h2>
+<h3 id="quotes">Quotes</h3>
+<p>Single and double quotes make exactly the same kind of string. Choosing one lets you put the other inside without trouble:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e2"><textarea class="pc-src pc-code" hidden>print(&quot;It&#x27;s sunny.&quot;)
+print(&#x27;She said &quot;hello&quot;.&#x27;)</textarea></div>
+<p><strong>Triple quotes</strong> (<code>"""</code> or <code>'''</code>) let a string run over several lines:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e3"><textarea class="pc-src pc-code" hidden>poem = &quot;&quot;&quot;Roses are red,
+Python is too,
+it reads like English
+and works well for you.&quot;&quot;&quot;
+print(poem)</textarea></div>
+<h3 id="escape-sequences">Escape sequences</h3>
+<p>Some characters are hard to type inside a string: a new line, a tab, or the same quote you used to open the string. A backslash <code>\</code> starts an <strong>escape sequence</strong>: the backslash and the character after it together stand for one special character.</p>
+<table>
+<thead>
+<tr>
+<th>You type</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\n</code></td>
+<td>a new line</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>a tab</td>
+</tr>
+<tr>
+<td><code>\\</code></td>
+<td>one backslash</td>
+</tr>
+<tr>
+<td><code>\'</code></td>
+<td>a single quote</td>
+</tr>
+<tr>
+<td><code>\"</code></td>
+<td>a double quote</td>
+</tr>
+</tbody>
+</table>
+<p>Type a string literal below and look inside it. Notice that <code>\n</code> takes two keystrokes but is stored as <strong>one</strong> character.</p>
+<figure class="widget" data-widget="escapes"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Every character inside a string, including invisible ones. Escapes are highlighted. Try the Windows path and the raw string r&rsquo;&hellip;&rsquo;.</figcaption></figure>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d5-p4"><textarea class="pc-src pc-code" hidden>print(&quot;one\ttwo\nthree&quot;)</textarea></div>
+<p>A <strong>raw string</strong>, written with an <code>r</code> before the quote, switches escapes off. It&rsquo;s handy for Windows paths and, later, regular expressions (Week 23): <code>r"C:\new\table"</code> keeps its backslashes.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>print("C:\new folder")</code> prints <code>C:</code> and then a line break, then <code>ew folder</code>, because <code>\n</code> became a new line. Use <code>"C:\\new folder"</code> or <code>r"C:\new folder"</code>.</p></aside>
+<h2 id="length-joining-and-repeating">Length, joining and repeating</h2>
+<p><code>len(s)</code> gives the number of characters:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e5"><textarea class="pc-src pc-code" hidden>print(len(&quot;Python&quot;))
+print(len(&quot;Hi there!&quot;))
+print(len(&quot;&quot;))</textarea></div>
+<p><code>""</code> is the <strong>empty string</strong>: a string with no characters at all. It&rsquo;s still a string.</p>
+<p><code>+</code> joins two strings (this is called <strong>concatenation</strong>), and <code>*</code> repeats a string a whole number of times:</p>
+<figure class="widget" data-widget="stepper"><script type="application/json">{"exprs": ["\"ab\" + \"cd\" * 2", "(\"ab\" + \"cd\") * 2", "\"=\" * 10", "\"Hip \" * 2 + \"hooray!\""], "vars": {}}</script><div class="widget-body"></div><figcaption>Strings follow the same order of operations: * before +.</figcaption></figure>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e6"><textarea class="pc-src pc-code" hidden>first = &quot;Ada&quot;
+last = &quot;Lovelace&quot;
+full = first + &quot; &quot; + last
+print(full)
+print(&quot;-&quot; * len(full))</textarea></div>
+<p>The second line draws a line exactly as long as the name. Change the name and the line still fits.</p>
+<h2 id="indexing-one-character">Indexing: one character</h2>
+<p><code>s[i]</code> gives the character at index <code>i</code>. Remember: the first is at index 0, so the last is at <code>len(s) - 1</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e7"><textarea class="pc-src pc-code" hidden>word = &quot;Python&quot;
+print(word[0])
+print(word[1])
+print(word[5])</textarea></div>
+<p>Counting from the right uses <strong>negative</strong> indices: <code>-1</code> is the last character, <code>-2</code> the one before.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e8"><textarea class="pc-src pc-code" hidden>word = &quot;Python&quot;
+print(word[-1])
+print(word[-2])
+print(word[len(word) - 1])</textarea></div>
+<p>Asking for an index that doesn&rsquo;t exist raises <code>IndexError</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e9"><textarea class="pc-src pc-code" hidden>word = &quot;Python&quot;
+print(word[6])</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>For a string of length n, valid indices are 0 to n − 1, and −1 to −n. The last character is always <code>s[-1]</code> — no need to work out the length.</p></aside>
+<h2 id="slicing-cutting-out-pieces">Slicing: cutting out pieces</h2>
+<p>A <strong>slice</strong> <code>s[start:stop]</code> gives a new string from index <code>start</code> up to <strong>but not including</strong> <code>stop</code>. Use the ruler: set start and stop, and watch which boxes light up.</p>
+<figure class="widget" data-widget="strruler"><script type="application/json">{"text": "Python", "mode": "slice"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Set start, stop and step. The highlighted boxes are the slice; small numbers show the order they&rsquo;re taken in. Try the preset buttons, including the ones with negative steps.</figcaption></figure>
+<p>Why &ldquo;up to but not including&rdquo;? Because then <code>stop - start</code> is exactly the length of the slice, and <code>s[:k] + s[k:]</code> is always the whole string. You&rsquo;ll come to like it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e10"><textarea class="pc-src pc-code" hidden>word = &quot;Python&quot;
+print(word[0:2])
+print(word[2:6])
+print(word[:2] + word[2:])</textarea></div>
+<p>Leave out <code>start</code> to begin at the start; leave out <code>stop</code> to go to the end:</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d5-p11"><textarea class="pc-src pc-code" hidden>s = &quot;Hello, world&quot;
+print(s[:5])
+print(s[7:])
+print(s[-5:])</textarea></div>
+<h3 id="the-step">The step</h3>
+<p>A third number, the <strong>step</strong>, says how far to jump: <code>s[::2]</code> takes every second character. A <strong>negative step</strong> walks backwards, so <code>s[::-1]</code> is the whole string reversed.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d5-p12"><textarea class="pc-src pc-code" hidden>s = &quot;abcdefgh&quot;
+print(s[::2])
+print(s[1::2])
+print(s[::-1])</textarea></div>
+<h3 id="slices-are-forgiving">Slices are forgiving</h3>
+<p>An index out of range is an error, but a slice that goes too far is simply cut short. A slice can even be empty:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e13"><textarea class="pc-src pc-code" hidden>s = &quot;cat&quot;
+print(s[1:100])
+print(s[5:10])
+print(len(s[5:10]))</textarea></div>
+<h2 id="strings-can-t-be-changed">Strings can&rsquo;t be changed</h2>
+<p>Strings are <strong>immutable</strong>: once made, a string object never changes. You can&rsquo;t replace a character inside one:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e14"><textarea class="pc-src pc-code" hidden>name = &quot;Jython&quot;
+name[0] = &quot;P&quot;</textarea></div>
+<p>Instead, build a <strong>new</strong> string and point the name at it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d5-e15"><textarea class="pc-src pc-code" hidden>name = &quot;Jython&quot;
+name = &quot;P&quot; + name[1:]
+print(name)</textarea></div>
+<p>X-ray that and watch: a new object <code>'Python'</code> appears and the label <code>name</code> moves to it. Strings in Python always work this way — every &ldquo;change&rdquo; makes a new string. You&rsquo;ll see why that&rsquo;s a good thing in Week 8.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-initials" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Initials</div><div class="pc-prompt"><p><code>first = "Grace"</code> and <code>last = "Hopper"</code>. Print the initials, <code>G.H.</code>, using indexing.</p></div><textarea class="pc-src pc-code" hidden>first = &quot;Grace&quot;
+last = &quot;Hopper&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints G.H.&quot;
+    expect_output(&quot;G.H.&quot;)
+def test_index():
+    &quot;uses indexing&quot;
+    assert &quot;[0]&quot; in source, &quot;Use first[0] and last[0].&quot;</textarea><textarea class="pc-src pc-solution" hidden>first = &quot;Grace&quot;
+last = &quot;Hopper&quot;
+print(first[0] + &quot;.&quot; + last[0] + &quot;.&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-lastchar" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The last character</div><div class="pc-prompt"><p>Print the last character of <code>word</code>, then its length. The checks will also use other words, so don&rsquo;t type <code>"s"</code> or <code>11</code>.</p></div><textarea class="pc-src pc-code" hidden>word = &quot;programmers&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints s then 11&quot;
+    expect_output(&quot;s\n11&quot;)
+def test_general():
+    &quot;works for any word&quot;
+    got = norm(run_with({&#x27;&quot;programmers&quot;&#x27;: &#x27;&quot;hi&quot;&#x27;}))
+    assert got == &quot;i\n2&quot;, &quot;With word = &#x27;hi&#x27; your program printed:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>word = &quot;programmers&quot;
+print(word[-1])
+print(len(word))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-underline" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Underline a title</div><div class="pc-prompt"><p>Print <code>title</code>, and below it a line of <code>=</code> exactly as long as the title.</p></div><textarea class="pc-src pc-code" hidden>title = &quot;Chapter One: Strings&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the title underlined&quot;
+    expect_output(&quot;Chapter One: Strings\n====================&quot;)
+def test_len():
+    &quot;uses len()&quot;
+    assert &quot;len(&quot; in source and &quot;* len&quot; in source.replace(&quot;*len&quot;, &quot;* len&quot;), &quot;Repeat &#x27;=&#x27; len(title) times.&quot;</textarea><textarea class="pc-src pc-solution" hidden>title = &quot;Chapter One: Strings&quot;
+print(title)
+print(&quot;=&quot; * len(title))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-slices" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Slice it up</div><div class="pc-prompt"><p><code>date = "2026-10-26"</code>. Using slices, print the year, month and day on separate lines: <code>2026</code>, <code>10</code>, <code>26</code>.</p></div><textarea class="pc-src pc-code" hidden>date = &quot;2026-10-26&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 2026, 10, 26&quot;
+    expect_output(&quot;2026\n10\n26&quot;)
+def test_slices():
+    &quot;uses slices&quot;
+    assert source.count(&quot;:&quot;) &gt;= 3, &quot;Use date[start:stop] three times.&quot;</textarea><textarea class="pc-src pc-solution" hidden>date = &quot;2026-10-26&quot;
+print(date[:4])
+print(date[5:7])
+print(date[8:])</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-reverse" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Backwards</div><div class="pc-prompt"><p>Print <code>word</code> backwards using a slice.</p></div><textarea class="pc-src pc-code" hidden>word = &quot;stressed&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints desserts&quot;
+    expect_output(&quot;desserts&quot;)
+def test_slice():
+    &quot;uses [::-1]&quot;
+    assert &quot;[::-1]&quot; in source.replace(&quot; &quot;, &quot;&quot;)</textarea><textarea class="pc-src pc-solution" hidden>word = &quot;stressed&quot;
+print(word[::-1])</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-middle" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">The middle letter</div><div class="pc-prompt"><p>Print the middle character of <code>word</code>. For a word with an odd number of letters there&rsquo;s exactly one middle character. Use <code>len()</code> and <code>//</code> so it works for any odd-length word.</p></div><textarea class="pc-src pc-code" hidden>word = &quot;kayak&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints y&quot;
+    expect_output(&quot;y&quot;)
+def test_general():
+    &quot;uses len and //&quot;
+    assert &quot;len(word)&quot; in source.replace(&quot; &quot;, &quot;&quot;) and &quot;//&quot; in source, &quot;Index with len(word) // 2.&quot;</textarea><textarea class="pc-src pc-solution" hidden>word = &quot;kayak&quot;
+print(word[len(word) // 2])</textarea><template class="pc-src pc-hint">For <code>"kayak"</code> (length 5), the middle index is 2, and <code>5 // 2</code> is 2.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-escapes" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A tidy table</div><div class="pc-prompt"><p>Using <strong>one</strong> <code>print()</code> and the escapes <code>\t</code> and <code>\n</code>, print this (with tab characters between the columns):</p>
+<pre><code>Name    Age
+Ada 36
+</code></pre></div><textarea class="pc-src pc-code" hidden>print()</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the table with tabs&quot;
+    expect_output(&quot;Name\tAge\nAda\t36&quot;)
+def test_one():
+    &quot;uses one print&quot;
+    assert source.count(&quot;print(&quot;) == 1</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;Name\tAge\nAda\t36&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-quotes" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Quotes in quotes</div><div class="pc-prompt"><p>Print exactly this line (it contains both kinds of quote):</p>
+<pre><code>He said &quot;it's done&quot; and left.
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the sentence&quot;
+    expect_output(&quot;He said \&quot;it&#x27;s done\&quot; and left.&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;He said \&quot;it&#x27;s done\&quot; and left.&quot;)</textarea><template class="pc-src pc-hint">Use an escape for one of the quote types, or triple quotes.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">One past the end</div><div class="pc-prompt"><p>This should print the last letter of <code>name</code>. Fix the index without typing <code>-1</code>.</p></div><textarea class="pc-src pc-code" hidden>name = &quot;Turing&quot;
+print(name[len(name)])</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints g&quot;
+    expect_output(&quot;g&quot;)
+def test_no_minus_one_literal():
+    &quot;uses len()&quot;
+    assert &quot;len(name)&quot; in source.replace(&quot; &quot;, &quot;&quot;)</textarea><textarea class="pc-src pc-solution" hidden>name = &quot;Turing&quot;
+print(name[len(name) - 1])</textarea><template class="pc-src pc-hint">The last index is one less than the length.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Change a letter</div><div class="pc-prompt"><p>This program tries to fix a typo by changing one letter, and crashes. Make it print <code>Hello</code> by building a new string instead.</p></div><textarea class="pc-src pc-code" hidden>greeting = &quot;Jello&quot;
+greeting[0] = &quot;H&quot;
+print(greeting)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints Hello&quot;
+    expect_output(&quot;Hello&quot;)
+def test_slice():
+    &quot;builds the new string from the old one&quot;
+    assert &quot;greeting[1:]&quot; in source.replace(&quot; &quot;, &quot;&quot;), &quot;Use &#x27;H&#x27; + greeting[1:].&quot;</textarea><textarea class="pc-src pc-solution" hidden>greeting = &quot;Jello&quot;
+greeting = &quot;H&quot; + greeting[1:]
+print(greeting)</textarea></div>
+<div class="parsons" data-id="w001d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Swap the halves</div><div class="pc-prompt"><p>Build a program that prints the second half of <code>s</code> followed by the first half (<code>worldhello</code>). One line is a trap.</p></div><script type="application/json">{"lines": ["s = \"helloworld\"", "half = len(s) // 2", "print(s[half:] + s[:half])"], "distractors": ["half = len(s) / 2"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-email" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Hide an email</div><div class="pc-prompt"><p>Show only the first two characters of the name part of <code>email</code> and hide the rest of the name with five stars, keeping everything from the <code>@</code> on. The <code>@</code> is at index 8 here; store that number in a variable <code>at</code>. Expected: <code>ad*****@example.com</code>.</p></div><textarea class="pc-src pc-code" hidden>email = &quot;ada.love@example.com&quot;
+at = 8</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints ad*****@example.com&quot;
+    expect_output(&quot;ad*****@example.com&quot;)
+def test_slices():
+    &quot;uses slices with at&quot;
+    assert &quot;[at:]&quot; in source.replace(&quot; &quot;, &quot;&quot;), &quot;Keep email[at:] for the end.&quot;</textarea><textarea class="pc-src pc-solution" hidden>email = &quot;ada.love@example.com&quot;
+at = 8
+print(email[:2] + &quot;*&quot; * 5 + email[at:])</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w001d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "What does <code>len(\"a b\")</code> give?", "answer": "3", "explain": "The space is a character too."}, {"type": "output", "q": "What does this print?", "answer": "a s", "explain": "Index 1 is the second character; -1 is the last.", "code": "s = \"Lagos\"\nprint(s[1], s[-1])"}, {"type": "output", "q": "What does this print?", "answer": "bcd", "explain": "From index 1 up to, but not including, index 4.", "code": "s = \"abcdef\"\nprint(s[1:4])"}, {"type": "mc", "q": "What is <code>\"ha\" * 3</code>?", "answer": 1, "explain": "<ul>\n<li>repeats a string; no spaces are added.</li>\n</ul>", "options": ["<code>\"ha3\"</code>", "<code>\"hahaha\"</code>", "An error", "<code>\"ha ha ha\"</code>"]}, {"type": "text", "q": "What is <code>\"python\"[::-1]</code>?", "answer": ["nohtyp", "'nohtyp'"], "explain": "A step of -1 walks backwards through the whole string."}, {"type": "mc", "q": "<code>s = \"cat\"</code>. What does <code>s[3]</code> do?", "answer": 2, "explain": "Indices are 0, 1, 2. 3 is past the end.", "options": ["Gives <code>\"\"</code>", "Gives <code>\"t\"</code>", "Raises IndexError", "Gives <code>\"c\"</code>"]}, {"type": "mc", "q": "<code>s = \"cat\"</code>. What does <code>s[1:10]</code> give?", "answer": 0, "explain": "Slices that go too far are cut short without an error.", "options": ["<code>\"at\"</code>", "IndexError", "<code>\"cat\"</code>", "<code>\"\"</code>"]}, {"type": "mc", "q": "How many characters are in <code>\"a\\nb\"</code>?", "answer": 1, "explain": "\\n is typed with two keys but stored as one newline character.", "options": ["2", "3", "4"]}, {"type": "mc", "q": "What happens with <code>s = \"hat\"</code> then <code>s[0] = \"c\"</code>?", "answer": 1, "explain": "Strings are immutable. Build a new one: s = &lsquo;c&rsquo; + s[1:].", "options": ["s becomes &lsquo;cat&rsquo;", "TypeError: strings can&rsquo;t be changed", "A new string &lsquo;cat&rsquo; is made"]}, {"type": "mc", "q": "For any string <code>s</code> and whole number <code>k</code>, which is always equal to <code>s</code>?", "answer": 1, "explain": "Because stop is excluded, the two slices meet exactly at k.", "options": ["<code>s[:k] + s[k+1:]</code>", "<code>s[:k] + s[k:]</code>", "<code>s[k:] + s[:k]</code>"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: palindrome parts</div><div class="pc-prompt"><p>A palindrome reads the same backwards. <code>word = "racecar"</code>. Without typing any letters of the word again:</p>
+<ol>
+<li>Print the word reversed.</li>
+<li>Print the first half of the word (up to but not including the middle letter): <code>rac</code>.</li>
+<li>Print the middle letter: <code>e</code>.</li>
+<li>Print the second half after the middle letter: <code>car</code>.</li>
+<li>Print the first half followed by the middle letter followed by the <em>reversed first half</em>. For a palindrome this rebuilds the word: <code>racecar</code>.</li>
+</ol>
+<p>The checks also try your program on another odd-length palindrome.</p></div><textarea class="pc-src pc-code" hidden>word = &quot;racecar&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the five lines&quot;
+    expect_output(&quot;racecar\nrac\ne\ncar\nracecar&quot;)
+def test_no_letters():
+    &quot;doesn&#x27;t type the letters&quot;
+    assert source.count(&quot;race&quot;) == 1 and &quot;\&quot;rac\&quot;&quot; not in source and &quot;&#x27;rac&#x27;&quot; not in source, &quot;Build everything from word with slices.&quot;
+def test_other_word():
+    &quot;works for another palindrome&quot;
+    got = norm(run_with({&#x27;&quot;racecar&quot;&#x27;: &#x27;&quot;rotator&quot;&#x27;}))
+    assert got == &quot;rotator\nrot\na\ntor\nrotator&quot;, &quot;With word = &#x27;rotator&#x27; your program printed:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>word = &quot;racecar&quot;
+mid = len(word) // 2
+print(word[::-1])
+print(word[:mid])
+print(word[mid])
+print(word[mid + 1:])
+print(word[:mid] + word[mid] + word[:mid][::-1])</textarea><template class="pc-src pc-hint"><code>mid = len(word) // 2</code>. The first half is <code>word[:mid]</code>, the middle is <code>word[mid]</code>, the second half <code>word[mid + 1:]</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Without looking: what&rsquo;s <code>s[-1]</code>, what&rsquo;s <code>s[:3]</code>, what&rsquo;s <code>s[::-1]</code>? Explain &ldquo;up to but not including&rdquo; to yourself with a five-letter word. Tomorrow you&rsquo;ll make programs that talk to the user with <code>input()</code> and format their output beautifully with f-strings — and it&rsquo;s your first Forge day.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w001d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w001d5", "week": 1, "day": 5, "title": "Strings I: quotes, escapes, length, indexing and slicing", "exercises": [{"id": "w001d5-initials", "title": "Initials", "points": 10}, {"id": "w001d5-lastchar", "title": "The last character", "points": 10}, {"id": "w001d5-underline", "title": "Underline a title", "points": 10}, {"id": "w001d5-slices", "title": "Slice it up", "points": 10}, {"id": "w001d5-reverse", "title": "Backwards", "points": 10}, {"id": "w001d5-middle", "title": "The middle letter", "points": 15}, {"id": "w001d5-escapes", "title": "A tidy table", "points": 10}, {"id": "w001d5-quotes", "title": "Quotes in quotes", "points": 10}, {"id": "w001d5-bug1", "title": "One past the end", "points": 10}, {"id": "w001d5-bug2", "title": "Change a letter", "points": 10}, {"id": "w001d5-email", "title": "Hide an email", "points": 15}, {"id": "w001d5-challenge", "title": "Challenge: palindrome parts", "points": 20}], "points": 140}</script>
+
+</main>
+<footer class="foot">
+  <p>Python Atlas — created by Peter Oluwafemi Adepoju.</p>
+  <p><a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

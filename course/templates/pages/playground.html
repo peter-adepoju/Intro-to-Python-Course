@@ -1,0 +1,18 @@
+<div class="wrap play">
+  <div class="play-head">
+    <h1>Playground</h1>
+    <p class="lede">Your own space to write any Python you like. Your scripts are saved on this device, and to your account when you're signed in.</p>
+  </div>
+  <div class="play-grid">
+    <aside class="play-files panel">
+      <div class="play-fileshead"><strong>Your scripts</strong><button type="button" class="btn btn-quiet btn-tiny" id="new-file">New</button></div>
+      <ul id="files"></ul>
+      <div class="play-fileshead"><strong>Start from</strong></div>
+      <ul id="templates"></ul>
+    </aside>
+    <section>
+      <div class="w-row play-namebar"><input class="w-input" id="file-name" aria-label="Script name" spellcheck="false"><button type="button" class="btn btn-quiet btn-tiny" id="delete-file">Delete</button><span class="muted" id="saved-note"></span></div>
+      <div class="pc pc-play" data-kind="playground" id="play-console"><textarea class="pc-src pc-code" hidden></textarea></div>
+    </section>
+  </div>
+</div>

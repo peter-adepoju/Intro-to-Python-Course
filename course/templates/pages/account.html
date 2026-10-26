@@ -1,0 +1,33 @@
+<div class="wrap narrow">
+  <h1 id="acct-title">Your account</h1>
+  <div id="acct-off" class="panel" hidden>
+    <p>Accounts aren't switched on for this copy of the course yet, so your progress is saved on this device only. Everything else works.</p>
+  </div>
+  <div id="acct-signin" hidden>
+    <p class="lede">Sign in to keep your progress, streak, review cards and scripts on every device. Lessons are open to everyone either way.</p>
+    <div class="panel">
+      <button type="button" class="btn btn-quiet" id="google">Continue with Google</button>
+      <p class="muted or">or with email</p>
+      <form id="email-form">
+        <label class="field"><span>Email</span><input type="email" id="email" autocomplete="email" required></label>
+        <label class="field"><span>Password</span><input type="password" id="password" autocomplete="current-password" minlength="8" required></label>
+        <div class="w-row"><button class="btn btn-run" type="submit" id="signin-btn">Sign in</button><button class="btn btn-quiet" type="button" id="signup-btn">Create account</button><button class="btn btn-quiet btn-tiny" type="button" id="reset-btn">Forgot password</button></div>
+        <p id="auth-msg" class="w-note" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+  <div id="acct-in" hidden>
+    <p class="lede">Signed in as <strong id="who"></strong>. Your progress syncs automatically.</p>
+    <div class="panel"><div class="stats" id="stats"></div></div>
+    <p><button class="btn btn-quiet" type="button" id="signout">Sign out</button></p>
+  </div>
+  <h2>Appearance</h2>
+  <div class="w-row" role="group" aria-label="Colour theme">
+    <button class="btn btn-quiet" data-theme-set="auto" type="button">Match my device</button>
+    <button class="btn btn-quiet" data-theme-set="light" type="button">Light</button>
+    <button class="btn btn-quiet" data-theme-set="dark" type="button">Dark</button>
+  </div>
+  <h2>Your data</h2>
+  <p>Download everything this site has saved about your learning, or load a file you downloaded earlier (for example, to move devices without an account).</p>
+  <div class="w-row"><button class="btn btn-quiet" type="button" id="export">Download my progress</button><label class="btn btn-quiet">Load a progress file<input type="file" id="import" accept="application/json" hidden></label></div>
+</div>

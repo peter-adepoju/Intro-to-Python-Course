@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="2026.10.1">
+<title>Week 1 Day 6: Input, output and f-strings — and your first Forge — Python Atlas</title>
+<meta name="description" content="Learn Python from zero to senior level by watching your code run: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=2026.10.1">
+<link rel="stylesheet" href="../assets/css/site.css?v=2026.10.1">
+<script>try { const t = localStorage.getItem("atlas.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script src="../assets/config.js?v=2026.10.1"></script>
+<script src="../assets/vendor/codemirror.js?v=2026.10.1" defer></script>
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="btn btn-quiet" id="account-link" href="../account.html">Sign in</a>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-1">Week 1: First steps</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#asking-the-user-input" data-sec="asking-the-user-input">Asking the user: input()</a></li><li><a href="#print-in-depth" data-sec="print-in-depth">print() in depth</a></li><li><a href="#f-strings" data-sec="f-strings">f-strings</a></li><li><a href="#input-process-output" data-sec="input-process-output">Input → process → output</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#forge-the-weekly-challenge" data-sec="forge-the-weekly-challenge">Forge: the weekly challenge</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-1-review" data-sec="week-1-review">Week 1 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 1, Day 6</span></p>
+      <h1>Input, output and f-strings — and your first Forge</h1>
+      <div class="day-intro"><p>Until now your programs have talked, but never listened. Today they&rsquo;ll ask questions with <code>input()</code>, work with the answers, and present results neatly with f-strings. Then it&rsquo;s your first Forge — the end-of-week session where you pull everything together, test yourself on the whole week and review.</p></div>
+      <div class="day-cards">
+        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Read text from the user with <code>input()</code>, and convert it to a number when you need one</li><li>Control exactly what <code>print()</code> writes with <code>sep</code> and <code>end</code></li><li>Build output with f-strings, including widths, alignment, decimal places and thousands separators</li><li>Write complete input → process → output programs</li><li>Check your grip on the whole of Week 1 in the weekly quiz and challenge</li></ul></section>
+        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>10 min</span> Warm-up</li><li><span class='plan-min'>30 min</span> Asking the user: input()</li><li><span class='plan-min'>20 min</span> print() in depth: sep and end</li><li><span class='plan-min'>40 min</span> f-strings and formatting</li><li><span class='plan-min'>30 min</span> Practice: interactive programs</li><li><span class='plan-min'>40 min</span> Forge: the weekly challenge</li><li><span class='plan-min'>10 min</span> Weekly quiz and review</li></ol></section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w001d6.ipynb" download>download it</a>. Exercises today are worth 165 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d6-p1"><textarea class="pc-src pc-code" hidden>s = &quot;Week one&quot;
+print(s[0] + s[5], len(s), s[-3:])</textarea></div>
+<h2 id="asking-the-user-input">Asking the user: input()</h2>
+<p><code>input()</code> pauses the program, waits for the user to type something and press Enter, and gives back what they typed. Put a question (a <strong>prompt</strong>) in the brackets so the user knows what to type.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d6-e2"><div class="pc-title">Run me and answer</div><textarea class="pc-src pc-code" hidden>name = input(&quot;What&#x27;s your name? &quot;)
+print(&quot;Hello,&quot;, name)</textarea></div>
+<p>When you press <strong>Run</strong>, the console waits for you: type your answer at the cursor and press Enter. Now watch what happens in slow motion — this is the most important line pattern of the week:</p>
+<figure class="widget" data-widget="inputflow"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>age = int(input(&lsquo;Age? &lsquo;)) step by step. Try typing 17, then &lsquo;seventeen&rsquo;, then 17.5.</figcaption></figure>
+<h3 id="input-always-gives-a-string">input() always gives a string</h3>
+<p>Whatever the user types — even <code>42</code> — <code>input()</code> gives back a <strong>string</strong>. To do arithmetic, convert it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d6-e3"><textarea class="pc-src pc-code" hidden>age = input(&quot;How old are you? &quot;)
+print(&quot;Next year you&#x27;ll be&quot;, age + 1)</textarea></div>
+<p>That crashes with a <code>TypeError</code> (you can&rsquo;t add a string and an int). Convert with <code>int()</code> or <code>float()</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d6-e4"><div class="pc-title">Fixed</div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;How old are you? &quot;))
+print(&quot;Next year you&#x27;ll be&quot;, age + 1)</textarea></div>
+<p>Python works from the inside out: <code>input(...)</code> runs first and gives a string; <code>int(...)</code> turns it into a number; then <code>age</code> points at that number.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Leave a space at the end of your prompt — <code>"Name? "</code> — so the user&rsquo;s typing doesn&rsquo;t stick to the question mark.</p></aside>
+<p>What if the user types something that isn&rsquo;t a number? <code>int("hello")</code> raises a <code>ValueError</code>. For now, that&rsquo;s fine. In Week 3 you&rsquo;ll learn to ask again, and in Week 11 to catch the error.</p>
+<h2 id="print-in-depth">print() in depth</h2>
+<p>You&rsquo;ve used <code>print()</code> with several items separated by commas. Two extra settings, <strong><code>sep</code></strong> and <strong><code>end</code></strong>, control what goes <em>between</em> items and what goes <em>at the end</em>:</p>
+<ul>
+<li><code>sep</code> is put between items. The default is one space, <code>" "</code>.</li>
+<li><code>end</code> is put after the last item. The default is a new line, <code>"\n"</code> — that&rsquo;s why each <code>print()</code> starts a new line.</li>
+</ul>
+<figure class="widget" data-widget="printlab"><script type="application/json">{"values": "'Ada', 36, 'London'"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Set sep and end and see every character print() writes. Spaces show as dots and new lines as ↵.</figcaption></figure>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d6-p5"><textarea class="pc-src pc-code" hidden>print(&quot;2026&quot;, &quot;10&quot;, &quot;26&quot;, sep=&quot;-&quot;)
+print(&quot;Loading&quot;, end=&quot;&quot;)
+print(&quot;...&quot;, end=&quot;&quot;)
+print(&quot;done&quot;)</textarea></div>
+<h2 id="f-strings">f-strings</h2>
+<p>An <strong>f-string</strong> is a string with an <code>f</code> before the quote. Inside it, anything in curly brackets <code>{ }</code> is worked out as Python and inserted into the text.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d6-e6"><textarea class="pc-src pc-code" hidden>name = &quot;Ada&quot;
+age = 36
+print(f&quot;{name} is {age} years old.&quot;)
+print(f&quot;In 10 years she&#x27;ll be {age + 10}.&quot;)</textarea></div>
+<p>Compare with what you&rsquo;ve done before:</p>
+<pre><code class="language-python">print(name, &quot;is&quot;, age, &quot;years old.&quot;)          # commas: spaces added for you
+print(name + &quot; is &quot; + str(age) + &quot; years old.&quot;)  # + : you manage spaces and str()
+print(f&quot;{name} is {age} years old.&quot;)           # f-string: clearest of all
+</code></pre>
+<p>f-strings are what professional Python programmers use almost all the time. Inside the brackets you can put any expression:</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d6-p7"><textarea class="pc-src pc-code" hidden>price = 1250
+qty = 3
+print(f&quot;{qty} x {price} = {qty * price}&quot;)
+print(f&quot;{&#x27;shout&#x27;.upper() if False else &#x27;quiet&#x27;}&quot;)</textarea></div>
+<p>(Don&rsquo;t worry about that last line&rsquo;s details: it shows that even complicated expressions work inside <code>{ }</code>. You&rsquo;ll understand every part of it by Week 2.)</p>
+<h3 id="formatting-numbers">Formatting numbers</h3>
+<p>After a colon inside the brackets, you can add a <strong>format spec</strong> saying exactly how to show the value. Play with all the settings:</p>
+<figure class="widget" data-widget="fstringlab"><script type="application/json">{"value": "1234567.891", "name": "total"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Build a format spec and see Python&rsquo;s exact output. Yellow underlines are padding. Try width 12 with each alignment, and a comma for thousands.</figcaption></figure>
+<p>The ones you&rsquo;ll use most:</p>
+<table>
+<thead>
+<tr>
+<th>f-string</th>
+<th>Result</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>f"{3.14159:.2f}"</code></td>
+<td><code>3.14</code></td>
+<td>2 decimal places</td>
+</tr>
+<tr>
+<td><code>f"{1234567:,}"</code></td>
+<td><code>1,234,567</code></td>
+<td>thousands separators</td>
+</tr>
+<tr>
+<td><code>f"{0.256:.1%}"</code></td>
+<td><code>25.6%</code></td>
+<td>as a percentage</td>
+</tr>
+<tr>
+<td><code>f"{'hi':&gt;6}"</code></td>
+<td><code>hi</code></td>
+<td>right-align in 6 characters</td>
+</tr>
+<tr>
+<td><code>f"{'hi':&lt;6}"</code></td>
+<td><code>hi</code></td>
+<td>left-align in 6</td>
+</tr>
+<tr>
+<td><code>f"{'hi':^6}"</code></td>
+<td><code>hi</code></td>
+<td>centre in 6</td>
+</tr>
+<tr>
+<td><code>f"{7:03}"</code></td>
+<td><code>007</code></td>
+<td>pad with zeros to width 3</td>
+</tr>
+</tbody>
+</table>
+<p>Alignment makes tables:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d6-e8"><div class="pc-title">A receipt</div><textarea class="pc-src pc-code" hidden>item1, price1 = &quot;Bread&quot;, 1200
+item2, price2 = &quot;Milk&quot;, 950.5
+item3, price3 = &quot;Eggs (crate)&quot;, 4500
+print(f&quot;{&#x27;Item&#x27;:&lt;15}{&#x27;Price&#x27;:&gt;10}&quot;)
+print(&quot;-&quot; * 25)
+print(f&quot;{item1:&lt;15}{price1:&gt;10,.2f}&quot;)
+print(f&quot;{item2:&lt;15}{price2:&gt;10,.2f}&quot;)
+print(f&quot;{item3:&lt;15}{price3:&gt;10,.2f}&quot;)
+print(&quot;-&quot; * 25)
+print(f&quot;{&#x27;Total&#x27;:&lt;15}{price1 + price2 + price3:&gt;10,.2f}&quot;)</textarea></div>
+<h3 id="a-debugging-trick">A debugging trick</h3>
+<p>Put <code>=</code> after an expression in an f-string, and Python prints the expression <em>and</em> its value. It&rsquo;s the quickest way to check what your variables hold:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d6-e9"><textarea class="pc-src pc-code" hidden>width = 7
+height = 4
+print(f&quot;{width=} {height=} {width * height=}&quot;)</textarea></div>
+<h2 id="input-process-output">Input → process → output</h2>
+<p>Almost every program follows the same shape: <strong>get input</strong>, <strong>process</strong> it, <strong>show output</strong>. Here it is in a small but complete program:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d6-e10"><div class="pc-title">Tip calculator</div><textarea class="pc-src pc-code" hidden>bill = float(input(&quot;Bill amount: &quot;))
+percent = int(input(&quot;Tip percentage: &quot;))
+tip = bill * percent / 100
+total = bill + tip
+print(f&quot;Tip: {tip:,.2f}&quot;)
+print(f&quot;Total: {total:,.2f}&quot;)</textarea></div>
+<p>Run it and X-ray it. When you write your own programs, plan them in this shape first: <em>what do I need to ask, what do I calculate, what do I show?</em></p>
+<h2 id="practice">Practice</h2>
+<p>For exercises that use <code>input()</code>, the checks type the answers for you, and expect to see exactly what the console would show — including your prompts and the typed answers.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-greet" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Greet the user</div><div class="pc-prompt"><p>Ask <code>What is your name?</code> and then print <code>Nice to meet you, NAME!</code> using an f-string.</p>
+<p>With the input <code>Ada</code> the console should show:</p>
+<pre><code>What is your name? Ada
+Nice to meet you, Ada!
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_ada():
+    &quot;works for Ada&quot;
+    expect_output(&quot;What is your name? Ada\nNice to meet you, Ada!&quot;, inputs=[&quot;Ada&quot;], echo=True)
+def test_other():
+    &quot;works for another name&quot;
+    expect_output(&quot;What is your name? Chinedu\nNice to meet you, Chinedu!&quot;, inputs=[&quot;Chinedu&quot;], echo=True)
+def test_fstring():
+    &quot;uses an f-string&quot;
+    assert &#x27;f&quot;&#x27; in source or &quot;f&#x27;&quot; in source, &quot;Use an f-string.&quot;</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;What is your name? &quot;)
+print(f&quot;Nice to meet you, {name}!&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-double" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Double it</div><div class="pc-prompt"><p>Ask <code>Number:</code>, then print the number doubled. With input <code>21</code> the console shows:</p>
+<pre><code>Number: 21
+42
+</code></pre></div><textarea class="pc-src pc-code" hidden>n = input(&quot;Number: &quot;)
+print(n * 2)</textarea><textarea class="pc-src pc-tests" hidden>def test_21():
+    &quot;21 gives 42&quot;
+    expect_output(&quot;Number: 21\n42&quot;, inputs=[&quot;21&quot;], echo=True)
+def test_5():
+    &quot;5 gives 10&quot;
+    expect_output(&quot;Number: 5\n10&quot;, inputs=[&quot;5&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+print(n * 2)</textarea><template class="pc-src pc-hint">Run the starter with 21. Why does it print 2121? Convert the input to an int first.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-rectangle" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Rectangle from the user</div><div class="pc-prompt"><p>Ask for <code>Width:</code> and <code>Height:</code> (whole numbers) and print the area as <code>Area: N</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_one():
+    &quot;7 by 4&quot;
+    expect_output(&quot;Width: 7\nHeight: 4\nArea: 28&quot;, inputs=[&quot;7&quot;, &quot;4&quot;], echo=True)
+def test_two():
+    &quot;10 by 12&quot;
+    expect_output(&quot;Width: 10\nHeight: 12\nArea: 120&quot;, inputs=[&quot;10&quot;, &quot;12&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>w = int(input(&quot;Width: &quot;))
+h = int(input(&quot;Height: &quot;))
+print(f&quot;Area: {w * h}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-date" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Dashes</div><div class="pc-prompt"><p>Using a single <code>print()</code> with <code>sep</code>, print the three variables as <code>26-10-2026</code>.</p></div><textarea class="pc-src pc-code" hidden>day, month, year = 26, 10, 2026</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 26-10-2026&quot;
+    expect_output(&quot;26-10-2026&quot;)
+def test_sep():
+    &quot;uses sep&quot;
+    assert &quot;sep=&quot; in source.replace(&quot; &quot;, &quot;&quot;)</textarea><textarea class="pc-src pc-solution" hidden>day, month, year = 26, 10, 2026
+print(day, month, year, sep=&quot;-&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-price" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Two decimal places</div><div class="pc-prompt"><p>Print <code>price</code> with exactly 2 decimal places and thousands separators: <code>Price: 1,234,567.50</code>.</p></div><textarea class="pc-src pc-code" hidden>price = 1234567.5</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints Price: 1,234,567.50&quot;
+    expect_output(&quot;Price: 1,234,567.50&quot;)</textarea><textarea class="pc-src pc-solution" hidden>price = 1234567.5
+print(f&quot;Price: {price:,.2f}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-percent" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Exam score</div><div class="pc-prompt"><p>Ask <code>Marks scored:</code> and <code>Marks available:</code> (whole numbers). Print the score as a percentage with one decimal place, like <code>Score: 87.5%</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_one():
+    &quot;35 out of 40&quot;
+    expect_output(&quot;Marks scored: 35\nMarks available: 40\nScore: 87.5%&quot;, inputs=[&quot;35&quot;, &quot;40&quot;], echo=True)
+def test_two():
+    &quot;2 out of 3&quot;
+    expect_output(&quot;Marks scored: 2\nMarks available: 3\nScore: 66.7%&quot;, inputs=[&quot;2&quot;, &quot;3&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>scored = int(input(&quot;Marks scored: &quot;))
+available = int(input(&quot;Marks available: &quot;))
+print(f&quot;Score: {scored / available:.1%}&quot;)</textarea><template class="pc-src pc-hint"><code>f"{fraction:.1%}"</code> multiplies by 100 and adds the % sign for you.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-table" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Aligned columns</div><div class="pc-prompt"><p>Print this table exactly, using f-strings with widths (the name column is 10 wide and left-aligned; the score column is 5 wide and right-aligned):</p>
+<pre><code>Ada          95
+Grace       100
+Alan         87
+</code></pre></div><textarea class="pc-src pc-code" hidden>print(f&quot;{&#x27;Ada&#x27;:&lt;10}{95:&gt;5}&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the aligned table&quot;
+    expect_output(&quot;Ada          95\nGrace       100\nAlan         87&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(f&quot;{&#x27;Ada&#x27;:&lt;10}{95:&gt;5}&quot;)
+print(f&quot;{&#x27;Grace&#x27;:&lt;10}{100:&gt;5}&quot;)
+print(f&quot;{&#x27;Alan&#x27;:&lt;10}{87:&gt;5}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d6-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Not an f-string</div><div class="pc-prompt"><p>This should print <code>Total: 30</code>. It prints something odd instead. Fix it.</p></div><textarea class="pc-src pc-code" hidden>a = 10
+b = 20
+print(&quot;Total: {a + b}&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints Total: 30&quot;
+    expect_output(&quot;Total: 30&quot;)</textarea><textarea class="pc-src pc-solution" hidden>a = 10
+b = 20
+print(f&quot;Total: {a + b}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d6-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Joined at the hip</div><div class="pc-prompt"><p>This should print <code>Ready? Go!</code> on one line, but prints two lines. Fix it by changing one <code>print()</code>.</p></div><textarea class="pc-src pc-code" hidden>print(&quot;Ready?&quot;)
+print(&quot;Go!&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints Ready? Go! on one line&quot;
+    expect_output(&quot;Ready? Go!&quot;)
+def test_two_prints():
+    &quot;keeps two prints&quot;
+    assert source.count(&quot;print(&quot;) == 2</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;Ready?&quot;, end=&quot; &quot;)
+print(&quot;Go!&quot;)</textarea></div>
+<div class="parsons" data-id="w001d6-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Unit converter</div><div class="pc-prompt"><p>Build a program that asks for a distance in kilometres and prints it in miles to 2 decimal places (1 km = 0.621371 miles). One line is a trap.</p></div><script type="application/json">{"lines": ["km = float(input(\"Kilometres: \"))", "miles = km * 0.621371", "print(f\"{km} km is {miles:.2f} miles\")"], "distractors": ["km = input(\"Kilometres: \")"]}</script></div>
+<h2 id="forge-the-weekly-challenge">Forge: the weekly challenge</h2>
+<p>Every sixth day is a <strong>Forge</strong>: the day you combine the whole week&rsquo;s skills into one bigger program, test yourself on everything, and review. Give yourself about 40 minutes. Plan first — what&rsquo;s the input, what&rsquo;s the processing, what&rsquo;s the output? — then build it one piece at a time, running as you go.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-forge" data-points="40"><div class="pc-label"><span>Exercise</span><span class="pc-pts">40 points</span></div><div class="pc-title">Forge: the receipt printer</div><div class="pc-prompt"><p>Write a program for a small shop. It asks for an item name, its unit price (which may have decimals) and the quantity (a whole number). Then it prints a receipt like the one below, where:</p>
+<ul>
+<li>the first and last lines are 30 <code>=</code> characters;</li>
+<li><code>Item</code>, <code>Unit price</code>, <code>Quantity</code> and <code>Subtotal</code> are left-aligned in 15 characters, and the values are right-aligned in 15;</li>
+<li>money has thousands separators and 2 decimal places;</li>
+<li>VAT is 7.5% of the subtotal;</li>
+<li>the total is subtotal plus VAT.</li>
+</ul>
+<p>With the inputs <code>Rice (5kg)</code>, <code>8500</code> and <code>3</code>, the console shows:</p>
+<pre><code>Item: Rice (5kg)
+Unit price: 8500
+Quantity: 3
+==============================
+Item                Rice (5kg)
+Unit price            8,500.00
+Quantity                     3
+Subtotal             25,500.00
+VAT (7.5%)            1,912.50
+TOTAL                27,412.50
+==============================
+</code></pre></div><textarea class="pc-src pc-code" hidden>item = input(&quot;Item: &quot;)
+# Plan: inputs -&gt; calculations -&gt; output</textarea><textarea class="pc-src pc-tests" hidden>def test_rice():
+    &quot;rice example&quot;
+    expect_output(&quot;&quot;&quot;Item: Rice (5kg)
+Unit price: 8500
+Quantity: 3
+==============================
+Item                Rice (5kg)
+Unit price            8,500.00
+Quantity                     3
+Subtotal             25,500.00
+VAT (7.5%)            1,912.50
+TOTAL                27,412.50
+==============================&quot;&quot;&quot;, inputs=[&quot;Rice (5kg)&quot;, &quot;8500&quot;, &quot;3&quot;], echo=True)
+def test_pen():
+    &quot;a second order&quot;
+    expect_output(&quot;&quot;&quot;Item: Pen
+Unit price: 150.5
+Quantity: 12
+==============================
+Item                       Pen
+Unit price              150.50
+Quantity                    12
+Subtotal              1,806.00
+VAT (7.5%)              135.45
+TOTAL                 1,941.45
+==============================&quot;&quot;&quot;, inputs=[&quot;Pen&quot;, &quot;150.5&quot;, &quot;12&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>item = input(&quot;Item: &quot;)
+price = float(input(&quot;Unit price: &quot;))
+qty = int(input(&quot;Quantity: &quot;))
+subtotal = price * qty
+vat = subtotal * 0.075
+total = subtotal + vat
+print(&quot;=&quot; * 30)
+print(f&quot;{&#x27;Item&#x27;:&lt;15}{item:&gt;15}&quot;)
+print(f&quot;{&#x27;Unit price&#x27;:&lt;15}{price:&gt;15,.2f}&quot;)
+print(f&quot;{&#x27;Quantity&#x27;:&lt;15}{qty:&gt;15}&quot;)
+print(f&quot;{&#x27;Subtotal&#x27;:&lt;15}{subtotal:&gt;15,.2f}&quot;)
+print(f&quot;{&#x27;VAT (7.5%)&#x27;:&lt;15}{vat:&gt;15,.2f}&quot;)
+print(f&quot;{&#x27;TOTAL&#x27;:&lt;15}{total:&gt;15,.2f}&quot;)
+print(&quot;=&quot; * 30)</textarea><template class="pc-src pc-hint">Read the price with <code>float(input(...))</code> and the quantity with <code>int(input(...))</code>. Each receipt line is <code>f"{label:&lt;15}{value:&gt;15,.2f}"</code> — except the item name (no number format) and the quantity (no decimals).</template><template class="pc-src pc-hint"><code>vat = subtotal * 0.075</code>. The <code>=</code> lines are <code>"=" * 30</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: the name analyser</div><div class="pc-prompt"><p>Ask for a first name and a last name. Then print, using everything from this week:</p>
+<ol>
+<li><code>Full name:</code> and the full name.</li>
+<li><code>Initials:</code> and the initials with full stops.</li>
+<li><code>Length:</code> and the number of letters in the full name <strong>not counting</strong> the space.</li>
+<li><code>Backwards:</code> and the full name reversed.</li>
+<li><code>Middle letter of first name:</code> and the middle letter of the first name (use <code>//</code>; for an even-length name, take the later of the two middle letters).</li>
+</ol>
+<p>With inputs <code>Ada</code> and <code>Lovelace</code>:</p>
+<pre><code>First name: Ada
+Last name: Lovelace
+Full name: Ada Lovelace
+Initials: A.L.
+Length: 11
+Backwards: ecalevoL adA
+Middle letter of first name: d
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_ada():
+    &quot;Ada Lovelace&quot;
+    expect_output(&quot;First name: Ada\nLast name: Lovelace\nFull name: Ada Lovelace\nInitials: A.L.\nLength: 11\nBackwards: ecalevoL adA\nMiddle letter of first name: d&quot;, inputs=[&quot;Ada&quot;, &quot;Lovelace&quot;], echo=True)
+def test_even():
+    &quot;an even-length first name&quot;
+    expect_output(&quot;First name: Alan\nLast name: Turing\nFull name: Alan Turing\nInitials: A.T.\nLength: 10\nBackwards: gniruT nalA\nMiddle letter of first name: a&quot;, inputs=[&quot;Alan&quot;, &quot;Turing&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>first = input(&quot;First name: &quot;)
+last = input(&quot;Last name: &quot;)
+full = first + &quot; &quot; + last
+print(f&quot;Full name: {full}&quot;)
+print(f&quot;Initials: {first[0]}.{last[0]}.&quot;)
+print(f&quot;Length: {len(first) + len(last)}&quot;)
+print(f&quot;Backwards: {full[::-1]}&quot;)
+print(f&quot;Middle letter of first name: {first[len(first) // 2]}&quot;)</textarea></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<p>This quiz covers the whole week. Questions you miss come back in your <strong>daily review</strong> on the days ahead, spaced out so they stick.</p>
+<div class="quiz" data-id="w001d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does the processor&rsquo;s program counter hold?", "answer": 1, "explain": "It points at the next instruction to fetch \u2014 like the yellow pointer in the X-ray.", "options": ["The number of programs running", "The address of the next instruction", "The result of the last sum", "The time"]}, {"type": "output", "q": "What does this print?", "answer": "<class 'float'>", "explain": "/ always gives a float.", "code": "print(type(10 / 2))"}, {"type": "output", "q": "What does this print?", "answer": "7 3", "explain": "a += 4 makes a point at a new object, 7. b still points at 3.", "code": "a = 3\nb = a\na += 4\nprint(a, b)"}, {"type": "output", "q": "What does this print?", "answer": "14", "explain": "Power first (4), then multiply (12), then add.", "code": "print(2 + 3 * 2 ** 2)"}, {"type": "text", "q": "What does <code>-11 // 3</code> give?", "answer": "-4", "explain": "-3.67 rounded down is -4."}, {"type": "output", "q": "What does this print?", "answer": "ore", "explain": "s[1:3] is &lsquo;or&rsquo;; s[-1] is &lsquo;e&rsquo;.", "code": "s = \"Forge\"\nprint(s[1:3] + s[-1])"}, {"type": "mc", "q": "What type does <code>input()</code> always return?", "answer": 2, "explain": "Always a string. Convert it if you need a number.", "options": ["int", "float", "str", "whatever the user typed"]}, {"type": "output", "q": "What does this print?", "answer": "ab!c", "explain": "No separator between a and b, ! at the end instead of a new line, then c.", "code": "print(\"a\", \"b\", sep=\"\", end=\"!\")\nprint(\"c\")"}, {"type": "text", "q": "What does <code>f\"{7:03}\"</code> give?", "answer": ["007", "'007'"], "explain": "Width 3, padded with zeros."}, {"type": "text", "q": "What does <code>f\"{2/3:.2f}\"</code> give?", "answer": ["0.67", "'0.67'"], "explain": "Rounded to 2 decimal places."}, {"type": "mc", "q": "Which line converts the user&rsquo;s answer to a decimal number?", "answer": 1, "explain": "input runs first (inside), then float converts the string it returns.", "options": ["<code>x = input(float(\"Number: \"))</code>", "<code>x = float(input(\"Number: \"))</code>", "<code>x = float(\"input(Number: )\")</code>"]}, {"type": "mc", "q": "Which is a legal variable name?", "answer": 2, "explain": "Only letters, digits and underscores; no leading digit; no keywords.", "options": ["<code>total-price</code>", "<code>2total</code>", "<code>total_price</code>", "<code>for</code>"]}, {"type": "text", "q": "What does <code>round(0.5) + round(1.5)</code> give?", "answer": "2", "explain": "Halves go to even: round(0.5) is 0 and round(1.5) is 2."}, {"type": "text", "q": "How many characters are in <code>\"\\tA\\n\"</code>?", "answer": "3", "explain": "A tab, the letter A and a newline."}, {"type": "text", "q": "What error do you get from <code>\"Age: \" + 30</code>?", "answer": ["TypeError", "type error"], "explain": "You can&rsquo;t + a string and an int. Use str(30) or an f-string."}]</script></div>
+<h2 id="week-1-review">Week 1 review</h2>
+<p>Look back at what you can do now that you couldn&rsquo;t a week ago. Tick off each one honestly — if one feels shaky, go back to that day&rsquo;s practice and redo two exercises from it.</p>
+<ul>
+<li>I can explain fetch–decode–execute and what bits are. (<a href="w001d1.html">Day 1</a>)</li>
+<li>I know the four basic types and all seven arithmetic operators, and I can step through an expression in Python&rsquo;s order. (<a href="w001d2.html">Day 2</a>)</li>
+<li>I can draw the names-and-objects picture for any short program, and trace a program by hand. (<a href="w001d3.html">Day 3</a>)</li>
+<li>I can use <code>//</code>, <code>%</code>, rounding and conversions correctly, and I know why floats can surprise you. (<a href="w001d4.html">Day 4</a>)</li>
+<li>I can index and slice any string. (<a href="w001d5.html">Day 5</a>)</li>
+<li>I can write programs that ask questions and print neat, formatted answers. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Rest is part of the course: your brain consolidates what you practised while you&rsquo;re away from it. Next week, your programs learn to make decisions.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w001d6", "week": 1, "day": 6, "title": "Input, output and f-strings \u2014 and your first Forge", "exercises": [{"id": "w001d6-greet", "title": "Greet the user", "points": 10}, {"id": "w001d6-double", "title": "Double it", "points": 10}, {"id": "w001d6-rectangle", "title": "Rectangle from the user", "points": 10}, {"id": "w001d6-date", "title": "Dashes", "points": 10}, {"id": "w001d6-price", "title": "Two decimal places", "points": 10}, {"id": "w001d6-percent", "title": "Exam score", "points": 10}, {"id": "w001d6-table", "title": "Aligned columns", "points": 15}, {"id": "w001d6-bug1", "title": "Not an f-string", "points": 10}, {"id": "w001d6-bug2", "title": "Joined at the hip", "points": 10}, {"id": "w001d6-forge", "title": "Forge: the receipt printer", "points": 40}, {"id": "w001d6-forge2", "title": "Forge bonus: the name analyser", "points": 30}], "points": 165}</script>
+
+</main>
+<footer class="foot">
+  <p>Python Atlas — created by Peter Oluwafemi Adepoju.</p>
+  <p><a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

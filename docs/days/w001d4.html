@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="2026.10.1">
+<title>Week 1 Day 4: Numbers in depth: //, %, floats, rounding and conversion — Python Atlas</title>
+<meta name="description" content="Learn Python from zero to senior level by watching your code run: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=2026.10.1">
+<link rel="stylesheet" href="../assets/css/site.css?v=2026.10.1">
+<script>try { const t = localStorage.getItem("atlas.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script src="../assets/config.js?v=2026.10.1"></script>
+<script src="../assets/vendor/codemirror.js?v=2026.10.1" defer></script>
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="btn btn-quiet" id="account-link" href="../account.html">Sign in</a>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-1">Week 1: First steps</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#floor-division-and-remainder" data-sec="floor-division-and-remainder">Floor division and remainder</a></li><li><a href="#what-a-float-really-is" data-sec="what-a-float-really-is">What a float really is</a></li><li><a href="#rounding" data-sec="rounding">Rounding</a></li><li><a href="#more-tools-abs-min-max-and-math" data-sec="more-tools-abs-min-max-and-math">More tools: abs, min, max and math</a></li><li><a href="#converting-between-types" data-sec="converting-between-types">Converting between types</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 1, Day 4</span></p>
+      <h1>Numbers in depth: //, %, floats, rounding and conversion</h1>
+      <div class="day-intro"><p>Numbers look simple, but they hide some of the most common bugs in real software. Today you&rsquo;ll master floor division and remainders (including with negative numbers), see what a float really stores, round correctly, use the math module, and convert between types.</p></div>
+      <div class="day-cards">
+        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Use <code>//</code> and <code>%</code> to split quantities, test for even numbers, extract digits and wrap around like a clock</li><li>Explain why <code>0.1 + 0.2</code> isn&rsquo;t exactly <code>0.3</code>, and compare floats safely</li><li>Round with <code>round()</code>, <code>int()</code>, <code>math.floor()</code> and <code>math.ceil()</code> and know which to choose</li><li>Convert between <code>int</code>, <code>float</code> and <code>str</code>, and recognise the errors when it can&rsquo;t be done</li><li>Use <code>abs</code>, <code>min</code>, <code>max</code> and the <code>math</code> module</li></ul></section>
+        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>10 min</span> Warm-up</li><li><span class='plan-min'>40 min</span> Floor division and remainders in depth</li><li><span class='plan-min'>30 min</span> What a float really is</li><li><span class='plan-min'>25 min</span> Rounding, and the math module</li><li><span class='plan-min'>30 min</span> Converting between types</li><li><span class='plan-min'>35 min</span> Practice</li><li><span class='plan-min'>10 min</span> Quiz and daily challenge</li></ol></section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w001d4.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<p>Trace this on paper first, then predict.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d4-p1"><textarea class="pc-src pc-code" hidden>total = 50
+total -= 8
+total //= 5
+total, extra = total * 2, total
+print(total, extra)</textarea></div>
+<h2 id="floor-division-and-remainder">Floor division and remainder</h2>
+<p><code>a // b</code> asks &ldquo;how many whole <code>b</code>s fit into <code>a</code>?&rdquo; and <code>a % b</code> asks &ldquo;what&rsquo;s left over?&rdquo; Pick some numbers and watch the sharing:</p>
+<figure class="widget" data-widget="divmod"><script type="application/json">{"a": 17, "b": 5}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>a // b counts the full groups; a % b counts the leftovers. Always: b * (a // b) + a % b == a. Try the negative examples to see the number-line view.</figcaption></figure>
+<p>Python also has <code>divmod(a, b)</code>, which gives both at once:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e2"><textarea class="pc-src pc-code" hidden>q, r = divmod(17, 5)
+print(q, r)</textarea></div>
+<h3 id="what-is-good-for">What % is good for</h3>
+<p>The remainder is one of the most useful operations in programming. Four patterns you&rsquo;ll use for years:</p>
+<p><strong>1. Even or odd.</strong> A number is even when dividing by 2 leaves nothing: <code>n % 2</code> is <code>0</code> for even numbers and <code>1</code> for odd ones.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e3"><textarea class="pc-src pc-code" hidden>print(10 % 2, 7 % 2, 0 % 2)</textarea></div>
+<p><strong>2. Digits.</strong> <code>n % 10</code> is the last digit, and <code>n // 10</code> removes it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e4"><textarea class="pc-src pc-code" hidden>n = 4096
+print(&quot;last digit:&quot;, n % 10)
+print(&quot;the rest:&quot;, n // 10)
+print(&quot;last two digits:&quot;, n % 100)</textarea></div>
+<p><strong>3. Wrapping around.</strong> Clocks, days of the week and anything circular use <code>%</code>. What time is it 50 hours after 9 o&rsquo;clock?</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e5"><textarea class="pc-src pc-code" hidden>start = 9
+later = (start + 50) % 24
+print(later)</textarea></div>
+<p><code>% 24</code> wraps any number back into the range 0 to 23. Day of the week, 100 days after a Monday (day 0)? <code>(0 + 100) % 7</code> is <code>2</code> — a Wednesday.</p>
+<p><strong>4. Unit conversion.</strong> Seconds into minutes and seconds, pence into pounds and pence, centimetres into metres and centimetres:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e6"><textarea class="pc-src pc-code" hidden>total_cm = 375
+print(total_cm // 100, &quot;m&quot;, total_cm % 100, &quot;cm&quot;)</textarea></div>
+<h3 id="negative-numbers">Negative numbers</h3>
+<p>Python&rsquo;s <code>//</code> always rounds <strong>down</strong> — towards minus infinity — not towards zero. So <code>-7 // 2</code> is <code>-4</code>, not <code>-3</code>. And the remainder always has the <strong>same sign as the divisor</strong>: with a positive <code>b</code>, <code>a % b</code> is never negative.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d4-p7"><textarea class="pc-src pc-code" hidden>print(-7 // 2)
+print(-7 % 2)
+print(7 // -2)</textarea></div>
+<p>Use the figure above with <code>-17, 5</code> to see why: Python jumps down in steps of 5 to <code>-20</code> (that&rsquo;s 4 jumps down, so <code>-17 // 5</code> is <code>-4</code>), then the remainder is the distance back up to <code>-17</code>: <code>3</code>.</p>
+<p>This is a deliberate choice, and a useful one: it means <code>n % 7</code> is always a valid day of the week, even if <code>n</code> is negative. (Some other languages, like C and JavaScript, do it differently. If you ever translate code between languages, watch out.)</p>
+<h2 id="what-a-float-really-is">What a float really is</h2>
+<p>Floats are stored in <strong>binary</strong> (base 2), using 64 bits. Some decimals can&rsquo;t be written exactly in binary, the same way 1/3 can&rsquo;t be written exactly in decimal (0.3333…). So Python stores the nearest value it can.</p>
+<figure class="widget" data-widget="floatlab"><script type="application/json">{"start": "0.1"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Type a decimal to see the exact value a float actually stores. 0.5 and 0.25 are exact; 0.1 and 0.3 are not.</figcaption></figure>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d4-p8"><textarea class="pc-src pc-code" hidden>print(0.1 + 0.2)
+print(0.5 + 0.25)</textarea></div>
+<p>This isn&rsquo;t a Python bug — every language that uses standard floats behaves the same way. It matters in three situations:</p>
+<ol>
+<li><strong>Comparing floats.</strong> Never check whether two floats are exactly equal. Check whether they&rsquo;re <em>close</em>. (You&rsquo;ll learn <code>==</code> properly next week.)</li>
+<li><strong>Money.</strong> Count in whole units — kobo, cents, pence — using ints, or use Python&rsquo;s <code>decimal</code> module (Week 20).</li>
+<li><strong>Adding many small floats.</strong> Errors add up. Use <code>math.fsum</code> for long sums.</li>
+</ol>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e9"><textarea class="pc-src pc-code" hidden>import math
+print(0.1 + 0.2 == 0.3)
+print(math.isclose(0.1 + 0.2, 0.3))</textarea></div>
+<p>That first line, <code>import math</code>, is new: it loads Python&rsquo;s <strong>math module</strong>, a toolbox of extra functions. You&rsquo;ll learn exactly how <code>import</code> works in Week 20. For now, put <code>import math</code> at the top of your program, then use <code>math.</code> in front of the tool&rsquo;s name.</p>
+<p>Floats also have limits. Ints can be as large as you like, but floats top out around 1.8 × 10³⁰⁸:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e10"><textarea class="pc-src pc-code" hidden>print(2 ** 1000 &gt; 0)
+print(1e308 * 10)</textarea></div>
+<p><code>inf</code> means infinity: the number got too big for a float.</p>
+<h2 id="rounding">Rounding</h2>
+<p>There are four ways to turn a float into a whole number, and they disagree. Drag the slider:</p>
+<figure class="widget" data-widget="roundlab"><script type="application/json">{"start": 2.7}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Four ways to get a whole number from x. Drag to 2.5, 3.5 and -2.7 and compare.</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Rule</th>
+<th><code>2.7</code></th>
+<th><code>-2.7</code></th>
+<th><code>2.5</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>round(x)</code></td>
+<td>nearest; exact halves go to the <strong>even</strong> number</td>
+<td><code>3</code></td>
+<td><code>-3</code></td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>int(x)</code></td>
+<td>chop off the decimals (towards zero)</td>
+<td><code>2</code></td>
+<td><code>-2</code></td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>math.floor(x)</code></td>
+<td>always down</td>
+<td><code>2</code></td>
+<td><code>-3</code></td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>math.ceil(x)</code></td>
+<td>always up</td>
+<td><code>3</code></td>
+<td><code>-2</code></td>
+<td><code>3</code></td>
+</tr>
+</tbody>
+</table>
+<p>Which do you need? <strong>Think about the problem.</strong> How many buses for 130 people, 50 per bus? You need <code>math.ceil(130 / 50)</code> = 3 — rounding down would leave people behind.</p>
+<p><code>round()</code> can also round to decimal places: <code>round(3.14159, 2)</code> is <code>3.14</code>.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d4-p11"><textarea class="pc-src pc-code" hidden>print(round(2.5), round(3.5))
+print(round(7.4567, 2))</textarea></div>
+<p>Rounding exact halves to the even number (&ldquo;banker&rsquo;s rounding&rdquo;) avoids a slight upward bias when you round lots of numbers. But beware: because of how floats are stored, <code>round(2.675, 2)</code> gives <code>2.67</code> — try 2.675 in the float lab above to see why.</p>
+<h2 id="more-tools-abs-min-max-and-math">More tools: abs, min, max and math</h2>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e12"><textarea class="pc-src pc-code" hidden>import math
+print(abs(-7))            # distance from zero
+print(min(4, 9, 2))       # smallest
+print(max(4, 9, 2))       # largest
+print(math.sqrt(81))      # square root
+print(math.pi)            # π
+print(math.hypot(3, 4))   # length of the long side of a right triangle</textarea></div>
+<h2 id="converting-between-types">Converting between types</h2>
+<p><code>int()</code>, <code>float()</code> and <code>str()</code> build a new value of that type from another value. Feed different values into the machine:</p>
+<figure class="widget" data-widget="convert"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>One value in, four conversions out. Red boxes are errors: read why each one fails.</figcaption></figure>
+<p>The rules worth memorising:</p>
+<ul>
+<li><code>int("42")</code> works: the text looks like a whole number. <code>int(" 42 ")</code> works too — spaces at the ends are ignored.</li>
+<li><code>int("3.7")</code> fails: <code>int()</code> won&rsquo;t read a decimal point from text. Go through float: <code>int(float("3.7"))</code> is <code>3</code>.</li>
+<li><code>int(3.7)</code> works on a float and <strong>chops</strong> to <code>3</code>.</li>
+<li><code>float("3.7")</code> is <code>3.7</code>; <code>float("1e3")</code> is <code>1000.0</code>.</li>
+<li><code>str(anything)</code> always works: it gives the text you&rsquo;d see if you printed it.</li>
+</ul>
+<p>Why does this matter? Because text and numbers don&rsquo;t mix:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e13"><textarea class="pc-src pc-code" hidden>age = 30
+print(&quot;Next year I&#x27;ll be &quot; + age + 1)</textarea></div>
+<p><code>+</code> between two strings joins them; between two numbers it adds. Between a string and a number it doesn&rsquo;t know what you mean, so it refuses. Convert first:</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d4-e14"><textarea class="pc-src pc-code" hidden>age = 30
+print(&quot;Next year I&#x27;ll be &quot; + str(age + 1))
+print(&quot;Next year I&#x27;ll be&quot;, age + 1)</textarea></div>
+<p>Both work. The second (commas in <code>print</code>) is simpler for printing; the first matters when you&rsquo;re building a string to store. On Day 6 you&rsquo;ll learn the best way of all: f-strings.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-even" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Even or odd?</div><div class="pc-prompt"><p><code>n</code> is set to 37. Print <code>n % 2</code>. Then set <code>n</code> to 120 and print <code>n % 2</code> again. Expected output: <code>1</code> then <code>0</code>.</p></div><textarea class="pc-src pc-code" hidden>n = 37</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 1 then 0&quot;
+    expect_output(&quot;1\n0&quot;)
+def test_ops():
+    &quot;uses % 2&quot;
+    assert source.replace(&quot; &quot;, &quot;&quot;).count(&quot;n%2&quot;) &gt;= 2, &quot;Print n % 2 twice.&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = 37
+print(n % 2)
+n = 120
+print(n % 2)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-digits" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Digit by digit</div><div class="pc-prompt"><p><code>n = 583</code>. Print its digits from last to first, one per line (<code>3</code>, <code>8</code>, <code>5</code>), using only <code>%</code> and <code>//</code> and the variable <code>n</code> (you can change <code>n</code> as you go).</p></div><textarea class="pc-src pc-code" hidden>n = 583</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 3, 8, 5&quot;
+    expect_output(&quot;3\n8\n5&quot;)
+def test_no_literals():
+    &quot;calculates the digits&quot;
+    lines = [l for l in source.splitlines() if &quot;print&quot; in l]
+    assert not any(d in l for l in lines for d in (&quot;3)&quot;, &quot;8)&quot;, &quot;5)&quot;)), &quot;Print n % 10 each time, then remove the last digit.&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = 583
+print(n % 10)
+n //= 10
+print(n % 10)
+n //= 10
+print(n % 10)</textarea><template class="pc-src pc-hint"><code>print(n % 10)</code>, then <code>n //= 10</code>, three times.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-clock" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Clock arithmetic</div><div class="pc-prompt"><p>It&rsquo;s 22:00. Store <code>hour = 22</code> and <code>wait = 5</code>. Print the hour on a 24-hour clock after waiting (it should print <code>3</code>). Your program must work for any values, so use <code>%</code>.</p></div><textarea class="pc-src pc-code" hidden>hour = 22
+wait = 5</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 3&quot;
+    expect_output(&quot;3&quot;)
+def test_mod():
+    &quot;uses % 24&quot;
+    assert &quot;% 24&quot; in source or &quot;%24&quot; in source, &quot;Wrap around with % 24.&quot;</textarea><textarea class="pc-src pc-solution" hidden>hour = 22
+wait = 5
+print((hour + wait) % 24)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-buses" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Enough buses</div><div class="pc-prompt"><p>A school trip has <code>people = 130</code>, and each bus holds <code>seats = 50</code>. Print the number of buses needed (<code>3</code>). Use <code>math.ceil</code>.</p></div><textarea class="pc-src pc-code" hidden>import math
+people = 130
+seats = 50</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 3&quot;
+    expect_output(&quot;3&quot;)
+def test_ceil():
+    &quot;uses math.ceil&quot;
+    assert &quot;math.ceil&quot; in source, &quot;Use math.ceil to round up.&quot;</textarea><textarea class="pc-src pc-solution" hidden>import math
+people = 130
+seats = 50
+print(math.ceil(people / seats))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-money" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Change in coins</div><div class="pc-prompt"><p>Prices here are stored in kobo (100 kobo = 1 naira) to avoid float errors. <code>price = 123456</code>. Print it as naira and kobo: <code>1234 naira 56 kobo</code>.</p></div><textarea class="pc-src pc-code" hidden>price = 123456</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 1234 naira 56 kobo&quot;
+    expect_output(&quot;1234 naira 56 kobo&quot;)</textarea><textarea class="pc-src pc-solution" hidden>price = 123456
+print(price // 100, &quot;naira&quot;, price % 100, &quot;kobo&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-hyp" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Pythagoras</div><div class="pc-prompt"><p>A ladder leans against a wall: its foot is 3 m from the wall and it reaches 4 m up. Print the ladder&rsquo;s length using <code>math.sqrt</code> (c = √(a² + b²)). Expected: <code>5.0</code>.</p></div><textarea class="pc-src pc-code" hidden>import math
+a = 3
+b = 4</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 5.0&quot;
+    expect_output(&quot;5.0&quot;)
+def test_sqrt():
+    &quot;uses math.sqrt&quot;
+    assert &quot;math.sqrt&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>import math
+a = 3
+b = 4
+print(math.sqrt(a ** 2 + b ** 2))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-round2" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Two decimal places</div><div class="pc-prompt"><p>Print the area of a circle with radius 3, rounded to 2 decimal places, using <code>math.pi</code>. Expected: <code>28.27</code>.</p></div><textarea class="pc-src pc-code" hidden>import math
+r = 3</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 28.27&quot;
+    expect_output(&quot;28.27&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import math
+r = 3
+print(round(math.pi * r ** 2, 2))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-convert" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Text to numbers</div><div class="pc-prompt"><p>These values arrived as text (as they will when you read from a user or a file): <code>a = "12"</code> and <code>b = "30"</code>. Print their sum, <code>42</code>, by converting them.</p></div><textarea class="pc-src pc-code" hidden>a = &quot;12&quot;
+b = &quot;30&quot;
+print(a + b)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 42&quot;
+    expect_output(&quot;42&quot;)</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;12&quot;
+b = &quot;30&quot;
+print(int(a) + int(b))</textarea><template class="pc-src pc-hint"><code>a + b</code> joins the strings into <code>"1230"</code>. Convert each with <code>int()</code> first.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Decimal text</div><div class="pc-prompt"><p><code>price = "19.99"</code> arrived as text. This program should print <code>39.98</code> but crashes. Fix it.</p></div><textarea class="pc-src pc-code" hidden>price = &quot;19.99&quot;
+print(int(price) * 2)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 39.98&quot;
+    expect_output(&quot;39.98&quot;)</textarea><textarea class="pc-src pc-solution" hidden>price = &quot;19.99&quot;
+print(float(price) * 2)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Joining text and numbers</div><div class="pc-prompt"><p>Fix this so it prints <code>Score: 87</code>. Keep using <code>+</code> to join.</p></div><textarea class="pc-src pc-code" hidden>score = 87
+print(&quot;Score: &quot; + score)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints Score: 87&quot;
+    expect_output(&quot;Score: 87&quot;)
+def test_plus():
+    &quot;still joins with +&quot;
+    assert &quot;+&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>score = 87
+print(&quot;Score: &quot; + str(score))</textarea></div>
+<div class="parsons" data-id="w001d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Minutes and seconds</div><div class="pc-prompt"><p>Build a program that turns <code>total = 754</code> seconds into <code>12 minutes 34 seconds</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["total = 754", "minutes = total // 60", "seconds = total % 60", "print(minutes, \"minutes\", seconds, \"seconds\")"], "distractors": ["minutes = total / 60"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-weekday" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">What day will it be?</div><div class="pc-prompt"><p>Days are numbered 0 (Monday) to 6 (Sunday). Today is <code>today = 4</code> (Friday). Print the day number 1000 days from now. Then, on the next line, the day number 1000 days <em>ago</em>. (Python&rsquo;s <code>%</code> handles negatives nicely here.) Expected: <code>3</code> then <code>5</code>.</p></div><textarea class="pc-src pc-code" hidden>today = 4</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 3 then 5&quot;
+    expect_output(&quot;3\n5&quot;)</textarea><textarea class="pc-src pc-solution" hidden>today = 4
+print((today + 1000) % 7)
+print((today - 1000) % 7)</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w001d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "output", "q": "What does this print?", "answer": "5 3", "explain": "Five 4s make 20; 3 left over.", "code": "print(23 // 4, 23 % 4)"}, {"type": "mc", "q": "What is <code>-9 // 4</code>?", "answer": 1, "explain": "// rounds down, towards minus infinity: -2.25 becomes -3.", "options": ["-2", "-3", "2", "-2.25"]}, {"type": "text", "q": "What is <code>-9 % 4</code>?", "answer": "3", "explain": "4 \u00d7 (-3) = -12, and -9 is 3 above that. With a positive divisor, the remainder is never negative."}, {"type": "mc", "q": "Which expression is <code>0</code> exactly when <code>n</code> is even?", "answer": 1, "explain": "Even numbers leave no remainder when divided by 2.", "options": ["<code>n // 2</code>", "<code>n % 2</code>", "<code>n / 2</code>", "<code>n ** 2</code>"]}, {"type": "mc", "q": "Why is <code>0.1 + 0.2 == 0.3</code> False?", "answer": 1, "explain": "The stored values are the nearest binary fractions; their sum is 0.30000000000000004.", "options": ["Python has a bug in addition", "0.1 and 0.2 can&rsquo;t be stored exactly in binary, so the sum is slightly off", "== doesn&rsquo;t work with floats at all"]}, {"type": "text", "q": "What does <code>round(4.5)</code> give?", "answer": "4", "explain": "Exact halves round to the even neighbour."}, {"type": "mc", "q": "What does <code>int(-3.9)</code> give?", "answer": 1, "explain": "int() chops off the decimals, towards zero.", "options": ["-4", "-3", "3", "an error"]}, {"type": "mc", "q": "What happens with <code>int(\"7.5\")</code>?", "answer": 3, "explain": "int() can&rsquo;t read a decimal point from text. Use int(float(&lsquo;7.5&rsquo;)) to get 7.", "options": ["7", "8", "7.5", "ValueError"]}, {"type": "mc", "q": "Which gives <code>\"Total: 5\"</code>?", "answer": 1, "explain": "You can only + two strings together.", "options": ["<code>\"Total: \" + 5</code>", "<code>\"Total: \" + str(5)</code>", "<code>\"Total: \" + int(\"5\")</code>"]}, {"type": "mc", "q": "How many 30-seat minibuses for 61 people?", "answer": 2, "explain": "61/30 is about 2.03; you must round up to 3 or someone stays home.", "options": ["<code>61 // 30</code>", "<code>round(61 / 30)</code>", "<code>math.ceil(61 / 30)</code>", "<code>int(61 / 30)</code>"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d4-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: reverse a three-digit number</div><div class="pc-prompt"><p><code>n = 472</code>. Using only arithmetic (no strings!), build the reversed number <code>274</code> as an int in a variable called <code>rev</code>, then print <code>rev</code> and <code>rev + 1</code> (to prove it&rsquo;s really a number): <code>274</code> then <code>275</code>.</p>
+<p>The checks will try other three-digit numbers too, so don&rsquo;t type 274.</p></div><textarea class="pc-src pc-code" hidden>n = 472</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 274 then 275&quot;
+    expect_output(&quot;274\n275&quot;)
+def test_int():
+    &quot;rev is an int&quot;
+    assert isinstance(rev, int), &quot;rev should be an int, built with arithmetic.&quot;
+def test_no_str():
+    &quot;uses no strings&quot;
+    assert &quot;str(&quot; not in source and &#x27;&quot;&#x27; not in source and &quot;&#x27;&quot; not in source, &quot;Do it with %, // and * only.&quot;
+def test_general():
+    &quot;works for other numbers&quot;
+    got = norm(run_with({&quot;472&quot;: &quot;815&quot;}))
+    assert got == &quot;518\n519&quot;, &quot;With n = 815 your program printed:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>n = 472
+rev = n % 10 * 100 + n // 10 % 10 * 10 + n // 100
+print(rev)
+print(rev + 1)</textarea><template class="pc-src pc-hint">The ones digit becomes the hundreds: <code>n % 10 * 100</code>. The tens digit stays: <code>n // 10 % 10 * 10</code>. The hundreds become the ones: <code>n // 100</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain to yourself why <code>n % 7</code> is a good way to work out a day of the week, and why <code>0.1 + 0.2</code> prints a long ugly number. Tomorrow you&rsquo;ll work with text: strings, and how to pick out any character or piece of a string with indexing and slicing.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w001d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w001d4", "week": 1, "day": 4, "title": "Numbers in depth: //, %, floats, rounding and conversion", "exercises": [{"id": "w001d4-even", "title": "Even or odd?", "points": 10}, {"id": "w001d4-digits", "title": "Digit by digit", "points": 10}, {"id": "w001d4-clock", "title": "Clock arithmetic", "points": 10}, {"id": "w001d4-buses", "title": "Enough buses", "points": 10}, {"id": "w001d4-money", "title": "Change in coins", "points": 10}, {"id": "w001d4-hyp", "title": "Pythagoras", "points": 10}, {"id": "w001d4-round2", "title": "Two decimal places", "points": 10}, {"id": "w001d4-convert", "title": "Text to numbers", "points": 10}, {"id": "w001d4-bug1", "title": "Decimal text", "points": 10}, {"id": "w001d4-bug2", "title": "Joining text and numbers", "points": 10}, {"id": "w001d4-weekday", "title": "What day will it be?", "points": 15}, {"id": "w001d4-challenge", "title": "Challenge: reverse a three-digit number", "points": 20}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>Python Atlas — created by Peter Oluwafemi Adepoju.</p>
+  <p><a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
