@@ -36,7 +36,7 @@ def _asset_version() -> str:
     import hashlib
     h = hashlib.sha256()
     for f in sorted(STATIC.rglob("*")):
-        if f.is_file():
+        if f.is_file() and "__pycache__" not in f.parts:
             h.update(str(f.relative_to(STATIC)).encode())
             h.update(f.read_bytes())
     return h.hexdigest()[:10]
@@ -494,7 +494,7 @@ def build():
             shutil.rmtree(child) if child.is_dir() else child.unlink()
     OUT.mkdir(exist_ok=True)
     (OUT / ".nojekyll").write_text("")
-    shutil.copytree(STATIC, OUT / "assets")
+    shutil.copytree(STATIC, OUT / "assets", ignore=shutil.ignore_patterns("__pycache__"))
     (OUT / "days").mkdir()
     (OUT / "notebooks").mkdir()
 
