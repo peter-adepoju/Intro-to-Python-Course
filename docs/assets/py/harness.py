@@ -936,5 +936,42 @@ def list_op(list_src, op):
             "result": repr(result), "is_expr": is_expr}
 
 
+def comp_steps(expr, var, src, cond):
+    """Run a list comprehension one item at a time (for the comprehension figure)."""
+    import ast as _ast
+    cond = (cond or "").strip()
+    code = f"[{expr} for {var} in {src}" + (f" if {cond}" if cond else "") + "]"
+    try:
+        _ast.parse(code, mode="eval")
+    except SyntaxError as e:
+        return {"error": f"SyntaxError: {e.msg}", "code": code}
+    ns = {"__builtins__": builtins}
+    try:
+        items = list(eval(src, ns))
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}", "code": code}
+    if len(items) > 40:
+        items = items[:40]
+    rows, result = [], []
+    try:
+        for item in items:
+            local = dict(ns)
+            exec(f"{var} = __item", {**local, "__item": item}, local)
+            shown = repr(item) if "," not in var else ", ".join(f"{k}={local[k]!r}" for k in [v.strip() for v in var.split(",")])
+            keep = bool(eval(cond, local)) if cond else True
+            val = eval(expr, local) if keep else None
+            if keep:
+                result.append(val)
+            rows.append([shown, keep, repr(val) if keep else ""])
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}", "code": code, "rows": rows}
+    loop = ["result = []", f"for {var} in {src}:"]
+    if cond:
+        loop += [f"    if {cond}:", f"        result.append({expr})"]
+    else:
+        loop += [f"    result.append({expr})"]
+    return {"error": None, "code": "result = " + code, "loop": "\n".join(loop), "rows": rows, "result": repr(result)}
+
+
 def call(fn, args_json):
     return globals()[fn](*json.loads(args_json))

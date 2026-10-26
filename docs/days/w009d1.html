@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="584c8453d2">
+<title>Week 9 Day 1: Grids: lists of lists | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=584c8453d2">
+<link rel="stylesheet" href="../assets/css/site.css?v=584c8453d2">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=584c8453d2"></script>
+<script src="../assets/vendor/codemirror.js?v=584c8453d2" defer></script>
+<meta name="description" content="A list can hold anything, including other lists. A list of lists makes a grid: a spreadsheet, a game board, a seating plan, an image made of pixels. Today...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w009d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 9 Day 1: Grids: lists of lists">
+<meta property="og:description" content="A list can hold anything, including other lists. A list of lists makes a grid: a spreadsheet, a game board, a seating plan, an image made of pixels. Today...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w009d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-9">Week 9: Lists II and tuples</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#rows-and-cells" data-sec="rows-and-cells">Rows and cells</a></li><li><a href="#walking-through-a-grid" data-sec="walking-through-a-grid">Walking through a grid</a></li><li><a href="#rows-columns-and-diagonals" data-sec="rows-columns-and-diagonals">Rows, columns and diagonals</a></li><li><a href="#neighbours" data-sec="neighbours">Neighbours</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w009d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 9, Day 1</span></p>
+      <h1>Grids: lists of lists</h1>
+      <div class="day-intro"><p>A list can hold anything, including other lists. A list of lists makes a grid: a spreadsheet, a game board, a seating plan, an image made of pixels. Today you&rsquo;ll build grids, reach any cell with two indexes, walk through rows, columns and diagonals, and find a cell&rsquo;s neighbours, the basis of countless games and simulations.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Build a grid as a list of separate row lists, and reach any cell with <code>grid[r][c]</code></li><li>Loop over every cell with nested loops, by row or by column</li><li>Extract a row, a column and a diagonal</li><li>Find a cell&rsquo;s neighbours without stepping off the edge</li><li>Print a grid neatly, and turn a grid round (transpose it)</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Rows and cells: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Walking through a grid: 30 min"></span><span class="plan-seg s1" style="flex:25" title="Rows, columns and diagonals: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Neighbours: 25 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Rows and cells</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Walking through a grid</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Rows, columns and diagonals</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Neighbours</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w009d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w009d1.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w009d1-p1"><textarea class="pc-src pc-code" hidden>board = []
+for r in range(3):
+    board.append([&quot;.&quot;] * 3)
+board[1][2] = &quot;X&quot;
+for row in board:
+    print(&quot;&quot;.join(row))</textarea></div>
+<p>You built that safe grid last week, when you learned why <code>[["."] * 3] * 3</code> goes wrong. Today grids get a lesson of their own.</p>
+<h2 id="rows-and-cells">Rows and cells</h2>
+<p>A grid is a list whose items are lists, one per <strong>row</strong>. Writing it out with one row per line shows its shape:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e2"><textarea class="pc-src pc-code" hidden>seats = [
+    [&quot;A1&quot;, &quot;A2&quot;, &quot;A3&quot;, &quot;A4&quot;],
+    [&quot;B1&quot;, &quot;B2&quot;, &quot;B3&quot;, &quot;B4&quot;],
+    [&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;, &quot;C4&quot;],
+]
+print(len(seats), &quot;rows&quot;)
+print(len(seats[0]), &quot;columns&quot;)
+print(seats[1])
+print(seats[1][2])</textarea></div>
+<p><code>seats[1]</code> is the whole second row, which is itself a list. <code>seats[1][2]</code> takes that row and then its item at position 2. Always <strong>row first, then column</strong>.</p>
+<p>Explore the indexes. Click a cell, then choose what to highlight:</p>
+<figure class="widget" data-widget="gridviz"><script type="application/json">{"rows": 4, "cols": 5, "name": "grid"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each cell shows its value; the row and column numbers are along the edges. Try each view: a row is one inner list, but a column cuts across all of them.</figcaption></figure>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>grid[r]</code> is row <code>r</code> (an inner list). <code>grid[r][c]</code> is the item in row <code>r</code>, column <code>c</code>. The number of rows is <code>len(grid)</code>; the number of columns is <code>len(grid[0])</code>.</p></aside>
+<h3 id="building-a-grid">Building a grid</h3>
+<p>You already know the safe way. Each row must be a <strong>separate</strong> list:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e3"><textarea class="pc-src pc-code" hidden>def make_grid(rows, cols, fill=0):
+    grid = []
+    for _ in range(rows):
+        grid.append([fill] * cols)
+    return grid
+
+g = make_grid(3, 4)
+g[0][0] = 5
+print(g)</textarea></div>
+<p>Grids often come from text: one line per row, with the items separated by spaces:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e4"><textarea class="pc-src pc-code" hidden>text = &quot;&quot;&quot;1 2 3
+4 5 6
+7 8 9&quot;&quot;&quot;
+grid = []
+for line in text.splitlines():
+    row = []
+    for piece in line.split():
+        row.append(int(piece))
+    grid.append(row)
+print(grid)</textarea></div>
+<h2 id="walking-through-a-grid">Walking through a grid</h2>
+<p>To visit every cell, use nested loops: the outer one over the rows, the inner one over the items in a row:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e5"><div class="pc-title">Every cell, row by row</div><textarea class="pc-src pc-code" hidden>grid = [[1, 2, 3], [4, 5, 6]]
+total = 0
+for row in grid:
+    for value in row:
+        total += value
+print(total)</textarea></div>
+<p>When you need the positions (to change a cell, or to know where you are), loop over the indexes:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e6"><div class="pc-title">Double every cell, in place</div><textarea class="pc-src pc-code" hidden>grid = [[1, 2, 3], [4, 5, 6]]
+for r in range(len(grid)):
+    for c in range(len(grid[r])):
+        grid[r][c] *= 2
+print(grid)</textarea></div>
+<h3 id="printing-a-grid-neatly">Printing a grid neatly</h3>
+<p>Printing a grid directly shows brackets and commas. To print it as a table, build each row&rsquo;s line and print that:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e7"><textarea class="pc-src pc-code" hidden>grid = [[1, 20, 3], [400, 5, 60]]
+for row in grid:
+    line = &quot;&quot;
+    for value in row:
+        line += f&quot;{value:5}&quot;
+    print(line)</textarea></div>
+<h2 id="rows-columns-and-diagonals">Rows, columns and diagonals</h2>
+<p>A <strong>row</strong> is easy, since it&rsquo;s already a list: <code>grid[r]</code>. A <strong>column</strong> is spread across every row, so you collect it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e8"><textarea class="pc-src pc-code" hidden>grid = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+c = 1
+column = []
+for row in grid:
+    column.append(row[c])
+print(&quot;Row 0:&quot;, grid[0])
+print(&quot;Column 1:&quot;, column)</textarea></div>
+<p>The <strong>main diagonal</strong> of a square grid runs from top left to bottom right: the cells where the row equals the column. The <strong>other diagonal</strong> runs from top right to bottom left: column <code>n - 1 - r</code> in row <code>r</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e9"><textarea class="pc-src pc-code" hidden>grid = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+n = len(grid)
+main = []
+other = []
+for i in range(n):
+    main.append(grid[i][i])
+    other.append(grid[i][n - 1 - i])
+print(main, other)</textarea></div>
+<h3 id="transposing">Transposing</h3>
+<p><strong>Transposing</strong> a grid swaps its rows and columns: row 0 becomes column 0. The result has as many rows as the original has columns:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e10"><textarea class="pc-src pc-code" hidden>grid = [[1, 2, 3], [4, 5, 6]]
+flipped = []
+for c in range(len(grid[0])):
+    new_row = []
+    for r in range(len(grid)):
+        new_row.append(grid[r][c])
+    flipped.append(new_row)
+print(flipped)</textarea></div>
+<h2 id="neighbours">Neighbours</h2>
+<p>Many games and simulations need a cell&rsquo;s <strong>neighbours</strong>: the up to 8 cells around it. Loop over the changes in row and column, <code>dr</code> and <code>dc</code>, each from -1 to 1, skip the cell itself, and skip anything off the edge:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d1-e11"><div class="pc-title">Count the X&rsquo;s around a cell</div><textarea class="pc-src pc-code" hidden>grid = [
+    list(&quot;X.X&quot;),
+    list(&quot;.X.&quot;),
+    list(&quot;XX.&quot;),
+]
+
+def count_neighbours(grid, r, c, mark=&quot;X&quot;):
+    count = 0
+    for dr in [-1, 0, 1]:
+        for dc in [-1, 0, 1]:
+            if dr == 0 and dc == 0:
+                continue
+            nr, nc = r + dr, c + dc
+            if 0 &lt;= nr &lt; len(grid) and 0 &lt;= nc &lt; len(grid[0]):
+                if grid[nr][nc] == mark:
+                    count += 1
+    return count
+
+print(count_neighbours(grid, 1, 1))
+print(count_neighbours(grid, 0, 0))</textarea></div>
+<aside class="callout c-warn"><div class="callout-t">Negative indexes don&rsquo;t fail</div><p>Without the bounds check, <code>grid[-1]</code> doesn&rsquo;t raise an error: it quietly gives the <strong>last</strong> row. So a cell on the top edge would &ldquo;see&rdquo; the bottom row as its neighbour. Always check <code>0 &lt;= nr &lt; rows</code> and <code>0 &lt;= nc &lt; cols</code> yourself.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-cell" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Reach a cell</div><div class="pc-prompt"><p><code>plan</code> is a seating plan. Set <code>middle</code> to the item in the middle row and middle column, <code>corner</code> to the bottom-right item, and <code>back_row</code> to the whole last row, using indexes only.</p></div><textarea class="pc-src pc-code" hidden>plan = [
+    [&quot;A1&quot;, &quot;A2&quot;, &quot;A3&quot;],
+    [&quot;B1&quot;, &quot;B2&quot;, &quot;B3&quot;],
+    [&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;],
+]
+middle = ___
+corner = ___
+back_row = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert middle == &quot;B2&quot; and corner == &quot;C3&quot; and back_row == [&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;]
+    assert source.count(&#x27;&quot;B2&quot;&#x27;) == 1, &quot;Use indexes; don&#x27;t type the values.&quot;</textarea><textarea class="pc-src pc-solution" hidden>plan = [
+    [&quot;A1&quot;, &quot;A2&quot;, &quot;A3&quot;],
+    [&quot;B1&quot;, &quot;B2&quot;, &quot;B3&quot;],
+    [&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;],
+]
+middle = plan[1][1]
+corner = plan[-1][-1]
+back_row = plan[-1]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-parse_grid" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Read a grid</div><div class="pc-prompt"><p>Write <code>parse_grid(text)</code> that turns lines of whole numbers separated by spaces into a list of lists of ints.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several grids&quot;
+    assert parse_grid(&quot;1 2\n3 4&quot;) == [[1, 2], [3, 4]]
+    assert parse_grid(&quot;7&quot;) == [[7]]
+    assert parse_grid(&quot;10 -2 3\n0 0 0&quot;) == [[10, -2, 3], [0, 0, 0]]</textarea><textarea class="pc-src pc-solution" hidden>def parse_grid(text):
+    grid = []
+    for line in text.splitlines():
+        row = []
+        for piece in line.split():
+            row.append(int(piece))
+        grid.append(row)
+    return grid</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-row_sums" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Row and column totals</div><div class="pc-prompt"><p>Write <code>row_totals(grid)</code> returning a list of the sum of each row, and <code>column_totals(grid)</code> returning a list of the sum of each column. All rows have the same length.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;row and column totals&quot;
+    g = [[1, 2, 3], [4, 5, 6]]
+    assert row_totals(g) == [6, 15]
+    assert column_totals(g) == [5, 7, 9]
+    assert column_totals([[4]]) == [4]</textarea><textarea class="pc-src pc-solution" hidden>def row_totals(grid):
+    totals = []
+    for row in grid:
+        totals.append(sum(row))
+    return totals
+
+def column_totals(grid):
+    totals = []
+    for c in range(len(grid[0])):
+        t = 0
+        for row in grid:
+            t += row[c]
+        totals.append(t)
+    return totals</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-show_grid" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Print a board</div><div class="pc-prompt"><p>Write <code>show(board)</code> that <strong>returns</strong> the board as a string: each row&rsquo;s items joined by spaces, rows joined by <code>"\n"</code>. Items may be numbers or strings.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several boards&quot;
+    assert show([[&quot;X&quot;, &quot;.&quot;, &quot;O&quot;], [&quot;.&quot;, &quot;X&quot;, &quot;.&quot;]]) == &quot;X . O\n. X .&quot;
+    assert show([[1, 2], [3, 4]]) == &quot;1 2\n3 4&quot;</textarea><textarea class="pc-src pc-solution" hidden>def show(board):
+    lines = []
+    for row in board:
+        parts = []
+        for item in row:
+            parts.append(str(item))
+        lines.append(&quot; &quot;.join(parts))
+    return &quot;\n&quot;.join(lines)</textarea><template class="pc-src pc-hint">Turn each item into a string with <code>str()</code> before joining.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-transpose" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Transpose</div><div class="pc-prompt"><p>Write <code>transpose(grid)</code> that returns a new grid with rows and columns swapped. A grid with 2 rows and 3 columns gives one with 3 rows and 2 columns.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several grids&quot;
+    assert transpose([[1, 2, 3], [4, 5, 6]]) == [[1, 4], [2, 5], [3, 6]]
+    assert transpose([[1]]) == [[1]]
+    g = [[1, 2], [3, 4]]
+    t = transpose(g)
+    assert t == [[1, 3], [2, 4]] and g == [[1, 2], [3, 4]], &quot;Return a new grid.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def transpose(grid):
+    result = []
+    for c in range(len(grid[0])):
+        new_row = []
+        for r in range(len(grid)):
+            new_row.append(grid[r][c])
+        result.append(new_row)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-winner" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Three in a row</div><div class="pc-prompt"><p>Write <code>winner(board)</code> for noughts and crosses. <code>board</code> is a 3 by 3 grid of <code>"X"</code>, <code>"O"</code> and <code>" "</code>. Return <code>"X"</code> or <code>"O"</code> if that player has three in a row (a row, a column or a diagonal), or <code>""</code> if nobody has.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several boards&quot;
+    assert winner([[&quot;X&quot;, &quot;X&quot;, &quot;X&quot;], [&quot; &quot;, &quot;O&quot;, &quot; &quot;], [&quot;O&quot;, &quot; &quot;, &quot; &quot;]]) == &quot;X&quot;
+    assert winner([[&quot;O&quot;, &quot;X&quot;, &quot; &quot;], [&quot;O&quot;, &quot;X&quot;, &quot; &quot;], [&quot;O&quot;, &quot; &quot;, &quot;X&quot;]]) == &quot;O&quot;
+    assert winner([[&quot;X&quot;, &quot;O&quot;, &quot; &quot;], [&quot; &quot;, &quot;X&quot;, &quot;O&quot;], [&quot; &quot;, &quot; &quot;, &quot;X&quot;]]) == &quot;X&quot;
+    assert winner([[&quot; &quot;, &quot; &quot;, &quot;O&quot;], [&quot; &quot;, &quot;O&quot;, &quot;X&quot;], [&quot;O&quot;, &quot;X&quot;, &quot; &quot;]]) == &quot;O&quot;
+    assert winner([[&quot;X&quot;, &quot;O&quot;, &quot;X&quot;], [&quot;X&quot;, &quot;O&quot;, &quot;O&quot;], [&quot;O&quot;, &quot;X&quot;, &quot;X&quot;]]) == &quot;&quot;
+    assert winner([[&quot; &quot;] * 3, [&quot; &quot;] * 3, [&quot; &quot;] * 3]) == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def winner(board):
+    lines = []
+    for i in range(3):
+        lines.append(board[i])
+        lines.append([board[0][i], board[1][i], board[2][i]])
+    lines.append([board[0][0], board[1][1], board[2][2]])
+    lines.append([board[0][2], board[1][1], board[2][0]])
+    for line in lines:
+        if line[0] != &quot; &quot; and line[0] == line[1] == line[2]:
+            return line[0]
+    return &quot;&quot;</textarea><template class="pc-src pc-hint">Collect all eight lines (three rows, three columns, two diagonals) as lists, then check whether any of them is three of the same mark that isn&rsquo;t a space.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-neighbours" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Minesweeper numbers</div><div class="pc-prompt"><p>In Minesweeper, each empty square shows how many mines touch it. Write <code>mine_counts(field)</code> where <code>field</code> is a list of strings, like <code>["*..", "..*", "..."]</code> (<code>*</code> is a mine). Return a new list of strings where every <code>.</code> is replaced by the number of mines among its 8 neighbours, and mines stay <code>*</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several fields&quot;
+    assert mine_counts([&quot;*..&quot;, &quot;..*&quot;, &quot;...&quot;]) == [&quot;*21&quot;, &quot;12*&quot;, &quot;011&quot;]
+    assert mine_counts([&quot;...&quot;]) == [&quot;000&quot;]
+    assert mine_counts([&quot;*&quot;]) == [&quot;*&quot;]
+    assert mine_counts([&quot;**&quot;, &quot;**&quot;]) == [&quot;**&quot;, &quot;**&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def mine_counts(field):
+    rows, cols = len(field), len(field[0])
+    result = []
+    for r in range(rows):
+        line = &quot;&quot;
+        for c in range(cols):
+            if field[r][c] == &quot;*&quot;:
+                line += &quot;*&quot;
+                continue
+            count = 0
+            for dr in [-1, 0, 1]:
+                for dc in [-1, 0, 1]:
+                    nr, nc = r + dr, c + dc
+                    if (dr != 0 or dc != 0) and 0 &lt;= nr &lt; rows and 0 &lt;= nc &lt; cols and field[nr][nc] == &quot;*&quot;:
+                        count += 1
+            line += str(count)
+        result.append(line)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Columns, not rows</div><div class="pc-prompt"><p><code>column(grid, c)</code> should return column <code>c</code>, but <code>column([[1, 2], [3, 4]], 0)</code> returns <code>[1, 2]</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def column(grid, c):
+    return grid[c]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several columns&quot;
+    assert column([[1, 2], [3, 4]], 0) == [1, 3]
+    assert column([[1, 2], [3, 4]], 1) == [2, 4]</textarea><textarea class="pc-src pc-solution" hidden>def column(grid, c):
+    result = []
+    for row in grid:
+        result.append(row[c])
+    return result</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Seeing round the edge</div><div class="pc-prompt"><p><code>count_x</code> counts the <code>X</code>s next to a cell, but for the top-left cell of this board it counts the X in the bottom-right corner too. Fix the bounds check.</p></div><textarea class="pc-src pc-code" hidden>def count_x(board, r, c):
+    count = 0
+    for dr in [-1, 0, 1]:
+        for dc in [-1, 0, 1]:
+            if dr == 0 and dc == 0:
+                continue
+            if board[r + dr][c + dc] == &quot;X&quot;:
+                count += 1
+    return count</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;corners and middle&quot;
+    board = [list(&quot;...&quot;), list(&quot;.X.&quot;), list(&quot;..X&quot;)]
+    assert count_x(board, 0, 0) == 1, &quot;The top-left cell touches only the middle X.&quot;
+    assert count_x(board, 1, 1) == 1
+    assert count_x(board, 2, 2) == 1</textarea><textarea class="pc-src pc-solution" hidden>def count_x(board, r, c):
+    count = 0
+    for dr in [-1, 0, 1]:
+        for dc in [-1, 0, 1]:
+            if dr == 0 and dc == 0:
+                continue
+            nr, nc = r + dr, c + dc
+            if 0 &lt;= nr &lt; len(board) and 0 &lt;= nc &lt; len(board[0]) and board[nr][nc] == &quot;X&quot;:
+                count += 1
+    return count</textarea><template class="pc-src pc-hint">Negative indexes don&rsquo;t fail: they wrap round to the end. Check that the neighbour&rsquo;s row and column are inside the board before looking.</template></div>
+<div class="parsons" data-id="w009d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Sum the main diagonal</div><div class="pc-prompt"><p>Arrange the lines to add up the main diagonal of a square grid. One line is a trap.</p></div><script type="application/json">{"lines": ["grid = [[2, 0, 0], [0, 3, 0], [0, 0, 4]]", "total = 0", "for i in range(len(grid)):", "    total += grid[i][i]", "print(total)"], "distractors": ["    total += grid[i]"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict the grid</div><div class="pc-prompt"><p>Work these out without running them.</p>
+<pre><code class="language-python">g = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+a = g[2][0]
+b = g[0][-1] + g[-1][0]
+c = len(g[1])
+d = g[1][1:]
+</code></pre></div><textarea class="pc-src pc-code" hidden>a = ___
+b = ___
+c = ___
+d = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 7 and b == 10 and c == 3 and d == [5, 6]</textarea><textarea class="pc-src pc-solution" hidden>a = 7
+b = 10
+c = 3
+d = [5, 6]</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w009d1-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "In <code>grid[r][c]</code>, which index comes first?", "answer": 1, "explain": "grid[r] is a row; [c] picks within it.", "options": ["The column", "The row"]}, {"type": "mc", "q": "How do you find the number of columns of a rectangular grid?", "answer": 1, "explain": "The length of one row.", "options": ["<code>len(grid)</code>", "<code>len(grid[0])</code>", "<code>grid.cols</code>", "<code>len(grid) * 2</code>"]}, {"type": "output", "q": "What does this print?", "answer": "[3, 4]", "explain": "The second row.", "code": "g = [[1, 2], [3, 4]]\nprint(g[1])"}, {"type": "output", "q": "What does this print?", "answer": "4", "explain": "Column 0: 1 + 3.", "code": "g = [[1, 2], [3, 4]]\ntotal = 0\nfor row in g:\n    total += row[0]\nprint(total)"}, {"type": "mc", "q": "Which cells form the main diagonal?", "answer": 1, "explain": "grid[i][i].", "options": ["Where row + column is even", "Where row equals column", "The first row", "The last column"]}, {"type": "mc", "q": "What does <code>grid[-1]</code> give?", "answer": 1, "explain": "That&rsquo;s why neighbour code needs its own bounds check.", "options": ["An IndexError", "The last row", "Nothing"]}, {"type": "text", "q": "How many neighbours does a corner cell have?", "answer": ["3", "three"], "explain": "Middle cells have 8; edge cells 5."}, {"type": "text", "q": "A grid has 2 rows and 5 columns. How many rows does its transpose have?", "answer": ["5", "five"], "explain": "Rows and columns swap."}, {"type": "mc", "q": "Why is <code>[[0] * 3] * 3</code> a bad way to make a grid?", "answer": 1, "explain": "Build each row separately.", "options": ["It&rsquo;s too slow", "All three rows are the same list", "It makes 9 rows", "It&rsquo;s a syntax error"]}, {"type": "output", "q": "What does this print?", "answer": "bc", "explain": "Row 0 column 1, then row 1 column 0.", "code": "g = [[\"a\", \"b\"], [\"c\", \"d\"]]\nprint(g[0][1] + g[1][0])"}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the Game of Life</div><div class="pc-prompt"><p>In 1970 the mathematician John Conway invented the <strong>Game of Life</strong>: a grid of cells, each alive (<code>#</code>) or dead (<code>.</code>). Each generation, every cell looks at its 8 neighbours:</p>
+<ul>
+<li>a live cell with 2 or 3 live neighbours survives; otherwise it dies;</li>
+<li>a dead cell with exactly 3 live neighbours comes alive.</li>
+</ul>
+<p>All cells change <strong>at the same moment</strong>, so you must build the new grid from the old one, never changing the old one as you go. Cells off the edge count as dead.</p>
+<p>Write <code>step(grid)</code> that takes a list of strings and returns the next generation as a new list of strings.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_blinker():
+    &quot;a blinker flips between two shapes&quot;
+    a = [&quot;.....&quot;, &quot;..#..&quot;, &quot;..#..&quot;, &quot;..#..&quot;, &quot;.....&quot;]
+    b = [&quot;.....&quot;, &quot;.....&quot;, &quot;.###.&quot;, &quot;.....&quot;, &quot;.....&quot;]
+    assert step(a) == b and step(b) == a
+def test_block():
+    &quot;a block never changes&quot;
+    blk = [&quot;....&quot;, &quot;.##.&quot;, &quot;.##.&quot;, &quot;....&quot;]
+    assert step(blk) == blk
+def test_glider():
+    &quot;a glider moves&quot;
+    g = [&quot;.#....&quot;, &quot;..#...&quot;, &quot;###...&quot;, &quot;......&quot;, &quot;......&quot;]
+    for _ in range(4):
+        g = step(g)
+    assert g == [&quot;......&quot;, &quot;..#...&quot;, &quot;...#..&quot;, &quot;.###..&quot;, &quot;......&quot;], &quot;After four steps a glider moves one square down and one right.&quot;
+def test_unchanged():
+    &quot;the input is not changed&quot;
+    a = [&quot;##&quot;, &quot;##&quot;]
+    step(a)
+    assert a == [&quot;##&quot;, &quot;##&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def live_neighbours(grid, r, c):
+    count = 0
+    for dr in [-1, 0, 1]:
+        for dc in [-1, 0, 1]:
+            if dr == 0 and dc == 0:
+                continue
+            nr, nc = r + dr, c + dc
+            if 0 &lt;= nr &lt; len(grid) and 0 &lt;= nc &lt; len(grid[0]) and grid[nr][nc] == &quot;#&quot;:
+                count += 1
+    return count
+
+def step(grid):
+    new = []
+    for r in range(len(grid)):
+        row = &quot;&quot;
+        for c in range(len(grid[0])):
+            n = live_neighbours(grid, r, c)
+            alive = grid[r][c] == &quot;#&quot;
+            if (alive and n in [2, 3]) or (not alive and n == 3):
+                row += &quot;#&quot;
+            else:
+                row += &quot;.&quot;
+        new.append(row)
+    return new</textarea><template class="pc-src pc-hint">Write a helper <code>live_neighbours(grid, r, c)</code>, like <code>count_neighbours</code> above. Then build each new row as a string, cell by cell, from the rules.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Draw a 3 by 4 grid on paper and label every cell with its <code>[r][c]</code>. Mark a column, a row and the neighbours of an edge cell. Then explain why the Game of Life must build a new grid rather than change the old one in place. Tomorrow: sorting in depth, with key functions, sorting by several things at once, and stability.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w008d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w009d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w009d1", "week": 9, "day": 1, "title": "Grids: lists of lists", "exercises": [{"id": "w009d1-cell", "title": "Reach a cell", "points": 10}, {"id": "w009d1-parse_grid", "title": "Read a grid", "points": 10}, {"id": "w009d1-row_sums", "title": "Row and column totals", "points": 10}, {"id": "w009d1-show_grid", "title": "Print a board", "points": 10}, {"id": "w009d1-transpose", "title": "Transpose", "points": 10}, {"id": "w009d1-winner", "title": "Three in a row", "points": 15}, {"id": "w009d1-neighbours", "title": "Minesweeper numbers", "points": 15}, {"id": "w009d1-bug1", "title": "Columns, not rows", "points": 10}, {"id": "w009d1-bug2", "title": "Seeing round the edge", "points": 10}, {"id": "w009d1-trace", "title": "Predict the grid", "points": 15}, {"id": "w009d1-challenge", "title": "Challenge: the Game of Life", "points": 25}], "points": 140}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

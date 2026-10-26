@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="584c8453d2">
+<title>Week 9 Day 2: Sorting and key functions | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=584c8453d2">
+<link rel="stylesheet" href="../assets/css/site.css?v=584c8453d2">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=584c8453d2"></script>
+<script src="../assets/vendor/codemirror.js?v=584c8453d2" defer></script>
+<meta name="description" content="Sorting is one of the most common jobs a program does: names in alphabetical order, scores from highest to lowest, files by date. Today you’ll learn to sort...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w009d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 9 Day 2: Sorting and key functions">
+<meta property="og:description" content="Sorting is one of the most common jobs a program does: names in alphabetical order, scores from highest to lowest, files by date. Today you’ll learn to sort...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w009d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-9">Week 9: Lists II and tuples</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#sort-sorted-and-reverse" data-sec="sort-sorted-and-reverse">sort, sorted and reverse</a></li><li><a href="#key-functions" data-sec="key-functions">Key functions</a></li><li><a href="#several-keys-at-once" data-sec="several-keys-at-once">Several keys at once</a></li><li><a href="#stability" data-sec="stability">Stability</a></li><li><a href="#numbers-inside-text" data-sec="numbers-inside-text">Numbers inside text</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w009d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 9, Day 2</span></p>
+      <h1>Sorting and key functions</h1>
+      <div class="day-intro"><p>Sorting is one of the most common jobs a program does: names in alphabetical order, scores from highest to lowest, files by date. Today you&rsquo;ll learn to sort by anything with a key function, to sort by several things at once, to mix ascending and descending, and why Python&rsquo;s sort being stable is so useful.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Sort with <code>sort()</code> and <code>sorted()</code>, ascending and descending</li><li>Write key functions that sort by length, by a field of a record, by a custom order, or by anything you can compute</li><li>Sort by several things at once with a key that returns a pair of values</li><li>Explain stability, and use it to sort by one thing within another</li><li>Sort numbers stored in text, such as file names, in the order people expect</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="sort, sorted and reverse: 25 min"></span><span class="plan-seg s0" style="flex:35" title="Key functions: 35 min"></span><span class="plan-seg s1" style="flex:30" title="Several keys at once: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Stability: 20 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">sort, sorted and reverse</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Key functions</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Several keys at once</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Stability</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w009d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w009d2.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w009d2-p1"><textarea class="pc-src pc-code" hidden>print(sorted([10, 9, 100]))
+print(sorted([&quot;10&quot;, &quot;9&quot;, &quot;100&quot;]))
+print(sorted([&quot;banana&quot;, &quot;Apple&quot;, &quot;cherry&quot;]))</textarea></div>
+<p>The numbers sort by value, but the same digits as <strong>strings</strong> sort letter by letter, so <code>"100"</code> comes before <code>"9"</code>. And <code>"Apple"</code> comes first only because capitals come before lower case. Sorting does exactly what you ask, which isn&rsquo;t always what you mean. Today you&rsquo;ll learn to say what you mean.</p>
+<h2 id="sort-sorted-and-reverse">sort, sorted and reverse</h2>
+<p>A reminder of the two tools:</p>
+<ul>
+<li><code>items.sort()</code> sorts the list <strong>in place</strong> and returns <code>None</code>.</li>
+<li><code>sorted(items)</code> returns a <strong>new</strong> sorted list and works on any sequence: lists, strings, ranges, the result of <code>split</code>.</li>
+</ul>
+<p>Both take <code>reverse=True</code> for descending order:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e2"><textarea class="pc-src pc-code" hidden>scores = [72, 95, 64, 88]
+print(sorted(scores, reverse=True))
+print(sorted(&quot;python&quot;))
+print(&quot;&quot;.join(sorted(&quot;python&quot;)))</textarea></div>
+<h2 id="key-functions">Key functions</h2>
+<p>A <strong>key function</strong> turns each item into the value that should be compared. Python works out the key once for each item, sorts by the keys, and gives you back the original items in that order.</p>
+<figure class="widget" data-widget="sortkey"><script type="application/json">{"items": "[\"banana\", \"Fig\", \"apple\", \"Cherry\", \"kiwi\"]"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Pick a key, or write your own (x is each item). The table shows the key Python works out for each item. Try a key that makes two items equal, and see which comes first.</figcaption></figure>
+<p>You&rsquo;ve already used the simple ones:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e3"><textarea class="pc-src pc-code" hidden>words = [&quot;banana&quot;, &quot;Fig&quot;, &quot;apple&quot;, &quot;Cherry&quot;, &quot;kiwi&quot;]
+print(sorted(words, key=len))
+print(sorted(words, key=str.lower))
+print(sorted([-5, 3, -1, 4], key=abs))</textarea></div>
+<p>Any function that takes one item and returns something comparable will do, including a <code>lambda</code> or your own <code>def</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e4"><div class="pc-title">By the last letter</div><textarea class="pc-src pc-code" hidden>words = [&quot;banana&quot;, &quot;Fig&quot;, &quot;apple&quot;, &quot;Cherry&quot;, &quot;kiwi&quot;]
+print(sorted(words, key=lambda w: w[-1]))</textarea></div>
+<h3 id="sorting-records">Sorting records</h3>
+<p>Data often comes as <strong>records</strong>: one item per person or product, each holding several fields. With lists, a record can be a small list, and the key picks a field:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e5"><textarea class="pc-src pc-code" hidden>people = [[&quot;Ada&quot;, 36, &quot;London&quot;], [&quot;Grace&quot;, 85, &quot;New York&quot;], [&quot;Alan&quot;, 41, &quot;Manchester&quot;]]
+by_age = sorted(people, key=lambda p: p[1])
+for name, age, city in by_age:
+    print(f&quot;{name:&lt;6}{age:&gt;4}  {city}&quot;)</textarea></div>
+<p>The loop unpacks each record into three names, just as <code>a, b = 1, 2</code> unpacks two. (Tomorrow is all about unpacking.)</p>
+<h3 id="a-custom-order">A custom order</h3>
+<p>Some things have an order that isn&rsquo;t alphabetical, like clothes sizes or days of the week. Write the order down as a list, and use each item&rsquo;s <strong>position</strong> in it as the key:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e6"><textarea class="pc-src pc-code" hidden>ORDER = [&quot;XS&quot;, &quot;S&quot;, &quot;M&quot;, &quot;L&quot;, &quot;XL&quot;]
+stock = [&quot;L&quot;, &quot;S&quot;, &quot;XL&quot;, &quot;M&quot;, &quot;S&quot;, &quot;XS&quot;]
+print(sorted(stock, key=ORDER.index))</textarea></div>
+<p><code>ORDER.index</code> is a method used as a function: for each size, it gives the size&rsquo;s position in <code>ORDER</code>.</p>
+<h2 id="several-keys-at-once">Several keys at once</h2>
+<p>To sort by one thing, and then by another to break ties, the key can return <strong>a pair of values</strong> in round brackets. Python compares pairs the way it compares words: first items first, and only if those are equal, the second items.</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e7"><textarea class="pc-src pc-code" hidden>print((2, &quot;b&quot;) &lt; (2, &quot;c&quot;))
+print((1, &quot;z&quot;) &lt; (2, &quot;a&quot;))
+words = [&quot;fig&quot;, &quot;apple&quot;, &quot;kiwi&quot;, &quot;date&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+print(sorted(words, key=lambda w: (len(w), w)))</textarea></div>
+<p>Words are sorted by length, and words of the same length alphabetically. (These bracketed pairs are <strong>tuples</strong>, tomorrow&rsquo;s topic.)</p>
+<h3 id="mixing-ascending-and-descending">Mixing ascending and descending</h3>
+<p><code>reverse=True</code> reverses the whole order. To sort one key <strong>downwards</strong> and another <strong>upwards</strong>, negate the numeric key:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e8"><div class="pc-title">Highest score first; ties in alphabetical order</div><textarea class="pc-src pc-code" hidden>results = [[&quot;Grace&quot;, 88], [&quot;Ada&quot;, 93], [&quot;Alan&quot;, 88], [&quot;Kemi&quot;, 93]]
+ranked = sorted(results, key=lambda r: (-r[1], r[0]))
+for name, score in ranked:
+    print(name, score)</textarea></div>
+<p><code>-r[1]</code> turns 93 into -93, which sorts before -88, so higher scores come first, while names still sort A to Z.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>A key that returns <code>(first, second)</code> sorts by <code>first</code>, and by <code>second</code> among equals. Negate a number to sort it in the opposite direction.</p></aside>
+<h2 id="stability">Stability</h2>
+<p>Python&rsquo;s sort is <strong>stable</strong>: items whose keys are equal stay in the order they had before sorting. That gives you a second way to sort by several things. Sort by the <strong>least</strong> important key first, then by the <strong>most</strong> important:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e9"><textarea class="pc-src pc-code" hidden>results = [[&quot;Grace&quot;, 88], [&quot;Ada&quot;, 93], [&quot;Alan&quot;, 88], [&quot;Kemi&quot;, 93]]
+results.sort(key=lambda r: r[0])
+results.sort(key=lambda r: r[1], reverse=True)
+for name, score in results:
+    print(name, score)</textarea></div>
+<p>The second sort puts the scores in order, and because it&rsquo;s stable, people with equal scores keep the alphabetical order from the first sort. This is exactly what spreadsheets do when you click one column header and then another.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>A key that returns a pair does the same job in one sort. Use whichever reads more clearly. Sorting several times is handy when the keys go in different directions and can&rsquo;t simply be negated, such as two text fields, one A to Z and the other Z to A.</p></aside>
+<h2 id="numbers-inside-text">Numbers inside text</h2>
+<p>File names like <code>photo10.jpg</code> and <code>photo9.jpg</code> sort the &ldquo;wrong&rdquo; way as plain strings. A key that pulls out the number fixes it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d2-e10"><textarea class="pc-src pc-code" hidden>files = [&quot;photo10.jpg&quot;, &quot;photo9.jpg&quot;, &quot;photo100.jpg&quot;, &quot;photo1.jpg&quot;]
+print(sorted(files))
+
+def number_in(name):
+    digits = &quot;&quot;
+    for ch in name:
+        if ch.isdigit():
+            digits += ch
+    return int(digits) if digits else 0
+
+print(sorted(files, key=number_in))</textarea></div>
+<p>This is called a <strong>natural sort</strong>: the order a person would expect.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d2-by_length" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Short words first</div><div class="pc-prompt"><p>Write <code>by_length(words)</code> that returns the words sorted by length, and alphabetically (ignoring case) among words of the same length.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert by_length([&quot;pear&quot;, &quot;Fig&quot;, &quot;apple&quot;, &quot;kiwi&quot;, &quot;date&quot;]) == [&quot;Fig&quot;, &quot;date&quot;, &quot;kiwi&quot;, &quot;pear&quot;, &quot;apple&quot;]
+    assert by_length([]) == []
+    assert by_length([&quot;B&quot;, &quot;a&quot;]) == [&quot;a&quot;, &quot;B&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def by_length(words):
+    return sorted(words, key=lambda w: (len(w), w.lower()))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d2-leaderboard" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Leaderboard order</div><div class="pc-prompt"><p>Write <code>ranked(results)</code> where each result is <code>[name, score]</code>. Return them highest score first, and in alphabetical order of name among equal scores. Don&rsquo;t change the caller&rsquo;s list.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    data = [[&quot;Grace&quot;, 88], [&quot;Ada&quot;, 93], [&quot;Alan&quot;, 88], [&quot;Kemi&quot;, 93]]
+    assert ranked(data) == [[&quot;Ada&quot;, 93], [&quot;Kemi&quot;, 93], [&quot;Alan&quot;, 88], [&quot;Grace&quot;, 88]]
+    assert data[0] == [&quot;Grace&quot;, 88], &quot;Don&#x27;t change the caller&#x27;s list.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def ranked(results):
+    return sorted(results, key=lambda r: (-r[1], r[0]))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d2-sizes" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Clothes sizes</div><div class="pc-prompt"><p>Write <code>sort_sizes(sizes)</code> that sorts a list of sizes from smallest to largest in the order <code>XS, S, M, L, XL, XXL</code>.</p></div><textarea class="pc-src pc-code" hidden>ORDER = [&quot;XS&quot;, &quot;S&quot;, &quot;M&quot;, &quot;L&quot;, &quot;XL&quot;, &quot;XXL&quot;]
+
+def sort_sizes(sizes):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert sort_sizes([&quot;L&quot;, &quot;S&quot;, &quot;XXL&quot;, &quot;M&quot;, &quot;XS&quot;]) == [&quot;XS&quot;, &quot;S&quot;, &quot;M&quot;, &quot;L&quot;, &quot;XXL&quot;]
+    assert sort_sizes([&quot;M&quot;, &quot;M&quot;, &quot;S&quot;]) == [&quot;S&quot;, &quot;M&quot;, &quot;M&quot;]</textarea><textarea class="pc-src pc-solution" hidden>ORDER = [&quot;XS&quot;, &quot;S&quot;, &quot;M&quot;, &quot;L&quot;, &quot;XL&quot;, &quot;XXL&quot;]
+
+def sort_sizes(sizes):
+    return sorted(sizes, key=ORDER.index)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d2-natural" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Natural order</div><div class="pc-prompt"><p>Write <code>natural_sort(names)</code> that sorts file names by the <strong>first</strong> whole number inside each name (names without a number come first), and alphabetically among names with the same number. So <code>["file10.txt", "file2.txt", "readme.txt", "file2.csv"]</code> becomes <code>["readme.txt", "file2.csv", "file2.txt", "file10.txt"]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert natural_sort([&quot;file10.txt&quot;, &quot;file2.txt&quot;, &quot;readme.txt&quot;, &quot;file2.csv&quot;]) == [&quot;readme.txt&quot;, &quot;file2.csv&quot;, &quot;file2.txt&quot;, &quot;file10.txt&quot;]
+    assert natural_sort([&quot;ch12&quot;, &quot;ch3&quot;, &quot;ch1&quot;]) == [&quot;ch1&quot;, &quot;ch3&quot;, &quot;ch12&quot;]
+    assert natural_sort([&quot;a1b22&quot;, &quot;a1b3&quot;]) == [&quot;a1b22&quot;, &quot;a1b3&quot;], &quot;Only the first number counts: both are 1, so they sort alphabetically.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def first_number(name):
+    digits = &quot;&quot;
+    for ch in name:
+        if ch.isdigit():
+            digits += ch
+        elif digits:
+            break
+    return int(digits) if digits else -1
+
+def natural_sort(names):
+    return sorted(names, key=lambda n: (first_number(n), n))</textarea><template class="pc-src pc-hint">Write a helper <code>first_number(name)</code> that finds the first run of digits and returns it as an int, or -1 if there are none. Then the key is <code>(first_number(n), n)</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d2-by_field" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sort the records</div><div class="pc-prompt"><p>Each record is <code>[name, age, city]</code>. Write <code>sort_people(people, field)</code> that returns the records sorted by the given field, where <code>field</code> is one of <code>"name"</code>, <code>"age"</code> or <code>"city"</code>. Names and cities compare ignoring case.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each field&quot;
+    people = [[&quot;ada&quot;, 36, &quot;London&quot;], [&quot;Grace&quot;, 85, &quot;accra&quot;], [&quot;Alan&quot;, 41, &quot;Manchester&quot;]]
+    assert sort_people(people, &quot;name&quot;) == [[&quot;ada&quot;, 36, &quot;London&quot;], [&quot;Alan&quot;, 41, &quot;Manchester&quot;], [&quot;Grace&quot;, 85, &quot;accra&quot;]]
+    assert sort_people(people, &quot;age&quot;)[0][0] == &quot;ada&quot;
+    assert sort_people(people, &quot;city&quot;)[0][2] == &quot;accra&quot;</textarea><textarea class="pc-src pc-solution" hidden>def sort_people(people, field):
+    i = [&quot;name&quot;, &quot;age&quot;, &quot;city&quot;].index(field)
+    if i == 1:
+        return sorted(people, key=lambda p: p[1])
+    return sorted(people, key=lambda p: p[i].lower())</textarea><template class="pc-src pc-hint">Turn the field name into a position first: <code>["name", "age", "city"].index(field)</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d2-stable" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Two sorts</div><div class="pc-prompt"><p>Using <strong>two</strong> calls to <code>sort</code> and no pairs in the key, sort <code>cars</code> by make (A to Z) and, within each make, by price from <strong>highest</strong> to lowest. Print the result.</p></div><textarea class="pc-src pc-code" hidden>cars = [[&quot;Toyota&quot;, 9000], [&quot;Honda&quot;, 7000], [&quot;Toyota&quot;, 12000], [&quot;Honda&quot;, 15000], [&quot;Audi&quot;, 20000]]
+
+print(cars)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;sorted&quot;
+    expect_output(&quot;[[&#x27;Audi&#x27;, 20000], [&#x27;Honda&#x27;, 15000], [&#x27;Honda&#x27;, 7000], [&#x27;Toyota&#x27;, 12000], [&#x27;Toyota&#x27;, 9000]]&quot;)
+def test_two_sorts():
+    &quot;two sorts&quot;
+    assert source.count(&quot;.sort(&quot;) == 2, &quot;Use two calls to sort: the least important key first.&quot;</textarea><textarea class="pc-src pc-solution" hidden>cars = [[&quot;Toyota&quot;, 9000], [&quot;Honda&quot;, 7000], [&quot;Toyota&quot;, 12000], [&quot;Honda&quot;, 15000], [&quot;Audi&quot;, 20000]]
+cars.sort(key=lambda c: c[1], reverse=True)
+cars.sort(key=lambda c: c[0])
+print(cars)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A call too many</div><div class="pc-prompt"><p>This crashes with a <code>TypeError</code>. Fix the key.</p></div><textarea class="pc-src pc-code" hidden>words = [&quot;pear&quot;, &quot;fig&quot;, &quot;banana&quot;]
+print(sorted(words, key=len()))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;sorted by length&quot;
+    expect_output(&quot;[&#x27;fig&#x27;, &#x27;pear&#x27;, &#x27;banana&#x27;]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>words = [&quot;pear&quot;, &quot;fig&quot;, &quot;banana&quot;]
+print(sorted(words, key=len))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Nine is bigger than ten?</div><div class="pc-prompt"><p>The prices come from text, and this sorts them as <code>['100', '25', '9']</code>. Make it sort them as numbers, while still printing the original strings: <code>['9', '25', '100']</code>.</p></div><textarea class="pc-src pc-code" hidden>prices = &quot;25 100 9&quot;.split()
+print(sorted(prices))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;numeric order&quot;
+    expect_output(&quot;[&#x27;9&#x27;, &#x27;25&#x27;, &#x27;100&#x27;]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>prices = &quot;25 100 9&quot;.split()
+print(sorted(prices, key=int))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Both directions</div><div class="pc-prompt"><p>This should list the highest scores first, and names A to Z among equal scores, but the names come out Z to A. Fix it.</p></div><textarea class="pc-src pc-code" hidden>results = [[&quot;Bo&quot;, 90], [&quot;Ada&quot;, 90], [&quot;Cy&quot;, 70]]
+print(sorted(results, key=lambda r: (r[1], r[0]), reverse=True))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;scores down, names up&quot;
+    expect_output(&quot;[[&#x27;Ada&#x27;, 90], [&#x27;Bo&#x27;, 90], [&#x27;Cy&#x27;, 70]]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>results = [[&quot;Bo&quot;, 90], [&quot;Ada&quot;, 90], [&quot;Cy&quot;, 70]]
+print(sorted(results, key=lambda r: (-r[1], r[0])))</textarea><template class="pc-src pc-hint"><code>reverse=True</code> reverses both keys. Negate the score instead.</template></div>
+<div class="parsons" data-id="w009d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Longest first</div><div class="pc-prompt"><p>Arrange the lines to print the words longest first, alphabetical among equal lengths. One line is a trap.</p></div><script type="application/json">{"lines": ["words = \"kiwi fig apple date\".split()", "ordered = sorted(words, key=lambda w: (-len(w), w))", "for w in ordered:", "    print(w)"], "distractors": ["ordered = words.sort(key=len)"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict the order</div><div class="pc-prompt"><p>Work out each result without running it.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # sorted([3, -4, 1], key=abs)
+b = ___   # sorted([&quot;bb&quot;, &quot;a&quot;, &quot;ccc&quot;], key=len, reverse=True)
+c = ___   # sorted([&quot;b2&quot;, &quot;a2&quot;, &quot;b1&quot;], key=lambda s: (s[1], s[0]))
+d = ___   # (1, 9) &lt; (2, 0)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each result&quot;
+    assert a == [1, 3, -4]
+    assert b == [&quot;ccc&quot;, &quot;bb&quot;, &quot;a&quot;]
+    assert c == [&quot;b1&quot;, &quot;a2&quot;, &quot;b2&quot;], &quot;By the digit first, then the letter.&quot;
+    assert d is True, &quot;The first items decide: 1 &lt; 2.&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = [1, 3, -4]
+b = [&quot;ccc&quot;, &quot;bb&quot;, &quot;a&quot;]
+c = [&quot;b1&quot;, &quot;a2&quot;, &quot;b2&quot;]
+d = True</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w009d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "What does <code>sorted([\"10\", \"9\"])</code> give?", "answer": ["['10', '9']", "[\"10\", \"9\"]"], "explain": "Strings compare character by character."}, {"type": "mc", "q": "What does a key function receive?", "answer": 1, "explain": "It returns the value to sort that item by.", "options": ["The whole list", "One item at a time", "Two items to compare", "Nothing"]}, {"type": "text", "q": "What does <code>sorted([\"Bob\", \"alice\"], key=str.lower)</code> give?", "answer": ["['alice', 'Bob']", "[\"alice\", \"Bob\"]"], "explain": "Compared in lower case; the items themselves are returned."}, {"type": "mc", "q": "How do you sort by length, then alphabetically?", "answer": 1, "explain": "A pair: the second breaks ties in the first.", "options": ["<code>key=len</code>", "<code>key=lambda w: (len(w), w)</code>", "<code>key=(len, str)</code>", "Sort twice with reverse"]}, {"type": "mc", "q": "How do you sort by score high to low, but names low to high?", "answer": 1, "explain": "Negate the numeric key.", "options": ["reverse=True", "Negate the number in the key, as in <code>(-r[1], r[0])</code>", "It&rsquo;s impossible", "Two reverse sorts"]}, {"type": "mc", "q": "What does stable mean?", "answer": 1, "explain": "That&rsquo;s what makes sorting twice work.", "options": ["The sort never crashes", "Items with equal keys keep their original order", "It&rsquo;s fast", "It sorts in place"]}, {"type": "mc", "q": "To sort by A then B with two stable sorts, which do you sort by first?", "answer": 1, "explain": "The least important key first.", "options": ["A", "B"]}, {"type": "text", "q": "What does <code>(2, \"a\") &lt; (1, \"z\")</code> give?", "answer": "False", "explain": "2 is not less than 1, so the second items aren&rsquo;t even looked at."}, {"type": "text", "q": "What does <code>sorted(\"cab\")</code> give?", "answer": ["['a', 'b', 'c']", "[\"a\", \"b\", \"c\"]"], "explain": "sorted works on any sequence and returns a list."}, {"type": "mc", "q": "What&rsquo;s a natural sort?", "answer": 1, "explain": "file2 before file10.", "options": ["Sorting without a key", "Ordering text with numbers in it the way people expect", "Random order", "Reverse order"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: ranks with ties</div><div class="pc-prompt"><p>In a competition, equal scores share a rank, and the next rank skips: scores 95, 90, 90, 85 have ranks 1, 2, 2, 4. This is called <strong>competition ranking</strong>.</p>
+<p>Write <code>rank_table(results)</code> where each result is <code>[name, score]</code>. Return a list of <code>[rank, name, score]</code>, sorted by score (highest first) and by name among equal scores, with competition ranks. Then the program reads lines like <code>Ada 93</code> with the prompt <code>&gt;</code> until a blank line, and prints the table with the rank right-aligned in 3, a space, the name left-aligned in 10 and the score right-aligned in 4.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_function():
+    &quot;rank_table&quot;
+    t = rank_table([[&quot;Grace&quot;, 90], [&quot;Ada&quot;, 95], [&quot;Alan&quot;, 90], [&quot;Kemi&quot;, 85]])
+    assert t == [[1, &quot;Ada&quot;, 95], [2, &quot;Alan&quot;, 90], [2, &quot;Grace&quot;, 90], [4, &quot;Kemi&quot;, 85]]
+    assert rank_table([]) == []
+    assert rank_table([[&quot;A&quot;, 5], [&quot;B&quot;, 5], [&quot;C&quot;, 5]]) == [[1, &quot;A&quot;, 5], [1, &quot;B&quot;, 5], [1, &quot;C&quot;, 5]]
+def test_program():
+    &quot;the program&quot;
+    want = &quot;&gt; Grace 90\n&gt; Ada 95\n&gt; Alan 90\n&gt; \n  1 Ada         95\n  2 Alan        90\n  2 Grace       90&quot;
+    expect_output(want, inputs=[&quot;Grace 90&quot;, &quot;Ada 95&quot;, &quot;Alan 90&quot;, &quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>def rank_table(results):
+    ordered = sorted(results, key=lambda r: (-r[1], r[0]))
+    table = []
+    for i in range(len(ordered)):
+        name, score = ordered[i]
+        if i &gt; 0 and score == ordered[i - 1][1]:
+            rank = table[-1][0]
+        else:
+            rank = i + 1
+        table.append([rank, name, score])
+    return table
+
+results = []
+while True:
+    line = input(&quot;&gt; &quot;)
+    if line == &quot;&quot;:
+        break
+    name, score = line.split()
+    results.append([name, int(score)])
+for rank, name, score in rank_table(results):
+    print(f&quot;{rank:&gt;3} {name:&lt;10}{score:&gt;4}&quot;)</textarea><template class="pc-src pc-hint">After sorting, walk through the list with its positions. The rank is the position plus 1, unless the score equals the previous score, in which case it&rsquo;s the previous rank.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain stability in one sentence, and say which key to sort by first when you sort twice. Then write, from memory, a key that sorts records <code>[name, score]</code> by score high to low and name A to Z. Tomorrow: tuples, the unchangeable cousin of lists, and unpacking, which you&rsquo;ve been using all along.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w009d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w009d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w009d2", "week": 9, "day": 2, "title": "Sorting and key functions", "exercises": [{"id": "w009d2-by_length", "title": "Short words first", "points": 10}, {"id": "w009d2-leaderboard", "title": "Leaderboard order", "points": 10}, {"id": "w009d2-sizes", "title": "Clothes sizes", "points": 10}, {"id": "w009d2-natural", "title": "Natural order", "points": 15}, {"id": "w009d2-by_field", "title": "Sort the records", "points": 10}, {"id": "w009d2-stable", "title": "Two sorts", "points": 10}, {"id": "w009d2-bug1", "title": "A call too many", "points": 10}, {"id": "w009d2-bug2", "title": "Nine is bigger than ten?", "points": 10}, {"id": "w009d2-bug3", "title": "Both directions", "points": 10}, {"id": "w009d2-trace", "title": "Predict the order", "points": 15}, {"id": "w009d2-challenge", "title": "Challenge: ranks with ties", "points": 25}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

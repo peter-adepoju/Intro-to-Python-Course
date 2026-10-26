@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="584c8453d2">
+<title>Week 9 Day 3: Tuples and unpacking | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=584c8453d2">
+<link rel="stylesheet" href="../assets/css/site.css?v=584c8453d2">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=584c8453d2"></script>
+<script src="../assets/vendor/codemirror.js?v=584c8453d2" defer></script>
+<meta name="description" content="A tuple is a list that can’t be changed. That sounds like a weaker list, but it’s exactly right for fixed groups of values like a point’s coordinates, a...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w009d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 9 Day 3: Tuples and unpacking">
+<meta property="og:description" content="A tuple is a list that can’t be changed. That sounds like a weaker list, but it’s exactly right for fixed groups of values like a point’s coordinates, a...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w009d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-9">Week 9: Lists II and tuples</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#what-a-tuple-is" data-sec="what-a-tuple-is">What a tuple is</a></li><li><a href="#tuples-or-lists" data-sec="tuples-or-lists">Tuples or lists?</a></li><li><a href="#unpacking" data-sec="unpacking">Unpacking</a></li><li><a href="#tuples-in-functions-sorting-and-records" data-sec="tuples-in-functions-sorting-and-records">Tuples in functions, sorting and records</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w009d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 9, Day 3</span></p>
+      <h1>Tuples and unpacking</h1>
+      <div class="day-intro"><p>A tuple is a list that can&rsquo;t be changed. That sounds like a weaker list, but it&rsquo;s exactly right for fixed groups of values like a point&rsquo;s coordinates, a date, or the several results of a function. Today you&rsquo;ll meet tuples properly, and master unpacking: pulling the values out of any sequence into names in one line.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write tuples, including the one-item tuple, and index and slice them</li><li>Explain why a tuple can&rsquo;t be changed, and when to choose a tuple over a list</li><li>Unpack any sequence into names, including in <code>for</code> loops and with a starred name</li><li>Return several values from a function and unpack them</li><li>Compare tuples, and use them as sort keys and as fixed records</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="What a tuple is: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Tuples or lists?: 20 min"></span><span class="plan-seg s1" style="flex:35" title="Unpacking: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Tuples in functions, sorting and records: 25 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">What a tuple is</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Tuples or lists?</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Unpacking</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Tuples in functions, sorting and records</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w009d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w009d3.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w009d3-p1"><textarea class="pc-src pc-code" hidden>a, b = 1, 2
+a, b = b, a
+print(a, b)
+def low_high(x, y):
+    return min(x, y), max(x, y)
+print(low_high(9, 4))</textarea></div>
+<p>You&rsquo;ve used tuples since Week 1 without knowing their name. <code>1, 2</code> is a tuple; swapping builds one; a function returning two values returns one. The last line shows it, in round brackets.</p>
+<h2 id="what-a-tuple-is">What a tuple is</h2>
+<p>A <strong>tuple</strong> is an ordered sequence, like a list, written with round brackets:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e2"><textarea class="pc-src pc-code" hidden>point = (3, 4)
+date = (2026, 10, 27)
+mixed = (&quot;Ada&quot;, 36, True)
+print(point[0], date[-1], mixed[1:])
+print(len(date), type(point))</textarea></div>
+<p>Indexing, slicing, <code>len</code>, <code>in</code>, <code>for</code>, <code>+</code> and <code>*</code> all work as they do for lists and strings.</p>
+<p>Actually, it&rsquo;s the <strong>commas</strong> that make a tuple, not the brackets. The brackets are only needed when the tuple would otherwise be unclear:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e3"><textarea class="pc-src pc-code" hidden>t = 1, 2, 3
+print(t)
+print(type(t))</textarea></div>
+<h3 id="one-item-and-no-items">One item and no items</h3>
+<p>Because the comma makes the tuple, a tuple with one item needs a comma after it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e4"><textarea class="pc-src pc-code" hidden>not_a_tuple = (5)
+one = (5,)
+empty = ()
+print(type(not_a_tuple), type(one), len(empty))</textarea></div>
+<p><code>(5)</code> is just the number 5 in brackets, like <code>(2 + 3)</code>. <code>(5,)</code> is a tuple holding 5.</p>
+<h3 id="tuples-can-t-be-changed">Tuples can&rsquo;t be changed</h3>
+<p>A tuple is <strong>immutable</strong>, like a string. Once it&rsquo;s made, its items can&rsquo;t be replaced, added or removed:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e5"><textarea class="pc-src pc-code" hidden>point = (3, 4)
+point[0] = 10</textarea></div>
+<p>So tuples have only two methods, <code>count</code> and <code>index</code>, the ones that don&rsquo;t change anything:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e6"><textarea class="pc-src pc-code" hidden>votes = (&quot;yes&quot;, &quot;no&quot;, &quot;yes&quot;, &quot;yes&quot;)
+print(votes.count(&quot;yes&quot;), votes.index(&quot;no&quot;))</textarea></div>
+<p>To &ldquo;change&rdquo; a tuple, make a new one, just as with strings:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e7"><textarea class="pc-src pc-code" hidden>point = (3, 4)
+point = (10,) + point[1:]
+print(point)</textarea></div>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>A tuple&rsquo;s slots can&rsquo;t be pointed elsewhere, but if one of its items is a <strong>list</strong>, that list can still be changed. <code>t = ([1], [2])</code> then <code>t[0].append(5)</code> works: the tuple still holds the same two lists; one of them just has more in it.</p></aside>
+<h2 id="tuples-or-lists">Tuples or lists?</h2>
+<p>Both hold sequences. Choose by what the data <strong>is</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Use a tuple when&hellip;</th>
+<th>Use a list when&hellip;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the group has a <strong>fixed</strong> size and meaning: <code>(x, y)</code>, <code>(year, month, day)</code>, <code>(name, score)</code></td>
+<td>you&rsquo;ll <strong>add or remove</strong> items</td>
+</tr>
+<tr>
+<td>the values shouldn&rsquo;t change</td>
+<td>items are all the same kind of thing, in any number</td>
+</tr>
+<tr>
+<td>you&rsquo;re returning several values from a function</td>
+<td>you&rsquo;ll sort it in place, or change items</td>
+</tr>
+</tbody>
+</table>
+<p>A good rule of thumb: a <strong>list</strong> is like a column in a table (many values of the same kind), and a <strong>tuple</strong> is like a row (one record, with a fixed meaning for each position).</p>
+<p>Immutability is also a guarantee. If you give a tuple to a function, you know for certain it comes back unchanged: none of last week&rsquo;s aliasing surprises can happen. And in Week 10 you&rsquo;ll see that tuples can be used as dictionary keys, which lists can&rsquo;t.</p>
+<h2 id="unpacking">Unpacking</h2>
+<p><strong>Unpacking</strong> pulls a sequence apart into separate names, in one assignment:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e8"><textarea class="pc-src pc-code" hidden>point = (3, 4)
+x, y = point
+print(x, y)
+name, age, city = [&quot;Ada&quot;, 36, &quot;London&quot;]
+print(name, city)
+first, second, third = &quot;abc&quot;
+print(third)</textarea></div>
+<p>It works with any sequence: tuples, lists, strings, <code>split</code> results. There must be exactly as many names as items:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e9"><textarea class="pc-src pc-code" hidden>x, y = (1, 2, 3)</textarea></div>
+<h3 id="unpacking-in-a-for-loop">Unpacking in a for loop</h3>
+<p>When a list holds pairs, you can unpack each pair as the loop takes it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e10"><textarea class="pc-src pc-code" hidden>scores = [(&quot;Ada&quot;, 93), (&quot;Grace&quot;, 88), (&quot;Alan&quot;, 97)]
+for name, score in scores:
+    print(f&quot;{name} scored {score}&quot;)</textarea></div>
+<p>This is far easier to read than <code>s[0]</code> and <code>s[1]</code> everywhere.</p>
+<h3 id="a-starred-name-takes-the-rest">A starred name takes the rest</h3>
+<p>Put a <code>*</code> before one name, and it collects all the items the others don&rsquo;t take, as a list:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e11"><textarea class="pc-src pc-code" hidden>first, *rest = [1, 2, 3, 4, 5]
+print(first, rest)
+*start, last = &quot;hello&quot;
+print(start, last)
+head, *middle, tail = (10, 20, 30, 40)
+print(head, middle, tail)</textarea></div>
+<h3 id="nested-unpacking">Nested unpacking</h3>
+<p>If the items are themselves sequences, the names can be nested to match:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e12"><textarea class="pc-src pc-code" hidden>record = (&quot;Ada&quot;, (1815, 12, 10))
+name, (year, month, day) = record
+print(name, year)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>a, b = sequence</code> unpacks a sequence into names; the counts must match. A <code>*name</code> collects any extra items into a list. Unpacking works in assignments and in <code>for</code> loops.</p></aside>
+<h2 id="tuples-in-functions-sorting-and-records">Tuples in functions, sorting and records</h2>
+<h3 id="several-return-values">Several return values</h3>
+<p><code>return a, b</code> returns one tuple, which the caller usually unpacks straight away:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e13"><textarea class="pc-src pc-code" hidden>def stats(values):
+    return min(values), max(values), sum(values) / len(values)
+
+low, high, mean = stats([4, 8, 15, 16, 23, 42])
+print(low, high, mean)
+result = stats([1, 2])
+print(result)</textarea></div>
+<h3 id="comparing-tuples">Comparing tuples</h3>
+<p>Tuples compare item by item from the left, just like words compare letter by letter. That&rsquo;s why they make perfect sort keys, as you saw yesterday:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e14"><textarea class="pc-src pc-code" hidden>print((1, 2) &lt; (1, 3))
+print((2, 0) &gt; (1, 99))
+print(sorted([(2, &quot;b&quot;), (1, &quot;z&quot;), (2, &quot;a&quot;)]))</textarea></div>
+<h3 id="tuples-as-records">Tuples as records</h3>
+<p>A list of tuples is a simple table. Each tuple is a row, and each position has a meaning:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d3-e15"><textarea class="pc-src pc-code" hidden>cities = [(&quot;Lagos&quot;, 15.4), (&quot;Cairo&quot;, 22.2), (&quot;Kinshasa&quot;, 17.0), (&quot;Luanda&quot;, 9.3)]
+biggest = max(cities, key=lambda c: c[1])
+name, millions = biggest
+print(f&quot;{name}: {millions} million&quot;)
+for name, pop in sorted(cities, key=lambda c: -c[1]):
+    print(f&quot;{name:&lt;10}{pop:&gt;6.1f}&quot;)</textarea></div>
+<p>In Phase 3 you&rsquo;ll learn <strong>named tuples</strong> and <strong>classes</strong>, which let you write <code>city.name</code> instead of <code>city[0]</code>. For now, unpacking into well-named variables keeps the code readable.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d3-make_tuples" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Make some tuples</div><div class="pc-prompt"><p>Set <code>origin</code> to the tuple <code>(0, 0)</code>, <code>single</code> to a tuple containing just the string <code>"solo"</code>, <code>empty</code> to an empty tuple, and <code>rgb</code> to a tuple of the three numbers in the string <code>"242,194,48"</code> as ints (use <code>split</code> and <code>int</code>, then <code>tuple(...)</code>).</p></div><textarea class="pc-src pc-code" hidden>origin = ___
+single = ___
+empty = ___
+rgb = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each tuple&quot;
+    assert origin == (0, 0) and type(origin) is tuple
+    assert single == (&quot;solo&quot;,) and type(single) is tuple, &quot;A one-item tuple needs a comma: (&#x27;solo&#x27;,).&quot;
+    assert empty == () and type(empty) is tuple
+    assert rgb == (242, 194, 48) and type(rgb) is tuple</textarea><textarea class="pc-src pc-solution" hidden>origin = (0, 0)
+single = (&quot;solo&quot;,)
+empty = ()
+parts = []
+for p in &quot;242,194,48&quot;.split(&quot;,&quot;):
+    parts.append(int(p))
+rgb = tuple(parts)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d3-distance" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Distance between points</div><div class="pc-prompt"><p>Write <code>distance(p, q)</code> where <code>p</code> and <code>q</code> are tuples <code>(x, y)</code>. Unpack them, and return the straight-line distance between them, rounded to 2 places.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert distance((0, 0), (3, 4)) == 5.0
+    assert distance((1, 1), (1, 1)) == 0.0
+    assert distance((-1, 2), (2, -2)) == 5.0
+    assert distance((0, 0), (1, 1)) == 1.41</textarea><textarea class="pc-src pc-solution" hidden>def distance(p, q):
+    x1, y1 = p
+    x2, y2 = q
+    return round(((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5, 2)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d3-min_max" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Two values back</div><div class="pc-prompt"><p>Write <code>bounds(values)</code> that returns a tuple <code>(smallest, largest)</code> for a non-empty list, in one pass, without <code>min</code> or <code>max</code>. Then print <code>Range: 4 to 42</code> for the list <code>[15, 4, 42, 16]</code>, unpacking the result.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_function():
+    &quot;bounds&quot;
+    assert bounds([15, 4, 42, 16]) == (4, 42)
+    assert bounds([7]) == (7, 7)
+    assert &quot;min(&quot; not in source and &quot;max(&quot; not in source
+def test_output():
+    &quot;the printed line&quot;
+    expect_output(&quot;Range: 4 to 42&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def bounds(values):
+    lo = hi = values[0]
+    for v in values[1:]:
+        if v &lt; lo:
+            lo = v
+        if v &gt; hi:
+            hi = v
+    return lo, hi
+
+lo, hi = bounds([15, 4, 42, 16])
+print(f&quot;Range: {lo} to {hi}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d3-loop_unpack" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Unpack in the loop</div><div class="pc-prompt"><p><code>stock</code> is a list of <code>(item, quantity, price)</code> tuples. Print each as <code>Rice: 3 x 8500 = 25500</code>, then <code>Total:</code> and the total value. Unpack each tuple in the <code>for</code> line.</p></div><textarea class="pc-src pc-code" hidden>stock = [(&quot;Rice&quot;, 3, 8500), (&quot;Beans&quot;, 2, 3200), (&quot;Oil&quot;, 1, 4100)]</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the lines&quot;
+    expect_output(&quot;Rice: 3 x 8500 = 25500\nBeans: 2 x 3200 = 6400\nOil: 1 x 4100 = 4100\nTotal: 36000&quot;)
+def test_unpacking():
+    &quot;unpacks in the for line&quot;
+    import re
+    assert re.search(r&quot;for\s+\w+\s*,\s*\w+\s*,\s*\w+\s+in\s+stock&quot;, source), &quot;Write for item, qty, price in stock:&quot;</textarea><textarea class="pc-src pc-solution" hidden>stock = [(&quot;Rice&quot;, 3, 8500), (&quot;Beans&quot;, 2, 3200), (&quot;Oil&quot;, 1, 4100)]
+total = 0
+for item, qty, price in stock:
+    print(f&quot;{item}: {qty} x {price} = {qty * price}&quot;)
+    total += qty * price
+print(&quot;Total:&quot;, total)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d3-star" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Head and tail</div><div class="pc-prompt"><p>Ask for some words on one line with the prompt <code>Words:</code> (at least two). Using starred unpacking, print <code>First:</code>, <code>Last:</code> and <code>Middle:</code> followed by the middle words joined by spaces (which may be empty).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lines&quot;
+    expect_output(&quot;Words: one two three four\nFirst: one\nLast: four\nMiddle: two three&quot;, inputs=[&quot;one two three four&quot;], echo=True)
+    expect_output(&quot;Words: a b\nFirst: a\nLast: b\nMiddle: &quot;, inputs=[&quot;a b&quot;], echo=True)
+def test_star():
+    &quot;uses a starred name&quot;
+    assert &quot;*&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>first, *middle, last = input(&quot;Words: &quot;).split()
+print(&quot;First:&quot;, first)
+print(&quot;Last:&quot;, last)
+print(&quot;Middle:&quot;, &quot; &quot;.join(middle))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d3-oldest" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The oldest</div><div class="pc-prompt"><p><code>people</code> is a list of <code>(name, (year, month, day))</code> tuples, the birth dates as tuples. Print the name of the <strong>oldest</strong> person, using <code>min</code> with a key and nested unpacking or indexing. Because tuples compare item by item, the dates compare correctly.</p></div><textarea class="pc-src pc-code" hidden>people = [(&quot;Grace&quot;, (1906, 12, 9)), (&quot;Ada&quot;, (1815, 12, 10)), (&quot;Alan&quot;, (1912, 6, 23)), (&quot;Charles&quot;, (1815, 12, 26))]</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;Ada&quot;
+    expect_output(&quot;Ada&quot;)</textarea><textarea class="pc-src pc-solution" hidden>people = [(&quot;Grace&quot;, (1906, 12, 9)), (&quot;Ada&quot;, (1815, 12, 10)), (&quot;Alan&quot;, (1912, 6, 23)), (&quot;Charles&quot;, (1815, 12, 26))]
+name, born = min(people, key=lambda p: p[1])
+print(name)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Not a tuple</div><div class="pc-prompt"><p><code>describe</code> expects a tuple and loops over it, but this crashes with <code>TypeError: 'int' object is not iterable</code>. Fix the call by making a one-item tuple.</p></div><textarea class="pc-src pc-code" hidden>def describe(values):
+    for v in values:
+        print(&quot;Value:&quot;, v)
+
+describe((42))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the value&quot;
+    expect_output(&quot;Value: 42&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def describe(values):
+    for v in values:
+        print(&quot;Value:&quot;, v)
+
+describe((42,))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Can&rsquo;t change it</div><div class="pc-prompt"><p>This should move the point 5 to the right, but tuples can&rsquo;t be changed. Build a new tuple instead so it prints <code>(8, 4)</code>.</p></div><textarea class="pc-src pc-code" hidden>point = (3, 4)
+point[0] = point[0] + 5
+print(point)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;(8, 4)&quot;
+    expect_output(&quot;(8, 4)&quot;)</textarea><textarea class="pc-src pc-solution" hidden>point = (3, 4)
+x, y = point
+point = (x + 5, y)
+print(point)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Too many to unpack</div><div class="pc-prompt"><p>Each line has a name and <strong>two</strong> scores, but this crashes with <code>too many values to unpack</code>. Fix the unpacking and print each name with the total of the two scores.</p></div><textarea class="pc-src pc-code" hidden>lines = [&quot;Ada 40 53&quot;, &quot;Grace 38 50&quot;]
+for line in lines:
+    name, score = line.split()
+    print(name, score)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;totals&quot;
+    expect_output(&quot;Ada 93\nGrace 88&quot;)</textarea><textarea class="pc-src pc-solution" hidden>lines = [&quot;Ada 40 53&quot;, &quot;Grace 38 50&quot;]
+for line in lines:
+    name, a, b = line.split()
+    print(name, int(a) + int(b))</textarea></div>
+<div class="parsons" data-id="w009d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Swap with unpacking</div><div class="pc-prompt"><p>Arrange the lines to swap the two items of a pair and print <code>(2, 1)</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["pair = (1, 2)", "a, b = pair", "pair = (b, a)", "print(pair)"], "distractors": ["pair[0], pair[1] = pair[1], pair[0]"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict the tuples</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # len((1, (2, 3), [4, 5, 6]))
+b = ___   # (1, 2) + (3,)
+c = ___   # (7,) * 3
+d = ___   # the value of m after:  f, *m, l = range(5)
+e = ___   # (3, &quot;a&quot;) &lt; (3, &quot;b&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 3, &quot;Three items: 1, a tuple and a list.&quot;
+    assert b == (1, 2, 3)
+    assert c == (7, 7, 7)
+    assert d == [1, 2, 3], &quot;A starred name collects into a list.&quot;
+    assert e is True</textarea><textarea class="pc-src pc-solution" hidden>a = 3
+b = (1, 2, 3)
+c = (7, 7, 7)
+d = [1, 2, 3]
+e = True</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w009d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What makes a tuple?", "answer": 1, "explain": "Brackets only group.", "options": ["The round brackets", "The commas", "The word tuple", "Square brackets"]}, {"type": "mc", "q": "What is <code>type((5))</code>?", "answer": 1, "explain": "(5) is just 5; (5,) is a tuple.", "options": ["tuple", "int", "list"]}, {"type": "mc", "q": "What happens with <code>t = (1, 2); t[0] = 9</code>?", "answer": 1, "explain": "Tuples are immutable.", "options": ["t becomes (9, 2)", "TypeError", "A new tuple is made"]}, {"type": "mc", "q": "Which methods do tuples have?", "answer": 1, "explain": "Only the ones that don&rsquo;t change anything.", "options": ["append and pop", "count and index", "sort and reverse", "None"]}, {"type": "output", "q": "What does this print?", "answer": "['y', 'z']", "explain": "The starred name gets a list of the rest.", "code": "a, *b = \"xyz\"\nprint(b)"}, {"type": "output", "q": "What does this print?", "answer": "3 7 ", "explain": "Each pair is unpacked by the loop.", "code": "for a, b in [(1, 2), (3, 4)]:\n    print(a + b, end=\" \")"}, {"type": "mc", "q": "When is a tuple a better choice than a list?", "answer": 1, "explain": "A tuple is like one row of a table.", "options": ["When you&rsquo;ll add items", "For a fixed group of values with a fixed meaning, like (x, y)", "For sorting in place", "Never"]}, {"type": "text", "q": "What does <code>(1, 9) &lt; (2, 0)</code> give?", "answer": "True", "explain": "The first items decide: 1 &lt; 2."}, {"type": "mc", "q": "What does <code>return a, b</code> return?", "answer": 1, "explain": "The caller usually unpacks it.", "options": ["Two separate values", "One tuple", "A list", "Only a"]}, {"type": "text", "q": "What error does <code>x, y = (1, 2, 3)</code> give?", "answer": ["ValueError", "value error"], "explain": "Too many values to unpack."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the closest pair</div><div class="pc-prompt"><p>Write <code>closest_pair(points)</code> where <code>points</code> is a list of <code>(x, y)</code> tuples (at least two). Return a tuple <code>(p, q, d)</code>: the two points that are closest together, in the order they appear in the list, and their distance rounded to 3 places. If several pairs are equally close, return the first pair found by checking pairs in order (point 0 with 1, 2, 3&hellip;, then point 1 with 2, 3&hellip;, and so on).</p>
+<p>Then read points with the prompt <code>Point (x y):</code> until a blank line, and print <code>Closest: (1, 2) and (2, 2), distance 1.0</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_function():
+    &quot;closest_pair&quot;
+    assert closest_pair([(0, 0), (5, 5), (1, 1), (9, 9)]) == ((0, 0), (1, 1), 1.414)
+    assert closest_pair([(0, 0), (3, 4)]) == ((0, 0), (3, 4), 5.0)
+    assert closest_pair([(0, 0), (1, 0), (5, 0), (6, 0)]) == ((0, 0), (1, 0), 1.0), &quot;A tie: the first pair found wins.&quot;
+def test_program():
+    &quot;the program&quot;
+    expect_output(&quot;Point (x y): 1 2\nPoint (x y): 7 7\nPoint (x y): 2 2\nPoint (x y): \nClosest: (1, 2) and (2, 2), distance 1.0&quot;,
+                  inputs=[&quot;1 2&quot;, &quot;7 7&quot;, &quot;2 2&quot;, &quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>def closest_pair(points):
+    best = None
+    for i in range(len(points)):
+        for j in range(i + 1, len(points)):
+            (x1, y1), (x2, y2) = points[i], points[j]
+            d = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+            if best is None or d &lt; best[2]:
+                best = (points[i], points[j], d)
+    p, q, d = best
+    return p, q, round(d, 3)
+
+points = []
+while True:
+    line = input(&quot;Point (x y): &quot;)
+    if line == &quot;&quot;:
+        break
+    x, y = line.split()
+    points.append((int(x), int(y)))
+p, q, d = closest_pair(points)
+print(f&quot;Closest: {p} and {q}, distance {d}&quot;)</textarea><template class="pc-src pc-hint">Two nested loops, the inner one starting at <code>i + 1</code>, with a best-so-far for the distance. Use <code>&lt;</code> (not <code>&lt;=</code>) so the first of equal pairs is kept.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain when you&rsquo;d store a person&rsquo;s details as a tuple and when a list of people as a list. Then write, from memory, a <code>for</code> loop that unpacks <code>(name, score)</code> pairs, and a line that splits a list into its first item and the rest. Tomorrow: <code>enumerate</code> and <code>zip</code>, two built-ins that make loops over positions and over several lists much cleaner.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w009d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w009d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w009d3", "week": 9, "day": 3, "title": "Tuples and unpacking", "exercises": [{"id": "w009d3-make_tuples", "title": "Make some tuples", "points": 10}, {"id": "w009d3-distance", "title": "Distance between points", "points": 10}, {"id": "w009d3-min_max", "title": "Two values back", "points": 10}, {"id": "w009d3-loop_unpack", "title": "Unpack in the loop", "points": 10}, {"id": "w009d3-star", "title": "Head and tail", "points": 10}, {"id": "w009d3-oldest", "title": "The oldest", "points": 10}, {"id": "w009d3-bug1", "title": "Not a tuple", "points": 10}, {"id": "w009d3-bug2", "title": "Can't change it", "points": 10}, {"id": "w009d3-bug3", "title": "Too many to unpack", "points": 10}, {"id": "w009d3-trace", "title": "Predict the tuples", "points": 15}, {"id": "w009d3-challenge", "title": "Challenge: the closest pair", "points": 25}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="584c8453d2">
+<title>Week 9 Day 4: enumerate and zip | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=584c8453d2">
+<link rel="stylesheet" href="../assets/css/site.css?v=584c8453d2">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=584c8453d2"></script>
+<script src="../assets/vendor/codemirror.js?v=584c8453d2" defer></script>
+<meta name="description" content="Two small built-ins remove a lot of clutter. enumerate gives you each item together with its position, so you never need range(len(...)) again. zip walks...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w009d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 9 Day 4: enumerate and zip">
+<meta property="og:description" content="Two small built-ins remove a lot of clutter. enumerate gives you each item together with its position, so you never need range(len(...)) again. zip walks...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w009d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-9">Week 9: Lists II and tuples</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#enumerate-items-and-their-positions" data-sec="enumerate-items-and-their-positions">enumerate: items and their positions</a></li><li><a href="#zip-several-sequences-side-by-side" data-sec="zip-several-sequences-side-by-side">zip: several sequences side by side</a></li><li><a href="#neighbours-transposing-and-unzipping" data-sec="neighbours-transposing-and-unzipping">Neighbours, transposing and unzipping</a></li><li><a href="#lazy-and-used-up" data-sec="lazy-and-used-up">Lazy, and used up</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w009d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 9, Day 4</span></p>
+      <h1>enumerate and zip</h1>
+      <div class="day-intro"><p>Two small built-ins remove a lot of clutter. <code>enumerate</code> gives you each item together with its position, so you never need <code>range(len(...))</code> again. <code>zip</code> walks through several sequences side by side, pairing their items up. Today you&rsquo;ll use both, learn how they work underneath, and use zip to turn grids round in one line.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Loop over items and their positions with <code>enumerate</code>, starting from any number</li><li>Walk through two or more sequences in step with <code>zip</code>, and know what happens when their lengths differ</li><li>Compare neighbours with <code>zip(items, items[1:])</code></li><li>Transpose a grid and unzip pairs with <code>zip(*...)</code></li><li>Explain that enumerate and zip produce their pairs one at a time, and can only be used once</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="enumerate: 30 min"></span><span class="plan-seg s0" style="flex:35" title="zip: 35 min"></span><span class="plan-seg s1" style="flex:25" title="Neighbours, transposing and unzipping: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Lazy, and used up: 20 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">enumerate</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">zip</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:15</span><span class="plan-what">Neighbours, transposing and unzipping</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Lazy, and used up</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w009d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w009d4.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w009d4-p1"><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+scores = [93, 88, 97]
+for i in range(len(names)):
+    print(i + 1, names[i], scores[i])</textarea></div>
+<p>That loop works, but <code>range(len(names))</code>, <code>names[i]</code> and <code>scores[i]</code> are all scaffolding: the loop is really about each <strong>name</strong>, its <strong>number</strong>, and its <strong>score</strong>. Today you&rsquo;ll write it without the scaffolding.</p>
+<h2 id="enumerate-items-and-their-positions">enumerate: items and their positions</h2>
+<p><code>enumerate(sequence)</code> gives you each item <strong>together with its position</strong>, as a pair. Unpack the pair in the <code>for</code> line:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e2"><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+for i, name in enumerate(names):
+    print(i, name)</textarea></div>
+<p>Positions start at 0. For a numbered list, which people expect to start at 1, give a <code>start</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e3"><textarea class="pc-src pc-code" hidden>for n, name in enumerate([&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;], start=1):
+    print(f&quot;{n}. {name}&quot;)</textarea></div>
+<p><code>enumerate</code> works on any sequence, strings included:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e4"><div class="pc-title">Where are the capitals?</div><textarea class="pc-src pc-code" hidden>for i, ch in enumerate(&quot;Python Atlas&quot;):
+    if ch.isupper():
+        print(ch, &quot;at&quot;, i)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>for i, item in enumerate(items):</code> gives each item with its position. Use it instead of <code>for i in range(len(items)):</code> whenever you need both. Note the order: the <strong>position comes first</strong>.</p></aside>
+<p>You still use positions directly when you <strong>change</strong> a list in place, or look at a neighbour, but <code>enumerate</code> gives you the item as well:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e5"><textarea class="pc-src pc-code" hidden>prices = [100, 250, 80]
+for i, p in enumerate(prices):
+    prices[i] = p * 2
+print(prices)</textarea></div>
+<h2 id="zip-several-sequences-side-by-side">zip: several sequences side by side</h2>
+<p><code>zip(a, b)</code> pairs up the first item of <code>a</code> with the first of <code>b</code>, the second with the second, and so on:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e6"><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+scores = [93, 88, 97]
+for name, score in zip(names, scores):
+    print(f&quot;{name:&lt;6}{score:&gt;4}&quot;)</textarea></div>
+<p>It&rsquo;s named after a zip fastener, bringing two sides together tooth by tooth. It works with any number of sequences:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e7"><textarea class="pc-src pc-code" hidden>days = [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;]
+highs = [31, 29, 33]
+lows = [24, 23, 25]
+for day, hi, lo in zip(days, highs, lows):
+    print(day, &quot;range&quot;, hi - lo)</textarea></div>
+<h3 id="when-the-lengths-differ">When the lengths differ</h3>
+<p><code>zip</code> stops as soon as the <strong>shortest</strong> sequence runs out, and says nothing about it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e8"><textarea class="pc-src pc-code" hidden>print(list(zip([1, 2, 3, 4], [&quot;a&quot;, &quot;b&quot;])))</textarea></div>
+<p>That&rsquo;s handy sometimes, and a silent bug at others, when you expected the lengths to match. In Python 3.10 and later you can write <code>zip(a, b, strict=True)</code> to make it raise an error instead. Otherwise, check the lengths yourself when they matter.</p>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>If two lists should line up but might not, <code>zip</code> hides the problem by stopping early. Check <code>len(a) == len(b)</code> first, or use <code>strict=True</code>.</p></aside>
+<h3 id="combining-enumerate-and-zip">Combining enumerate and zip</h3>
+<p>They combine naturally. The pair from <code>zip</code> becomes the item of <code>enumerate</code>, so unpack it with brackets:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e9"><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+scores = [93, 88, 97]
+for rank, (name, score) in enumerate(zip(names, scores), start=1):
+    print(rank, name, score)</textarea></div>
+<h2 id="neighbours-transposing-and-unzipping">Neighbours, transposing and unzipping</h2>
+<h3 id="neighbours">Neighbours</h3>
+<p><code>zip(items, items[1:])</code> pairs each item with the next one. It&rsquo;s the neighbour pattern from Week 8, with no indexes at all:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e10"><textarea class="pc-src pc-code" hidden>temps = [21, 23, 22, 25, 30]
+for today, tomorrow in zip(temps, temps[1:]):
+    print(today, &quot;-&gt;&quot;, tomorrow, &quot;change&quot;, tomorrow - today)</textarea></div>
+<p>Because <code>temps[1:]</code> is one item shorter, <code>zip</code> stops at exactly the right place, with no <code>IndexError</code> to worry about.</p>
+<h3 id="transposing-with-zip">Transposing with zip(*&hellip;)</h3>
+<p>Remember that a star in a call spreads a list out into separate arguments. <code>zip(*grid)</code> passes each <strong>row</strong> as a separate argument, so zip pairs up the first items of every row (column 0), then the second items (column 1), and so on:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e11"><textarea class="pc-src pc-code" hidden>grid = [[1, 2, 3], [4, 5, 6]]
+for column in zip(*grid):
+    print(column)
+transposed = []
+for column in zip(*grid):
+    transposed.append(list(column))
+print(transposed)</textarea></div>
+<p>The transpose that took nested loops on Day 1 is now one loop.</p>
+<h3 id="unzipping">Unzipping</h3>
+<p>The same trick separates a list of pairs back into separate sequences:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e12"><textarea class="pc-src pc-code" hidden>pairs = [(&quot;Ada&quot;, 93), (&quot;Grace&quot;, 88), (&quot;Alan&quot;, 97)]
+names, scores = zip(*pairs)
+print(names)
+print(scores)</textarea></div>
+<h2 id="lazy-and-used-up">Lazy, and used up</h2>
+<p>Look at what <code>enumerate</code> and <code>zip</code> give you on their own:</p>
+<div class="pc pc-example" data-kind="example" data-id="w009d4-e13"><textarea class="pc-src pc-code" hidden>z = zip([1, 2], [&quot;a&quot;, &quot;b&quot;])
+print(z)
+print(list(z))
+print(list(z))</textarea></div>
+<p>They don&rsquo;t make a list of all the pairs at once. They&rsquo;re <strong>iterators</strong>: objects that produce the next pair only when a loop (or <code>list</code>) asks for it. That saves memory when the sequences are long. But an iterator can be used only <strong>once</strong>: after you&rsquo;ve gone through it, it&rsquo;s empty. The second <code>list(z)</code> gives <code>[]</code>.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Don&rsquo;t store a <code>zip</code> or <code>enumerate</code> and loop over it twice. If you need the pairs again, turn them into a list first (<code>pairs = list(zip(a, b))</code>) or call <code>zip</code> again.</p></aside>
+<p>You&rsquo;ll learn how iterators work, and how to write your own, in Phase 5.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-numbered" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A numbered list</div><div class="pc-prompt"><p>Ask for items on one line, separated by commas, with the prompt <code>Items:</code>. Print each one stripped, numbered from 1, like <code>1. bread</code>. Use <code>enumerate</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several items&quot;
+    expect_output(&quot;Items: bread, milk , eggs\n1. bread\n2. milk\n3. eggs&quot;, inputs=[&quot;bread, milk , eggs&quot;], echo=True)
+def test_enumerate():
+    &quot;uses enumerate&quot;
+    assert &quot;enumerate(&quot; in source and &quot;range(len&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>items = input(&quot;Items: &quot;).split(&quot;,&quot;)
+for n, item in enumerate(items, start=1):
+    print(f&quot;{n}. {item.strip()}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-find_all" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">All the positions</div><div class="pc-prompt"><p>Write <code>positions(items, value)</code> that returns a list of the positions where <code>value</code> appears, using <code>enumerate</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert positions([5, 1, 5, 5], 5) == [0, 2, 3]
+    assert positions(&quot;banana&quot;, &quot;a&quot;) == [1, 3, 5]
+    assert positions([], 1) == []
+    assert &quot;enumerate(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def positions(items, value):
+    result = []
+    for i, item in enumerate(items):
+        if item == value:
+            result.append(i)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-report" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Side by side</div><div class="pc-prompt"><p><code>names</code> and <code>marks</code> line up. Print each person as <code>Ada: 93 (pass)</code> or <code>Bo: 41 (fail)</code>, using <code>zip</code>. A pass is 50 or more.</p></div><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Cy&quot;, &quot;Di&quot;]
+marks = [93, 41, 50, 67]</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the lines&quot;
+    expect_output(&quot;Ada: 93 (pass)\nBo: 41 (fail)\nCy: 50 (pass)\nDi: 67 (pass)&quot;)
+def test_zip():
+    &quot;uses zip&quot;
+    assert &quot;zip(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>names = [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Cy&quot;, &quot;Di&quot;]
+marks = [93, 41, 50, 67]
+for name, mark in zip(names, marks):
+    result = &quot;pass&quot; if mark &gt;= 50 else &quot;fail&quot;
+    print(f&quot;{name}: {mark} ({result})&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-dot" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Dot product</div><div class="pc-prompt"><p>The <strong>dot product</strong> of two lists of numbers of the same length is the sum of the products of their matching items: <code>[1, 2, 3]</code> and <code>[4, 5, 6]</code> give 1×4 + 2×5 + 3×6 = 32. Write <code>dot(a, b)</code> with <code>zip</code>. If the lengths differ, return <code>None</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert dot([1, 2, 3], [4, 5, 6]) == 32
+    assert dot([], []) == 0
+    assert dot([1, 2], [3]) is None
+    assert dot([2.5], [2]) == 5.0</textarea><textarea class="pc-src pc-solution" hidden>def dot(a, b):
+    if len(a) != len(b):
+        return None
+    total = 0
+    for x, y in zip(a, b):
+        total += x * y
+    return total</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-changes" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Biggest rise</div><div class="pc-prompt"><p>Write <code>biggest_rise(values)</code> that returns the largest increase from one value to the next, using <code>zip(values, values[1:])</code>. If there are fewer than two values, or no value rises, return 0.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert biggest_rise([21, 23, 22, 25, 30]) == 5
+    assert biggest_rise([5, 4, 3]) == 0
+    assert biggest_rise([7]) == 0
+    assert biggest_rise([1, 10, 2, 8]) == 9
+    assert &quot;zip(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def biggest_rise(values):
+    best = 0
+    for a, b in zip(values, values[1:]):
+        if b - a &gt; best:
+            best = b - a
+    return best</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-hamming" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How different?</div><div class="pc-prompt"><p>The <strong>Hamming distance</strong> between two strings of the same length is the number of positions where their characters differ. It&rsquo;s used to count errors in transmitted data and mutations in DNA. Write <code>hamming(a, b)</code> with <code>zip</code>, returning <code>None</code> if the lengths differ.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert hamming(&quot;karolin&quot;, &quot;kathrin&quot;) == 3
+    assert hamming(&quot;GATTACA&quot;, &quot;GATTACA&quot;) == 0
+    assert hamming(&quot;abc&quot;, &quot;ab&quot;) is None
+    assert hamming(&quot;&quot;, &quot;&quot;) == 0</textarea><textarea class="pc-src pc-solution" hidden>def hamming(a, b):
+    if len(a) != len(b):
+        return None
+    count = 0
+    for x, y in zip(a, b):
+        if x != y:
+            count += 1
+    return count</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-columns" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Column averages</div><div class="pc-prompt"><p>Write <code>column_averages(grid)</code> that returns a list of the average of each column of a grid of numbers, each rounded to 2 places, using <code>zip(*grid)</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several grids&quot;
+    assert column_averages([[1, 2, 3], [4, 5, 6]]) == [2.5, 3.5, 4.5]
+    assert column_averages([[10], [20], [40]]) == [23.33]
+    assert &quot;zip(*&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def column_averages(grid):
+    result = []
+    for column in zip(*grid):
+        result.append(round(sum(column) / len(column), 2))
+    return result</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Wrong way round</div><div class="pc-prompt"><p>This should print <code>0 a</code>, <code>1 b</code>, <code>2 c</code>, but it crashes with a <code>TypeError</code>. Fix the order of the names in the <code>for</code> line.</p></div><textarea class="pc-src pc-code" hidden>for letter, i in enumerate(&quot;abc&quot;):
+    print(i + 0, letter)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;positions then letters&quot;
+    expect_output(&quot;0 a\n1 b\n2 c&quot;)</textarea><textarea class="pc-src pc-solution" hidden>for i, letter in enumerate(&quot;abc&quot;):
+    print(i + 0, letter)</textarea><template class="pc-src pc-hint"><code>enumerate</code> gives the position first, then the item.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The second loop is empty</div><div class="pc-prompt"><p>This should print the pairs, then print how many pairs there were, but it prints <code>Pairs: 0</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>pairs = zip([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [1, 2, 3])
+for letter, number in pairs:
+    print(letter, number)
+print(&quot;Pairs:&quot;, len(list(pairs)))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three pairs&quot;
+    expect_output(&quot;a 1\nb 2\nc 3\nPairs: 3&quot;)</textarea><textarea class="pc-src pc-solution" hidden>pairs = list(zip([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [1, 2, 3]))
+for letter, number in pairs:
+    print(letter, number)
+print(&quot;Pairs:&quot;, len(pairs))</textarea><template class="pc-src pc-hint">A zip can only be gone through once. Make a list of the pairs at the start.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w009d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A missing student</div><div class="pc-prompt"><p>Five names but only four marks, and nobody notices: the last student just disappears. Make <code>report</code> return <code>"Lengths differ"</code> when the lists don&rsquo;t line up, and otherwise the lines joined by <code>"\n"</code>.</p></div><textarea class="pc-src pc-code" hidden>def report(names, marks):
+    lines = []
+    for name, mark in zip(names, marks):
+        lines.append(f&quot;{name} {mark}&quot;)
+    return &quot;\n&quot;.join(lines)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert report([&quot;A&quot;, &quot;B&quot;], [1, 2]) == &quot;A 1\nB 2&quot;
+    assert report([&quot;A&quot;, &quot;B&quot;, &quot;C&quot;], [1, 2]) == &quot;Lengths differ&quot;</textarea><textarea class="pc-src pc-solution" hidden>def report(names, marks):
+    if len(names) != len(marks):
+        return &quot;Lengths differ&quot;
+    lines = []
+    for name, mark in zip(names, marks):
+        lines.append(f&quot;{name} {mark}&quot;)
+    return &quot;\n&quot;.join(lines)</textarea></div>
+<div class="parsons" data-id="w009d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Rank them</div><div class="pc-prompt"><p>Arrange the lines to print the names with their scores, numbered from 1. One line is a trap.</p></div><script type="application/json">{"lines": ["names = [\"Ada\", \"Grace\"]", "scores = [93, 88]", "for rank, (name, score) in enumerate(zip(names, scores), start=1):", "    print(rank, name, score)"], "distractors": ["for rank, name, score in enumerate(zip(names, scores), start=1):"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # list(enumerate(&quot;ab&quot;, start=5))
+b = ___   # list(zip([1, 2, 3], &quot;xy&quot;))
+c = ___   # list(zip(*[[1, 2], [3, 4], [5, 6]]))
+d = ___   # list(zip(&quot;ab&quot;, [1, 2], &quot;xyz&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == [(5, &quot;a&quot;), (6, &quot;b&quot;)]
+    assert b == [(1, &quot;x&quot;), (2, &quot;y&quot;)]
+    assert c == [(1, 3, 5), (2, 4, 6)]
+    assert d == [(&quot;a&quot;, 1, &quot;x&quot;), (&quot;b&quot;, 2, &quot;y&quot;)]</textarea><textarea class="pc-src pc-solution" hidden>a = [(5, &quot;a&quot;), (6, &quot;b&quot;)]
+b = [(1, &quot;x&quot;), (2, &quot;y&quot;)]
+c = [(1, 3, 5), (2, 4, 6)]
+d = [(&quot;a&quot;, 1, &quot;x&quot;), (&quot;b&quot;, 2, &quot;y&quot;)]</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w009d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>enumerate</code> give for each item?", "answer": 1, "explain": "Position first.", "options": ["The item only", "A pair: (position, item)", "A pair: (item, position)", "The position only"]}, {"type": "output", "q": "What does this print?", "answer": "1 h\n2 i", "explain": "Counting starts at 1.", "code": "for i, c in enumerate(\"hi\", start=1):\n    print(i, c)"}, {"type": "text", "q": "What does <code>list(zip([1, 2, 3], [4, 5]))</code> give?", "answer": ["[(1, 4), (2, 5)]"], "explain": "zip stops at the shortest."}, {"type": "mc", "q": "What does <code>zip(items, items[1:])</code> give?", "answer": 1, "explain": "The neighbour pattern without indexes.", "options": ["Each item twice", "Each item paired with the next one", "The items reversed", "An error"]}, {"type": "mc", "q": "What does <code>zip(*grid)</code> do to a grid?", "answer": 1, "explain": "The star passes each row as a separate argument.", "options": ["Sorts it", "Gives its columns", "Flattens it", "Copies it"]}, {"type": "output", "q": "What does this print?", "answer": "[]", "explain": "An iterator is used up after one pass.", "code": "z = zip(\"ab\", \"cd\")\nlist(z)\nprint(list(z))"}, {"type": "mc", "q": "How do you separate <code>[(\"a\", 1), (\"b\", 2)]</code> into two sequences?", "answer": 1, "explain": "zip(*&hellip;) undoes zip.", "options": ["<code>zip(pairs)</code>", "<code>a, b = zip(*pairs)</code>", "<code>pairs.split()</code>", "<code>unzip(pairs)</code>"]}, {"type": "mc", "q": "Why can zip hide a bug?", "answer": 1, "explain": "Check lengths when they should match.", "options": ["It&rsquo;s slow", "It silently stops at the shortest sequence", "It changes the lists", "It sorts them"]}, {"type": "mc", "q": "What replaces <code>for i in range(len(x)): print(i, x[i])</code>?", "answer": 1, "explain": "enumerate gives both.", "options": ["<code>for i in x:</code>", "<code>for i, v in enumerate(x):</code> then <code>print(i, v)</code>", "<code>for i, v in zip(x):</code>"]}, {"type": "mc", "q": "What kind of object do enumerate and zip return?", "answer": 1, "explain": "Call list() on it to see all the pairs.", "options": ["A list", "An iterator that produces pairs one at a time", "A string", "A tuple of everything"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w009d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a little spreadsheet</div><div class="pc-prompt"><p>Data often arrives as lines of comma-separated values with a header line. Write <code>summarise(text)</code> that takes such text, where every column after the first holds numbers, and returns a report string. For</p>
+<pre><code>name,maths,english,science
+Ada,93,71,88
+Grace,88,95,79
+Alan,97,62,91
+</code></pre>
+<p>it returns:</p>
+<pre><code>subject   average  best
+maths       92.67  Alan
+english     76.00  Grace
+science     86.00  Alan
+</code></pre>
+<p>The subject is left-aligned in 8, the average right-aligned in 9 with 2 places, then two spaces and the name of the student with the highest mark in that subject (the first if tied). Use <code>zip</code> to work with the columns.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def build(text):
+    lines = text.strip().splitlines()
+    header = lines[0].split(&quot;,&quot;)
+    rows = [l.split(&quot;,&quot;) for l in lines[1:]]
+    names = [r[0] for r in rows]
+    out = [f&quot;{&#x27;subject&#x27;:&lt;8}{&#x27;average&#x27;:&gt;9}  best&quot;]
+    for j, subject in enumerate(header[1:], start=1):
+        col = [float(r[j]) for r in rows]
+        best = names[col.index(max(col))]
+        out.append(f&quot;{subject:&lt;8}{sum(col) / len(col):&gt;9.2f}  {best}&quot;)
+    return &quot;\n&quot;.join(out)
+def test_example():
+    &quot;the example&quot;
+    t = &quot;name,maths,english,science\nAda,93,71,88\nGrace,88,95,79\nAlan,97,62,91&quot;
+    assert summarise(t) == build(t), &quot;Expected:\n&quot; + build(t)
+def test_other():
+    &quot;another table&quot;
+    t = &quot;who,q1,q2\nX,5,5\nY,5,9.5\nZ,1,9.5&quot;
+    assert summarise(t) == build(t), &quot;Expected:\n&quot; + build(t)</textarea><textarea class="pc-src pc-solution" hidden>def summarise(text):
+    lines = text.strip().splitlines()
+    subjects = lines[0].split(&quot;,&quot;)[1:]
+    rows = []
+    for line in lines[1:]:
+        rows.append(line.split(&quot;,&quot;))
+    columns = list(zip(*rows))
+    names = columns[0]
+    report = [f&quot;{&#x27;subject&#x27;:&lt;8}{&#x27;average&#x27;:&gt;9}  best&quot;]
+    for subject, column in zip(subjects, columns[1:]):
+        marks = []
+        for m in column:
+            marks.append(float(m))
+        best_name = names[marks.index(max(marks))]
+        report.append(f&quot;{subject:&lt;8}{sum(marks) / len(marks):&gt;9.2f}  {best_name}&quot;)
+    return &quot;\n&quot;.join(report)</textarea><template class="pc-src pc-hint">Split the text into lines, the header into subject names, and each other line into a row. <code>names</code> is the first item of every row.</template><template class="pc-src pc-hint"><code>zip(*rows)</code> gives the columns. The first column is the names; pair the others with the subject names using <code>zip(subjects, columns[1:])</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Rewrite two loops from earlier this week that used <code>range(len(...))</code>, one with <code>enumerate</code> and one with <code>zip</code>. Then explain why a <code>zip</code> stored in a variable is empty the second time you loop over it. Tomorrow: list comprehensions, the one-line way to filter and transform that you&rsquo;ll see in almost every Python program.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w009d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w009d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w009d4", "week": 9, "day": 4, "title": "enumerate and zip", "exercises": [{"id": "w009d4-numbered", "title": "A numbered list", "points": 10}, {"id": "w009d4-find_all", "title": "All the positions", "points": 10}, {"id": "w009d4-report", "title": "Side by side", "points": 10}, {"id": "w009d4-dot", "title": "Dot product", "points": 10}, {"id": "w009d4-changes", "title": "Biggest rise", "points": 10}, {"id": "w009d4-hamming", "title": "How different?", "points": 10}, {"id": "w009d4-columns", "title": "Column averages", "points": 15}, {"id": "w009d4-bug1", "title": "Wrong way round", "points": 10}, {"id": "w009d4-bug2", "title": "The second loop is empty", "points": 10}, {"id": "w009d4-bug3", "title": "A missing student", "points": 10}, {"id": "w009d4-trace", "title": "Predict them", "points": 15}, {"id": "w009d4-challenge", "title": "Challenge: a little spreadsheet", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
