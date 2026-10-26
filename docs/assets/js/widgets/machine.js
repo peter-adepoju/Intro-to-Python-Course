@@ -75,7 +75,7 @@ export default function machine(el, { program = "add" } = {}) {
       s.append(svg("text", { x: x + 48, y: cy + 84, "text-anchor": "middle", class: "mono", "font-size": 15, "font-weight": 600, text: val }));
     };
     reg("program counter", String(pc), cx + 14, active.pc);
-    reg("instruction", ir ? fmt(ir) : "—", cx + 122, active.ir);
+    reg("instruction", ir ? fmt(ir) : "-", cx + 122, active.ir);
     reg("accumulator", String(acc), cx + 230, active.acc);
     s.append(svg("text", { x: cx + 14, y: cy + 120, class: "dim", "font-size": 12, text: halted ? "Halted." : `Next phase: ${phase}` }));
     if (active.cell !== undefined) {

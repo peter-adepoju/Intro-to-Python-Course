@@ -210,7 +210,7 @@ PHASES = [
                 FORGE,
             ]),
             ("Consolidation project", [
-                "Project: a command-line expense tracker — design",
+                "Project: a command-line expense tracker (design)",
                 "Project: core logic with tests",
                 "Project: files and persistence",
                 "Project: command-line interface",
@@ -315,7 +315,7 @@ PHASES = [
                 FORGE,
             ]),
             ("Consolidation project", [
-                "Project: a library management system — design",
+                "Project: a library management system (design)",
                 "Project: domain classes",
                 "Project: persistence layer",
                 "Project: interface",
@@ -565,7 +565,7 @@ PHASES = [
                 FORGE,
             ]),
             ("Consolidation project", [
-                "Project: a tiny interpreter — design",
+                "Project: a tiny interpreter (design)",
                 "Project: tokeniser",
                 "Project: parser",
                 "Project: evaluator",
@@ -654,7 +654,7 @@ PHASES = [
                 FORGE,
             ]),
             ("Consolidation project", [
-                "Project: a full API — design",
+                "Project: a full API (design)",
                 "Project: database and models",
                 "Project: endpoints and auth",
                 "Project: tests and CI",

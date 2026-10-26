@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="../">
 <meta name="site-version" content="2026.10.1">
-<title>Week 1 Day 2: Values and types; Python as a calculator — Python Atlas</title>
+<title>Week 1 Day 2: Values and types; Python as a calculator | Python Atlas</title>
 <meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,7 +64,7 @@
 <div class="pc pc-predict" data-kind="predict" data-id="w001d2-p1"><textarea class="pc-src pc-code" hidden>print(&quot;5 + 5&quot;)
 print(5 + 5)
 print(&quot;5&quot;, &quot;+&quot;, 5)</textarea></div>
-<p>If all three were right, you&rsquo;re ready. If not, re-read <a href="w001d1.html#printing-numbers">Printing numbers</a> from Day 1 — it&rsquo;ll take two minutes, and today builds on it.</p>
+<p>If all three were right, you&rsquo;re ready. If not, re-read <a href="w001d1.html#printing-numbers">Printing numbers</a> from Day 1. It&rsquo;ll take two minutes, and today builds on it.</p>
 <h2 id="values-have-types">Values have types</h2>
 <p>A <strong>value</strong> is a single piece of data: <code>42</code>, <code>3.14</code>, <code>"hello"</code>. Every value has a <strong>type</strong>, which tells Python what kind of thing it is and what you can do with it. Remember the eight switches from yesterday: the same bits can be a number or a letter. The type decides.</p>
 <p>Today&rsquo;s four basic types:</p>
@@ -104,7 +104,7 @@ print(&quot;5&quot;, &quot;+&quot;, 5)</textarea></div>
 </tr>
 </tbody>
 </table>
-<p>Try sorting these values into their types. Then ask Python to check. Some are traps — look closely at quotes and decimal points.</p>
+<p>Try sorting these values into their types. Then ask Python to check. Some are traps, so look closely at quotes and decimal points.</p>
 <figure class="widget" data-widget="typesorter"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Twelve values, four types. Some are traps: look closely at quotes and decimal points.</figcaption></figure>
 <p>The rule that catches most people: <strong>anything in quotes is a string</strong>, even if it looks like a number. <code>"42"</code> is text made of the characters <code>4</code> and <code>2</code>. And <code>2.0</code> is a float, not an int, because it has a decimal point.</p>
 <h3 id="asking-python-type">Asking Python: type()</h3>
@@ -120,7 +120,7 @@ print(type(True))</textarea></div>
 <ul>
 <li>Long numbers can use underscores to make them readable: <code>1_000_000</code> is one million. The underscores are ignored.</li>
 <li><code>1e3</code> means 1 × 10³ = <code>1000.0</code> (a float). <code>2.5e-3</code> is <code>0.0025</code>. This is <em>scientific notation</em>.</li>
-<li>Don&rsquo;t write commas inside numbers: <code>1,000</code> isn&rsquo;t one thousand in Python — it&rsquo;s two values, <code>1</code> and <code>0</code>, separated by a comma.</li>
+<li>Don&rsquo;t write commas inside numbers: <code>1,000</code> isn&rsquo;t one thousand in Python. It&rsquo;s two values, <code>1</code> and <code>0</code>, separated by a comma.</li>
 </ul>
 <div class="pc pc-predict" data-kind="predict" data-id="w001d2-p3"><textarea class="pc-src pc-code" hidden>print(1_000_000)
 print(1e3)
@@ -182,7 +182,7 @@ print(1,000)</textarea></div>
 </tr>
 </tbody>
 </table>
-<p><code>//</code> and <code>%</code> are a pair: <code>7 // 2</code> is how many whole 2s fit into 7 (three), and <code>7 % 2</code> is what&rsquo;s left over (one). On Day 4 you&rsquo;ll explore them properly — they&rsquo;re more useful than they look.</p>
+<p><code>//</code> and <code>%</code> are a pair: <code>7 // 2</code> is how many whole 2s fit into 7 (three), and <code>7 % 2</code> is what&rsquo;s left over (one). On Day 4 you&rsquo;ll explore them properly. They&rsquo;re more useful than they look.</p>
 <div class="pc pc-example" data-kind="example" data-id="w001d2-e4"><textarea class="pc-src pc-code" hidden>print(17 / 5)
 print(17 // 5)
 print(17 % 5)

@@ -89,7 +89,7 @@ FRIENDLY = [
      "Lines that start a block (if, else, while, for, def, class) must end with a colon :"),
     ("SyntaxError", "invalid syntax",
      "Python couldn't understand this line as written. Look for a missing operator, comma, quote or bracket "
-     "near the place the arrow points to — sometimes the real mistake is on the line before."),
+     "near the place the arrow points to. Sometimes the real mistake is on the line before."),
     ("SyntaxError", "",
      "Python couldn't read your code, so none of it ran. The arrow points at where it got confused."),
     ("IndentationError", "",
@@ -100,7 +100,7 @@ FRIENDLY = [
     ("TypeError", "unsupported operand",
      "This operator doesn't work for these two types of value. Check the type() of each side."),
     ("TypeError", "not callable",
-     "You put ( ) after something that isn't a function — often a variable that has the same name as a "
+     "You put ( ) after something that isn't a function. Often it's a variable that has the same name as a "
      "function, or a missing operator such as 2(3) instead of 2*(3)."),
     ("TypeError", "",
      "A value of the wrong type was used here. Check what type each value is with type()."),
@@ -719,7 +719,7 @@ def name_check(name):
     if name[0].isdigit():
         issues.append("Names can't start with a digit.")
     if " " in name:
-        issues.append("Names can't contain spaces — use an underscore: " + name.replace(" ", "_"))
+        issues.append("Names can't contain spaces. Use an underscore: " + name.replace(" ", "_"))
     if "-" in name:
         issues.append("A hyphen means minus to Python. Use an underscore instead: " + name.replace("-", "_"))
     bad = sorted({c for c in name if not (c.isalnum() or c == "_") and c not in " -"})
@@ -732,7 +732,7 @@ def name_check(name):
     warnings = []
     if ok and hasattr(builtins, name):
         warnings.append(f"Allowed, but '{name}' is already the name of a built-in. Using it hides the built-in "
-                        f"for the rest of your program — a classic source of confusing bugs.")
+                        f"for the rest of your program, a classic source of confusing bugs.")
     if ok and any(c.isupper() for c in name) and not name.isupper():
         warnings.append("Allowed, but Python style is lower_case_with_underscores for variables.")
     if ok and len(name) == 1 and name in "lIO":

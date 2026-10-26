@@ -52,9 +52,9 @@ export default function strruler(el, { text = "Python", mode = "slice" } = {}) {
       row("font-size:.75rem;color:var(--blue)", [...s].map((_, i) => i)),
       h("div", { style: "display:flex;padding-left:1px" }, chars),
       row("font-size:.75rem;color:var(--violet)", [...s].map((_, i) => i - s.length)));
-    if (error) note.textContent = error.startsWith("IndexError") ? `There is no position ${num(iIdx)} — valid positions are 0 to ${s.length - 1}, or -1 to -${s.length}.` : error;
+    if (error) note.textContent = error.startsWith("IndexError") ? `There is no position ${num(iIdx)}. Valid positions are 0 to ${s.length - 1}, or -1 to -${s.length}.` : error;
     else if (modeSel.value === "index") note.textContent = "Blue numbers count from the left starting at 0; purple numbers count from the right starting at -1. Both name the same boxes.";
-    else note.textContent = `Python reads this as start=${resolved[0]}, stop=${resolved[1]}, step=${resolved[2]}. It takes positions from start up to — but not including — stop. The small numbers show the order they're picked in. A slice never raises IndexError: out-of-range ends are simply clipped.`;
+    else note.textContent = `Python reads this as start=${resolved[0]}, stop=${resolved[1]}, step=${resolved[2]}. It takes positions from start up to, but not including, stop. The small numbers show the order they're picked in. A slice never raises IndexError: out-of-range ends are simply clipped.`;
   }
   [tIn, iStart, iStop, iStep, iIdx].forEach((x) => x.addEventListener("input", go));
   modeSel.onchange = () => { controls(); go(); };

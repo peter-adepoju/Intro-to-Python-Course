@@ -79,7 +79,7 @@ export default function labels(el, { scenario = "copy" } = {}) {
     });
     s.append(svg("defs", {}, svg("marker", { id: "lb-head", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto" }, svg("path", { d: "M0,0 L10,5 L0,10 z", fill: "var(--blue)" }))));
     const msgs = {
-      copy: ["Nothing has run yet.", "x = 5: Python makes the object 5 and sticks the label x on it.", "y = x: no copying! y becomes a second label on the same object.", "x = 7: x is moved to a new object 7. y still points at 5 — the boxes picture gets this right, but for the wrong reason."],
+      copy: ["Nothing has run yet.", "x = 5: Python makes the object 5 and sticks the label x on it.", "y = x: no copying! y becomes a second label on the same object.", "x = 7: x is moved to a new object 7. y still points at 5. The boxes picture gets this right, but for the wrong reason."],
       swap: ["Nothing has run yet.", "a points at 'red'.", "b points at 'blue'.", "a, b = b, a: Python reads the right side first ('blue', 'red'), then moves both labels at once. No temporary variable needed."],
       grow: ["Nothing has run yet.", "score points at 10.", "score + 1 is worked out first (11), then the label score moves to the new object. The 10 object, unlabelled, is thrown away.", "Same again: 12. ints can't change; the label moves instead."],
     };

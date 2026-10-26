@@ -307,7 +307,7 @@ def check(tests_src):
         try:
             fn(); ok += 1; print("✓", label)
         except AssertionError as e:
-            print("✗", label, "—", e or "not quite yet")
+            print("✗", label + ":", e or "not quite yet")
     print(f"{ok} of {len(tests)} checks passed.")
 '''
 
@@ -326,7 +326,7 @@ def notebook(day_meta, day: Day) -> dict:
     mdcell(f"# Week {day_meta['week']}, Day {day_meta['day']}: {day_meta['title']}\n\n"
            f"Companion notebook. The interactive figures, X-ray views, quizzes and auto-marked "
            f"exercises are on the [lesson page]({site}). Use this notebook to keep your own copy of the code.\n\n"
-           "**How to use it:** run each cell with Shift+Enter. Change the code and run it again — that's how you learn.")
+           "**How to use it:** run each cell with Shift+Enter. Change the code and run it again: that's how you learn.")
     has_check = any(k == "check" for k, _ in day.cells)
     if has_check:
         codecell(CHECK_HELPER)

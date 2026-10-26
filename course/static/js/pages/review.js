@@ -38,7 +38,7 @@ function stats() {
     h("div", {}, h("strong", {}, dueList().length), h("span", {}, "due now")),
     h("div", {}, h("strong", {}, week), h("span", {}, "due this week")),
     h("div", {}, h("strong", {}, all.length), h("span", {}, "cards collected")),
-    h("div", {}, h("strong", {}, seen ? `${right}/${seen}` : "—"), h("span", {}, "right this session"))));
+    h("div", {}, h("strong", {}, seen ? `${right}/${seen}` : "-"), h("span", {}, "right this session"))));
 }
 
 function next() {
@@ -48,7 +48,7 @@ function next() {
   if (!queue.length) {
     box.replaceChildren(h("div", { class: "panel" },
       h("p", {}, seen ? `Done: ${right} of ${seen} right. Cards you missed will come back tomorrow.` : progress.all("srs:").length
-        ? "Nothing is due right now. Well done — come back tomorrow."
+        ? "Nothing is due right now. Well done, come back tomorrow."
         : "You have no cards yet. Every quiz you finish adds its questions here."),
       !practice && extraList().length ? h("button", { class: "btn btn-step", type: "button", onclick: () => { practice = true; queue = extraList(); next(); } }, "Practise 10 random cards") : ""));
     return;

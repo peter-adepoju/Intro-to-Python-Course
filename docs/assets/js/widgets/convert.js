@@ -14,7 +14,7 @@ export default function convert(el, { start = "'42'", tries = ["'42'", "'3.7'", 
     const v = input.value.trim();
     const typ = await py.eval(`type(${v}).__name__`, true);
     const cells = [h("div", { class: "panel", style: "padding:.55rem .7rem;border-color:var(--yellow)" },
-      h("div", { class: "w-label" }, "going in"), h("div", { style: "font:600 1rem var(--f-code)" }, typ.error ? "—" : v), h("div", { class: "muted", style: "font-size:.85rem" }, typ.error ? typ.error : `type: ${typ.value}`))];
+      h("div", { class: "w-label" }, "going in"), h("div", { style: "font:600 1rem var(--f-code)" }, typ.error ? "-" : v), h("div", { class: "muted", style: "font-size:.85rem" }, typ.error ? typ.error : `type: ${typ.value}`))];
     for (const f of ["int", "float", "str", "bool"]) {
       const r = await py.eval(`repr(${f}(${v}))`, true);
       cells.push(h("div", { class: "panel", style: `padding:.55rem .7rem;${r.error ? "border-color:var(--red);background:var(--red-soft)" : ""}` },

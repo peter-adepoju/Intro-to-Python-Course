@@ -36,7 +36,7 @@ async function send(text, attach) {
   const client = await getClient();
   if (!client) {
     thinking.remove();
-    say("bot", "The AI tutor isn't switched on for this site yet. Meanwhile, try this: explain your code out loud, one line at a time, to an imaginary friend — say what each line does and what every variable holds. Then press **X-ray** and compare your story with what Python actually did. The line where they disagree is where the bug is.");
+    say("bot", "The AI tutor isn't switched on for this site yet. Meanwhile, try this: explain your code out loud, one line at a time, to an imaginary friend: say what each line does and what every variable holds. Then press **X-ray** and compare your story with what Python actually did. The line where they disagree is where the bug is.");
     return;
   }
   if (!progress.user()) {
@@ -77,7 +77,7 @@ export function mountTutor() {
   document.body.append(fab, panel);
   fab.hidden = !settings().tutorButton;
   onSettings((s) => { fab.hidden = !s.tutorButton; });
-  say("bot", "Hi! I'm here to help you think, not to think for you. Ask about anything in the lesson, or press **Ask the tutor about this error** under any error. I'll give hints first — ask for more if you're still stuck.");
+  say("bot", "Hi! I'm here to help you think, not to think for you. Ask about anything in the lesson, or press **Ask the tutor about this error** under any error. I'll give hints first; ask for more if you're still stuck.");
   document.addEventListener("tutor:ask", (e) => {
     const c = e.detail || {};
     const err = c.error ? `${c.error.type}: ${c.error.message}` : "";

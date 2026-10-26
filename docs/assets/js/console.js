@@ -116,7 +116,7 @@ export class PyConsole {
   async run() {
     if (this.kind === "predict" && !this.guess.value.trim()) {
       this.guess.focus();
-      this.status.textContent = "Write your prediction first — that's the point of this one.";
+      this.status.textContent = "Write your prediction first. That's the point of this one.";
       return;
     }
     this.clearPanels();
@@ -172,7 +172,7 @@ export class PyConsole {
     const ok = !error && norm(output) === norm(this.guess.value);
     const box = h("div", { class: "pc-verdict " + (ok ? "ok" : "no") },
       ok ? "Spot on. Your mental model matched Python exactly." :
-        error ? "It raised an error — did you predict that? Read the error below, then try the X-ray to see why." :
+        error ? "It raised an error. Did you predict that? Read the error below, then try the X-ray to see why." :
           "Not quite. Compare your prediction with the real output line by line, then use X-ray to see where they part ways.");
     this.testBox.replaceChildren(box);
     this.testBox.hidden = false;
@@ -214,7 +214,7 @@ export class PyConsole {
     if (res.error && !res.total) { this.showError(res.error, res.output); return; }
     const list = h("ul", { class: "pc-results" },
       res.results.map((r) => h("li", { class: r.ok ? "ok" : "no" }, h("span", { class: "pc-mark", "aria-hidden": "true" }, r.ok ? "✓" : "✗"),
-        h("span", {}, r.name, r.ok || !r.message ? "" : h("span", { class: "pc-why" }, " — " + r.message)))));
+        h("span", {}, r.name, r.ok || !r.message ? "" : h("span", { class: "pc-why" }, ": " + r.message)))));
     const all = res.total > 0 && res.passed === res.total;
     this.testBox.replaceChildren(
       h("div", { class: "pc-score " + (all ? "ok" : "no") }, all ? `All ${res.total} checks passed.` : `${res.passed} of ${res.total} checks passed.`),
@@ -247,7 +247,7 @@ export class PyConsole {
 
   showSolution() {
     this.solArea.hidden = false;
-    this.solArea.replaceChildren(h("div", { class: "pc-solhead" }, "One possible solution — compare it with yours. There is usually more than one good answer."));
+    this.solArea.replaceChildren(h("div", { class: "pc-solhead" }, "One possible solution. Compare it with yours. There is usually more than one good answer."));
     makeEditor(this.solArea, this.solution, { readOnly: true, minLines: 2 });
     this.solBtn.hidden = true;
   }

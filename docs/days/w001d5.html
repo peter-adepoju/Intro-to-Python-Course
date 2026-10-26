@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="../">
 <meta name="site-version" content="2026.10.1">
-<title>Week 1 Day 5: Strings I: quotes, escapes, length, indexing and slicing — Python Atlas</title>
+<title>Week 1 Day 5: Strings I: quotes, escapes, length, indexing and slicing | Python Atlas</title>
 <meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,7 @@
     <header class="day-head">
       <p class="day-where">Phase 1: Foundations <span>Week 1, Day 5</span></p>
       <h1>Strings I: quotes, escapes, length, indexing and slicing</h1>
-      <div class="day-intro"><p>Most data that programs handle is text — names, messages, web pages, DNA, code itself. Today you&rsquo;ll learn how Python stores text, how to write any character (even invisible ones), and how to pick out exactly the characters you want with indexing and slicing.</p></div>
+      <div class="day-intro"><p>Most data that programs handle is text: names, messages, web pages, DNA, even code itself. Today you&rsquo;ll learn how Python stores text, how to write any character (even invisible ones), and how to pick out exactly the characters you want with indexing and slicing.</p></div>
       <div class="day-cards">
         <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Write strings with single, double and triple quotes, and include quotes and special characters with escapes</li><li>Find a string&rsquo;s length with <code>len()</code> and join and repeat strings with <code>+</code> and <code>*</code></li><li>Pick out one character with an index, counting from the start (0) or the end (-1)</li><li>Cut out any piece of a string with a slice <code>s[start:stop:step]</code>, including reversing it</li><li>Explain why you can&rsquo;t change a character inside a string</li></ul></section>
         <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>10 min</span> Warm-up</li><li><span class='plan-min'>25 min</span> Writing strings: quotes and escapes</li><li><span class='plan-min'>20 min</span> Length, joining and repeating</li><li><span class='plan-min'>30 min</span> Indexing: one character at a time</li><li><span class='plan-min'>40 min</span> Slicing: cutting out pieces</li><li><span class='plan-min'>45 min</span> Practice</li><li><span class='plan-min'>10 min</span> Quiz and daily challenge</li></ol></section>
@@ -144,7 +144,7 @@ print(word[len(word) - 1])</textarea></div>
 <p>Asking for an index that doesn&rsquo;t exist raises <code>IndexError</code>:</p>
 <div class="pc pc-example" data-kind="example" data-id="w001d5-e9"><textarea class="pc-src pc-code" hidden>word = &quot;Python&quot;
 print(word[6])</textarea></div>
-<aside class="callout c-key"><div class="callout-t">Key idea</div><p>For a string of length n, valid indices are 0 to n − 1, and −1 to −n. The last character is always <code>s[-1]</code> — no need to work out the length.</p></aside>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>For a string of length n, valid indices are 0 to n − 1, and −1 to −n. The last character is always <code>s[-1]</code>, so there&rsquo;s no need to work out the length.</p></aside>
 <h2 id="slicing-cutting-out-pieces">Slicing: cutting out pieces</h2>
 <p>A <strong>slice</strong> <code>s[start:stop]</code> gives a new string from index <code>start</code> up to <strong>but not including</strong> <code>stop</code>. Use the ruler: set start and stop, and watch which boxes light up.</p>
 <figure class="widget" data-widget="strruler"><script type="application/json">{"text": "Python", "mode": "slice"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Set start, stop and step. The highlighted boxes are the slice; small numbers show the order they&rsquo;re taken in. Try the preset buttons, including the ones with negative steps.</figcaption></figure>
@@ -178,7 +178,7 @@ name[0] = &quot;P&quot;</textarea></div>
 <div class="pc pc-example" data-kind="example" data-id="w001d5-e15"><textarea class="pc-src pc-code" hidden>name = &quot;Jython&quot;
 name = &quot;P&quot; + name[1:]
 print(name)</textarea></div>
-<p>X-ray that and watch: a new object <code>'Python'</code> appears and the label <code>name</code> moves to it. Strings in Python always work this way — every &ldquo;change&rdquo; makes a new string. You&rsquo;ll see why that&rsquo;s a good thing in Week 8.</p>
+<p>X-ray that and watch: a new object <code>'Python'</code> appears and the label <code>name</code> moves to it. Strings in Python always work this way: every &ldquo;change&rdquo; makes a new string. You&rsquo;ll see why that&rsquo;s a good thing in Week 8.</p>
 <h2 id="practice">Practice</h2>
 <div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d5-initials" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Initials</div><div class="pc-prompt"><p><code>first = "Grace"</code> and <code>last = "Hopper"</code>. Print the initials, <code>G.H.</code>, using indexing.</p></div><textarea class="pc-src pc-code" hidden>first = &quot;Grace&quot;
 last = &quot;Hopper&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
@@ -299,7 +299,7 @@ print(word[mid])
 print(word[mid + 1:])
 print(word[:mid] + word[mid] + word[:mid][::-1])</textarea><template class="pc-src pc-hint"><code>mid = len(word) // 2</code>. The first half is <code>word[:mid]</code>, the middle is <code>word[mid]</code>, the second half <code>word[mid + 1:]</code>.</template></div>
 <h2 id="before-you-go">Before you go</h2>
-<p>Without looking: what&rsquo;s <code>s[-1]</code>, what&rsquo;s <code>s[:3]</code>, what&rsquo;s <code>s[::-1]</code>? Explain &ldquo;up to but not including&rdquo; to yourself with a five-letter word. Tomorrow you&rsquo;ll make programs that talk to the user with <code>input()</code> and format their output beautifully with f-strings — and it&rsquo;s your first Forge day.</p>
+<p>Without looking: what&rsquo;s <code>s[-1]</code>, what&rsquo;s <code>s[:3]</code>, what&rsquo;s <code>s[::-1]</code>? Explain &ldquo;up to but not including&rdquo; to yourself with a five-letter word. Tomorrow you&rsquo;ll make programs that talk to the user with <code>input()</code> and format their output beautifully with f-strings. It&rsquo;s also your first Forge day.</p>
     </div>
     <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w001d6.html">Next day</a></nav>
   </article>

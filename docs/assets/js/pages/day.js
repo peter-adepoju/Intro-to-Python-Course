@@ -50,10 +50,10 @@ function start() {
   $("#mark-done").addEventListener("click", () => {
     const ex = data.exercises;
     const solved = ex.filter((x) => (progress.get("ex:" + x.id) || {}).solved).length;
-    if (solved < Math.ceil(ex.length * 0.7) && !confirm(`You've solved ${solved} of ${ex.length} exercises. Practice is where the learning happens — mark the day complete anyway?`)) return;
+    if (solved < Math.ceil(ex.length * 0.7) && !confirm(`You've solved ${solved} of ${ex.length} exercises. Practice is where the learning happens. Mark the day complete anyway?`)) return;
     progress.set("day:" + data.id, { done: true, at: Date.now() });
     progress.activity(5);
-    toast("Day complete. See you tomorrow — or rest, that counts too.", "ok");
+    toast("Day complete. See you tomorrow. Rest counts too.", "ok");
   });
 }
 

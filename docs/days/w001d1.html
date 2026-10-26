@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="../">
 <meta name="site-version" content="2026.10.1">
-<title>Week 1 Day 1: What a computer and a program are; your first print — Python Atlas</title>
+<title>Week 1 Day 1: What a computer and a program are; your first print | Python Atlas</title>
 <meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,10 +60,10 @@
     </header>
     <div class="day-body">
 <h2 id="how-this-course-works">How this course works</h2>
-<p>Welcome. This course takes you from never having written a line of code to working as a senior Python developer. That&rsquo;s a long road — about two years at three hours a day — and the only way along it is to <strong>write a lot of code</strong>. So every day here is built around one thing: a Python console right in the page, where you type code, run it and watch what it does.</p>
+<p>Welcome. This course takes you from never having written a line of code to real mastery of Python. It&rsquo;s a long road, and the only way along it is to <strong>write a lot of code</strong>. So every day here is built around one thing: a Python console right in the page, where you type code, run it and watch what it does.</p>
 <p>Every grey box with line numbers like the one below is a real Python console. It runs in your browser: nothing to install, nothing to set up. Try it now: press <strong>Run</strong>.</p>
 <div class="pc pc-example" data-kind="example" data-id="w001d1-e1"><div class="pc-title">Your very first run</div><textarea class="pc-src pc-code" hidden>print(&quot;Hello! I am running in your browser.&quot;)</textarea></div>
-<p>That&rsquo;s it — you&rsquo;ve run a Python program. Now try three things in that same box:</p>
+<p>That&rsquo;s it: you&rsquo;ve run a Python program. Now try three things in that same box:</p>
 <ol>
 <li>Change the words between the quotes to your own name, and press <strong>Run</strong> again. (Or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd>.)</li>
 <li>Press <strong>X-ray</strong>. The X-ray steps through the program one line at a time and shows you what Python is doing. The <strong>yellow line</strong> is always the line that is <em>about to run</em>. You&rsquo;ll see this yellow pointer everywhere in this course: it always means &ldquo;Python is here now&rdquo;.</li>
@@ -100,7 +100,7 @@
 </tr>
 </tbody>
 </table>
-<aside class="callout c-key"><div class="callout-t">The habit that makes this work</div><p>Before you run anything, say (or write) what you expect it to do. Then run it. If you were right, your picture of Python is getting sharper. If you were wrong, you&rsquo;ve just found the exact spot where your picture needs fixing — that&rsquo;s the most valuable moment in learning to code.</p></aside>
+<aside class="callout c-key"><div class="callout-t">The habit that makes this work</div><p>Before you run anything, say (or write) what you expect it to do. Then run it. If you were right, your picture of Python is getting sharper. If you were wrong, you&rsquo;ve just found the exact spot where your picture needs fixing. That&rsquo;s the most valuable moment in learning to code.</p></aside>
 <h2 id="what-is-a-computer">What is a computer?</h2>
 <p>A computer is a machine that follows instructions very fast and very exactly. It doesn&rsquo;t understand anything. It doesn&rsquo;t guess what you meant. It does exactly what it&rsquo;s told, billions of times a second.</p>
 <p>Inside, there are two parts you need to know about today:</p>
@@ -111,7 +111,7 @@
 <p>A special counter inside the processor, the <strong>program counter</strong>, remembers which cell holds the next instruction. Step through this toy computer and watch it work. The yellow arrow is the program counter.</p>
 <figure class="widget" data-widget="machine"><script type="application/json">{"program": "add"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>A toy computer running a tiny program. Press Next step to see each fetch, decode and execute. Switch to the counting program to see a loop: the program counter jumps backwards.</figcaption></figure>
 <aside class="callout c-think"><div class="callout-t">Think about it</div><p>In the counting program, how does the computer know when to stop? Find the instruction that decides.</p></aside>
-<p>Real processors work the same way, just with thousands of kinds of instruction and billions of steps per second. When you write Python, you never write <code>LOAD</code> or <code>STORE</code> yourself — Python turns your code into instructions like these for you.</p>
+<p>Real processors work the same way, just with thousands of kinds of instruction and billions of steps per second. When you write Python, you never write <code>LOAD</code> or <code>STORE</code> yourself. Python turns your code into instructions like these for you.</p>
 <h2 id="everything-is-numbers">Everything is numbers</h2>
 <p>Memory cells only hold numbers. So how does a computer store text, pictures and music? It stores <strong>numbers that stand for them</strong>, and it agrees on a code for what each number means.</p>
 <p>Inside the machine, each number is made of <strong>bits</strong>: tiny switches that are either off (0) or on (1). Eight bits make a <strong>byte</strong>. Each switch is worth double the one to its right: 1, 2, 4, 8, 16, 32, 64, 128. Add up the switches that are on and you get the number.</p>
@@ -119,10 +119,10 @@
 <p>The same eight switches can mean the number 65 or the letter <code>A</code>. What decides? The <strong>type</strong> of the data: whether the program treats it as a number or as text. You&rsquo;ll meet types properly tomorrow. For now, remember this: <em>the computer only stores numbers; types tell it how to read them.</em></p>
 <h2 id="what-is-a-program">What is a program?</h2>
 <p>A <strong>program</strong> is a list of instructions for a computer, written in a language the computer (with some help) can follow. A <strong>programming language</strong> is a language designed for writing those instructions precisely, with no room for misunderstanding.</p>
-<p><strong>Python</strong> is a programming language. It was created by Guido van Rossum and first released in 1991. It&rsquo;s designed to be easy to read, which makes it a great first language — and it&rsquo;s also one of the most used languages in the world: for websites, science, data, artificial intelligence, automation, games and more. Learning Python well opens a huge number of doors.</p>
-<p>When you press <strong>Run</strong>, a program called the <strong>Python interpreter</strong> reads your code and carries it out. You write text; the interpreter does the rest. Here&rsquo;s what it actually does with your text, step by step — this figure is calculated live by real Python:</p>
-<figure class="widget" data-widget="pipeline"><script type="application/json">{"code": "x = 2 + 3\nprint(\"x is\", x)"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The journey of your code. Change the code and click through the five stages. Notice that the bytecode already says 5 — Python worked out 2 + 3 before running anything.</figcaption></figure>
-<p>You don&rsquo;t need to understand the syntax tree or the bytecode yet — we&rsquo;ll come back to them in Phase 5, when you study how Python works inside. Today, take away two ideas:</p>
+<p><strong>Python</strong> is a programming language. It was created by Guido van Rossum and first released in 1991. It&rsquo;s designed to be easy to read, which makes it a great first language, and it&rsquo;s also one of the most used languages in the world: for websites, science, data, artificial intelligence, automation, games and more. Learning Python well opens a huge number of doors.</p>
+<p>When you press <strong>Run</strong>, a program called the <strong>Python interpreter</strong> reads your code and carries it out. You write text; the interpreter does the rest. Here&rsquo;s what it actually does with your text, step by step, this figure is calculated live by real Python:</p>
+<figure class="widget" data-widget="pipeline"><script type="application/json">{"code": "x = 2 + 3\nprint(\"x is\", x)"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The journey of your code. Change the code and click through the five stages. Notice that the bytecode already says 5: Python worked out 2 + 3 before running anything.</figcaption></figure>
+<p>You don&rsquo;t need to understand the syntax tree or the bytecode yet. We&rsquo;ll come back to them in Phase 5, when you study how Python works inside. Today, take away two ideas:</p>
 <ol>
 <li>Python first <strong>reads</strong> all your code. If any of it breaks the grammar rules, it stops before running anything and reports a <code>SyntaxError</code>.</li>
 <li>Then it <strong>runs</strong> your code, one instruction at a time, from top to bottom.</li>
@@ -133,9 +133,9 @@
   {"text": "print", "label": "The function's name", "explain": "print is a function: a named piece of code that does a job. print's job is to show things on the screen. Python has dozens of built-in functions like this; you'll write your own in Week 6."},
   {"text": "(", "label": "Opening bracket", "explain": "The brackets mean 'call the function now'. Whatever goes inside is handed to the function to work with. Every ( needs a matching )."},
   {"text": "\"Hello, world!\"", "label": "A string", "explain": "Text inside quotes is called a string. The quotes tell Python: this is text, don't try to understand it as code. The quotes themselves are not printed."},
-  {"text": ")", "label": "Closing bracket", "explain": "Closes the call. Forgetting it is one of the most common first-day mistakes — Python will report a SyntaxError."}
+  {"text": ")", "label": "Closing bracket", "explain": "Closes the call. Forgetting it is one of the most common first-day mistakes, and Python will report a SyntaxError."}
 ]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The anatomy of a print statement.</figcaption></figure>
-<p>The text between the quotes is printed exactly as it is — spaces, punctuation, capital letters and all.</p>
+<p>The text between the quotes is printed exactly as it is: spaces, punctuation, capital letters and all.</p>
 <div class="pc pc-predict" data-kind="predict" data-id="w001d1-p2"><textarea class="pc-src pc-code" hidden>print(&quot;Good   morning,   Lagos!&quot;)</textarea></div>
 <p>You can use single quotes or double quotes. Both make a string. Pick one style and stick to it; this course uses double quotes.</p>
 <div class="pc pc-example" data-kind="example" data-id="w001d1-e3"><textarea class="pc-src pc-code" hidden>print(&#x27;Single quotes work.&#x27;)
@@ -154,7 +154,7 @@ print(&quot;Line three, after a blank line&quot;)</textarea></div>
 <div class="pc pc-predict" data-kind="predict" data-id="w001d1-p6"><textarea class="pc-src pc-code" hidden>print(7)
 print(2 + 3)
 print(&quot;2 + 3&quot;)</textarea></div>
-<p>Did you predict the last line? <code>"2 + 3"</code> is in quotes, so it&rsquo;s text — Python prints it exactly as written and doesn&rsquo;t calculate anything. Quotes change everything.</p>
+<p>Did you predict the last line? <code>"2 + 3"</code> is in quotes, so it&rsquo;s text. Python prints it exactly as written and doesn&rsquo;t calculate anything. Quotes change everything.</p>
 <aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>print(hello)</code> without quotes doesn&rsquo;t print the word hello. Without quotes, Python thinks <code>hello</code> is the <em>name</em> of something, looks for it, can&rsquo;t find it and reports a <code>NameError</code>. When you mean text, use quotes.</p></aside>
 <h2 id="printing-several-things-at-once">Printing several things at once</h2>
 <p>You can give <code>print()</code> several things, separated by commas. It prints them all on one line with a single space between each.</p>
@@ -168,7 +168,7 @@ print(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)</textarea></div>
 <div class="pc pc-example" data-kind="example" data-id="w001d1-e9"><textarea class="pc-src pc-code" hidden># This program greets the reader.
 print(&quot;Hello&quot;)  # A comment can also go at the end of a line.
 # print(&quot;This line is switched off, so it never runs.&quot;)</textarea></div>
-<p>Use comments to explain <em>why</em> your code does something. Programmers also &ldquo;comment out&rdquo; lines to switch them off for a moment while testing — as in the last line above.</p>
+<p>Use comments to explain <em>why</em> your code does something. Programmers also &ldquo;comment out&rdquo; lines to switch them off for a moment while testing, as in the last line above.</p>
 <h2 id="code-runs-from-top-to-bottom">Code runs from top to bottom</h2>
 <p>Python runs your program one line at a time, from the first line to the last, in order. Use <strong>X-ray</strong> on this program and watch the yellow pointer move down. Watch the &ldquo;Printed so far&rdquo; box grow as each line runs.</p>
 <div class="pc pc-example" data-kind="example" data-id="w001d1-e10"><div class="pc-title">Watch the order</div><textarea class="pc-src pc-code" hidden>print(&quot;First&quot;)
@@ -177,7 +177,7 @@ print(&quot;Second&quot;)
 print(&quot;Third&quot;)</textarea></div>
 <p>This sounds obvious. But &ldquo;Python does exactly one thing at a time, in order&rdquo; is the most important idea in all of programming, and every confusing bug you&rsquo;ll ever meet is easier once you trace it line by line like this.</p>
 <h2 id="errors-are-clues-not-failures">Errors are clues, not failures</h2>
-<p>You <em>will</em> see errors. Every programmer sees them every day — experts included. An error message is Python telling you exactly what went wrong and where. Learning to read errors is one of the most valuable skills you&rsquo;ll build.</p>
+<p>You <em>will</em> see errors. Every programmer sees them every day, experts included. An error message is Python telling you exactly what went wrong and where. Learning to read errors is one of the most valuable skills you&rsquo;ll build.</p>
 <p>Pick a broken program below. Then click each part of the real error to learn how to read it.</p>
 <figure class="widget" data-widget="traceback"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>An error message has a shape: where it happened, the line, and at the bottom the error type and a description. Read from the bottom up.</figcaption></figure>
 <p>Run this one. Read the error, then fix it.</p>
@@ -190,7 +190,7 @@ print(&quot;Third&quot;)</textarea></div>
 </ol>
 <p>The console on this site adds a plain-English explanation under each error, and you can always press <strong>Ask the tutor about this error</strong>.</p>
 <h2 id="practice">Practice</h2>
-<p>Now it&rsquo;s your turn. Each exercise has hidden checks: press <strong>Check my answer</strong> and they&rsquo;ll tell you exactly what&rsquo;s right and what isn&rsquo;t. Use <strong>Hint</strong> if you&rsquo;re stuck. After three tries, you can look at a solution — but try hard first, because the struggle is where the learning happens.</p>
+<p>Now it&rsquo;s your turn. Each exercise has hidden checks: press <strong>Check my answer</strong> and they&rsquo;ll tell you exactly what&rsquo;s right and what isn&rsquo;t. Use <strong>Hint</strong> if you&rsquo;re stuck. After three tries, you can look at a solution, but try hard first, because the struggle is where the learning happens.</p>
 <div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-hello" data-points="5"><div class="pc-label"><span>Exercise</span><span class="pc-pts">5 points</span></div><div class="pc-title">Hello, you</div><div class="pc-prompt"><p>Write a program that prints exactly:</p>
 <pre><code>Hello, Python!
 </code></pre></div><textarea class="pc-src pc-code" hidden># Write your code below this line</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
@@ -205,7 +205,7 @@ Code!
     expect_output(&quot;Ready\nSteady\nCode!&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;Ready&quot;)
 print(&quot;Steady&quot;)
 print(&quot;Code!&quot;)</textarea><template class="pc-src pc-hint">One <code>print()</code> per line.</template></div>
-<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-card" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A name card</div><div class="pc-prompt"><p>Print a little name card, with a blank line between the name and the details. Use your own name if you like — the checks only look at the shape: exactly four lines, where the second line is blank.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-card" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A name card</div><div class="pc-prompt"><p>Print a little name card, with a blank line between the name and the details. Use your own name if you like; the checks only look at the shape: exactly four lines, where the second line is blank.</p>
 <pre><code>Ada Lovelace
                        &lt;- this line is empty
 Born: 1815
@@ -226,12 +226,12 @@ def test_not_blank_others():
 print()
 print(&quot;Born: 1815&quot;)
 print(&quot;Wrote the first computer program&quot;)</textarea><template class="pc-src pc-hint">An empty <code>print()</code> prints a blank line.</template></div>
-<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-sum" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Let Python do the maths</div><div class="pc-prompt"><p>Print the result of 1234 + 5678 by giving <code>print()</code> the calculation — not the answer you worked out yourself. Your program should print <code>6912</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-sum" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Let Python do the maths</div><div class="pc-prompt"><p>Print the result of 1234 + 5678 by giving <code>print()</code> the calculation, not the answer you worked out yourself. Your program should print <code>6912</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
     &quot;prints 6912&quot;
     expect_output(&quot;6912&quot;)
 def test_calculates():
     &quot;uses + rather than typing the answer&quot;
-    assert &quot;+&quot; in source and &quot;6912&quot; not in source, &quot;Let Python calculate: put 1234 + 5678 inside print().&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(1234 + 5678)</textarea><template class="pc-src pc-hint"><code>print(1234 + 5678)</code> — no quotes, or Python will print the sum as text.</template></div>
+    assert &quot;+&quot; in source and &quot;6912&quot; not in source, &quot;Let Python calculate: put 1234 + 5678 inside print().&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(1234 + 5678)</textarea><template class="pc-src pc-hint"><code>print(1234 + 5678)</code>, with no quotes, or Python will print the sum as text.</template></div>
 <div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-commas" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Several items, one line</div><div class="pc-prompt"><p>Using a <strong>single</strong> <code>print()</code> with three items separated by commas, print:</p>
 <pre><code>Week 1 Day 1
 </code></pre>
@@ -240,11 +240,11 @@ def test_calculates():
     expect_output(&quot;Week 1 Day 1&quot;)
 def test_one_print():
     &quot;uses just one print&quot;
-    assert source.count(&quot;print(&quot;) == 1, &quot;Do it with one print() and commas between the items.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;Week&quot;, 1, &quot;Day&quot;, 1)</textarea><template class="pc-src pc-hint"><code>print("Week", 1, ...)</code> — print puts a space between items for you.</template></div>
+    assert source.count(&quot;print(&quot;) == 1, &quot;Do it with one print() and commas between the items.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;Week&quot;, 1, &quot;Day&quot;, 1)</textarea><template class="pc-src pc-hint"><code>print("Week", 1, ...)</code>. print puts a space between items for you.</template></div>
 <div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-equation" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Show your working</div><div class="pc-prompt"><p>Print a line that shows a calculation and its answer, like this:</p>
 <pre><code>7 * 8 = 56
 </code></pre>
-<p>The <code>56</code> must be calculated by Python. (Hint: two items — a string and a calculation.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+<p>The <code>56</code> must be calculated by Python. (Hint: two items: a string and a calculation.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
     &quot;prints 7 * 8 = 56&quot;
     expect_output(&quot;7 * 8 = 56&quot;)
 def test_calculated():
@@ -254,7 +254,7 @@ def test_calculated():
 print(&quot;Errors are clues&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
     &quot;prints both lines&quot;
     expect_output(&quot;Python is fun\nErrors are clues&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;Python is fun&quot;)
-print(&quot;Errors are clues&quot;)</textarea><template class="pc-src pc-hint">Every <code>(</code> needs a matching <code>)</code>. The error points at line 1 — Python noticed the problem when it reached line 2 still inside the bracket.</template></div>
+print(&quot;Errors are clues&quot;)</textarea><template class="pc-src pc-hint">Every <code>(</code> needs a matching <code>)</code>. The error points at line 1 because Python noticed the problem when it reached line 2 still inside the bracket.</template></div>
 <div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Quotes matter</div><div class="pc-prompt"><p>This program is meant to print <code>Good morning</code>, but it crashes. Fix it.</p></div><textarea class="pc-src pc-code" hidden>print(Good morning)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
     &quot;prints Good morning&quot;
     expect_output(&quot;Good morning&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;Good morning&quot;)</textarea><template class="pc-src pc-hint">Text needs quotes. Without them, Python thinks <code>Good</code> is a name.</template></div>
@@ -272,7 +272,7 @@ def test_kept():
     assert &quot;banana&quot; in source and &quot;#&quot; in source, &quot;Turn the banana line into a comment with # instead of deleting it.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;apple&quot;)
 # print(&quot;banana&quot;)
 print(&quot;cherry&quot;)</textarea><template class="pc-src pc-hint">Put <code>#</code> at the start of the banana line.</template></div>
-<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-box" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Draw a box</div><div class="pc-prompt"><p>Programs can draw pictures with characters. Print this box exactly — 9 characters wide, using <code>+</code>, <code>-</code>, <code>|</code> and spaces:</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d1-box" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Draw a box</div><div class="pc-prompt"><p>Programs can draw pictures with characters. Print this box exactly. It is 9 characters wide and uses <code>+</code>, <code>-</code>, <code>|</code> and spaces:</p>
 <pre><code>+-------+
 |       |
 |  HI!  |
@@ -318,7 +318,7 @@ print(&quot;Lift off!&quot;)</textarea><template class="pc-src pc-hint">A backsl
 <li>Why does <code>print("2 + 3")</code> print something different from <code>print(2 + 3)</code>?</li>
 <li>What&rsquo;s the first thing you look at when you see an error?</li>
 </ol>
-<p>Explaining something in your own words is how you find out whether you really understand it. Tomorrow you&rsquo;ll learn the different kinds of values Python works with — and you&rsquo;ll start using Python as a very powerful calculator.</p>
+<p>Explaining something in your own words is how you find out whether you really understand it. Tomorrow you&rsquo;ll learn the different kinds of values Python works with, and you&rsquo;ll start using Python as a very powerful calculator.</p>
     </div>
     <nav class="day-nav" aria-label="Day navigation"><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w001d2.html">Next day</a></nav>
   </article>

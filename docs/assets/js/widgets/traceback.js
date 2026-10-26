@@ -34,10 +34,10 @@ export default function traceback(el, { samples = Object.keys(SAMPLES) } = {}) {
     for (const line of lines) {
       let m;
       if (line.startsWith("Traceback")) out.push(part(line, "This first line just announces an error report. The most useful lines are at the bottom.", "#93a0b8"));
-      else if ((m = line.match(/^(\s*File ".*?", )(line \d+)(.*)$/))) out.push(h("span", {}, m[1], part(m[2], `Where it happened: line ${e.line} of your code. Start your search there — and if nothing looks wrong, check the line just before.`, "var(--yellow)"), m[3]));
+      else if ((m = line.match(/^(\s*File ".*?", )(line \d+)(.*)$/))) out.push(h("span", {}, m[1], part(m[2], `Where it happened: line ${e.line} of your code. Start your search there, and if nothing looks wrong, check the line just before.`, "var(--yellow)"), m[3]));
       else if (/^\s*\^+\s*$/.test(line)) out.push(part(line, "The caret points at the exact spot where Python got confused.", "var(--yellow)"));
-      else if (line.startsWith(e.type)) out.push(h("span", {}, part(e.type, `The error type. ${e.type} is a family of mistakes — learn the families and you'll recognise most errors at a glance.`, "#f08b7b"),
-        part(line.slice(e.type.length), "The message: Python's description of this particular problem. Read it slowly — it usually says exactly what's wrong. In plain words: " + (e.friendly || ""), "#f08b7b")));
+      else if (line.startsWith(e.type)) out.push(h("span", {}, part(e.type, `The error type. ${e.type} is a family of mistakes. Learn the families and you'll recognise most errors at a glance.`, "#f08b7b"),
+        part(line.slice(e.type.length), "The message: Python's description of this particular problem. Read it slowly; it usually says exactly what's wrong. In plain words: " + (e.friendly || ""), "#f08b7b")));
       else if (line.trim()) out.push(part(line, "Your line of code, copied into the report so you don't have to go looking for it.", "#93a0b8"));
       else out.push(line);
       out.push("\n");

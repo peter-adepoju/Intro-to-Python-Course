@@ -12,7 +12,7 @@ export default function namecheck(el, { tries = ["total_price", "2nd_place", "fi
   let t;
   async function go() {
     const r = await py.call("name_check", input.value);
-    verdict.textContent = r.ok ? (r.warnings.length ? "Allowed — but think twice." : "A good name.") : "Python won't accept this name.";
+    verdict.textContent = r.ok ? (r.warnings.length ? "Allowed, but think twice." : "A good name.") : "Python won't accept this name.";
     verdict.style.color = r.ok ? (r.warnings.length ? "var(--ink)" : "var(--green)") : "var(--red)";
     list.replaceChildren(...[...r.issues, ...r.warnings].map((m) => h("li", {}, m)));
   }

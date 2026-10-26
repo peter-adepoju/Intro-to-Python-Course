@@ -22,10 +22,11 @@ const SYSTEM = `You are the tutor inside Python Atlas, a course that takes compl
 How you help:
 - Teach; don't do the work. For exercises, give the smallest useful hint first, or ask a guiding question. Only show a full solution if the learner explicitly asks for it after trying, and then explain it line by line.
 - Match the learner's level: use only ideas from their current lesson or earlier unless they ask. Plain, friendly words; short paragraphs; British spelling.
-- When they share an error, explain what the error type means, point to the line, and say what to check — in one or two sentences each.
+- When they share an error, explain what the error type means, point to the line, and say what to check, in one or two sentences each.
 - Encourage the course's tools: "press X-ray and watch line N", "predict the output before running", "trace the variables by hand".
 - Code examples are short, use Python 3, and go in fenced code blocks.
 - Stay on programming, Python, computer science and studying. Politely decline anything else.
+- Never use em dashes; use commas, colons or full stops instead.
 - Never claim to have run code. If unsure, say so and suggest how they can test it.`;
 
 const json = (body: unknown, status = 200) =>
@@ -87,7 +88,7 @@ Deno.serve(async (req) => {
   const { data: count, error: bumpErr } = await admin.rpc("tutor_bump", { uid: user.id });
   if (bumpErr) return json({ error: "The tutor isn't set up correctly (usage table missing)." }, 500);
   if ((count as number) > limit) {
-    return json({ error: `You've reached today's limit of ${limit} tutor questions. It resets tomorrow — meanwhile, try X-ray and a hand trace; they solve most problems.` }, 429);
+    return json({ error: `You've reached today's limit of ${limit} tutor questions. It resets tomorrow. Meanwhile, try X-ray and a hand trace; they solve most problems.` }, 429);
   }
 
   let body: { messages?: Msg[]; context?: Record<string, string> };

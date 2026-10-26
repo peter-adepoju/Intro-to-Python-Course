@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="../">
 <meta name="site-version" content="2026.10.1">
-<title>Week 1 Day 3: Variables: names that point at objects — Python Atlas</title>
+<title>Week 1 Day 3: Variables: names that point at objects | Python Atlas</title>
 <meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,7 +42,7 @@
   <aside class="day-rail" aria-label="Today's outline">
     <div class="rail-inner">
       <a class="rail-week" href="../map.html#week-1">Week 1: First steps</a>
-      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#why-we-need-variables" data-sec="why-we-need-variables">Why we need variables</a></li><li><a href="#how-assignment-works" data-sec="how-assignment-works">How assignment works</a></li><li><a href="#names-point-at-objects" data-sec="names-point-at-objects">Names point at objects</a></li><li><a href="#changing-a-variable" data-sec="changing-a-variable">Changing a variable</a></li><li><a href="#several-names-at-once" data-sec="several-names-at-once">Several names at once</a></li><li><a href="#variables-don-t-have-types-values-do" data-sec="variables-don-t-have-types-values-do">Variables don’t have types — values do</a></li><li><a href="#naming-things-well" data-sec="naming-things-well">Naming things well</a></li><li><a href="#tracing-by-hand" data-sec="tracing-by-hand">Tracing by hand</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#why-we-need-variables" data-sec="why-we-need-variables">Why we need variables</a></li><li><a href="#how-assignment-works" data-sec="how-assignment-works">How assignment works</a></li><li><a href="#names-point-at-objects" data-sec="names-point-at-objects">Names point at objects</a></li><li><a href="#changing-a-variable" data-sec="changing-a-variable">Changing a variable</a></li><li><a href="#several-names-at-once" data-sec="several-names-at-once">Several names at once</a></li><li><a href="#variables-don-t-have-types-values-do" data-sec="variables-don-t-have-types-values-do">Variables don’t have types, values do</a></li><li><a href="#naming-things-well" data-sec="naming-things-well">Naming things well</a></li><li><a href="#tracing-by-hand" data-sec="tracing-by-hand">Tracing by hand</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
       <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
       <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
     </div>
@@ -51,7 +51,7 @@
     <header class="day-head">
       <p class="day-where">Phase 1: Foundations <span>Week 1, Day 3</span></p>
       <h1>Variables: names that point at objects</h1>
-      <div class="day-intro"><p>A variable is a name you give to a value so you can use it again. Today you&rsquo;ll learn how assignment really works in Python — not as boxes, but as labels stuck onto objects. Getting this picture right now will save you from some of the most confusing bugs in later weeks.</p></div>
+      <div class="day-intro"><p>A variable is a name you give to a value so you can use it again. Today you&rsquo;ll learn how assignment really works in Python, not as boxes, but as labels stuck onto objects. Getting this picture right now will save you from some of the most confusing bugs in later weeks.</p></div>
       <div class="day-cards">
         <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Create variables with <code>=</code> and use them in calculations</li><li>Explain why <code>=</code> means &ldquo;make this name point at that value&rdquo;, and that the right side is worked out first</li><li>Update variables with <code>x = x + 1</code> and the shortcuts <code>+=</code>, <code>-=</code>, <code>*=</code></li><li>Choose good, legal variable names</li><li>Trace a program by hand, writing down the value of every variable after every line</li></ul></section>
         <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>10 min</span> Warm-up</li><li><span class='plan-min'>30 min</span> Why variables, and how <code>=</code> works</li><li><span class='plan-min'>40 min</span> Names point at objects: the real picture</li><li><span class='plan-min'>30 min</span> Changing variables and the shortcut operators</li><li><span class='plan-min'>20 min</span> Naming things well</li><li><span class='plan-min'>40 min</span> Tracing by hand and practice</li><li><span class='plan-min'>10 min</span> Quiz and daily challenge</li></ol></section>
@@ -64,7 +64,7 @@
 print(7 // 2 * 2 + 7 % 2)</textarea></div>
 <p>The second one is a neat fact: for any whole numbers, <code>a // b * b + a % b</code> gives back <code>a</code>. Use the stepper from yesterday in your head: <code>7 // 2</code> is 3, times 2 is 6, plus <code>7 % 2</code> (1) is 7.</p>
 <h2 id="why-we-need-variables">Why we need variables</h2>
-<p>Yesterday&rsquo;s challenge used <code>10000</code> over and over. If the film were 9000 seconds long, you&rsquo;d have to change it in five places — and you&rsquo;d probably miss one. Variables fix this.</p>
+<p>Yesterday&rsquo;s challenge used <code>10000</code> over and over. If the film were 9000 seconds long, you&rsquo;d have to change it in five places, and you&rsquo;d probably miss one. Variables fix this.</p>
 <div class="pc pc-example" data-kind="example" data-id="w001d3-e2"><div class="pc-title">With a variable</div><textarea class="pc-src pc-code" hidden>seconds = 10000
 print(seconds // 3600, &quot;hours&quot;)
 print(seconds % 3600 // 60, &quot;minutes&quot;)
@@ -90,7 +90,7 @@ score = 10</textarea></div>
 <p>Python runs top to bottom, so on line 1 <code>score</code> doesn&rsquo;t exist yet: <code>NameError</code>. Swapping the two lines fixes it.</p>
 <h2 id="names-point-at-objects">Names point at objects</h2>
 <p>There&rsquo;s a common way to picture variables: as boxes with a name on the front, and a value inside. It&rsquo;s a nice picture, but it&rsquo;s not how Python works, and it will mislead you later (badly, in Week 8, when you meet lists).</p>
-<p>In Python, <strong>values are objects</strong> that live in memory, and <strong>a variable is a name that points at an object</strong> — like a label tied to it with string. Assignment ties the label on. Step through both pictures side by side:</p>
+<p>In Python, <strong>values are objects</strong> that live in memory, and <strong>a variable is a name that points at an object</strong>, like a label tied to it with string. Assignment ties the label on. Step through both pictures side by side:</p>
 <figure class="widget" data-widget="labels"><script type="application/json">{"scenario": "copy"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The same three lines, two mental models. Step through, and watch what happens to y when x changes. Then try the swap and score scenarios.</figcaption></figure>
 <p>The key moment is <code>y = x</code>. Python does <strong>not</strong> copy anything. It ties a second label, <code>y</code>, onto the very same object <code>x</code> points at. Then <code>x = 7</code> moves the <code>x</code> label to a new object. <code>y</code> still points at 5.</p>
 <p>See it in the real X-ray too:</p>
@@ -179,7 +179,7 @@ a, b = b, a
 print(a, b)</textarea></div>
 <p>X-ray the second version. On line 3, Python first builds the pair <code>("blue", "red")</code> from the right side, then points <code>a</code> and <code>b</code> at them. Nothing is lost.</p>
 <p>You can also point several names at the same value: <code>x = y = 0</code>.</p>
-<h2 id="variables-don-t-have-types-values-do">Variables don&rsquo;t have types — values do</h2>
+<h2 id="variables-don-t-have-types-values-do">Variables don&rsquo;t have types, values do</h2>
 <p>A variable can point at an int now and a string later. The <em>value</em> has a type; the name doesn&rsquo;t care.</p>
 <div class="pc pc-example" data-kind="example" data-id="w001d3-e13"><textarea class="pc-src pc-code" hidden>thing = 42
 print(type(thing))
@@ -192,7 +192,7 @@ print(type(thing))</textarea></div>
 <ul>
 <li>Letters, digits and underscores only. No spaces, no hyphens.</li>
 <li>Can&rsquo;t start with a digit.</li>
-<li>Can&rsquo;t be a <strong>keyword</strong> — one of Python&rsquo;s reserved words like <code>if</code>, <code>for</code>, <code>class</code>, <code>True</code>.</li>
+<li>Can&rsquo;t be a <strong>keyword</strong>: one of Python&rsquo;s reserved words like <code>if</code>, <code>for</code>, <code>class</code>, <code>True</code>.</li>
 <li>Capitals matter: <code>score</code>, <code>Score</code> and <code>SCORE</code> are three different names.</li>
 </ul>
 <p><strong>Conventions:</strong></p>
@@ -208,7 +208,7 @@ print(type(thing))</textarea></div>
 print(&quot;hello&quot;)</textarea></div>
 <p>After line 1, <code>print</code> points at the number 5, so <code>print("hello")</code> tries to call a number. (If this happens to you in a console, press Reset.)</p>
 <h2 id="tracing-by-hand">Tracing by hand</h2>
-<p><strong>Tracing</strong> means going through a program line by line, on paper, writing down the value of every variable after each line. It&rsquo;s the single best way to understand code you didn&rsquo;t write — and to find bugs in code you did. Professionals do it all the time, in their heads.</p>
+<p><strong>Tracing</strong> means going through a program line by line, on paper, writing down the value of every variable after each line. It&rsquo;s the single best way to understand code you didn&rsquo;t write, and to find bugs in code you did. Professionals do it all the time, in their heads.</p>
 <p>Draw a table with one column per variable and one row per line. For this program:</p>
 <pre><code class="language-python">a = 4
 b = a * 2
@@ -227,7 +227,7 @@ b = b - 1
 <tr>
 <td>1</td>
 <td>4</td>
-<td>—</td>
+<td>(none)</td>
 </tr>
 <tr>
 <td>2</td>
@@ -359,7 +359,7 @@ final_n = 11</textarea></div>
 <h2 id="quiz">Quiz</h2>
 <div class="quiz" data-id="w001d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>=</code> do in <code>x = 5</code>?", "answer": 1, "explain": "Assignment ties a name to a value. It isn&rsquo;t a comparison (that&rsquo;s ==, on Week 2).", "options": ["Checks whether x equals 5", "Makes the name x refer to the value 5", "Copies 5 into a box called x", "Prints 5"]}, {"type": "output", "q": "What does this print?", "answer": "5", "explain": "b = a ties b to the object 5. Moving a later doesn&rsquo;t move b.", "code": "a = 5\nb = a\na = 9\nprint(b)"}, {"type": "output", "q": "What does this print?", "answer": "24", "explain": "n becomes 8, then 24.", "code": "n = 4\nn += n\nn *= 3\nprint(n)"}, {"type": "mc", "q": "Which is a valid variable name?", "answer": 2, "explain": "No digit at the start, no hyphens, no keywords.", "options": ["<code>2fast</code>", "<code>my-score</code>", "<code>my_score</code>", "<code>class</code>"]}, {"type": "text", "q": "What error does <code>print(x)</code> give if <code>x</code> was never assigned?", "answer": ["NameError", "name error"], "explain": "Python can&rsquo;t find the name."}, {"type": "output", "q": "What does this print?", "answer": "4 7", "explain": "The right side (4, 3 + 4) is worked out first using the old values.", "code": "a, b = 3, 4\na, b = b, a + b\nprint(a, b)"}, {"type": "mc", "q": "After <code>x = y = 10</code>, how many objects are the two names pointing at?", "answer": 0, "explain": "Both names point at the same object.", "options": ["One", "Two", "None"]}, {"type": "mc", "q": "What&rsquo;s wrong with <code>total =+ 5</code>?", "answer": 2, "explain": "It&rsquo;s read as total = (+5). The shortcut is +=.", "options": ["Nothing, it adds 5", "It&rsquo;s a SyntaxError", "It sets total to +5 instead of adding 5", "It subtracts 5"]}, {"type": "mc", "q": "Why is <code>sum = 10</code> a bad idea?", "answer": 1, "explain": "It&rsquo;s allowed, but afterwards sum(&hellip;) no longer works in that program.", "options": ["It&rsquo;s a SyntaxError", "sum is a built-in function, and this hides it", "Variables can&rsquo;t hold 10"]}, {"type": "mc", "q": "What is the type of <code>x</code> after <code>x = 7</code> then <code>x = x / 7</code>?", "answer": 1, "explain": "/ always produces a float, so x now refers to 1.0.", "options": ["int", "float", "str"]}]</script></div>
 <h2 id="daily-challenge">Daily challenge</h2>
-<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d3-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: three-way rotate</div><div class="pc-prompt"><p>Three variables hold three colours. Rotate them so each one gets the value of the next — <code>first</code> gets <code>second</code>&rsquo;s value, <code>second</code> gets <code>third</code>&rsquo;s, <code>third</code> gets <code>first</code>&rsquo;s — in a <strong>single</strong> line. Then print them: <code>green blue red</code>.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d3-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: three-way rotate</div><div class="pc-prompt"><p>Three variables hold three colours. Rotate them so each one gets the value of the next (<code>first</code> gets <code>second</code>&rsquo;s value, <code>second</code> gets <code>third</code>&rsquo;s, <code>third</code> gets <code>first</code>&rsquo;s) in a <strong>single</strong> line. Then print them: <code>green blue red</code>.</p>
 <p>Stretch goal, in your head: how would you do it without the one-line trick, and how many temporary variables would you need?</p></div><textarea class="pc-src pc-code" hidden>first = &quot;red&quot;
 second = &quot;green&quot;
 third = &quot;blue&quot;
@@ -376,7 +376,7 @@ third = &quot;blue&quot;
 first, second, third = second, third, first
 print(first, second, third)</textarea></div>
 <h2 id="before-you-go">Before you go</h2>
-<p>Explain, in your own words, what happens in memory when Python runs <code>y = x</code>. Then draw the labels-and-objects picture for <code>a = 1</code>, <code>b = a</code>, <code>a = 2</code>. If you can draw it, you understand it. Tomorrow: numbers in depth — <code>//</code> and <code>%</code> with negative numbers, why <code>0.1 + 0.2</code> isn&rsquo;t <code>0.3</code>, rounding, and converting between types.</p>
+<p>Explain, in your own words, what happens in memory when Python runs <code>y = x</code>. Then draw the labels-and-objects picture for <code>a = 1</code>, <code>b = a</code>, <code>a = 2</code>. If you can draw it, you understand it. Tomorrow: numbers in depth, including <code>//</code> and <code>%</code> with negative numbers, why <code>0.1 + 0.2</code> isn&rsquo;t <code>0.3</code>, rounding, and converting between types.</p>
     </div>
     <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w001d4.html">Next day</a></nav>
   </article>

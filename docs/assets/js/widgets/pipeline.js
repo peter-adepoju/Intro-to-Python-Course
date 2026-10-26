@@ -9,7 +9,7 @@ const STAGES = [
   ["code", "1. Your code", "You type text. To the computer it is just characters until Python reads it."],
   ["tokens", "2. Tokens", "Python's tokenizer chops the text into words: names, numbers, strings, operators. Spaces between them are dropped."],
   ["tree", "3. Syntax tree", "The parser checks the grammar and builds a tree that says what each part means. Syntax errors are caught here, before anything runs."],
-  ["bytecode", "4. Bytecode", "The compiler turns the tree into simple instructions for Python's virtual machine. Notice LOAD, STORE and CALL — like the toy computer above."],
+  ["bytecode", "4. Bytecode", "The compiler turns the tree into simple instructions for Python's virtual machine. Notice LOAD, STORE and CALL, like the toy computer above."],
   ["output", "5. Running", "The virtual machine carries out the instructions one by one. This is what you see."],
 ];
 

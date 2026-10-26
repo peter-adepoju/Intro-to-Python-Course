@@ -17,7 +17,7 @@ export default function inputflow(el) {
     steps = [
       ["Python works from the inside out. First, input(\"Age? \") runs: it prints the prompt.", `Age? ▌`],
       ["The program pauses. Nothing else happens until the user types and presses Enter.", `Age? ${typed}↵`],
-      ["input() gives back what was typed — always as a string, without the Enter.", `input(...)  →  ${JSON.stringify(typed).replace(/^"|"$/g, "'")}   (type: str)`],
+      ["input() gives back what was typed, always as a string, without the Enter.", `input(...)  →  ${JSON.stringify(typed).replace(/^"|"$/g, "'")}   (type: str)`],
       conv.error
         ? ["int() can't read that as a whole number, so the program crashes here.", `int('${typed}')  →  ${conv.error}`]
         : ["int() turns the text into a number.", `int('${typed}')  →  ${conv.value}   (type: int)`],

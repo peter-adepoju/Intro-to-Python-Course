@@ -29,7 +29,7 @@ export default function fstringlab(el, { value = "3.14159", name = "pi" } = {}) 
     const r = await py.eval(`format(${vIn.value}, ${JSON.stringify(spec)})`, true);
     if (r.error) { out.replaceChildren(h("span", { class: "w-err" }, r.error)); note.textContent = "Some combinations don't make sense: 'd' needs a whole number, 's' needs text, and precision doesn't apply to 'd'."; return; }
     out.replaceChildren(...[...r.value].map((ch) => h("span", { style: `display:inline-block;min-width:.62em;text-align:center;border-bottom:2px solid ${ch === " " || ch === f ? "var(--yellow)" : "var(--blue)"};margin-right:1px` }, ch === " " ? " " : ch)));
-    note.textContent = `${r.value.length} characters wide. Yellow underlines mark padding, blue the value itself. The part after the colon is the format spec: fill, align, width, thousands, .precision, type — in that order.`;
+    note.textContent = `${r.value.length} characters wide. Yellow underlines mark padding, blue the value itself. The part after the colon is the format spec: fill, align, width, thousands, .precision, type, in that order.`;
   }
   el.querySelectorAll("input, select").forEach((x) => x.addEventListener("input", go));
   go();

@@ -5,7 +5,7 @@ import { h } from "../site.js";
 const pyFloorDiv = (a, b) => Math.floor(a / b);
 const pyMod = (a, b) => a - b * Math.floor(a / b);
 const fmtFloat = (x) => {
-  if (!isFinite(x)) return "—";
+  if (!isFinite(x)) return "-";
   let s = String(x);
   if (Number.isInteger(x)) s = x.toFixed(1);
   return s;

@@ -30,7 +30,7 @@ export default function bits(el, { start = 65 } = {}) {
       cell("As a character: chr(" + value + ")", ch));
     const parts = [];
     for (let i = 7; i >= 0; i--) if ((value >> i) & 1) parts.push(1 << i);
-    note.textContent = parts.length ? `${parts.join(" + ")} = ${value}. Same eight switches, three meanings — the type decides how bits are read.` : "All switches off: 0.";
+    note.textContent = parts.length ? `${parts.join(" + ")} = ${value}. Same eight switches, three meanings: the type decides how bits are read.` : "All switches off: 0.";
   }
   num.addEventListener("input", () => { const v = Math.max(0, Math.min(255, parseInt(num.value || "0", 10) || 0)); value = v; draw(); });
   draw();

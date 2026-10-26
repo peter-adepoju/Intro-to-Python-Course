@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="../">
 <meta name="site-version" content="2026.10.1">
-<title>Week 1 Day 4: Numbers in depth: //, %, floats, rounding and conversion — Python Atlas</title>
+<title>Week 1 Day 4: Numbers in depth: //, %, floats, rounding and conversion | Python Atlas</title>
 <meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,12 +85,12 @@ print(&quot;last two digits:&quot;, n % 100)</textarea></div>
 <div class="pc pc-example" data-kind="example" data-id="w001d4-e5"><textarea class="pc-src pc-code" hidden>start = 9
 later = (start + 50) % 24
 print(later)</textarea></div>
-<p><code>% 24</code> wraps any number back into the range 0 to 23. Day of the week, 100 days after a Monday (day 0)? <code>(0 + 100) % 7</code> is <code>2</code> — a Wednesday.</p>
+<p><code>% 24</code> wraps any number back into the range 0 to 23. Day of the week, 100 days after a Monday (day 0)? <code>(0 + 100) % 7</code> is <code>2</code>, a Wednesday.</p>
 <p><strong>4. Unit conversion.</strong> Seconds into minutes and seconds, pence into pounds and pence, centimetres into metres and centimetres:</p>
 <div class="pc pc-example" data-kind="example" data-id="w001d4-e6"><textarea class="pc-src pc-code" hidden>total_cm = 375
 print(total_cm // 100, &quot;m&quot;, total_cm % 100, &quot;cm&quot;)</textarea></div>
 <h3 id="negative-numbers">Negative numbers</h3>
-<p>Python&rsquo;s <code>//</code> always rounds <strong>down</strong> — towards minus infinity — not towards zero. So <code>-7 // 2</code> is <code>-4</code>, not <code>-3</code>. And the remainder always has the <strong>same sign as the divisor</strong>: with a positive <code>b</code>, <code>a % b</code> is never negative.</p>
+<p>Python&rsquo;s <code>//</code> always rounds <strong>down</strong>, towards minus infinity, not towards zero. So <code>-7 // 2</code> is <code>-4</code>, not <code>-3</code>. And the remainder always has the <strong>same sign as the divisor</strong>: with a positive <code>b</code>, <code>a % b</code> is never negative.</p>
 <div class="pc pc-predict" data-kind="predict" data-id="w001d4-p7"><textarea class="pc-src pc-code" hidden>print(-7 // 2)
 print(-7 % 2)
 print(7 // -2)</textarea></div>
@@ -101,10 +101,10 @@ print(7 // -2)</textarea></div>
 <figure class="widget" data-widget="floatlab"><script type="application/json">{"start": "0.1"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Type a decimal to see the exact value a float actually stores. 0.5 and 0.25 are exact; 0.1 and 0.3 are not.</figcaption></figure>
 <div class="pc pc-predict" data-kind="predict" data-id="w001d4-p8"><textarea class="pc-src pc-code" hidden>print(0.1 + 0.2)
 print(0.5 + 0.25)</textarea></div>
-<p>This isn&rsquo;t a Python bug — every language that uses standard floats behaves the same way. It matters in three situations:</p>
+<p>This isn&rsquo;t a Python bug: every language that uses standard floats behaves the same way. It matters in three situations:</p>
 <ol>
 <li><strong>Comparing floats.</strong> Never check whether two floats are exactly equal. Check whether they&rsquo;re <em>close</em>. (You&rsquo;ll learn <code>==</code> properly next week.)</li>
-<li><strong>Money.</strong> Count in whole units — kobo, cents, pence — using ints, or use Python&rsquo;s <code>decimal</code> module (Week 20).</li>
+<li><strong>Money.</strong> Count in whole units (kobo, cents, pence) using ints, or use Python&rsquo;s <code>decimal</code> module (Week 20).</li>
 <li><strong>Adding many small floats.</strong> Errors add up. Use <code>math.fsum</code> for long sums.</li>
 </ol>
 <div class="pc pc-example" data-kind="example" data-id="w001d4-e9"><textarea class="pc-src pc-code" hidden>import math
@@ -159,11 +159,11 @@ print(1e308 * 10)</textarea></div>
 </tr>
 </tbody>
 </table>
-<p>Which do you need? <strong>Think about the problem.</strong> How many buses for 130 people, 50 per bus? You need <code>math.ceil(130 / 50)</code> = 3 — rounding down would leave people behind.</p>
+<p>Which do you need? <strong>Think about the problem.</strong> How many buses for 130 people, 50 per bus? You need <code>math.ceil(130 / 50)</code> = 3, because rounding down would leave people behind.</p>
 <p><code>round()</code> can also round to decimal places: <code>round(3.14159, 2)</code> is <code>3.14</code>.</p>
 <div class="pc pc-predict" data-kind="predict" data-id="w001d4-p11"><textarea class="pc-src pc-code" hidden>print(round(2.5), round(3.5))
 print(round(7.4567, 2))</textarea></div>
-<p>Rounding exact halves to the even number (&ldquo;banker&rsquo;s rounding&rdquo;) avoids a slight upward bias when you round lots of numbers. But beware: because of how floats are stored, <code>round(2.675, 2)</code> gives <code>2.67</code> — try 2.675 in the float lab above to see why.</p>
+<p>Rounding exact halves to the even number (&ldquo;banker&rsquo;s rounding&rdquo;) avoids a slight upward bias when you round lots of numbers. But beware: because of how floats are stored, <code>round(2.675, 2)</code> gives <code>2.67</code>. Try 2.675 in the float lab above to see why.</p>
 <h2 id="more-tools-abs-min-max-and-math">More tools: abs, min, max and math</h2>
 <div class="pc pc-example" data-kind="example" data-id="w001d4-e12"><textarea class="pc-src pc-code" hidden>import math
 print(abs(-7))            # distance from zero
@@ -177,7 +177,7 @@ print(math.hypot(3, 4))   # length of the long side of a right triangle</textare
 <figure class="widget" data-widget="convert"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>One value in, four conversions out. Red boxes are errors: read why each one fails.</figcaption></figure>
 <p>The rules worth memorising:</p>
 <ul>
-<li><code>int("42")</code> works: the text looks like a whole number. <code>int(" 42 ")</code> works too — spaces at the ends are ignored.</li>
+<li><code>int("42")</code> works: the text looks like a whole number. <code>int(" 42 ")</code> works too: spaces at the ends are ignored.</li>
 <li><code>int("3.7")</code> fails: <code>int()</code> won&rsquo;t read a decimal point from text. Go through float: <code>int(float("3.7"))</code> is <code>3</code>.</li>
 <li><code>int(3.7)</code> works on a float and <strong>chops</strong> to <code>3</code>.</li>
 <li><code>float("3.7")</code> is <code>3.7</code>; <code>float("1e3")</code> is <code>1000.0</code>.</li>

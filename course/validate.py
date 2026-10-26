@@ -46,5 +46,13 @@ for w in curriculum.build()["weeks"]:
                 problems += 1
                 print(f"✗ example {e['id']}: {'error ' + r['error']['type'] + ': ' + r['error']['message'] if r['error'] else 'expected an error but ran cleanly'}\n    {e['code'][:80]!r}")
         print(f"{d['id']}: {len(day.checks)} exercises, {len(day.examples)} examples, {len(day.cards)} quiz questions")
+# House style: no em dashes anywhere learners can see.
+for f in list((HERE / "content").rglob("*.md")) + list((HERE / "templates").rglob("*.html")) + list((HERE / "static").rglob("*.js")) + [HERE / "static" / "py" / "harness.py", HERE / "curriculum.py"]:
+    if "vendor" in f.parts:
+        continue
+    for n, line in enumerate(f.read_text().splitlines(), 1):
+        if "\u2014" in line:
+            problems += 1
+            print(f"✗ em dash in {f.relative_to(HERE)}:{n}")
 print(f"\n{count['exercises']} exercises and {count['examples']} examples checked; {problems} problem(s).")
 sys.exit(1 if problems else 0)

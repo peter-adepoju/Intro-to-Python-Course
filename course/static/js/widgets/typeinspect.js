@@ -3,16 +3,16 @@ import { h } from "../site.js";
 import { py } from "../runtime.js";
 
 const ABOUT = {
-  int: "a whole number. Python ints have no size limit — try 2 ** 200.",
+  int: "a whole number. Python ints have no size limit: try 2 ** 200.",
   float: "a number with a decimal point, stored in binary with about 16 significant digits.",
   str: "text: a sequence of characters inside quotes.",
   bool: "a truth value: True or False.",
   NoneType: "None, Python's way of saying 'no value here'.",
   complex: "a complex number (a + bj).",
-  list: "a list — you'll meet these in Week 8.",
-  tuple: "a tuple — Week 9.",
-  dict: "a dictionary — Week 10.",
-  set: "a set — Week 10.",
+  list: "a list (you'll meet these in Week 8).",
+  tuple: "a tuple (Week 9).",
+  dict: "a dictionary (Week 10).",
+  set: "a set (Week 10).",
 };
 
 export default function typeinspect(el, { start = "2 ** 100", examples = ["7", "7.0", "'7'", "True", "2 ** 100", "0.1 + 0.2", "None", "3 / 1"] }) {

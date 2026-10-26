@@ -8,7 +8,7 @@ export default function printlab(el, { values = "'Ada', 36, 'London'", sep = "",
   const eIn = h("input", { class: "w-input", value: end, placeholder: "default '\\n'", spellcheck: "false", style: "width:8em", "aria-label": "end" });
   const code = h("pre", { class: "w-out", style: "margin-top:.6rem" });
   const visible = h("div", { style: "font:600 1.1rem var(--f-code);padding:.6rem .8rem;border:1px dashed var(--line);border-radius:6px;margin-top:.5rem;white-space:pre-wrap" });
-  const note = h("p", { class: "w-note" }, "Grey dots are spaces and ↵ is a new line — characters you normally can't see. Try sep='' or sep=', ' or end=''.");
+  const note = h("p", { class: "w-note" }, "Grey dots are spaces and ↵ is a new line: characters you normally can't see. Try sep='' or sep=', ' or end=''.");
   el.append(h("div", { class: "w-row" }, h("code", {}, "print("), vIn, h("code", {}, ")")),
     h("div", { class: "w-row", style: "margin-top:.4rem" }, h("code", {}, "sep ="), sIn, h("code", {}, "end ="), eIn,
       h("span", { class: "muted", style: "font-size:.85rem" }, "(type them as Python strings, e.g. ', ' with quotes)")),

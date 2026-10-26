@@ -1,4 +1,4 @@
-/* Python Atlas — one accent rule: signal yellow always means "the line running now". */
+/* Python Atlas. One accent rule: signal yellow always means "the line running now". */
 :root {
   --paper: #e7ecf2;
   --surface: #ffffff;
@@ -492,3 +492,13 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
 @media (max-width: 560px) { .setting { grid-template-columns: 1fr; } .setting-c { grid-column: 1; grid-row: auto; } }
 .gear { display: inline-grid; place-items: center; width: 2.3rem; height: 2.3rem; border-radius: var(--radius-s); color: var(--ink-2); }
 .gear:hover { background: var(--sunk); color: var(--ink); }
+
+/* ---------- questions (click to reveal) */
+.faq { display: grid; gap: .5rem; }
+.faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m); }
+.faq-item summary { list-style: none; cursor: pointer; padding: .85rem 1.1rem; font-weight: 700; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: "+"; font: 400 1.4rem/1 var(--f-body); color: var(--ink-3); }
+.faq-item[open] summary::after { content: "\2212"; }
+.faq-item summary:hover { color: var(--blue); }
+.faq-a { padding: 0 1.1rem 1rem; color: var(--ink-2); }

@@ -16,7 +16,7 @@ export default function escapes(el, { start = "'Name:\\tAda\\nAge:\\t36'", tries
     const r = await py.call("literal_info", input.value);
     if (r.error) { boxes.replaceChildren(h("span", { class: "w-err" }, r.error)); meta.textContent = ""; printed.textContent = ""; return; }
     boxes.replaceChildren(...r.chars.map((c) => h("div", {
-      title: `${c.name || c.ch} — character number ${c.code}`,
+      title: `${c.name || c.ch}, character number ${c.code}`,
       style: `min-width:2.2em;padding:.2rem .3rem;text-align:center;border:1px solid ${c.name && "\n\t\\".includes(c.ch) ? "var(--yellow)" : "var(--line)"};border-radius:4px;background:${c.name && "\n\t\\".includes(c.ch) ? "var(--yellow-soft)" : "var(--paper)"}`,
     }, h("div", { style: "font:600 1.05rem var(--f-code)" }, c.ch === "\n" ? "↵" : c.ch === "\t" ? "⇥" : c.ch === " " ? "␣" : c.ch),
       h("div", { style: "font-size:.65rem;color:var(--ink-3)" }, c.name || c.code))));

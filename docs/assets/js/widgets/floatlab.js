@@ -18,8 +18,8 @@ export default function floatlab(el, { start = "0.1" } = {}) {
     out.replaceChildren(
       row("Python shows", r.repr, "Python prints the shortest decimal that turns back into the same float."),
       row("What is really stored (exactly)", r.exact, r.exact_equal ? "Exact! This number is a sum of powers of 2, so binary can store it perfectly." : "Not exactly what you typed: binary can't represent it, so Python stores the nearest value it can."),
-      row("In binary", `${r.binary_int}.${frac}${frac.length >= 60 ? "…" : ""}`, frac.length >= 55 ? "The pattern goes on forever, like 1/3 = 0.333… in decimal. It gets cut off after 52 binary digits." : "It ends — that's why this one is exact."),
-      row("Error", r.diff === "0" ? "0" : r.diff, r.diff === "0" ? "" : "Tiny — but it can add up, and it makes == between floats unreliable."));
+      row("In binary", `${r.binary_int}.${frac}${frac.length >= 60 ? "…" : ""}`, frac.length >= 55 ? "The pattern goes on forever, like 1/3 = 0.333… in decimal. It gets cut off after 52 binary digits." : "It ends, which is why this one is exact."),
+      row("Error", r.diff === "0" ? "0" : r.diff, r.diff === "0" ? "" : "Tiny, but it can add up, and it makes == between floats unreliable."));
   }
   async function sums() {
     const a = await py.eval("0.1 + 0.2", true);

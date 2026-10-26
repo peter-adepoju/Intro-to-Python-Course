@@ -130,14 +130,14 @@ export function mountParsons(root = document) {
         if (id) progress.update("pz:" + id, () => ({ solved: true }));
         progress.activity(3);
       } else if (firstBad >= got.length) {
-        fb.textContent = `So far so good — the program needs ${want.length - got.length} more line(s).`;
+        fb.textContent = `So far so good. The program needs ${want.length - got.length} more line(s).`;
       } else {
         const a = answer[firstBad];
         const wrongIndent = solution[firstBad] && solution[firstBad].text === a.text;
         fb.textContent = wrongIndent
           ? `Line ${firstBad + 1} is the right line but its indentation is wrong.`
           : (data.distractors || []).map((d) => d.trim()).includes(a.text)
-            ? `Line ${firstBad + 1} is a trap — that line doesn't belong in the program at all.`
+            ? `Line ${firstBad + 1} is a trap: that line doesn't belong in the program at all.`
             : `Line ${firstBad + 1} is in the wrong place.`;
       }
     };

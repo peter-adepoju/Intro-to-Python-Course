@@ -80,7 +80,7 @@ export class XRay {
     const isLast = this.i === this.steps.length - 1;
     let s = `Line ${step.line} is about to run.`;
     if (prev && prev.line) s = `Line ${prev.line} just ran. ` + s;
-    if (isLast && r.truncated) s += " (The X-ray stops after 600 steps — that's enough to see the pattern.)";
+    if (isLast && r.truncated) s += " (The X-ray stops after 600 steps, which is enough to see the pattern.)";
     if (isLast && r.error) s += ` Running it causes ${r.error.type}: ${r.error.message}`;
     if (isLast && r.need_input) s += ` The program is waiting for input: type it into the console box and run the X-ray again.`;
     return s;
