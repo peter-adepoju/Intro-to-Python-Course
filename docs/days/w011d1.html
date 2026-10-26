@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="1ffd204647">
+<title>Week 11 Day 1: Reading text files | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=1ffd204647">
+<link rel="stylesheet" href="../assets/css/site.css?v=1ffd204647">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=1ffd204647"></script>
+<script src="../assets/vendor/codemirror.js?v=1ffd204647" defer></script>
+<meta name="description" content="Every program so far has forgotten everything the moment it finished, and every piece of data came from input or was typed into the code. Real programs read...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w011d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 11 Day 1: Reading text files">
+<meta property="og:description" content="Every program so far has forgotten everything the moment it finished, and every piece of data came from input or was typed into the code. Real programs read...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w011d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-11">Week 11: Files and errors</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#what-a-text-file-is" data-sec="what-a-text-file-is">What a text file is</a></li><li><a href="#opening-and-closing" data-sec="opening-and-closing">Opening and closing</a></li><li><a href="#ways-to-read" data-sec="ways-to-read">Ways to read</a></li><li><a href="#the-file-position" data-sec="the-file-position">The file position</a></li><li><a href="#processing-line-by-line" data-sec="processing-line-by-line">Processing line by line</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 11, Day 1</span></p>
+      <h1>Reading text files</h1>
+      <div class="day-intro"><p>Every program so far has forgotten everything the moment it finished, and every piece of data came from <code>input</code> or was typed into the code. Real programs read their data from files. Today you&rsquo;ll open text files, read them in several ways, understand the invisible position that every read moves along, and learn the <code>with</code> statement that closes files for you.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain what a text file is, a sequence of characters with lines ended by a newline character</li><li>Open a file with <code>with open(...) as f:</code> and say why <code>with</code> is the safe way</li><li>Read a whole file, one line at a time, or into a list of lines, and strip the newlines</li><li>Explain the file position, and why a second <code>read</code> gives an empty string</li><li>Process a file line by line to count, filter and add up, and recognise a <code>FileNotFoundError</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="What a text file is: 20 min"></span><span class="plan-seg s0" style="flex:25" title="Opening and closing: 25 min"></span><span class="plan-seg s1" style="flex:30" title="Ways to read: 30 min"></span><span class="plan-seg s0" style="flex:20" title="The file position: 20 min"></span><span class="plan-seg s1" style="flex:25" title="Processing line by line: 25 min"></span><span class="plan-seg s0" style="flex:40" title="Practice: 40 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">What a text file is</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">Opening and closing</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">Ways to read</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">The file position</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Processing line by line</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Practice</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w011d1.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d1-p1"><textarea class="pc-src pc-code" hidden>text = &quot;Ada,93\nBo,41\n&quot;
+print(text.split(&quot;\n&quot;))
+for line in text.splitlines():
+    name, mark = line.split(&quot;,&quot;)
+    print(name, int(mark) + 1)</textarea></div>
+<p>That string is exactly what a small file looks like inside: lines of characters, each ended by <code>"\n"</code>. Today the text comes from a real file instead of a string in your code.</p>
+<h2 id="what-a-text-file-is">What a text file is</h2>
+<p>A <strong>text file</strong> is a sequence of characters stored on a disk, with a name like <code>marks.txt</code>. There is nothing special about lines: a line is just the characters up to a newline character, <code>"\n"</code>. Most text files end with a newline after the last line too.</p>
+<p>Here are the files the programs on this page use. In a real project they&rsquo;d be in the same folder as your program. Here, every program starts with a fresh copy, so you can&rsquo;t damage them:</p>
+<div class="filebox"><div class="filebox-head">The files used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>marks.txt</code></summary><pre class="pc-filetext">Ada,93
+Bo,41
+Cy,78
+Di,55
+</pre></details><details class="pc-file"><summary><code>poem.txt</code></summary><pre class="pc-filetext">The woods are lovely, dark and deep,
+But I have promises to keep,
+And miles to go before I sleep,
+And miles to go before I sleep.
+</pre></details><details class="pc-file"><summary><code>numbers.txt</code></summary><pre class="pc-filetext">12
+7
+30
+
+18
+</pre></details><details class="pc-file"><summary><code>server.log</code></summary><pre class="pc-filetext">INFO start
+WARN disk 81%
+INFO request /home
+ERROR timeout /shop
+INFO request /about
+ERROR timeout /home
+</pre></details><script type="application/json" class="page-files">{"marks.txt": "Ada,93\nBo,41\nCy,78\nDi,55\n", "poem.txt": "The woods are lovely, dark and deep,\nBut I have promises to keep,\nAnd miles to go before I sleep,\nAnd miles to go before I sleep.\n", "numbers.txt": "12\n7\n30\n\n18\n", "server.log": "INFO start\nWARN disk 81%\nINFO request /home\nERROR timeout /shop\nINFO request /about\nERROR timeout /home\n"}</script></div>
+<p>(The poem is the last verse of Robert Frost&rsquo;s &ldquo;Stopping by Woods on a Snowy Evening&rdquo;, from 1923.)</p>
+<h2 id="opening-and-closing">Opening and closing</h2>
+<p>To use a file, you <strong>open</strong> it, which gives you a <strong>file object</strong>. You read from the file object, then <strong>close</strong> it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e2"><textarea class="pc-src pc-code" hidden>f = open(&quot;poem.txt&quot;)
+text = f.read()
+f.close()
+print(text)</textarea></div>
+<p><code>open("poem.txt")</code> looks for the file in the <strong>current folder</strong>, the folder the program is running in. <code>f.read()</code> reads the whole file into one string. <code>f.close()</code> tells the operating system you&rsquo;ve finished, so it can free what it set aside.</p>
+<p>Forgetting <code>close</code>, or crashing before you reach it, leaves the file open. For reading that&rsquo;s usually harmless; for writing (tomorrow) it can lose data. So Python has a statement that closes the file for you, however the block ends:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e3"><textarea class="pc-src pc-code" hidden>with open(&quot;poem.txt&quot;) as f:
+    text = f.read()
+print(len(text), &quot;characters&quot;)
+print(f.closed)</textarea></div>
+<p><code>with open(...) as f:</code> opens the file and names it <code>f</code>. When the indented block ends, normally or with an error, the file is closed. Notice <code>text</code> is still there after the block: only the file is closed.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Always open files with <code>with open(name) as f:</code>. Do the reading inside the block, keep the results in variables, and work with them after.</p></aside>
+<h3 id="encodings">Encodings</h3>
+<p>A file stores <strong>bytes</strong>, and an <strong>encoding</strong> says how to turn bytes into characters. Almost every text file today uses <strong>UTF-8</strong>, which can store every alphabet and emoji. Python usually assumes UTF-8, but on some computers (older Windows set-ups in particular) it assumes something else, and names like &ldquo;Adébáyọ̀&rdquo; come out garbled. To be safe, say so:</p>
+<pre><code>with open(&quot;names.txt&quot;, encoding=&quot;utf-8&quot;) as f:
+</code></pre>
+<p>The examples on this site are short; in your own programs, write <code>encoding="utf-8"</code>.</p>
+<h2 id="ways-to-read">Ways to read</h2>
+<p>There are four ways to read a text file. Try them on a real file, and watch the red position marker:</p>
+<figure class="widget" data-widget="fileread"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each button runs that read on a real file. The red bar is where the next read starts. Try read() twice, or readline() three times then read().</figcaption></figure>
+<h3 id="the-whole-file-read">The whole file: read()</h3>
+<p><code>f.read()</code> gives the whole file as one string, newlines included. It&rsquo;s simplest for small files.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e4"><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    text = f.read()
+print(repr(text))
+print(text.splitlines())</textarea></div>
+<p><code>text.splitlines()</code> splits it into lines <strong>without</strong> the newline characters, which is often what you want.</p>
+<h3 id="one-line-readline">One line: readline()</h3>
+<p><code>f.readline()</code> gives the next line, <strong>including</strong> its <code>"\n"</code>. At the end of the file it gives <code>""</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e5"><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    first = f.readline()
+    second = f.readline()
+print(repr(first), repr(second))</textarea></div>
+<h3 id="all-lines-as-a-list-readlines">All lines as a list: readlines()</h3>
+<p><code>f.readlines()</code> gives a list of every line, each still ending in <code>"\n"</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e6"><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    lines = f.readlines()
+print(lines)</textarea></div>
+<h3 id="loop-over-the-file">Loop over the file</h3>
+<p>The most common way of all: a file object can be looped over directly, one line at a time:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e7"><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    for line in f:
+        print(repr(line))</textarea></div>
+<p>This reads only one line at a time, so it works even for a file far bigger than your computer&rsquo;s memory.</p>
+<h3 id="removing-the-newline">Removing the newline</h3>
+<p>Every line from <code>readline</code>, <code>readlines</code> or a <code>for</code> loop ends in <code>"\n"</code>. Print it and you get a blank line between lines, because <code>print</code> adds its own newline:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e8"><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    for line in f:
+        print(line)</textarea></div>
+<p>So the first thing to do with a line is usually <code>line.strip()</code> (or <code>line.rstrip("\n")</code> if spaces at the ends matter):</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e9"><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    for line in f:
+        line = line.strip()
+        print(line)</textarea></div>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Comparing a line straight from a file to a string usually fails: <code>"Ada,93\n" == "Ada,93"</code> is <code>False</code>. Strip first.</p></aside>
+<h2 id="the-file-position">The file position</h2>
+<p>A file object remembers a <strong>position</strong>: where the next read will start. Each read moves it forward. Once it reaches the end, every read gives an empty result:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e10"><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    first = f.read()
+    second = f.read()
+print(len(first), repr(second))</textarea></div>
+<p>That&rsquo;s why a file can only be looped over once. Just like a <code>zip</code> from Week 9, it&rsquo;s used up:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e11"><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    count = 0
+    for line in f:
+        count += 1
+    total = 0
+    for line in f:
+        total += 1
+print(count, total)</textarea></div>
+<p>If you need the lines more than once, read them into a list first (<code>lines = f.read().splitlines()</code>), then use the list as often as you like.</p>
+<h2 id="processing-line-by-line">Processing line by line</h2>
+<p>Almost every file program has the same shape: open, loop over the lines, strip and split each one, and do something with the pieces. All the patterns from earlier weeks still work:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e12"><div class="pc-title">Totals and the best</div><textarea class="pc-src pc-code" hidden>total = 0
+best_name, best_mark = &quot;&quot;, -1
+with open(&quot;marks.txt&quot;) as f:
+    for line in f:
+        name, mark = line.strip().split(&quot;,&quot;)
+        mark = int(mark)
+        total += mark
+        if mark &gt; best_mark:
+            best_name, best_mark = name, mark
+print(&quot;Total:&quot;, total)
+print(&quot;Best:&quot;, best_name, best_mark)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e13"><div class="pc-title">Count by kind</div><textarea class="pc-src pc-code" hidden>from collections import Counter
+with open(&quot;server.log&quot;) as f:
+    levels = Counter(line.split()[0] for line in f)
+print(levels)</textarea></div>
+<h3 id="blank-lines">Blank lines</h3>
+<p>Real files often have blank lines, especially at the end. <code>int("")</code> fails, so skip them:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e14"><textarea class="pc-src pc-code" hidden>total = 0
+with open(&quot;numbers.txt&quot;) as f:
+    for line in f:
+        line = line.strip()
+        if not line:
+            continue
+        total += int(line)
+print(total)</textarea></div>
+<h3 id="a-file-that-isn-t-there">A file that isn&rsquo;t there</h3>
+<p>Opening a file that doesn&rsquo;t exist raises <code>FileNotFoundError</code>. You&rsquo;ll learn to handle it gracefully on Day 4.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d1-e15"><textarea class="pc-src pc-code" hidden>with open(&quot;results.txt&quot;) as f:
+    print(f.read())</textarea></div>
+<p>The message names the file Python looked for. When this happens in your own projects, check the spelling, and check which folder your program is running in.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d1-count_lines" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How many lines?</div><div class="pc-prompt"><p>Print how many lines <code>poem.txt</code> has, then how many words, as <code>4 lines, 27 words</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the poem&quot;
+    expect_output(&quot;4 lines, 27 words&quot;)
+def test_other():
+    &quot;another file&quot;
+    write_file(&quot;poem.txt&quot;, &quot;one two\nthree\n&quot;)
+    assert norm(run()) == &quot;2 lines, 3 words&quot;</textarea><textarea class="pc-src pc-solution" hidden>with open(&quot;poem.txt&quot;) as f:
+    text = f.read()
+print(f&quot;{len(text.splitlines())} lines, {len(text.split())} words&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d1-numbered" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Number the lines</div><div class="pc-prompt"><p>Print each line of <code>poem.txt</code> with its line number, like <code>1: The woods are lovely, dark and deep,</code>. No blank lines between them.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;numbered&quot;
+    expect_output(&quot;1: The woods are lovely, dark and deep,\n2: But I have promises to keep,\n3: And miles to go before I sleep,\n4: And miles to go before I sleep.&quot;)
+def test_other():
+    &quot;another file&quot;
+    write_file(&quot;poem.txt&quot;, &quot;a\nb\n&quot;)
+    assert norm(run()) == &quot;1: a\n2: b&quot;</textarea><textarea class="pc-src pc-solution" hidden>with open(&quot;poem.txt&quot;) as f:
+    for n, line in enumerate(f, start=1):
+        print(f&quot;{n}: {line.strip()}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d1-total" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Add them up</div><div class="pc-prompt"><p>Write <code>file_total(name)</code> that returns the sum of the numbers in a file with one number per line, skipping blank lines.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several files&quot;
+    assert file_total(&quot;numbers.txt&quot;) == 67
+    write_file(&quot;more.txt&quot;, &quot;1.5\n\n2.5\n&quot;)
+    assert file_total(&quot;more.txt&quot;) == 4.0
+    write_file(&quot;none.txt&quot;, &quot;&quot;)
+    assert file_total(&quot;none.txt&quot;) == 0</textarea><textarea class="pc-src pc-solution" hidden>def file_total(name):
+    total = 0
+    with open(name) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                total += float(line)
+    return total</textarea><template class="pc-src pc-hint">Use <code>float</code> so that decimals work. <code>float("12")</code> is 12.0, and <code>12.0 == 12</code> is <code>True</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d1-errors_only" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Just the errors</div><div class="pc-prompt"><p>Write <code>errors(name)</code> that returns a list of the lines of a log file that start with <code>ERROR</code>, without their newlines.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;the log&quot;
+    assert errors(&quot;server.log&quot;) == [&quot;ERROR timeout /shop&quot;, &quot;ERROR timeout /home&quot;]
+    write_file(&quot;quiet.log&quot;, &quot;INFO a\nINFO b\n&quot;)
+    assert errors(&quot;quiet.log&quot;) == []</textarea><textarea class="pc-src pc-solution" hidden>def errors(name):
+    found = []
+    with open(name) as f:
+        for line in f:
+            if line.startswith(&quot;ERROR&quot;):
+                found.append(line.rstrip(&quot;\n&quot;))
+    return found</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d1-to_dict" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Into a dictionary</div><div class="pc-prompt"><p>Write <code>load_marks(name)</code> that reads a file of <code>name,mark</code> lines into a dictionary from name to mark (an int).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;the marks&quot;
+    assert load_marks(&quot;marks.txt&quot;) == {&quot;Ada&quot;: 93, &quot;Bo&quot;: 41, &quot;Cy&quot;: 78, &quot;Di&quot;: 55}
+    write_file(&quot;x.txt&quot;, &quot;Zed,1\n\n&quot;)
+    assert load_marks(&quot;x.txt&quot;) == {&quot;Zed&quot;: 1}</textarea><textarea class="pc-src pc-solution" hidden>def load_marks(name):
+    marks = {}
+    with open(name) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                person, mark = line.split(&quot;,&quot;)
+                marks[person] = int(mark)
+    return marks</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d1-longest" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The longest line</div><div class="pc-prompt"><p>Write <code>longest_line(name)</code> that returns the longest line of a file (without its newline). If several are equally long, return the first. Return <code>""</code> for an empty file.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several files&quot;
+    assert longest_line(&quot;poem.txt&quot;) == &quot;The woods are lovely, dark and deep,&quot;
+    write_file(&quot;t.txt&quot;, &quot;ab\ncd\nx\n&quot;)
+    assert longest_line(&quot;t.txt&quot;) == &quot;ab&quot;
+    write_file(&quot;e.txt&quot;, &quot;&quot;)
+    assert longest_line(&quot;e.txt&quot;) == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def longest_line(name):
+    best = &quot;&quot;
+    with open(name) as f:
+        for line in f:
+            line = line.rstrip(&quot;\n&quot;)
+            if len(line) &gt; len(best):
+                best = line
+    return best</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Double spaced</div><div class="pc-prompt"><p>This should print the marks file exactly, with no blank lines in between. Fix it.</p></div><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    for line in f:
+        print(line)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;no blank lines&quot;
+    expect_output(&quot;Ada,93\nBo,41\nCy,78\nDi,55&quot;)</textarea><textarea class="pc-src pc-solution" hidden>with open(&quot;marks.txt&quot;) as f:
+    for line in f:
+        print(line.rstrip(&quot;\n&quot;))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The second pass is empty</div><div class="pc-prompt"><p>This should print how many lines there are and then the longest name. It prints the count, then crashes on <code>max</code> of an empty list. Fix it so the file is read only once.</p></div><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    print(len(f.readlines()), &quot;lines&quot;)
+    names = [line.split(&quot;,&quot;)[0] for line in f]
+    print(max(names, key=len))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;both&quot;
+    expect_output(&quot;4 lines\nAda&quot;)
+def test_once():
+    &quot;one read&quot;
+    assert source.count(&quot;open(&quot;) == 1</textarea><textarea class="pc-src pc-solution" hidden>with open(&quot;marks.txt&quot;) as f:
+    lines = f.readlines()
+print(len(lines), &quot;lines&quot;)
+names = [line.split(&quot;,&quot;)[0] for line in lines]
+print(max(names, key=len))</textarea><template class="pc-src pc-hint">After <code>readlines()</code>, the position is at the end. Keep the lines in a variable and use it twice.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d1-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Nothing matches</div><div class="pc-prompt"><p>This should print <code>Found Cy</code> but prints <code>Not found</code>. Fix the comparison.</p></div><textarea class="pc-src pc-code" hidden>with open(&quot;marks.txt&quot;) as f:
+    lines = f.readlines()
+if &quot;Cy,78&quot; in lines:
+    print(&quot;Found Cy&quot;)
+else:
+    print(&quot;Not found&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;found&quot;
+    expect_output(&quot;Found Cy&quot;)</textarea><textarea class="pc-src pc-solution" hidden>with open(&quot;marks.txt&quot;) as f:
+    lines = f.read().splitlines()
+if &quot;Cy,78&quot; in lines:
+    print(&quot;Found Cy&quot;)
+else:
+    print(&quot;Not found&quot;)</textarea><template class="pc-src pc-hint">Each item of <code>lines</code> still ends with <code>"\n"</code>. <code>splitlines()</code> gives lines without it.</template></div>
+<div class="parsons" data-id="w011d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Average mark</div><div class="pc-prompt"><p>Arrange the lines to print the average mark from <code>marks.txt</code>, <code>66.75</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["marks = []", "with open(\"marks.txt\") as f:", "    for line in f:", "        marks.append(int(line.strip().split(\",\")[1]))", "print(sum(marks) / len(marks))"], "distractors": ["        marks.append(int(line.split(\",\")[0]))"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Suppose <code>t.txt</code> holds the three lines <code>a</code>, <code>bb</code> and <code>ccc</code>, each followed by a newline. Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # the length of open(&quot;t.txt&quot;).read()
+b = ___   # open(&quot;t.txt&quot;).readlines()[1]
+c = ___   # open(&quot;t.txt&quot;).read().splitlines()[-1]
+d = ___   # with open(&quot;t.txt&quot;) as f: f.readline(); then f.read()  (the second result)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 9
+    assert b == &quot;bb\n&quot;
+    assert c == &quot;ccc&quot;
+    assert d == &quot;bb\nccc\n&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = 9
+b = &quot;bb\n&quot;
+c = &quot;ccc&quot;
+d = &quot;bb\nccc\n&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w011d1-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why is <code>with open(name) as f:</code> better than <code>f = open(name)</code>?", "answer": 1, "explain": "No forgotten close().", "options": ["It&rsquo;s faster", "It closes the file when the block ends, even after an error", "It reads the whole file", "It creates the file"]}, {"type": "mc", "q": "What does <code>f.read()</code> give?", "answer": 1, "explain": "Newlines included.", "options": ["A list of lines", "The whole file as one string", "The first line", "The number of characters"]}, {"type": "mc", "q": "What does each line from <code>for line in f</code> end with?", "answer": 2, "explain": "Strip it.", "options": ["Nothing", "A space", "A newline character, \\n (except perhaps the last)", "A comma"]}, {"type": "mc", "q": "What does a second <code>f.read()</code> give, straight after the first?", "answer": 1, "explain": "The position is at the end.", "options": ["The file again", "An empty string", "An error", "None"]}, {"type": "mc", "q": "What is the difference between <code>f.read().split('\\n')</code> and <code>f.read().splitlines()</code> for a file that ends with a newline?", "answer": 1, "explain": "<code>'a\\nb\\n'.split('\\n')</code> is <code>['a', 'b', '']</code>.", "options": ["None", "split(&lsquo;\\n&rsquo;) gives an extra empty string at the end", "splitlines keeps the newlines", "split is faster"]}, {"type": "mc", "q": "Which reads a huge file without loading it all into memory?", "answer": 2, "explain": "One line at a time.", "options": ["<code>f.read()</code>", "<code>f.readlines()</code>", "<code>for line in f:</code>", "<code>list(f)</code>"]}, {"type": "mc", "q": "What happens when you open a file that doesn&rsquo;t exist for reading?", "answer": 2, "explain": "Handling it is Day 4.", "options": ["It&rsquo;s created", "You get an empty file", "FileNotFoundError", "None"]}, {"type": "output", "q": "What does this print, if <code>t.txt</code> holds <code>x\\ny\\n</code>?", "answer": "x 1", "explain": "readline took the first line; one is left.", "code": "with open(\"t.txt\") as f:\n    print(f.readline().strip(), len(f.readlines()))"}, {"type": "mc", "q": "Why write <code>encoding=\"utf-8\"</code>?", "answer": 1, "explain": "Different systems have different defaults.", "options": ["It&rsquo;s required", "So the file is read the same way on every computer, accents and all", "It makes files smaller", "It closes the file"]}, {"type": "mc", "q": "Where does <code>open(\"data.txt\")</code> look for the file?", "answer": 1, "explain": "The current folder.", "options": ["In your home folder", "In the folder the program is running in", "Everywhere", "On the internet"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: word count, like wc</div><div class="pc-prompt"><p>Unix systems have a tiny program called <code>wc</code> that counts lines, words and characters in files. Write <code>wc(names)</code> that takes a list of file names and returns a report: one line per file with the line, word and character counts each right-aligned in 7, then a space and the name, and, if there&rsquo;s more than one file, a final <code>total</code> line.</p>
+<p>For example, <code>wc(["marks.txt", "poem.txt"])</code> returns:</p>
+<pre><code>      4      4     25 marks.txt
+      4     27    130 poem.txt
+      8     31    155 total
+</code></pre>
+<p>Count lines as the number of newline characters (like <code>wc</code> does) and characters with <code>len</code> of the whole text.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def ref(names):
+    rows, tl, tw, tc = [], 0, 0, 0
+    for n in names:
+        with open(n) as f:
+            t = f.read()
+        l, w, c = t.count(&quot;\n&quot;), len(t.split()), len(t)
+        tl += l; tw += w; tc += c
+        rows.append(f&quot;{l:&gt;7}{w:&gt;7}{c:&gt;7} {n}&quot;)
+    if len(names) &gt; 1:
+        rows.append(f&quot;{tl:&gt;7}{tw:&gt;7}{tc:&gt;7} total&quot;)
+    return &quot;\n&quot;.join(rows)
+def test_two():
+    &quot;two files&quot;
+    names = [&quot;marks.txt&quot;, &quot;poem.txt&quot;]
+    assert wc(names) == ref(names), &quot;Expected:\n&quot; + ref(names)
+def test_one():
+    &quot;one file, no total&quot;
+    assert wc([&quot;server.log&quot;]) == ref([&quot;server.log&quot;]), &quot;Expected:\n&quot; + ref([&quot;server.log&quot;])
+def test_odd():
+    &quot;no final newline&quot;
+    write_file(&quot;odd.txt&quot;, &quot;no newline at the end&quot;)
+    assert wc([&quot;odd.txt&quot;, &quot;numbers.txt&quot;]) == ref([&quot;odd.txt&quot;, &quot;numbers.txt&quot;])</textarea><textarea class="pc-src pc-solution" hidden>def wc(names):
+    rows = []
+    totals = [0, 0, 0]
+    for name in names:
+        with open(name) as f:
+            text = f.read()
+        counts = [text.count(&quot;\n&quot;), len(text.split()), len(text)]
+        totals = [t + c for t, c in zip(totals, counts)]
+        rows.append(&quot;&quot;.join(f&quot;{c:&gt;7}&quot; for c in counts) + &quot; &quot; + name)
+    if len(names) &gt; 1:
+        rows.append(&quot;&quot;.join(f&quot;{t:&gt;7}&quot; for t in totals) + &quot; total&quot;)
+    return &quot;\n&quot;.join(rows)</textarea><template class="pc-src pc-hint">Read each file whole with <code>f.read()</code>. <code>text.count("\n")</code> gives the lines, <code>len(text.split())</code> the words.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Without looking, write the four ways to read a file and what each gives you. Then explain why a file can be looped over only once. Tomorrow: writing files, appending to them, and working with paths and folders.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w010d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w011d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w011d1", "week": 11, "day": 1, "title": "Reading text files", "exercises": [{"id": "w011d1-count_lines", "title": "How many lines?", "points": 10}, {"id": "w011d1-numbered", "title": "Number the lines", "points": 10}, {"id": "w011d1-total", "title": "Add them up", "points": 10}, {"id": "w011d1-errors_only", "title": "Just the errors", "points": 10}, {"id": "w011d1-to_dict", "title": "Into a dictionary", "points": 10}, {"id": "w011d1-longest", "title": "The longest line", "points": 10}, {"id": "w011d1-bug1", "title": "Double spaced", "points": 10}, {"id": "w011d1-bug2", "title": "The second pass is empty", "points": 10}, {"id": "w011d1-bug3", "title": "Nothing matches", "points": 10}, {"id": "w011d1-trace", "title": "Predict them", "points": 15}, {"id": "w011d1-challenge", "title": "Challenge: word count, like wc", "points": 25}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

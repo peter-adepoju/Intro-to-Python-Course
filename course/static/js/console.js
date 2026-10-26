@@ -25,11 +25,30 @@ export class PyConsole {
     this.solution = read("pc-solution");
     this.expected = read("pc-expected");
     this.inputsPreset = read("pc-inputs");
+    this.ownFiles = read("pc-files");
     this.hints = $$("template.pc-hint", el).map((t) => t.innerHTML);
     this.prompt = $(".pc-prompt", el);
     $$("textarea.pc-src, template.pc-hint", el).forEach((t) => t.remove());
     this.attempts = 0;
     this.build();
+  }
+
+  /** The files this program starts with: the page's files, plus any of the exercise's own. */
+  files() {
+    const all = {};
+    $$("script.page-files").forEach((t) => Object.assign(all, JSON.parse(t.textContent || "{}")));
+    if (this.ownFiles) Object.assign(all, JSON.parse(this.ownFiles));
+    return JSON.stringify(all);
+  }
+
+  showFiles(list) {
+    if (!list || !list.length) { this.filesBox.hidden = true; return; }
+    const tag = { new: "new", changed: "changed", deleted: "deleted", same: "" };
+    this.filesBox.replaceChildren(h("div", { class: "pc-termhead" }, "Files after the run"),
+      ...list.map((f) => h("details", { class: "pc-file pc-file-" + f.state, open: f.state === "new" || f.state === "changed" },
+        h("summary", {}, h("code", {}, f.name), tag[f.state] ? h("span", { class: "pc-filetag" }, tag[f.state]) : ""),
+        f.state === "deleted" ? h("p", { class: "muted" }, "This file was deleted.") : h("pre", { class: "pc-filetext" }, f.text || "(empty)"))));
+    this.filesBox.hidden = false;
   }
 
   saved() { return this.id ? progress.get("code:" + this.id) : undefined; }
@@ -42,6 +61,7 @@ export class PyConsole {
     this.termWrap = h("div", { class: "pc-termwrap", hidden: true }, h("div", { class: "pc-termhead" }, "Output"), this.term);
     this.errBox = h("div", { class: "pc-error", hidden: true });
     this.testBox = h("div", { class: "pc-tests", hidden: true });
+    this.filesBox = h("div", { class: "pc-files", hidden: true });
     this.status = h("span", { class: "pc-status", "aria-live": "polite" });
     this.xrayHost = h("div", { class: "pc-xrayhost" });
 
@@ -66,7 +86,7 @@ export class PyConsole {
     }
     this.hintArea = h("div", { class: "pc-hints" });
     this.solArea = h("div", { class: "pc-sol", hidden: true });
-    el.append(this.edWrap, ...kids, bar, this.termWrap, this.errBox, this.testBox, this.hintArea, this.solArea, this.xrayHost);
+    el.append(this.edWrap, ...kids, bar, this.termWrap, this.filesBox, this.errBox, this.testBox, this.hintArea, this.solArea, this.xrayHost);
 
     const lines = Math.max(3, start.split("\n").length);
     this.ed = makeEditor(this.edWrap, start, {
@@ -96,6 +116,7 @@ export class PyConsole {
   clearPanels() {
     this.errBox.hidden = true;
     this.testBox.hidden = true;
+    this.filesBox.hidden = true;
     this.ed.mark({});
   }
 
@@ -129,7 +150,7 @@ export class PyConsole {
     for (;;) {
       this.term.textContent = "";
       this.termWrap.hidden = false;
-      res = await py.run(code, { inputs, seed, onStdout: (t) => this.write(t) });
+      res = await py.run(code, { inputs, seed, files: this.files(), onStdout: (t) => this.write(t) });
       if (res.stopped) {
         this.write(res.stopped === "timeout"
           ? "\n[Stopped after 10 seconds. Is there a loop that never ends?]\n"
@@ -143,6 +164,7 @@ export class PyConsole {
       inputs.push(val);
     }
     this.busy(false);
+    if (!res.stopped) this.showFiles(res.files);
     if (!res.stopped && !res.output && !res.error && !res.need_input) this.term.append(h("span", { class: "pc-dim" }, "(nothing was printed)"));
     if (res.error) this.showError(res.error, res.output);
     if (this.kind === "predict" && !res.stopped) this.compare(res.output || "", res.error);
@@ -186,7 +208,7 @@ export class PyConsole {
     this.busy(true);
     const inputs = this.inputsPreset ? this.inputsPreset.split("\n") : [];
     const seed = 1 + Math.floor(Math.random() * 2 ** 30);
-    let res = await py.trace(this.ed.value, { inputs, seed });
+    let res = await py.trace(this.ed.value, { inputs, seed, files: this.files() });
     // Collect input values like a real run, then trace again with them.
     while (res && res.need_input) {
       this.termWrap.hidden = false;
@@ -194,7 +216,7 @@ export class PyConsole {
       const v = await this.askInput(res.prompt);
       if (v === null) break;
       inputs.push(v);
-      res = await py.trace(this.ed.value, { inputs, seed });
+      res = await py.trace(this.ed.value, { inputs, seed, files: this.files() });
     }
     this.busy(false);
     if (!res || res.stopped) return;
@@ -211,7 +233,7 @@ export class PyConsole {
     this.busy(true);
     this.attempts++;
     const inputs = this.inputsPreset ? this.inputsPreset.split("\n") : [];
-    const res = await py.grade(this.ed.value, this.tests, { inputs });
+    const res = await py.grade(this.ed.value, this.tests, { inputs, files: this.files() });
     this.busy(false);
     if (res.stopped) { this.status.textContent = "Stopped: the program took too long. Look for a loop that never ends."; return; }
     if (res.error && !res.total) { this.showError(res.error, res.output); return; }
@@ -220,7 +242,7 @@ export class PyConsole {
         h("span", {}, r.name, r.ok || !r.message ? "" : h("span", { class: "pc-why" }, ": " + r.message)))));
     const all = res.total > 0 && res.passed === res.total;
     this.testBox.replaceChildren(
-      h("div", { class: "pc-score " + (all ? "ok" : "no") }, all ? `All ${res.total} checks passed.` : `${res.passed} of ${res.total} checks passed.`),
+      h("div", { class: "pc-score " + (all ? "ok" : "no") }, all ? (res.total === 1 ? "The check passed." : `All ${res.total} checks passed.`) : `${res.passed} of ${res.total} checks passed.`),
       list);
     this.testBox.hidden = false;
     if (res.error) this.showError(res.error, res.output);

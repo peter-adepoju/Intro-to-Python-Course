@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="1ffd204647">
+<title>Week 11 Day 2: Writing files and paths | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=1ffd204647">
+<link rel="stylesheet" href="../assets/css/site.css?v=1ffd204647">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=1ffd204647"></script>
+<script src="../assets/vendor/codemirror.js?v=1ffd204647" defer></script>
+<meta name="description" content="Reading files lets a program use data. Writing files lets it keep data: results, logs, saved games, settings that are still there tomorrow. Today you’ll...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w011d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 11 Day 2: Writing files and paths">
+<meta property="og:description" content="Reading files lets a program use data. Writing files lets it keep data: results, logs, saved games, settings that are still there tomorrow. Today you’ll...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w011d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-11">Week 11: Files and errors</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#writing-a-file" data-sec="writing-a-file">Writing a file</a></li><li><a href="#modes" data-sec="modes">Modes</a></li><li><a href="#saving-and-loading-data" data-sec="saving-and-loading-data">Saving and loading data</a></li><li><a href="#paths-with-pathlib" data-sec="paths-with-pathlib">Paths with pathlib</a></li><li><a href="#folders" data-sec="folders">Folders</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 11, Day 2</span></p>
+      <h1>Writing files and paths</h1>
+      <div class="day-intro"><p>Reading files lets a program use data. Writing files lets it keep data: results, logs, saved games, settings that are still there tomorrow. Today you&rsquo;ll write and append to files, learn the modes that decide what happens to what&rsquo;s already there, and use <code>pathlib</code> to work with file names and folders the same way on every computer.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write a file with mode <code>"w"</code> and add to one with mode <code>"a"</code>, and know which one destroys the old contents</li><li>Write lines with <code>write</code> and with <code>print(..., file=f)</code>, remembering the newlines</li><li>Use mode <code>"x"</code> to avoid overwriting a file by accident</li><li>Build paths with <code>pathlib.Path</code>, and read their name, stem, suffix and parent</li><li>Check whether a file exists, make folders, and list the files in a folder</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Writing a file: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Modes: 20 min"></span><span class="plan-seg s1" style="flex:20" title="Saving and loading data: 20 min"></span><span class="plan-seg s0" style="flex:35" title="Paths with pathlib: 35 min"></span><span class="plan-seg s1" style="flex:15" title="Folders: 15 min"></span><span class="plan-seg s0" style="flex:40" title="Practice: 40 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Writing a file</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Modes</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Saving and loading data</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">Paths with pathlib</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Folders</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Practice</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w011d2.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d2-p1"><textarea class="pc-src pc-code" hidden>lines = [&quot;Ada,93&quot;, &quot;Bo,41&quot;]
+text = &quot;\n&quot;.join(lines) + &quot;\n&quot;
+print(repr(text))
+print(text.splitlines())</textarea></div>
+<p>Yesterday you split file text into lines. Writing is the reverse: you build text, newlines and all, and put it in a file.</p>
+<div class="filebox"><div class="filebox-head">The files used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>todo.txt</code></summary><pre class="pc-filetext">buy rice
+call Ada
+</pre></details><details class="pc-file"><summary><code>scores.txt</code></summary><pre class="pc-filetext">Ada,93
+Bo,41
+</pre></details><script type="application/json" class="page-files">{"todo.txt": "buy rice\ncall Ada\n", "scores.txt": "Ada,93\nBo,41\n"}</script></div>
+<h2 id="writing-a-file">Writing a file</h2>
+<p>Open a file with mode <code>"w"</code> (for <strong>write</strong>) as the second argument, and call <code>write</code> with a string:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e2"><textarea class="pc-src pc-code" hidden>with open(&quot;greeting.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;Hello, file!\n&quot;)
+    f.write(&quot;A second line.\n&quot;)
+with open(&quot;greeting.txt&quot;) as f:
+    print(f.read())</textarea></div>
+<p>Run it, and the panel under the output shows the files afterwards, with <code>greeting.txt</code> marked new. Two things to notice:</p>
+<ul>
+<li><code>write</code> writes <strong>exactly</strong> the string you give it. It doesn&rsquo;t add a newline: you must put <code>"\n"</code> at the end of each line yourself.</li>
+<li><code>write</code> only takes strings. Write a number with <code>str(n)</code> or an f-string.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e3"><textarea class="pc-src pc-code" hidden>scores = {&quot;Ada&quot;: 93, &quot;Bo&quot;: 41}
+with open(&quot;out.txt&quot;, &quot;w&quot;) as f:
+    for name, mark in scores.items():
+        f.write(f&quot;{name},{mark}\n&quot;)
+with open(&quot;out.txt&quot;) as f:
+    print(f.read(), end=&quot;&quot;)</textarea></div>
+<h3 id="print-to-a-file">print to a file</h3>
+<p><code>print</code> has a <code>file</code> argument. With it, <code>print</code> writes to the file instead of the screen, adding spaces and the newline just as it always does:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e4"><textarea class="pc-src pc-code" hidden>with open(&quot;report.txt&quot;, &quot;w&quot;) as f:
+    print(&quot;Report&quot;, file=f)
+    print(&quot;Ada&quot;, 93, file=f)
+    print(&quot;Bo&quot;, 41, sep=&quot;: &quot;, file=f)
+with open(&quot;report.txt&quot;) as f:
+    print(f.read(), end=&quot;&quot;)</textarea></div>
+<p>Use whichever is clearer. <code>print(..., file=f)</code> is handy when you already have a program that prints a report and you want it in a file instead.</p>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>Until a file is closed, some of what you wrote may still be waiting in memory rather than on the disk. Another reason to always use <code>with</code>: the data is safely written when the block ends.</p></aside>
+<h2 id="modes">Modes</h2>
+<p>The mode decides what happens to a file that already exists:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Meaning</th>
+<th>If the file exists</th>
+<th>If it doesn&rsquo;t</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"r"</code></td>
+<td>read (the default)</td>
+<td>reads it</td>
+<td><code>FileNotFoundError</code></td>
+</tr>
+<tr>
+<td><code>"w"</code></td>
+<td>write</td>
+<td><strong>empties it first</strong></td>
+<td>creates it</td>
+</tr>
+<tr>
+<td><code>"a"</code></td>
+<td>append</td>
+<td>adds to the end</td>
+<td>creates it</td>
+</tr>
+<tr>
+<td><code>"x"</code></td>
+<td>create</td>
+<td><code>FileExistsError</code></td>
+<td>creates it</td>
+</tr>
+</tbody>
+</table>
+<p><code>"w"</code> is the dangerous one: the moment you open a file with it, the old contents are gone, before you&rsquo;ve written anything.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e5"><textarea class="pc-src pc-code" hidden>with open(&quot;todo.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;water plants\n&quot;)
+with open(&quot;todo.txt&quot;) as f:
+    print(f.read(), end=&quot;&quot;)</textarea></div>
+<p>The two old tasks were destroyed. To <strong>add</strong> to a file, use <code>"a"</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e6"><textarea class="pc-src pc-code" hidden>with open(&quot;todo.txt&quot;, &quot;a&quot;) as f:
+    f.write(&quot;water plants\n&quot;)
+with open(&quot;todo.txt&quot;) as f:
+    print(f.read(), end=&quot;&quot;)</textarea></div>
+<p>Append is the mode for <strong>logs</strong>: each run adds its lines, and nothing is lost.</p>
+<p><code>"x"</code> refuses to touch an existing file, which protects you from overwriting something by accident:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e7"><textarea class="pc-src pc-code" hidden>with open(&quot;scores.txt&quot;, &quot;x&quot;) as f:
+    f.write(&quot;new\n&quot;)</textarea></div>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Opening the file you&rsquo;re reading with <code>"w"</code>, to &ldquo;update&rdquo; it, empties it before you&rsquo;ve read it. Read everything first, close it, and then write.</p></aside>
+<h2 id="saving-and-loading-data">Saving and loading data</h2>
+<p>With reading and writing, your data can outlive your program. The simplest approach: one record per line, fields separated by commas. Save by joining; load by splitting:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e8"><textarea class="pc-src pc-code" hidden>def save(scores, name):
+    with open(name, &quot;w&quot;) as f:
+        for person, mark in scores.items():
+            f.write(f&quot;{person},{mark}\n&quot;)
+
+def load(name):
+    scores = {}
+    with open(name) as f:
+        for line in f:
+            person, mark = line.strip().split(&quot;,&quot;)
+            scores[person] = int(mark)
+    return scores
+
+save({&quot;Cy&quot;: 78, &quot;Di&quot;: 55}, &quot;saved.txt&quot;)
+print(load(&quot;saved.txt&quot;))</textarea></div>
+<p>For nested data, JSON (from Week 10) does the work: <code>json.dump(data, f)</code> writes data to an open file and <code>json.load(f)</code> reads it back. These are <code>dumps</code> and <code>loads</code> without the <strong>s</strong>, which stands for <strong>string</strong>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e9"><textarea class="pc-src pc-code" hidden>import json
+settings = {&quot;theme&quot;: &quot;dark&quot;, &quot;recent&quot;: [&quot;a.txt&quot;, &quot;b.txt&quot;]}
+with open(&quot;settings.json&quot;, &quot;w&quot;) as f:
+    json.dump(settings, f, indent=2)
+with open(&quot;settings.json&quot;) as f:
+    loaded = json.load(f)
+print(loaded[&quot;recent&quot;][0])</textarea></div>
+<h2 id="paths-with-pathlib">Paths with pathlib</h2>
+<p>A <strong>path</strong> says where a file is: <code>marks.txt</code>, <code>data/2026/marks.txt</code>, or <code>/home/ada/data/marks.txt</code>. Paths are written differently on different systems (Windows uses <code>\</code> between folders, macOS and Linux use <code>/</code>), so building them by gluing strings together causes bugs. The <code>pathlib</code> module gives you <code>Path</code> objects instead:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e10"><textarea class="pc-src pc-code" hidden>from pathlib import Path
+p = Path(&quot;data&quot;) / &quot;2026&quot; / &quot;marks.csv&quot;
+print(p)
+print(p.name)
+print(p.stem)
+print(p.suffix)
+print(p.parent)
+print(p.with_suffix(&quot;.txt&quot;))</textarea></div>
+<p>The <code>/</code> operator joins parts of a path, and uses the right separator for the computer it runs on. The parts:</p>
+<ul>
+<li><code>name</code>: the last part, <code>marks.csv</code>;</li>
+<li><code>stem</code>: the name without its suffix, <code>marks</code>;</li>
+<li><code>suffix</code>: the extension, <code>.csv</code>;</li>
+<li><code>parent</code>: the folder it&rsquo;s in, <code>data/2026</code>.</li>
+</ul>
+<p>A <code>Path</code> can be passed to <code>open</code> anywhere a string can. And it has shortcuts for small files:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e11"><textarea class="pc-src pc-code" hidden>from pathlib import Path
+p = Path(&quot;note.txt&quot;)
+p.write_text(&quot;short note\n&quot;)
+print(p.read_text())
+print(p.exists(), Path(&quot;nothing.txt&quot;).exists())</textarea></div>
+<p><code>read_text</code> and <code>write_text</code> open, read or write, and close in one step. They&rsquo;re perfect for small files; for big files, loop over the lines with <code>open</code> as before.</p>
+<h3 id="absolute-and-relative-paths">Absolute and relative paths</h3>
+<p><code>Path("marks.txt")</code> is <strong>relative</strong>: it&rsquo;s found from the current folder. <code>Path.cwd()</code> is the current folder, and <code>p.resolve()</code> gives the <strong>absolute</strong> path, from the top of the disk:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e12"><textarea class="pc-src pc-code" hidden>from pathlib import Path
+print(Path.cwd())
+print(Path(&quot;marks.txt&quot;).resolve())</textarea></div>
+<p>(The folder here is the temporary one this website&rsquo;s Python runs in. On your own computer it would be wherever you ran the program.)</p>
+<h2 id="folders">Folders</h2>
+<p><code>mkdir</code> makes a folder. <code>parents=True</code> makes any missing folders above it, and <code>exist_ok=True</code> means &ldquo;fine if it&rsquo;s already there&rdquo;:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d2-e13"><textarea class="pc-src pc-code" hidden>from pathlib import Path
+out = Path(&quot;results&quot;) / &quot;2026&quot;
+out.mkdir(parents=True, exist_ok=True)
+(out / &quot;summary.txt&quot;).write_text(&quot;done\n&quot;)
+print(sorted(p.name for p in Path(&quot;.&quot;).iterdir()))
+print(list(Path(&quot;.&quot;).glob(&quot;*.txt&quot;)))</textarea></div>
+<p><code>iterdir()</code> gives everything in a folder; <code>glob("*.txt")</code> gives the paths whose names match a pattern, where <code>*</code> means &ldquo;any characters&rdquo;. <code>rglob</code> does the same through every folder inside, too.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Programs that make several output files should put them in their own folder, and build every path from one <code>Path</code> at the top. Then changing where the output goes is a one-line change.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d2-write_list" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Save a list</div><div class="pc-prompt"><p>Write <code>save_lines(items, name)</code> that writes each item of the list to the file on its own line.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    save_lines([&quot;rice&quot;, &quot;beans&quot;], &quot;a.txt&quot;)
+    assert read_file(&quot;a.txt&quot;) == &quot;rice\nbeans\n&quot;
+    save_lines([], &quot;b.txt&quot;)
+    assert read_file(&quot;b.txt&quot;) == &quot;&quot;
+    save_lines([1, 2.5], &quot;c.txt&quot;)
+    assert read_file(&quot;c.txt&quot;) == &quot;1\n2.5\n&quot;</textarea><textarea class="pc-src pc-solution" hidden>def save_lines(items, name):
+    with open(name, &quot;w&quot;) as f:
+        for item in items:
+            f.write(f&quot;{item}\n&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d2-add_task" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Add a task</div><div class="pc-prompt"><p>Write <code>add_task(task)</code> that adds one task to the end of <code>todo.txt</code>, keeping the tasks already there.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;two additions&quot;
+    add_task(&quot;water plants&quot;)
+    add_task(&quot;pay bills&quot;)
+    assert read_file(&quot;todo.txt&quot;) == &quot;buy rice\ncall Ada\nwater plants\npay bills\n&quot;</textarea><textarea class="pc-src pc-solution" hidden>def add_task(task):
+    with open(&quot;todo.txt&quot;, &quot;a&quot;) as f:
+        f.write(task + &quot;\n&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d2-report_file" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A report in a file</div><div class="pc-prompt"><p>Read <code>scores.txt</code> and write <code>report.txt</code> with a header line <code>Name   Mark</code>, then one line per person with the name left-aligned in 7 characters, then the mark. Use <code>print(..., file=f)</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_file():
+    &quot;the report&quot;
+    run()
+    assert read_file(&quot;report.txt&quot;) == &quot;Name   Mark\nAda    93\nBo     41\n&quot;
+def test_print():
+    &quot;print to the file&quot;
+    assert &quot;file=&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>with open(&quot;scores.txt&quot;) as f:
+    lines = f.read().splitlines()
+with open(&quot;report.txt&quot;, &quot;w&quot;) as out:
+    print(&quot;Name   Mark&quot;, file=out)
+    for line in lines:
+        name, mark = line.split(&quot;,&quot;)
+        print(f&quot;{name:&lt;7}{mark}&quot;, file=out)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d2-parts" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Take a path apart</div><div class="pc-prompt"><p>Write <code>describe(path)</code> that returns a string like <code>marks (.csv) in data/2026</code> for the path <code>"data/2026/marks.csv"</code>, using <code>pathlib</code>.</p></div><textarea class="pc-src pc-code" hidden>from pathlib import Path</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several paths&quot;
+    assert describe(&quot;data/2026/marks.csv&quot;) == &quot;marks (.csv) in data/2026&quot;
+    assert describe(&quot;notes.txt&quot;) == &quot;notes (.txt) in .&quot;
+    assert describe(&quot;a/b/archive.tar.gz&quot;) == &quot;archive.tar (.gz) in a/b&quot;</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import Path
+
+def describe(path):
+    p = Path(path)
+    return f&quot;{p.stem} ({p.suffix}) in {p.parent}&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d2-counter" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Count the runs</div><div class="pc-prompt"><p>Write a program that keeps count of how many times it has been run, in <code>count.txt</code>. If the file doesn&rsquo;t exist yet, the count starts at 0. Each run adds 1, saves it, and prints <code>Run number N</code>. Use <code>Path(...).exists()</code>.</p></div><textarea class="pc-src pc-code" hidden>from pathlib import Path</textarea><textarea class="pc-src pc-tests" hidden>def test_runs():
+    &quot;three runs&quot;
+    reset_files()
+    assert norm(run()) == &quot;Run number 1&quot;
+    assert norm(run()) == &quot;Run number 2&quot;
+    assert norm(run()) == &quot;Run number 3&quot;
+    assert read_file(&quot;count.txt&quot;).strip() == &quot;3&quot;</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import Path
+
+path = Path(&quot;count.txt&quot;)
+count = int(path.read_text()) if path.exists() else 0
+count += 1
+path.write_text(f&quot;{count}\n&quot;)
+print(f&quot;Run number {count}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d2-json_save" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Save settings</div><div class="pc-prompt"><p>Write <code>save_settings(settings, name)</code> that saves a dictionary as JSON with an indent of 2, and <code>load_settings(name)</code> that loads it, returning <code>{}</code> if the file doesn&rsquo;t exist.</p></div><textarea class="pc-src pc-code" hidden>import json
+from pathlib import Path</textarea><textarea class="pc-src pc-tests" hidden>import json as _j
+def test_values():
+    &quot;save and load&quot;
+    save_settings({&quot;theme&quot;: &quot;dark&quot;, &quot;size&quot;: 14}, &quot;s.json&quot;)
+    assert read_file(&quot;s.json&quot;) == _j.dumps({&quot;theme&quot;: &quot;dark&quot;, &quot;size&quot;: 14}, indent=2)
+    assert load_settings(&quot;s.json&quot;) == {&quot;theme&quot;: &quot;dark&quot;, &quot;size&quot;: 14}
+    assert load_settings(&quot;missing.json&quot;) == {}</textarea><textarea class="pc-src pc-solution" hidden>import json
+from pathlib import Path
+
+def save_settings(settings, name):
+    with open(name, &quot;w&quot;) as f:
+        json.dump(settings, f, indent=2)
+
+def load_settings(name):
+    if not Path(name).exists():
+        return {}
+    with open(name) as f:
+        return json.load(f)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">All on one line</div><div class="pc-prompt"><p>This should write the three names on separate lines, but the file holds <code>AdaBoCy</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>with open(&quot;names.txt&quot;, &quot;w&quot;) as f:
+    for name in [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Cy&quot;]:
+        f.write(name)</textarea><textarea class="pc-src pc-tests" hidden>def test_file():
+    &quot;three lines&quot;
+    run()
+    assert read_file(&quot;names.txt&quot;) == &quot;Ada\nBo\nCy\n&quot;</textarea><textarea class="pc-src pc-solution" hidden>with open(&quot;names.txt&quot;, &quot;w&quot;) as f:
+    for name in [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Cy&quot;]:
+        f.write(name + &quot;\n&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The update that deleted everything</div><div class="pc-prompt"><p>This should add 5 to every mark in <code>scores.txt</code>. Instead the file ends up empty. Fix it.</p></div><textarea class="pc-src pc-code" hidden>with open(&quot;scores.txt&quot;) as f, open(&quot;scores.txt&quot;, &quot;w&quot;) as out:
+    for line in f:
+        name, mark = line.strip().split(&quot;,&quot;)
+        out.write(f&quot;{name},{int(mark) + 5}\n&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_file():
+    &quot;updated&quot;
+    reset_files()
+    run()
+    assert read_file(&quot;scores.txt&quot;) == &quot;Ada,98\nBo,46\n&quot;</textarea><textarea class="pc-src pc-solution" hidden>with open(&quot;scores.txt&quot;) as f:
+    lines = f.read().splitlines()
+with open(&quot;scores.txt&quot;, &quot;w&quot;) as out:
+    for line in lines:
+        name, mark = line.split(&quot;,&quot;)
+        out.write(f&quot;{name},{int(mark) + 5}\n&quot;)</textarea><template class="pc-src pc-hint">Opening with <code>"w"</code> empties the file at once, before anything is read. Read all the lines first, then open it for writing.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Write a number</div><div class="pc-prompt"><p>This should save the total to <code>total.txt</code> but crashes with <code>TypeError: write() argument must be str, not int</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>total = 93 + 41
+with open(&quot;total.txt&quot;, &quot;w&quot;) as f:
+    f.write(total)</textarea><textarea class="pc-src pc-tests" hidden>def test_file():
+    &quot;saved&quot;
+    run()
+    assert read_file(&quot;total.txt&quot;).strip() == &quot;134&quot;</textarea><textarea class="pc-src pc-solution" hidden>total = 93 + 41
+with open(&quot;total.txt&quot;, &quot;w&quot;) as f:
+    f.write(f&quot;{total}\n&quot;)</textarea></div>
+<div class="parsons" data-id="w011d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Copy, in capitals</div><div class="pc-prompt"><p>Arrange the lines to copy <code>todo.txt</code> into <code>TODO.txt</code> in capital letters. One line is a trap.</p></div><script type="application/json">{"lines": ["from pathlib import Path", "text = Path(\"todo.txt\").read_text()", "Path(\"TODO.txt\").write_text(text.upper())"], "distractors": ["Path(\"TODO.txt\").write_text(text).upper()"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>from pathlib import Path
+p = Path(&quot;music&quot;) / &quot;afrobeat&quot; / &quot;song.mp3&quot;
+a = ___   # p.name
+b = ___   # p.stem
+c = ___   # p.suffix
+d = ___   # p.parent.name
+e = ___   # what&#x27;s left in a file holding &quot;abc\n&quot; after: open it with &quot;w&quot;, write &quot;x&quot;, close</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == &quot;song.mp3&quot;
+    assert b == &quot;song&quot;
+    assert c == &quot;.mp3&quot;
+    assert d == &quot;afrobeat&quot;
+    assert e == &quot;x&quot;</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import Path
+p = Path(&quot;music&quot;) / &quot;afrobeat&quot; / &quot;song.mp3&quot;
+a = &quot;song.mp3&quot;
+b = &quot;song&quot;
+c = &quot;.mp3&quot;
+d = &quot;afrobeat&quot;
+e = &quot;x&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w011d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does opening an existing file with mode <code>\"w\"</code> do?", "answer": 1, "explain": "The old contents are gone before you write.", "options": ["Adds to the end", "Empties it straight away", "Raises an error", "Reads it"]}, {"type": "mc", "q": "Which mode adds to the end of a file?", "answer": 2, "explain": "Append.", "options": ["<code>'r'</code>", "<code>'w'</code>", "<code>'a'</code>", "<code>'x'</code>"]}, {"type": "mc", "q": "Which mode refuses to overwrite an existing file?", "answer": 3, "explain": "FileExistsError.", "options": ["<code>'r'</code>", "<code>'w'</code>", "<code>'a'</code>", "<code>'x'</code>"]}, {"type": "mc", "q": "What does <code>f.write('Ada')</code> followed by <code>f.write('Bo')</code> put in the file?", "answer": 1, "explain": "write adds no newline.", "options": ["Two lines", "<code>AdaBo</code>", "<code>Ada Bo</code>", "An error"]}, {"type": "mc", "q": "How do you print to a file?", "answer": 1, "explain": "The file argument.", "options": ["<code>print(f, 'x')</code>", "<code>print('x', file=f)</code>", "<code>f.print('x')</code>", "<code>print('x') &gt; f</code>"]}, {"type": "mc", "q": "What is <code>Path('a') / 'b' / 'c.txt'</code>?", "answer": 1, "explain": "<code>/</code> joins paths.", "options": ["A division error", "The path a/b/c.txt", "The string &lsquo;abc.txt&rsquo;", "a divided by b"]}, {"type": "text", "q": "What is <code>Path('report.final.pdf').suffix</code>?", "answer": [".pdf"], "explain": "Only the last extension."}, {"type": "mc", "q": "What&rsquo;s the difference between <code>json.dump</code> and <code>json.dumps</code>?", "answer": 1, "explain": "The s means string.", "options": ["None", "dump writes to an open file; dumps returns a string", "dumps is faster", "dump only works on lists"]}, {"type": "mc", "q": "What does <code>mkdir(parents=True, exist_ok=True)</code> do?", "answer": 1, "explain": "Safe to call every time.", "options": ["Deletes the folder", "Makes the folder and any missing ones above it, and doesn&rsquo;t complain if it exists", "Lists the folder", "Moves the folder"]}, {"type": "mc", "q": "What does <code>Path('.').glob('*.csv')</code> give?", "answer": 0, "explain": "<code>*</code> matches any characters.", "options": ["Every CSV file in the current folder", "Every file", "The text of the CSV files", "An error"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a diary</div><div class="pc-prompt"><p>Write a small diary program with three functions, storing each day&rsquo;s entries in its own file inside a <code>diary</code> folder, named like <code>diary/2026-10-27.txt</code>:</p>
+<ul>
+<li><code>add(date, text)</code> appends <code>text</code> as a new line to that day&rsquo;s file, making the folder if needed.</li>
+<li><code>read_day(date)</code> returns that day&rsquo;s entries as a list of strings, or <code>[]</code> if there&rsquo;s no file for that day.</li>
+<li><code>summary()</code> returns one line per day that has a file, in date order, like <code>2026-10-27: 2 entries</code> (or <code>1 entry</code> for one), joined with <code>"\n"</code>. It returns <code>"Empty diary"</code> if there&rsquo;s no <code>diary</code> folder or no files in it.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>from pathlib import Path
+DIARY = Path(&quot;diary&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_add_read():
+    &quot;add and read_day&quot;
+    reset_files()
+    assert read_day(&quot;2026-10-27&quot;) == []
+    add(&quot;2026-10-27&quot;, &quot;Started Week 11.&quot;)
+    add(&quot;2026-10-27&quot;, &quot;Read my first file.&quot;)
+    assert read_day(&quot;2026-10-27&quot;) == [&quot;Started Week 11.&quot;, &quot;Read my first file.&quot;]
+    assert read_file(&quot;diary/2026-10-27.txt&quot;) == &quot;Started Week 11.\nRead my first file.\n&quot;
+def test_summary():
+    &quot;summary&quot;
+    reset_files()
+    assert summary() == &quot;Empty diary&quot;
+    add(&quot;2026-10-28&quot;, &quot;b&quot;)
+    add(&quot;2026-10-27&quot;, &quot;a1&quot;)
+    add(&quot;2026-10-27&quot;, &quot;a2&quot;)
+    assert summary() == &quot;2026-10-27: 2 entries\n2026-10-28: 1 entry&quot;</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import Path
+DIARY = Path(&quot;diary&quot;)
+
+def day_path(date):
+    return DIARY / f&quot;{date}.txt&quot;
+
+def add(date, text):
+    DIARY.mkdir(exist_ok=True)
+    with open(day_path(date), &quot;a&quot;) as f:
+        f.write(text + &quot;\n&quot;)
+
+def read_day(date):
+    path = day_path(date)
+    if not path.exists():
+        return []
+    return path.read_text().splitlines()
+
+def summary():
+    if not DIARY.exists():
+        return &quot;Empty diary&quot;
+    lines = []
+    for path in sorted(DIARY.glob(&quot;*.txt&quot;)):
+        n = len(path.read_text().splitlines())
+        lines.append(f&quot;{path.stem}: {n} {&#x27;entry&#x27; if n == 1 else &#x27;entries&#x27;}&quot;)
+    return &quot;\n&quot;.join(lines) if lines else &quot;Empty diary&quot;</textarea><template class="pc-src pc-hint"><code>DIARY / f"{date}.txt"</code> is the day&rsquo;s path. In <code>add</code>, call <code>DIARY.mkdir(exist_ok=True)</code> first, then open the file with <code>"a"</code>.</template><template class="pc-src pc-hint">In <code>summary</code>, <code>sorted(DIARY.glob("*.txt"))</code> gives the files in date order (dates written year-month-day sort correctly as text). <code>p.stem</code> is the date.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Write down the four modes and what each does to an existing file, then say which one you&rsquo;d use for a log, a saved game, and a file you must never overwrite. Tomorrow: CSV files, the format every spreadsheet can open, and the <code>csv</code> module that reads them properly.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w011d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w011d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w011d2", "week": 11, "day": 2, "title": "Writing files and paths", "exercises": [{"id": "w011d2-write_list", "title": "Save a list", "points": 10}, {"id": "w011d2-add_task", "title": "Add a task", "points": 10}, {"id": "w011d2-report_file", "title": "A report in a file", "points": 10}, {"id": "w011d2-parts", "title": "Take a path apart", "points": 10}, {"id": "w011d2-counter", "title": "Count the runs", "points": 15}, {"id": "w011d2-json_save", "title": "Save settings", "points": 10}, {"id": "w011d2-bug1", "title": "All on one line", "points": 10}, {"id": "w011d2-bug2", "title": "The update that deleted everything", "points": 10}, {"id": "w011d2-bug3", "title": "Write a number", "points": 10}, {"id": "w011d2-trace", "title": "Predict them", "points": 15}, {"id": "w011d2-challenge", "title": "Challenge: a diary", "points": 25}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

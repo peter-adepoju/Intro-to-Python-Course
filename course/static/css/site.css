@@ -194,6 +194,19 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
 .pc-tb { white-space: pre-wrap; font-size: .85rem; margin: .4rem 0; color: var(--ink-2); }
 .pc-error details { margin-bottom: .6rem; font-size: .92rem; }
 .pc-tests { margin-top: .7rem; }
+/* files: the panel after a run, and the file viewer on a page or exercise */
+.pc-files { margin-top: .7rem; border: 1px solid var(--line); border-radius: var(--radius-s); background: var(--surface); padding: .1rem .2rem .4rem; }
+.pc-files .pc-termhead { color: var(--ink-3); padding: .35rem .6rem .2rem; }
+.pc-file { margin: .25rem .4rem; }
+.pc-file summary { cursor: pointer; font-size: .92rem; display: flex; gap: .5rem; align-items: center; }
+.pc-filetag { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: .05rem .4rem; border-radius: 4px; background: var(--blue-soft); color: var(--blue); }
+.pc-file-new .pc-filetag { background: var(--green-soft); color: var(--green); }
+.pc-file-deleted .pc-filetag { background: var(--red-soft); color: var(--red); }
+.pc-filetext { margin: .35rem 0 .2rem; padding: .55rem .7rem; max-height: 260px; overflow: auto; background: var(--code-bg); border: 1px solid var(--line); border-radius: var(--radius-s); font-size: .86rem; line-height: 1.5; white-space: pre; }
+.filebox { margin: 1.2rem 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: .7rem .9rem .5rem; }
+.filebox-head { font-weight: 700; margin-bottom: .4rem; }
+.filebox-head span { display: block; font-weight: 400; color: var(--ink-3); font-size: .88rem; }
+.filebox .pc-file { margin: .3rem 0; }
 .pc-score { font-weight: 700; padding: .5rem .8rem; border-radius: var(--radius-s); }
 .pc-score.ok, .pc-verdict.ok { background: var(--green-soft); color: var(--green); }
 .pc-score.no, .pc-verdict.no { background: var(--yellow-soft); color: var(--ink); }

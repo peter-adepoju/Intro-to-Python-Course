@@ -56,10 +56,10 @@ function call(msg, { onStdout, timeout = 0 } = {}) {
 }
 
 export const py = {
-  run: (code, opts = {}) => call({ type: "run", code, inputs: opts.inputs || [], seed: opts.seed || 1 },
+  run: (code, opts = {}) => call({ type: "run", code, inputs: opts.inputs || [], seed: opts.seed || 1, files: opts.files },
     { onStdout: opts.onStdout, timeout: opts.timeout ?? 10000 }),
-  trace: (code, opts = {}) => call({ type: "trace", code, inputs: opts.inputs || [], seed: opts.seed || 1 }, { timeout: 15000 }),
-  grade: (code, tests, opts = {}) => call({ type: "grade", code, tests, inputs: opts.inputs || [], seed: opts.seed || 1 }, { timeout: 15000 }),
+  trace: (code, opts = {}) => call({ type: "trace", code, inputs: opts.inputs || [], seed: opts.seed || 1, files: opts.files }, { timeout: 15000 }),
+  grade: (code, tests, opts = {}) => call({ type: "grade", code, tests, inputs: opts.inputs || [], seed: opts.seed || 1, files: opts.files }, { timeout: 15000 }),
   expr: (code, vars) => call({ type: "expr", code, vars }, { timeout: 5000 }),
   tokens: (code) => call({ type: "tokens", code }, { timeout: 5000 }),
   eval: (code, asStr = false) => call({ type: "eval", code, asStr }, { timeout: 5000 }),

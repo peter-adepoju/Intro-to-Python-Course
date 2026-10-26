@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="1ffd204647">
+<title>Week 11 Day 5: Raising errors and debugging | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=1ffd204647">
+<link rel="stylesheet" href="../assets/css/site.css?v=1ffd204647">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=1ffd204647"></script>
+<script src="../assets/vendor/codemirror.js?v=1ffd204647" defer></script>
+<meta name="description" content="Yesterday you caught exceptions that Python raised. Today your own functions raise them: when a function is given something it can’t work with, the clearest...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w011d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 11 Day 5: Raising errors and debugging">
+<meta property="og:description" content="Yesterday you caught exceptions that Python raised. Today your own functions raise them: when a function is given something it can’t work with, the clearest...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w011d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-11">Week 11: Files and errors</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#raising-exceptions" data-sec="raising-exceptions">Raising exceptions</a></li><li><a href="#re-raising-and-assert" data-sec="re-raising-and-assert">Re-raising and assert</a></li><li><a href="#tracebacks-through-functions" data-sec="tracebacks-through-functions">Tracebacks through functions</a></li><li><a href="#a-method-for-debugging" data-sec="a-method-for-debugging">A method for debugging</a></li><li><a href="#debugging-tools" data-sec="debugging-tools">Debugging tools</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 11, Day 5</span></p>
+      <h1>Raising errors and debugging</h1>
+      <div class="day-intro"><p>Yesterday you caught exceptions that Python raised. Today your own functions raise them: when a function is given something it can&rsquo;t work with, the clearest thing it can do is stop and say so. Then you&rsquo;ll learn a method for the other side of errors, finding bugs: reading tracebacks through several functions, testing guesses with prints, and narrowing a problem down until it has nowhere left to hide.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Raise an exception with a clear message when a function gets input it can&rsquo;t handle</li><li>Choose a suitable exception type, and let the caller decide what to do</li><li>Re-raise an exception after doing something with it, and use <code>assert</code> to check your own assumptions</li><li>Read a traceback that passes through several functions</li><li>Debug with a method, reproduce, read, locate, guess, test and fix, rather than by changing things at random</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="Raising exceptions: 35 min"></span><span class="plan-seg s0" style="flex:15" title="Re-raising and assert: 15 min"></span><span class="plan-seg s1" style="flex:20" title="Tracebacks through functions: 20 min"></span><span class="plan-seg s0" style="flex:35" title="A method for debugging: 35 min"></span><span class="plan-seg s1" style="flex:15" title="Debugging tools: 15 min"></span><span class="plan-seg s0" style="flex:40" title="Practice: 40 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Raising exceptions</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Re-raising and assert</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Tracebacks through functions</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">A method for debugging</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Debugging tools</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Practice</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w011d5.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d5-p1"><textarea class="pc-src pc-code" hidden>def average(values):
+    if len(values) == 0:
+        return 0
+    return sum(values) / len(values)
+
+print(average([4, 6]))
+print(average([]))</textarea></div>
+<p><code>average([])</code> returned 0. Is that right? An empty class doesn&rsquo;t have an average mark of 0: it has <strong>no</strong> average. A program that uses that 0 might report that the class failed. Sometimes the honest answer is &ldquo;this can&rsquo;t be done&rdquo;, and today you&rsquo;ll learn to give it.</p>
+<h2 id="raising-exceptions">Raising exceptions</h2>
+<p>The <code>raise</code> statement raises an exception, exactly as Python does when something goes wrong:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d5-e2"><textarea class="pc-src pc-code" hidden>def average(values):
+    if len(values) == 0:
+        raise ValueError(&quot;can&#x27;t average an empty list&quot;)
+    return sum(values) / len(values)
+
+print(average([4, 6]))
+print(average([]))</textarea></div>
+<p><code>raise ValueError("...")</code> makes a <code>ValueError</code> with your message and raises it. The function stops at once, like <code>return</code>, but instead of handing back a value it hands back a problem. The caller can catch it, or let it travel further up.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d5-e3"><textarea class="pc-src pc-code" hidden>def average(values):
+    if len(values) == 0:
+        raise ValueError(&quot;can&#x27;t average an empty list&quot;)
+    return sum(values) / len(values)
+
+for group in [[90, 70], []]:
+    try:
+        print(&quot;Average:&quot;, average(group))
+    except ValueError as e:
+        print(&quot;No average:&quot;, e)</textarea></div>
+<h3 id="why-raise-instead-of-returning-something">Why raise instead of returning something?</h3>
+<p>Returning a special value like <code>0</code>, <code>-1</code> or <code>None</code> means every caller has to remember to check for it, and a caller that forgets carries on with a wrong value. An exception <strong>can&rsquo;t be ignored by accident</strong>: either something handles it, or the program stops and says exactly where and why.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>When a function is asked to do something impossible or meaningless, <code>raise</code> an exception with a message that says what was wrong and, where it helps, the bad value. Let the caller decide what to do about it.</p></aside>
+<h3 id="which-type">Which type?</h3>
+<p>Use the built-in type that fits:</p>
+<ul>
+<li><code>ValueError</code>: the argument has the right type but a bad value (a negative age, an empty list, a date of 31 February);</li>
+<li><code>TypeError</code>: the argument is the wrong type altogether;</li>
+<li><code>KeyError</code>, <code>IndexError</code>: something asked for isn&rsquo;t there;</li>
+<li><code>FileNotFoundError</code>: a needed file is missing.</li>
+</ul>
+<p>Put the bad value in the message. <code>ValueError("age must be 0 to 130, got -5")</code> tells the reader far more than <code>ValueError("bad age")</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d5-e4"><textarea class="pc-src pc-code" hidden>def parse_time(text):
+    &quot;&quot;&quot;Turn &#x27;HH:MM&#x27; into minutes after midnight.&quot;&quot;&quot;
+    parts = text.split(&quot;:&quot;)
+    if len(parts) != 2:
+        raise ValueError(f&quot;expected HH:MM, got {text!r}&quot;)
+    hours, minutes = int(parts[0]), int(parts[1])
+    if not (0 &lt;= hours &lt; 24 and 0 &lt;= minutes &lt; 60):
+        raise ValueError(f&quot;no such time: {text!r}&quot;)
+    return hours * 60 + minutes
+
+for t in [&quot;09:30&quot;, &quot;9.30&quot;, &quot;25:00&quot;, &quot;ab:cd&quot;]:
+    try:
+        print(t, &quot;-&gt;&quot;, parse_time(t))
+    except ValueError as e:
+        print(t, &quot;-&gt;&quot;, e)</textarea></div>
+<p>Notice the last one. <code>int("ab")</code> raised its own <code>ValueError</code>, with Python&rsquo;s message, which also travels up to the same <code>except</code>. <code>{text!r}</code> in an f-string shows the value with its quotes, so an empty string or stray spaces are visible.</p>
+<h3 id="raise-early">Raise early</h3>
+<p>Check the inputs at the <strong>start</strong> of a function, and raise before doing any work. Then nothing is half-done when the error happens, and the error points at the real cause rather than at some later line that tripped over the bad value.</p>
+<h2 id="re-raising-and-assert">Re-raising and assert</h2>
+<h3 id="re-raising">Re-raising</h3>
+<p>Sometimes you want to notice an error, do something, and still let it carry on up. A bare <code>raise</code> inside an <code>except</code> block re-raises the exception being handled:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d5-e5"><textarea class="pc-src pc-code" hidden>def load_number(text, log):
+    try:
+        return int(text)
+    except ValueError:
+        log.append(f&quot;bad number: {text!r}&quot;)
+        raise
+
+log = []
+try:
+    load_number(&quot;12&quot;, log)
+    load_number(&quot;twelve&quot;, log)
+finally:
+    print(&quot;log:&quot;, log)</textarea></div>
+<h3 id="assert">assert</h3>
+<p><code>assert condition, message</code> raises an <code>AssertionError</code> if the condition is false, and does nothing if it&rsquo;s true. It&rsquo;s for checking <strong>your own assumptions</strong>, things that should be true if your code is right:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d5-e6"><textarea class="pc-src pc-code" hidden>def split_bill(total, people):
+    shares = [round(total / people, 2)] * people
+    shares[-1] = round(total - sum(shares[:-1]), 2)
+    assert round(sum(shares), 2) == total, &quot;shares don&#x27;t add up&quot;
+    return shares
+
+print(split_bill(100, 3))</textarea></div>
+<p>If the assertion ever fails, you&rsquo;ve found a bug in <strong>your</strong> code, right where your belief stopped being true. You&rsquo;ve used <code>assert</code> in tests all along: that&rsquo;s exactly what the checks on this site do.</p>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>Don&rsquo;t use <code>assert</code> to check what users type or what&rsquo;s in a file. Python can be run with assertions switched off, and then those checks vanish. For input, use <code>if</code> and <code>raise</code> (or a validation loop).</p></aside>
+<h2 id="tracebacks-through-functions">Tracebacks through functions</h2>
+<p>When an error happens several function calls deep, the traceback lists every call in the chain, <strong>outermost first</strong>, ending with the line that actually failed:</p>
+<figure class="widget" data-widget="traceback"><script type="application/json">{"programs": {"Two functions deep": "def to_minutes(text):\n    h, m = text.split(\":\")\n    return int(h) * 60 + int(m)\n\ndef total(times):\n    return sum(to_minutes(t) for t in times)\n\nprint(total([\"1:30\", \"2:15\", \"0:4x\"]))", "Your own error": "def withdraw(balance, amount):\n    if amount > balance:\n        raise ValueError(f\"can't take {amount} from {balance}\")\n    return balance - amount\n\nb = withdraw(500, 200)\nb = withdraw(b, 400)", "A missing key, deep down": "prices = {\"tea\": 150, \"bread\": 950}\n\ndef cost(item, qty):\n    return prices[item] * qty\n\ndef bill(order):\n    return sum(cost(i, q) for i, q in order)\n\nprint(bill([(\"tea\", 2), (\"bred\", 1)]))"}}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Choose a program and click the parts of the error. Each File line is one step in the chain of calls; the last one is where it actually went wrong.</figcaption></figure>
+<p>Read it from the <strong>bottom</strong>: the last two lines say what went wrong and where. If the cause isn&rsquo;t there, move <strong>up</strong> one step at a time. In the first program, <code>int</code> failed on <code>"4x"</code> inside <code>to_minutes</code>, but the bad value came from the list in the last line of the program. The traceback shows you the path from one to the other.</p>
+<h2 id="a-method-for-debugging">A method for debugging</h2>
+<p>A <strong>bug</strong> is a difference between what you meant and what you wrote. Debugging well isn&rsquo;t about being clever; it&rsquo;s about being systematic. Here&rsquo;s a method that works on any bug:</p>
+<ol>
+<li><strong>Reproduce it.</strong> Find an input that makes it happen every time. The smaller the input, the better.</li>
+<li><strong>Read the evidence.</strong> The error message, the traceback, or the exact difference between the output you got and the output you expected.</li>
+<li><strong>Locate it.</strong> Find the first place where the program&rsquo;s values differ from what you expect.</li>
+<li><strong>Guess the cause, then test the guess.</strong> Make one specific prediction (&ldquo;<code>total</code> is still 0 after the loop, because the <code>+=</code> is outside it&rdquo;) and check it.</li>
+<li><strong>Fix it, and check the fix</strong>, with the original input and a few others.</li>
+</ol>
+<p>The most common mistake is skipping straight to step 5: changing things at random until the problem seems to go away. That often hides bugs instead of fixing them.</p>
+<h3 id="locating-print-the-values">Locating: print the values</h3>
+<p>The simplest tool is still <code>print</code>. The f-string form <code>f"{name=}"</code> prints a name <strong>and</strong> its value, which is perfect for debugging:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d5-e7"><textarea class="pc-src pc-code" hidden>def count_vowels(text):
+    count = 0
+    for ch in text:
+        print(f&quot;{ch=} {count=}&quot;)
+        if ch in &quot;aeiou&quot;:
+            count += 1
+    return count
+
+print(count_vowels(&quot;Ada&quot;))</textarea></div>
+<p>The prints make the problem visible straight away: the capital <code>A</code> isn&rsquo;t in <code>"aeiou"</code>. Remove debugging prints once you&rsquo;ve found the bug.</p>
+<h3 id="locating-halve-the-search">Locating: halve the search</h3>
+<p>When you don&rsquo;t know where a long program goes wrong, check the values <strong>halfway</strong> through. If they&rsquo;re already wrong, the bug is in the first half; if they&rsquo;re right, it&rsquo;s in the second. Then halve that half. Ten checks are enough to find one bad line among a thousand. You can do the same with input data: if a 1,000-line file breaks your program, try the first 500 lines.</p>
+<h3 id="explain-it-out-loud">Explain it out loud</h3>
+<p>Explaining your code, line by line, to someone else, or even to a toy duck on your desk, often reveals the bug before you finish, because explaining forces you to say what each line <strong>actually</strong> does rather than what you meant. Programmers call this <strong>rubber duck debugging</strong>, and it really works. The tutor on this site is a good listener too.</p>
+<h2 id="debugging-tools">Debugging tools</h2>
+<ul>
+<li><strong>X-ray</strong> on this site runs a program one step at a time and shows every variable. Use it when you can&rsquo;t tell which line goes wrong.</li>
+<li><strong>Trace tables</strong> on paper (Week 3) do the same with a pencil, and make you think about every line.</li>
+<li><strong>Debuggers</strong> in code editors such as VS Code and Thonny let you pause a program on a chosen line (a <strong>breakpoint</strong>) and inspect everything. You&rsquo;ll set one up in Phase 2.</li>
+<li><strong>Tests</strong>, small checks that your functions give the right answers, catch bugs before they reach anyone else. You&rsquo;ll write your own in Phase 2.</li>
+</ul>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>When you fix a bug, ask: what other inputs would have shown it? Try them. Bugs come in families, and the same mistake is often waiting somewhere else in your code.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d5-check_age" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Valid ages only</div><div class="pc-prompt"><p>Write <code>check_age(age)</code> that returns <code>age</code> if it&rsquo;s an int from 0 to 130, raises a <code>TypeError</code> with the message <code>age must be a whole number</code> if it isn&rsquo;t an int, and raises a <code>ValueError</code> with the message <code>age must be 0 to 130, got N</code> if it&rsquo;s out of range.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def raises(fn, kind, msg):
+    try:
+        fn()
+    except kind as e:
+        assert str(e) == msg, f&quot;Message should be {msg!r}, got {str(e)!r}&quot;
+        return
+    raise AssertionError(f&quot;Expected a {kind.__name__}&quot;)
+def test_values():
+    &quot;good and bad ages&quot;
+    assert check_age(30) == 30 and check_age(0) == 0 and check_age(130) == 130
+    raises(lambda: check_age(-5), ValueError, &quot;age must be 0 to 130, got -5&quot;)
+    raises(lambda: check_age(131), ValueError, &quot;age must be 0 to 130, got 131&quot;)
+    raises(lambda: check_age(&quot;30&quot;), TypeError, &quot;age must be a whole number&quot;)
+    raises(lambda: check_age(30.5), TypeError, &quot;age must be a whole number&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def check_age(age):
+    if not isinstance(age, int):
+        raise TypeError(&quot;age must be a whole number&quot;)
+    if not 0 &lt;= age &lt;= 130:
+        raise ValueError(f&quot;age must be 0 to 130, got {age}&quot;)
+    return age</textarea><template class="pc-src pc-hint"><code>isinstance(age, int)</code> checks the type. Check the type first, then the range.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d5-withdraw" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">No overdrafts</div><div class="pc-prompt"><p>Write <code>withdraw(balance, amount)</code> that returns the new balance. Raise a <code>ValueError</code> if <code>amount</code> isn&rsquo;t positive (message <code>amount must be positive</code>) or is more than the balance (message <code>insufficient funds: balance B, asked for A</code>).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def raises(fn, msg):
+    try:
+        fn()
+    except ValueError as e:
+        assert str(e) == msg, f&quot;Message should be {msg!r}, got {str(e)!r}&quot;
+        return
+    raise AssertionError(&quot;Expected a ValueError&quot;)
+def test_values():
+    &quot;withdrawals&quot;
+    assert withdraw(500, 200) == 300
+    assert withdraw(500, 500) == 0
+    raises(lambda: withdraw(500, 0), &quot;amount must be positive&quot;)
+    raises(lambda: withdraw(500, -1), &quot;amount must be positive&quot;)
+    raises(lambda: withdraw(300, 400), &quot;insufficient funds: balance 300, asked for 400&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def withdraw(balance, amount):
+    if amount &lt;= 0:
+        raise ValueError(&quot;amount must be positive&quot;)
+    if amount &gt; balance:
+        raise ValueError(f&quot;insufficient funds: balance {balance}, asked for {amount}&quot;)
+    return balance - amount</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d5-caller" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Handle it in the caller</div><div class="pc-prompt"><p>Using your <code>withdraw</code> from the starter, write a program that processes <code>requests</code> from a balance of 1000, printing <code>Paid A, balance B</code> after each successful withdrawal and <code>Refused: MESSAGE</code> for each one that raises.</p></div><textarea class="pc-src pc-code" hidden>def withdraw(balance, amount):
+    if amount &lt;= 0:
+        raise ValueError(&quot;amount must be positive&quot;)
+    if amount &gt; balance:
+        raise ValueError(f&quot;insufficient funds: balance {balance}, asked for {amount}&quot;)
+    return balance - amount
+
+requests = [300, 0, 900, 500]
+balance = 1000</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the run&quot;
+    expect_output(&quot;Paid 300, balance 700\nRefused: amount must be positive\nRefused: insufficient funds: balance 700, asked for 900\nPaid 500, balance 200&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def withdraw(balance, amount):
+    if amount &lt;= 0:
+        raise ValueError(&quot;amount must be positive&quot;)
+    if amount &gt; balance:
+        raise ValueError(f&quot;insufficient funds: balance {balance}, asked for {amount}&quot;)
+    return balance - amount
+
+requests = [300, 0, 900, 500]
+balance = 1000
+for amount in requests:
+    try:
+        balance = withdraw(balance, amount)
+    except ValueError as e:
+        print(&quot;Refused:&quot;, e)
+    else:
+        print(f&quot;Paid {amount}, balance {balance}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d5-parse_date" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A real date?</div><div class="pc-prompt"><p>Write <code>parse_date(text)</code> that turns <code>"DD/MM/YYYY"</code> into a tuple <code>(year, month, day)</code> of ints. Raise a <code>ValueError</code> with the message <code>not a date: TEXT</code> (with the text in quotes, as <code>{text!r}</code> gives) if the format is wrong or the date doesn&rsquo;t exist. February has 29 days in a leap year (divisible by 4, except centuries not divisible by 400) and 28 otherwise.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def bad(t):
+    try:
+        parse_date(t)
+    except ValueError as e:
+        assert str(e) == f&quot;not a date: {t!r}&quot;, f&quot;Message for {t!r} should be {&#x27;not a date: &#x27; + repr(t)!r}, got {str(e)!r}&quot;
+        return
+    raise AssertionError(f&quot;{t!r} should raise a ValueError&quot;)
+def test_good():
+    &quot;real dates&quot;
+    assert parse_date(&quot;27/10/2026&quot;) == (2026, 10, 27)
+    assert parse_date(&quot;29/02/2024&quot;) == (2024, 2, 29)
+    assert parse_date(&quot;29/02/2000&quot;) == (2000, 2, 29)
+    assert parse_date(&quot;31/12/1999&quot;) == (1999, 12, 31)
+def test_bad():
+    &quot;not dates&quot;
+    for t in [&quot;29/02/2026&quot;, &quot;29/02/1900&quot;, &quot;31/04/2026&quot;, &quot;00/01/2026&quot;, &quot;1/13/2026&quot;, &quot;27-10-2026&quot;, &quot;aa/bb/cccc&quot;, &quot;&quot;]:
+        bad(t)</textarea><textarea class="pc-src pc-solution" hidden>def is_leap(year):
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+def parse_date(text):
+    error = ValueError(f&quot;not a date: {text!r}&quot;)
+    parts = text.split(&quot;/&quot;)
+    if len(parts) != 3:
+        raise error
+    try:
+        day, month, year = (int(p) for p in parts)
+    except ValueError:
+        raise error
+    lengths = [31, 29 if is_leap(year) else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    if not 1 &lt;= month &lt;= 12 or not 1 &lt;= day &lt;= lengths[month - 1]:
+        raise error
+    return year, month, day</textarea><template class="pc-src pc-hint">Split on <code>/</code> and check there are three parts. Convert them inside a <code>try</code>; in the <code>except ValueError</code>, raise your own error with the right message. Then check the month and the day against a list of month lengths.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d5-debug1" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Find it with prints</div><div class="pc-prompt"><p><code>count_capitals</code> should count the capital letters, but <code>count_capitals("Python Atlas")</code> gives 12. There are two bugs, and fixing the first makes the answer 0. Use a debugging print to find each one, fix them, and remove the print.</p></div><textarea class="pc-src pc-code" hidden>def count_capitals(text):
+    count = 0
+    for ch in text:
+        if ch.isupper:
+            count += 1
+        else:
+            count = 0
+    return count</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert count_capitals(&quot;Python Atlas&quot;) == 2
+    assert count_capitals(&quot;ABC def G&quot;) == 4
+    assert count_capitals(&quot;&quot;) == 0
+    assert &quot;print&quot; not in source, &quot;Remove your debugging print.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def count_capitals(text):
+    count = 0
+    for ch in text:
+        if ch.isupper():
+            count += 1
+    return count</textarea><template class="pc-src pc-hint">First: <code>ch.isupper</code> without brackets is the method itself, not a call, and a method counts as true, so every character is counted. Once that&rsquo;s fixed, print <code>ch</code> and <code>count</code> each time round the loop and watch what happens to <code>count</code> after a lower-case letter.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The error that got lost</div><div class="pc-prompt"><p><code>safe_load</code> should return the numbers in a file, or raise a <code>ValueError</code> saying which line was bad, like <code>line 2: 'x'</code>. Instead, for a bad file it returns an empty list, so the problem goes unnoticed. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def safe_load(name):
+    numbers = []
+    with open(name) as f:
+        for n, line in enumerate(f, start=1):
+            try:
+                numbers.append(float(line))
+            except ValueError:
+                return []
+    return numbers</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;good and bad files&quot;
+    write_file(&quot;good.txt&quot;, &quot;1\n2.5\n&quot;)
+    write_file(&quot;bad.txt&quot;, &quot;1\nx\n3\n&quot;)
+    assert safe_load(&quot;good.txt&quot;) == [1.0, 2.5]
+    try:
+        safe_load(&quot;bad.txt&quot;)
+    except ValueError as e:
+        assert str(e) == &quot;line 2: &#x27;x&#x27;&quot;, f&quot;Message should be \&quot;line 2: &#x27;x&#x27;\&quot;, got {str(e)!r}&quot;
+    else:
+        raise AssertionError(&quot;A bad line should raise a ValueError&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def safe_load(name):
+    numbers = []
+    with open(name) as f:
+        for n, line in enumerate(f, start=1):
+            try:
+                numbers.append(float(line))
+            except ValueError:
+                raise ValueError(f&quot;line {n}: {line.strip()!r}&quot;)
+    return numbers</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Off by one, somewhere</div><div class="pc-prompt"><p><code>moving_average(values, k)</code> should return the averages of each run of <code>k</code> neighbouring values: <code>moving_average([1, 2, 3, 4], 2)</code> is <code>[1.5, 2.5, 3.5]</code>. It returns one too few. Reproduce it with the smallest input you can, find the bug, and fix it.</p></div><textarea class="pc-src pc-code" hidden>def moving_average(values, k):
+    result = []
+    for start in range(len(values) - k):
+        window = values[start:start + k]
+        result.append(sum(window) / k)
+    return result</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert moving_average([1, 2, 3, 4], 2) == [1.5, 2.5, 3.5]
+    assert moving_average([5], 1) == [5.0]
+    assert moving_average([1, 2, 3], 3) == [2.0]
+    assert moving_average([1, 2], 3) == []</textarea><textarea class="pc-src pc-solution" hidden>def moving_average(values, k):
+    result = []
+    for start in range(len(values) - k + 1):
+        window = values[start:start + k]
+        result.append(sum(window) / k)
+    return result</textarea><template class="pc-src pc-hint">With <code>[5]</code> and <code>k = 1</code> there should be one window. How many times does <code>range(len(values) - k)</code> loop?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d5-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">assert for user input</div><div class="pc-prompt"><p>This checks the user&rsquo;s quantity with <code>assert</code>, which can be switched off. Replace the assertion with an <code>if</code> that raises a <code>ValueError</code> with the same message.</p></div><textarea class="pc-src pc-code" hidden>def order(qty):
+    assert qty &gt; 0, &quot;quantity must be positive&quot;
+    return qty * 950</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;checked properly&quot;
+    assert order(2) == 1900
+    try:
+        order(0)
+    except ValueError as e:
+        assert str(e) == &quot;quantity must be positive&quot;
+    else:
+        raise AssertionError(&quot;order(0) should raise a ValueError&quot;)
+    assert &quot;assert&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def order(qty):
+    if qty &lt;= 0:
+        raise ValueError(&quot;quantity must be positive&quot;)
+    return qty * 950</textarea></div>
+<div class="parsons" data-id="w011d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Log and pass it on</div><div class="pc-prompt"><p>Arrange the lines so that <code>checked_int</code> records a bad value in <code>problems</code> and then lets the error carry on. One line is a trap.</p></div><script type="application/json">{"lines": ["problems = []", "def checked_int(text):", "    try:", "        return int(text)", "    except ValueError:", "        problems.append(text)", "        raise"], "distractors": ["        return None"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work out what each program prints, as a string with <code>\n</code> between lines.</p></div><textarea class="pc-src pc-code" hidden># Program A
+#   def f(x):
+#       if x &lt; 0:
+#           raise ValueError(&quot;negative&quot;)
+#       return x * 2
+#   try:
+#       print(f(3))
+#       print(f(-1))
+#       print(f(5))
+#   except ValueError as e:
+#       print(&quot;caught&quot;, e)
+a = ___
+# Program B
+#   x = 5
+#   print(f&quot;{x=}&quot;, f&quot;{x * 2=}&quot;)
+b = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each output&quot;
+    assert a == &quot;6\ncaught negative&quot;
+    assert b == &quot;x=5 x * 2=10&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;6\ncaught negative&quot;
+b = &quot;x=5 x * 2=10&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w011d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>raise ValueError(\"bad\")</code> do?", "answer": 2, "explain": "Like return, but for problems.", "options": ["Prints bad", "Returns bad", "Stops the function and raises a ValueError with the message bad", "Nothing until it&rsquo;s caught"]}, {"type": "mc", "q": "Why raise an exception instead of returning -1 or None?", "answer": 1, "explain": "A forgotten check on a special value carries on with a wrong answer.", "options": ["It&rsquo;s shorter", "It can&rsquo;t be ignored by accident", "It&rsquo;s faster", "Returning None is an error"]}, {"type": "mc", "q": "Which type fits &ldquo;the quantity is negative&rdquo;?", "answer": 1, "explain": "Right type, bad value.", "options": ["TypeError", "ValueError", "KeyError", "NameError"]}, {"type": "mc", "q": "What does a bare <code>raise</code> inside an <code>except</code> block do?", "answer": 1, "explain": "Do something, then pass it on.", "options": ["Nothing", "Re-raises the exception being handled", "Raises a new RuntimeError", "Ends the program quietly"]}, {"type": "mc", "q": "What is <code>assert</code> for?", "answer": 1, "explain": "Assertions can be switched off; don&rsquo;t rely on them for input.", "options": ["Checking user input", "Checking your own assumptions about your code", "Catching exceptions", "Printing values"]}, {"type": "mc", "q": "In a traceback through several functions, where did the error actually happen?", "answer": 1, "explain": "Outermost call first, failure last.", "options": ["The first File line", "The last File line", "The middle", "The first line of the program"]}, {"type": "text", "q": "What does <code>print(f\"{n=}\")</code> print when <code>n</code> is 4?", "answer": ["n=4"], "explain": "The name and its value."}, {"type": "mc", "q": "What&rsquo;s the first step of debugging?", "answer": 1, "explain": "You can&rsquo;t check a fix for a bug you can&rsquo;t make happen.", "options": ["Change the code", "Reproduce the bug reliably", "Delete the function", "Ask someone else to fix it"]}, {"type": "mc", "q": "Your program breaks on a 1,000-line file. What&rsquo;s a good next step?", "answer": 1, "explain": "Halving finds the bad line quickly.", "options": ["Read every line by eye", "Try the first 500 lines, then halve again", "Rewrite the program", "Use a different file"]}, {"type": "mc", "q": "What does <code>{text!r}</code> do in an f-string?", "answer": 1, "explain": "Makes empty strings and stray spaces visible.", "options": ["Reverses the text", "Shows the value with its quotes, like repr", "Rounds it", "Raises an error"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a strict config reader</div><div class="pc-prompt"><p>Programs often read settings from a simple file of <code>key = value</code> lines, where <code>#</code> starts a comment and blank lines are ignored. Write <code>read_config(name, schema)</code>, where <code>schema</code> maps each allowed key to its type (<code>int</code>, <code>float</code>, <code>bool</code> or <code>str</code>), that returns a dictionary of settings, converted to their types. Raise a <code>ValueError</code> whose message starts with the file name and line number, as in <code>app.cfg line 3: ...</code>, for:</p>
+<ul>
+<li>a line without <code>=</code>: <code>expected key = value</code>;</li>
+<li>an unknown key: <code>unknown key 'colour'</code>;</li>
+<li>a key given twice: <code>duplicate key 'size'</code>;</li>
+<li>a value that can&rsquo;t be converted: <code>'big' is not a valid int</code>. A bool must be <code>true</code> or <code>false</code> (any case).</li>
+</ul>
+<p>And raise a <code>ValueError</code> <code>app.cfg: missing keys: a, b</code> (sorted, after reading every line) if any key in the schema wasn&rsquo;t given.</p><details class="pc-file"><summary><code>app.cfg</code></summary><pre class="pc-filetext"># window settings
+title = Python Atlas
+size = 14
+
+dark = TRUE   
+ratio = 1.5
+</pre></details></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>SCHEMA = {&quot;title&quot;: str, &quot;size&quot;: int, &quot;dark&quot;: bool, &quot;ratio&quot;: float}
+def err(text, schema=SCHEMA):
+    write_file(&quot;t.cfg&quot;, text)
+    try:
+        read_config(&quot;t.cfg&quot;, schema)
+    except ValueError as e:
+        return str(e)
+    raise AssertionError(&quot;Expected a ValueError for:\n&quot; + text)
+def test_good():
+    &quot;the example file&quot;
+    assert read_config(&quot;app.cfg&quot;, SCHEMA) == {&quot;title&quot;: &quot;Python Atlas&quot;, &quot;size&quot;: 14, &quot;dark&quot;: True, &quot;ratio&quot;: 1.5}
+def test_errors():
+    &quot;the errors&quot;
+    assert err(&quot;title = a\nsize 14\n&quot;) == &quot;t.cfg line 2: expected key = value&quot;
+    assert err(&quot;colour = red\n&quot;) == &quot;t.cfg line 1: unknown key &#x27;colour&#x27;&quot;
+    assert err(&quot;size = 1\nsize = 2\n&quot;) == &quot;t.cfg line 2: duplicate key &#x27;size&#x27;&quot;
+    assert err(&quot;# x\nsize = big\n&quot;) == &quot;t.cfg line 2: &#x27;big&#x27; is not a valid int&quot;
+    assert err(&quot;dark = yes\n&quot;) == &quot;t.cfg line 1: &#x27;yes&#x27; is not a valid bool&quot;
+    assert err(&quot;title = x\nsize = 2\n&quot;) == &quot;t.cfg: missing keys: dark, ratio&quot;
+def test_equals_in_value():
+    &quot;an = inside the value&quot;
+    write_file(&quot;e.cfg&quot;, &quot;title = a = b\n&quot;)
+    assert read_config(&quot;e.cfg&quot;, {&quot;title&quot;: str}) == {&quot;title&quot;: &quot;a = b&quot;}</textarea><textarea class="pc-src pc-files" hidden>{&quot;app.cfg&quot;: &quot;# window settings\ntitle = Python Atlas\nsize = 14\n\ndark = TRUE   \nratio = 1.5\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>def convert(text, kind):
+    if kind is bool:
+        if text.lower() in (&quot;true&quot;, &quot;false&quot;):
+            return text.lower() == &quot;true&quot;
+        raise ValueError
+    return kind(text)
+
+def read_config(name, schema):
+    settings = {}
+    with open(name) as f:
+        for n, raw in enumerate(f, start=1):
+            line = raw.strip()
+            if not line or line.startswith(&quot;#&quot;):
+                continue
+            where = f&quot;{name} line {n}&quot;
+            key, eq, value = line.partition(&quot;=&quot;)
+            key, value = key.strip(), value.strip()
+            if not eq or not key:
+                raise ValueError(f&quot;{where}: expected key = value&quot;)
+            if key not in schema:
+                raise ValueError(f&quot;{where}: unknown key {key!r}&quot;)
+            if key in settings:
+                raise ValueError(f&quot;{where}: duplicate key {key!r}&quot;)
+            kind = schema[key]
+            try:
+                settings[key] = convert(value, kind)
+            except ValueError:
+                raise ValueError(f&quot;{where}: {value!r} is not a valid {kind.__name__}&quot;)
+    missing = sorted(set(schema) - set(settings))
+    if missing:
+        raise ValueError(f&quot;{name}: missing keys: {&#x27;, &#x27;.join(missing)}&quot;)
+    return settings</textarea><template class="pc-src pc-hint">Use <code>line.partition("=")</code> to split at the first <code>=</code> only. Strip both parts. For the conversion, a small function <code>convert(text, kind)</code> can handle <code>bool</code> itself and call <code>kind(text)</code> for the others, raising your own message if that fails.</template><template class="pc-src pc-hint"><code>kind.__name__</code> gives <code>"int"</code> for <code>int</code>, which is what the message needs.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Next time a program of yours goes wrong, before changing anything, write down the five steps of the method and follow them. Then find one function from an earlier week that returns a special value for bad input, and decide whether it should raise instead. Tomorrow is the Forge: a program that reads messy real-world data files, survives every problem in them, and reports exactly what it found.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w011d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w011d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w011d5", "week": 11, "day": 5, "title": "Raising errors and debugging", "exercises": [{"id": "w011d5-check_age", "title": "Valid ages only", "points": 10}, {"id": "w011d5-withdraw", "title": "No overdrafts", "points": 10}, {"id": "w011d5-caller", "title": "Handle it in the caller", "points": 10}, {"id": "w011d5-parse_date", "title": "A real date?", "points": 15}, {"id": "w011d5-debug1", "title": "Find it with prints", "points": 10}, {"id": "w011d5-bug1", "title": "The error that got lost", "points": 10}, {"id": "w011d5-bug2", "title": "Off by one, somewhere", "points": 10}, {"id": "w011d5-bug3", "title": "assert for user input", "points": 10}, {"id": "w011d5-trace", "title": "Predict them", "points": 15}, {"id": "w011d5-challenge", "title": "Challenge: a strict config reader", "points": 25}], "points": 125}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

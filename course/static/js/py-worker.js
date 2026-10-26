@@ -34,6 +34,7 @@ self.onmessage = async (ev) => {
   const id = m.id;
   try {
     let result;
+    if (m.type === "run" || m.type === "trace" || m.type === "grade") harness.set_files(m.files || "{}");
     if (m.type === "run") {
       let pending = "";
       let timer = null;

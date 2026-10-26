@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="1ffd204647">
+<title>Week 11 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=1ffd204647">
+<link rel="stylesheet" href="../assets/css/site.css?v=1ffd204647">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=1ffd204647"></script>
+<script src="../assets/vendor/codemirror.js?v=1ffd204647" defer></script>
+<meta name="description" content="Real data is messy. Dates come in the wrong format, numbers have commas in them, rows are repeated, fields are missing. This week gave you files, CSV,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w011d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 11 Day 6: Forge">
+<meta property="og:description" content="Real data is messy. Dates come in the wrong format, numbers have commas in them, rows are repeated, fields are missing. This week gave you files, CSV,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w011d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-11">Week 11: Files and errors</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-data-cleaner" data-sec="forge-the-data-cleaner">Forge: the data cleaner</a></li><li><a href="#forge-bonus-saving-safely" data-sec="forge-bonus-saving-safely">Forge bonus: saving safely</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-11-review" data-sec="week-11-review">Week 11 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 11, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>Real data is messy. Dates come in the wrong format, numbers have commas in them, rows are repeated, fields are missing. This week gave you files, CSV, exceptions and a debugging method, and today&rsquo;s Forge puts them to work: a program that cleans a messy file of payments, keeps every good row, explains every bad one, and never crashes. The bonus is a safe way to save files that keeps backups. The weekly quiz and review finish the week.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Read a messy CSV file, validating every field, without crashing on bad rows</li><li>Report exactly which rows were rejected and why</li><li>Write the clean data and a summary to new files</li><li>Save files safely, with backups, using <code>pathlib</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:60" title="Forge: the data cleaner: 60 min"></span><span class="plan-seg s1" style="flex:40" title="Forge bonus: saving safely: 40 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 11 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: the data cleaner</span><span class="plan-min">60 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Forge bonus: saving safely</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 11 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w011d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d6-p1"><textarea class="pc-src pc-code" hidden>text = &quot;a\nb\n&quot;
+print(text.split(&quot;\n&quot;), text.splitlines())</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d6-p2"><textarea class="pc-src pc-code" hidden>import csv
+print(next(csv.reader([&#x27;1,&quot;2,3&quot;,4&#x27;])))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d6-p3"><textarea class="pc-src pc-code" hidden>try:
+    print(int(&quot;7&quot;))
+    print(int(&quot;seven&quot;))
+except ValueError:
+    print(&quot;no&quot;)
+else:
+    print(&quot;yes&quot;)
+finally:
+    print(&quot;end&quot;)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d6-p4"><textarea class="pc-src pc-code" hidden>from pathlib import Path
+p = Path(&quot;reports&quot;) / &quot;2026&quot; / &quot;q3.final.csv&quot;
+print(p.stem, p.suffix, p.parent.name)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d6-p5"><textarea class="pc-src pc-code" hidden>def f(n):
+    if n &lt; 0:
+        raise ValueError(f&quot;bad: {n}&quot;)
+    return n
+try:
+    f(-2)
+except ValueError as e:
+    print(e)</textarea></div>
+<p>If any surprised you, revisit <a href="w011d1.html">reading</a>, <a href="w011d2.html">writing and paths</a>, <a href="w011d3.html">CSV</a>, <a href="w011d4.html">try and except</a> or <a href="w011d5.html">raising and debugging</a>.</p>
+<div class="filebox"><div class="filebox-head">The files used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>payments.csv</code></summary><pre class="pc-filetext">id,date,payer,amount,method
+1,2026-10-01,Ada Obi,&quot;12,500.00&quot;,card
+2,2026-10-01,  bo musa ,3200,CASH
+3,01/10/2026,Cy Bello,4100,card
+4,2026-10-02,Di Eze,,transfer
+5,2026-10-02,Ed Okoro,-500,card
+6,2026-10-01,ada obi,&quot;12,500.00&quot;,card
+7,2026-10-03,Fe Ade,2750.5,cheque
+8,2026-10-03,Gbenga Ola,8000,transfer
+9,2026-10-31,Hauwa Sani,1500,card
+10,2026-02-30,Ify Nwosu,900,cash
+11,2026-10-04,Jide Ola,1e9,card
+12,2026-10-04,Kemi Ade,600,Transfer
+</pre></details><details class="pc-file"><summary><code>notes.txt</code></summary><pre class="pc-filetext">first line
+second line
+</pre></details><script type="application/json" class="page-files">{"payments.csv": "id,date,payer,amount,method\n1,2026-10-01,Ada Obi,\"12,500.00\",card\n2,2026-10-01,  bo musa ,3200,CASH\n3,01/10/2026,Cy Bello,4100,card\n4,2026-10-02,Di Eze,,transfer\n5,2026-10-02,Ed Okoro,-500,card\n6,2026-10-01,ada obi,\"12,500.00\",card\n7,2026-10-03,Fe Ade,2750.5,cheque\n8,2026-10-03,Gbenga Ola,8000,transfer\n9,2026-10-31,Hauwa Sani,1500,card\n10,2026-02-30,Ify Nwosu,900,cash\n11,2026-10-04,Jide Ola,1e9,card\n12,2026-10-04,Kemi Ade,600,Transfer\n", "notes.txt": "first line\nsecond line\n"}</script></div>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d6-mix_words" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Words per line</div><div class="pc-prompt"><p>Write <code>words_per_line(name)</code> that returns a list with the number of words on each line of a file, skipping blank lines.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several files&quot;
+    write_file(&quot;w.txt&quot;, &quot;one two\n\n  three  \nfour five six\n&quot;)
+    assert words_per_line(&quot;w.txt&quot;) == [2, 1, 3]
+    assert words_per_line(&quot;notes.txt&quot;) == [2, 2]</textarea><textarea class="pc-src pc-solution" hidden>def words_per_line(name):
+    counts = []
+    with open(name) as f:
+        for line in f:
+            if line.strip():
+                counts.append(len(line.split()))
+    return counts</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d6-mix_log" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A log line</div><div class="pc-prompt"><p>Write <code>log(message)</code> that appends a line <code>N: message</code> to <code>app.log</code>, where <code>N</code> is the line&rsquo;s number in the file (1 for the first line ever written). If <code>app.log</code> doesn&rsquo;t exist, it&rsquo;s created.</p></div><textarea class="pc-src pc-code" hidden>from pathlib import Path</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;three messages&quot;
+    reset_files()
+    log(&quot;started&quot;)
+    log(&quot;loaded 3 files&quot;)
+    log(&quot;stopped&quot;)
+    assert read_file(&quot;app.log&quot;) == &quot;1: started\n2: loaded 3 files\n3: stopped\n&quot;</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import Path
+
+def log(message):
+    path = Path(&quot;app.log&quot;)
+    n = len(path.read_text().splitlines()) + 1 if path.exists() else 1
+    with open(path, &quot;a&quot;) as f:
+        f.write(f&quot;{n}: {message}\n&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d6-mix_methods" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count the methods</div><div class="pc-prompt"><p>Write <code>methods(name)</code> that reads a payments file like <code>payments.csv</code> and returns a dictionary counting each payment method, in lower case.</p></div><textarea class="pc-src pc-code" hidden>import csv</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;payments&quot;
+    assert methods(&quot;payments.csv&quot;) == {&quot;card&quot;: 6, &quot;cash&quot;: 2, &quot;transfer&quot;: 3, &quot;cheque&quot;: 1}</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+def methods(name):
+    counts = {}
+    with open(name, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            m = row[&quot;method&quot;].strip().lower()
+            counts[m] = counts.get(m, 0) + 1
+    return counts</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d6-mix_money" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Read an amount</div><div class="pc-prompt"><p>Write <code>parse_amount(text)</code> that turns text like <code>"12,500.00"</code>, <code>" 3200 "</code> or <code>"2750.5"</code> into a float, removing commas and spaces. Raise a <code>ValueError</code> with the message <code>no amount</code> for an empty or blank string, and <code>not an amount: TEXT</code> (with <code>{text!r}</code>) for anything else that isn&rsquo;t a number. Text like <code>"1e9"</code> or <code>"nan"</code> that <code>float</code> accepts but isn&rsquo;t written as digits counts as not an amount: only digits, at most one <code>.</code> and an optional leading <code>-</code> are allowed.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def err(t):
+    try:
+        parse_amount(t)
+    except ValueError as e:
+        return str(e)
+    raise AssertionError(f&quot;{t!r} should raise a ValueError&quot;)
+def test_good():
+    &quot;amounts&quot;
+    assert parse_amount(&quot;12,500.00&quot;) == 12500.0
+    assert parse_amount(&quot; 3200 &quot;) == 3200.0
+    assert parse_amount(&quot;2750.5&quot;) == 2750.5
+    assert parse_amount(&quot;-500&quot;) == -500.0
+def test_bad():
+    &quot;not amounts&quot;
+    assert err(&quot;&quot;) == &quot;no amount&quot;
+    assert err(&quot;   &quot;) == &quot;no amount&quot;
+    assert err(&quot;1e9&quot;) == &quot;not an amount: &#x27;1e9&#x27;&quot;
+    assert err(&quot;nan&quot;) == &quot;not an amount: &#x27;nan&#x27;&quot;
+    assert err(&quot;12.5.0&quot;) == &quot;not an amount: &#x27;12.5.0&#x27;&quot;
+    assert err(&quot;abc&quot;) == &quot;not an amount: &#x27;abc&#x27;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def parse_amount(text):
+    cleaned = text.replace(&quot;,&quot;, &quot;&quot;).strip()
+    if not cleaned:
+        raise ValueError(&quot;no amount&quot;)
+    digits = cleaned.removeprefix(&quot;-&quot;).replace(&quot;.&quot;, &quot;&quot;, 1)
+    if not digits.isdigit():
+        raise ValueError(f&quot;not an amount: {text!r}&quot;)
+    return float(cleaned)</textarea><template class="pc-src pc-hint">Clean the text first: <code>text.replace(",", "").strip()</code>. Then check the characters: remove one leading <code>-</code> and one <code>.</code>, and what&rsquo;s left must be all digits (<code>isdigit</code>), and not empty.</template></div>
+<h2 id="forge-the-data-cleaner">Forge: the data cleaner</h2>
+<p>Look at <code>payments.csv</code> in the box above. Some rows are fine. Others have problems: a date written the other way round, a missing amount, a negative payment, a duplicate, a date that doesn&rsquo;t exist, an amount far too large to be real, names and methods in odd cases with stray spaces. Your job is to build the program that a business would run every night on files like this one.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the data cleaner</div><div class="pc-prompt"><p>Write a program, built from these functions, that cleans a payments file.</p>
+<ul>
+<li><code>clean_row(row)</code> takes one row as a dictionary from <code>DictReader</code> and returns a new dictionary with:</li>
+<li><code>id</code>: an int;</li>
+<li><code>date</code>: the date as text in the form <code>YYYY-MM-DD</code>, which must be a real date in 2026;</li>
+<li><code>payer</code>: stripped, with each word capitalised (<code>"  bo musa "</code> gives <code>"Bo Musa"</code>);</li>
+<li><code>amount</code>: a float from 0.01 to 1,000,000, which may contain commas;</li>
+<li><code>method</code>: one of <code>card</code>, <code>cash</code>, <code>transfer</code>, <code>cheque</code>, in lower case.</li>
+</ul>
+<p>If any field is bad, it raises a <code>ValueError</code> whose message names the problem: <code>bad date '01/10/2026'</code>, <code>no amount</code>, <code>bad amount '-500'</code>, <code>bad method 'bitcoin'</code>, and so on (the exact wording of the messages is up to you, but the message must include the bad value in quotes, except for <code>no amount</code>).
+- <code>clean_file(source)</code> reads the file and returns a tuple <code>(good, problems)</code>. <code>good</code> is the list of clean rows, in order, <strong>leaving out duplicates</strong>: a row with the same date, payer and amount as an earlier good row. <code>problems</code> is a list of <code>(id, message)</code> tuples, one per rejected row, with the message <code>duplicate of N</code> for a duplicate (where N is the earlier row&rsquo;s id). The <code>id</code> in a problem is the text from the file.
+- <code>write_outputs(good, problems)</code> writes three files:
+  - <code>clean.csv</code>: the good rows, with the header <code>id,date,payer,amount,method</code> and amounts written with 2 decimal places, like <code>12500.00</code>;
+  - <code>problems.txt</code>: one line per problem, <code>row 3: bad date '01/10/2026'</code>;
+  - <code>summary.txt</code>: exactly these lines:</p>
+<pre><code>Rows read: 12
+Accepted: 6
+Rejected: 6
+Total accepted: 28,550.50
+</code></pre>
+<p>(with the numbers for the file read, and the total of accepted amounts with comma separators and 2 places).
+- The main program cleans <code>payments.csv</code>, writes the outputs, and prints the contents of <code>summary.txt</code>.</p></div><textarea class="pc-src pc-code" hidden>import csv
+
+METHODS = {&quot;card&quot;, &quot;cash&quot;, &quot;transfer&quot;, &quot;cheque&quot;}</textarea><textarea class="pc-src pc-tests" hidden>import csv as _csv
+def got():
+    return clean_file(&quot;payments.csv&quot;)
+def test_clean_row():
+    &quot;clean_row&quot;
+    r = clean_row({&quot;id&quot;: &quot;2&quot;, &quot;date&quot;: &quot;2026-10-01&quot;, &quot;payer&quot;: &quot;  bo musa &quot;, &quot;amount&quot;: &quot;3200&quot;, &quot;method&quot;: &quot;CASH&quot;})
+    assert r == {&quot;id&quot;: 2, &quot;date&quot;: &quot;2026-10-01&quot;, &quot;payer&quot;: &quot;Bo Musa&quot;, &quot;amount&quot;: 3200.0, &quot;method&quot;: &quot;cash&quot;}
+    r = clean_row({&quot;id&quot;: &quot;1&quot;, &quot;date&quot;: &quot;2026-10-01&quot;, &quot;payer&quot;: &quot;Ada Obi&quot;, &quot;amount&quot;: &quot;12,500.00&quot;, &quot;method&quot;: &quot;card&quot;})
+    assert r[&quot;amount&quot;] == 12500.0
+    for bad, word in [({&quot;date&quot;: &quot;01/10/2026&quot;}, &quot;01/10/2026&quot;), ({&quot;date&quot;: &quot;2026-02-30&quot;}, &quot;2026-02-30&quot;), ({&quot;date&quot;: &quot;2025-10-01&quot;}, &quot;2025-10-01&quot;),
+                      ({&quot;amount&quot;: &quot;-500&quot;}, &quot;-500&quot;), ({&quot;amount&quot;: &quot;1e9&quot;}, &quot;1e9&quot;), ({&quot;amount&quot;: &quot;2000000&quot;}, &quot;2000000&quot;), ({&quot;method&quot;: &quot;bitcoin&quot;}, &quot;bitcoin&quot;)]:
+        row = {&quot;id&quot;: &quot;9&quot;, &quot;date&quot;: &quot;2026-10-01&quot;, &quot;payer&quot;: &quot;X&quot;, &quot;amount&quot;: &quot;10&quot;, &quot;method&quot;: &quot;card&quot;}
+        row.update(bad)
+        try:
+            clean_row(row)
+        except ValueError as e:
+            assert repr(word) in str(e), f&quot;The message for {bad} should include {word!r}; it was {str(e)!r}&quot;
+        else:
+            raise AssertionError(f&quot;{bad} should be rejected&quot;)
+    try:
+        clean_row({&quot;id&quot;: &quot;4&quot;, &quot;date&quot;: &quot;2026-10-02&quot;, &quot;payer&quot;: &quot;Di Eze&quot;, &quot;amount&quot;: &quot;&quot;, &quot;method&quot;: &quot;transfer&quot;})
+    except ValueError as e:
+        assert str(e) == &quot;no amount&quot;
+    else:
+        raise AssertionError(&quot;an empty amount should be rejected&quot;)
+def test_clean_file():
+    &quot;clean_file&quot;
+    good, problems = got()
+    assert [r[&quot;id&quot;] for r in good] == [1, 2, 7, 8, 9, 12], &quot;Accepted ids should be 1, 2, 7, 8, 9, 12; got &quot; + str([r[&quot;id&quot;] for r in good])
+    assert [p[0] for p in problems] == [&quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;10&quot;, &quot;11&quot;]
+    assert dict(problems)[&quot;6&quot;] == &quot;duplicate of 1&quot;
+    assert dict(problems)[&quot;4&quot;] == &quot;no amount&quot;
+def test_outputs():
+    &quot;write_outputs&quot;
+    good, problems = got()
+    write_outputs(good, problems)
+    rows = list(_csv.reader(read_file(&quot;clean.csv&quot;).splitlines()))
+    assert rows[0] == [&quot;id&quot;, &quot;date&quot;, &quot;payer&quot;, &quot;amount&quot;, &quot;method&quot;]
+    assert rows[1] == [&quot;1&quot;, &quot;2026-10-01&quot;, &quot;Ada Obi&quot;, &quot;12500.00&quot;, &quot;card&quot;]
+    assert rows[4] == [&quot;8&quot;, &quot;2026-10-03&quot;, &quot;Gbenga Ola&quot;, &quot;8000.00&quot;, &quot;transfer&quot;]
+    assert len(rows) == 7
+    plines = read_file(&quot;problems.txt&quot;).splitlines()
+    assert plines[0].startswith(&quot;row 3: &quot;) and &quot;&#x27;01/10/2026&#x27;&quot; in plines[0]
+    assert plines[3] == &quot;row 6: duplicate of 1&quot;
+    assert read_file(&quot;summary.txt&quot;) == &quot;Rows read: 12\nAccepted: 6\nRejected: 6\nTotal accepted: 28,550.50\n&quot;
+def test_program():
+    &quot;the whole program&quot;
+    reset_files()
+    expect_output(&quot;Rows read: 12\nAccepted: 6\nRejected: 6\nTotal accepted: 28,550.50&quot;)
+def test_other_file():
+    &quot;another file&quot;
+    write_file(&quot;payments.csv&quot;, &quot;id,date,payer,amount,method\n1,2026-01-31,a b,1,Card\n2,2026-01-32,c,2,card\n3,2026-01-31,A B,1.00,cash\n&quot;)
+    good, problems = clean_file(&quot;payments.csv&quot;)
+    assert [r[&quot;payer&quot;] for r in good] == [&quot;A B&quot;]
+    assert problems[1] == (&quot;3&quot;, &quot;duplicate of 1&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+METHODS = {&quot;card&quot;, &quot;cash&quot;, &quot;transfer&quot;, &quot;cheque&quot;}
+DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+def clean_date(text):
+    parts = text.strip().split(&quot;-&quot;)
+    if [len(p) for p in parts] != [4, 2, 2] or not all(p.isdigit() for p in parts):
+        raise ValueError(f&quot;bad date {text!r}&quot;)
+    year, month, day = (int(p) for p in parts)
+    if year != 2026 or not 1 &lt;= month &lt;= 12 or not 1 &lt;= day &lt;= DAYS[month - 1]:
+        raise ValueError(f&quot;bad date {text!r}&quot;)
+    return text.strip()
+
+def clean_amount(text):
+    cleaned = text.replace(&quot;,&quot;, &quot;&quot;).strip()
+    if not cleaned:
+        raise ValueError(&quot;no amount&quot;)
+    digits = cleaned.removeprefix(&quot;-&quot;).replace(&quot;.&quot;, &quot;&quot;, 1)
+    if not digits.isdigit():
+        raise ValueError(f&quot;bad amount {text!r}&quot;)
+    amount = float(cleaned)
+    if not 0.01 &lt;= amount &lt;= 1_000_000:
+        raise ValueError(f&quot;bad amount {text!r}&quot;)
+    return amount
+
+def clean_method(text):
+    method = text.strip().lower()
+    if method not in METHODS:
+        raise ValueError(f&quot;bad method {text!r}&quot;)
+    return method
+
+def clean_row(row):
+    return {
+        &quot;id&quot;: int(row[&quot;id&quot;]),
+        &quot;date&quot;: clean_date(row[&quot;date&quot;]),
+        &quot;payer&quot;: &quot; &quot;.join(w.capitalize() for w in row[&quot;payer&quot;].split()),
+        &quot;amount&quot;: clean_amount(row[&quot;amount&quot;]),
+        &quot;method&quot;: clean_method(row[&quot;method&quot;]),
+    }
+
+def clean_file(source):
+    good, problems, seen = [], [], {}
+    with open(source, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            try:
+                clean = clean_row(row)
+            except ValueError as e:
+                problems.append((row[&quot;id&quot;], str(e)))
+                continue
+            key = (clean[&quot;date&quot;], clean[&quot;payer&quot;], clean[&quot;amount&quot;])
+            if key in seen:
+                problems.append((row[&quot;id&quot;], f&quot;duplicate of {seen[key]}&quot;))
+                continue
+            seen[key] = clean[&quot;id&quot;]
+            good.append(clean)
+    return good, problems
+
+def write_outputs(good, problems):
+    with open(&quot;clean.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+        writer = csv.writer(f)
+        writer.writerow([&quot;id&quot;, &quot;date&quot;, &quot;payer&quot;, &quot;amount&quot;, &quot;method&quot;])
+        for r in good:
+            writer.writerow([r[&quot;id&quot;], r[&quot;date&quot;], r[&quot;payer&quot;], f&quot;{r[&#x27;amount&#x27;]:.2f}&quot;, r[&quot;method&quot;]])
+    with open(&quot;problems.txt&quot;, &quot;w&quot;) as f:
+        for row_id, message in problems:
+            f.write(f&quot;row {row_id}: {message}\n&quot;)
+    total = sum(r[&quot;amount&quot;] for r in good)
+    with open(&quot;summary.txt&quot;, &quot;w&quot;) as f:
+        f.write(f&quot;Rows read: {len(good) + len(problems)}\n&quot;)
+        f.write(f&quot;Accepted: {len(good)}\n&quot;)
+        f.write(f&quot;Rejected: {len(problems)}\n&quot;)
+        f.write(f&quot;Total accepted: {total:,.2f}\n&quot;)
+
+good, problems = clean_file(&quot;payments.csv&quot;)
+write_outputs(good, problems)
+with open(&quot;summary.txt&quot;) as f:
+    print(f.read(), end=&quot;&quot;)</textarea><template class="pc-src pc-hint">Split <code>clean_row</code> into small helpers: <code>clean_date(text)</code>, <code>clean_amount(text)</code>, <code>clean_method(text)</code>. Each one returns the clean value or raises a <code>ValueError</code>. For the date, split on <code>-</code>, check there are three parts of 4, 2 and 2 digits, then check the month and day using month lengths (2026 is not a leap year).</template><template class="pc-src pc-hint">In <code>clean_file</code>, keep a dictionary <code>seen</code> from <code>(date, payer, amount)</code> to the id of the first good row with that key. Wrap <code>clean_row</code> in <code>try</code>/<code>except ValueError as e</code> and append <code>(row["id"], str(e))</code> to the problems.</template><template class="pc-src pc-hint"><code>f"{total:,.2f}"</code> gives <code>28,550.50</code>. Write the clean rows with <code>csv.writer</code>, formatting the amount with <code>f"{amount:.2f}"</code>.</template></div>
+<aside class="callout c-think"><div class="callout-t">Never silently drop data</div><p>A cleaner that quietly skipped bad rows would be dangerous: a payment would vanish and nobody would know. Yours rejects bad rows <strong>loudly</strong>, with a reason for each, in a file someone can check and fix. That&rsquo;s the difference between a script and a tool people can trust. Notice too that <code>clean_row</code> never prints or decides what to do with a bad row: it raises, and <code>clean_file</code> decides. Each function has one job.</p></aside>
+<h2 id="forge-bonus-saving-safely">Forge bonus: saving safely</h2>
+<p>If a program crashes, or the power goes off, halfway through writing a file, the file is left half-written and the old version is already gone. Careful programs avoid this. They write to a <strong>temporary file</strong> first, and only when that&rsquo;s complete do they swap it into place. Many also keep a few <strong>backups</strong>.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: saving safely</div><div class="pc-prompt"><p>Write <code>safe_save(name, text, keep=3)</code> that:</p>
+<ol>
+<li>writes <code>text</code> to a temporary file in the same folder, named like the target with <code>.tmp</code> added (<code>notes.txt.tmp</code>);</li>
+<li>if the target already exists, shifts the backups along: <code>notes.txt.2</code> becomes <code>notes.txt.3</code>, <code>notes.txt.1</code> becomes <code>notes.txt.2</code>, and the current <code>notes.txt</code> becomes <code>notes.txt.1</code>, keeping at most <code>keep</code> backups (the oldest is deleted);</li>
+<li>renames the temporary file to the target name.</li>
+</ol>
+<p>Also write <code>restore(name, n=1)</code> that copies backup <code>n</code> back over the file, raising a <code>FileNotFoundError</code> with the message <code>no backup N of NAME</code> if it doesn&rsquo;t exist.</p>
+<p>Use <code>pathlib</code>: <code>Path.replace(target)</code> renames a file, replacing any file already there; <code>Path.unlink()</code> deletes one; <code>p.with_name(...)</code> gives a path with a different name in the same folder.</p></div><textarea class="pc-src pc-code" hidden>from pathlib import Path</textarea><textarea class="pc-src pc-tests" hidden>def test_saves():
+    &quot;saving and backups&quot;
+    reset_files()
+    for i in range(1, 6):
+        safe_save(&quot;notes.txt&quot;, f&quot;version {i}\n&quot;)
+    assert read_file(&quot;notes.txt&quot;) == &quot;version 5\n&quot;
+    assert read_file(&quot;notes.txt.1&quot;) == &quot;version 4\n&quot;
+    assert read_file(&quot;notes.txt.2&quot;) == &quot;version 3\n&quot;
+    assert read_file(&quot;notes.txt.3&quot;) == &quot;version 2\n&quot;
+    assert read_file(&quot;notes.txt.4&quot;) is None, &quot;only 3 backups should be kept&quot;
+    assert read_file(&quot;notes.txt.tmp&quot;) is None, &quot;the temporary file should be gone&quot;
+def test_new_file():
+    &quot;a new file&quot;
+    safe_save(&quot;fresh.txt&quot;, &quot;hello\n&quot;, keep=2)
+    assert read_file(&quot;fresh.txt&quot;) == &quot;hello\n&quot; and read_file(&quot;fresh.txt.1&quot;) is None
+def test_keep():
+    &quot;keep=1&quot;
+    safe_save(&quot;k.txt&quot;, &quot;a\n&quot;, keep=1)
+    safe_save(&quot;k.txt&quot;, &quot;b\n&quot;, keep=1)
+    safe_save(&quot;k.txt&quot;, &quot;c\n&quot;, keep=1)
+    assert read_file(&quot;k.txt&quot;) == &quot;c\n&quot; and read_file(&quot;k.txt.1&quot;) == &quot;b\n&quot; and read_file(&quot;k.txt.2&quot;) is None
+def test_restore():
+    &quot;restore&quot;
+    reset_files()
+    safe_save(&quot;notes.txt&quot;, &quot;new\n&quot;)
+    restore(&quot;notes.txt&quot;)
+    assert read_file(&quot;notes.txt&quot;) == &quot;first line\nsecond line\n&quot;
+    try:
+        restore(&quot;notes.txt&quot;, 2)
+    except FileNotFoundError as e:
+        assert str(e) == &quot;no backup 2 of notes.txt&quot;
+    else:
+        raise AssertionError(&quot;restoring a missing backup should raise FileNotFoundError&quot;)</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import Path
+
+def backup(path, i):
+    return path.with_name(f&quot;{path.name}.{i}&quot;)
+
+def safe_save(name, text, keep=3):
+    path = Path(name)
+    tmp = path.with_name(path.name + &quot;.tmp&quot;)
+    tmp.write_text(text)
+    if path.exists():
+        oldest = backup(path, keep)
+        if oldest.exists():
+            oldest.unlink()
+        for i in range(keep - 1, 0, -1):
+            if backup(path, i).exists():
+                backup(path, i).replace(backup(path, i + 1))
+        path.replace(backup(path, 1))
+    tmp.replace(path)
+
+def restore(name, n=1):
+    path = Path(name)
+    b = backup(path, n)
+    if not b.exists():
+        raise FileNotFoundError(f&quot;no backup {n} of {name}&quot;)
+    path.write_text(b.read_text())</textarea><template class="pc-src pc-hint"><code>backup = lambda i: path.with_name(f"{path.name}.{i}")</code>. Shift from the oldest down: first delete backup <code>keep</code> if it exists, then for <code>i</code> from <code>keep - 1</code> down to 1, move backup <code>i</code> to <code>i + 1</code>, then move the current file to backup 1.</template><template class="pc-src pc-hint">For <code>restore</code>, <code>path.write_text(backup.read_text())</code> copies it back.</template></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w011d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why open files with <code>with</code>?", "answer": 1, "explain": "No forgotten close.", "options": ["It&rsquo;s faster", "The file is closed when the block ends, even after an error", "It reads the file", "It&rsquo;s required"]}, {"type": "mc", "q": "What does the second <code>f.read()</code> in a row give?", "answer": 1, "explain": "The position is at the end.", "options": ["The file again", "An empty string", "None", "An error"]}, {"type": "output", "q": "What does this print, if <code>t.txt</code> holds <code>a\\nb\\n</code>?", "answer": "A\nB", "explain": "Strip, then upper.", "code": "with open(\"t.txt\") as f:\n    for line in f:\n        print(line.strip().upper())"}, {"type": "mc", "q": "Which mode adds to a file without destroying it?", "answer": 2, "explain": "Append.", "options": ["<code>'r'</code>", "<code>'w'</code>", "<code>'a'</code>", "<code>'x'</code>"]}, {"type": "mc", "q": "What does <code>f.write(5)</code> do?", "answer": 2, "explain": "write takes strings only.", "options": ["Writes 5", "Writes 5 and a newline", "Raises a TypeError", "Writes five spaces"]}, {"type": "mc", "q": "What is <code>Path('data') / 'x.csv'</code>?", "answer": 1, "explain": "<code>/</code> joins path parts.", "options": ["An error", "The path data/x.csv", "The string &lsquo;datax.csv&rsquo;", "A number"]}, {"type": "mc", "q": "Why use the <code>csv</code> module instead of <code>split(',')</code>?", "answer": 1, "explain": "Quoting is the hard part.", "options": ["It&rsquo;s shorter", "It handles quoted fields with commas in them", "It converts numbers", "It sorts the rows"]}, {"type": "mc", "q": "What type is every value that <code>csv.DictReader</code> gives?", "answer": 1, "explain": "Convert them yourself.", "options": ["int", "str", "It depends on the column", "float"]}, {"type": "output", "q": "What does this print?", "answer": "index", "explain": "The first matching except runs.", "code": "try:\n    x = [1, 2][5]\nexcept IndexError:\n    print(\"index\")\nexcept Exception:\n    print(\"other\")"}, {"type": "mc", "q": "When does <code>else</code> run in a try statement?", "answer": 1, "explain": "The success path.", "options": ["Always", "When the try block raised nothing", "When an exception was caught", "Never"]}, {"type": "mc", "q": "What&rsquo;s wrong with <code>except Exception:</code> around a big block of code?", "answer": 1, "explain": "Catch what you expect, where you expect it.", "options": ["Nothing", "It hides unexpected bugs", "It doesn&rsquo;t catch ValueError", "It&rsquo;s slow"]}, {"type": "mc", "q": "Which should a function do when its argument makes no sense?", "answer": 2, "explain": "It can&rsquo;t be ignored by accident.", "options": ["Return -1", "Print an error and carry on", "Raise a suitable exception with a clear message", "Return None silently"]}, {"type": "mc", "q": "Where should you start reading a traceback?", "answer": 1, "explain": "The bottom says what went wrong and where.", "options": ["The top", "The bottom", "The middle", "It doesn&rsquo;t matter"]}, {"type": "text", "q": "What does <code>print(f\"{total=}\")</code> print when total is 30?", "answer": ["total=30"], "explain": "A debugging favourite."}, {"type": "mc", "q": "Why write to a temporary file and then rename it?", "answer": 1, "explain": "The swap happens only when the new file is complete.", "options": ["It&rsquo;s faster", "So a crash halfway through never leaves a half-written file in place of the old one", "To make backups automatically", "Renaming compresses the file"]}]</script></div>
+<h2 id="week-11-review">Week 11 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I can open, read and loop over text files with <code>with</code>, strip lines, and explain the file position. (<a href="w011d1.html">Day 1</a>)</li>
+<li>I can write and append to files, choose the right mode, and build paths and folders with <code>pathlib</code>. (<a href="w011d2.html">Day 2</a>)</li>
+<li>I can read and write CSV files with <code>csv.reader</code>, <code>DictReader</code>, <code>csv.writer</code> and <code>DictWriter</code>. (<a href="w011d3.html">Day 3</a>)</li>
+<li>I can catch specific exceptions with <code>try</code>, <code>except</code>, <code>else</code> and <code>finally</code>, and write input loops that ask until the answer is valid. (<a href="w011d4.html">Day 4</a>)</li>
+<li>I raise exceptions with clear messages, read tracebacks through functions, and debug with a method. (<a href="w011d5.html">Day 5</a>)</li>
+<li>I built a data cleaner that never crashes and never silently drops data, and a safe file saver. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week is the last of Phase 1: two days of review, a two-day project, the <strong>Phase 1 exam</strong>, and a debrief.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w011d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w011d6", "week": 11, "day": 6, "title": "Forge", "exercises": [{"id": "w011d6-mix_words", "title": "Words per line", "points": 10}, {"id": "w011d6-mix_log", "title": "A log line", "points": 10}, {"id": "w011d6-mix_methods", "title": "Count the methods", "points": 10}, {"id": "w011d6-mix_money", "title": "Read an amount", "points": 10}, {"id": "w011d6-forge", "title": "Forge: the data cleaner", "points": 50}, {"id": "w011d6-forge2", "title": "Forge bonus: saving safely", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

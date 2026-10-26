@@ -8,6 +8,9 @@ import ast
 import builtins
 import io
 import json
+import os
+import shutil
+import tempfile
 import keyword
 import random
 import sys
@@ -173,6 +176,74 @@ def _error_info(exc, code):
             "traceback": "\n".join(text), "friendly": explain(etype, msg)}
 
 
+# ---------------------------------------------------------------- files
+
+# The files a lesson gives its programs. Every run starts in a fresh folder holding exactly these.
+_FILES = {}
+_WORK = os.path.join(tempfile.gettempdir(), "atlas_work")
+
+
+def set_files(files_json):
+    global _FILES
+    _FILES = json.loads(files_json or "{}")
+
+
+def _reset_fs():
+    shutil.rmtree(_WORK, ignore_errors=True)
+    os.makedirs(_WORK, exist_ok=True)
+    for name, text in _FILES.items():
+        path = os.path.join(_WORK, name)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8", newline="") as f:
+            f.write(text)
+    os.chdir(_WORK)
+
+
+def _read_file(name):
+    """The text of a file in the working folder, or None if there isn't one (for checks)."""
+    try:
+        with open(os.path.join(_WORK, name), encoding="utf-8", newline="") as f:
+            return f.read()
+    except FileNotFoundError:
+        return None
+
+
+def _write_file(name, text):
+    path = os.path.join(_WORK, name)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        f.write(text)
+
+
+def _snapshot_files():
+    """Every file in the working folder after a run, with its text (shortened if long)."""
+    out = []
+    for name in _files_now():
+        text = _read_file_safe(name)
+        before = _FILES.get(name)
+        state = "new" if before is None else ("same" if before == text else "changed")
+        out.append({"name": name, "text": text if len(text) <= 4000 else text[:4000] + "\n[...]", "state": state})
+    for name in sorted(_FILES):
+        if name not in [f["name"] for f in out]:
+            out.append({"name": name, "text": "", "state": "deleted"})
+    return out
+
+
+def _read_file_safe(name):
+    try:
+        return _read_file(name) or ""
+    except UnicodeDecodeError:
+        return "[not a text file]"
+
+
+def _files_now():
+    found = []
+    for root, _dirs, names in os.walk(_WORK):
+        for n in names:
+            found.append(os.path.relpath(os.path.join(root, n), _WORK).replace(os.sep, "/"))
+    return sorted(found)
+
+
 # ---------------------------------------------------------------- running
 
 def _fresh_namespace():
@@ -202,9 +273,15 @@ def _execute(code, inputs, seed, emit=None, namespace=None, echo=True):
 
 
 def run_program(code, inputs, seed, emit):
+    _reset_fs()
     output, error, need, _ = _execute(code, list(inputs), seed, emit)
+    try:
+        os.chdir(_WORK)
+        files = _snapshot_files()
+    except OSError:
+        files = []
     return {"output": output, "error": error, "need_input": need is not None,
-            "prompt": need or ""}
+            "prompt": need or "", "files": files}
 
 
 def check_syntax(code):
@@ -278,6 +355,7 @@ def uses(source, *names):
 
 
 def grade_program(code, inputs, seed, tests_code):
+    _reset_fs()
     g = _Grader(code, inputs, seed)
     results = []
     if g.error is not None and g.error["type"] in ("SyntaxError", "IndentationError"):
@@ -286,7 +364,9 @@ def grade_program(code, inputs, seed, tests_code):
     env.update({"output": g.output, "run": g.run, "norm": norm, "ns": g.ns,
                 "error": g.error, "_code": code, "source": code,
                 "expect_output": _make_expect(g), "uses": lambda *n: uses(code, *n),
-                "run_with": lambda subs, inputs=(), echo=False: _run_with(g, subs, inputs, echo)})
+                "run_with": lambda subs, inputs=(), echo=False: _run_with(g, subs, inputs, echo),
+                "read_file": _read_file, "write_file": _write_file, "files_now": _files_now,
+                "reset_files": _reset_fs})
     try:
         exec(compile(tests_code, "<tests>", "exec"), env)
     except BaseException as e:  # noqa: BLE001
@@ -377,6 +457,7 @@ class _Snapshotter:
 
 
 def trace_program(code, inputs, seed):
+    _reset_fs()
     steps = []
     snap = _Snapshotter()
     out = _Out()
@@ -1035,6 +1116,47 @@ def set_venn(a_src, b_src):
             items = sorted(s, key=repr)
         return [repr(x) for x in items]
     return {"error": None, "a": show(a), "b": show(b), "only_a": show(a - b), "both": show(a & b), "only_b": show(b - a)}
+
+
+def file_steps(text, ops_json):
+    """Open a real file holding `text` and run read operations one by one (for the file figure).
+
+    Reports, after each operation, what it returned and where the file's position is."""
+    ops = json.loads(ops_json)
+    path = os.path.join(tempfile.gettempdir(), "atlas_figure.txt")
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        f.write(text)
+    steps = []
+    f = open(path, encoding="utf-8", newline="")
+    try:
+        for op in ops:
+            try:
+                if op.strip().startswith("for line in f"):
+                    lines = []
+                    for line in f:
+                        lines.append(line)
+                    result = lines
+                    shown = "the loop gave: " + ", ".join(repr(x) for x in lines) if lines else "the loop gave nothing (already at the end)"
+                else:
+                    result = eval(op, {"f": f, "__builtins__": builtins})
+                    shown = repr(result)
+                err = None
+            except Exception as e:  # noqa: BLE001
+                shown, err = "", f"{type(e).__name__}: {e}"
+            # f.tell() is an opaque number for text files; count characters read instead
+            looped = op.strip().startswith("for line in f")
+            pos = len(text) if (f.closed or looped) else _chars_at(text, f)
+            steps.append({"op": op, "shown": shown, "error": err, "pos": pos, "closed": f.closed})
+            if err:
+                break
+    finally:
+        f.close()
+    return {"steps": steps, "length": len(text)}
+
+
+def _chars_at(text, f):
+    data = text.encode("utf-8")
+    return len(data[:f.tell()].decode("utf-8", errors="ignore"))
 
 
 def call(fn, args_json):

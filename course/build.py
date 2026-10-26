@@ -105,6 +105,35 @@ def split_parts(body: str) -> tuple[str, dict]:
     return "\n".join(lead).strip("\n"), parts
 
 
+def parse_files(body: str) -> dict:
+    """Files written as '=== name' followed by the file's lines."""
+    files, name, buf = {}, None, []
+    for line in body.split("\n"):
+        m = re.match(r"^=== (\S.*?)\s*$", line)
+        if m:
+            if name is not None:
+                files[name] = "\n".join(buf).rstrip("\n") + "\n"
+            name, buf = m.group(1), []
+        elif name is not None:
+            buf.append(line)
+    if name is not None:
+        files[name] = "\n".join(buf).rstrip("\n") + "\n"
+    return files
+
+
+def files_view(files: dict, open_all=False) -> str:
+    return "".join(f'<details class="pc-file"{" open" if open_all else ""}><summary><code>{esc(n)}</code></summary>'
+                   f'<pre class="pc-filetext">{esc(t)}</pre></details>' for n, t in files.items())
+
+
+def files_cell(files: dict) -> str:
+    """A notebook cell that creates the files, so the notebook works on its own."""
+    lines = ["# Run this cell first: it creates the files used below."]
+    for n, t in files.items():
+        lines.append(f"with open({n!r}, 'w', encoding='utf-8') as f:\n    f.write({t!r})")
+    return "\n".join(lines)
+
+
 class Day:
     """Collects per-day material while rendering (for notebooks and review cards)."""
 
@@ -116,6 +145,7 @@ class Day:
         self.exercises = []
         self.checks = []
         self.examples = []
+        self.files = {}
 
     def uid(self, prefix):
         self.counter += 1
@@ -155,18 +185,21 @@ def render_block(kind, attrs, body, day: Day) -> str:
         tests = parts.get("tests", [""])[0]
         sol = parts.get("solution", [""])[0]
         inputs = parts.get("inputs", [None])[0]
+        own_files = parse_files(parts["files"][0]) if "files" in parts else {}
         hints = "".join(f'<template class="pc-src pc-hint">{md_inline(t)}</template>' for t in parts.get("hint", []))
         label = "Bug hunt" if kind == "bughunt" else "Exercise"
         day.exercises.append({"id": eid, "title": title, "points": int(pts)})
-        day.checks.append({"id": eid, "starter": starter, "tests": tests, "solution": sol, "inputs": inputs})
+        day.checks.append({"id": eid, "starter": starter, "tests": tests, "solution": sol, "inputs": inputs, "files": own_files})
         day.cells.append(("md", f"### {label}: {title}\n\n{lead}"))
+        if own_files:
+            day.cells.append(("code", files_cell(own_files)))
         day.cells.append(("code", starter or "# Write your code here\n"))
         if tests:
             day.cells.append(("check", tests))
         return (f'<div class="pc pc-exercise pc-{kind}" data-kind="{kind}" data-id="{eid}" data-points="{pts}">'
                 f'<div class="pc-label"><span>{label}</span><span class="pc-pts">{pts} points</span></div>{head}'
-                f'<div class="pc-prompt">{md(lead)}</div>'
-                f'{src("pc-code", starter)}{src("pc-tests", tests) if tests else ""}'
+                f'<div class="pc-prompt">{md(lead)}{files_view(own_files) if own_files else ""}</div>'
+                f'{src("pc-code", starter)}{src("pc-tests", tests) if tests else ""}{src("pc-files", json.dumps(own_files)) if own_files else ""}'
                 f'{src("pc-solution", sol) if sol else ""}{src("pc-inputs", inputs) if inputs else ""}{hints}</div>')
 
     if kind == "parsons":
@@ -198,6 +231,15 @@ def render_block(kind, attrs, body, day: Day) -> str:
         day.cells.append(("md", "### Quiz\n\nTake this quiz on the website: it is marked for you and feeds your daily review."))
         return (f'<div class="quiz" data-id="{qid}"><div class="pc-label"><span>Quiz</span><span>{len(out)} questions</span></div>{head}'
                 f'<script type="application/json">{json.dumps(out)}</script></div>')
+
+    if kind == "files":
+        files = parse_files(body)
+        day.files.update(files)
+        day.cells.append(("md", "These are the files this page's programs use."))
+        day.cells.append(("code", files_cell(files)))
+        label = title or ("The file used on this page" if len(files) == 1 else "The files used on this page")
+        return (f'<div class="filebox"><div class="filebox-head">{esc(label)}<span>Every program on this page starts with a fresh copy. Click a name to see what\'s inside.</span></div>'
+                f'{files_view(files)}<script type="application/json" class="page-files">{json.dumps(files)}</script></div>')
 
     if kind == "widget":
         name = args[0]

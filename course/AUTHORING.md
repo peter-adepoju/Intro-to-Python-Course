@@ -122,7 +122,7 @@ Wrap a question in single quotes if it contains `: ` or starts with a backtick a
 :::
 ```
 
-Figures live in `course/static/js/widgets/NAME.js` and export `default function (element, params)`. Week 1 figures: `machine`, `bits`, `pipeline`, `anatomy`, `traceback`, `typesorter`, `typeinspect`, `operators`, `stepper`, `labels`, `namecheck`, `divmod`, `floatlab`, `roundlab`, `convert`, `strruler`, `escapes`, `printlab`, `fstringlab`, `inputflow`. Week 2 adds `compare`, `truthtable` and `branch` (an if/elif/else chain with a slider; set `"chain": false` for separate ifs). Week 3 adds `tracetable` (a hand-style trace table built row by row; params `code` and `inputs`) and `euclid`. Week 4 adds `rangeviz`, `nested` (params `rows`, `cols`, `triangle`) and `approx`. Week 5 adds `methodlab`, `textsearch` and `cipherwheel`. Weeks 6 and 7 add `callbind` (params `params`, `args`, `tries`) and `callgraph` (param `code`: draws a structure chart and marks stubs). Week 8 adds `listops` (params `start` and `ops`: runs list operations with real Python). Week 9 adds `gridviz` (rows, columns and neighbours of a grid), `sortkey` (params `items`, `key`, `keys`: shows the key worked out for each item) and `complab` (param `preset`: a comprehension beside the loop it stands for, item by item). Week 10 adds `dictops` (params `start` and `ops`, like `listops`), `nestview` (param `data`: a clickable tree of nested data showing the bracket path) and `setvenn` (params `a`, `b`, `labels`).
+Figures live in `course/static/js/widgets/NAME.js` and export `default function (element, params)`. Week 1 figures: `machine`, `bits`, `pipeline`, `anatomy`, `traceback`, `typesorter`, `typeinspect`, `operators`, `stepper`, `labels`, `namecheck`, `divmod`, `floatlab`, `roundlab`, `convert`, `strruler`, `escapes`, `printlab`, `fstringlab`, `inputflow`. Week 2 adds `compare`, `truthtable` and `branch` (an if/elif/else chain with a slider; set `"chain": false` for separate ifs). Week 3 adds `tracetable` (a hand-style trace table built row by row; params `code` and `inputs`) and `euclid`. Week 4 adds `rangeviz`, `nested` (params `rows`, `cols`, `triangle`) and `approx`. Week 5 adds `methodlab`, `textsearch` and `cipherwheel`. Weeks 6 and 7 add `callbind` (params `params`, `args`, `tries`) and `callgraph` (param `code`: draws a structure chart and marks stubs). Week 8 adds `listops` (params `start` and `ops`: runs list operations with real Python). Week 9 adds `gridviz` (rows, columns and neighbours of a grid), `sortkey` (params `items`, `key`, `keys`: shows the key worked out for each item) and `complab` (param `preset`: a comprehension beside the loop it stands for, item by item). Week 10 adds `dictops` (params `start` and `ops`, like `listops`), `nestview` (param `data`: a clickable tree of nested data showing the bracket path) and `setvenn` (params `a`, `b`, `labels`). Week 11 adds `fileread` (params `text`, `name`: reads on a real file with a moving position), `tryflow` (params `code`, `tries`: which lines of a try statement ran) and `programs` for `traceback` (a `{name: code}` object of your own broken programs).
 
 ### Expression stepper (shortcut)
 
@@ -142,3 +142,19 @@ Figures live in `course/static/js/widgets/NAME.js` and export `default function 
 ## Style
 
 British spelling. Plain words; one idea per paragraph. Every new idea gets something to run, X-ray or play with straight away. A normal day has 10–15 exercises, a puzzle, bug hunts, a 10-question quiz and a daily challenge; day 6 adds the Forge project and a 15-question weekly quiz.
+
+## Files
+
+Programs on a page can use files. A `:::files` block lists them, each starting with a line `=== name`:
+
+```
+:::files
+=== marks.txt
+Ada,93
+Bo,41
+:::
+```
+
+The block shows the files on the page (click to open) and gives every program on that page a fresh copy before each run, check or X-ray, in an empty working folder. An exercise can add its own files with an `@@files` section in the same format; they are shown under its prompt. After a run, the console lists the files in the folder, marking new, changed and deleted ones. Notebooks get a cell that creates the files.
+
+Checks can use `read_file(name)` (the text, or `None`), `write_file(name, text)`, `files_now()` (the names, sorted) and `reset_files()` (back to the starting files). The learner's program has already run once when the checks start, so reset first if a check depends on the files being untouched; `run()` does not reset them.

@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="1ffd204647">
+<title>Week 11 Day 4: Exceptions: try and except | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=1ffd204647">
+<link rel="stylesheet" href="../assets/css/site.css?v=1ffd204647">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=1ffd204647"></script>
+<script src="../assets/vendor/codemirror.js?v=1ffd204647" defer></script>
+<meta name="description" content="Since Week 1 an error has meant the end of your program: a red message and nothing more. But many errors are expected: someone types a word where you asked...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w011d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 11 Day 4: Exceptions: try and except">
+<meta property="og:description" content="Since Week 1 an error has meant the end of your program: a red message and nothing more. But many errors are expected: someone types a word where you asked...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w011d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-11">Week 11: Files and errors</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#what-an-exception-is" data-sec="what-an-exception-is">What an exception is</a></li><li><a href="#try-and-except" data-sec="try-and-except">try and except</a></li><li><a href="#else-and-finally" data-sec="else-and-finally">else and finally</a></li><li><a href="#asking-until-it-s-right" data-sec="asking-until-it-s-right">Asking until it’s right</a></li><li><a href="#catching-the-right-things" data-sec="catching-the-right-things">Catching the right things</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 11, Day 4</span></p>
+      <h1>Exceptions: try and except</h1>
+      <div class="day-intro"><p>Since Week 1 an error has meant the end of your program: a red message and nothing more. But many errors are expected: someone types a word where you asked for a number, a file is missing, a key isn&rsquo;t in a dictionary. Today you&rsquo;ll learn to catch errors with <code>try</code> and <code>except</code>, respond sensibly, and carry on. You&rsquo;ll also learn which errors to catch, and why catching too much is a bug of its own.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain what an exception is, and what happens when one isn&rsquo;t caught</li><li>Catch a specific exception with <code>try</code> and <code>except</code>, and use the exception object with <code>as e</code></li><li>Handle different exceptions differently, and use <code>else</code> and <code>finally</code></li><li>Write an input loop that keeps asking until the answer is valid</li><li>Choose between checking first and trying first, and avoid catching too much</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="What an exception is: 20 min"></span><span class="plan-seg s0" style="flex:35" title="try and except: 35 min"></span><span class="plan-seg s1" style="flex:25" title="else and finally: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Asking until it&#x27;s right: 25 min"></span><span class="plan-seg s1" style="flex:20" title="Catching the right things: 20 min"></span><span class="plan-seg s0" style="flex:35" title="Practice: 35 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">What an exception is</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">try and except</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">else and finally</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Asking until it&rsquo;s right</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Catching the right things</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:15</span><span class="plan-what">Practice</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w011d4.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d4-p1"><textarea class="pc-src pc-code" hidden>values = [&quot;12&quot;, &quot;7&quot;, &quot;x&quot;, &quot;30&quot;]
+total = 0
+for v in values:
+    if v.isdigit():
+        total += int(v)
+print(total)</textarea></div>
+<p>Checking with <code>isdigit</code> first works for whole numbers. But what about <code>"-4"</code>, <code>"2.5"</code> or <code>" 7 "</code>? <code>int</code> and <code>float</code> accept those, <code>isdigit</code> doesn&rsquo;t. It&rsquo;s often easier to <strong>try</strong> the conversion and deal with failure if it happens. That&rsquo;s today&rsquo;s tool.</p>
+<h2 id="what-an-exception-is">What an exception is</h2>
+<p>When Python can&rsquo;t carry out an operation, it <strong>raises an exception</strong>: an object describing what went wrong. You&rsquo;ve seen many:</p>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>Raised when</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ValueError</code></td>
+<td>the type is right but the value isn&rsquo;t</td>
+<td><code>int("abc")</code></td>
+</tr>
+<tr>
+<td><code>TypeError</code></td>
+<td>the type is wrong</td>
+<td><code>"a" + 1</code></td>
+</tr>
+<tr>
+<td><code>ZeroDivisionError</code></td>
+<td>dividing by zero</td>
+<td><code>5 / 0</code></td>
+</tr>
+<tr>
+<td><code>IndexError</code></td>
+<td>a list index is out of range</td>
+<td><code>[1, 2][5]</code></td>
+</tr>
+<tr>
+<td><code>KeyError</code></td>
+<td>a dictionary key is missing</td>
+<td><code>{}["x"]</code></td>
+</tr>
+<tr>
+<td><code>FileNotFoundError</code></td>
+<td>a file to read doesn&rsquo;t exist</td>
+<td><code>open("nope.txt")</code></td>
+</tr>
+<tr>
+<td><code>NameError</code></td>
+<td>a name isn&rsquo;t defined</td>
+<td><code>print(totl)</code></td>
+</tr>
+<tr>
+<td><code>AttributeError</code></td>
+<td>an object doesn&rsquo;t have that method</td>
+<td><code>[1].upper()</code></td>
+</tr>
+</tbody>
+</table>
+<p>If nothing <strong>catches</strong> the exception, Python stops the program and prints the <strong>traceback</strong>: the error&rsquo;s type, its message, and the lines that led to it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e2"><textarea class="pc-src pc-code" hidden>prices = {&quot;tea&quot;: 150}
+print(&quot;Before&quot;)
+print(prices[&quot;coffee&quot;])
+print(&quot;After&quot;)</textarea></div>
+<p><code>After</code> never printed. Everything after the error was abandoned.</p>
+<h2 id="try-and-except">try and except</h2>
+<p>Put code that might fail in a <code>try</code> block, and what to do if it fails in an <code>except</code> block:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e3"><textarea class="pc-src pc-code" hidden>text = &quot;12x&quot;
+try:
+    n = int(text)
+    print(&quot;Got&quot;, n)
+except ValueError:
+    n = 0
+    print(&quot;Not a number, using 0&quot;)
+print(&quot;n is&quot;, n)</textarea></div>
+<p>Python runs the <code>try</code> block. If a line in it raises a <code>ValueError</code>, Python <strong>stops the <code>try</code> block at that line</strong>, jumps to the <code>except</code> block, runs it, and carries on after the whole statement. If nothing goes wrong, the <code>except</code> block is skipped.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>try:</code> the code that might fail. <code>except SomeError:</code> what to do if it raises <code>SomeError</code>. The rest of the <code>try</code> block is skipped as soon as an error happens.</p></aside>
+<h3 id="several-kinds-of-error">Several kinds of error</h3>
+<p>A <code>try</code> can have several <code>except</code> blocks. Python uses the <strong>first</strong> one that matches:</p>
+<figure class="widget" data-widget="tryflow"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Choose an input. Green lines ran, the red line raised an error, faded lines were skipped. Each except line is checked in turn until one matches.</figcaption></figure>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e4"><textarea class="pc-src pc-code" hidden>def safe_divide(a, b):
+    try:
+        return a / b
+    except ZeroDivisionError:
+        return None
+    except TypeError:
+        return &quot;numbers only&quot;
+
+print(safe_divide(10, 4), safe_divide(1, 0), safe_divide(&quot;x&quot;, 2))</textarea></div>
+<p>One <code>except</code> can catch several types, in a tuple: <code>except (ValueError, TypeError):</code>.</p>
+<h3 id="the-exception-object">The exception object</h3>
+<p><code>except ValueError as e:</code> names the exception object <code>e</code>. Printing it gives the message Python would have shown:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e5"><textarea class="pc-src pc-code" hidden>for text in [&quot;42&quot;, &quot;forty-two&quot;, &quot;4.2&quot;]:
+    try:
+        print(int(text))
+    except ValueError as e:
+        print(&quot;Problem:&quot;, e)</textarea></div>
+<h3 id="errors-from-deeper-down">Errors from deeper down</h3>
+<p>An exception travels <strong>up</strong> from the function where it happened, through every function that called it, until something catches it. So you can catch it where you know what to do about it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e6"><textarea class="pc-src pc-code" hidden>def read_number(text):
+    return float(text.replace(&quot;,&quot;, &quot;&quot;))
+
+def total(texts):
+    return sum(read_number(t) for t in texts)
+
+try:
+    print(total([&quot;1,200&quot;, &quot;300.5&quot;, &quot;lots&quot;]))
+except ValueError as e:
+    print(&quot;Couldn&#x27;t add them up:&quot;, e)</textarea></div>
+<p>The error happened inside <code>float</code>, inside <code>read_number</code>, inside <code>total</code>. The <code>try</code> in the main program caught it.</p>
+<h3 id="a-missing-file">A missing file</h3>
+<p>The commonest use of all: a file that might not be there.</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e7"><textarea class="pc-src pc-code" hidden>def load_lines(name):
+    try:
+        with open(name) as f:
+            return f.read().splitlines()
+    except FileNotFoundError:
+        return []
+
+print(load_lines(&quot;missing.txt&quot;))</textarea></div>
+<h2 id="else-and-finally">else and finally</h2>
+<p>Two more optional parts:</p>
+<ul>
+<li><code>else:</code> runs only if the <code>try</code> block finished <strong>without</strong> an error.</li>
+<li><code>finally:</code> runs <strong>always</strong>, error or not, even if the <code>try</code> block returns. It&rsquo;s for clean-up that must happen whatever.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e8"><textarea class="pc-src pc-code" hidden>for text in [&quot;8&quot;, &quot;zero&quot;]:
+    try:
+        n = int(text)
+    except ValueError:
+        print(repr(text), &quot;isn&#x27;t a number&quot;)
+    else:
+        print(repr(text), &quot;doubled is&quot;, n * 2)
+    finally:
+        print(&quot;checked&quot;, repr(text))</textarea></div>
+<p>Why <code>else</code> instead of putting the code at the end of the <code>try</code> block? Because then an error <strong>in that code</strong> would be caught too, by an <code>except</code> that wasn&rsquo;t written for it. Keep the <code>try</code> block as small as possible: just the line that might fail.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>You&rsquo;ll rarely need <code>finally</code> for files, because <code>with</code> already closes them. It&rsquo;s for other things that must be undone: putting a setting back, releasing a lock, stopping a timer.</p></aside>
+<h2 id="asking-until-it-s-right">Asking until it&rsquo;s right</h2>
+<p>Combining <code>while True</code>, <code>try</code>, <code>except</code> and <code>break</code> gives the standard way to get valid input:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e9"><textarea class="pc-src pc-code" hidden>while True:
+    text = input(&quot;How many tickets? &quot;)
+    try:
+        n = int(text)
+    except ValueError:
+        print(&quot;Please type a whole number.&quot;)
+        continue
+    if n &lt; 1:
+        print(&quot;At least one, please.&quot;)
+        continue
+    break
+print(&quot;Booking&quot;, n, &quot;tickets&quot;)</textarea></div>
+<p>The loop only ends at <code>break</code>, which is reached only when the input is a whole number of at least 1. Two kinds of problem, two messages.</p>
+<p>Put it in a function and you can reuse it everywhere:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e10"><textarea class="pc-src pc-code" hidden>def ask_int(prompt, low, high):
+    while True:
+        try:
+            n = int(input(prompt))
+        except ValueError:
+            print(&quot;That isn&#x27;t a whole number.&quot;)
+            continue
+        if low &lt;= n &lt;= high:
+            return n
+        print(f&quot;Choose from {low} to {high}.&quot;)
+
+age = ask_int(&quot;Age: &quot;, 0, 130)
+print(&quot;Age&quot;, age)</textarea></div>
+<h2 id="catching-the-right-things">Catching the right things</h2>
+<h3 id="look-before-you-leap-or-ask-forgiveness">Look before you leap, or ask forgiveness?</h3>
+<p>There are two styles of dealing with a problem:</p>
+<ul>
+<li><strong>Look before you leap</strong>: check first, then act. <code>if key in d: value = d[key]</code>.</li>
+<li><strong>Easier to ask forgiveness than permission</strong>: just do it, and handle the failure. <code>try: value = d[key] except KeyError: ...</code>.</li>
+</ul>
+<p>Python programmers often prefer the second style when failure is unusual, because the check and the action can&rsquo;t get out of step (a file could be deleted between checking it exists and opening it). Use the first style when the check is simple and failure is common, like <code>d.get(key, 0)</code>.</p>
+<h3 id="don-t-catch-everything">Don&rsquo;t catch everything</h3>
+<p>A bare <code>except:</code>, or <code>except Exception:</code>, catches <strong>every</strong> error, including the ones you didn&rsquo;t think of: typos, wrong names, bugs. They&rsquo;d be silently swallowed:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d4-e11"><textarea class="pc-src pc-code" hidden>data = {&quot;tea&quot;: 150}
+try:
+    price = dta[&quot;tea&quot;]
+except Exception:
+    price = 0
+print(&quot;Price:&quot;, price)</textarea></div>
+<p>The real problem is a typo, <code>dta</code> instead of <code>data</code>, a <code>NameError</code>. The program quietly printed a wrong answer. With <code>except KeyError:</code> the typo would have crashed the program, and you&rsquo;d have found it at once.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Catch the <strong>specific</strong> exception you expect, and only around the line where you expect it. A program that crashes on a bug is far better than one that hides it and gives a wrong answer.</p></aside>
+<h3 id="families-of-exceptions">Families of exceptions</h3>
+<p>Exceptions come in families. <code>KeyError</code> and <code>IndexError</code> are both kinds of <code>LookupError</code>; <code>FileNotFoundError</code> is a kind of <code>OSError</code>; almost every error is a kind of <code>Exception</code>. An <code>except</code> catches the type it names <strong>and every type in its family</strong>. That&rsquo;s why <code>except Exception</code> catches nearly everything.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d4-to_number" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Safe conversion</div><div class="pc-prompt"><p>Write <code>to_number(text)</code> that returns <code>text</code> converted to a float, or <code>None</code> if it can&rsquo;t be. Use <code>try</code> and <code>except ValueError</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    assert to_number(&quot;3.5&quot;) == 3.5
+    assert to_number(&quot; -2 &quot;) == -2.0
+    assert to_number(&quot;1e3&quot;) == 1000.0
+    assert to_number(&quot;abc&quot;) is None
+    assert to_number(&quot;&quot;) is None
+    assert &quot;except ValueError&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def to_number(text):
+    try:
+        return float(text)
+    except ValueError:
+        return None</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d4-sum_valid" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Add what you can</div><div class="pc-prompt"><p>Write <code>sum_valid(texts)</code> that adds up the strings that are valid numbers and returns a tuple <code>(total, number_skipped)</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert sum_valid([&quot;4&quot;, &quot;x&quot;, &quot;2.5&quot;, &quot;&quot;, &quot;-1&quot;]) == (5.5, 2)
+    assert sum_valid([]) == (0, 0)</textarea><textarea class="pc-src pc-solution" hidden>def sum_valid(texts):
+    total, skipped = 0, 0
+    for t in texts:
+        try:
+            total += float(t)
+        except ValueError:
+            skipped += 1
+    return total, skipped</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d4-ticket" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How many tickets?</div><div class="pc-prompt"><p>Ask <code>How many tickets?</code> until the answer is a whole number from 1 to 10. Print <code>Please type a whole number.</code> for something that isn&rsquo;t one, and <code>From 1 to 10, please.</code> for a number out of range. Then print <code>Booked N tickets</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several attempts&quot;
+    expect_output(&quot;How many tickets? two\nPlease type a whole number.\nHow many tickets? 0\nFrom 1 to 10, please.\nHow many tickets? 11\nFrom 1 to 10, please.\nHow many tickets? 3\nBooked 3 tickets&quot;, inputs=[&quot;two&quot;, &quot;0&quot;, &quot;11&quot;, &quot;3&quot;], echo=True)
+    expect_output(&quot;How many tickets? 10\nBooked 10 tickets&quot;, inputs=[&quot;10&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>while True:
+    try:
+        n = int(input(&quot;How many tickets? &quot;))
+    except ValueError:
+        print(&quot;Please type a whole number.&quot;)
+        continue
+    if 1 &lt;= n &lt;= 10:
+        break
+    print(&quot;From 1 to 10, please.&quot;)
+print(f&quot;Booked {n} tickets&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d4-lookup" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Price or message</div><div class="pc-prompt"><p>Write <code>price_message(prices, item)</code> that returns <code>"tea costs 150"</code>, or <code>"Sorry, no juice"</code> if the item isn&rsquo;t in the dictionary. Use <code>try</code> and <code>except KeyError</code>, with <code>else</code> for the success case.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several items&quot;
+    p = {&quot;tea&quot;: 150, &quot;coffee&quot;: 900}
+    assert price_message(p, &quot;tea&quot;) == &quot;tea costs 150&quot;
+    assert price_message(p, &quot;juice&quot;) == &quot;Sorry, no juice&quot;
+    assert &quot;else:&quot; in source and &quot;except KeyError&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def price_message(prices, item):
+    try:
+        price = prices[item]
+    except KeyError:
+        return f&quot;Sorry, no {item}&quot;
+    else:
+        return f&quot;{item} costs {price}&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d4-first_line" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">First line, if any</div><div class="pc-prompt"><p>Write <code>first_line(name)</code> that returns the first line of a file without its newline, <code>"(empty file)"</code> if the file is empty, or <code>"(no such file)"</code> if it doesn&rsquo;t exist.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several files&quot;
+    write_file(&quot;a.txt&quot;, &quot;hello\nworld\n&quot;)
+    write_file(&quot;e.txt&quot;, &quot;&quot;)
+    assert first_line(&quot;a.txt&quot;) == &quot;hello&quot;
+    assert first_line(&quot;e.txt&quot;) == &quot;(empty file)&quot;
+    assert first_line(&quot;zzz.txt&quot;) == &quot;(no such file)&quot;</textarea><textarea class="pc-src pc-solution" hidden>def first_line(name):
+    try:
+        with open(name) as f:
+            line = f.readline()
+    except FileNotFoundError:
+        return &quot;(no such file)&quot;
+    if line == &quot;&quot;:
+        return &quot;(empty file)&quot;
+    return line.rstrip(&quot;\n&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d4-element" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Safe index</div><div class="pc-prompt"><p>Write <code>get(items, i, default)</code> that returns <code>items[i]</code>, or <code>default</code> if the index is out of range or <code>items</code> can&rsquo;t be indexed by <code>i</code> (for example, <code>i</code> is a string). Catch both kinds of error in one <code>except</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert get([1, 2, 3], 1, 0) == 2
+    assert get([1, 2, 3], 9, 0) == 0
+    assert get([1, 2, 3], -1, 0) == 3
+    assert get([1, 2, 3], &quot;x&quot;, &quot;?&quot;) == &quot;?&quot;
+    assert &quot;IndexError&quot; in source and &quot;TypeError&quot; in source and source.count(&quot;except&quot;) == 1, &quot;Catch both in one except, with a tuple.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def get(items, i, default):
+    try:
+        return items[i]
+    except (IndexError, TypeError):
+        return default</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">It hides the bug</div><div class="pc-prompt"><p><code>average</code> should give the average of a list, or <code>None</code> for an empty list. It always returns <code>None</code>, because of a typo that the <code>except</code> is hiding. Make the <code>except</code> catch only the error it&rsquo;s meant for, then fix the typo it reveals.</p></div><textarea class="pc-src pc-code" hidden>def average(values):
+    try:
+        return sum(values) / len(value)
+    except Exception:
+        return None</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;averages&quot;
+    assert average([2, 4]) == 3
+    assert average([]) is None
+    assert &quot;except Exception&quot; not in source and &quot;except ZeroDivisionError&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def average(values):
+    try:
+        return sum(values) / len(values)
+    except ZeroDivisionError:
+        return None</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Every number is bad</div><div class="pc-prompt"><p>This should print <code>Bad number: x</code>, then <code>Total: 12</code>. Instead it says every value is bad, and the total is 0. Keep only the conversion inside <code>try</code>, move the adding into an <code>else</code> block, catch only <code>ValueError</code>, and then fix the bug that this reveals.</p></div><textarea class="pc-src pc-code" hidden>total = 0
+for text in [&quot;5&quot;, &quot;x&quot;, &quot;7&quot;]:
+    try:
+        n = int(text)
+        total = totl + n
+    except Exception:
+        print(&quot;Bad number:&quot;, text)
+print(&quot;Total:&quot;, total)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;output&quot;
+    expect_output(&quot;Bad number: x\nTotal: 12&quot;)
+def test_shape():
+    &quot;only the conversion is tried&quot;
+    assert &quot;else:&quot; in source and &quot;except ValueError&quot; in source and &quot;Exception&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+for text in [&quot;5&quot;, &quot;x&quot;, &quot;7&quot;]:
+    try:
+        n = int(text)
+    except ValueError:
+        print(&quot;Bad number:&quot;, text)
+    else:
+        total = total + n
+print(&quot;Total:&quot;, total)</textarea><template class="pc-src pc-hint">Once the <code>except</code> only catches <code>ValueError</code>, running it shows the real problem: a <code>NameError</code> on the adding line.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The wrong error</div><div class="pc-prompt"><p>This should print <code>No such student</code>, but it crashes with a <code>KeyError</code>. Fix the <code>except</code>.</p></div><textarea class="pc-src pc-code" hidden>marks = {&quot;Ada&quot;: 93}
+try:
+    print(marks[&quot;Bo&quot;])
+except IndexError:
+    print(&quot;No such student&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;handled&quot;
+    expect_output(&quot;No such student&quot;)</textarea><textarea class="pc-src pc-solution" hidden>marks = {&quot;Ada&quot;: 93}
+try:
+    print(marks[&quot;Bo&quot;])
+except KeyError:
+    print(&quot;No such student&quot;)</textarea></div>
+<div class="parsons" data-id="w011d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Read a number from a file</div><div class="pc-prompt"><p>Arrange the lines so that <code>read_count</code> returns the number in a file, or 0 if the file is missing or doesn&rsquo;t hold a number. One line is a trap.</p></div><script type="application/json">{"lines": ["def read_count(name):", "    try:", "        with open(name) as f:", "            return int(f.read())", "    except (FileNotFoundError, ValueError):", "        return 0"], "distractors": ["    except:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work out what each program prints, and write it as a string (use <code>\n</code> between lines).</p></div><textarea class="pc-src pc-code" hidden># Program A
+#   try:
+#       print(1)
+#       print(1 / 0)
+#       print(2)
+#   except ZeroDivisionError:
+#       print(3)
+#   print(4)
+a = ___
+# Program B
+#   try:
+#       x = int(&quot;5&quot;)
+#   except ValueError:
+#       print(&quot;bad&quot;)
+#   else:
+#       print(&quot;good&quot;, x)
+#   finally:
+#       print(&quot;end&quot;)
+b = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each output&quot;
+    assert a == &quot;1\n3\n4&quot;
+    assert b == &quot;good 5\nend&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;1\n3\n4&quot;
+b = &quot;good 5\nend&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w011d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What happens to the rest of a <code>try</code> block after a line raises an exception?", "answer": 1, "explain": "Python jumps to the matching except.", "options": ["It still runs", "It&rsquo;s skipped", "It runs after the except", "It runs twice"]}, {"type": "output", "q": "What does this print?", "answer": "B\nC", "explain": "A was skipped.", "code": "try:\n    n = int(\"4x\")\n    print(\"A\")\nexcept ValueError:\n    print(\"B\")\nprint(\"C\")"}, {"type": "mc", "q": "When does an <code>else</code> block of a try statement run?", "answer": 2, "explain": "else is the success path.", "options": ["Always", "Only if an exception was caught", "Only if the try block raised nothing", "Never"]}, {"type": "mc", "q": "When does a <code>finally</code> block run?", "answer": 2, "explain": "Even if the try block returns.", "options": ["Only on success", "Only on error", "Always", "Only if there&rsquo;s no except"]}, {"type": "mc", "q": "What is <code>e</code> in <code>except ValueError as e:</code>?", "answer": 1, "explain": "str(e) is its message.", "options": ["The error message only", "The exception object", "The line number", "The value that failed"]}, {"type": "mc", "q": "What does <code>int(\"2.5\")</code> raise?", "answer": 1, "explain": "int of a string needs a whole number.", "options": ["TypeError", "ValueError", "Nothing: it gives 2", "ZeroDivisionError"]}, {"type": "mc", "q": "Why is <code>except Exception:</code> around a lot of code a bad idea?", "answer": 1, "explain": "Catch what you expect, where you expect it.", "options": ["It&rsquo;s slow", "It hides bugs such as typos, turning crashes into wrong answers", "It doesn&rsquo;t work", "It catches nothing"]}, {"type": "mc", "q": "Which catches both <code>KeyError</code> and <code>IndexError</code>?", "answer": 1, "explain": "A tuple of types.", "options": ["<code>except KeyError, IndexError:</code>", "<code>except (KeyError, IndexError):</code>", "<code>except KeyError or IndexError:</code>", "<code>except [KeyError, IndexError]:</code>"]}, {"type": "mc", "q": "An exception is raised inside a function, and the function has no try. What happens?", "answer": 1, "explain": "Up the chain of calls.", "options": ["The program always stops", "It travels up to the caller, which may catch it", "It&rsquo;s ignored", "The function returns None"]}, {"type": "mc", "q": "Which style is &ldquo;easier to ask forgiveness than permission&rdquo;?", "answer": 1, "explain": "Try it, then handle the failure.", "options": ["<code>if key in d: v = d[key]</code>", "<code>try: v = d[key]</code> with <code>except KeyError</code>", "<code>v = d.get(key)</code>"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a forgiving calculator</div><div class="pc-prompt"><p>Write <code>calculate(line)</code> for a calculator that takes lines like <code>12 * 3.5</code> (a number, a space, an operator <code>+ - * / ** %</code>, a space, a number) and returns the answer as a string, or a clear message:</p>
+<ul>
+<li><code>Bad format</code> if the line isn&rsquo;t three parts;</li>
+<li><code>Not a number: TEXT</code> for the first part that isn&rsquo;t a number;</li>
+<li><code>Unknown operator: OP</code> for any other operator;</li>
+<li><code>Can't divide by zero</code> for <code>/</code> or <code>%</code> by zero;</li>
+<li><code>Too big</code> if the answer is too large for a float (<code>2 ** 99999.0</code> raises <code>OverflowError</code>).</li>
+</ul>
+<p>Answers that are whole numbers are shown without <code>.0</code>: <code>2 * 3</code> gives <code>6</code>, <code>7 / 2</code> gives <code>3.5</code>. Then write a loop that reads lines with the prompt <code>&gt;</code> until <code>quit</code>, printing each result.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;answers&quot;
+    assert calculate(&quot;12 * 3.5&quot;) == &quot;42&quot;
+    assert calculate(&quot;7 / 2&quot;) == &quot;3.5&quot;
+    assert calculate(&quot;2 ** 10&quot;) == &quot;1024&quot;
+    assert calculate(&quot;-5 % 3&quot;) == &quot;1&quot;
+def test_errors():
+    &quot;messages&quot;
+    assert calculate(&quot;1 +&quot;) == &quot;Bad format&quot;
+    assert calculate(&quot;1 + 2 + 3&quot;) == &quot;Bad format&quot;
+    assert calculate(&quot;x + 2&quot;) == &quot;Not a number: x&quot;
+    assert calculate(&quot;2 + two&quot;) == &quot;Not a number: two&quot;
+    assert calculate(&quot;2 ^ 3&quot;) == &quot;Unknown operator: ^&quot;
+    assert calculate(&quot;5 / 0&quot;) == &quot;Can&#x27;t divide by zero&quot;
+    assert calculate(&quot;5 % 0&quot;) == &quot;Can&#x27;t divide by zero&quot;
+    assert calculate(&quot;10 ** 99999&quot;) == &quot;Too big&quot;
+def test_loop():
+    &quot;the loop&quot;
+    expect_output(&quot;&gt; 1 + 1\n2\n&gt; 1 / 0\nCan&#x27;t divide by zero\n&gt; quit&quot;, inputs=[&quot;1 + 1&quot;, &quot;1 / 0&quot;, &quot;quit&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>OPS = {
+    &quot;+&quot;: lambda a, b: a + b,
+    &quot;-&quot;: lambda a, b: a - b,
+    &quot;*&quot;: lambda a, b: a * b,
+    &quot;/&quot;: lambda a, b: a / b,
+    &quot;**&quot;: lambda a, b: a ** b,
+    &quot;%&quot;: lambda a, b: a % b,
+}
+
+def calculate(line):
+    parts = line.split()
+    if len(parts) != 3:
+        return &quot;Bad format&quot;
+    left, op, right = parts
+    numbers = []
+    for text in (left, right):
+        try:
+            numbers.append(float(text))
+        except ValueError:
+            return f&quot;Not a number: {text}&quot;
+    if op not in OPS:
+        return f&quot;Unknown operator: {op}&quot;
+    try:
+        result = OPS[op](numbers[0], numbers[1])
+    except ZeroDivisionError:
+        return &quot;Can&#x27;t divide by zero&quot;
+    except OverflowError:
+        return &quot;Too big&quot;
+    if result == int(result):
+        return str(int(result))
+    return str(result)
+
+line = input(&quot;&gt; &quot;)
+while line != &quot;quit&quot;:
+    print(calculate(line))
+    line = input(&quot;&gt; &quot;)</textarea><template class="pc-src pc-hint">Split the line, check there are three parts, then convert each number with its own <code>try</code> so that you know which one failed. A dictionary from operator to a small function (<code>lambda a, b: a + b</code>) avoids a long <code>elif</code> chain.</template><template class="pc-src pc-hint">Do the arithmetic inside one more <code>try</code> with <code>except ZeroDivisionError</code> and <code>except OverflowError</code>. <code>result == int(result)</code> tells you whether it&rsquo;s a whole number.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Look back at a program you wrote in an earlier week that crashes on bad input, and make it ask again instead. Then explain, in one sentence, why <code>except Exception</code> is usually a mistake. Tomorrow: raising your own exceptions, and a method for finding bugs.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w011d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w011d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w011d4", "week": 11, "day": 4, "title": "Exceptions: try and except", "exercises": [{"id": "w011d4-to_number", "title": "Safe conversion", "points": 10}, {"id": "w011d4-sum_valid", "title": "Add what you can", "points": 10}, {"id": "w011d4-ticket", "title": "How many tickets?", "points": 10}, {"id": "w011d4-lookup", "title": "Price or message", "points": 10}, {"id": "w011d4-first_line", "title": "First line, if any", "points": 10}, {"id": "w011d4-element", "title": "Safe index", "points": 10}, {"id": "w011d4-bug1", "title": "It hides the bug", "points": 10}, {"id": "w011d4-bug2", "title": "Every number is bad", "points": 10}, {"id": "w011d4-bug3", "title": "The wrong error", "points": 10}, {"id": "w011d4-trace", "title": "Predict them", "points": 15}, {"id": "w011d4-challenge", "title": "Challenge: a forgiving calculator", "points": 25}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

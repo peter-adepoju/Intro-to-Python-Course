@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="1ffd204647">
+<title>Week 11 Day 3: CSV files | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=1ffd204647">
+<link rel="stylesheet" href="../assets/css/site.css?v=1ffd204647">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=1ffd204647"></script>
+<script src="../assets/vendor/codemirror.js?v=1ffd204647" defer></script>
+<meta name="description" content="CSV (comma-separated values) is the most common format for tables of data: every spreadsheet program can open and save it, and most data you’ll download...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w011d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 11 Day 3: CSV files">
+<meta property="og:description" content="CSV (comma-separated values) is the most common format for tables of data: every spreadsheet program can open and save it, and most data you’ll download...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w011d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-11">Week 11: Files and errors</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#the-csv-format" data-sec="the-csv-format">The CSV format</a></li><li><a href="#reading-rows" data-sec="reading-rows">Reading rows</a></li><li><a href="#reading-records" data-sec="reading-records">Reading records</a></li><li><a href="#writing" data-sec="writing">Writing</a></li><li><a href="#a-complete-round-trip" data-sec="a-complete-round-trip">A complete round trip</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 11, Day 3</span></p>
+      <h1>CSV files</h1>
+      <div class="day-intro"><p>CSV (comma-separated values) is the most common format for tables of data: every spreadsheet program can open and save it, and most data you&rsquo;ll download comes in it. It looks simple enough to split on commas, but real CSV files have commas inside quoted fields and other surprises. Today you&rsquo;ll use the <code>csv</code> module, which handles all of that, to read and write tables as lists and as dictionaries.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain the CSV format, including quoted fields, and why <code>split(",")</code> isn&rsquo;t enough</li><li>Read rows with <code>csv.reader</code>, and records with <code>csv.DictReader</code></li><li>Convert fields from text to numbers as you read them</li><li>Write rows with <code>csv.writer</code> and records with <code>csv.DictWriter</code>, opening files with <code>newline=""</code></li><li>Read a table, change it, and write it back out</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="The CSV format: 20 min"></span><span class="plan-seg s0" style="flex:30" title="Reading rows: 30 min"></span><span class="plan-seg s1" style="flex:25" title="Reading records: 25 min"></span><span class="plan-seg s0" style="flex:30" title="Writing: 30 min"></span><span class="plan-seg s1" style="flex:15" title="A complete round trip: 15 min"></span><span class="plan-seg s0" style="flex:40" title="Practice: 40 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The CSV format</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">Reading rows</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Reading records</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Writing</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">A complete round trip</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Practice</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w011d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w011d3.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w011d3-p1"><textarea class="pc-src pc-code" hidden>line = &#x27;Ada,&quot;Lagos, Nigeria&quot;,93&#x27;
+print(line.split(&quot;,&quot;))
+print(len(line.split(&quot;,&quot;)))</textarea></div>
+<p>Three fields, but <code>split</code> found four, because one field contains a comma. The quotes say &ldquo;this comma is part of the text&rdquo;, and <code>split</code> doesn&rsquo;t know that. The <code>csv</code> module does.</p>
+<div class="filebox"><div class="filebox-head">The files used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>students.csv</code></summary><pre class="pc-filetext">name,city,maths,english
+Ada,&quot;Lagos, Nigeria&quot;,93,71
+Bo,Accra,41,88
+Cy,&quot;Nairobi, Kenya&quot;,78,64
+Di,Kigali,55,90
+</pre></details><details class="pc-file"><summary><code>sales.csv</code></summary><pre class="pc-filetext">date,item,qty,price
+2026-10-01,rice,2,8500
+2026-10-01,beans,1,3200
+2026-10-02,rice,1,8500
+2026-10-03,oil,3,2100
+2026-10-03,beans,2,3200
+</pre></details><script type="application/json" class="page-files">{"students.csv": "name,city,maths,english\nAda,\"Lagos, Nigeria\",93,71\nBo,Accra,41,88\nCy,\"Nairobi, Kenya\",78,64\nDi,Kigali,55,90\n", "sales.csv": "date,item,qty,price\n2026-10-01,rice,2,8500\n2026-10-01,beans,1,3200\n2026-10-02,rice,1,8500\n2026-10-03,oil,3,2100\n2026-10-03,beans,2,3200\n"}</script></div>
+<h2 id="the-csv-format">The CSV format</h2>
+<p>A CSV file is a text file holding a table:</p>
+<ul>
+<li>each <strong>line</strong> is one row;</li>
+<li>fields are separated by <strong>commas</strong>;</li>
+<li>the first row is usually a <strong>header</strong> with the column names;</li>
+<li>a field containing a comma, a quote or a newline is wrapped in <strong>double quotes</strong>, and a quote inside it is doubled: <code>"She said ""hi"""</code>.</li>
+</ul>
+<p>Everything in a CSV file is <strong>text</strong>. The file doesn&rsquo;t say that <code>93</code> is a number; your program decides that.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Open <code>students.csv</code> in the box above and compare it with what the programs below print. Then try saving any spreadsheet as CSV on your own computer and opening it in a text editor: it&rsquo;s the same format.</p></aside>
+<h2 id="reading-rows">Reading rows</h2>
+<p><code>csv.reader</code> takes an open file and gives you each row as a <strong>list of strings</strong>, with the quoting handled:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e2"><textarea class="pc-src pc-code" hidden>import csv
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    for row in csv.reader(f):
+        print(row)</textarea></div>
+<p><code>"Lagos, Nigeria"</code> came through as one field, without its quotes. Note <code>newline=""</code> in <code>open</code>: the <code>csv</code> module handles line endings itself, and this stops Python changing them first. Always use it for CSV files.</p>
+<h3 id="the-header-row">The header row</h3>
+<p>The first row is the header. Take it with <code>next</code>, which gets the next item from the reader, and loop over the rest:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e3"><textarea class="pc-src pc-code" hidden>import csv
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    reader = csv.reader(f)
+    header = next(reader)
+    rows = list(reader)
+print(header)
+print(len(rows), &quot;students&quot;)
+print(rows[2][1])</textarea></div>
+<h3 id="converting-fields">Converting fields</h3>
+<p>Every field is a string, so convert the numbers yourself as you read:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e4"><textarea class="pc-src pc-code" hidden>import csv
+total = 0
+with open(&quot;sales.csv&quot;, newline=&quot;&quot;) as f:
+    reader = csv.reader(f)
+    next(reader)
+    for date, item, qty, price in reader:
+        total += int(qty) * int(price)
+print(f&quot;Total sales: {total:,} naira&quot;)</textarea></div>
+<p>Unpacking each row into named variables (<code>for date, item, qty, price in reader</code>) makes the code far easier to read than <code>row[2]</code> and <code>row[3]</code>.</p>
+<h2 id="reading-records">Reading records</h2>
+<p><code>csv.DictReader</code> reads the header for you, and gives each row as a <strong>dictionary</strong> from column name to value:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e5"><textarea class="pc-src pc-code" hidden>import csv
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    for record in csv.DictReader(f):
+        print(record[&quot;name&quot;], record[&quot;city&quot;], record[&quot;maths&quot;])</textarea></div>
+<p>This is usually the clearest way to read CSV: <code>record["maths"]</code> says what it means, and the code keeps working if someone adds a column or changes the order of the columns.</p>
+<p>Read the whole file into a list of dictionaries, the shape from Week 10, and every pattern you know applies:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e6"><textarea class="pc-src pc-code" hidden>import csv
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    students = list(csv.DictReader(f))
+for s in students:
+    s[&quot;maths&quot;] = int(s[&quot;maths&quot;])
+    s[&quot;english&quot;] = int(s[&quot;english&quot;])
+best = max(students, key=lambda s: s[&quot;maths&quot;])
+print(&quot;Best at maths:&quot;, best[&quot;name&quot;])
+print(&quot;Average English:&quot;, sum(s[&quot;english&quot;] for s in students) / len(students))</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e7"><div class="pc-title">Grouping a CSV</div><textarea class="pc-src pc-code" hidden>import csv
+from collections import defaultdict
+qty_by_item = defaultdict(int)
+with open(&quot;sales.csv&quot;, newline=&quot;&quot;) as f:
+    for sale in csv.DictReader(f):
+        qty_by_item[sale[&quot;item&quot;]] += int(sale[&quot;qty&quot;])
+print(dict(qty_by_item))</textarea></div>
+<h2 id="writing">Writing</h2>
+<h3 id="rows-with-csv-writer">Rows with csv.writer</h3>
+<p><code>csv.writer</code> writes lists as rows, adding commas and quotes wherever they&rsquo;re needed:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e8"><textarea class="pc-src pc-code" hidden>import csv
+rows = [[&quot;name&quot;, &quot;note&quot;], [&quot;Ada&quot;, &quot;top, again&quot;], [&quot;Bo&quot;, &#x27;said &quot;hi&quot;&#x27;]]
+with open(&quot;notes.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+    writer = csv.writer(f)
+    writer.writerows(rows)
+with open(&quot;notes.csv&quot;) as f:
+    print(f.read())</textarea></div>
+<p><code>writerow(row)</code> writes one row; <code>writerows(rows)</code> writes them all. Numbers are turned into text for you. Check the output: the field with a comma was quoted, and the quotes inside <code>said "hi"</code> were doubled. Writing CSV by joining strings with commas gets this wrong.</p>
+<h3 id="records-with-csv-dictwriter">Records with csv.DictWriter</h3>
+<p><code>csv.DictWriter</code> writes dictionaries. You tell it the column names, in order, with <code>fieldnames</code>, and write the header with <code>writeheader()</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e9"><textarea class="pc-src pc-code" hidden>import csv
+people = [{&quot;name&quot;: &quot;Ada&quot;, &quot;score&quot;: 93}, {&quot;name&quot;: &quot;Bo&quot;, &quot;score&quot;: 41}]
+with open(&quot;people.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+    writer = csv.DictWriter(f, fieldnames=[&quot;name&quot;, &quot;score&quot;])
+    writer.writeheader()
+    writer.writerows(people)
+with open(&quot;people.csv&quot;) as f:
+    print(f.read())</textarea></div>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Without <code>newline=""</code> when writing, some systems (Windows in particular) put an extra blank line between the rows. Use it every time you open a CSV file, for reading or writing.</p></aside>
+<h2 id="a-complete-round-trip">A complete round trip</h2>
+<p>Read a table, add a column, and write it out. This is one of the most common small programs anyone writes:</p>
+<div class="pc pc-example" data-kind="example" data-id="w011d3-e10"><textarea class="pc-src pc-code" hidden>import csv
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    students = list(csv.DictReader(f))
+for s in students:
+    s[&quot;average&quot;] = (int(s[&quot;maths&quot;]) + int(s[&quot;english&quot;])) / 2
+with open(&quot;averages.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+    writer = csv.DictWriter(f, fieldnames=[&quot;name&quot;, &quot;city&quot;, &quot;maths&quot;, &quot;english&quot;, &quot;average&quot;])
+    writer.writeheader()
+    writer.writerows(students)
+with open(&quot;averages.csv&quot;) as f:
+    print(f.read())</textarea></div>
+<h3 id="other-separators">Other separators</h3>
+<p>Some &ldquo;CSV&rdquo; files use semicolons or tabs instead of commas (common in countries where the comma is the decimal point). Tell the reader and writer with <code>delimiter</code>:</p>
+<pre><code>csv.reader(f, delimiter=&quot;;&quot;)
+csv.writer(f, delimiter=&quot;\t&quot;)
+</code></pre>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d3-count_rows" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How many?</div><div class="pc-prompt"><p>Write <code>count_records(name)</code> that returns the number of data rows in a CSV file, not counting the header.</p></div><textarea class="pc-src pc-code" hidden>import csv</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several files&quot;
+    assert count_records(&quot;students.csv&quot;) == 4
+    assert count_records(&quot;sales.csv&quot;) == 5
+    write_file(&quot;h.csv&quot;, &quot;a,b\n&quot;)
+    assert count_records(&quot;h.csv&quot;) == 0</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+def count_records(name):
+    with open(name, newline=&quot;&quot;) as f:
+        reader = csv.reader(f)
+        next(reader)
+        return sum(1 for row in reader)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d3-column" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">One column</div><div class="pc-prompt"><p>Write <code>column(name, heading)</code> that returns the values of one column of a CSV file as a list of strings, using <code>DictReader</code>.</p></div><textarea class="pc-src pc-code" hidden>import csv</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several columns&quot;
+    assert column(&quot;students.csv&quot;, &quot;city&quot;) == [&quot;Lagos, Nigeria&quot;, &quot;Accra&quot;, &quot;Nairobi, Kenya&quot;, &quot;Kigali&quot;]
+    assert column(&quot;sales.csv&quot;, &quot;item&quot;) == [&quot;rice&quot;, &quot;beans&quot;, &quot;rice&quot;, &quot;oil&quot;, &quot;beans&quot;]
+    assert &quot;DictReader&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+def column(name, heading):
+    with open(name, newline=&quot;&quot;) as f:
+        return [record[heading] for record in csv.DictReader(f)]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d3-revenue" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Revenue per day</div><div class="pc-prompt"><p>Write <code>daily_revenue(name)</code> that reads a sales file like <code>sales.csv</code> and returns a dictionary from date to that day&rsquo;s total (quantity times price).</p></div><textarea class="pc-src pc-code" hidden>import csv</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;sales&quot;
+    assert daily_revenue(&quot;sales.csv&quot;) == {&quot;2026-10-01&quot;: 20200, &quot;2026-10-02&quot;: 8500, &quot;2026-10-03&quot;: 12700}</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+def daily_revenue(name):
+    totals = {}
+    with open(name, newline=&quot;&quot;) as f:
+        for sale in csv.DictReader(f):
+            amount = int(sale[&quot;qty&quot;]) * int(sale[&quot;price&quot;])
+            totals[sale[&quot;date&quot;]] = totals.get(sale[&quot;date&quot;], 0) + amount
+    return totals</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d3-passlist" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Write the pass list</div><div class="pc-prompt"><p>Read <code>students.csv</code> and write <code>passed.csv</code> with the columns <code>name</code> and <code>maths</code>, holding only students with 50 or more in maths, in the same order. Use <code>csv.writer</code>.</p></div><textarea class="pc-src pc-code" hidden>import csv</textarea><textarea class="pc-src pc-tests" hidden>def test_file():
+    &quot;the pass list&quot;
+    run()
+    assert norm(read_file(&quot;passed.csv&quot;)) == &quot;name,maths\nAda,93\nCy,78\nDi,55&quot;</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    students = list(csv.DictReader(f))
+with open(&quot;passed.csv&quot;, &quot;w&quot;, newline=&quot;&quot;) as f:
+    writer = csv.writer(f)
+    writer.writerow([&quot;name&quot;, &quot;maths&quot;])
+    for s in students:
+        if int(s[&quot;maths&quot;]) &gt;= 50:
+            writer.writerow([s[&quot;name&quot;], s[&quot;maths&quot;]])</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d3-to_csv" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Dictionaries to CSV</div><div class="pc-prompt"><p>Write <code>save_records(records, name)</code> that writes a list of dictionaries to a CSV file with a header. The columns are the keys of the first record, in its order. An empty list writes an empty file.</p></div><textarea class="pc-src pc-code" hidden>import csv</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    save_records([{&quot;x&quot;: 1, &quot;y&quot;: &quot;a, b&quot;}, {&quot;x&quot;: 2, &quot;y&quot;: &quot;c&quot;}], &quot;r.csv&quot;)
+    assert norm(read_file(&quot;r.csv&quot;)) == &#x27;x,y\n1,&quot;a, b&quot;\n2,c&#x27;
+    save_records([], &quot;e.csv&quot;)
+    assert read_file(&quot;e.csv&quot;) == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+def save_records(records, name):
+    with open(name, &quot;w&quot;, newline=&quot;&quot;) as f:
+        if not records:
+            return
+        writer = csv.DictWriter(f, fieldnames=list(records[0]))
+        writer.writeheader()
+        writer.writerows(records)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d3-semicolons" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A semicolon file</div><div class="pc-prompt"><p><code>prices.csv</code> uses semicolons and a decimal comma, like <code>rice;8500,50</code>. Write <code>load_prices(name)</code> that returns a dictionary from item to price as a float. There&rsquo;s no header.</p><details class="pc-file"><summary><code>prices.csv</code></summary><pre class="pc-filetext">rice;8500,50
+beans;3200
+&quot;oil; palm&quot;;2100,75
+</pre></details></div><textarea class="pc-src pc-code" hidden>import csv</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;the prices&quot;
+    assert load_prices(&quot;prices.csv&quot;) == {&quot;rice&quot;: 8500.5, &quot;beans&quot;: 3200.0, &quot;oil; palm&quot;: 2100.75}</textarea><textarea class="pc-src pc-files" hidden>{&quot;prices.csv&quot;: &quot;rice;8500,50\nbeans;3200\n\&quot;oil; palm\&quot;;2100,75\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+def load_prices(name):
+    prices = {}
+    with open(name, newline=&quot;&quot;) as f:
+        for item, price in csv.reader(f, delimiter=&quot;;&quot;):
+            prices[item] = float(price.replace(&quot;,&quot;, &quot;.&quot;))
+    return prices</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Too many fields</div><div class="pc-prompt"><p>This should print each student&rsquo;s city, but <code>Lagos, Nigeria</code> comes out as <code>"Lagos</code>. Fix it with the <code>csv</code> module.</p></div><textarea class="pc-src pc-code" hidden>with open(&quot;students.csv&quot;) as f:
+    next(f)
+    for line in f:
+        fields = line.strip().split(&quot;,&quot;)
+        print(fields[1])</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the cities&quot;
+    expect_output(&quot;Lagos, Nigeria\nAccra\nNairobi, Kenya\nKigali&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    reader = csv.reader(f)
+    next(reader)
+    for row in reader:
+        print(row[1])</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">String sums</div><div class="pc-prompt"><p>This should print the total quantity sold, <code>9</code>, but it crashes. Fix it.</p></div><textarea class="pc-src pc-code" hidden>import csv
+total = 0
+with open(&quot;sales.csv&quot;, newline=&quot;&quot;) as f:
+    for sale in csv.DictReader(f):
+        total += sale[&quot;qty&quot;]
+print(total)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;nine&quot;
+    expect_output(&quot;9&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import csv
+total = 0
+with open(&quot;sales.csv&quot;, newline=&quot;&quot;) as f:
+    for sale in csv.DictReader(f):
+        total += int(sale[&quot;qty&quot;])
+print(total)</textarea><template class="pc-src pc-hint">Everything in a CSV file is text.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w011d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The header counts as a student</div><div class="pc-prompt"><p>This should print the highest maths mark, <code>93</code>, but crashes with <code>ValueError: invalid literal for int() with base 10: 'maths'</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>import csv
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    marks = [int(row[2]) for row in csv.reader(f)]
+print(max(marks))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;93&quot;
+    expect_output(&quot;93&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import csv
+with open(&quot;students.csv&quot;, newline=&quot;&quot;) as f:
+    reader = csv.reader(f)
+    next(reader)
+    marks = [int(row[2]) for row in reader]
+print(max(marks))</textarea></div>
+<div class="parsons" data-id="w011d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Names in capitals</div><div class="pc-prompt"><p>Arrange the lines to write <code>upper.csv</code>, a copy of <code>students.csv</code> with the names in capitals. One line is a trap.</p></div><script type="application/json">{"lines": ["import csv", "with open(\"students.csv\", newline=\"\") as f:", "    rows = list(csv.DictReader(f))", "for r in rows:", "    r[\"name\"] = r[\"name\"].upper()", "with open(\"upper.csv\", \"w\", newline=\"\") as f:", "    w = csv.DictWriter(f, fieldnames=[\"name\", \"city\", \"maths\", \"english\"])", "    w.writeheader()", "    w.writerows(rows)"], "distractors": ["    w = csv.DictWriter(f)"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them. <code>csv.reader</code> can read from any list of lines, not just a file.</p></div><textarea class="pc-src pc-code" hidden>import csv
+a = ___   # next(csv.reader([&#x27;x,&quot;y,z&quot;,1&#x27;]))
+b = ___   # len(next(csv.reader([&#x27;a,,b&#x27;])))
+c = ___   # next(csv.reader([&#x27;&quot;say &quot;&quot;hi&quot;&quot;&quot;&#x27;]))[0]
+d = ___   # type(next(csv.reader([&#x27;42&#x27;]))[0])     (the type itself)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == [&quot;x&quot;, &quot;y,z&quot;, &quot;1&quot;]
+    assert b == 3
+    assert c == &#x27;say &quot;hi&quot;&#x27;
+    assert d is str</textarea><textarea class="pc-src pc-solution" hidden>import csv
+a = [&quot;x&quot;, &quot;y,z&quot;, &quot;1&quot;]
+b = 3
+c = &#x27;say &quot;hi&quot;&#x27;
+d = str</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w011d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why not read CSV with <code>line.split(\",\")</code>?", "answer": 1, "explain": "The csv module understands quoting.", "options": ["It&rsquo;s slow", "Quoted fields can contain commas", "It removes spaces", "It only works on numbers"]}, {"type": "mc", "q": "What does <code>csv.reader</code> give for each row?", "answer": 1, "explain": "Everything is text.", "options": ["A string", "A list of strings", "A dictionary", "A list of numbers"]}, {"type": "mc", "q": "What does <code>csv.DictReader</code> give for each row?", "answer": 1, "explain": "It uses the header row for the keys.", "options": ["A list", "A dictionary from column name to value", "A tuple", "The header"]}, {"type": "mc", "q": "Why open CSV files with <code>newline=\"\"</code>?", "answer": 1, "explain": "Use it for reading and writing.", "options": ["To skip blank lines", "The csv module handles line endings itself; without it you can get extra blank rows", "To read faster", "It&rsquo;s required for reading only"]}, {"type": "mc", "q": "How do you skip the header with <code>csv.reader</code>?", "answer": 1, "explain": "next takes one row.", "options": ["<code>reader.skip()</code>", "<code>next(reader)</code>", "<code>reader[1:]</code>", "<code>del reader[0]</code>"]}, {"type": "mc", "q": "How is the field <code>a,b</code> written in a CSV file?", "answer": 1, "explain": "Quoted.", "options": ["<code>a,b</code>", "<code>\"a,b\"</code>", "<code>a\\,b</code>", "<code>[a,b]</code>"]}, {"type": "mc", "q": "What must you give <code>csv.DictWriter</code>?", "answer": 1, "explain": "It needs to know the columns and their order.", "options": ["Nothing", "The fieldnames, in order", "The number of rows", "A header string"]}, {"type": "mc", "q": "What writes the header row with a DictWriter?", "answer": 1, "explain": "writeheader.", "options": ["<code>writer.writerow(header)</code>", "<code>writer.writeheader()</code>", "It&rsquo;s automatic", "<code>writer.header()</code>"]}, {"type": "text", "q": "What does <code>csv.writer(f).writerow(['Ada', 93])</code> write?", "answer": ["Ada,93"], "explain": "Numbers are written as text, followed by a line ending."}, {"type": "mc", "q": "How do you read a file separated by semicolons?", "answer": 1, "explain": "The delimiter argument.", "options": ["You can&rsquo;t", "<code>csv.reader(f, delimiter=';')</code>", "<code>f.split(';')</code>", "<code>csv.reader(f, sep=';')</code>"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w011d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a pivot table</div><div class="pc-prompt"><p>Spreadsheets have <strong>pivot tables</strong>, which summarise a long table as a grid. Write <code>pivot(source, target)</code> that reads a sales file like <code>sales.csv</code> and writes <code>target</code>, a CSV with one row per <strong>item</strong> (sorted A to Z) and one column per <strong>date</strong> (sorted), holding the quantity of that item sold on that date (0 if none), plus a final <code>total</code> column. The first column is headed <code>item</code>.</p>
+<p>For <code>sales.csv</code> the target should be:</p>
+<pre><code>item,2026-10-01,2026-10-02,2026-10-03,total
+beans,1,0,2,3
+oil,0,0,3,3
+rice,2,1,0,3
+</code></pre></div><textarea class="pc-src pc-code" hidden>import csv</textarea><textarea class="pc-src pc-tests" hidden>def test_example():
+    &quot;sales.csv&quot;
+    pivot(&quot;sales.csv&quot;, &quot;pivot.csv&quot;)
+    assert norm(read_file(&quot;pivot.csv&quot;)) == &quot;item,2026-10-01,2026-10-02,2026-10-03,total\nbeans,1,0,2,3\noil,0,0,3,3\nrice,2,1,0,3&quot;
+def test_other():
+    &quot;another file&quot;
+    write_file(&quot;s2.csv&quot;, &quot;date,item,qty,price\nd2,yam,4,1\nd1,yam,1,1\nd2,yam,1,1\nd1,egg,6,1\n&quot;)
+    pivot(&quot;s2.csv&quot;, &quot;p2.csv&quot;)
+    assert norm(read_file(&quot;p2.csv&quot;)) == &quot;item,d1,d2,total\negg,6,0,6\nyam,1,5,6&quot;</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+def pivot(source, target):
+    with open(source, newline=&quot;&quot;) as f:
+        sales = list(csv.DictReader(f))
+    dates = sorted({s[&quot;date&quot;] for s in sales})
+    items = sorted({s[&quot;item&quot;] for s in sales})
+    qty = {}
+    for s in sales:
+        key = (s[&quot;item&quot;], s[&quot;date&quot;])
+        qty[key] = qty.get(key, 0) + int(s[&quot;qty&quot;])
+    with open(target, &quot;w&quot;, newline=&quot;&quot;) as f:
+        writer = csv.writer(f)
+        writer.writerow([&quot;item&quot;] + dates + [&quot;total&quot;])
+        for item in items:
+            counts = [qty.get((item, d), 0) for d in dates]
+            writer.writerow([item] + counts + [sum(counts)])</textarea><template class="pc-src pc-hint">Read the sales into a list of dictionaries. Collect the set of dates and the set of items, and add up the quantities in a dictionary keyed by <code>(item, date)</code> tuples.</template><template class="pc-src pc-hint">Each output row is <code>[item] + [counts.get((item, d), 0) for d in dates] + [total]</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Find a CSV file of your own: download one from a public data site, or save a spreadsheet as CSV. Open it in a text editor, then read it with <code>DictReader</code> and print one column. Tomorrow: what to do when things go wrong, with <code>try</code> and <code>except</code>.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w011d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w011d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w011d3", "week": 11, "day": 3, "title": "CSV files", "exercises": [{"id": "w011d3-count_rows", "title": "How many?", "points": 10}, {"id": "w011d3-column", "title": "One column", "points": 10}, {"id": "w011d3-revenue", "title": "Revenue per day", "points": 10}, {"id": "w011d3-passlist", "title": "Write the pass list", "points": 10}, {"id": "w011d3-to_csv", "title": "Dictionaries to CSV", "points": 10}, {"id": "w011d3-semicolons", "title": "A semicolon file", "points": 10}, {"id": "w011d3-bug1", "title": "Too many fields", "points": 10}, {"id": "w011d3-bug2", "title": "String sums", "points": 10}, {"id": "w011d3-bug3", "title": "The header counts as a student", "points": 10}, {"id": "w011d3-trace", "title": "Predict them", "points": 15}, {"id": "w011d3-challenge", "title": "Challenge: a pivot table", "points": 25}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

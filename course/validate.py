@@ -2,6 +2,8 @@
 
 Usage: python course/validate.py [w001d1 ...]
 """
+import json
+import os
 import signal
 import sys
 from pathlib import Path
@@ -66,6 +68,7 @@ for w in curriculum.build()["weeks"]:
                 print(f"  {ex['id']}: no tests"); problems += 1; continue
             if not ex["solution"]:
                 print(f"  {ex['id']}: no solution"); problems += 1; continue
+            harness.set_files(json.dumps({**day.files, **ex.get("files", {})}))
             r = timed(harness.grade_program, ex["solution"], inputs, 1, ex["tests"])
             if r is None:
                 problems += 1
@@ -86,6 +89,7 @@ for w in curriculum.build()["weeks"]:
             count["examples"] += 1
             if e.get("forever"):
                 continue
+            harness.set_files(json.dumps(day.files))
             inputs = e["inputs"].split("\n") if e["inputs"] else ["Ada"] * 20
             r = timed(harness.run_program, e["code"], inputs, 1, None)
             if r is None:
@@ -104,5 +108,6 @@ for f in list((HERE / "content").rglob("*.md")) + list((HERE / "templates").rglo
         if "\u2014" in line:
             problems += 1
             print(f"✗ em dash in {f.relative_to(HERE)}:{n}")
+os.chdir(HERE)
 print(f"\n{count['exercises']} exercises and {count['examples']} examples checked; {problems} problem(s).")
 sys.exit(1 if problems else 0)
