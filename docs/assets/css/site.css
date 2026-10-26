@@ -372,7 +372,9 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
 
 /* ---------- home */
 .hero { max-width: 1180px; margin: 0 auto; padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1rem, 3vw, 2rem) 3rem; display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-.hero h1 { font-size: clamp(2.5rem, 6vw, 4.4rem); line-height: 1.02; letter-spacing: -.03em; margin: 0 0 1.2rem; max-width: 12ch; }
+.hero h1 { font-size: clamp(2.2rem, 4.1vw, 3.6rem); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 1.2rem; }
+.hero h1 span { display: block; white-space: nowrap; }
+@media (max-width: 420px) { .hero h1 span { white-space: normal; } }
 .hero-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin: 1.6rem 0 1rem; }
 .hero-go { font-size: 1.05rem; padding: .85em 1.3em; }
 .hero-small { color: var(--ink-3); font-size: .95rem; }
