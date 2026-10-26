@@ -9,6 +9,7 @@ export const SITE = {
   supabaseUrl: cfg.supabaseUrl || "",
   supabaseKey: cfg.supabaseAnonKey || "",
   tutor: cfg.tutorEnabled !== false,
+  google: cfg.googleSignIn === true,
   name: cfg.courseName || "Python Atlas",
 };
 

@@ -1,28 +1,107 @@
-<div class="wrap narrow">
-  <h1 id="acct-title">Your account</h1>
+<div class="wrap acct">
   <div id="acct-off" class="panel" hidden>
+    <h1>Your account</h1>
     <p>Accounts aren't switched on for this copy of the course yet, so your progress is saved on this device only. Everything else works.</p>
   </div>
-  <div id="acct-signin" hidden>
-    <p class="lede">Sign in to keep your progress, streak, review cards and scripts on every device. Lessons are open to everyone either way.</p>
-    <div class="panel">
-      <button type="button" class="btn btn-quiet" id="google">Continue with Google</button>
-      <p class="muted or">or with email</p>
-      <form id="email-form">
-        <label class="field"><span>Email</span><input type="email" id="email" autocomplete="email" required></label>
-        <label class="field"><span>Password</span><input type="password" id="password" autocomplete="current-password" minlength="8" required></label>
-        <div class="w-row"><button class="btn btn-run" type="submit" id="signin-btn">Sign in</button><button class="btn btn-quiet" type="button" id="signup-btn">Create account</button><button class="btn btn-quiet btn-tiny" type="button" id="reset-btn">Forgot password</button></div>
-        <p id="auth-msg" class="w-note" aria-live="polite"></p>
-      </form>
+
+  <section id="acct-signin" class="auth" hidden>
+    <div class="auth-side" aria-hidden="true">
+      <div class="auth-code">
+        <div class="ac-line"><span class="ac-n">1</span>streak = 0</div>
+        <div class="ac-line is-next"><span class="ac-n">2</span>while learning:</div>
+        <div class="ac-line"><span class="ac-n">3</span>    practise()</div>
+        <div class="ac-line"><span class="ac-n">4</span>    streak += 1</div>
+      </div>
+      <p class="auth-side-t">Your progress, on every device.</p>
+      <ul class="auth-perks">
+        <li>Your streak, points and finished days</li>
+        <li>Your review cards and their schedule</li>
+        <li>Your playground scripts and settings</li>
+        <li>The AI tutor</li>
+      </ul>
     </div>
-  </div>
-  <div id="acct-in" hidden>
-    <p class="lede">Signed in as <strong id="who"></strong>. Your progress syncs automatically.</p>
-    <div class="panel"><div class="stats" id="stats"></div></div>
-    <p><button class="btn btn-quiet" type="button" id="signout">Sign out</button></p>
-  </div>
-  <p class="muted">Theme, text size and other preferences are in <a href="settings.html">Settings</a>.</p>
-  <h2>Your data</h2>
-  <p>Download everything this site has saved about your learning, or load a file you downloaded earlier (for example, to move devices without an account).</p>
-  <div class="w-row"><button class="btn btn-quiet" type="button" id="export">Download my progress</button><label class="btn btn-quiet">Load a progress file<input type="file" id="import" accept="application/json" hidden></label></div>
+
+    <div class="auth-card">
+      <div class="auth-tabs" role="tablist" aria-label="Sign in or create an account">
+        <button type="button" role="tab" id="tab-in" aria-selected="true">Sign in</button>
+        <button type="button" role="tab" id="tab-up" aria-selected="false">Create account</button>
+      </div>
+      <h1 class="auth-title" id="auth-title">Welcome back</h1>
+      <p class="auth-sub" id="auth-sub">Sign in to pick up where you left off.</p>
+
+      <button type="button" class="btn-google" id="google">
+        <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+        <span>Continue with Google</span>
+      </button>
+
+      <div class="auth-or"><span>or with email</span></div>
+
+      <form id="email-form" novalidate>
+        <label class="af" id="name-field" hidden>
+          <span class="af-l">Your name</span>
+          <span class="af-box">
+            <svg class="af-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+            <input type="text" id="name" autocomplete="name" placeholder="How should we greet you?">
+          </span>
+        </label>
+        <label class="af">
+          <span class="af-l">Email</span>
+          <span class="af-box">
+            <svg class="af-i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            <input type="email" id="email" autocomplete="email" placeholder="you@example.com" required>
+          </span>
+        </label>
+        <label class="af">
+          <span class="af-l">Password <button type="button" class="af-link" id="reset-btn">Forgot password?</button></span>
+          <span class="af-box">
+            <svg class="af-i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            <input type="password" id="password" autocomplete="current-password" placeholder="At least 8 characters" minlength="8" required>
+            <button type="button" class="af-eye" id="eye" aria-label="Show password" aria-pressed="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </span>
+        </label>
+        <button class="btn-primary" type="submit" id="submit-btn">Sign in</button>
+        <p id="auth-msg" class="auth-msg" role="status" aria-live="polite" hidden></p>
+      </form>
+      <p class="auth-foot">Lessons are free and open without an account.</p>
+    </div>
+  </section>
+
+  <section id="acct-in" hidden>
+    <div class="profile">
+      <div class="avatar avatar-lg" id="p-avatar"></div>
+      <div class="profile-who">
+        <h1 id="p-name"></h1>
+        <p class="muted" id="p-email"></p>
+      </div>
+      <button class="btn btn-quiet" type="button" id="signout">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 16l-4-4 4-4"/><path d="M6 12h10"/></svg>
+        Sign out
+      </button>
+    </div>
+    <div class="stat-cards" id="stats"></div>
+
+    <div class="acct-grid">
+      <section class="panel">
+        <h2 class="mini">Your name</h2>
+        <p class="muted small">This is how the site greets you.</p>
+        <form class="name-form" id="name-form">
+          <input class="w-input" id="name-edit" autocomplete="name" aria-label="Your name">
+          <button class="btn btn-check" type="submit">Save</button>
+        </form>
+      </section>
+      <section class="panel">
+        <h2 class="mini">Preferences</h2>
+        <p class="muted small">Theme, text size, X-ray speed and more.</p>
+        <a class="btn btn-quiet" href="settings.html">Open settings</a>
+      </section>
+    </div>
+  </section>
+
+  <section class="acct-data">
+    <h2>Your data</h2>
+    <p>Download everything this site has saved about your learning, or load a file you downloaded earlier, for example to move devices without an account.</p>
+    <div class="w-row"><button class="btn btn-quiet" type="button" id="export">Download my progress</button><label class="btn btn-quiet">Load a progress file<input type="file" id="import" accept="application/json" hidden></label></div>
+  </section>
 </div>
