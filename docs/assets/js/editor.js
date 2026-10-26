@@ -1,4 +1,5 @@
 // A thin wrapper around CodeMirror 5 (loaded as a global from assets/vendor).
+import { settings, onSettings } from "./settings.js";
 export function makeEditor(parent, code, { readOnly = false, minLines = 3, onChange, onRun } = {}) {
   const cm = window.CodeMirror(parent, {
     value: code,
@@ -12,6 +13,7 @@ export function makeEditor(parent, code, { readOnly = false, minLines = 3, onCha
     styleActiveLine: !readOnly,
     readOnly,
     viewportMargin: Infinity,
+    lineWrapping: settings().wrap,
     extraKeys: {
       Tab: (c) => (c.somethingSelected() ? c.indentSelection("add") : c.replaceSelection("    ", "end")),
       "Shift-Tab": (c) => c.indentSelection("subtract"),
@@ -21,6 +23,7 @@ export function makeEditor(parent, code, { readOnly = false, minLines = 3, onCha
       "Cmd-/": "toggleComment",
     },
   });
+  onSettings((s) => { cm.setOption("lineWrapping", s.wrap); cm.refresh(); });
   cm.getWrapperElement().style.minHeight = (minLines * 1.5 + 0.8) + "em";
   if (onChange) cm.on("change", () => onChange(cm.getValue()));
 

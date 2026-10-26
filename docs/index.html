@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="">
 <meta name="site-version" content="2026.10.1">
-<title>Learn Python by seeing it run — Python Atlas</title>
-<meta name="description" content="Learn Python from zero to senior level by watching your code run: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
+<title>Build the habit of coding in Python — Python Atlas</title>
+<meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="assets/vendor/codemirror.css?v=2026.10.1">
 <link rel="stylesheet" href="assets/css/site.css?v=2026.10.1">
-<script>try { const t = localStorage.getItem("atlas.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
 <script src="assets/config.js?v=2026.10.1"></script>
 <script src="assets/vendor/codemirror.js?v=2026.10.1" defer></script>
 
@@ -33,14 +33,15 @@
   </nav>
   <div class="top-right">
     <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
     <a class="btn btn-quiet" id="account-link" href="account.html">Sign in</a>
   </div>
 </header>
 <main id="main">
 <section class="hero">
   <div class="hero-copy">
-    <h1>Learn Python by watching it think.</h1>
-    <p class="lede">A complete path from your first <code>print()</code> to senior engineer: about two years of three-hour days. Every line you write runs right here in your browser, and you can see exactly what it does to memory, step by step.</p>
+    <h1>Build the habit of coding in Python.</h1>
+    <p class="lede">A complete path from your very first <code>print()</code> to real mastery of Python. Every line you write runs right here in your browser, and you can watch exactly what it does, step by step, until thinking in code comes naturally.</p>
     <div class="hero-actions">
       <a class="btn btn-run hero-go" id="continue" href="days/w001d1.html">Start Day 1</a>
       <a class="btn btn-quiet" href="map.html">See the whole course</a>
@@ -103,12 +104,12 @@
     <div><h3>Honest about time</h3><p>Two years of focused practice, planned day by day. No shortcuts promised, just a path that works if you walk it.</p></div>
   </div>
 </section>
-<script type="application/json" id="hero-trace">{"code": "savings = 1000\nrate = 0.05\nyears = 0\nwhile savings < 1300:\n    savings = savings * (1 + rate)\n    years += 1\nprint(f\"{years} years: {savings:,.2f}\")", "steps": [{"line": 1, "out": "", "vars": []}, {"line": 2, "out": "", "vars": [["savings", "1000", true]]}, {"line": 3, "out": "", "vars": [["savings", "1000", false], ["rate", "0.05", true]]}, {"line": 4, "out": "", "vars": [["savings", "1000", false], ["rate", "0.05", false], ["years", "0", true]]}, {"line": 5, "out": "", "vars": [["savings", "1000", false], ["rate", "0.05", false], ["years", "0", false]]}, {"line": 6, "out": "", "vars": [["savings", "1050.0", true], ["rate", "0.05", false], ["years", "0", false]]}, {"line": 4, "out": "", "vars": [["savings", "1050.0", false], ["rate", "0.05", false], ["years", "1", true]]}, {"line": 5, "out": "", "vars": [["savings", "1050.0", false], ["rate", "0.05", false], ["years", "1", false]]}, {"line": 6, "out": "", "vars": [["savings", "1102.5", true], ["rate", "0.05", false], ["years", "1", false]]}, {"line": 4, "out": "", "vars": [["savings", "1102.5", false], ["rate", "0.05", false], ["years", "2", true]]}, {"line": 5, "out": "", "vars": [["savings", "1102.5", false], ["rate", "0.05", false], ["years", "2", false]]}, {"line": 6, "out": "", "vars": [["savings", "1157.62", true], ["rate", "0.05", false], ["years", "2", false]]}, {"line": 4, "out": "", "vars": [["savings", "1157.62", false], ["rate", "0.05", false], ["years", "3", true]]}, {"line": 5, "out": "", "vars": [["savings", "1157.62", false], ["rate", "0.05", false], ["years", "3", false]]}, {"line": 6, "out": "", "vars": [["savings", "1215.51", true], ["rate", "0.05", false], ["years", "3", false]]}, {"line": 4, "out": "", "vars": [["savings", "1215.51", false], ["rate", "0.05", false], ["years", "4", true]]}, {"line": 5, "out": "", "vars": [["savings", "1215.51", false], ["rate", "0.05", false], ["years", "4", false]]}, {"line": 6, "out": "", "vars": [["savings", "1276.28", true], ["rate", "0.05", false], ["years", "4", false]]}, {"line": 4, "out": "", "vars": [["savings", "1276.28", false], ["rate", "0.05", false], ["years", "5", true]]}, {"line": 5, "out": "", "vars": [["savings", "1276.28", false], ["rate", "0.05", false], ["years", "5", false]]}, {"line": 6, "out": "", "vars": [["savings", "1340.1", true], ["rate", "0.05", false], ["years", "5", false]]}, {"line": 4, "out": "", "vars": [["savings", "1340.1", false], ["rate", "0.05", false], ["years", "6", true]]}, {"line": 7, "out": "", "vars": [["savings", "1340.1", false], ["rate", "0.05", false], ["years", "6", false]]}, {"line": 7, "out": "6 years: 1,340.10\n", "vars": [["savings", "1340.1", false], ["rate", "0.05", false], ["years", "6", false]]}, {"line": null, "out": "6 years: 1,340.10\n", "vars": [["savings", "1340.1", false], ["rate", "0.05", false], ["years", "6", false]]}]}</script>
+<script type="application/json" id="hero-trace">{"code": "savings = 1000\nyears = 0\nwhile savings < 1300:\n    savings = savings * 1.05\n    years = years + 1\nprint(\"Years:\", years)", "steps": [{"line": 1, "out": "", "vars": []}, {"line": 2, "out": "", "vars": [["savings", "1000", true]]}, {"line": 3, "out": "", "vars": [["savings", "1000", false], ["years", "0", true]]}, {"line": 4, "out": "", "vars": [["savings", "1000", false], ["years", "0", false]]}, {"line": 5, "out": "", "vars": [["savings", "1050.0", true], ["years", "0", false]]}, {"line": 3, "out": "", "vars": [["savings", "1050.0", false], ["years", "1", true]]}, {"line": 4, "out": "", "vars": [["savings", "1050.0", false], ["years", "1", false]]}, {"line": 5, "out": "", "vars": [["savings", "1102.5", true], ["years", "1", false]]}, {"line": 3, "out": "", "vars": [["savings", "1102.5", false], ["years", "2", true]]}, {"line": 4, "out": "", "vars": [["savings", "1102.5", false], ["years", "2", false]]}, {"line": 5, "out": "", "vars": [["savings", "1157.62", true], ["years", "2", false]]}, {"line": 3, "out": "", "vars": [["savings", "1157.62", false], ["years", "3", true]]}, {"line": 4, "out": "", "vars": [["savings", "1157.62", false], ["years", "3", false]]}, {"line": 5, "out": "", "vars": [["savings", "1215.51", true], ["years", "3", false]]}, {"line": 3, "out": "", "vars": [["savings", "1215.51", false], ["years", "4", true]]}, {"line": 4, "out": "", "vars": [["savings", "1215.51", false], ["years", "4", false]]}, {"line": 5, "out": "", "vars": [["savings", "1276.28", true], ["years", "4", false]]}, {"line": 3, "out": "", "vars": [["savings", "1276.28", false], ["years", "5", true]]}, {"line": 4, "out": "", "vars": [["savings", "1276.28", false], ["years", "5", false]]}, {"line": 5, "out": "", "vars": [["savings", "1340.1", true], ["years", "5", false]]}, {"line": 3, "out": "", "vars": [["savings", "1340.1", false], ["years", "6", true]]}, {"line": 6, "out": "", "vars": [["savings", "1340.1", false], ["years", "6", false]]}, {"line": 6, "out": "Years: 6\n", "vars": [["savings", "1340.1", false], ["years", "6", false]]}, {"line": null, "out": "Years: 6\n", "vars": [["savings", "1340.1", false], ["years", "6", false]]}]}</script>
 
 </main>
 <footer class="foot">
   <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
-  <p><a href="guide.html">How this course works</a> <a href="map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
+  <p><a href="settings.html">Settings</a> <a href="guide.html">How this course works</a> <a href="map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
 </footer>
 <script type="module" src="assets/js/pages/index.js"></script>
 </body>

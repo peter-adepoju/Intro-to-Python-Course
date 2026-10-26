@@ -2,6 +2,7 @@
 import { SITE, $ } from "../site.js";
 import { progress, getClient, onAuth } from "../progress.js";
 import { mountTutor } from "../tutor.js";
+import "../settings.js";
 
 export function initCommon() {
   const here = location.pathname.split("/").pop() || "index.html";

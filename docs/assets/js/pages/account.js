@@ -44,13 +44,6 @@ if (!client) {
   $("#signout").onclick = () => client.auth.signOut();
 }
 
-$$("[data-theme-set]").forEach((b) => b.addEventListener("click", () => {
-  const t = b.dataset.themeSet;
-  try { t === "auto" ? localStorage.removeItem("atlas.theme") : localStorage.setItem("atlas.theme", t); } catch { /* blocked */ }
-  if (t === "auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.dataset.theme = t;
-  toast("Theme updated");
-}));
-
 $("#export").onclick = () => {
   const blob = new Blob([progress.export()], { type: "application/json" });
   const a = h("a", { href: URL.createObjectURL(blob), download: "python-atlas-progress.json" });

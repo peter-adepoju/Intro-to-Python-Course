@@ -1,6 +1,7 @@
 // The tutor: a chat panel that knows which lesson you're on and what your code is doing.
 import { h, $, SITE, pageData, escapeHtml } from "./site.js";
 import { getClient, progress } from "./progress.js";
+import { settings, onSettings } from "./settings.js";
 
 let panel, log, field, pending = null;
 const history = [];
@@ -74,6 +75,8 @@ export function mountTutor() {
       h("button", { type: "button", class: "btn btn-quiet btn-tiny", onclick: () => { panel.hidden = true; fab.focus(); } }, "Close")),
     log, form);
   document.body.append(fab, panel);
+  fab.hidden = !settings().tutorButton;
+  onSettings((s) => { fab.hidden = !s.tutorButton; });
   say("bot", "Hi! I'm here to help you think, not to think for you. Ask about anything in the lesson, or press **Ask the tutor about this error** under any error. I'll give hints first — ask for more if you're still stuck.");
   document.addEventListener("tutor:ask", (e) => {
     const c = e.detail || {};

@@ -1,18 +1,19 @@
 // The X-ray: steps through a program and draws names, frames and objects.
 import { h, svg, reducedMotion } from "./site.js";
+import { settings } from "./settings.js";
 
 export class XRay {
   constructor(parent, editor, { onClose } = {}) {
     this.editor = editor;
     this.i = 0;
     this.steps = [];
-    this.everyObject = false;
+    this.everyObject = settings().xrayEvery;
     this.playing = null;
     this.root = h("div", { class: "xray", role: "region", "aria-label": "Step-by-step view of your program" });
     this.counter = h("span", { class: "xr-count" });
     this.slider = h("input", { type: "range", min: 0, max: 0, value: 0, "aria-label": "Step", oninput: () => this.go(+this.slider.value) });
     this.playBtn = h("button", { class: "btn btn-quiet", type: "button", onclick: () => this.togglePlay() }, "Play");
-    const objToggle = h("input", { type: "checkbox", onchange: (e) => { this.everyObject = e.target.checked; this.draw(); } });
+    const objToggle = h("input", { type: "checkbox", checked: this.everyObject, onchange: (e) => { this.everyObject = e.target.checked; this.draw(); } });
     this.caption = h("p", { class: "xr-caption" });
     this.board = h("div", { class: "xr-board" });
     this.out = h("pre", { class: "xr-out" });
@@ -56,7 +57,7 @@ export class XRay {
     this.playing = setInterval(() => {
       if (this.i >= this.steps.length - 1) return this.stop();
       this.go(this.i + 1);
-    }, reducedMotion() ? 1400 : 800);
+    }, reducedMotion() ? Math.max(1400, settings().xraySpeed) : settings().xraySpeed);
   }
   stop() { clearInterval(this.playing); this.playing = null; this.playBtn.textContent = "Play"; }
 

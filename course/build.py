@@ -373,12 +373,11 @@ def load_day(path: Path):
 
 
 HERO_CODE = """savings = 1000
-rate = 0.05
 years = 0
 while savings < 1300:
-    savings = savings * (1 + rate)
-    years += 1
-print(f"{years} years: {savings:,.2f}")"""
+    savings = savings * 1.05
+    years = years + 1
+print("Years:", years)"""
 
 
 def hero_trace():
@@ -469,11 +468,12 @@ def build():
     (OUT / "assets" / "data" / "course.json").write_text(json.dumps(index))
     (OUT / "assets" / "data" / "cards.json").write_text(json.dumps(cards))
 
-    for name, title, cls in [("index.html", "Learn Python by seeing it run", "page-home"),
+    for name, title, cls in [("index.html", "Build the habit of coding in Python", "page-home"),
                              ("map.html", "Course map", "page-map"),
                              ("playground.html", "Playground", "page-play"),
                              ("review.html", "Daily review", "page-review"),
                              ("account.html", "Your account", "page-account"),
+                             ("settings.html", "Settings", "page-settings"),
                              ("guide.html", "How this course works", "page-guide")]:
         body = template("pages/" + name).replace("{{hero_trace}}", json.dumps(hero_trace()) if name == "index.html" else "")
         script = f'<script type="module" src="assets/js/pages/{name.replace(".html", ".js")}"></script>'

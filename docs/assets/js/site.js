@@ -48,7 +48,7 @@ export function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-export const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+export const reducedMotion = () => document.documentElement.classList.contains("reduce-motion") || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export function today() {
   const d = new Date();
