@@ -29,7 +29,20 @@ STATIC = HERE / "static"
 TEMPLATES = HERE / "templates"
 REPO = "peter-adepoju/python-atlas"
 BRANCH = "main"
-VERSION = "2026.10.1"
+
+
+def _asset_version() -> str:
+    """A short hash of everything in course/static, so browsers fetch fresh files after any change."""
+    import hashlib
+    h = hashlib.sha256()
+    for f in sorted(STATIC.rglob("*")):
+        if f.is_file():
+            h.update(str(f.relative_to(STATIC)).encode())
+            h.update(f.read_bytes())
+    return h.hexdigest()[:10]
+
+
+VERSION = _asset_version()
 
 MD_EXT = ["tables", "fenced_code", "attr_list", "md_in_html", "sane_lists", "smarty"]
 
