@@ -364,9 +364,45 @@ def template(name):
     return (TEMPLATES / name).read_text()
 
 
-def page(title, body, depth=0, extra_head="", scripts="", page_class=""):
+SITE_URL = "https://peter-adepoju.github.io/python-atlas/"
+DEFAULT_DESC = ("A free Python course that takes you from your first line of code to mastery: daily lessons, "
+                "Python running in your browser, step-by-step views of memory, exercises, quizzes and spaced review.")
+SITEMAP: list[str] = []
+
+
+def plain(text: str) -> str:
+    """Markdown to one line of plain text, for meta descriptions."""
+    t = re.sub(r"<[^>]+>", "", md(text or ""))
+    t = html.unescape(re.sub(r"\s+", " ", t)).strip()
+    return t if len(t) <= 160 else t[:157].rsplit(" ", 1)[0] + "..."
+
+
+def seo_head(path: str, title: str, desc: str, index: bool) -> str:
+    url = SITE_URL + ("" if path == "index.html" else path)
+    if index:
+        SITEMAP.append(url)
+    d = esc(desc or DEFAULT_DESC)
+    t = esc(title)
+    tags = [f'<meta name="description" content="{d}">']
+    if not index:
+        tags.append('<meta name="robots" content="noindex">')
+    tags += [f'<link rel="canonical" href="{url}">',
+             '<meta property="og:site_name" content="Python Atlas">',
+             '<meta property="og:type" content="website">',
+             f'<meta property="og:title" content="{t}">',
+             f'<meta property="og:description" content="{d}">',
+             f'<meta property="og:url" content="{url}">',
+             f'<meta property="og:image" content="{SITE_URL}assets/img/share.png">',
+             '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">',
+             '<meta name="twitter:card" content="summary_large_image">']
+    return "\n".join(tags)
+
+
+def page(title, body, depth=0, extra_head="", scripts="", page_class="", path="", desc="", index=True):
     root = "../" * depth
     base = template("base.html")
+    if path:
+        extra_head = seo_head(path, title, desc, index) + "\n" + extra_head
     return (base.replace("{{title}}", esc(title))
             .replace("{{root}}", root)
             .replace("{{version}}", VERSION)
@@ -437,6 +473,14 @@ def guide_fill(body: str, cmap: dict) -> str:
     return (body.replace("{{g_weeks}}", str(len(weeks))).replace("{{g_days}}", str(days))
             .replace("{{g_hours}}", f"{days * 3 // 100 * 100:,}+").replace("{{g_install_week}}", str(install))
             .replace("{{g_ribbon}}", "".join(ribbon)).replace("{{g_phases}}", "".join(phases)))
+
+
+PAGE_DESC = {
+    "map.html": "The full Python Atlas course map: seven phases and 104 weeks, from first programs to data structures, algorithms, advanced Python and a capstone.",
+    "guide.html": "How Python Atlas works: the plan, how long it takes, what a three-hour day looks like, and how to learn faster.",
+    "playground.html": "Write and run Python in your browser, with nothing to install. Step through any program line by line and watch memory change.",
+    "privacy.html": "What Python Atlas stores about you, where it is kept, and how to delete it.",
+}
 
 
 def build():
@@ -514,12 +558,13 @@ def build():
                      .replace("{{data}}", json.dumps(data)))
         (OUT / "days" / f"{d['id']}.html").write_text(
             page(f"Week {w['week']} Day {d['day']}: {dm['title']}", html_body, depth=1,
+                 path=f"days/{d['id']}.html", desc=plain(meta.get("intro", "")),
                  scripts='<script type="module" src="../assets/js/pages/day.js"></script>', page_class="page-day"))
 
     (OUT / "assets" / "data" / "course.json").write_text(json.dumps(index))
     (OUT / "assets" / "data" / "cards.json").write_text(json.dumps(cards))
 
-    for name, title, cls in [("index.html", "Build the habit of coding in Python", "page-home"),
+    for name, title, cls in [("index.html", "Learn Python free, from your first line to mastery", "page-home"),
                              ("map.html", "Course map", "page-map"),
                              ("playground.html", "Playground", "page-play"),
                              ("review.html", "Daily review", "page-review"),
@@ -533,9 +578,22 @@ def build():
         script = f'<script type="module" src="assets/js/pages/{name.replace(".html", ".js")}"></script>'
         if not (STATIC / "js" / "pages" / name.replace(".html", ".js")).exists():
             script = '<script type="module" src="assets/js/pages/common.js"></script>'
-        (OUT / name).write_text(page(title, body, depth=0, scripts=script, page_class=cls))
-    (OUT / "404.html").write_text(page("Page not found", template("pages/404.html"), depth=0,
+        extra = ""
+        if name == "index.html":
+            extra = '<script type="application/ld+json">' + json.dumps({
+                "@context": "https://schema.org", "@type": "Course", "name": "Python Atlas",
+                "description": DEFAULT_DESC, "url": SITE_URL, "inLanguage": "en-GB", "isAccessibleForFree": True,
+                "educationalLevel": "Beginner to advanced",
+                "provider": {"@type": "Person", "name": "Peter Oluwafemi Adepoju", "url": SITE_URL},
+            }) + "</script>"
+        (OUT / name).write_text(page(title, body, depth=0, scripts=script, page_class=cls, extra_head=extra,
+                                     path=name, desc=PAGE_DESC.get(name, ""),
+                                     index=name not in ("account.html", "settings.html", "review.html")))
+    (OUT / "404.html").write_text(page("Page not found", template("pages/404.html"), depth=0, path="404.html", index=False,
                                        scripts='<script type="module" src="assets/js/pages/common.js"></script>'))
+    today = __import__("datetime").date.today().isoformat()
+    (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "".join(f"  <url><loc>{u}</loc></url>\n" for u in SITEMAP) + "</urlset>\n")
     print(f"Built {len(built)} lesson days, {len(cards)} review cards into {OUT}")
 
 
