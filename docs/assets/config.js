@@ -9,5 +9,5 @@ window.COURSE_CONFIG = {
   pyodideIndexURL: "https://cdn.jsdelivr.net/pyodide/v314.0.7/full/",
   tutorEnabled: true,
   // Set to true once Google is switched on in Supabase (Authentication, Sign In / Providers, Google).
-  googleSignIn: false,
+  googleSignIn: true,
 };
