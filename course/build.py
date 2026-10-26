@@ -486,6 +486,7 @@ def build():
                              ("review.html", "Daily review", "page-review"),
                              ("account.html", "Your account", "page-account"),
                              ("settings.html", "Settings", "page-settings"),
+                             ("privacy.html", "Privacy", "page-privacy"),
                              ("guide.html", "How this course works", "page-guide")]:
         body = template("pages/" + name).replace("{{hero_trace}}", json.dumps(hero_trace()) if name == "index.html" else "")
         script = f'<script type="module" src="assets/js/pages/{name.replace(".html", ".js")}"></script>'
