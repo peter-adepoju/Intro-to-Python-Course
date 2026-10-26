@@ -9,7 +9,7 @@
 //   FALLBACK_API_KEY    optional
 //   FALLBACK_MODEL      optional, a model name from that provider's list
 //   DAILY_LIMIT         optional, questions per learner per day (default 40)
-// SUPABASE_URL, SUPABASE_ANON_KEY and SUPABASE_SERVICE_ROLE_KEY are provided automatically.
+// SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided automatically.
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const CORS = {
@@ -75,15 +75,12 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "Use POST." }, 405);
 
   // Who is asking? Only signed-in learners may use the tutor.
-  const auth = req.headers.get("Authorization") || "";
-  const userClient = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, {
-    global: { headers: { Authorization: auth } },
-  });
-  const { data: { user } } = await userClient.auth.getUser();
+  const token = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
+  const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+  const { data: { user } } = token ? await admin.auth.getUser(token) : { data: { user: null } };
   if (!user) return json({ error: "Please sign in to use the tutor." }, 401);
 
   // Fair use: a daily limit per learner.
-  const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const limit = Number(Deno.env.get("DAILY_LIMIT") || 40);
   const { data: count, error: bumpErr } = await admin.rpc("tutor_bump", { uid: user.id });
   if (bumpErr) return json({ error: "The tutor isn't set up correctly (usage table missing)." }, 500);
