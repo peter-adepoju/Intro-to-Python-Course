@@ -6,7 +6,7 @@ The site works straight away on GitHub Pages with no accounts: lessons, the Pyth
 
 1. In the repository on GitHub: **Settings → Pages**.
 2. Source: **Deploy from a branch**, branch `main`, folder `/docs`.
-3. The site appears at `https://peter-adepoju.github.io/intro-to-python-course/`.
+3. The site appears at `https://peter-adepoju.github.io/python-atlas/`.
 
 The workflow in `.github/workflows/build.yml` rebuilds `docs/` whenever anything in `course/` changes, after checking every exercise.
 
@@ -23,8 +23,8 @@ The workflow in `.github/workflows/build.yml` rebuilds `docs/` whenever anything
 
    The anon key is designed to be public; the database rules in `schema.sql` make sure each learner can only read and write their own rows.
 4. **Authentication → URL Configuration**:
-   - Site URL: `https://peter-adepoju.github.io/intro-to-python-course/`
-   - Redirect URLs: add `https://peter-adepoju.github.io/intro-to-python-course/**`
+   - Site URL: `https://peter-adepoju.github.io/python-atlas/`
+   - Redirect URLs: add `https://peter-adepoju.github.io/python-atlas/**`
 5. **Authentication → Providers → Email**: leave on. Confirming email addresses is recommended.
 6. **Google sign-in** (optional): in Google Cloud Console create an OAuth client (type: Web application) with the redirect URI that Supabase shows under **Authentication → Providers → Google**, then paste the client ID and secret into Supabase and switch Google on.
 

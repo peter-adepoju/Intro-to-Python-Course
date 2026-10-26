@@ -2,7 +2,7 @@
 
 **Build the habit of coding in Python.** A complete course from never having written code to mastery of Python, planned day by day over 104 weeks (about three hours a day, six days a week), with a Python console, a step-by-step memory visualiser, auto-marked exercises, quizzes, spaced review and an AI tutor, all in the browser.
 
-**Website:** https://peter-adepoju.github.io/intro-to-python-course/
+**Website:** https://peter-adepoju.github.io/python-atlas/
 
 Created by **Peter Oluwafemi Adepoju** (petera@aims.ac.za).
 

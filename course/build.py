@@ -27,7 +27,7 @@ OUT = ROOT / "docs"
 CONTENT = HERE / "content"
 STATIC = HERE / "static"
 TEMPLATES = HERE / "templates"
-REPO = "peter-adepoju/intro-to-python-course"
+REPO = "peter-adepoju/python-atlas"
 BRANCH = "main"
 VERSION = "2026.10.1"
 
