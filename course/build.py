@@ -580,7 +580,7 @@ def build():
             script = '<script type="module" src="assets/js/pages/common.js"></script>'
         extra = ""
         if name == "index.html":
-            extra = '<script type="application/ld+json">' + json.dumps({
+            extra = '<meta name="google-site-verification" content="SZzBTVkij9A9uLGTWAsfoe5_hCZ6Qm94xRuqL3BL9yU">\n<script type="application/ld+json">' + json.dumps({
                 "@context": "https://schema.org", "@type": "Course", "name": "Python Atlas",
                 "description": DEFAULT_DESC, "url": SITE_URL, "inLanguage": "en-GB", "isAccessibleForFree": True,
                 "educationalLevel": "Beginner to advanced",
