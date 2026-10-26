@@ -45,6 +45,18 @@ for w in curriculum.build()["weeks"]:
         if not f.exists() or (only and d["id"] not in only):
             continue
         meta, text = build.load_day(f)
+        for key in ("title", "intro"):
+            if not isinstance(meta.get(key), str):
+                problems += 1
+                print(f"✗ {d['id']}: front matter '{key}' isn't plain text (quote it if it contains ': ')")
+        for g in meta.get("goals", []):
+            if not isinstance(g, str):
+                problems += 1
+                print(f"✗ {d['id']}: a goal isn't plain text (quote it if it contains ': '): {g}")
+        for item in meta.get("plan", []):
+            if not (isinstance(item, list) and len(item) == 2 and isinstance(item[0], int) and isinstance(item[1], str)):
+                problems += 1
+                print(f"✗ {d['id']}: a plan item should be [minutes, \"text\"]: {item}")
         day = build.Day(d["id"])
         build.render_body(text, day)
         for ex in day.checks:

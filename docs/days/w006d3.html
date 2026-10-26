@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="79df9b909c">
+<title>Week 6 Day 3: return versus print | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=79df9b909c">
+<link rel="stylesheet" href="../assets/css/site.css?v=79df9b909c">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=79df9b909c"></script>
+<script src="../assets/vendor/codemirror.js?v=79df9b909c" defer></script>
+<meta name="description" content="So far your functions have done things: printed lines, drawn boxes. The most useful functions instead work something out and hand the answer back, so the...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w006d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 6 Day 3: return versus print">
+<meta property="og:description" content="So far your functions have done things: printed lines, drawn boxes. The most useful functions instead work something out and hand the answer back, so the...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w006d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-6">Week 6: Functions I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#return-handing-a-value-back" data-sec="return-handing-a-value-back">return: handing a value back</a></li><li><a href="#print-is-not-return" data-sec="print-is-not-return">print is not return</a></li><li><a href="#return-ends-the-function" data-sec="return-ends-the-function">return ends the function</a></li><li><a href="#functions-that-answer-yes-or-no" data-sec="functions-that-answer-yes-or-no">Functions that answer yes or no</a></li><li><a href="#returning-several-values" data-sec="returning-several-values">Returning several values</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 6, Day 3</span></p>
+      <h1>return versus print</h1>
+      <div class="day-intro"><p>So far your functions have done things: printed lines, drawn boxes. The most useful functions instead work something out and hand the answer back, so the rest of the program can use it. That&rsquo;s what <code>return</code> does. Today you&rsquo;ll learn why <code>return</code> and <code>print</code> are completely different, meet the value <code>None</code>, and see how <code>return</code> makes search loops beautifully simple.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Hand a value back from a function with <code>return</code>, and use the result in expressions, variables and other calls</li><li>Explain the difference between returning a value and printing it, and recognise <code>None</code></li><li>Use <code>return</code> to leave a function early, including from inside a loop</li><li>Write functions that answer yes-or-no questions by returning <code>True</code> or <code>False</code></li><li>Return several values at once and unpack them</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="return: handing a value back: 30 min"></span><span class="plan-seg s0" style="flex:30" title="print is not return, and None: 30 min"></span><span class="plan-seg s1" style="flex:30" title="return ends the function: early returns and searches: 30 min"></span><span class="plan-seg s0" style="flex:20" title="True or False functions, and several values: 20 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">return: handing a value back</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">print is not return, and None</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">return ends the function: early returns and searches</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">True or False functions, and several values</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w006d3.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d3-p1"><textarea class="pc-src pc-code" hidden>x = len(&quot;hello&quot;)
+y = len(&quot;hi&quot;) * 10
+print(x + y)
+print(len(&quot;abc&quot;) + len(&quot;de&quot;))</textarea></div>
+<p><code>len</code> doesn&rsquo;t print anything. It works out a number and <strong>gives it back</strong>, so you can store it, do sums with it, or pass it to another function. Your functions can do the same.</p>
+<h2 id="return-handing-a-value-back">return: handing a value back</h2>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e2"><textarea class="pc-src pc-code" hidden>def area(width, height):
+    return width * height
+
+a = area(7, 4)
+print(a)
+print(area(2, 3) + area(10, 10))
+print(&quot;Big&quot; if area(50, 50) &gt; 2000 else &quot;Small&quot;)</textarea></div>
+<p><code>return width * height</code> does two things: it works out the value, and it ends the function, handing that value back to wherever the function was called. The call <code>area(7, 4)</code> <strong>becomes</strong> that value, just as <code>len("hello")</code> becomes 5.</p>
+<p>Press X-ray and watch the moment <code>return</code> runs: the frame disappears and the call is replaced by the returned value, which is then stored in <code>a</code>.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>A call to a function that returns a value is an <strong>expression</strong>: it has a value, so it can go anywhere a value can. Store it, print it, compare it, or pass it to another function.</p></aside>
+<p>Because calls are expressions, functions combine naturally:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e3"><textarea class="pc-src pc-code" hidden>def square(n):
+    return n * n
+
+def add(a, b):
+    return a + b
+
+print(add(square(3), square(4)))
+print(square(square(2)))</textarea></div>
+<p><code>add(square(3), square(4))</code> works from the inside out, just like <code>int(input())</code>: both <code>square</code> calls run first, then <code>add</code> runs with their results.</p>
+<h2 id="print-is-not-return">print is not return</h2>
+<p>This is the most important idea of the day. <code>print</code> and <code>return</code> can look as if they do the same thing, because in a small test both make a number appear. They&rsquo;re completely different:</p>
+<ul>
+<li><code>print</code> shows a value <strong>to a person</strong>, on the screen. The program can&rsquo;t use what was printed.</li>
+<li><code>return</code> hands a value <strong>to the program</strong>. Nothing appears on screen unless the program decides to print it.</li>
+</ul>
+<p>Here are two functions that look almost identical:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e4"><textarea class="pc-src pc-code" hidden>def double_print(n):
+    print(n * 2)
+
+def double_return(n):
+    return n * 2
+
+double_print(5)
+double_return(5)
+print(&quot;---&quot;)
+a = double_print(5)
+b = double_return(5)
+print(a, b)</textarea></div>
+<p>Line by line: <code>double_print(5)</code> shows 10. <code>double_return(5)</code> shows nothing, because the returned 10 isn&rsquo;t used. Then <code>a = double_print(5)</code> shows 10 <strong>again</strong>, and stores&hellip; what? The last line reveals it: <code>None</code>.</p>
+<h3 id="none">None</h3>
+<p>A function without a <code>return</code> (or with a bare <code>return</code>) gives back a special value, <strong><code>None</code></strong>, which means &ldquo;no value&rdquo;. It has its own type, <code>NoneType</code>, and it&rsquo;s falsy.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e5"><textarea class="pc-src pc-code" hidden>def nothing():
+    pass
+
+result = nothing()
+print(result)
+print(type(result))
+print(result is None)</textarea></div>
+<p>To check for <code>None</code>, write <code>x is None</code>. (<code>is</code> asks whether two names point at the very same object, and there is only ever one <code>None</code> object.)</p>
+<p>The classic bug: using a printing function as if it returned something.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e6"><div class="pc-title">The classic bug</div><textarea class="pc-src pc-code" hidden>def add_vat(price):
+    print(price * 1.075)
+
+total = add_vat(1000) + add_vat(500)</textarea></div>
+<p><code>add_vat(1000)</code> prints 1075.0 and returns <code>None</code>. Then Python tries <code>None + None</code> and raises <code>TypeError: unsupported operand type(s) for +: 'NoneType' and 'NoneType'</code>. Whenever you see <code>NoneType</code> in an error, look for a function that printed when it should have returned.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Most functions should <strong>return</strong> their results and let the caller decide what to do with them: print them, store them, test them. Keep <code>print</code> for functions whose whole job is showing something, like a menu or a report.</p></aside>
+<h2 id="return-ends-the-function">return ends the function</h2>
+<p>The moment <code>return</code> runs, the function is over. Any lines after it are skipped. That makes <code>return</code> great for handling special cases first:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e7"><div class="pc-title">Early return</div><textarea class="pc-src pc-code" hidden>def safe_divide(a, b):
+    if b == 0:
+        return 0
+    return a / b
+
+print(safe_divide(10, 4))
+print(safe_divide(10, 0))</textarea></div>
+<p>A function can have several <code>return</code> statements, one per branch:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e8"><textarea class="pc-src pc-code" hidden>def grade(mark):
+    if mark &gt;= 70:
+        return &quot;A&quot;
+    if mark &gt;= 60:
+        return &quot;B&quot;
+    if mark &gt;= 50:
+        return &quot;C&quot;
+    return &quot;F&quot;
+
+print(grade(85), grade(65), grade(12))</textarea></div>
+<p>Notice there&rsquo;s no <code>elif</code> and no <code>else</code>: once a <code>return</code> runs, nothing below it runs, so each <code>if</code> only gets checked if all the earlier ones were false.</p>
+<aside class="callout c-mistake"><div class="callout-t">A path with no return</div><p>If one path through a function has no <code>return</code>, that path returns <code>None</code>:</p>
+<pre><code class="language-python">def sign(n):
+    if n &gt; 0:
+        return &quot;positive&quot;
+    elif n &lt; 0:
+        return &quot;negative&quot;
+    # n == 0 falls off the end, and the function returns None
+</code></pre></aside>
+<h3 id="return-from-inside-a-loop">return from inside a loop</h3>
+<p><code>return</code> doesn&rsquo;t just leave the loop like <code>break</code>: it leaves the whole function. That makes search functions wonderfully simple. Compare the prime test from Week 3, with its flag and its <code>while ... else</code>, with this:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e9"><div class="pc-title">A prime test as a function</div><textarea class="pc-src pc-code" hidden>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+
+for k in range(1, 30):
+    if is_prime(k):
+        print(k, end=&quot; &quot;)</textarea></div>
+<p>As soon as a divisor is found, the answer is known: <code>return False</code>. If the loop finishes without finding one, the last line says so. No flag, no <code>break</code>, no <code>else</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e10"><div class="pc-title">Find first, as a function</div><textarea class="pc-src pc-code" hidden>def first_vowel(word):
+    for i in range(len(word)):
+        if word[i] in &quot;aeiou&quot;:
+            return i
+    return -1
+
+print(first_vowel(&quot;python&quot;), first_vowel(&quot;rhythm&quot;))</textarea></div>
+<h2 id="functions-that-answer-yes-or-no">Functions that answer yes or no</h2>
+<p>Functions that return <code>True</code> or <code>False</code> are called <strong>predicates</strong>, and they&rsquo;re usually named like questions: <code>is_prime</code>, <code>is_even</code>, <code>has_digit</code>, <code>can_vote</code>. They read beautifully in conditions:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e11"><textarea class="pc-src pc-code" hidden>def is_even(n):
+    return n % 2 == 0
+
+def is_leap(year):
+    return (year % 4 == 0 and year % 100 != 0) or year % 400 == 0
+
+if is_leap(2024) and is_even(2024):
+    print(&quot;2024 is an even leap year&quot;)</textarea></div>
+<p>Notice <code>return n % 2 == 0</code>: the comparison already <strong>is</strong> <code>True</code> or <code>False</code>, so there&rsquo;s no need for <code>if ... return True else return False</code>.</p>
+<h2 id="returning-several-values">Returning several values</h2>
+<p>A function can return several values, separated by commas. The caller unpacks them, just as you did with <code>a, b = b, a</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d3-e12"><textarea class="pc-src pc-code" hidden>def min_sec(total_seconds):
+    return total_seconds // 60, total_seconds % 60
+
+m, s = min_sec(754)
+print(f&quot;{m} min {s} s&quot;)</textarea></div>
+<p>(Strictly, the function returns one value: a <strong>tuple</strong> holding both numbers. You&rsquo;ll learn about tuples in Week 9.)</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-area" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Return the area</div><div class="pc-prompt"><p>Define <code>area(width, height)</code> that <strong>returns</strong> the area of a rectangle. Don&rsquo;t print inside the function.</p></div><textarea class="pc-src pc-code" hidden>def area(width, height):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;returns the area&quot;
+    assert area(7, 4) == 28, &quot;area(7, 4) should return 28.&quot;
+    assert area(1.5, 2) == 3.0
+def test_no_print():
+    &quot;returns rather than prints&quot;
+    assert &quot;print&quot; not in source, &quot;Return the answer; don&#x27;t print it.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def area(width, height):
+    return width * height</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-convert" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Temperature converters</div><div class="pc-prompt"><p>Define two functions, <code>to_fahrenheit(c)</code> and <code>to_celsius(f)</code>, that return the converted temperature (F = C × 9 / 5 + 32). Then print <code>100 C = 212.0 F</code> and <code>32 F = 0.0 C</code> using them.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_functions():
+    &quot;both conversions&quot;
+    assert to_fahrenheit(100) == 212.0 and to_fahrenheit(-40) == -40
+    assert to_celsius(32) == 0 and to_celsius(212) == 100
+def test_output():
+    &quot;prints both lines&quot;
+    expect_output(&quot;100 C = 212.0 F\n32 F = 0.0 C&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def to_fahrenheit(c):
+    return c * 9 / 5 + 32
+
+def to_celsius(f):
+    return (f - 32) * 5 / 9
+
+print(f&quot;100 C = {to_fahrenheit(100)} F&quot;)
+print(f&quot;32 F = {to_celsius(32)} C&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-max3" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Largest of three</div><div class="pc-prompt"><p>Define <code>largest(a, b, c)</code> that returns the largest of three numbers, without using <code>max</code>.</p></div><textarea class="pc-src pc-code" hidden>def largest(a, b, c):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;every order and ties&quot;
+    for a, b, c in [(1, 2, 3), (3, 2, 1), (2, 3, 1), (5, 5, 1), (-1, -5, -3), (4, 4, 4)]:
+        assert largest(a, b, c) == max(a, b, c), f&quot;largest({a}, {b}, {c}) should be {max(a, b, c)}&quot;
+def test_no_max():
+    &quot;doesn&#x27;t use max&quot;
+    assert &quot;max(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def largest(a, b, c):
+    if a &gt;= b and a &gt;= c:
+        return a
+    if b &gt;= c:
+        return b
+    return c</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-count_vowels" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count the vowels</div><div class="pc-prompt"><p>Define <code>count_vowels(text)</code> that returns how many vowels (a, e, i, o, u, either case) the text contains.</p></div><textarea class="pc-src pc-code" hidden>def count_vowels(text):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    for t, n in [(&quot;banana&quot;, 3), (&quot;RHYTHM&quot;, 0), (&quot;Education&quot;, 5), (&quot;&quot;, 0)]:
+        assert count_vowels(t) == n, f&quot;count_vowels({t!r}) should be {n}.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def count_vowels(text):
+    count = 0
+    for ch in text.lower():
+        if ch in &quot;aeiou&quot;:
+            count += 1
+    return count</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-grade" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Grade it</div><div class="pc-prompt"><p>Define <code>grade(mark)</code> that returns <code>"A"</code> for 70 or more, <code>"B"</code> for 60 to 69, <code>"C"</code> for 50 to 59 and <code>"F"</code> otherwise. Use early returns, with no <code>elif</code> or <code>else</code>.</p></div><textarea class="pc-src pc-code" hidden>def grade(mark):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;every band and boundary&quot;
+    for m, g in [(100, &quot;A&quot;), (70, &quot;A&quot;), (69, &quot;B&quot;), (60, &quot;B&quot;), (59, &quot;C&quot;), (50, &quot;C&quot;), (49, &quot;F&quot;), (0, &quot;F&quot;)]:
+        assert grade(m) == g, f&quot;grade({m}) should be {g!r}.&quot;
+def test_style():
+    &quot;uses early returns&quot;
+    assert &quot;elif&quot; not in source and &quot;else&quot; not in source, &quot;Each if returns, so no elif or else is needed.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def grade(mark):
+    if mark &gt;= 70:
+        return &quot;A&quot;
+    if mark &gt;= 60:
+        return &quot;B&quot;
+    if mark &gt;= 50:
+        return &quot;C&quot;
+    return &quot;F&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-is_prime" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">is_prime</div><div class="pc-prompt"><p>Define <code>is_prime(n)</code> that returns <code>True</code> if <code>n</code> is prime and <code>False</code> otherwise, using <code>return</code> inside the loop and no flag variable. Then use it to print <code>Primes below 50:</code> and how many primes are below 50.</p></div><textarea class="pc-src pc-code" hidden>def is_prime(n):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;small numbers&quot;
+    for n in range(-3, 60):
+        want = n &gt; 1 and all(n % d for d in range(2, int(n ** 0.5) + 1))
+        assert is_prime(n) == want, f&quot;is_prime({n}) should be {want}.&quot;
+def test_big():
+    &quot;a large prime&quot;
+    assert is_prime(1000000007) is True
+def test_output():
+    &quot;counts the primes below 50&quot;
+    expect_output(&quot;Primes below 50: 15&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+
+count = 0
+for k in range(50):
+    if is_prime(k):
+        count += 1
+print(&quot;Primes below 50:&quot;, count)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-hms" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Hours, minutes, seconds</div><div class="pc-prompt"><p>Define <code>hms(seconds)</code> that returns three values: whole hours, the minutes left over, and the seconds left over. Then use it to print <code>10000 seconds is 2:46:40</code>, with minutes and seconds always two digits.</p></div><textarea class="pc-src pc-code" hidden>def hms(seconds):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several durations&quot;
+    assert hms(10000) == (2, 46, 40)
+    assert hms(59) == (0, 0, 59)
+    assert hms(3600) == (1, 0, 0)
+def test_output():
+    &quot;the line&quot;
+    expect_output(&quot;10000 seconds is 2:46:40&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def hms(seconds):
+    return seconds // 3600, seconds % 3600 // 60, seconds % 60
+
+h, m, s = hms(10000)
+print(f&quot;10000 seconds is {h}:{m:02}:{s:02}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">NoneType</div><div class="pc-prompt"><p>This crashes with a <code>TypeError</code> mentioning <code>NoneType</code>. Fix the function so the program prints <code>Total: 1612.5</code>.</p></div><textarea class="pc-src pc-code" hidden>def add_vat(price):
+    print(price * 1.075)
+
+total = add_vat(1000) + add_vat(500)
+print(&quot;Total:&quot;, total)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the total only&quot;
+    expect_output(&quot;Total: 1612.5&quot;)
+def test_function():
+    &quot;add_vat returns&quot;
+    assert add_vat(100) == 107.5</textarea><textarea class="pc-src pc-solution" hidden>def add_vat(price):
+    return price * 1.075
+
+total = add_vat(1000) + add_vat(500)
+print(&quot;Total:&quot;, total)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Gives up too soon</div><div class="pc-prompt"><p><code>has_digit</code> should return <code>True</code> if any character is a digit. It works for <code>"7up"</code> but says <code>False</code> for <code>"agent007"</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def has_digit(text):
+    for ch in text:
+        if ch.isdigit():
+            return True
+        else:
+            return False
+    return False</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    for t, want in [(&quot;7up&quot;, True), (&quot;agent007&quot;, True), (&quot;bond&quot;, False), (&quot;&quot;, False), (&quot;a1&quot;, True)]:
+        assert has_digit(t) == want, f&quot;has_digit({t!r}) should be {want}.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def has_digit(text):
+    for ch in text:
+        if ch.isdigit():
+            return True
+    return False</textarea><template class="pc-src pc-hint">Trace <code>"agent007"</code>: what happens on the very first character?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sometimes None</div><div class="pc-prompt"><p><code>sign(0)</code> returns <code>None</code> instead of <code>"zero"</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def sign(n):
+    if n &gt; 0:
+        return &quot;positive&quot;
+    elif n &lt; 0:
+        return &quot;negative&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;all three cases&quot;
+    assert sign(5) == &quot;positive&quot;
+    assert sign(-2) == &quot;negative&quot;
+    assert sign(0) == &quot;zero&quot;</textarea><textarea class="pc-src pc-solution" hidden>def sign(n):
+    if n &gt; 0:
+        return &quot;positive&quot;
+    elif n &lt; 0:
+        return &quot;negative&quot;
+    return &quot;zero&quot;</textarea></div>
+<div class="parsons" data-id="w006d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Find the first space</div><div class="pc-prompt"><p>Arrange the lines into a function that returns the position of the first space in a string, or <code>-1</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["def first_space(s):", "    for i in range(len(s)):", "        if s[i] == \" \":", "            return i", "    return -1"], "distractors": ["        return -1"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the returns</div><div class="pc-prompt"><p>Work out what each line prints.</p>
+<pre><code class="language-python">def f(x):
+    if x &gt; 5:
+        return x * 2
+    print(&quot;small&quot;)
+
+def g(x):
+    return f(x) or 0
+
+print(f(10))     # line A
+print(f(3))      # line B (two lines are printed)
+print(g(3))      # line C (two lines are printed)
+</code></pre></div><textarea class="pc-src pc-code" hidden>line_a = &quot;___&quot;
+line_b = &quot;___&quot;
+line_c = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;line A&quot;
+    assert line_a.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;20&quot;
+def test_b():
+    &quot;line B&quot;
+    assert line_b.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;small\nNone&quot;, &quot;f prints &#x27;small&#x27;, then falls off the end and returns None, which is printed.&quot;
+def test_c():
+    &quot;line C&quot;
+    assert line_c.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;small\n0&quot;, &quot;None is falsy, so or gives 0.&quot;</textarea><textarea class="pc-src pc-solution" hidden>line_a = &quot;20&quot;
+line_b = &quot;small\nNone&quot;
+line_c = &quot;small\n0&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w006d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does a function return if it has no return statement?", "answer": 2, "explain": "None means &lsquo;no value&rsquo;.", "options": ["0", "An empty string", "None", "An error"]}, {"type": "output", "q": "What does this print?", "answer": "5", "explain": "return ends the function; the print never runs.", "code": "def f():\n    return 5\n    print(\"after\")\nprint(f())"}, {"type": "output", "q": "What does this print?", "answer": "3\nNone", "explain": "f prints 3 and returns None.", "code": "def f(n):\n    print(n)\nx = f(3)\nprint(x)"}, {"type": "mc", "q": "Which is the right way to check whether x is None?", "answer": 1, "explain": "There&rsquo;s only one None object, so use is.", "options": ["<code>x == None</code>", "<code>x is None</code>", "<code>x = None</code>", "<code>None(x)</code>"]}, {"type": "mc", "q": "What does <code>return</code> do inside a loop inside a function?", "answer": 1, "explain": "It ends the function immediately.", "options": ["Leaves the loop only", "Leaves the whole function", "Skips one pass", "Nothing special"]}, {"type": "output", "q": "What does this print?", "answer": "81", "explain": "sq(3) is 9, and sq(9) is 81.", "code": "def sq(n):\n    return n * n\nprint(sq(sq(3)))"}, {"type": "mc", "q": "What is a predicate?", "answer": 1, "explain": "Like is_prime or is_even.", "options": ["A function that prints", "A function that returns True or False", "A loop", "A default value"]}, {"type": "mc", "q": "Which is the simplest correct body for is_even(n)?", "answer": 1, "explain": "The comparison already is True or False.", "options": ["<code>if n % 2 == 0: return True</code>", "<code>return n % 2 == 0</code>", "<code>print(n % 2 == 0)</code>", "<code>return n % 2</code>"]}, {"type": "output", "q": "What does this print?", "answer": "4 9", "explain": "Two values returned and unpacked.", "code": "def mm(a, b):\n    return min(a, b), max(a, b)\nlo, hi = mm(9, 4)\nprint(lo, hi)"}, {"type": "mc", "q": "You see <code>unsupported operand type(s) for +: NoneType and int</code>. What&rsquo;s the likeliest cause?", "answer": 1, "explain": "Its result was None.", "options": ["A typo in a variable name", "A function that printed instead of returning", "Dividing by zero", "A missing colon"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: Goldbach, properly</div><div class="pc-prompt"><p>Remember the Goldbach challenge from Week 3, with the prime test written out twice? Now do it properly.</p>
+<ol>
+<li>Define <code>is_prime(n)</code>.</li>
+<li>Define <code>goldbach(n)</code> that <strong>returns</strong> the pair of primes <code>p, q</code> with <code>p &lt;= q</code>, <code>p + q == n</code> and the smallest possible <code>p</code>, for any even <code>n</code> greater than 2.</li>
+<li>Define <code>count_pairs(n)</code> that returns how many pairs <code>p &lt;= q</code> of primes add up to <code>n</code>.</li>
+<li>Ask for an even number with the prompt <code>Even number:</code> and print <code>28 = 5 + 23</code>, then <code>Pairs: 2</code>.</li>
+</ol></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def P(n):
+    return n &gt; 1 and all(n % d for d in range(2, int(n ** 0.5) + 1))
+def test_goldbach():
+    &quot;goldbach returns the first pair&quot;
+    for n in [4, 28, 100, 98, 1000]:
+        p = next(k for k in range(2, n) if P(k) and P(n - k))
+        assert tuple(goldbach(n)) == (p, n - p), f&quot;goldbach({n}) should return {(p, n - p)}.&quot;
+def test_count():
+    &quot;count_pairs counts every pair once&quot;
+    for n in [4, 10, 28, 100]:
+        want = sum(1 for p in range(2, n // 2 + 1) if P(p) and P(n - p))
+        assert count_pairs(n) == want, f&quot;count_pairs({n}) should be {want}.&quot;
+def test_output():
+    &quot;the printed lines&quot;
+    expect_output(&quot;Even number: 28\n28 = 5 + 23\nPairs: 2&quot;, inputs=[&quot;28&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+
+def goldbach(n):
+    for p in range(2, n):
+        if is_prime(p) and is_prime(n - p):
+            return p, n - p
+
+def count_pairs(n):
+    count = 0
+    for p in range(2, n // 2 + 1):
+        if is_prime(p) and is_prime(n - p):
+            count += 1
+    return count
+
+n = int(input(&quot;Even number: &quot;))
+p, q = goldbach(n)
+print(f&quot;{n} = {p} + {q}&quot;)
+print(&quot;Pairs:&quot;, count_pairs(n))</textarea><template class="pc-src pc-hint">Inside <code>goldbach</code>, loop <code>p</code> from 2 and <code>return p, n - p</code> as soon as both are prime.</template><template class="pc-src pc-hint">In <code>count_pairs</code>, <code>p</code> only needs to go up to <code>n // 2</code>, so that each pair is counted once.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain the difference between <code>print</code> and <code>return</code> to an imaginary friend who thinks they&rsquo;re the same, using <code>None</code> in your explanation. Then rewrite one search loop from Week 4 as a function with an early <code>return</code>. Tomorrow: scope, which is where each name lives, and why a function&rsquo;s variables can&rsquo;t clash with yours.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w006d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w006d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w006d3", "week": 6, "day": 3, "title": "return versus print", "exercises": [{"id": "w006d3-area", "title": "Return the area", "points": 10}, {"id": "w006d3-convert", "title": "Temperature converters", "points": 10}, {"id": "w006d3-max3", "title": "Largest of three", "points": 10}, {"id": "w006d3-count_vowels", "title": "Count the vowels", "points": 10}, {"id": "w006d3-grade", "title": "Grade it", "points": 10}, {"id": "w006d3-is_prime", "title": "is_prime", "points": 15}, {"id": "w006d3-hms", "title": "Hours, minutes, seconds", "points": 10}, {"id": "w006d3-bug1", "title": "NoneType", "points": 10}, {"id": "w006d3-bug2", "title": "Gives up too soon", "points": 10}, {"id": "w006d3-bug3", "title": "Sometimes None", "points": 10}, {"id": "w006d3-trace", "title": "Trace the returns", "points": 15}, {"id": "w006d3-challenge", "title": "Challenge: Goldbach, properly", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

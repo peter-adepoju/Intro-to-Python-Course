@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="79df9b909c">
+<title>Week 6 Day 2: Parameters and arguments | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=79df9b909c">
+<link rel="stylesheet" href="../assets/css/site.css?v=79df9b909c">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=79df9b909c"></script>
+<script src="../assets/vendor/codemirror.js?v=79df9b909c" defer></script>
+<meta name="description" content="A function becomes really flexible when it takes several inputs, some of them optional. Today you’ll give functions several parameters, call them with...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w006d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 6 Day 2: Parameters and arguments">
+<meta property="og:description" content="A function becomes really flexible when it takes several inputs, some of them optional. Today you’ll give functions several parameters, call them with...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w006d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-6">Week 6: Functions I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#several-parameters" data-sec="several-parameters">Several parameters</a></li><li><a href="#keyword-arguments" data-sec="keyword-arguments">Keyword arguments</a></li><li><a href="#default-values" data-sec="default-values">Default values</a></li><li><a href="#parameters-are-local-labels" data-sec="parameters-are-local-labels">Parameters are local labels</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 6, Day 2</span></p>
+      <h1>Parameters and arguments</h1>
+      <div class="day-intro"><p>A function becomes really flexible when it takes several inputs, some of them optional. Today you&rsquo;ll give functions several parameters, call them with arguments by position or by name, give parameters default values, and see exactly how Python matches each argument to its parameter.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Define functions with several parameters, and call them with positional arguments in the right order</li><li>Call functions with keyword arguments, and mix the two correctly</li><li>Give parameters default values, and know why defaults must come last</li><li>Explain what happens to a parameter when the function changes it, and why the caller&rsquo;s variable doesn&rsquo;t change</li><li>Read the <code>TypeError</code> messages Python gives when a call doesn&rsquo;t match</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Several parameters, matched by position: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Keyword arguments: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Default values: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Parameters are local labels: 25 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Several parameters, matched by position</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Keyword arguments</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Default values</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Parameters are local labels</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w006d2.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d2-p1"><textarea class="pc-src pc-code" hidden>print(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, sep=&quot;-&quot;, end=&quot;!\n&quot;)
+print(&quot;x&quot;, end=&quot;&quot;)
+print(&quot;y&quot;)</textarea></div>
+<p><code>sep</code> and <code>end</code> are <strong>parameters</strong> of <code>print</code>, with default values (a space and a new line) that you override by naming them. By the end of today you&rsquo;ll be able to write functions that work exactly like this.</p>
+<h2 id="several-parameters">Several parameters</h2>
+<p>A function can have as many parameters as it needs, separated by commas. The arguments in a call are matched to the parameters <strong>by position</strong>: the first argument to the first parameter, the second to the second, and so on.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e2"><textarea class="pc-src pc-code" hidden>def rectangle(width, height):
+    print(&quot;Area:&quot;, width * height)
+    print(&quot;Perimeter:&quot;, 2 * (width + height))
+
+rectangle(7, 4)
+rectangle(2, 10)</textarea></div>
+<p>Because matching is by position, <strong>order matters</strong>. Get it wrong and the function silently does the wrong thing:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e3"><textarea class="pc-src pc-code" hidden>def introduce(name, age):
+    print(f&quot;{name} is {age} years old.&quot;)
+
+introduce(&quot;Ada&quot;, 36)
+introduce(36, &quot;Ada&quot;)</textarea></div>
+<p>The second call runs without an error, but it&rsquo;s nonsense. Python can&rsquo;t know you meant the other order.</p>
+<h3 id="the-wrong-number-of-arguments">The wrong number of arguments</h3>
+<p>If the number of arguments doesn&rsquo;t match, Python refuses before the body runs, and the error says exactly what&rsquo;s wrong:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e4"><textarea class="pc-src pc-code" hidden>def rectangle(width, height):
+    print(width * height)
+
+rectangle(7)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e5"><textarea class="pc-src pc-code" hidden>def rectangle(width, height):
+    print(width * height)
+
+rectangle(7, 4, 2)</textarea></div>
+<p><code>missing 1 required positional argument: 'height'</code> and <code>takes 2 positional arguments but 3 were given</code>. Read these messages carefully: they name the function and the parameter.</p>
+<h3 id="arguments-can-be-any-expression">Arguments can be any expression</h3>
+<p>Each argument is worked out <strong>before</strong> the function is called, and the parameter points at the result:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e6"><textarea class="pc-src pc-code" hidden>def show_total(amount):
+    print(f&quot;Total: {amount:,}&quot;)
+
+price = 2500
+show_total(price * 3 + 500)
+show_total(len(&quot;abc&quot;) * 1000)</textarea></div>
+<h2 id="keyword-arguments">Keyword arguments</h2>
+<p>You can also name the parameter in the call: <code>parameter=value</code>. These are <strong>keyword arguments</strong>, and with them the order doesn&rsquo;t matter:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e7"><textarea class="pc-src pc-code" hidden>def introduce(name, age):
+    print(f&quot;{name} is {age} years old.&quot;)
+
+introduce(name=&quot;Ada&quot;, age=36)
+introduce(age=36, name=&quot;Ada&quot;)</textarea></div>
+<p>Keyword arguments make calls easier to read, especially when a function has several parameters of the same type:</p>
+<pre><code class="language-python">book_room(&quot;Lagos&quot;, 3, 2)                          # what do 3 and 2 mean?
+book_room(city=&quot;Lagos&quot;, nights=3, guests=2)       # clear
+</code></pre>
+<p>You can mix the two, but <strong>positional arguments must come first</strong>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e8"><textarea class="pc-src pc-code" hidden>def introduce(name, age):
+    print(f&quot;{name} is {age} years old.&quot;)
+
+introduce(&quot;Ada&quot;, age=36)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e9"><textarea class="pc-src pc-code" hidden>def introduce(name, age):
+    print(f&quot;{name} is {age} years old.&quot;)
+
+introduce(name=&quot;Ada&quot;, 36)</textarea></div>
+<p>That&rsquo;s a <code>SyntaxError</code>: once you&rsquo;ve named one argument, Python can&rsquo;t tell which parameter a following unnamed one is for.</p>
+<p>Experiment here. Change the parameters or the call and see how each value finds its parameter, or why the call fails:</p>
+<figure class="widget" data-widget="callbind"><script type="application/json">{"params": "name, greeting=\"Hello\", punctuation=\"!\"", "args": "\"Ada\"", "tries": ["\"Ada\"", "\"Ada\", \"Hi\"", "\"Ada\", punctuation=\"?\"", "greeting=\"Hey\", name=\"Bo\"", "", "\"Ada\", name=\"Bo\""]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Positional arguments fill parameters from the left; named ones go where their name says; anything left takes its default. Try the calls underneath, including the ones that fail.</figcaption></figure>
+<h2 id="default-values">Default values</h2>
+<p>A parameter can have a <strong>default value</strong>, written <code>parameter=value</code> in the <code>def</code>. If the call doesn&rsquo;t give that argument, the default is used:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e10"><textarea class="pc-src pc-code" hidden>def greet(name, greeting=&quot;Hello&quot;):
+    print(f&quot;{greeting}, {name}!&quot;)
+
+greet(&quot;Ada&quot;)
+greet(&quot;Ada&quot;, &quot;Good morning&quot;)
+greet(&quot;Ada&quot;, greeting=&quot;Hi&quot;)</textarea></div>
+<p>Defaults make a function easy to use in the common case, and flexible in the unusual one. That&rsquo;s exactly what <code>print</code> does with <code>sep</code> and <code>end</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e11"><div class="pc-title">A flexible line</div><textarea class="pc-src pc-code" hidden>def line(length=20, char=&quot;-&quot;):
+    print(char * length)
+
+line()
+line(10)
+line(char=&quot;=&quot;)
+line(5, &quot;*&quot;)</textarea></div>
+<h3 id="defaults-must-come-last">Defaults must come last</h3>
+<p>Parameters with defaults must come <strong>after</strong> those without:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e12"><textarea class="pc-src pc-code" hidden>def greet(greeting=&quot;Hello&quot;, name):
+    print(greeting, name)</textarea></div>
+<p>Think about why: in <code>greet("Ada")</code>, would <code>"Ada"</code> be the greeting or the name? Python avoids the question by not allowing it.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Positional arguments are matched in order. Keyword arguments are matched by name and must come after positional ones. Parameters with defaults can be left out of the call, and must come after parameters without defaults.</p></aside>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>Use only simple, unchangeable values as defaults: numbers, strings, <code>True</code>, <code>False</code>. In Week 8 you&rsquo;ll see why a default like an empty list causes a famous bug.</p></aside>
+<h2 id="parameters-are-local-labels">Parameters are local labels</h2>
+<p>When a function is called, each parameter is a new name, inside the function&rsquo;s frame, pointing at the argument&rsquo;s object. Exactly as in Week 1, Day 3: names are labels.</p>
+<p>So what happens if the function points its parameter at something else?</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d2-e13"><div class="pc-title">X-ray this</div><textarea class="pc-src pc-code" hidden>def add_tax(price):
+    price = price * 1.075
+    print(&quot;Inside:&quot;, price)
+
+cost = 1000
+add_tax(cost)
+print(&quot;Outside:&quot;, cost)</textarea></div>
+<p>Step through it in X-ray. At the call, <code>price</code> in the function&rsquo;s frame points at the same object as <code>cost</code>: the number 1000. Then <code>price = price * 1.075</code> moves the label <code>price</code> to a <strong>new</strong> object. <code>cost</code>, in the main frame, still points at 1000. Reassigning a parameter never changes the caller&rsquo;s variable.</p>
+<p>To get a value back out of a function, you need <code>return</code>, which is tomorrow&rsquo;s lesson.</p>
+<aside class="callout c-note"><div class="callout-t">Note</div><p>Numbers and strings can&rsquo;t be changed, so this is the whole story for them. Lists can be changed in place, and then a function <strong>can</strong> affect the caller&rsquo;s data through a parameter. You&rsquo;ll see that, and how to control it, in Week 8.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d2-describe" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Describe a pet</div><div class="pc-prompt"><p>Define <code>describe(name, animal, age)</code> that prints a sentence like <code>Rex is a 3-year-old dog.</code>. Then call it for <code>Rex</code>, <code>dog</code>, <code>3</code> and for <code>Tom</code>, <code>cat</code>, <code>11</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;two pets&quot;
+    expect_output(&quot;Rex is a 3-year-old dog.\nTom is a 11-year-old cat.&quot;)
+def test_function():
+    &quot;describe has three parameters&quot;
+    assert callable(describe)
+    assert describe.__code__.co_argcount == 3, &quot;describe needs three parameters: name, animal, age.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def describe(name, animal, age):
+    print(f&quot;{name} is a {age}-year-old {animal}.&quot;)
+
+describe(&quot;Rex&quot;, &quot;dog&quot;, 3)
+describe(&quot;Tom&quot;, &quot;cat&quot;, 11)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d2-power" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Powers, squared by default</div><div class="pc-prompt"><p>Define <code>show_power(base, exponent=2)</code> that prints a line like <code>3 ** 2 = 9</code>. Call it as <code>show_power(3)</code>, <code>show_power(2, 10)</code> and <code>show_power(5, exponent=3)</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three lines&quot;
+    expect_output(&quot;3 ** 2 = 9\n2 ** 10 = 1024\n5 ** 3 = 125&quot;)
+def test_default():
+    &quot;exponent defaults to 2&quot;
+    assert show_power.__defaults__ == (2,), &quot;Give exponent a default of 2.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def show_power(base, exponent=2):
+    print(f&quot;{base} ** {exponent} = {base ** exponent}&quot;)
+
+show_power(3)
+show_power(2, 10)
+show_power(5, exponent=3)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d2-repeat" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Repeat with a separator</div><div class="pc-prompt"><p>Define <code>repeat(word, times, sep=" ")</code> that prints the word <code>times</code> times, separated by <code>sep</code>. Then make these three calls: <code>repeat("ho", 3)</code>, <code>repeat("na", 8, "")</code> and <code>repeat("go", 2, sep=", ")</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three lines&quot;
+    expect_output(&quot;ho ho ho\nnananananananana\ngo, go&quot;)
+def test_signature():
+    &quot;sep defaults to a space&quot;
+    assert repeat.__defaults__ == (&quot; &quot;,), &quot;Give sep a default of a single space.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def repeat(word, times, sep=&quot; &quot;):
+    out = &quot;&quot;
+    for i in range(times):
+        if i &gt; 0:
+            out += sep
+        out += word
+    print(out)
+
+repeat(&quot;ho&quot;, 3)
+repeat(&quot;na&quot;, 8, &quot;&quot;)
+repeat(&quot;go&quot;, 2, sep=&quot;, &quot;)</textarea><template class="pc-src pc-hint"><code>sep.join(...)</code> needs a sequence of words; or build the string in a loop, adding <code>sep</code> before every word except the first.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d2-money" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Format money</div><div class="pc-prompt"><p>Define <code>money(amount, symbol="₦", places=2)</code> that prints the amount with the symbol in front, thousands separators, and <code>places</code> decimal places. Then call <code>money(1234.5)</code>, <code>money(99, "$")</code> and <code>money(2500000, places=0)</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three amounts&quot;
+    expect_output(&quot;₦1,234.50\n$99.00\n₦2,500,000&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def money(amount, symbol=&quot;₦&quot;, places=2):
+    print(f&quot;{symbol}{amount:,.{places}f}&quot;)
+
+money(1234.5)
+money(99, &quot;$&quot;)
+money(2500000, places=0)</textarea><template class="pc-src pc-hint">A width or precision from a variable goes in nested braces: <code>{amount:,.{places}f}</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d2-box" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A configurable box</div><div class="pc-prompt"><p>Define <code>box(text, char="*", padding=1)</code> that prints the text inside a border made of <code>char</code>, with <code>padding</code> spaces between the text and the sides. Call <code>box("Hi")</code>, <code>box("Python", "#")</code> and <code>box("Atlas", padding=3)</code>.</p>
+<pre><code>******
+* Hi *
+******
+##########
+# Python #
+##########
+*************
+*   Atlas   *
+*************
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def b(t, c=&quot;*&quot;, p=1):
+    mid = c + &quot; &quot; * p + t + &quot; &quot; * p + c
+    return c * len(mid) + &quot;\n&quot; + mid + &quot;\n&quot; + c * len(mid)
+def test_output():
+    &quot;three boxes&quot;
+    expect_output(b(&quot;Hi&quot;) + &quot;\n&quot; + b(&quot;Python&quot;, &quot;#&quot;) + &quot;\n&quot; + b(&quot;Atlas&quot;, &quot;*&quot;, 3))</textarea><textarea class="pc-src pc-solution" hidden>def box(text, char=&quot;*&quot;, padding=1):
+    middle = char + &quot; &quot; * padding + text + &quot; &quot; * padding + char
+    print(char * len(middle))
+    print(middle)
+    print(char * len(middle))
+
+box(&quot;Hi&quot;)
+box(&quot;Python&quot;, &quot;#&quot;)
+box(&quot;Atlas&quot;, padding=3)</textarea><template class="pc-src pc-hint">Build the middle line first, then print <code>char</code> repeated <code>len(middle)</code> times above and below it.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d2-keywords" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Call it clearly</div><div class="pc-prompt"><p>The function below is correct, but the calls are hard to read. Rewrite <strong>only the two calls</strong> using keyword arguments for every argument, in any order you like, keeping the output the same.</p></div><textarea class="pc-src pc-code" hidden>def book(city, nights, guests):
+    print(f&quot;{guests} guest(s), {nights} night(s) in {city}&quot;)
+
+book(&quot;Lagos&quot;, 3, 2)
+book(&quot;Accra&quot;, 1, 4)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;same output&quot;
+    expect_output(&quot;2 guest(s), 3 night(s) in Lagos\n4 guest(s), 1 night(s) in Accra&quot;)
+def test_keywords():
+    &quot;every argument is named&quot;
+    calls = [l for l in source.splitlines() if l.startswith(&quot;book(&quot;)]
+    assert len(calls) == 2, &quot;Keep two calls.&quot;
+    for c in calls:
+        assert &quot;city=&quot; in c and &quot;nights=&quot; in c and &quot;guests=&quot; in c, &quot;Name every argument: &quot; + c</textarea><textarea class="pc-src pc-solution" hidden>def book(city, nights, guests):
+    print(f&quot;{guests} guest(s), {nights} night(s) in {city}&quot;)
+
+book(city=&quot;Lagos&quot;, nights=3, guests=2)
+book(guests=4, city=&quot;Accra&quot;, nights=1)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Swapped</div><div class="pc-prompt"><p>This should print <code>Ada scored 93</code>, but it prints <code>93 scored Ada</code>. Fix the <strong>call</strong>, not the function.</p></div><textarea class="pc-src pc-code" hidden>def report(name, score):
+    print(name, &quot;scored&quot;, score)
+
+report(93, &quot;Ada&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;Ada scored 93&quot;
+    expect_output(&quot;Ada scored 93&quot;)
+def test_function_unchanged():
+    &quot;the function is unchanged&quot;
+    assert &quot;def report(name, score):&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def report(name, score):
+    print(name, &quot;scored&quot;, score)
+
+report(&quot;Ada&quot;, 93)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A default in the wrong place</div><div class="pc-prompt"><p>This won&rsquo;t run at all. Fix the <code>def</code> line so that <code>discount</code> has a default of 0, and keep both calls working.</p></div><textarea class="pc-src pc-code" hidden>def price(discount=0, amount):
+    print(amount - discount)
+
+price(amount=500)
+price(amount=500, discount=50)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;500 then 450&quot;
+    expect_output(&quot;500\n450&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def price(amount, discount=0):
+    print(amount - discount)
+
+price(amount=500)
+price(amount=500, discount=50)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The variable that didn&rsquo;t change</div><div class="pc-prompt"><p>The programmer expected <code>balance</code> to be 1500 after the deposit, but it&rsquo;s still 1000. The function prints the right number, though. Without using <code>return</code> (that&rsquo;s tomorrow), make the program print <code>Balance: 1500</code> at the end by changing <strong>only the last two lines</strong>.</p></div><textarea class="pc-src pc-code" hidden>def deposit(balance, amount):
+    balance = balance + amount
+    print(&quot;New balance:&quot;, balance)
+
+balance = 1000
+deposit(balance, 500)
+print(&quot;Balance:&quot;, balance)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;both lines show 1500&quot;
+    expect_output(&quot;New balance: 1500\nBalance: 1500&quot;)
+def test_function_unchanged():
+    &quot;the function is unchanged&quot;
+    assert &quot;def deposit(balance, amount):\n    balance = balance + amount&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def deposit(balance, amount):
+    balance = balance + amount
+    print(&quot;New balance:&quot;, balance)
+
+balance = 1000
+deposit(balance, 500)
+balance = balance + 500
+print(&quot;Balance:&quot;, balance)</textarea><template class="pc-src pc-hint">The function can&rsquo;t change the caller&rsquo;s <code>balance</code>. So the main program has to do the addition itself as well, for now.</template></div>
+<div class="parsons" data-id="w006d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">A greeting with a default</div><div class="pc-prompt"><p>Arrange the lines: define <code>greet(name, greeting="Hello")</code> and call it twice, once with the default and once with <code>Hi</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["def greet(name, greeting=\"Hello\"):", "    print(greeting + \", \" + name)", "greet(\"Ada\")", "greet(\"Bo\", greeting=\"Hi\")"], "distractors": ["greet(greeting=\"Hi\", \"Bo\")"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Who gets what?</div><div class="pc-prompt"><p>For each call, write what the function prints.</p>
+<pre><code class="language-python">def f(a, b=10, c=100):
+    print(a + b + c)
+
+f(1)            # call 1
+f(1, 2)         # call 2
+f(1, c=3)       # call 3
+f(c=1, a=2)     # call 4
+f(1, 2, 3)      # call 5
+</code></pre></div><textarea class="pc-src pc-code" hidden>call_1 = ___
+call_2 = ___
+call_3 = ___
+call_4 = ___
+call_5 = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_calls():
+    &quot;each call&quot;
+    assert call_1 == 111, &quot;Call 1: b and c take their defaults.&quot;
+    assert call_2 == 103, &quot;Call 2: 2 goes to b by position.&quot;
+    assert call_3 == 14, &quot;Call 3: b is the default 10.&quot;
+    assert call_4 == 13, &quot;Call 4: a=2, b=10, c=1.&quot;
+    assert call_5 == 6</textarea><textarea class="pc-src pc-solution" hidden>call_1 = 111
+call_2 = 103
+call_3 = 14
+call_4 = 13
+call_5 = 6</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w006d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "How are positional arguments matched to parameters?", "answer": 1, "explain": "First argument to first parameter, and so on.", "options": ["By name", "By order", "By type", "At random"]}, {"type": "output", "q": "What does this print?", "answer": "8", "explain": "Keyword arguments match by name.", "code": "def f(x, y):\n    print(x - y)\nf(y=2, x=10)"}, {"type": "mc", "q": "Which call is a SyntaxError?", "answer": 2, "explain": "Positional arguments can&rsquo;t follow keyword arguments.", "options": ["<code>f(1, y=2)</code>", "<code>f(x=1, y=2)</code>", "<code>f(x=1, 2)</code>", "<code>f(1, 2)</code>"]}, {"type": "mc", "q": "Which def is a SyntaxError?", "answer": 2, "explain": "Parameters with defaults must come after those without.", "options": ["<code>def f(a, b=1):</code>", "<code>def f(a=1, b=2):</code>", "<code>def f(a=1, b):</code>", "<code>def f(a, b):</code>"]}, {"type": "output", "q": "What does this print?", "answer": "Hi Bo!", "explain": "punct takes its default.", "code": "def g(name, punct=\"!\"):\n    print(\"Hi \" + name + punct)\ng(\"Bo\")"}, {"type": "text", "q": "What error do you get from calling a two-parameter function with one argument?", "answer": ["TypeError", "type error"], "explain": "missing 1 required positional argument."}, {"type": "output", "q": "What does this print?", "answer": "5", "explain": "n is moved to a new object; x is untouched.", "code": "def change(n):\n    n = n + 1\nx = 5\nchange(x)\nprint(x)"}, {"type": "mc", "q": "In <code>print(\"a\", sep=\"-\")</code>, what is <code>sep</code>?", "answer": 1, "explain": "print is written just like the functions you&rsquo;re learning to write.", "options": ["A positional argument", "A keyword argument for a parameter with a default", "A variable", "A method"]}, {"type": "mc", "q": "When are arguments worked out?", "answer": 1, "explain": "Each argument expression is evaluated first.", "options": ["After the function runs", "Before the function is called", "Only if used", "Never"]}, {"type": "output", "q": "What does this print?", "answer": "1 2 9", "explain": "b keeps its default.", "code": "def h(a, b=2, c=3):\n    print(a, b, c)\nh(1, c=9)"}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the banner</div><div class="pc-prompt"><p>Define <code>banner(text, width=30, char="=", align="centre")</code> that prints three lines: a line of <code>char</code> of length <code>width</code>, the text aligned inside that width, and the line again. <code>align</code> can be <code>"left"</code>, <code>"centre"</code> or <code>"right"</code>. If the text is longer than the width, the width grows to fit it.</p>
+<p>Then make these calls:</p>
+<pre><code class="language-python">banner(&quot;Python Atlas&quot;)
+banner(&quot;Week 6&quot;, width=12, char=&quot;*&quot;, align=&quot;left&quot;)
+banner(&quot;Functions&quot;, align=&quot;right&quot;, char=&quot;-&quot;)
+banner(&quot;A title that is far too long for the box&quot;, width=10)
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def b(t, w=30, c=&quot;=&quot;, a=&quot;centre&quot;):
+    w = max(w, len(t))
+    mid = t.center(w) if a == &quot;centre&quot; else t.ljust(w) if a == &quot;left&quot; else t.rjust(w)
+    return c * w + &quot;\n&quot; + mid + &quot;\n&quot; + c * w
+def test_output():
+    &quot;four banners&quot;
+    expect_output(&quot;\n&quot;.join([b(&quot;Python Atlas&quot;), b(&quot;Week 6&quot;, 12, &quot;*&quot;, &quot;left&quot;), b(&quot;Functions&quot;, a=&quot;right&quot;, c=&quot;-&quot;), b(&quot;A title that is far too long for the box&quot;, 10)]))
+def test_defaults():
+    &quot;the defaults&quot;
+    assert banner.__defaults__ == (30, &quot;=&quot;, &quot;centre&quot;), &quot;Use the defaults width=30, char=&#x27;=&#x27;, align=&#x27;centre&#x27;.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def banner(text, width=30, char=&quot;=&quot;, align=&quot;centre&quot;):
+    width = max(width, len(text))
+    if align == &quot;left&quot;:
+        middle = text.ljust(width)
+    elif align == &quot;right&quot;:
+        middle = text.rjust(width)
+    else:
+        middle = text.center(width)
+    print(char * width)
+    print(middle)
+    print(char * width)
+
+banner(&quot;Python Atlas&quot;)
+banner(&quot;Week 6&quot;, width=12, char=&quot;*&quot;, align=&quot;left&quot;)
+banner(&quot;Functions&quot;, align=&quot;right&quot;, char=&quot;-&quot;)
+banner(&quot;A title that is far too long for the box&quot;, width=10)</textarea><template class="pc-src pc-hint"><code>max(width, len(text))</code> makes the width grow. Then choose <code>.ljust</code>, <code>.center</code> or <code>.rjust</code> (or an f-string with <code>&lt;</code>, <code>^</code> or <code>&gt;</code>) depending on <code>align</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Without looking: what&rsquo;s the difference between a parameter and an argument? Why must default parameters come last, and keyword arguments come after positional ones? Tomorrow: <code>return</code>, the way a function hands a value back, and why it&rsquo;s almost always better than <code>print</code>.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w006d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w006d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w006d2", "week": 6, "day": 2, "title": "Parameters and arguments", "exercises": [{"id": "w006d2-describe", "title": "Describe a pet", "points": 10}, {"id": "w006d2-power", "title": "Powers, squared by default", "points": 10}, {"id": "w006d2-repeat", "title": "Repeat with a separator", "points": 10}, {"id": "w006d2-money", "title": "Format money", "points": 10}, {"id": "w006d2-box", "title": "A configurable box", "points": 15}, {"id": "w006d2-keywords", "title": "Call it clearly", "points": 10}, {"id": "w006d2-bug1", "title": "Swapped", "points": 10}, {"id": "w006d2-bug2", "title": "A default in the wrong place", "points": 10}, {"id": "w006d2-bug3", "title": "The variable that didn't change", "points": 10}, {"id": "w006d2-trace", "title": "Who gets what?", "points": 15}, {"id": "w006d2-challenge", "title": "Challenge: the banner", "points": 25}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

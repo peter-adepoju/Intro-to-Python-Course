@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="79df9b909c">
+<title>Week 6 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=79df9b909c">
+<link rel="stylesheet" href="../assets/css/site.css?v=79df9b909c">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=79df9b909c"></script>
+<script src="../assets/vendor/codemirror.js?v=79df9b909c" defer></script>
+<meta name="description" content="This week you learned to name pieces of code and hand values in and out of them. Today you’ll build two programs entirely out of small, documented...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w006d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 6 Day 6: Forge">
+<meta property="og:description" content="This week you learned to name pieces of code and hand values in and out of them. Today you’ll build two programs entirely out of small, documented...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w006d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-6">Week 6: Functions I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-results-processor" data-sec="forge-the-results-processor">Forge: the results processor</a></li><li><a href="#forge-bonus-numbers-in-words" data-sec="forge-bonus-numbers-in-words">Forge bonus: numbers in words</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-6-review" data-sec="week-6-review">Week 6 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 6, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>This week you learned to name pieces of code and hand values in and out of them. Today you&rsquo;ll build two programs entirely out of small, documented functions: a results processor whose parts can each be tested on their own, and a converter that writes any number up to 999,999 in words. Then the weekly quiz and review.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Split a problem into small functions, each with one clear job and a docstring</li><li>Pass values in through parameters and out through return, with no global variables</li><li>Test each function on its own before combining them</li><li>Reuse one function inside another to keep each one short</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:65" title="Forge: the results processor: 65 min"></span><span class="plan-seg s1" style="flex:35" title="Forge bonus: numbers in words: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 6 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: the results processor</span><span class="plan-min">65 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Forge bonus: numbers in words</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 6 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w006d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d6-p1"><textarea class="pc-src pc-code" hidden>def f(x, y=3):
+    return x * y
+
+print(f(2), f(2, 5), f(y=1, x=7))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d6-p2"><textarea class="pc-src pc-code" hidden>def g(n):
+    if n &gt; 0:
+        return &quot;pos&quot;
+    print(&quot;not positive&quot;)
+
+print(g(-1))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d6-p3"><textarea class="pc-src pc-code" hidden>total = 10
+
+def add(n):
+    total = n + 1
+    return total
+
+print(add(5), total)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d6-p4"><textarea class="pc-src pc-code" hidden>def first_even(s):
+    for ch in s:
+        if int(ch) % 2 == 0:
+            return ch
+    return &quot;none&quot;
+
+print(first_even(&quot;1357&quot;), first_even(&quot;3829&quot;))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d6-p5"><textarea class="pc-src pc-code" hidden>def h():
+    &quot;&quot;&quot;Do nothing useful.&quot;&quot;&quot;
+
+print(h(), h.__doc__)</textarea></div>
+<p>If any surprised you, revisit <a href="w006d1.html">defining functions</a>, <a href="w006d2.html">parameters</a>, <a href="w006d3.html">return</a>, <a href="w006d4.html">scope</a> or <a href="w006d5.html">docstrings</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d6-mix_refactor" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Break it into functions</div><div class="pc-prompt"><p>This program works, but it&rsquo;s one long block. Rewrite it with two functions, <code>is_palindrome(word)</code> returning <code>True</code> or <code>False</code> (ignoring case), and <code>count_palindromes(text)</code> returning how many words in the text are palindromes. Keep the output the same.</p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+count = 0
+for word in text.split():
+    w = word.lower()
+    if w == w[::-1]:
+        count += 1
+print(&quot;Palindromes:&quot;, count)</textarea><textarea class="pc-src pc-tests" hidden>def test_functions():
+    &quot;the two functions&quot;
+    assert is_palindrome(&quot;Level&quot;) and not is_palindrome(&quot;python&quot;) and is_palindrome(&quot;a&quot;)
+    assert count_palindromes(&quot;Anna saw a racecar at noon&quot;) == 4
+def test_output():
+    &quot;same output&quot;
+    expect_output(&quot;Text: Anna saw a racecar\nPalindromes: 3&quot;, inputs=[&quot;Anna saw a racecar&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>def is_palindrome(word):
+    &quot;&quot;&quot;Return True if word reads the same backwards, ignoring case.&quot;&quot;&quot;
+    w = word.lower()
+    return w == w[::-1]
+
+def count_palindromes(text):
+    &quot;&quot;&quot;Return how many words in text are palindromes.&quot;&quot;&quot;
+    count = 0
+    for word in text.split():
+        if is_palindrome(word):
+            count += 1
+    return count
+
+text = input(&quot;Text: &quot;)
+print(&quot;Palindromes:&quot;, count_palindromes(text))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d6-mix_shift" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A reusable shift</div><div class="pc-prompt"><p>Define <code>shift_letter(ch, k)</code> that returns a letter shifted <code>k</code> places (keeping case; non-letters unchanged), and <code>caesar(text, k)</code> that uses it on every character. Then <code>caesar("Hello, World!", 3)</code> should return <code>"Khoor, Zruog!"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_letter():
+    &quot;shift_letter&quot;
+    assert shift_letter(&quot;a&quot;, 1) == &quot;b&quot; and shift_letter(&quot;Z&quot;, 1) == &quot;A&quot; and shift_letter(&quot;!&quot;, 5) == &quot;!&quot; and shift_letter(&quot;c&quot;, -3) == &quot;z&quot;
+def test_text():
+    &quot;caesar&quot;
+    assert caesar(&quot;Hello, World!&quot;, 3) == &quot;Khoor, Zruog!&quot;
+    assert caesar(caesar(&quot;Round trip&quot;, 11), -11) == &quot;Round trip&quot;</textarea><textarea class="pc-src pc-solution" hidden>def shift_letter(ch, k):
+    &quot;&quot;&quot;Return ch shifted k places along the alphabet, keeping its case.&quot;&quot;&quot;
+    if &quot;a&quot; &lt;= ch &lt;= &quot;z&quot;:
+        return chr((ord(ch) - ord(&quot;a&quot;) + k) % 26 + ord(&quot;a&quot;))
+    if &quot;A&quot; &lt;= ch &lt;= &quot;Z&quot;:
+        return chr((ord(ch) - ord(&quot;A&quot;) + k) % 26 + ord(&quot;A&quot;))
+    return ch
+
+def caesar(text, k):
+    &quot;&quot;&quot;Return text with every letter shifted k places.&quot;&quot;&quot;
+    out = &quot;&quot;
+    for ch in text:
+        out += shift_letter(ch, k)
+    return out</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d6-mix_plural" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Plurals</div><div class="pc-prompt"><p>Define <code>plural(n, word, suffix="s")</code> that returns strings like <code>1 apple</code>, <code>3 apples</code>, <code>0 apples</code>, and with a different suffix, <code>2 boxes</code> from <code>plural(2, "box", "es")</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several counts&quot;
+    assert plural(1, &quot;apple&quot;) == &quot;1 apple&quot;
+    assert plural(3, &quot;apple&quot;) == &quot;3 apples&quot;
+    assert plural(0, &quot;apple&quot;) == &quot;0 apples&quot;
+    assert plural(2, &quot;box&quot;, &quot;es&quot;) == &quot;2 boxes&quot;
+    assert plural(1, &quot;box&quot;, suffix=&quot;es&quot;) == &quot;1 box&quot;</textarea><textarea class="pc-src pc-solution" hidden>def plural(n, word, suffix=&quot;s&quot;):
+    &quot;&quot;&quot;Return n followed by word, with suffix added unless n is 1.&quot;&quot;&quot;
+    return f&quot;{n} {word}&quot; if n == 1 else f&quot;{n} {word}{suffix}&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d6-mix_digits" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Digit tools</div><div class="pc-prompt"><p>Define <code>digits(n)</code> returning the number of digits of a whole number of at least 0 (so <code>digits(0)</code> is 1), and <code>reverse_number(n)</code> returning the number with its digits reversed (so <code>reverse_number(1200)</code> is 21). Use arithmetic, not strings.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;both functions&quot;
+    for n, d, r in [(0, 1, 0), (7, 1, 7), (1200, 4, 21), (98765, 5, 56789)]:
+        assert digits(n) == d, f&quot;digits({n}) should be {d}.&quot;
+        assert reverse_number(n) == r, f&quot;reverse_number({n}) should be {r}.&quot;
+    assert &quot;str(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def digits(n):
+    &quot;&quot;&quot;Return how many decimal digits n has. n must be at least 0.&quot;&quot;&quot;
+    count = 1
+    while n &gt;= 10:
+        n //= 10
+        count += 1
+    return count
+
+def reverse_number(n):
+    &quot;&quot;&quot;Return n with its decimal digits in reverse order.&quot;&quot;&quot;
+    r = 0
+    while n &gt; 0:
+        r = r * 10 + n % 10
+        n //= 10
+    return r</textarea></div>
+<h2 id="forge-the-results-processor">Forge: the results processor</h2>
+<p>About an hour. This time the specification tells you <strong>which functions</strong> to write. Write them one at a time, and test each one in the playground or with a quick <code>print</code> before moving on. Every function needs a docstring.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the results processor</div><div class="pc-prompt"><p>A teacher types a class&rsquo;s results on one line, like <code>Ada:93, Grace:88, Alan:57, Kemi:41</code>. Write these functions:</p>
+<ul>
+<li><code>parse_entry(entry)</code> takes one entry like <code>" Grace:88 "</code> and returns two values: the name (stripped) and the mark as an int.</li>
+<li><code>grade(mark)</code> returns <code>"A"</code> (70 or more), <code>"B"</code> (60 to 69), <code>"C"</code> (50 to 59) or <code>"F"</code>.</li>
+<li><code>class_stats(line)</code> takes the whole line and returns four values: the number of students, the average mark (rounded to 1 decimal place), the highest mark and the number who passed (50 or more).</li>
+<li><code>report_line(name, mark, width)</code> returns one line of the report: the name left-aligned in <code>width</code> characters, a space, the mark right-aligned in 3, a space, and the grade.</li>
+</ul>
+<p>Then the main program asks <code>Results:</code>, prints a report line for each student, with the name column as wide as the longest name, and finally prints <code>Students: 4  Average: 69.8  Highest: 93  Passed: 3</code> (two spaces between the parts).</p>
+<pre><code>Results: Ada:93, Grace:88, Alan:57, Kemi:41
+Ada    93 A
+Grace  88 A
+Alan   57 C
+Kemi   41 F
+Students: 4  Average: 69.8  Highest: 93  Passed: 3
+</code></pre>
+<p>None of your functions may use <code>global</code>, and only the main program may print.</p></div><textarea class="pc-src pc-code" hidden>def parse_entry(entry):
+    ___
+
+def grade(mark):
+    ___
+
+def class_stats(line):
+    ___
+
+def report_line(name, mark, width):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_parse():
+    &quot;parse_entry&quot;
+    assert tuple(parse_entry(&quot; Grace:88 &quot;)) == (&quot;Grace&quot;, 88)
+    assert tuple(parse_entry(&quot;Ada Lovelace:100&quot;)) == (&quot;Ada Lovelace&quot;, 100)
+def test_grade():
+    &quot;grade&quot;
+    for m, g in [(70, &quot;A&quot;), (69, &quot;B&quot;), (60, &quot;B&quot;), (59, &quot;C&quot;), (50, &quot;C&quot;), (49, &quot;F&quot;)]:
+        assert grade(m) == g
+def test_stats():
+    &quot;class_stats&quot;
+    assert tuple(class_stats(&quot;Ada:93, Grace:88, Alan:57, Kemi:41&quot;)) == (4, 69.8, 93, 3)
+    assert tuple(class_stats(&quot;Solo:50&quot;)) == (1, 50.0, 50, 1)
+def test_line():
+    &quot;report_line&quot;
+    assert report_line(&quot;Ada&quot;, 93, 5) == &quot;Ada    93 A&quot;
+    assert report_line(&quot;Kemi&quot;, 7, 4) == &quot;Kemi   7 F&quot;
+def test_output():
+    &quot;the whole report&quot;
+    expect_output(&quot;Results: Ada:93, Grace:88, Alan:57, Kemi:41\nAda    93 A\nGrace  88 A\nAlan   57 C\nKemi   41 F\nStudents: 4  Average: 69.8  Highest: 93  Passed: 3&quot;,
+                  inputs=[&quot;Ada:93, Grace:88, Alan:57, Kemi:41&quot;], echo=True)
+def test_style():
+    &quot;no global; the functions don&#x27;t print&quot;
+    assert &quot;global&quot; not in source
+    for name in [&quot;parse_entry&quot;, &quot;grade&quot;, &quot;class_stats&quot;, &quot;report_line&quot;]:
+        start = source.find(&quot;def &quot; + name)
+        body = source[start:].split(&quot;\ndef &quot;)[0]
+        body = body.split(&quot;\n\n&quot;)[0]
+        assert &quot;print(&quot; not in body, name + &quot; should return, not print.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def parse_entry(entry):
+    &quot;&quot;&quot;Return the name and the mark from an entry like &#x27;Ada:93&#x27;.&quot;&quot;&quot;
+    name, mark = entry.split(&quot;:&quot;)
+    return name.strip(), int(mark)
+
+def grade(mark):
+    &quot;&quot;&quot;Return the letter grade for a mark out of 100.&quot;&quot;&quot;
+    if mark &gt;= 70:
+        return &quot;A&quot;
+    if mark &gt;= 60:
+        return &quot;B&quot;
+    if mark &gt;= 50:
+        return &quot;C&quot;
+    return &quot;F&quot;
+
+def class_stats(line):
+    &quot;&quot;&quot;Return the count, average (1 place), highest mark and number passed.&quot;&quot;&quot;
+    count = 0
+    total = 0
+    highest = -1
+    passed = 0
+    for entry in line.split(&quot;,&quot;):
+        name, mark = parse_entry(entry)
+        count += 1
+        total += mark
+        highest = max(highest, mark)
+        if mark &gt;= 50:
+            passed += 1
+    return count, round(total / count, 1), highest, passed
+
+def report_line(name, mark, width):
+    &quot;&quot;&quot;Return one report line: the name, the mark and the grade, aligned.&quot;&quot;&quot;
+    return f&quot;{name:&lt;{width}} {mark:&gt;3} {grade(mark)}&quot;
+
+line = input(&quot;Results: &quot;)
+width = 0
+for entry in line.split(&quot;,&quot;):
+    name, mark = parse_entry(entry)
+    width = max(width, len(name))
+for entry in line.split(&quot;,&quot;):
+    name, mark = parse_entry(entry)
+    print(report_line(name, mark, width))
+count, average, highest, passed = class_stats(line)
+print(f&quot;Students: {count}  Average: {average}  Highest: {highest}  Passed: {passed}&quot;)</textarea><template class="pc-src pc-hint"><code>parse_entry</code>: <code>name, mark = entry.split(":")</code>, then strip the name and convert the mark.</template><template class="pc-src pc-hint"><code>class_stats</code>: loop over <code>line.split(",")</code>, call <code>parse_entry</code> on each, and keep four accumulators. Return them all at the end: <code>return count, round(total / count, 1), highest, passed</code>.</template><template class="pc-src pc-hint">The main program needs the width before printing, so loop over the entries once to find the longest name, then again to print.</template></div>
+<aside class="callout c-think"><div class="callout-t">Why so many functions?</div><p>Each function was small enough to get right on its own, and the checks could test each one separately. If the average had been wrong, you&rsquo;d have known exactly where to look: <code>class_stats</code>, nowhere else. That&rsquo;s the real power of functions: not just less repetition, but problems you can check one piece at a time.</p></aside>
+<h2 id="forge-bonus-numbers-in-words">Forge bonus: numbers in words</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: numbers in words</div><div class="pc-prompt"><p>Write <code>in_words(n)</code> that returns any whole number from 0 to 999,999 in English words, like a cheque:</p>
+<ul>
+<li><code>0</code> → <code>zero</code>, <code>7</code> → <code>seven</code>, <code>13</code> → <code>thirteen</code>, <code>42</code> → <code>forty-two</code></li>
+<li><code>100</code> → <code>one hundred</code>, <code>305</code> → <code>three hundred and five</code>, <code>999</code> → <code>nine hundred and ninety-nine</code></li>
+<li><code>1000</code> → <code>one thousand</code>, <code>1005</code> → <code>one thousand and five</code>, <code>21400</code> → <code>twenty-one thousand four hundred</code></li>
+<li><code>123456</code> → <code>one hundred and twenty-three thousand four hundred and fifty-six</code></li>
+</ul>
+<p>Build it from helper functions: <code>under_100(n)</code> for 0 to 99 (except that 0 isn&rsquo;t needed there), <code>under_1000(n)</code> for 1 to 999 using <code>under_100</code>, then <code>in_words</code> using <code>under_1000</code>. British English puts <code>and</code> before the last part when it&rsquo;s less than 100 and something comes before it.</p></div><textarea class="pc-src pc-code" hidden>ONES = &quot;zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen&quot;.split()
+TENS = &quot;_ _ twenty thirty forty fifty sixty seventy eighty ninety&quot;.split()</textarea><textarea class="pc-src pc-tests" hidden>O = &quot;zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen&quot;.split()
+T = &quot;_ _ twenty thirty forty fifty sixty seventy eighty ninety&quot;.split()
+def u100(n):
+    return O[n] if n &lt; 20 else T[n // 10] + (&quot;-&quot; + O[n % 10] if n % 10 else &quot;&quot;)
+def u1000(n):
+    h, r = divmod(n, 100)
+    if not h:
+        return u100(r)
+    return O[h] + &quot; hundred&quot; + (&quot; and &quot; + u100(r) if r else &quot;&quot;)
+def W(n):
+    if n == 0:
+        return &quot;zero&quot;
+    th, r = divmod(n, 1000)
+    parts = []
+    if th:
+        parts.append(u1000(th) + &quot; thousand&quot;)
+    if r:
+        parts.append((&quot;and &quot; if th and r &lt; 100 else &quot;&quot;) + u1000(r))
+    return &quot; &quot;.join(parts)
+def test_small():
+    &quot;under 100&quot;
+    for n in [0, 7, 13, 19, 20, 42, 90, 99]:
+        assert in_words(n) == W(n), f&quot;in_words({n}) should be {W(n)!r}.&quot;
+def test_hundreds():
+    &quot;hundreds&quot;
+    for n in [100, 305, 999, 110, 520]:
+        assert in_words(n) == W(n), f&quot;in_words({n}) should be {W(n)!r}.&quot;
+def test_thousands():
+    &quot;thousands&quot;
+    for n in [1000, 1005, 21400, 123456, 999999, 100001, 7070]:
+        assert in_words(n) == W(n), f&quot;in_words({n}) should be {W(n)!r}.&quot;</textarea><textarea class="pc-src pc-solution" hidden>ONES = &quot;zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen&quot;.split()
+TENS = &quot;_ _ twenty thirty forty fifty sixty seventy eighty ninety&quot;.split()
+
+def under_100(n):
+    &quot;&quot;&quot;Return n (0 to 99) in words.&quot;&quot;&quot;
+    if n &lt; 20:
+        return ONES[n]
+    word = TENS[n // 10]
+    if n % 10:
+        word += &quot;-&quot; + ONES[n % 10]
+    return word
+
+def under_1000(n):
+    &quot;&quot;&quot;Return n (1 to 999) in words.&quot;&quot;&quot;
+    hundreds, rest = n // 100, n % 100
+    if hundreds == 0:
+        return under_100(rest)
+    word = ONES[hundreds] + &quot; hundred&quot;
+    if rest:
+        word += &quot; and &quot; + under_100(rest)
+    return word
+
+def in_words(n):
+    &quot;&quot;&quot;Return n (0 to 999,999) in words, British style.&quot;&quot;&quot;
+    if n == 0:
+        return &quot;zero&quot;
+    thousands, rest = n // 1000, n % 1000
+    word = &quot;&quot;
+    if thousands:
+        word = under_1000(thousands) + &quot; thousand&quot;
+    if rest:
+        part = under_1000(rest)
+        if thousands and rest &lt; 100:
+            part = &quot;and &quot; + part
+        word = part if word == &quot;&quot; else word + &quot; &quot; + part
+    return word</textarea><template class="pc-src pc-hint"><code>under_100(n)</code>: below 20, it&rsquo;s <code>ONES[n]</code>. Otherwise <code>TENS[n // 10]</code>, plus <code>-</code> and <code>ONES[n % 10]</code> if the last digit isn&rsquo;t 0.</template><template class="pc-src pc-hint"><code>under_1000(n)</code>: split into hundreds and the rest with <code>//</code> and <code>%</code>. If there are hundreds, write <code>ONES[h] + " hundred"</code>, and add <code>" and " + under_100(rest)</code> if the rest isn&rsquo;t 0.</template><template class="pc-src pc-hint"><code>in_words(n)</code>: split into thousands and the rest. The thousands part is <code>under_1000(thousands) + " thousand"</code>. The rest needs an <code>and</code> in front only if there were thousands and the rest is under 100.</template></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w006d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "mc", "q": "When does the body of a function run?", "answer": 1, "explain": "def only creates the function.", "options": ["When def is reached", "Each time the function is called", "Once, at the end", "Never"]}, {"type": "output", "q": "What does this print?", "answer": "y", "explain": "Without brackets, f isn&rsquo;t called.", "code": "def f():\n    print(\"x\")\nf\nprint(\"y\")"}, {"type": "mc", "q": "Which call matches <code>def f(a, b=2, c=3)</code> and gives c the value 9?", "answer": 2, "explain": "a is required; name c to skip b.", "options": ["<code>f(9)</code>", "<code>f(1, 9)</code>", "<code>f(1, c=9)</code>", "<code>f(c=9)</code>"]}, {"type": "mc", "q": "Which def is a SyntaxError?", "answer": 1, "explain": "Defaults must come last.", "options": ["<code>def f(a, b=1):</code>", "<code>def f(a=1, b):</code>", "<code>def f():</code>"]}, {"type": "text", "q": "What does a function return when it has no return statement?", "answer": "None", "explain": "None means no value."}, {"type": "output", "q": "What does this print?", "answer": "2", "explain": "The first return ends the function.", "code": "def f(n):\n    return n + 1\n    return n + 2\nprint(f(1))"}, {"type": "output", "q": "What does this print?", "answer": "4", "explain": "Reassigning a parameter doesn&rsquo;t change the caller&rsquo;s variable.", "code": "def f(n):\n    n = n * 10\nx = 4\nf(x)\nprint(x)"}, {"type": "text", "q": "What error comes from this?", "answer": ["UnboundLocalError", "unbound local error"], "explain": "n is local in inc because it&rsquo;s assigned there.", "code": "n = 0\ndef inc():\n    n = n + 1\ninc()"}, {"type": "mc", "q": "In what order does Python look up a name?", "answer": 0, "explain": "LEGB.", "options": ["Local, enclosing, global, built-in", "Built-in, global, local", "Global first"]}, {"type": "output", "q": "What does this print?", "answer": "3 2", "explain": "Two values returned and unpacked.", "code": "def mm(a, b):\n    return a // b, a % b\nq, r = mm(17, 5)\nprint(q, r)"}, {"type": "mc", "q": "Where does a docstring go?", "answer": 1, "explain": "Otherwise Python doesn&rsquo;t store it.", "options": ["Above def", "First statement in the body", "Last line", "In a comment"]}, {"type": "text", "q": "What does <code>return n % 2 == 0</code> return for n = 7?", "answer": "False", "explain": "7 % 2 is 1."}, {"type": "mc", "q": "Why prefer return over print in most functions?", "answer": 1, "explain": "A printed value can&rsquo;t be used by the program.", "options": ["It&rsquo;s shorter", "The caller can use the value", "print is slow", "Python requires it"]}, {"type": "mc", "q": "How do you show a string result in a doctest example?", "answer": 1, "explain": "Doctest compares with what the shell would show.", "options": ["Without quotes", "With quotes, as repr shows it"]}, {"type": "mc", "q": "What does <code>help(f)</code> show?", "answer": 1, "explain": "Everything a caller needs.", "options": ["f&rsquo;s code", "f&rsquo;s name, parameters and docstring", "Nothing", "f&rsquo;s result"]}]</script></div>
+<h2 id="week-6-review">Week 6 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I can define and call functions, and I know that defining is not running. (<a href="w006d1.html">Day 1</a>)</li>
+<li>I can use several parameters, keyword arguments and defaults, and read the <code>TypeError</code> messages. (<a href="w006d2.html">Day 2</a>)</li>
+<li>I return values instead of printing them, I recognise <code>None</code>, and I use early returns. (<a href="w006d3.html">Day 3</a>)</li>
+<li>I can explain local and global names and the LEGB rule, and I avoid <code>global</code>. (<a href="w006d4.html">Day 4</a>)</li>
+<li>I write docstrings with contracts and examples, and check them with <code>doctest</code>. (<a href="w006d5.html">Day 5</a>)</li>
+<li>I built programs out of small, tested functions. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week: functions in more depth, with any number of arguments, functions as values, designing programs from the top down, and checking functions with <code>assert</code>.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w006d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w006d6", "week": 6, "day": 6, "title": "Forge", "exercises": [{"id": "w006d6-mix_refactor", "title": "Break it into functions", "points": 10}, {"id": "w006d6-mix_shift", "title": "A reusable shift", "points": 10}, {"id": "w006d6-mix_plural", "title": "Plurals", "points": 10}, {"id": "w006d6-mix_digits", "title": "Digit tools", "points": 10}, {"id": "w006d6-forge", "title": "Forge: the results processor", "points": 50}, {"id": "w006d6-forge2", "title": "Forge bonus: numbers in words", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

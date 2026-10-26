@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="79df9b909c">
+<title>Week 6 Day 5: Docstrings | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=79df9b909c">
+<link rel="stylesheet" href="../assets/css/site.css?v=79df9b909c">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=79df9b909c"></script>
+<script src="../assets/vendor/codemirror.js?v=79df9b909c" defer></script>
+<meta name="description" content="A function is only as useful as people’s understanding of how to call it. A docstring is a description written inside the function itself: what it does,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w006d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 6 Day 5: Docstrings">
+<meta property="og:description" content="A function is only as useful as people’s understanding of how to call it. A docstring is a description written inside the function itself: what it does,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w006d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-6">Week 6: Functions I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#what-a-docstring-is" data-sec="what-a-docstring-is">What a docstring is</a></li><li><a href="#writing-a-good-docstring" data-sec="writing-a-good-docstring">Writing a good docstring</a></li><li><a href="#contracts" data-sec="contracts">Contracts</a></li><li><a href="#examples-that-check-themselves" data-sec="examples-that-check-themselves">Examples that check themselves</a></li><li><a href="#comments-versus-docstrings" data-sec="comments-versus-docstrings">Comments versus docstrings</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 6, Day 5</span></p>
+      <h1>Docstrings</h1>
+      <div class="day-intro"><p>A function is only as useful as people&rsquo;s understanding of how to call it. A docstring is a description written inside the function itself: what it does, what it needs, what it gives back. Python&rsquo;s help system reads it, editors show it as you type, and with doctest it can even check its own examples. Today you&rsquo;ll learn to write them well.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write a docstring as the first statement of a function, and read one with <code>help()</code> and <code>.__doc__</code></li><li>Follow the conventions, with a one-line summary followed by the parameters, the return value and examples</li><li>Describe a function&rsquo;s contract, meaning what it needs from the caller and what it promises in return</li><li>Put runnable examples in a docstring and check them with <code>doctest</code></li><li>Know when to write a comment instead of a docstring</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="What a docstring is: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Writing a good one: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Contracts: what a function needs and promises: 25 min"></span><span class="plan-seg s0" style="flex:30" title="Examples that check themselves: doctest: 30 min"></span><span class="plan-seg s1" style="flex:10" title="Comments versus docstrings: 10 min"></span><span class="plan-seg s0" style="flex:40" title="Practice: 40 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">What a docstring is</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Writing a good one</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Contracts: what a function needs and promises</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Examples that check themselves: doctest</span><span class="plan-min">30 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Comments versus docstrings</span><span class="plan-min">10 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Practice</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w006d5.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d5-p1"><textarea class="pc-src pc-code" hidden>def f(a, b=2):
+    return a ** b
+
+print(f(3), f(2, 5))</textarea></div>
+<p>You can work out what <code>f</code> does by reading its body, because it&rsquo;s one line. But what is <code>f</code> <em>for</em>? What should <code>a</code> be? Could <code>b</code> be negative? For a function with twenty lines, or one written by someone else, you need to be told.</p>
+<h2 id="what-a-docstring-is">What a docstring is</h2>
+<p>A <strong>docstring</strong> is a string that comes <strong>first</strong> in a function&rsquo;s body. Python stores it with the function, and anyone can read it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d5-e2"><textarea class="pc-src pc-code" hidden>def power(base, exponent=2):
+    &quot;&quot;&quot;Return base raised to the power exponent (squared by default).&quot;&quot;&quot;
+    return base ** exponent
+
+print(power.__doc__)
+help(power)</textarea></div>
+<p><code>help(power)</code> shows the function&rsquo;s name, its parameters and its docstring: exactly what someone needs to use it without reading its code. Try <code>help(len)</code>, <code>help(print)</code> or <code>help(str.split)</code> in the playground: every built-in function has a docstring.</p>
+<p>The docstring must be the <strong>first statement</strong> in the body. Anywhere else, it&rsquo;s just an unused string:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d5-e3"><textarea class="pc-src pc-code" hidden>def power(base, exponent=2):
+    result = base ** exponent
+    &quot;&quot;&quot;Return base raised to the power exponent.&quot;&quot;&quot;
+    return result
+
+print(power.__doc__)</textarea></div>
+<p><code>None</code>: Python didn&rsquo;t treat it as a docstring.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>A docstring is a string literal, usually in triple quotes, on the first line of a function&rsquo;s body. It describes <strong>what</strong> the function does and <strong>how to use it</strong>, not how it works inside.</p></aside>
+<h2 id="writing-a-good-docstring">Writing a good docstring</h2>
+<p>Python&rsquo;s style guide for docstrings, PEP 257, gives a simple shape:</p>
+<ol>
+<li><strong>A one-line summary</strong>, on the first line, ending with a full stop. Write it as a command: &ldquo;Return the area&hellip;&rdquo;, not &ldquo;Returns the area&hellip;&rdquo; or &ldquo;This function&hellip;&rdquo;.</li>
+<li>If more is needed, <strong>a blank line</strong>, then the details: each parameter, what&rsquo;s returned, and anything surprising.</li>
+<li>Optionally, <strong>examples</strong> of calls and their results.</li>
+</ol>
+<p>For a short, obvious function, the summary line is enough:</p>
+<pre><code class="language-python">def is_even(n):
+    &quot;&quot;&quot;Return True if n is even.&quot;&quot;&quot;
+    return n % 2 == 0
+</code></pre>
+<p>For anything with several parameters, or any choices the caller should know about, add details:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d5-e4"><div class="pc-title">A full docstring</div><textarea class="pc-src pc-code" hidden>def money(amount, symbol=&quot;₦&quot;, places=2):
+    &quot;&quot;&quot;Format an amount of money for display.
+
+    amount: the amount, as an int or a float.
+    symbol: the currency symbol to put in front.
+    places: how many decimal places to show.
+
+    Returns a string with a thousands separator, such as &quot;₦1,234.50&quot;.
+    Negative amounts get the minus sign before the symbol: &quot;-₦5.00&quot;.
+    &quot;&quot;&quot;
+    text = f&quot;{symbol}{abs(amount):,.{places}f}&quot;
+    return &quot;-&quot; + text if amount &lt; 0 else text
+
+help(money)
+print(money(-5))</textarea></div>
+<p>Notice what the docstring doesn&rsquo;t say: nothing about <code>abs</code> or f-strings. Those are details of how it works, which the caller doesn&rsquo;t need. If you change how it works, the docstring should still be true.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>A good test for a docstring: could someone use the function correctly after reading only the <code>def</code> line and the docstring? If they&rsquo;d still need to read the code, the docstring isn&rsquo;t finished.</p></aside>
+<h2 id="contracts">Contracts</h2>
+<p>A docstring describes a <strong>contract</strong> between the function and its caller:</p>
+<ul>
+<li><strong>What the caller must provide.</strong> &ldquo;n must be a whole number of at least 0.&rdquo; These are the function&rsquo;s <strong>preconditions</strong>.</li>
+<li><strong>What the function promises in return.</strong> &ldquo;Returns the n-th Fibonacci number.&rdquo; These are its <strong>postconditions</strong>.</li>
+</ul>
+<p>If the caller keeps their side, the function must keep its side. If the caller breaks the contract, say by passing a negative number where the docstring asks for a positive one, the function doesn&rsquo;t have to behave sensibly. (Next week you&rsquo;ll learn to make a function check its preconditions and complain clearly.)</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d5-e5"><div class="pc-title">A contract in a docstring</div><textarea class="pc-src pc-code" hidden>def digit_sum(n):
+    &quot;&quot;&quot;Return the sum of the decimal digits of n.
+
+    n must be a whole number of at least 0.
+    &quot;&quot;&quot;
+    total = 0
+    while n &gt; 0:
+        total += n % 10
+        n //= 10
+    return total
+
+print(digit_sum(4096))</textarea></div>
+<p>Writing the contract down before you write the body is a powerful habit. It forces you to decide exactly what the function is for, and it tells you which cases to test.</p>
+<h2 id="examples-that-check-themselves">Examples that check themselves</h2>
+<p>Examples are often the clearest part of a docstring. Python has a standard way to write them, copied from what the interactive shell looks like: <code>&gt;&gt;&gt;</code> before the call, and the result on the next line.</p>
+<pre><code class="language-python">def initials(name):
+    &quot;&quot;&quot;Return the initials of a name, in capitals with full stops.
+
+    &gt;&gt;&gt; initials(&quot;ada lovelace&quot;)
+    'A.L.'
+    &gt;&gt;&gt; initials(&quot;Grace Brewster Hopper&quot;)
+    'G.B.H.'
+    &quot;&quot;&quot;
+</code></pre>
+<p>The result line is exactly what Python would show for that value: strings appear with their quotes, as <code>repr</code> writes them.</p>
+<p>The clever part: Python&rsquo;s <code>doctest</code> module can <strong>run</strong> these examples and check that the results match. If they don&rsquo;t, it tells you:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d5-e6"><div class="pc-title">Run the examples</div><textarea class="pc-src pc-code" hidden>import doctest
+
+def initials(name):
+    &quot;&quot;&quot;Return the initials of a name, in capitals with full stops.
+
+    &gt;&gt;&gt; initials(&quot;ada lovelace&quot;)
+    &#x27;A.L.&#x27;
+    &gt;&gt;&gt; initials(&quot;Grace Brewster Hopper&quot;)
+    &#x27;G.B.H.&#x27;
+    &quot;&quot;&quot;
+    result = &quot;&quot;
+    for part in name.split():
+        result += part[0].upper() + &quot;.&quot;
+    return result
+
+print(doctest.run_docstring_examples(initials, {&quot;initials&quot;: initials}, verbose=False))
+print(&quot;Examples checked&quot;)</textarea></div>
+<p>When every example passes, <code>doctest</code> prints nothing (and the <code>print</code> around it shows <code>None</code>). Now break the function, for instance remove <code>.upper()</code>, and run it again: <code>doctest</code> shows the failing example, what was expected, and what it got.</p>
+<p>In a normal Python file you&rsquo;d usually write <code>doctest.testmod()</code> at the bottom, which checks every docstring in the file at once.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Examples in a docstring do two jobs: they show people how to use the function, and with <code>doctest</code> they prove the documentation is still true.</p></aside>
+<h2 id="comments-versus-docstrings">Comments versus docstrings</h2>
+<p>Both are text for people, but they have different jobs:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Docstring</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Starts with</td>
+<td>triple quotes, first in the body</td>
+<td><code>#</code>, anywhere</td>
+</tr>
+<tr>
+<td>Explains</td>
+<td><strong>what</strong> the function does and how to use it</td>
+<td><strong>why</strong> a piece of code is written the way it is</td>
+</tr>
+<tr>
+<td>Read by</td>
+<td>users of the function, and <code>help()</code></td>
+<td>people reading or changing the code</td>
+</tr>
+</tbody>
+</table>
+<div class="pc pc-example" data-kind="example" data-id="w006d5-e7"><textarea class="pc-src pc-code" hidden>def is_leap(year):
+    &quot;&quot;&quot;Return True if year is a leap year in the Gregorian calendar.&quot;&quot;&quot;
+    # Century years are only leap years when they divide by 400:
+    # 2000 was a leap year, 1900 was not.
+    return (year % 4 == 0 and year % 100 != 0) or year % 400 == 0</textarea></div>
+<p>The comment explains a surprising rule to someone reading the code. The docstring tells a user what they get.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Comments that repeat the code add nothing: <code>i += 1  # add one to i</code>. Comment the <strong>why</strong>, not the <strong>what</strong>.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d5-add_docstrings" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Document them</div><div class="pc-prompt"><p>Add a one-line docstring to each function, saying what it returns. Each must be a command ending with a full stop, like <code>"""Return ..."""</code>.</p></div><textarea class="pc-src pc-code" hidden>def area(width, height):
+    return width * height
+
+def is_vowel(ch):
+    return ch.lower() in &quot;aeiou&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_docs():
+    &quot;both have docstrings&quot;
+    for f in [area, is_vowel]:
+        d = f.__doc__
+        assert d, f.__name__ + &quot; has no docstring. It must be the first line of the body.&quot;
+        first = d.strip().splitlines()[0]
+        assert first.startswith(&quot;Return&quot;) and first.endswith(&quot;.&quot;), f&quot;Start {f.__name__}&#x27;s summary with &#x27;Return&#x27; and end it with a full stop: {first!r}&quot;
+def test_still_work():
+    &quot;the functions still work&quot;
+    assert area(3, 4) == 12 and is_vowel(&quot;E&quot;) and not is_vowel(&quot;x&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def area(width, height):
+    &quot;&quot;&quot;Return the area of a rectangle.&quot;&quot;&quot;
+    return width * height
+
+def is_vowel(ch):
+    &quot;&quot;&quot;Return True if ch is a vowel, in either case.&quot;&quot;&quot;
+    return ch.lower() in &quot;aeiou&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d5-from_doc" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Write it from its docstring</div><div class="pc-prompt"><p>Here is a docstring with no body. Write the body so that the function keeps every promise in the docstring.</p></div><textarea class="pc-src pc-code" hidden>def clamp(value, low, high):
+    &quot;&quot;&quot;Return value, limited to the range low to high.
+
+    If value is below low, return low. If it is above high, return high.
+    Otherwise return value unchanged. low must not be greater than high.
+
+    &gt;&gt;&gt; clamp(5, 0, 10)
+    5
+    &gt;&gt;&gt; clamp(-3, 0, 10)
+    0
+    &gt;&gt;&gt; clamp(99, 0, 10)
+    10
+    &quot;&quot;&quot;
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;keeps the contract&quot;
+    for v, lo, hi, want in [(5, 0, 10, 5), (-3, 0, 10, 0), (99, 0, 10, 10), (0, 0, 10, 0), (10, 0, 10, 10), (7, 7, 7, 7)]:
+        assert clamp(v, lo, hi) == want, f&quot;clamp({v}, {lo}, {hi}) should be {want}.&quot;
+def test_doctest():
+    &quot;the docstring&#x27;s examples pass&quot;
+    import doctest
+    r = doctest.run_docstring_examples(clamp, {&quot;clamp&quot;: clamp}, verbose=False)
+    assert clamp.__doc__ and &quot;&gt;&gt;&gt; clamp(5, 0, 10)&quot; in clamp.__doc__, &quot;Keep the docstring as it is.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def clamp(value, low, high):
+    &quot;&quot;&quot;Return value, limited to the range low to high.
+
+    If value is below low, return low. If it is above high, return high.
+    Otherwise return value unchanged. low must not be greater than high.
+
+    &gt;&gt;&gt; clamp(5, 0, 10)
+    5
+    &gt;&gt;&gt; clamp(-3, 0, 10)
+    0
+    &gt;&gt;&gt; clamp(99, 0, 10)
+    10
+    &quot;&quot;&quot;
+    if value &lt; low:
+        return low
+    if value &gt; high:
+        return high
+    return value</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d5-write_examples" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Write the examples</div><div class="pc-prompt"><p><code>reverse_words</code> works, but its docstring has no examples. Add <strong>at least two</strong> doctest examples to its docstring (lines starting with <code>&gt;&gt;&gt;</code>, each followed by the exact result), one of them with extra spaces in the input. The checks will run your examples, so they must be right.</p></div><textarea class="pc-src pc-code" hidden>def reverse_words(sentence):
+    &quot;&quot;&quot;Return the words of sentence in reverse order, separated by single spaces.
+    &quot;&quot;&quot;
+    words = sentence.split()
+    result = &quot;&quot;
+    for w in words:
+        result = w if result == &quot;&quot; else w + &quot; &quot; + result
+    return result</textarea><textarea class="pc-src pc-tests" hidden>def test_examples():
+    &quot;has at least two examples, and they pass&quot;
+    import doctest
+    doc = reverse_words.__doc__ or &quot;&quot;
+    assert doc.count(&quot;&gt;&gt;&gt; &quot;) &gt;= 2, &quot;Add at least two examples, each on a line starting with &gt;&gt;&gt; .&quot;
+    finder = doctest.DocTestFinder()
+    runner = doctest.DocTestRunner(verbose=False)
+    for t in finder.find(reverse_words, &quot;reverse_words&quot;, globs={&quot;reverse_words&quot;: reverse_words}):
+        runner.run(t, out=lambda s: None)
+    assert runner.failures == 0, &quot;One of your examples doesn&#x27;t match what the function returns. Strings are shown with quotes.&quot;
+def test_spaces():
+    &quot;one example has extra spaces&quot;
+    import re
+    calls = re.findall(r&quot;&gt;&gt;&gt; reverse_words\((.*)\)&quot;, reverse_words.__doc__ or &quot;&quot;)
+    assert any(&quot;  &quot; in c for c in calls), &quot;Make one example use extra spaces, like &#x27;  a   b &#x27;.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def reverse_words(sentence):
+    &quot;&quot;&quot;Return the words of sentence in reverse order, separated by single spaces.
+
+    &gt;&gt;&gt; reverse_words(&quot;one two three&quot;)
+    &#x27;three two one&#x27;
+    &gt;&gt;&gt; reverse_words(&quot;  hello    world &quot;)
+    &#x27;world hello&#x27;
+    &quot;&quot;&quot;
+    words = sentence.split()
+    result = &quot;&quot;
+    for w in words:
+        result = w if result == &quot;&quot; else w + &quot; &quot; + result
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d5-contract" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">State the contract</div><div class="pc-prompt"><p>Write a docstring for <code>average_of</code> that has a summary line, then a line starting <code>numbers:</code> describing what the argument must be (a string of whole numbers separated by spaces, with at least one number), and a line starting <code>Returns</code> describing the result. Then write the body.</p></div><textarea class="pc-src pc-code" hidden>def average_of(numbers):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_doc():
+    &quot;the docstring has the three parts&quot;
+    d = average_of.__doc__ or &quot;&quot;
+    lines = [l.strip() for l in d.strip().splitlines()]
+    assert lines and lines[0].endswith(&quot;.&quot;), &quot;Start with a one-line summary ending in a full stop.&quot;
+    assert any(l.startswith(&quot;numbers:&quot;) for l in lines), &quot;Add a line starting &#x27;numbers:&#x27;.&quot;
+    assert any(l.startswith(&quot;Returns&quot;) for l in lines), &quot;Add a line starting &#x27;Returns&#x27;.&quot;
+def test_values():
+    &quot;the function works&quot;
+    assert average_of(&quot;4 8 15 16 23 42&quot;) == 18.0
+    assert average_of(&quot;7&quot;) == 7.0</textarea><textarea class="pc-src pc-solution" hidden>def average_of(numbers):
+    &quot;&quot;&quot;Return the mean of some whole numbers.
+
+    numbers: a string of whole numbers separated by spaces, with at least one number.
+    Returns the average as a float.
+    &quot;&quot;&quot;
+    pieces = numbers.split()
+    total = 0
+    for p in pieces:
+        total += int(p)
+    return total / len(pieces)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d5-comment_why" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A comment that explains why</div><div class="pc-prompt"><p>This function is correct but puzzling. Add a docstring that says what it returns, and <strong>one</strong> comment line (starting with <code>#</code>) above the <code>return</code> that explains <strong>why</strong> it adds 9 before dividing. The checks look for both.</p></div><textarea class="pc-src pc-code" hidden>def pages_needed(lines, per_page=10):
+    return (lines + per_page - 1) // per_page</textarea><textarea class="pc-src pc-tests" hidden>def test_doc_and_comment():
+    &quot;a docstring and a why-comment&quot;
+    assert pages_needed.__doc__, &quot;Add a docstring.&quot;
+    assert &quot;#&quot; in source, &quot;Add a comment explaining the + per_page - 1.&quot;
+    assert pages_needed(0) == 0 and pages_needed(1) == 1 and pages_needed(10) == 1 and pages_needed(11) == 2</textarea><textarea class="pc-src pc-solution" hidden>def pages_needed(lines, per_page=10):
+    &quot;&quot;&quot;Return how many pages are needed to print lines lines, per_page to a page.&quot;&quot;&quot;
+    # Adding per_page - 1 before dividing rounds up, so a part-full page still counts.
+    return (lines + per_page - 1) // per_page</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The missing docstring</div><div class="pc-prompt"><p><code>help(tidy)</code> shows no description, even though the function seems to have one. Fix it without changing what the function does.</p></div><textarea class="pc-src pc-code" hidden>def tidy(text):
+    text = &quot; &quot;.join(text.split())
+    &quot;&quot;&quot;Return text with runs of whitespace replaced by single spaces.&quot;&quot;&quot;
+    return text</textarea><textarea class="pc-src pc-tests" hidden>def test_doc():
+    &quot;the docstring is found&quot;
+    assert tidy.__doc__ and &quot;single spaces&quot; in tidy.__doc__, &quot;The docstring must be the first statement in the body.&quot;
+    assert tidy(&quot;  a   b &quot;) == &quot;a b&quot;</textarea><textarea class="pc-src pc-solution" hidden>def tidy(text):
+    &quot;&quot;&quot;Return text with runs of whitespace replaced by single spaces.&quot;&quot;&quot;
+    text = &quot; &quot;.join(text.split())
+    return text</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The docstring lies</div><div class="pc-prompt"><p><code>doctest</code> reports a failure in this function&rsquo;s examples. The function is right; one of the documented examples is wrong. Fix the docstring.</p></div><textarea class="pc-src pc-code" hidden>def squares_sum(n):
+    &quot;&quot;&quot;Return 1 squared + 2 squared + ... + n squared.
+
+    &gt;&gt;&gt; squares_sum(3)
+    14
+    &gt;&gt;&gt; squares_sum(4)
+    20
+    &quot;&quot;&quot;
+    total = 0
+    for k in range(1, n + 1):
+        total += k * k
+    return total</textarea><textarea class="pc-src pc-tests" hidden>def test_doctest():
+    &quot;every example passes&quot;
+    import doctest
+    runner = doctest.DocTestRunner(verbose=False)
+    for t in doctest.DocTestFinder().find(squares_sum, &quot;squares_sum&quot;, globs={&quot;squares_sum&quot;: squares_sum}):
+        runner.run(t, out=lambda s: None)
+    assert runner.failures == 0, &quot;An example still doesn&#x27;t match. Work out 1 + 4 + 9 + 16.&quot;
+    assert squares_sum(4) == 30, &quot;Don&#x27;t change the function; it&#x27;s correct.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def squares_sum(n):
+    &quot;&quot;&quot;Return 1 squared + 2 squared + ... + n squared.
+
+    &gt;&gt;&gt; squares_sum(3)
+    14
+    &gt;&gt;&gt; squares_sum(4)
+    30
+    &quot;&quot;&quot;
+    total = 0
+    for k in range(1, n + 1):
+        total += k * k
+    return total</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d5-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Quotes in the example</div><div class="pc-prompt"><p>The example in this docstring fails, although the function is right and the words are right. Find the difference between what Python shows and what the docstring says.</p></div><textarea class="pc-src pc-code" hidden>def shout(text):
+    &quot;&quot;&quot;Return text in capitals with three exclamation marks.
+
+    &gt;&gt;&gt; shout(&quot;hi&quot;)
+    HI!!!
+    &quot;&quot;&quot;
+    return text.upper() + &quot;!!!&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_doctest():
+    &quot;the example passes&quot;
+    import doctest
+    runner = doctest.DocTestRunner(verbose=False)
+    for t in doctest.DocTestFinder().find(shout, &quot;shout&quot;, globs={&quot;shout&quot;: shout}):
+        runner.run(t, out=lambda s: None)
+    assert runner.failures == 0, &quot;Strings returned at the &gt;&gt;&gt; prompt are shown with their quotes.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def shout(text):
+    &quot;&quot;&quot;Return text in capitals with three exclamation marks.
+
+    &gt;&gt;&gt; shout(&quot;hi&quot;)
+    &#x27;HI!!!&#x27;
+    &quot;&quot;&quot;
+    return text.upper() + &quot;!!!&quot;</textarea></div>
+<div class="parsons" data-id="w006d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">A documented function</div><div class="pc-prompt"><p>Arrange the lines into a function with a docstring in the right place. One line is a trap.</p></div><script type="application/json">{"lines": ["def cube(n):", "    \"\"\"Return n cubed.\"\"\"", "    return n ** 3", "print(cube(3))"], "distractors": ["    # Return n cubed."]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">What do they print?</div><div class="pc-prompt"><p>Work out what each line prints.</p>
+<pre><code class="language-python">def a():
+    &quot;Say hello.&quot;
+    return &quot;hello&quot;
+
+def b():
+    x = 1
+    &quot;Not a docstring.&quot;
+    return x
+
+print(a.__doc__)    # line 1
+print(b.__doc__)    # line 2
+print(a())          # line 3
+</code></pre></div><textarea class="pc-src pc-code" hidden>line_1 = &quot;___&quot;
+line_2 = &quot;___&quot;
+line_3 = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_lines():
+    &quot;each line&quot;
+    assert line_1 == &quot;Say hello.&quot;, &quot;A docstring can use single quotes too, if it&#x27;s first.&quot;
+    assert line_2 == &quot;None&quot;, &quot;In b, the string isn&#x27;t the first statement.&quot;
+    assert line_3 == &quot;hello&quot;</textarea><textarea class="pc-src pc-solution" hidden>line_1 = &quot;Say hello.&quot;
+line_2 = &quot;None&quot;
+line_3 = &quot;hello&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w006d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "Where must a docstring go?", "answer": 2, "explain": "Otherwise it&rsquo;s just an unused string.", "options": ["Above the def line", "Anywhere in the body", "As the first statement in the body", "At the end of the function"]}, {"type": "mc", "q": "How do you read a function&rsquo;s docstring?", "answer": 1, "explain": "Both show the stored string.", "options": ["<code>f.doc()</code>", "<code>help(f)</code> or <code>f.__doc__</code>", "<code>print(f)</code>", "<code>doc(f)</code>"]}, {"type": "mc", "q": "What should a docstring&rsquo;s first line be?", "answer": 1, "explain": "Like &lsquo;Return the area of a rectangle.&rsquo;", "options": ["The author&rsquo;s name", "A one-line summary written as a command, ending with a full stop", "The parameters", "The date"]}, {"type": "mc", "q": "What does a docstring describe?", "answer": 1, "explain": "Comments explain how and why; docstrings explain what.", "options": ["How the code works inside", "What the function does and how to use it", "The history of the code", "Nothing important"]}, {"type": "mc", "q": "What is a precondition?", "answer": 1, "explain": "Like &lsquo;n must be at least 0&rsquo;.", "options": ["Something the function promises", "Something the caller must make true before calling", "A comment", "A default value"]}, {"type": "mc", "q": "In a doctest example, how is a returned string shown?", "answer": 1, "explain": "&lsquo;HI!!!&rsquo;, not HI!!!.", "options": ["Without quotes", "With quotes, as repr shows it", "In capitals", "It can&rsquo;t be"]}, {"type": "mc", "q": "What does doctest print when every example passes?", "answer": 1, "explain": "Silence means success.", "options": ["OK", "Nothing", "The examples", "True"]}, {"type": "mc", "q": "Which comment is worth writing?", "answer": 1, "explain": "It explains why, not what.", "options": ["<code>i += 1  # add 1 to i</code>", "<code># Round up so a part-full page still counts</code>", "<code># function</code>", "<code># end of loop</code>"]}, {"type": "text", "q": "What does <code>f.__doc__</code> give for a function with no docstring?", "answer": "None", "explain": "There&rsquo;s nothing stored."}, {"type": "mc", "q": "What does PEP 257 describe?", "answer": 1, "explain": "Python&rsquo;s docstring conventions.", "options": ["How to name variables", "Conventions for docstrings", "How to install Python", "How to write loops"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a documented toolkit</div><div class="pc-prompt"><p>Write three text functions. Each must have a docstring with a summary line and <strong>at least two doctest examples</strong>, and every example must pass:</p>
+<ul>
+<li><code>word_count(text)</code> returns the number of words (separated by any whitespace).</li>
+<li><code>title_case(text)</code> returns the text with each word&rsquo;s first letter in capitals and the rest in lower case, words joined by single spaces, without using <code>.title()</code> or <code>.capitalize()</code>.</li>
+<li><code>is_pangram(text)</code> returns <code>True</code> if the text contains every letter a to z, ignoring case.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>def word_count(text):
+    ___
+
+def title_case(text):
+    ___
+
+def is_pangram(text):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>import doctest
+def run_doc(f):
+    runner = doctest.DocTestRunner(verbose=False)
+    tests = doctest.DocTestFinder().find(f, f.__name__, globs={f.__name__: f})
+    n = 0
+    for t in tests:
+        n += len(t.examples)
+        runner.run(t, out=lambda s: None)
+    return n, runner.failures
+def test_docs():
+    &quot;every function has at least two passing examples&quot;
+    for f in [word_count, title_case, is_pangram]:
+        assert f.__doc__, f.__name__ + &quot; needs a docstring.&quot;
+        n, fails = run_doc(f)
+        assert n &gt;= 2, f.__name__ + &quot; needs at least two &gt;&gt;&gt; examples.&quot;
+        assert fails == 0, f.__name__ + &quot;: one of its examples doesn&#x27;t match what it returns.&quot;
+def test_behaviour():
+    &quot;the functions work&quot;
+    assert word_count(&quot;  the quick   brown fox &quot;) == 4 and word_count(&quot;&quot;) == 0
+    assert title_case(&quot;tHE   QUICK brown&quot;) == &quot;The Quick Brown&quot;
+    assert is_pangram(&quot;The quick brown fox jumps over the lazy dog&quot;) is True
+    assert is_pangram(&quot;hello&quot;) is False
+    assert &quot;.title(&quot; not in source and &quot;.capitalize(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def word_count(text):
+    &quot;&quot;&quot;Return the number of words in text.
+
+    &gt;&gt;&gt; word_count(&quot;the quick brown fox&quot;)
+    4
+    &gt;&gt;&gt; word_count(&quot;   &quot;)
+    0
+    &quot;&quot;&quot;
+    return len(text.split())
+
+def title_case(text):
+    &quot;&quot;&quot;Return text with each word capitalised, joined by single spaces.
+
+    &gt;&gt;&gt; title_case(&quot;hello world&quot;)
+    &#x27;Hello World&#x27;
+    &gt;&gt;&gt; title_case(&quot;  pYTHON   atlas &quot;)
+    &#x27;Python Atlas&#x27;
+    &quot;&quot;&quot;
+    result = &quot;&quot;
+    for word in text.split():
+        word = word[0].upper() + word[1:].lower()
+        result = word if result == &quot;&quot; else result + &quot; &quot; + word
+    return result
+
+def is_pangram(text):
+    &quot;&quot;&quot;Return True if text contains every letter from a to z, ignoring case.
+
+    &gt;&gt;&gt; is_pangram(&quot;The quick brown fox jumps over the lazy dog&quot;)
+    True
+    &gt;&gt;&gt; is_pangram(&quot;Hello, world&quot;)
+    False
+    &quot;&quot;&quot;
+    lower = text.lower()
+    for letter in &quot;abcdefghijklmnopqrstuvwxyz&quot;:
+        if letter not in lower:
+            return False
+    return True</textarea></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Choose a function you wrote this week and give it a full docstring: a summary, its contract, and two examples. Run its examples with <code>doctest</code>. Tomorrow is the Forge: a program built entirely from small, documented functions, plus the weekly quiz.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w006d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w006d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w006d5", "week": 6, "day": 5, "title": "Docstrings", "exercises": [{"id": "w006d5-add_docstrings", "title": "Document them", "points": 10}, {"id": "w006d5-from_doc", "title": "Write it from its docstring", "points": 15}, {"id": "w006d5-write_examples", "title": "Write the examples", "points": 15}, {"id": "w006d5-contract", "title": "State the contract", "points": 10}, {"id": "w006d5-comment_why", "title": "A comment that explains why", "points": 10}, {"id": "w006d5-bug1", "title": "The missing docstring", "points": 10}, {"id": "w006d5-bug2", "title": "The docstring lies", "points": 10}, {"id": "w006d5-bug3", "title": "Quotes in the example", "points": 10}, {"id": "w006d5-trace", "title": "What do they print?", "points": 15}, {"id": "w006d5-challenge", "title": "Challenge: a documented toolkit", "points": 25}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

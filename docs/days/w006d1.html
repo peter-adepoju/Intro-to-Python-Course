@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="79df9b909c">
+<title>Week 6 Day 1: Defining functions | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=79df9b909c">
+<link rel="stylesheet" href="../assets/css/site.css?v=79df9b909c">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=79df9b909c"></script>
+<script src="../assets/vendor/codemirror.js?v=79df9b909c" defer></script>
+<meta name="description" content="Remember writing the prime test out twice for Goldbach’s conjecture, and wishing you could give it a name? Today you can. A function is a named block of...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w006d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 6 Day 1: Defining functions">
+<meta property="og:description" content="Remember writing the prime test out twice for Goldbach’s conjecture, and wishing you could give it a name? Today you can. A function is a named block of...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w006d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-6">Week 6: Functions I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#why-functions" data-sec="why-functions">Why functions?</a></li><li><a href="#def-defining-a-function" data-sec="def-defining-a-function">def: defining a function</a></li><li><a href="#defining-is-not-running" data-sec="defining-is-not-running">Defining is not running</a></li><li><a href="#a-first-parameter" data-sec="a-first-parameter">A first parameter</a></li><li><a href="#functions-calling-functions" data-sec="functions-calling-functions">Functions calling functions</a></li><li><a href="#removing-repetition" data-sec="removing-repetition">Removing repetition</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 6, Day 1</span></p>
+      <h1>Defining functions</h1>
+      <div class="day-intro"><p>Remember writing the prime test out twice for Goldbach&rsquo;s conjecture, and wishing you could give it a name? Today you can. A function is a named block of code you write once and run whenever you like. It&rsquo;s the most important tool for organising programs, and from today on, you&rsquo;ll use it in almost everything you write.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Define a function with <code>def</code> and call it as often as you like</li><li>Explain the difference between defining a function and calling it, and the order Python runs them in</li><li>Give a function a parameter, so each call can work on a different value</li><li>Watch a function call in X-ray, with its new frame, the jump in and the jump back</li><li>Replace repeated code with a function, and build bigger functions out of smaller ones</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Why functions, and def: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Defining is not running: the order of execution: 30 min"></span><span class="plan-seg s1" style="flex:25" title="A first parameter: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Functions calling functions; removing repetition: 25 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Why functions, and def</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Defining is not running: the order of execution</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">A first parameter</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Functions calling functions; removing repetition</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w006d1.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d1-p1"><textarea class="pc-src pc-code" hidden>for _ in range(2):
+    print(&quot;=&quot; * 10)
+    print(&quot;Hello&quot;)
+print(&quot;=&quot; * 10)</textarea></div>
+<p>You&rsquo;ve been using functions since your first lesson: <code>print</code>, <code>len</code>, <code>input</code>, <code>int</code>, <code>range</code>. Someone else wrote them, gave them names, and you call them. Today you&rsquo;ll write your own.</p>
+<h2 id="why-functions">Why functions?</h2>
+<p>Last week&rsquo;s Goldbach challenge needed the prime test twice, so you wrote the same seven lines twice. That&rsquo;s a problem in three ways:</p>
+<ul>
+<li><strong>It&rsquo;s long.</strong> The program is twice as hard to read as it needs to be.</li>
+<li><strong>It&rsquo;s fragile.</strong> If you find a bug in the prime test, you must remember to fix it in both places.</li>
+<li><strong>It hides the idea.</strong> The program is about &ldquo;is p prime and is q prime&rdquo;, but you have to read fourteen lines to see that.</li>
+</ul>
+<p>A <strong>function</strong> solves all three. You write the code once, give it a name, and from then on the name stands for the code.</p>
+<h2 id="def-defining-a-function">def: defining a function</h2>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e2"><div class="pc-title">Your first function</div><textarea class="pc-src pc-code" hidden>def greet():
+    print(&quot;Hello!&quot;)
+    print(&quot;Welcome to Python Atlas.&quot;)
+
+greet()
+greet()</textarea></div>
+<p>The definition has four parts:</p>
+<pre><code class="language-python">def greet():
+    print(&quot;Hello!&quot;)
+</code></pre>
+<ol>
+<li>The keyword <code>def</code>, short for <em>define</em>.</li>
+<li>The function&rsquo;s <strong>name</strong>, following the same rules as variable names. Use a verb or a verb phrase: <code>greet</code>, <code>print_menu</code>, <code>check_answer</code>.</li>
+<li>Brackets <code>()</code> and a colon. (The brackets will soon hold parameters.)</li>
+<li>An indented <strong>body</strong>: the code the function runs.</li>
+</ol>
+<p>Then, to run the body, you <strong>call</strong> the function by writing its name followed by brackets: <code>greet()</code>. Each call runs the whole body once.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>def</code> creates a function but doesn&rsquo;t run it. Calling it, with brackets, runs its body.</p></aside>
+<h2 id="defining-is-not-running">Defining is not running</h2>
+<p>This trips everyone up at first, so slow down. Predict the output before you run it:</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d1-p3"><textarea class="pc-src pc-code" hidden>print(&quot;A&quot;)
+def show():
+    print(&quot;B&quot;)
+print(&quot;C&quot;)
+show()
+print(&quot;D&quot;)
+show()</textarea></div>
+<p>Python reads the program top to bottom as always. When it reaches <code>def show():</code>, it doesn&rsquo;t run the body: it just remembers it under the name <code>show</code>. Only when it reaches <code>show()</code> does it jump into the body, run it, and then jump <strong>back</strong> to where the call was and carry on.</p>
+<p>Press X-ray on this one and step slowly. Watch three things:</p>
+<ul>
+<li>At the <code>def</code> line, a new name <code>show</code> appears, pointing at a <strong>function</strong> object.</li>
+<li>At each call, a new box appears in the names panel: a <strong>frame</strong> for the function, where its own names will live.</li>
+<li>When the body finishes, the frame disappears and the yellow line returns to just after the call.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e4"><div class="pc-title">X-ray me</div><textarea class="pc-src pc-code" hidden>def line():
+    print(&quot;-&quot; * 20)
+
+line()
+print(&quot;Report&quot;)
+line()</textarea></div>
+<h3 id="define-before-you-call">Define before you call</h3>
+<p>Because Python runs top to bottom, a function must be defined <strong>before</strong> the line that calls it runs:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e5"><textarea class="pc-src pc-code" hidden>hello()
+def hello():
+    print(&quot;hi&quot;)</textarea></div>
+<p><code>NameError: name 'hello' is not defined</code>: at the moment of the call, Python hasn&rsquo;t reached the <code>def</code> yet. The usual layout is: all the function definitions first, then the main program that calls them.</p>
+<h3 id="forgetting-the-brackets">Forgetting the brackets</h3>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e6"><div class="pc-title">No brackets, no call</div><textarea class="pc-src pc-code" hidden>def greet():
+    print(&quot;Hello!&quot;)
+
+greet
+print(greet)</textarea></div>
+<p><code>greet</code> on its own is just the name of the function, like a label on a box you haven&rsquo;t opened. Without <code>()</code>, nothing runs. Printing it shows what the label points at: a function object. (You&rsquo;ll do clever things with that in Week 7.)</p>
+<h2 id="a-first-parameter">A first parameter</h2>
+<p>A function that does exactly the same thing every time is useful, but limited. A <strong>parameter</strong> is a name in the brackets that receives a value each time the function is called:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e7"><textarea class="pc-src pc-code" hidden>def greet(name):
+    print(f&quot;Hello, {name}!&quot;)
+
+greet(&quot;Ada&quot;)
+greet(&quot;Grace&quot;)
+greet(&quot;Alan&quot;)</textarea></div>
+<p>When you call <code>greet("Ada")</code>, Python makes the parameter <code>name</code> point at <code>"Ada"</code> for the duration of that call. The value in the call, <code>"Ada"</code>, is called an <strong>argument</strong>. The next call gives <code>name</code> a different value. In X-ray, watch <code>name</code> appear inside each new frame.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e8"><div class="pc-title">A box around any text</div><textarea class="pc-src pc-code" hidden>def box(text):
+    print(&quot;+&quot; + &quot;-&quot; * (len(text) + 2) + &quot;+&quot;)
+    print(&quot;| &quot; + text + &quot; |&quot;)
+    print(&quot;+&quot; + &quot;-&quot; * (len(text) + 2) + &quot;+&quot;)
+
+box(&quot;Python Atlas&quot;)
+box(&quot;Week 6&quot;)</textarea></div>
+<p>Tomorrow is all about parameters: several of them, defaults, and naming arguments in the call.</p>
+<h2 id="functions-calling-functions">Functions calling functions</h2>
+<p>A function&rsquo;s body can call other functions, including ones you wrote. This is how big programs are built: small functions combined into bigger ones.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e9"><div class="pc-title">Building up</div><textarea class="pc-src pc-code" hidden>def stars(n):
+    print(&quot;*&quot; * n)
+
+def triangle(size):
+    for row in range(1, size + 1):
+        stars(row)
+
+triangle(4)</textarea></div>
+<p>Step through it in X-ray. When <code>triangle</code> calls <code>stars</code>, a second frame appears <strong>on top of</strong> the first. Python keeps a stack of frames, one for each call in progress. When <code>stars</code> finishes, its frame is removed and Python returns to exactly where it was in <code>triangle</code>. This stack of calls is called the <strong>call stack</strong>, and you&rsquo;ll meet it again in error messages, which show you the stack at the moment something went wrong.</p>
+<h2 id="removing-repetition">Removing repetition</h2>
+<p>The most common reason to write a function is that you&rsquo;ve spotted the same lines appearing more than once. Here&rsquo;s a program with repetition:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e10"><div class="pc-title">Before</div><textarea class="pc-src pc-code" hidden>print(&quot;=&quot; * 30)
+print(&quot;MONDAY&quot;.center(30))
+print(&quot;=&quot; * 30)
+print(&quot;Maths, then English&quot;)
+print(&quot;=&quot; * 30)
+print(&quot;TUESDAY&quot;.center(30))
+print(&quot;=&quot; * 30)
+print(&quot;Science, then Art&quot;)</textarea></div>
+<p>And after, with a function for the part that repeats:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d1-e11"><div class="pc-title">After</div><textarea class="pc-src pc-code" hidden>def heading(title):
+    print(&quot;=&quot; * 30)
+    print(title.upper().center(30))
+    print(&quot;=&quot; * 30)
+
+heading(&quot;Monday&quot;)
+print(&quot;Maths, then English&quot;)
+heading(&quot;Tuesday&quot;)
+print(&quot;Science, then Art&quot;)</textarea></div>
+<p>Now the width or the style of every heading can be changed in one place. This idea has a name in programming: <strong>DRY</strong>, &ldquo;don&rsquo;t repeat yourself&rdquo;.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>When you&rsquo;re about to copy and paste a few lines and change one thing, stop. Make a function, and make the thing that changes a parameter.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-hello" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Your own function</div><div class="pc-prompt"><p>Define a function <code>welcome</code> that prints two lines, <code>Welcome!</code> and <code>Let's begin.</code>. Then call it twice.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the lines twice&quot;
+    expect_output(&quot;Welcome!\nLet&#x27;s begin.\nWelcome!\nLet&#x27;s begin.&quot;)
+def test_function():
+    &quot;welcome is a function that&#x27;s called twice&quot;
+    assert callable(welcome), &quot;Define a function called welcome.&quot;
+    import re
+    assert len(re.findall(r&quot;^\s*welcome\(\)\s*$&quot;, source, re.M)) == 2, &quot;Call welcome() twice.&quot;
+    assert source.count(&quot;print(&quot;) == 2, &quot;The two print lines belong inside the function.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def welcome():
+    print(&quot;Welcome!&quot;)
+    print(&quot;Let&#x27;s begin.&quot;)
+
+welcome()
+welcome()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-line" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A line of any length</div><div class="pc-prompt"><p>Define a function <code>line(n)</code> that prints <code>n</code> dashes. Then use it to print lines of 5, 10 and 3 dashes.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three lines&quot;
+    expect_output(&quot;-----\n----------\n---&quot;)
+def test_function():
+    &quot;line works for other lengths&quot;
+    assert callable(line), &quot;Define a function called line.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def line(n):
+    print(&quot;-&quot; * n)
+
+line(5)
+line(10)
+line(3)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-shout" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Shout it</div><div class="pc-prompt"><p>Define a function <code>shout(message)</code> that prints the message in capitals followed by <code>!!!</code>. Ask for a message with the prompt <code>Message:</code> and pass it to <code>shout</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_input():
+    &quot;shouts the typed message&quot;
+    expect_output(&quot;Message: hello\nHELLO!!!&quot;, inputs=[&quot;hello&quot;], echo=True)
+def test_function():
+    &quot;shout is a function&quot;
+    assert callable(shout), &quot;Define a function called shout with one parameter.&quot;
+    assert &quot;def shout(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def shout(message):
+    print(message.upper() + &quot;!!!&quot;)
+
+text = input(&quot;Message: &quot;)
+shout(text)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-order" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">In the right order</div><div class="pc-prompt"><p>This program crashes. Without changing any line, only moving lines, make it print the menu.</p></div><textarea class="pc-src pc-code" hidden>print_menu()
+
+def print_menu():
+    print(&quot;1. Play&quot;)
+    print(&quot;2. Quit&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the menu&quot;
+    expect_output(&quot;1. Play\n2. Quit&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def print_menu():
+    print(&quot;1. Play&quot;)
+    print(&quot;2. Quit&quot;)
+
+print_menu()</textarea><template class="pc-src pc-hint">A function must be defined before the line that calls it runs.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-heading" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Headings</div><div class="pc-prompt"><p>Define a function <code>heading(title)</code> that prints a line of 20 <code>#</code>, then the title centred in 20 characters, then another line of 20 <code>#</code>. Use it for the headings <code>Fruit</code> and <code>Vegetables</code>, with <code>apple, mango</code> printed after the first and <code>yam, okra</code> after the second.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;two headings&quot;
+    h = lambda t: &quot;#&quot; * 20 + &quot;\n&quot; + t.center(20) + &quot;\n&quot; + &quot;#&quot; * 20
+    expect_output(h(&quot;Fruit&quot;) + &quot;\napple, mango\n&quot; + h(&quot;Vegetables&quot;) + &quot;\nyam, okra&quot;)
+def test_function():
+    &quot;uses the function twice&quot;
+    assert callable(heading)
+    assert source.count(&quot;heading(&quot;) &gt;= 3, &quot;Define heading once and call it twice.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def heading(title):
+    print(&quot;#&quot; * 20)
+    print(title.center(20))
+    print(&quot;#&quot; * 20)
+
+heading(&quot;Fruit&quot;)
+print(&quot;apple, mango&quot;)
+heading(&quot;Vegetables&quot;)
+print(&quot;yam, okra&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-square" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Squares from rows</div><div class="pc-prompt"><p>Define a function <code>row(n)</code> that prints <code>n</code> stars followed by nothing else, and a function <code>square(size)</code> that prints a square of stars by calling <code>row</code> once for each line. Ask for a size with the prompt <code>Size:</code> and draw the square.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_3():
+    &quot;size 3&quot;
+    expect_output(&quot;Size: 3\n***\n***\n***&quot;, inputs=[&quot;3&quot;], echo=True)
+def test_functions():
+    &quot;two functions, one calling the other&quot;
+    assert callable(row) and callable(square), &quot;Define both row and square.&quot;
+    body = source[source.find(&quot;def square&quot;):]
+    assert &quot;row(&quot; in body, &quot;square should call row.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def row(n):
+    print(&quot;*&quot; * n)
+
+def square(size):
+    for _ in range(size):
+        row(size)
+
+n = int(input(&quot;Size: &quot;))
+square(n)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-dry" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Don&rsquo;t repeat yourself</div><div class="pc-prompt"><p>This program prints a receipt line for three items, repeating the same formatting each time. Add a function <code>item(name, price)</code> and rewrite the program so the formatting appears only once. The output must not change.</p>
+<p>(A function can have two parameters, separated by a comma. Tomorrow is all about that.)</p></div><textarea class="pc-src pc-code" hidden>print(f&quot;{&#x27;Rice&#x27;:&lt;12}{8500:&gt;10,}&quot;)
+print(f&quot;{&#x27;Bread&#x27;:&lt;12}{950:&gt;10,}&quot;)
+print(f&quot;{&#x27;Palm oil&#x27;:&lt;12}{12000:&gt;10,}&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;same output&quot;
+    expect_output(&quot;Rice             8,500\nBread              950\nPalm oil        12,000&quot;)
+def test_function():
+    &quot;the format appears once&quot;
+    assert callable(item), &quot;Define item(name, price).&quot;
+    assert source.count(&quot;:&lt;12&quot;) == 1, &quot;The formatting should only appear inside the function.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def item(name, price):
+    print(f&quot;{name:&lt;12}{price:&gt;10,}&quot;)
+
+item(&quot;Rice&quot;, 8500)
+item(&quot;Bread&quot;, 950)
+item(&quot;Palm oil&quot;, 12000)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Nothing happens</div><div class="pc-prompt"><p>This should print a greeting, but it prints nothing. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def greet():
+    print(&quot;Good morning!&quot;)
+
+greet</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the greeting&quot;
+    expect_output(&quot;Good morning!&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def greet():
+    print(&quot;Good morning!&quot;)
+
+greet()</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Too much in the function</div><div class="pc-prompt"><p>The function should print a line of stars, and the program should print <code>Done</code> once at the end. Instead <code>Done</code> appears twice. Fix the indentation.</p></div><textarea class="pc-src pc-code" hidden>def stars():
+    print(&quot;*****&quot;)
+    print(&quot;Done&quot;)
+
+stars()
+stars()</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;Done once&quot;
+    expect_output(&quot;*****\n*****\nDone&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def stars():
+    print(&quot;*****&quot;)
+
+stars()
+stars()
+print(&quot;Done&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d1-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The missing argument</div><div class="pc-prompt"><p>This crashes with a <code>TypeError</code>. Read the error message, then fix the call.</p></div><textarea class="pc-src pc-code" hidden>def double(n):
+    print(n * 2)
+
+double()</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 14 for 7&quot;
+    expect_output(&quot;14&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def double(n):
+    print(n * 2)
+
+double(7)</textarea><template class="pc-src pc-hint">The function has a parameter, so the call must give it a value. Make it double 7.</template></div>
+<div class="parsons" data-id="w006d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Define, then call</div><div class="pc-prompt"><p>Arrange the lines: define a function <code>cheer(name)</code> that prints <code>Go,</code> and the name, then call it for <code>Ada</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["def cheer(name):", "    print(\"Go,\", name)", "cheer(\"Ada\")"], "distractors": ["def cheer(\"Ada\"):"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">In what order?</div><div class="pc-prompt"><p>Write the exact output of this program, with <code>\n</code> between lines.</p>
+<pre><code class="language-python">def a():
+    print(&quot;a1&quot;)
+    b()
+    print(&quot;a2&quot;)
+
+def b():
+    print(&quot;b&quot;)
+
+print(&quot;start&quot;)
+a()
+b()
+print(&quot;end&quot;)
+</code></pre></div><textarea class="pc-src pc-code" hidden>printed = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_out():
+    &quot;the output&quot;
+    assert printed.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;start\na1\nb\na2\nb\nend&quot;, &quot;Trace the calls: a calls b in the middle, and returns to finish its own body.&quot;</textarea><textarea class="pc-src pc-solution" hidden>printed = &quot;start\na1\nb\na2\nb\nend&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w006d1-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>def</code> do?", "answer": 1, "explain": "The body runs only when the function is called.", "options": ["Runs a function", "Creates a function without running it", "Deletes a function", "Prints a function"]}, {"type": "output", "q": "What does this print?", "answer": "start", "explain": "f is defined but never called.", "code": "def f():\n    print(\"in f\")\nprint(\"start\")"}, {"type": "mc", "q": "How do you call a function named <code>go</code>?", "answer": 1, "explain": "The brackets make the call.", "options": ["go", "go()", "call go", "def go()"]}, {"type": "mc", "q": "What happens if you call a function before its def line has run?", "answer": 1, "explain": "The name doesn&rsquo;t exist yet.", "options": ["It works", "NameError", "SyntaxError", "It runs later"]}, {"type": "output", "q": "What does this print?", "answer": "Hi Ada\nHi Bo", "explain": "Each call gives name a different value.", "code": "def hi(name):\n    print(\"Hi\", name)\nhi(\"Ada\")\nhi(\"Bo\")"}, {"type": "mc", "q": "In <code>greet(\"Ada\")</code>, what is &ldquo;Ada&rdquo;?", "answer": 1, "explain": "The value passed in the call is the argument; the name in the def is the parameter.", "options": ["A parameter", "An argument", "A function", "A frame"]}, {"type": "mc", "q": "What appears in X-ray when a function is called?", "answer": 1, "explain": "Each call gets its own frame on the call stack.", "options": ["Nothing", "A new frame for that call", "A new program", "An error"]}, {"type": "output", "q": "What does this print?", "answer": "1\n2\n3", "explain": "a calls b, b returns, a finishes, then the main program continues.", "code": "def a():\n    print(1)\n    b()\ndef b():\n    print(2)\na()\nprint(3)"}, {"type": "mc", "q": "What does DRY stand for?", "answer": 1, "explain": "Write each idea once.", "options": ["Do Repeat Yourself", "Don&rsquo;t Repeat Yourself", "Define, Run, Yield", "Debug Right Year"]}, {"type": "mc", "q": "Which is the best name for a function?", "answer": 2, "explain": "A verb phrase that says what it does.", "options": ["<code>x</code>", "<code>function1</code>", "<code>print_receipt</code>", "<code>Data</code>"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d1-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: Old MacDonald</div><div class="pc-prompt"><p>Write a function <code>verse(animal, sound)</code> that prints one verse of the song, like this for <code>cow</code> and <code>moo</code>:</p>
+<pre><code>Old MacDonald had a farm, E-I-E-I-O!
+And on that farm he had a cow, E-I-E-I-O!
+With a moo moo here and a moo moo there,
+Here a moo, there a moo, everywhere a moo moo.
+Old MacDonald had a farm, E-I-E-I-O!
+</code></pre>
+<p>Then print the verses for <code>cow</code>/<code>moo</code>, <code>duck</code>/<code>quack</code> and <code>pig</code>/<code>oink</code>, with a blank line between verses (but not after the last). The song&rsquo;s fixed first line should appear in your code only once.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def v(a, s):
+    return (f&quot;Old MacDonald had a farm, E-I-E-I-O!\nAnd on that farm he had a {a}, E-I-E-I-O!\n&quot;
+            f&quot;With a {s} {s} here and a {s} {s} there,\nHere a {s}, there a {s}, everywhere a {s} {s}.\n&quot;
+            &quot;Old MacDonald had a farm, E-I-E-I-O!&quot;)
+def test_song():
+    &quot;three verses&quot;
+    expect_output(v(&quot;cow&quot;, &quot;moo&quot;) + &quot;\n\n&quot; + v(&quot;duck&quot;, &quot;quack&quot;) + &quot;\n\n&quot; + v(&quot;pig&quot;, &quot;oink&quot;))
+def test_function():
+    &quot;uses a verse function&quot;
+    assert callable(verse), &quot;Define verse(animal, sound).&quot;
+    assert source.count(&quot;Old MacDonald had a farm&quot;) == 1, &quot;Write the repeated line once: in a variable or a little function of its own.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def verse(animal, sound):
+    chorus = &quot;Old MacDonald had a farm, E-I-E-I-O!&quot;
+    print(chorus)
+    print(f&quot;And on that farm he had a {animal}, E-I-E-I-O!&quot;)
+    print(f&quot;With a {sound} {sound} here and a {sound} {sound} there,&quot;)
+    print(f&quot;Here a {sound}, there a {sound}, everywhere a {sound} {sound}.&quot;)
+    print(chorus)
+
+verse(&quot;cow&quot;, &quot;moo&quot;)
+print()
+verse(&quot;duck&quot;, &quot;quack&quot;)
+print()
+verse(&quot;pig&quot;, &quot;oink&quot;)</textarea><template class="pc-src pc-hint">The first and last lines are the same, so store that line in a variable (inside or outside the function) and print it twice.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain to yourself, out loud, what happens step by step when Python reaches a <code>def</code> line, and what happens when it reaches a call. Then find a program from an earlier week where you repeated yourself, and decide which function you&rsquo;d write to fix it. Tomorrow: parameters in depth, with several of them, defaults, and naming arguments when you call.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w005d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w006d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w006d1", "week": 6, "day": 1, "title": "Defining functions", "exercises": [{"id": "w006d1-hello", "title": "Your own function", "points": 10}, {"id": "w006d1-line", "title": "A line of any length", "points": 10}, {"id": "w006d1-shout", "title": "Shout it", "points": 10}, {"id": "w006d1-order", "title": "In the right order", "points": 10}, {"id": "w006d1-heading", "title": "Headings", "points": 10}, {"id": "w006d1-square", "title": "Squares from rows", "points": 15}, {"id": "w006d1-dry", "title": "Don't repeat yourself", "points": 15}, {"id": "w006d1-bug1", "title": "Nothing happens", "points": 10}, {"id": "w006d1-bug2", "title": "Too much in the function", "points": 10}, {"id": "w006d1-bug3", "title": "The missing argument", "points": 10}, {"id": "w006d1-trace", "title": "In what order?", "points": 15}, {"id": "w006d1-challenge", "title": "Challenge: Old MacDonald", "points": 20}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

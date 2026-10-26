@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="79df9b909c">
+<title>Week 6 Day 4: Scope: local and global names | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=79df9b909c">
+<link rel="stylesheet" href="../assets/css/site.css?v=79df9b909c">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=79df9b909c"></script>
+<script src="../assets/vendor/codemirror.js?v=79df9b909c" defer></script>
+<meta name="description" content="Every name in Python lives somewhere. A name created inside a function lives in that function’s frame and disappears when the call ends; a name created at...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w006d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 6 Day 4: Scope: local and global names">
+<meta property="og:description" content="Every name in Python lives somewhere. A name created inside a function lives in that function’s frame and disappears when the call ends; a name created at...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w006d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-6">Week 6: Functions I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#local-names-live-in-the-frame" data-sec="local-names-live-in-the-frame">Local names live in the frame</a></li><li><a href="#reading-global-names" data-sec="reading-global-names">Reading global names</a></li><li><a href="#assigning-makes-a-name-local" data-sec="assigning-makes-a-name-local">Assigning makes a name local</a></li><li><a href="#how-python-finds-a-name" data-sec="how-python-finds-a-name">How Python finds a name</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 6, Day 4</span></p>
+      <h1>Scope: local and global names</h1>
+      <div class="day-intro"><p>Every name in Python lives somewhere. A name created inside a function lives in that function&rsquo;s frame and disappears when the call ends; a name created at the top level lives for the whole program. Today you&rsquo;ll learn exactly where names live, how Python finds them, and why that keeps your functions from interfering with each other or with you.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain what a local variable is, when it&rsquo;s created and when it disappears</li><li>Explain why two functions can use the same names without clashing</li><li>Predict how Python looks a name up, first locally, then globally, then among the built-ins</li><li>Recognise and fix <code>UnboundLocalError</code>, and avoid the <code>global</code> statement</li><li>Design functions that take everything they need as parameters and give results back with <code>return</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Local names live in the frame: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Reading global names: 25 min"></span><span class="plan-seg s1" style="flex:30" title="Assigning makes a name local; UnboundLocalError: 30 min"></span><span class="plan-seg s0" style="flex:20" title="How Python finds a name; shadowing built-ins: 20 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Local names live in the frame</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Reading global names</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Assigning makes a name local; UnboundLocalError</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">How Python finds a name; shadowing built-ins</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w006d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w006d4.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w006d4-p1"><textarea class="pc-src pc-code" hidden>def f(x):
+    x = x * 2
+    return x
+
+x = 5
+print(f(x))
+print(x)</textarea></div>
+<p>Two different <code>x</code>s are at work here: one in the function and one outside. Yesterday you saw that changing the function&rsquo;s <code>x</code> didn&rsquo;t change the other. Today you&rsquo;ll learn the rules behind that.</p>
+<h2 id="local-names-live-in-the-frame">Local names live in the frame</h2>
+<p>Every time a function is called, Python creates a fresh <strong>frame</strong> for that call. Every name the function creates, its parameters and any variable it assigns, lives in that frame. These are <strong>local</strong> names. When the function returns, the frame is thrown away, and the local names with it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e2"><div class="pc-title">X-ray me</div><textarea class="pc-src pc-code" hidden>def average(a, b):
+    total = a + b
+    result = total / 2
+    return result
+
+mean = average(4, 7)
+print(mean)</textarea></div>
+<p>Step through it. During the call, the frame for <code>average</code> holds <code>a</code>, <code>b</code>, <code>total</code> and <code>result</code>. When <code>return</code> runs, the frame disappears. Only the returned <strong>value</strong> survives, and the main program stores it in <code>mean</code>.</p>
+<p>So a local name can&rsquo;t be seen from outside:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e3"><textarea class="pc-src pc-code" hidden>def average(a, b):
+    total = a + b
+    return total / 2
+
+average(4, 7)
+print(total)</textarea></div>
+<p><code>NameError: name 'total' is not defined</code>. <code>total</code> existed only during the call.</p>
+<h3 id="every-call-is-fresh">Every call is fresh</h3>
+<p>Local names don&rsquo;t survive from one call to the next. Each call starts with a brand new frame:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e4"><textarea class="pc-src pc-code" hidden>def counter():
+    count = 0
+    count += 1
+    return count
+
+print(counter(), counter(), counter())</textarea></div>
+<p>It prints <code>1 1 1</code>, not <code>1 2 3</code>. Each call creates its own <code>count</code>, sets it to 0, adds 1, and throws it away.</p>
+<h3 id="same-names-no-clash">Same names, no clash</h3>
+<p>Because each function has its own frame, different functions can use the same local names without interfering with each other or with the main program:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e5"><textarea class="pc-src pc-code" hidden>def area(width, height):
+    result = width * height
+    return result
+
+def perimeter(width, height):
+    result = 2 * (width + height)
+    return result
+
+result = &quot;the main program&#x27;s result&quot;
+print(area(3, 4), perimeter(3, 4))
+print(result)</textarea></div>
+<p>Three different <code>result</code>s, in three different places, and none of them touches the others. This is the whole point of scope: you can write or use a function without knowing or caring which names it uses inside.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Names created inside a function are <strong>local</strong>: they belong to one call and vanish when it returns. A function can&rsquo;t accidentally change your variables by using the same names.</p></aside>
+<h2 id="reading-global-names">Reading global names</h2>
+<p>Names created at the top level of a program, outside any function, are <strong>global</strong>. A function can <strong>read</strong> them:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e6"><textarea class="pc-src pc-code" hidden>VAT_RATE = 0.075
+
+def with_vat(price):
+    return price * (1 + VAT_RATE)
+
+print(with_vat(1000))</textarea></div>
+<p>When <code>with_vat</code> uses <code>VAT_RATE</code>, Python looks in the function&rsquo;s frame first, doesn&rsquo;t find it there, and then looks in the global names, where it is.</p>
+<p>Reading a global <strong>constant</strong> like this is perfectly normal. By convention, constants are written in <code>UPPER_CASE</code> to say &ldquo;this never changes&rdquo;.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Global constants are fine. Global <strong>variables</strong> that functions depend on and change are not: they make a function&rsquo;s behaviour depend on things you can&rsquo;t see in its call. Pass values in as parameters instead.</p></aside>
+<h2 id="assigning-makes-a-name-local">Assigning makes a name local</h2>
+<p>Here&rsquo;s the rule that surprises people. If a function <strong>assigns</strong> to a name anywhere in its body, that name is local <strong>everywhere</strong> in that function, even on lines before the assignment.</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e7"><div class="pc-title">A new local, not the global</div><textarea class="pc-src pc-code" hidden>score = 10
+
+def reset():
+    score = 0
+    print(&quot;Inside:&quot;, score)
+
+reset()
+print(&quot;Outside:&quot;, score)</textarea></div>
+<p><code>score = 0</code> inside the function creates a <strong>new</strong> local <code>score</code>. The global one is untouched. The local one <strong>shadows</strong> the global: inside the function, it hides it.</p>
+<p>Now the error this causes:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e8"><div class="pc-title">UnboundLocalError</div><textarea class="pc-src pc-code" hidden>count = 0
+
+def add_one():
+    count = count + 1
+
+add_one()</textarea></div>
+<p><code>UnboundLocalError: cannot access local variable 'count' where it is not associated with a value</code>. Because the function assigns to <code>count</code>, <code>count</code> is local throughout the function. So <code>count + 1</code> looks for the <strong>local</strong> <code>count</code>, which doesn&rsquo;t have a value yet.</p>
+<h3 id="the-fix-parameters-in-return-out">The fix: parameters in, return out</h3>
+<p>You could tell Python to use the global with a <code>global count</code> line. Don&rsquo;t. It makes the function depend on, and secretly change, a variable outside it. Instead, pass the value in and return the new value:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e9"><div class="pc-title">The clean way</div><textarea class="pc-src pc-code" hidden>def add_one(count):
+    return count + 1
+
+count = 0
+count = add_one(count)
+count = add_one(count)
+print(count)</textarea></div>
+<p>Now everything the function needs comes in through its parameters, and everything it produces goes out through <code>return</code>. You can understand it, test it and reuse it just by reading its <code>def</code> line and its body.</p>
+<aside class="callout c-note"><div class="callout-t">Note</div><p>You&rsquo;ll meet <code>global</code> in other people&rsquo;s code, so here&rsquo;s how it reads: <code>global count</code> as the first line of a function means &ldquo;<code>count</code> in this function is the global one&rdquo;. It works, but it&rsquo;s a sign the design could be better. Later in the course you&rsquo;ll learn better tools for sharing state, such as classes.</p></aside>
+<h2 id="how-python-finds-a-name">How Python finds a name</h2>
+<p>When Python meets a name, it looks for it in this order, and uses the first one it finds:</p>
+<ol>
+<li><strong>Local</strong>: the current function&rsquo;s frame.</li>
+<li><strong>Enclosing</strong>: the frames of any functions this one is defined inside. (You&rsquo;ll meet functions inside functions in Week 7.)</li>
+<li><strong>Global</strong>: the top level of the program.</li>
+<li><strong>Built-in</strong>: the names Python provides, like <code>print</code>, <code>len</code> and <code>max</code>.</li>
+</ol>
+<p>This is called the <strong>LEGB rule</strong>. If no level has the name, you get a <code>NameError</code>.</p>
+<p>The last level explains a trap you met in Week 1. Built-in names can be shadowed like any other:</p>
+<div class="pc pc-example" data-kind="example" data-id="w006d4-e10"><textarea class="pc-src pc-code" hidden>sum = 0
+for n in [1, 2, 3]:
+    sum += n
+print(sum([4, 5]))</textarea></div>
+<p>After <code>sum = 0</code>, the global <code>sum</code> is found before the built-in one, so <code>sum([4, 5])</code> tries to call a number. Avoid <code>sum</code>, <code>max</code>, <code>min</code>, <code>list</code>, <code>str</code>, <code>input</code> and <code>print</code> as variable names.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d4-predict_scope" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Which x?</div><div class="pc-prompt"><p>Work out what this program prints, line by line.</p>
+<pre><code class="language-python">x = &quot;global&quot;
+
+def f():
+    x = &quot;local&quot;
+    return x
+
+def g():
+    return x
+
+print(f())
+print(g())
+print(x)
+</code></pre></div><textarea class="pc-src pc-code" hidden>line_1 = &quot;___&quot;
+line_2 = &quot;___&quot;
+line_3 = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_lines():
+    &quot;each line&quot;
+    assert line_1 == &quot;local&quot;, &quot;f makes its own local x.&quot;
+    assert line_2 == &quot;global&quot;, &quot;g doesn&#x27;t assign x, so it reads the global one.&quot;
+    assert line_3 == &quot;global&quot;, &quot;f&#x27;s local x never touched the global.&quot;</textarea><textarea class="pc-src pc-solution" hidden>line_1 = &quot;local&quot;
+line_2 = &quot;global&quot;
+line_3 = &quot;global&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d4-fix_unbound" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Fix the counter</div><div class="pc-prompt"><p>This crashes with <code>UnboundLocalError</code>. Rewrite <code>add_point</code> so it takes the current score as a parameter and <strong>returns</strong> the new score, and change the calls to use it. The program should print <code>Score: 3</code>. Don&rsquo;t use <code>global</code>.</p></div><textarea class="pc-src pc-code" hidden>score = 0
+
+def add_point():
+    score = score + 1
+
+add_point()
+add_point()
+add_point()
+print(&quot;Score:&quot;, score)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;Score: 3&quot;
+    expect_output(&quot;Score: 3&quot;)
+def test_design():
+    &quot;no global, and add_point returns&quot;
+    assert &quot;global&quot; not in source, &quot;Pass the score in and return it.&quot;
+    assert add_point(5) == 6, &quot;add_point(5) should return 6.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def add_point(score):
+    return score + 1
+
+score = 0
+score = add_point(score)
+score = add_point(score)
+score = add_point(score)
+print(&quot;Score:&quot;, score)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d4-params_not_globals" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">No hidden inputs</div><div class="pc-prompt"><p><code>total_cost</code> secretly depends on the global variables <code>price</code> and <code>qty</code>. Rewrite it to take them as parameters, so that it works for any values, and keep the output the same.</p></div><textarea class="pc-src pc-code" hidden>price = 2500
+qty = 3
+
+def total_cost():
+    return price * qty
+
+print(total_cost())</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;same output&quot;
+    expect_output(&quot;7500&quot;)
+def test_params():
+    &quot;takes its inputs as parameters&quot;
+    assert total_cost(100, 4) == 400, &quot;total_cost(100, 4) should return 400.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def total_cost(price, qty):
+    return price * qty
+
+price = 2500
+qty = 3
+print(total_cost(price, qty))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d4-constants" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A constant</div><div class="pc-prompt"><p>Define a constant <code>SPEED_LIMIT = 50</code> at the top of the program, and a function <code>fine(speed)</code> that returns 0 if the speed is at or below the limit, and otherwise 2000 for every whole 10 km/h (or part of 10) over the limit. So 51 to 60 is 2000, 61 to 70 is 4000. The checks will change the constant, so use it, not 50.</p></div><textarea class="pc-src pc-code" hidden>SPEED_LIMIT = 50
+
+def fine(speed):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several speeds&quot;
+    for s, f in [(40, 0), (50, 0), (51, 2000), (60, 2000), (61, 4000), (95, 10000)]:
+        assert fine(s) == f, f&quot;fine({s}) should be {f}.&quot;
+def test_constant():
+    &quot;uses the constant&quot;
+    g = fine.__globals__
+    old = g[&quot;SPEED_LIMIT&quot;]
+    g[&quot;SPEED_LIMIT&quot;] = 30
+    try:
+        got = fine(45)
+    finally:
+        g[&quot;SPEED_LIMIT&quot;] = old
+    assert got == 4000, &quot;With SPEED_LIMIT = 30, fine(45) should be 4000. Use the constant, not 50.&quot;</textarea><textarea class="pc-src pc-solution" hidden>SPEED_LIMIT = 50
+
+def fine(speed):
+    over = speed - SPEED_LIMIT
+    if over &lt;= 0:
+        return 0
+    return (over + 9) // 10 * 2000</textarea><template class="pc-src pc-hint">The amount over is <code>speed - SPEED_LIMIT</code>. &ldquo;Every 10 or part of 10&rdquo; is a ceiling division: <code>(over + 9) // 10</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d4-no_clash" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Same names, different jobs</div><div class="pc-prompt"><p>Define <code>mean(a, b, c)</code> and <code>spread(a, b, c)</code>, each using a local variable called <code>result</code>. <code>mean</code> returns the average; <code>spread</code> returns the largest minus the smallest. Then print <code>Mean: 5.0</code> and <code>Spread: 6</code> for the numbers 2, 5 and 8, and finally print <code>result</code> from the main program, which you set to <code>"untouched"</code> at the start.</p></div><textarea class="pc-src pc-code" hidden>result = &quot;untouched&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three lines&quot;
+    expect_output(&quot;Mean: 5.0\nSpread: 6\nuntouched&quot;)
+def test_functions():
+    &quot;both functions work&quot;
+    assert mean(1, 2, 3) == 2 and spread(1, 10, 4) == 9
+    assert source.count(&quot;result =&quot;) &gt;= 3, &quot;Use a local called result in each function.&quot;</textarea><textarea class="pc-src pc-solution" hidden>result = &quot;untouched&quot;
+
+def mean(a, b, c):
+    result = (a + b + c) / 3
+    return result
+
+def spread(a, b, c):
+    result = max(a, b, c) - min(a, b, c)
+    return result
+
+print(&quot;Mean:&quot;, mean(2, 5, 8))
+print(&quot;Spread:&quot;, spread(2, 5, 8))
+print(result)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A local that escaped</div><div class="pc-prompt"><p>This crashes with a <code>NameError</code>. Fix it so the program prints <code>Discounted: 900.0</code>, by using the function&rsquo;s return value.</p></div><textarea class="pc-src pc-code" hidden>def discount(price):
+    new_price = price * 0.9
+    return new_price
+
+discount(1000)
+print(&quot;Discounted:&quot;, new_price)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the discounted price&quot;
+    expect_output(&quot;Discounted: 900.0&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def discount(price):
+    new_price = price * 0.9
+    return new_price
+
+new_price = discount(1000)
+print(&quot;Discounted:&quot;, new_price)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">max is broken</div><div class="pc-prompt"><p>This should print the total and the largest value, but it crashes. Fix the variable name without changing what&rsquo;s printed.</p></div><textarea class="pc-src pc-code" hidden>values = &quot;4 9 2 7&quot;
+max = 0
+for v in values.split():
+    max += int(v)
+print(&quot;Total:&quot;, max)
+print(&quot;Largest:&quot;, max(4, 9, 2, 7))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;total and largest&quot;
+    expect_output(&quot;Total: 22\nLargest: 9&quot;)</textarea><textarea class="pc-src pc-solution" hidden>values = &quot;4 9 2 7&quot;
+total = 0
+for v in values.split():
+    total += int(v)
+print(&quot;Total:&quot;, total)
+print(&quot;Largest:&quot;, max(4, 9, 2, 7))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w006d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The forgetful counter</div><div class="pc-prompt"><p>This should count the vowels in two words and print <code>Vowels: 5</code>, but it prints <code>Vowels: 0</code>. The function counts correctly. Fix the program without using <code>global</code>.</p></div><textarea class="pc-src pc-code" hidden>total = 0
+
+def count_vowels(word):
+    total = 0
+    for ch in word:
+        if ch in &quot;aeiou&quot;:
+            total += 1
+
+count_vowels(&quot;banana&quot;)
+count_vowels(&quot;kiwi&quot;)
+print(&quot;Vowels:&quot;, total)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;5 vowels&quot;
+    expect_output(&quot;Vowels: 5&quot;)
+def test_no_global():
+    &quot;no global&quot;
+    assert &quot;global&quot; not in source
+    assert count_vowels(&quot;aeiou&quot;) == 5, &quot;count_vowels should return its count.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def count_vowels(word):
+    total = 0
+    for ch in word:
+        if ch in &quot;aeiou&quot;:
+            total += 1
+    return total
+
+total = count_vowels(&quot;banana&quot;) + count_vowels(&quot;kiwi&quot;)
+print(&quot;Vowels:&quot;, total)</textarea><template class="pc-src pc-hint">The function&rsquo;s <code>total</code> is local. Return it, and add the returned values up in the main program.</template></div>
+<div class="parsons" data-id="w006d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">In through parameters, out through return</div><div class="pc-prompt"><p>Arrange the lines into a function that applies interest to a balance and returns it, used twice by the main program. One line is a trap.</p></div><script type="application/json">{"lines": ["def add_interest(balance, rate):", "    return balance * (1 + rate)", "balance = 1000", "balance = add_interest(balance, 0.1)", "balance = add_interest(balance, 0.1)", "print(round(balance, 2))"], "distractors": ["    global balance"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the frames</div><div class="pc-prompt"><p>What does this print? Write each line.</p>
+<pre><code class="language-python">n = 1
+
+def a(n):
+    n = n + 10
+    return b(n) + n
+
+def b(m):
+    return m * n
+
+print(a(2))
+print(n)
+</code></pre></div><textarea class="pc-src pc-code" hidden>line_1 = ___
+line_2 = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_lines():
+    &quot;both lines&quot;
+    assert line_1 == 24, &quot;In a, n is 12. b(12) uses the global n, which is 1, so returns 12. Then 12 + 12.&quot;
+    assert line_2 == 1, &quot;The global n never changed.&quot;</textarea><textarea class="pc-src pc-solution" hidden>line_1 = 24
+line_2 = 1</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w006d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "When does a local variable disappear?", "answer": 1, "explain": "Its frame is thrown away.", "options": ["When the program ends", "When the function call returns", "Never", "When it&rsquo;s printed"]}, {"type": "output", "q": "What does this print?", "answer": "2 2", "explain": "Each call starts fresh.", "code": "def f():\n    n = 1\n    n += 1\n    return n\nprint(f(), f())"}, {"type": "mc", "q": "Can a function read a global constant?", "answer": 0, "explain": "Python finds it in the global names.", "options": ["Yes", "No"]}, {"type": "output", "q": "What does this print?", "answer": "1", "explain": "x = 2 created a local x.", "code": "x = 1\ndef f():\n    x = 2\nf()\nprint(x)"}, {"type": "mc", "q": "Why does this raise UnboundLocalError?", "answer": 1, "explain": "The assignment makes total local everywhere in the function.", "options": ["total is a keyword", "Assigning makes total local, and the local has no value yet", "Globals can&rsquo;t be read", "Missing return"], "code": "total = 0\ndef add():\n    total = total + 1"}, {"type": "mc", "q": "In what order does Python look up a name?", "answer": 1, "explain": "The LEGB rule.", "options": ["Global, local, built-in", "Local, enclosing, global, built-in", "Built-in, global, local", "Alphabetical"]}, {"type": "mc", "q": "Why avoid naming a variable <code>max</code>?", "answer": 1, "explain": "The global is found before the built-in.", "options": ["It&rsquo;s a keyword", "It hides the built-in max function", "It&rsquo;s too short", "It&rsquo;s slow"]}, {"type": "mc", "q": "What&rsquo;s the recommended way for a function to change a value the caller holds?", "answer": 1, "explain": "Parameters in, return out.", "options": ["Use global", "Return the new value and let the caller assign it", "Print it", "Use a longer name"]}, {"type": "output", "q": "What does this print?", "answer": "15", "explain": "The global is looked up when the function runs, and by then RATE is 3.", "code": "RATE = 2\ndef scale(v):\n    return v * RATE\nRATE = 3\nprint(scale(5))"}, {"type": "mc", "q": "Two functions both have a local variable called <code>result</code>. What happens?", "answer": 2, "explain": "Each call has its own frame.", "options": ["A NameError", "They share one variable", "Each has its own, with no clash", "The second overwrites the first"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w006d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a bank account with no globals</div><div class="pc-prompt"><p>Write three functions, none of which uses <code>global</code> or prints anything:</p>
+<ul>
+<li><code>deposit(balance, amount)</code> returns the new balance;</li>
+<li><code>withdraw(balance, amount)</code> returns the new balance, or the unchanged balance if there isn&rsquo;t enough money;</li>
+<li><code>apply_interest(balance, rate_percent)</code> returns the balance increased by that percentage, rounded to 2 places.</li>
+</ul>
+<p>Then read commands with the prompt <code>&gt;</code> until <code>end</code>. A command is <code>d 500</code> (deposit), <code>w 200</code> (withdraw) or <code>i 5</code> (interest at 5%). After each command print <code>Balance:</code> and the balance with 2 decimal places. The balance starts at 0.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_functions():
+    &quot;the three functions&quot;
+    assert deposit(100, 50) == 150
+    assert withdraw(100, 30) == 70 and withdraw(100, 300) == 100
+    assert apply_interest(1000, 5) == 1050.0 and apply_interest(333.33, 10) == 366.66
+def test_session():
+    &quot;a session&quot;
+    expect_output(&quot;&gt; d 1000\nBalance: 1000.00\n&gt; w 300\nBalance: 700.00\n&gt; w 900\nBalance: 700.00\n&gt; i 10\nBalance: 770.00\n&gt; end&quot;,
+                  inputs=[&quot;d 1000&quot;, &quot;w 300&quot;, &quot;w 900&quot;, &quot;i 10&quot;, &quot;end&quot;], echo=True)
+def test_style():
+    &quot;no globals or prints in the functions&quot;
+    assert &quot;global&quot; not in source
+    for name in [&quot;def deposit&quot;, &quot;def withdraw&quot;, &quot;def apply_interest&quot;]:
+        start = source.find(name)
+        nxt = source.find(&quot;\ndef &quot;, start + 1)
+        body = source[start: nxt if nxt != -1 else len(source)]
+        body = body.split(&quot;\n\n&quot;)[0]
+        assert &quot;print&quot; not in body, name + &quot; should return, not print.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def deposit(balance, amount):
+    return balance + amount
+
+def withdraw(balance, amount):
+    if amount &gt; balance:
+        return balance
+    return balance - amount
+
+def apply_interest(balance, rate_percent):
+    return round(balance * (1 + rate_percent / 100), 2)
+
+balance = 0
+while True:
+    command = input(&quot;&gt; &quot;)
+    if command == &quot;end&quot;:
+        break
+    kind, value = command.split()
+    value = float(value)
+    if kind == &quot;d&quot;:
+        balance = deposit(balance, value)
+    elif kind == &quot;w&quot;:
+        balance = withdraw(balance, value)
+    elif kind == &quot;i&quot;:
+        balance = apply_interest(balance, value)
+    print(f&quot;Balance: {balance:.2f}&quot;)</textarea></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Draw the frames for the trace exercise on paper, the way X-ray shows them, at the moment <code>b</code> is running. Then state the LEGB rule from memory, and explain why &ldquo;parameters in, return out&rdquo; makes functions easier to trust. Tomorrow: docstrings, how to describe a function so that people, and Python&rsquo;s own help system, know exactly how to use it.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w006d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w006d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w006d4", "week": 6, "day": 4, "title": "Scope: local and global names", "exercises": [{"id": "w006d4-predict_scope", "title": "Which x?", "points": 10}, {"id": "w006d4-fix_unbound", "title": "Fix the counter", "points": 10}, {"id": "w006d4-params_not_globals", "title": "No hidden inputs", "points": 10}, {"id": "w006d4-constants", "title": "A constant", "points": 10}, {"id": "w006d4-no_clash", "title": "Same names, different jobs", "points": 10}, {"id": "w006d4-bug1", "title": "A local that escaped", "points": 10}, {"id": "w006d4-bug2", "title": "max is broken", "points": 10}, {"id": "w006d4-bug3", "title": "The forgetful counter", "points": 10}, {"id": "w006d4-trace", "title": "Trace the frames", "points": 15}, {"id": "w006d4-challenge", "title": "Challenge: a bank account with no globals", "points": 25}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

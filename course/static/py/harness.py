@@ -832,5 +832,47 @@ def name_check(name):
     return {"ok": ok, "issues": issues, "warnings": warnings}
 
 
+def bind_call(params, args):
+    """How a call's arguments are matched to a function's parameters (for the callbind figure)."""
+    import inspect
+    src = f"def f({params}):\n    pass\n"
+    try:
+        g = {}
+        exec(compile(src, "<signature>", "exec"), g)
+    except SyntaxError as e:
+        return {"error": f"SyntaxError in the parameters: {e.msg}"}
+    try:
+        call_args, call_kwargs = eval(f"(lambda *a, **k: (a, k))({args})", {"__builtins__": builtins})
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__} in the call: {e}"}
+    sig = inspect.signature(g["f"])
+    try:
+        ba = sig.bind(*call_args, **call_kwargs)
+    except TypeError:
+        try:
+            g["f"](*call_args, **call_kwargs)
+        except TypeError as e:
+            return {"error": f"TypeError: {e}"}
+        return {"error": "TypeError"}
+    given = set(ba.arguments)
+    ba.apply_defaults()
+    rows = []
+    positional = len(call_args)
+    for i, (name, prm) in enumerate(sig.parameters.items()):
+        v = ba.arguments.get(name)
+        if name not in given:
+            how = "nothing extra" if prm.kind in (prm.VAR_POSITIONAL, prm.VAR_KEYWORD) else "its default"
+        elif prm.kind is prm.VAR_POSITIONAL:
+            how = "the extra positional arguments"
+        elif prm.kind is prm.VAR_KEYWORD:
+            how = "the extra keyword arguments"
+        elif name in call_kwargs:
+            how = "by name"
+        else:
+            how = f"by position ({i + 1})" if i < positional else "by name"
+        rows.append({"name": name, "value": repr(v), "how": how})
+    return {"rows": rows, "error": None}
+
+
 def call(fn, args_json):
     return globals()[fn](*json.loads(args_json))
