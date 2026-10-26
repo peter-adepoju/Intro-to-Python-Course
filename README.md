@@ -4,8 +4,6 @@
 
 **Website:** https://peter-adepoju.github.io/python-atlas/
 
-Created by **Peter Oluwafemi Adepoju** (petera@aims.ac.za).
-
 ## What's inside
 
 | Part | Weeks | Focus |
@@ -19,18 +17,6 @@ Created by **Peter Oluwafemi Adepoju** (petera@aims.ac.za).
 | 7. Mastery | 87–104 | capstone, open-source contributions, interview mastery, final exam |
 
 Every lesson day has an interactive web page and a companion Google Colab notebook (`docs/notebooks/`).
-
-## Repository layout
-
-| Path | What it is |
-|---|---|
-| `course/curriculum.py` | the full schedule: phases, weeks, days |
-| `course/content/` | the lessons, one Markdown file per day ([how to write them](course/AUTHORING.md)) |
-| `course/static/` | the site's styles, scripts, interactive figures and the in-browser Python harness |
-| `course/build.py`, `course/validate.py` | build the site; check every exercise and example |
-| `docs/` | the built website (GitHub Pages serves this folder) |
-| `supabase/` | database rules and the AI tutor function ([setup](SETUP.md)) |
-| `archive/v1/` | the first version of the course (Weeks 1–5), kept for reference |
 
 ## Licence
 
