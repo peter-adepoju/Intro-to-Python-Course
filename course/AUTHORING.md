@@ -122,7 +122,7 @@ Wrap a question in single quotes if it contains `: ` or starts with a backtick a
 :::
 ```
 
-Figures live in `course/static/js/widgets/NAME.js` and export `default function (element, params)`. Week 1 figures: `machine`, `bits`, `pipeline`, `anatomy`, `traceback`, `typesorter`, `typeinspect`, `operators`, `stepper`, `labels`, `namecheck`, `divmod`, `floatlab`, `roundlab`, `convert`, `strruler`, `escapes`, `printlab`, `fstringlab`, `inputflow`. Week 2 adds `compare`, `truthtable` and `branch` (an if/elif/else chain with a slider; set `"chain": false` for separate ifs). Week 3 adds `tracetable` (a hand-style trace table built row by row; params `code` and `inputs`) and `euclid`. Week 4 adds `rangeviz`, `nested` (params `rows`, `cols`, `triangle`) and `approx`. Week 5 adds `methodlab`, `textsearch` and `cipherwheel`.
+Figures live in `course/static/js/widgets/NAME.js` and export `default function (element, params)`. Week 1 figures: `machine`, `bits`, `pipeline`, `anatomy`, `traceback`, `typesorter`, `typeinspect`, `operators`, `stepper`, `labels`, `namecheck`, `divmod`, `floatlab`, `roundlab`, `convert`, `strruler`, `escapes`, `printlab`, `fstringlab`, `inputflow`. Week 2 adds `compare`, `truthtable` and `branch` (an if/elif/else chain with a slider; set `"chain": false` for separate ifs). Week 3 adds `tracetable` (a hand-style trace table built row by row; params `code` and `inputs`) and `euclid`. Week 4 adds `rangeviz`, `nested` (params `rows`, `cols`, `triangle`) and `approx`. Week 5 adds `methodlab`, `textsearch` and `cipherwheel`. Weeks 6 and 7 add `callbind` (params `params`, `args`, `tries`) and `callgraph` (param `code`: draws a structure chart and marks stubs).
 
 ### Expression stepper (shortcut)
 

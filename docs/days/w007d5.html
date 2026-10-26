@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="dd97601b29">
+<title>Week 7 Day 5: Checking functions with assert | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=dd97601b29">
+<link rel="stylesheet" href="../assets/css/site.css?v=dd97601b29">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=dd97601b29"></script>
+<script src="../assets/vendor/codemirror.js?v=dd97601b29" defer></script>
+<meta name="description" content="How do you know a function works? Not by running it once and squinting at the output. Today you’ll learn assert, which states something that must be true...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w007d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 7 Day 5: Checking functions with assert">
+<meta property="og:description" content="How do you know a function works? Not by running it once and squinting at the output. Today you’ll learn assert, which states something that must be true...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w007d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-7">Week 7: Functions II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#assert" data-sec="assert">assert</a></li><li><a href="#writing-tests" data-sec="writing-tests">Writing tests</a></li><li><a href="#tests-first" data-sec="tests-first">Tests first</a></li><li><a href="#comparing-floats-in-tests" data-sec="comparing-floats-in-tests">Comparing floats in tests</a></li><li><a href="#when-to-use-assert-and-when-not" data-sec="when-to-use-assert-and-when-not">When to use assert, and when not</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 7, Day 5</span></p>
+      <h1>Checking functions with assert</h1>
+      <div class="day-intro"><p>How do you know a function works? Not by running it once and squinting at the output. Today you&rsquo;ll learn <code>assert</code>, which states something that must be true and stops the program loudly if it isn&rsquo;t. With it you&rsquo;ll write tests: small functions that check your other functions automatically, every time you change them. It&rsquo;s how the Check button on this site works.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Use <code>assert condition, message</code> to state what must be true, and read an <code>AssertionError</code></li><li>Write a test function that checks normal cases, boundaries and special cases</li><li>Write the tests before the function, and use them to guide the code</li><li>Compare floats safely in tests</li><li>Know when <code>assert</code> is the right tool, and when it isn&rsquo;t</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="assert: 25 min"></span><span class="plan-seg s0" style="flex:35" title="Writing tests: 35 min"></span><span class="plan-seg s1" style="flex:25" title="Tests first: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Floats, and when not to use assert: 20 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">assert</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Writing tests</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Tests first</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Floats, and when not to use assert</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w007d5.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d5-p1"><textarea class="pc-src pc-code" hidden>def area(w, h):
+    return w * h
+
+print(area(3, 4) == 12)
+print(area(0, 5) == 0)
+print(area(2.5, 2) == 5.0)</textarea></div>
+<p>Three <code>True</code>s. You checked <code>area</code> by comparing results with what you expected. Today you&rsquo;ll make Python do that checking for you, and shout when something&rsquo;s wrong.</p>
+<h2 id="assert">assert</h2>
+<p><code>assert</code> states something that <strong>must</strong> be true at that point in the program:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d5-e2"><textarea class="pc-src pc-code" hidden>x = 5
+assert x &gt; 0
+print(&quot;x is positive, carry on&quot;)</textarea></div>
+<p>If the condition is true, nothing happens and the program carries on. If it&rsquo;s false, Python stops with an <code>AssertionError</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d5-e3"><textarea class="pc-src pc-code" hidden>x = -3
+assert x &gt; 0, f&quot;x should be positive, but it&#x27;s {x}&quot;
+print(&quot;never reached&quot;)</textarea></div>
+<p>The part after the comma is the <strong>message</strong>, shown with the error. It&rsquo;s optional, but always worth writing: a good message says what was expected and what actually happened.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>assert condition, message</code> does nothing when the condition is true, and stops the program with an <code>AssertionError</code> (and your message) when it&rsquo;s false.</p></aside>
+<aside class="callout c-mistake"><div class="callout-t">Brackets that make it always pass</div><p><code>assert(x &gt; 0, "message")</code> looks like a function call, but <code>assert</code> isn&rsquo;t a function. Python reads the brackets as a <strong>pair</strong> of values, and a non-empty pair is always truthy, so this assert can <strong>never</strong> fail. Python even warns you about it. Write <code>assert x &gt; 0, "message"</code>, with no brackets.</p></aside>
+<h2 id="writing-tests">Writing tests</h2>
+<p>A <strong>test</strong> is a function that calls the function being tested with some inputs and asserts that each result is right:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d5-e4"><div class="pc-title">A test for area</div><textarea class="pc-src pc-code" hidden>def area(width, height):
+    &quot;&quot;&quot;Return the area of a rectangle.&quot;&quot;&quot;
+    return width * height
+
+def test_area():
+    assert area(3, 4) == 12
+    assert area(1, 1) == 1
+    assert area(0, 5) == 0, &quot;a zero side gives zero area&quot;
+    assert area(2.5, 2) == 5.0
+
+test_area()
+print(&quot;All tests passed&quot;)</textarea></div>
+<p>When every assert passes, the test is silent and the last line confirms it. Now break <code>area</code> (change <code>*</code> to <code>+</code>) and run it again: the first failing assert stops everything and tells you which case broke.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Name test functions <code>test_</code> followed by the name of the function they test. Tools like <strong>pytest</strong>, which you&rsquo;ll use in Week 18, find and run every function whose name starts with <code>test_</code> automatically.</p></aside>
+<h3 id="which-cases-should-a-test-check">Which cases should a test check?</h3>
+<p>You learned this in Week 2, Day 5, for decisions. The same thinking applies:</p>
+<ol>
+<li><strong>Typical cases</strong>: ordinary inputs where you know the answer.</li>
+<li><strong>Boundaries</strong>: the edges, like 0, 1, an empty string, exactly on a threshold.</li>
+<li><strong>Special cases</strong>: anything the docstring mentions, or anything unusual: negative numbers, capitals, spaces.</li>
+</ol>
+<div class="pc pc-example" data-kind="example" data-id="w007d5-e5"><div class="pc-title">A thorough test</div><textarea class="pc-src pc-code" hidden>def grade(mark):
+    &quot;&quot;&quot;Return A (70+), B (60-69), C (50-59) or F.&quot;&quot;&quot;
+    if mark &gt;= 70:
+        return &quot;A&quot;
+    if mark &gt;= 60:
+        return &quot;B&quot;
+    if mark &gt;= 50:
+        return &quot;C&quot;
+    return &quot;F&quot;
+
+def test_grade():
+    assert grade(85) == &quot;A&quot;
+    assert grade(65) == &quot;B&quot;
+    assert grade(55) == &quot;C&quot;
+    assert grade(20) == &quot;F&quot;
+    for mark, want in [(70, &quot;A&quot;), (69, &quot;B&quot;), (60, &quot;B&quot;), (59, &quot;C&quot;), (50, &quot;C&quot;), (49, &quot;F&quot;)]:
+        assert grade(mark) == want, f&quot;grade({mark}) should be {want}, got {grade(mark)}&quot;
+    assert grade(100) == &quot;A&quot; and grade(0) == &quot;F&quot;
+
+test_grade()
+print(&quot;grade passes&quot;)</textarea></div>
+<p>The loop checks every boundary, and its message names the exact case that failed. (The square brackets make a <strong>list</strong> of pairs to loop over; lists are next week.)</p>
+<h3 id="a-test-is-a-promise-kept">A test is a promise kept</h3>
+<p>Once a test passes, keep it. Every time you change the function later, run the test again. If you &ldquo;improve&rdquo; something and break an old case, the test catches it straight away. This is called <strong>regression testing</strong>, and it&rsquo;s the main reason professionals write tests: not to find today&rsquo;s bugs, but to stop tomorrow&rsquo;s changes from bringing old bugs back.</p>
+<h2 id="tests-first">Tests first</h2>
+<p>Here&rsquo;s a surprisingly powerful habit: write the test <strong>before</strong> the function.</p>
+<ol>
+<li>Write a docstring for the function, and a stub.</li>
+<li>Write a test full of examples of what it should do. Run it: it fails, because the stub does nothing.</li>
+<li>Write the body until the test passes.</li>
+<li>Tidy the code, running the test after each change.</li>
+</ol>
+<p>This is called <strong>test-driven development</strong>. Writing the tests first forces you to decide exactly what the function should do before you&rsquo;re distracted by how. And when the test passes, you&rsquo;re done: no need to wonder.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d5-e6"><div class="pc-title">The test came first</div><textarea class="pc-src pc-code" hidden>def initials(name):
+    &quot;&quot;&quot;Return the initials of a name, capitals with full stops.&quot;&quot;&quot;
+    result = &quot;&quot;
+    for part in name.split():
+        result += part[0].upper() + &quot;.&quot;
+    return result
+
+def test_initials():
+    assert initials(&quot;ada lovelace&quot;) == &quot;A.L.&quot;
+    assert initials(&quot;  Grace   Brewster Hopper &quot;) == &quot;G.B.H.&quot;
+    assert initials(&quot;Plato&quot;) == &quot;P.&quot;
+    assert initials(&quot;&quot;) == &quot;&quot;
+
+test_initials()
+print(&quot;initials passes&quot;)</textarea></div>
+<h2 id="comparing-floats-in-tests">Comparing floats in tests</h2>
+<p>You know from Week 1 that floats are rarely exact, so <code>==</code> is dangerous in tests too:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d5-e7"><textarea class="pc-src pc-code" hidden>assert 0.1 + 0.2 == 0.3</textarea></div>
+<p>Check that the result is close enough instead:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d5-e8"><textarea class="pc-src pc-code" hidden>import math
+assert abs((0.1 + 0.2) - 0.3) &lt; 1e-9
+assert math.isclose(0.1 + 0.2, 0.3)
+print(&quot;close enough&quot;)</textarea></div>
+<h2 id="when-to-use-assert-and-when-not">When to use assert, and when not</h2>
+<p><code>assert</code> is for checking <strong>your own</strong> reasoning: in tests, and inside functions to state things that should be impossible if the code is right.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d5-e9"><div class="pc-title">Checking a precondition</div><textarea class="pc-src pc-code" hidden>def digit_sum(n):
+    &quot;&quot;&quot;Return the sum of the digits of n. n must be at least 0.&quot;&quot;&quot;
+    assert n &gt;= 0, f&quot;digit_sum needs n &gt;= 0, got {n}&quot;
+    total = 0
+    while n &gt; 0:
+        total += n % 10
+        n //= 10
+    return total
+
+print(digit_sum(4096))</textarea></div>
+<p>If someone calls <code>digit_sum(-5)</code>, the assert stops them with a clear message instead of a silently wrong answer.</p>
+<p>But <strong>don&rsquo;t</strong> use <code>assert</code> to check what a <strong>user</strong> typed. Python can be run with asserts switched off (with the <code>-O</code> option), and then they vanish. Checking input is part of your program&rsquo;s normal job: use <code>if</code> and a friendly message, as you have been. In Week 11 you&rsquo;ll learn <code>raise</code>, the proper way for a function to refuse bad arguments.</p>
+<table>
+<thead>
+<tr>
+<th>Use <code>assert</code> for</th>
+<th>Use <code>if</code> (or later, <code>raise</code>) for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tests</td>
+<td>checking user input</td>
+</tr>
+<tr>
+<td>&ldquo;this can&rsquo;t happen if my code is right&rdquo;</td>
+<td>anything that can go wrong in normal use</td>
+</tr>
+</tbody>
+</table>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d5-first_test" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Your first test</div><div class="pc-prompt"><p>Write <code>test_double()</code> with at least four asserts checking <code>double</code>: a positive number, zero, a negative number and a float. Then call it and print <code>ok</code>.</p></div><textarea class="pc-src pc-code" hidden>def double(n):
+    return n * 2</textarea><textarea class="pc-src pc-tests" hidden>def test_written():
+    &quot;the test exists, has four asserts, and passes&quot;
+    assert callable(test_double), &quot;Define test_double().&quot;
+    assert source.count(&quot;assert&quot;) &gt;= 4, &quot;Write at least four asserts.&quot;
+    expect_output(&quot;ok&quot;)
+def test_catches_bugs():
+    &quot;your test catches a broken double&quot;
+    g = test_double.__globals__
+    good = g[&quot;double&quot;]
+    g[&quot;double&quot;] = lambda n: n + n if n &gt; 0 else n
+    try:
+        try:
+            test_double()
+        except AssertionError:
+            return
+        assert False, &quot;Your test passed a broken double (one that&#x27;s wrong for zero or negatives). Check those cases.&quot;
+    finally:
+        g[&quot;double&quot;] = good</textarea><textarea class="pc-src pc-solution" hidden>def double(n):
+    return n * 2
+
+def test_double():
+    assert double(4) == 8
+    assert double(0) == 0
+    assert double(-3) == -6
+    assert double(1.5) == 3.0
+
+test_double()
+print(&quot;ok&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d5-pass_the_tests" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Make the tests pass</div><div class="pc-prompt"><p>The tests for <code>vowel_count</code> are written. Write the function so that <code>test_vowel_count()</code> passes.</p></div><textarea class="pc-src pc-code" hidden>def vowel_count(text):
+    &quot;&quot;&quot;Return the number of vowels (a, e, i, o, u, either case) in text.&quot;&quot;&quot;
+    return 0
+
+def test_vowel_count():
+    assert vowel_count(&quot;banana&quot;) == 3
+    assert vowel_count(&quot;RHYTHM&quot;) == 0
+    assert vowel_count(&quot;&quot;) == 0
+    assert vowel_count(&quot;AEIOU aeiou&quot;) == 10
+    assert vowel_count(&quot;Python Atlas&quot;) == 3
+
+test_vowel_count()
+print(&quot;All tests passed&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the tests pass&quot;
+    expect_output(&quot;All tests passed&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def vowel_count(text):
+    &quot;&quot;&quot;Return the number of vowels (a, e, i, o, u, either case) in text.&quot;&quot;&quot;
+    count = 0
+    for ch in text.lower():
+        if ch in &quot;aeiou&quot;:
+            count += 1
+    return count
+
+def test_vowel_count():
+    assert vowel_count(&quot;banana&quot;) == 3
+    assert vowel_count(&quot;RHYTHM&quot;) == 0
+    assert vowel_count(&quot;&quot;) == 0
+    assert vowel_count(&quot;AEIOU aeiou&quot;) == 10
+    assert vowel_count(&quot;Python Atlas&quot;) == 3
+
+test_vowel_count()
+print(&quot;All tests passed&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d5-boundaries" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Test the boundaries</div><div class="pc-prompt"><p><code>ticket_price(age)</code> returns 0 for under 5, 500 for 5 to 17, 1200 for 18 to 64 and 800 for 65 or over. Write <code>test_ticket_price()</code> that checks <strong>every boundary</strong>: the ages just below, on and above each threshold. Your test must pass the correct function and catch each of the broken versions the checks will try.</p></div><textarea class="pc-src pc-code" hidden>def ticket_price(age):
+    if age &lt; 5:
+        return 0
+    if age &lt; 18:
+        return 500
+    if age &lt; 65:
+        return 1200
+    return 800</textarea><textarea class="pc-src pc-tests" hidden>def test_passes():
+    &quot;your test passes the correct function&quot;
+    test_ticket_price()
+def test_catches():
+    &quot;your test catches each broken version&quot;
+    g = test_ticket_price.__globals__
+    good = g[&quot;ticket_price&quot;]
+    broken = [
+        lambda a: 0 if a &lt;= 5 else 500 if a &lt; 18 else 1200 if a &lt; 65 else 800,
+        lambda a: 0 if a &lt; 5 else 500 if a &lt;= 18 else 1200 if a &lt; 65 else 800,
+        lambda a: 0 if a &lt; 5 else 500 if a &lt; 18 else 1200 if a &lt;= 65 else 800,
+        lambda a: 0 if a &lt; 4 else 500 if a &lt; 18 else 1200 if a &lt; 65 else 800,
+    ]
+    try:
+        for k, bad in enumerate(broken, 1):
+            g[&quot;ticket_price&quot;] = bad
+            try:
+                test_ticket_price()
+            except AssertionError:
+                continue
+            assert False, f&quot;Your test passed broken version {k}. Check the ages just below, on and above each boundary.&quot;
+    finally:
+        g[&quot;ticket_price&quot;] = good</textarea><textarea class="pc-src pc-solution" hidden>def ticket_price(age):
+    if age &lt; 5:
+        return 0
+    if age &lt; 18:
+        return 500
+    if age &lt; 65:
+        return 1200
+    return 800
+
+def test_ticket_price():
+    for age, price in [(4, 0), (5, 500), (6, 500), (17, 500), (18, 1200), (19, 1200), (64, 1200), (65, 800), (66, 800)]:
+        assert ticket_price(age) == price, f&quot;ticket_price({age}) should be {price}&quot;</textarea><template class="pc-src pc-hint">The thresholds are 5, 18 and 65. Check 4, 5, 6, then 17, 18, 19, then 64, 65, 66.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d5-tdd" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Test first</div><div class="pc-prompt"><p>Do it the test-first way. First write <code>test_is_valid_pin()</code> with at least five asserts, for the rule: a PIN is valid if it&rsquo;s exactly 4 characters, all digits, and not all the same digit (so <code>"1111"</code> is invalid). Then write <code>is_valid_pin(pin)</code> so your test passes.</p></div><textarea class="pc-src pc-code" hidden>def is_valid_pin(pin):
+    &quot;&quot;&quot;Return True if pin is 4 digits, not all the same.&quot;&quot;&quot;
+    return False
+
+def test_is_valid_pin():
+    pass</textarea><textarea class="pc-src pc-tests" hidden>def test_function():
+    &quot;is_valid_pin follows the rule&quot;
+    for pin, want in [(&quot;1234&quot;, True), (&quot;0000&quot;, False), (&quot;123&quot;, False), (&quot;12345&quot;, False), (&quot;12a4&quot;, False), (&quot;&quot;, False), (&quot;9899&quot;, True), (&quot;1112&quot;, True)]:
+        assert is_valid_pin(pin) == want, f&quot;is_valid_pin({pin!r}) should be {want}.&quot;
+def test_your_test():
+    &quot;your test has at least five asserts and passes&quot;
+    start = source.find(&quot;def test_is_valid_pin&quot;)
+    body = source[start:].split(&quot;\ndef &quot;)[0]
+    assert body.count(&quot;assert&quot;) &gt;= 5, &quot;Write at least five asserts in test_is_valid_pin.&quot;
+    test_is_valid_pin()</textarea><textarea class="pc-src pc-solution" hidden>def is_valid_pin(pin):
+    &quot;&quot;&quot;Return True if pin is 4 digits, not all the same.&quot;&quot;&quot;
+    return len(pin) == 4 and pin.isdigit() and pin != pin[0] * 4
+
+def test_is_valid_pin():
+    assert is_valid_pin(&quot;1234&quot;)
+    assert not is_valid_pin(&quot;1111&quot;)
+    assert not is_valid_pin(&quot;123&quot;)
+    assert not is_valid_pin(&quot;12345&quot;)
+    assert not is_valid_pin(&quot;12a4&quot;)
+    assert is_valid_pin(&quot;1112&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d5-float_test" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Close enough</div><div class="pc-prompt"><p><code>average</code> returns floats. Fix the test so that it compares safely, using <code>math.isclose</code>, and passes.</p></div><textarea class="pc-src pc-code" hidden>import math
+
+def average(a, b, c):
+    return (a + b + c) / 3
+
+def test_average():
+    assert average(0.1, 0.2, 0.3) == 0.2
+    assert average(1, 2, 3) == 2
+
+test_average()
+print(&quot;passed&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the test passes&quot;
+    expect_output(&quot;passed&quot;)
+def test_isclose():
+    &quot;uses isclose&quot;
+    assert &quot;isclose&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>import math
+
+def average(a, b, c):
+    return (a + b + c) / 3
+
+def test_average():
+    assert math.isclose(average(0.1, 0.2, 0.3), 0.2)
+    assert math.isclose(average(1, 2, 3), 2)
+
+test_average()
+print(&quot;passed&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d5-precondition" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A precondition</div><div class="pc-prompt"><p>Add an <code>assert</code> as the first line of <code>percentage</code> that stops it with the message <code>total must be above 0</code> when <code>total</code> isn&rsquo;t above 0.</p></div><textarea class="pc-src pc-code" hidden>def percentage(part, total):
+    &quot;&quot;&quot;Return part as a percentage of total. total must be above 0.&quot;&quot;&quot;
+    return part / total * 100</textarea><textarea class="pc-src pc-tests" hidden>def test_normal():
+    &quot;works normally&quot;
+    assert percentage(1, 4) == 25.0
+def test_assert():
+    &quot;refuses a bad total&quot;
+    for bad in [0, -5]:
+        try:
+            percentage(1, bad)
+        except AssertionError as e:
+            assert &quot;total must be above 0&quot; in str(e), &quot;Use the message &#x27;total must be above 0&#x27;.&quot;
+        else:
+            assert False, f&quot;percentage(1, {bad}) should stop with an AssertionError.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def percentage(part, total):
+    &quot;&quot;&quot;Return part as a percentage of total. total must be above 0.&quot;&quot;&quot;
+    assert total &gt; 0, &quot;total must be above 0&quot;
+    return part / total * 100</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A test that can&rsquo;t fail</div><div class="pc-prompt"><p>This test passes even though <code>triple</code> is wrong. Fix the <strong>test</strong> so that it fails for the broken <code>triple</code>; then fix <code>triple</code> so that it passes.</p></div><textarea class="pc-src pc-code" hidden>def triple(n):
+    return n + 3
+
+def test_triple():
+    assert(triple(2) == 6, &quot;triple(2) should be 6&quot;)
+    assert(triple(0) == 0, &quot;triple(0) should be 0&quot;)
+
+test_triple()
+print(&quot;passed&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the fixed test passes&quot;
+    expect_output(&quot;passed&quot;)
+def test_real_asserts():
+    &quot;the asserts can fail now&quot;
+    assert &quot;assert(&quot; not in source.replace(&quot; &quot;, &quot;&quot;), &quot;Remove the brackets: assert is not a function.&quot;
+    assert triple(5) == 15</textarea><textarea class="pc-src pc-solution" hidden>def triple(n):
+    return n * 3
+
+def test_triple():
+    assert triple(2) == 6, &quot;triple(2) should be 6&quot;
+    assert triple(0) == 0, &quot;triple(0) should be 0&quot;
+
+test_triple()
+print(&quot;passed&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Read the failure</div><div class="pc-prompt"><p><code>test_reverse_words</code> fails. Read the <code>AssertionError</code> message to see which case is wrong, then fix the <strong>function</strong> (the test is right).</p></div><textarea class="pc-src pc-code" hidden>def reverse_words(s):
+    words = s.split(&quot; &quot;)
+    out = &quot;&quot;
+    for w in words:
+        out = w + &quot; &quot; + out
+    return out.strip()
+
+def test_reverse_words():
+    assert reverse_words(&quot;a b c&quot;) == &quot;c b a&quot;
+    for s, want in [(&quot;one&quot;, &quot;one&quot;), (&quot;  hello   world &quot;, &quot;world hello&quot;)]:
+        assert reverse_words(s) == want, f&quot;reverse_words({s!r}) gave {reverse_words(s)!r}, wanted {want!r}&quot;
+
+test_reverse_words()
+print(&quot;passed&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the test passes&quot;
+    expect_output(&quot;passed&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def reverse_words(s):
+    words = s.split()
+    out = &quot;&quot;
+    for w in words:
+        out = w + &quot; &quot; + out
+    return out.strip()
+
+def test_reverse_words():
+    assert reverse_words(&quot;a b c&quot;) == &quot;c b a&quot;
+    for s, want in [(&quot;one&quot;, &quot;one&quot;), (&quot;  hello   world &quot;, &quot;world hello&quot;)]:
+        assert reverse_words(s) == want, f&quot;reverse_words({s!r}) gave {reverse_words(s)!r}, wanted {want!r}&quot;
+
+test_reverse_words()
+print(&quot;passed&quot;)</textarea><template class="pc-src pc-hint">Splitting on <code>" "</code> keeps empty pieces when there are several spaces. Which kind of <code>split</code> ignores runs of spaces?</template></div>
+<div class="parsons" data-id="w007d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">A test function</div><div class="pc-prompt"><p>Arrange the lines into a test for <code>is_even</code>, then run it. One line is a trap.</p></div><script type="application/json">{"lines": ["def is_even(n):", "    return n % 2 == 0", "def test_is_even():", "    assert is_even(4)", "    assert not is_even(7)", "    assert is_even(0)", "test_is_even()"], "distractors": ["    assert(is_even(4), \"4 is even\")"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Which assert fails?</div><div class="pc-prompt"><p>For each block, write the number of the <strong>first</strong> assert that fails (1, 2 or 3), or <code>0</code> if none fails.</p>
+<pre><code class="language-python"># Block A
+s = &quot;Atlas&quot;
+assert len(s) == 5          # 1
+assert s[0].islower()       # 2
+assert s.endswith(&quot;s&quot;)      # 3
+
+# Block B
+n = 10
+assert n % 2 == 0           # 1
+assert 0 &lt; n &lt;= 10          # 2
+assert n // 3 == 3          # 3
+
+# Block C
+assert (&quot;x&quot;, &quot;y&quot;)           # 1
+assert 0.1 * 3 == 0.3       # 2
+assert &quot;&quot; or &quot;z&quot;            # 3
+</code></pre></div><textarea class="pc-src pc-code" hidden>block_a = ___
+block_b = ___
+block_c = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_blocks():
+    &quot;each block&quot;
+    assert block_a == 2, &quot;&#x27;A&#x27; is upper case.&quot;
+    assert block_b == 0, &quot;All three are true: 10 // 3 is 3.&quot;
+    assert block_c == 2, &quot;A non-empty tuple is truthy, so 1 passes; 0.1 * 3 isn&#x27;t exactly 0.3.&quot;</textarea><textarea class="pc-src pc-solution" hidden>block_a = 2
+block_b = 0
+block_c = 2</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w007d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>assert x &gt; 0</code> do when x is 5?", "answer": 1, "explain": "A true assert is silent.", "options": ["Prints True", "Nothing", "Raises an error", "Returns True"]}, {"type": "text", "q": "What error does a failing assert raise?", "answer": ["AssertionError", "assertion error"], "explain": "With your message, if you gave one."}, {"type": "mc", "q": "Why does <code>assert(x &gt; 0, \"msg\")</code> never fail?", "answer": 1, "explain": "assert isn&rsquo;t a function; drop the brackets.", "options": ["Messages stop it failing", "The brackets make a non-empty tuple, which is always truthy", "assert can&rsquo;t use &gt;", "It does fail"]}, {"type": "mc", "q": "What should a test check?", "answer": 1, "explain": "Edges are where bugs hide.", "options": ["Only one typical case", "Typical cases, boundaries and special cases", "Only errors", "Nothing; just run the code"]}, {"type": "mc", "q": "In test-driven development, what comes first?", "answer": 1, "explain": "Then you write code until they pass.", "options": ["The function body", "The tests", "The documentation website", "Optimisation"]}, {"type": "mc", "q": "How should a test compare two floats?", "answer": 1, "explain": "Floats are rarely exact.", "options": ["With ==", "With math.isclose or a small tolerance", "With is", "Floats can&rsquo;t be tested"]}, {"type": "mc", "q": "Should you use assert to check what a user typed?", "answer": 1, "explain": "assert is for your own reasoning.", "options": ["Yes", "No: asserts can be switched off; use if and a message"]}, {"type": "mc", "q": "What is regression testing?", "answer": 1, "explain": "It protects working code from later changes.", "options": ["Testing slowly", "Re-running old tests after changes to catch bugs that come back", "Testing only new code", "Removing tests"]}, {"type": "mc", "q": "What&rsquo;s a good name for a test of <code>parse_date</code>?", "answer": 1, "explain": "Tools find tests whose names start with test_.", "options": ["<code>check()</code>", "<code>test_parse_date()</code>", "<code>parse_date_2()</code>", "<code>t()</code>"]}, {"type": "mc", "q": "What happens here?", "answer": 2, "explain": "7 % 2 is 1, so the precondition fails.", "options": ["Returns 3", "Returns 3.5", "AssertionError: n must be even", "Nothing"], "code": "def half(n):\n    assert n % 2 == 0, \"n must be even\"\n    return n // 2\nhalf(7)"}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d5-challenge" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Challenge: a test suite that catches bugs</div><div class="pc-prompt"><p><code>is_valid_time(text)</code> should return <code>True</code> for a 24-hour time in the form <code>HH:MM</code>: exactly 5 characters, two digits, a colon, two digits, hours 00 to 23 and minutes 00 to 59.</p>
+<p>Write <code>test_is_valid_time()</code>. It must <strong>pass</strong> the correct function given below, and <strong>fail</strong> (with an <code>AssertionError</code>) for every one of six broken versions the checks will swap in, each with a different subtle bug. Think hard about boundaries and odd inputs: that&rsquo;s what good testers do.</p></div><textarea class="pc-src pc-code" hidden>def is_valid_time(text):
+    &quot;&quot;&quot;Return True if text is a valid 24-hour time HH:MM.&quot;&quot;&quot;
+    return (len(text) == 5 and text[2] == &quot;:&quot; and text[:2].isdigit() and text[3:].isdigit()
+            and int(text[:2]) &lt;= 23 and int(text[3:]) &lt;= 59)
+
+def test_is_valid_time():
+    pass</textarea><textarea class="pc-src pc-tests" hidden>def test_passes():
+    &quot;your test passes the correct function&quot;
+    test_is_valid_time()
+def test_catches():
+    &quot;your test catches every broken version&quot;
+    def ok(t):
+        return len(t) == 5 and t[2] == &quot;:&quot; and t[:2].isdigit() and t[3:].isdigit() and int(t[:2]) &lt;= 23 and int(t[3:]) &lt;= 59
+    broken = {
+        &quot;hours up to 24 allowed&quot;: lambda t: len(t) == 5 and t[2] == &quot;:&quot; and t[:2].isdigit() and t[3:].isdigit() and int(t[:2]) &lt;= 24 and int(t[3:]) &lt;= 59,
+        &quot;minutes up to 60 allowed&quot;: lambda t: len(t) == 5 and t[2] == &quot;:&quot; and t[:2].isdigit() and t[3:].isdigit() and int(t[:2]) &lt;= 23 and int(t[3:]) &lt;= 60,
+        &quot;hour 23 refused&quot;: lambda t: len(t) == 5 and t[2] == &quot;:&quot; and t[:2].isdigit() and t[3:].isdigit() and int(t[:2]) &lt; 23 and int(t[3:]) &lt;= 59,
+        &quot;any separator allowed&quot;: lambda t: len(t) == 5 and t[:2].isdigit() and t[3:].isdigit() and int(t[:2]) &lt;= 23 and int(t[3:]) &lt;= 59,
+        &quot;one-digit hours allowed&quot;: lambda t: 4 &lt;= len(t) &lt;= 5 and &quot;:&quot; in t and t.split(&quot;:&quot;)[0].isdigit() and t.split(&quot;:&quot;)[1].isdigit() and int(t.split(&quot;:&quot;)[0]) &lt;= 23 and int(t.split(&quot;:&quot;)[1]) &lt;= 59,
+        &quot;minute 00 refused&quot;: lambda t: ok(t) and t[3:] != &quot;00&quot;,
+    }
+    g = test_is_valid_time.__globals__
+    good = g[&quot;is_valid_time&quot;]
+    try:
+        for name, bad in broken.items():
+            g[&quot;is_valid_time&quot;] = bad
+            try:
+                test_is_valid_time()
+            except AssertionError:
+                continue
+            except Exception:
+                continue
+            assert False, f&quot;Your test passed a broken version ({name}). Add a case that catches it.&quot;
+    finally:
+        g[&quot;is_valid_time&quot;] = good</textarea><textarea class="pc-src pc-solution" hidden>def is_valid_time(text):
+    &quot;&quot;&quot;Return True if text is a valid 24-hour time HH:MM.&quot;&quot;&quot;
+    return (len(text) == 5 and text[2] == &quot;:&quot; and text[:2].isdigit() and text[3:].isdigit()
+            and int(text[:2]) &lt;= 23 and int(text[3:]) &lt;= 59)
+
+def test_is_valid_time():
+    for t in [&quot;00:00&quot;, &quot;23:59&quot;, &quot;12:00&quot;, &quot;07:05&quot;, &quot;23:00&quot;]:
+        assert is_valid_time(t), f&quot;{t} should be valid&quot;
+    for t in [&quot;24:00&quot;, &quot;12:60&quot;, &quot;9:30&quot;, &quot;12-30&quot;, &quot;ab:cd&quot;, &quot;123:45&quot;, &quot;&quot;, &quot;12:5&quot;, &quot;1200&quot;]:
+        assert not is_valid_time(t), f&quot;{t} should be invalid&quot;</textarea><template class="pc-src pc-hint">Check valid times at the edges: <code>00:00</code>, <code>23:59</code>, <code>12:00</code>. Then times that must be refused because they&rsquo;re just past an edge: <code>24:00</code>, <code>12:60</code>.</template><template class="pc-src pc-hint">Then odd shapes: <code>9:30</code> (one digit), <code>12-30</code> (wrong separator), <code>ab:cd</code>, <code>123:45</code>, the empty string.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Take any function you wrote this week and write a test for it with at least five asserts, including the boundaries. Then break the function on purpose and check that your test notices. Tomorrow is the Forge: a project designed top-down and tested function by function, and the weekly quiz.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w007d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w007d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w007d5", "week": 7, "day": 5, "title": "Checking functions with assert", "exercises": [{"id": "w007d5-first_test", "title": "Your first test", "points": 10}, {"id": "w007d5-pass_the_tests", "title": "Make the tests pass", "points": 10}, {"id": "w007d5-boundaries", "title": "Test the boundaries", "points": 15}, {"id": "w007d5-tdd", "title": "Test first", "points": 15}, {"id": "w007d5-float_test", "title": "Close enough", "points": 10}, {"id": "w007d5-precondition", "title": "A precondition", "points": 10}, {"id": "w007d5-bug1", "title": "A test that can't fail", "points": 10}, {"id": "w007d5-bug2", "title": "Read the failure", "points": 10}, {"id": "w007d5-trace", "title": "Which assert fails?", "points": 15}, {"id": "w007d5-challenge", "title": "Challenge: a test suite that catches bugs", "points": 30}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

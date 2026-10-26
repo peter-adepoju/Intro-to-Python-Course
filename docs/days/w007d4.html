@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="dd97601b29">
+<title>Week 7 Day 4: Top-down design | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=dd97601b29">
+<link rel="stylesheet" href="../assets/css/site.css?v=dd97601b29">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=dd97601b29"></script>
+<script src="../assets/vendor/codemirror.js?v=dd97601b29" defer></script>
+<meta name="description" content="How do you write a program too big to hold in your head? You don’t start with the first line. You start with the whole idea, split it into a few big steps,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w007d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 7 Day 4: Top-down design">
+<meta property="og:description" content="How do you write a program too big to hold in your head? You don’t start with the first line. You start with the whole idea, split it into a few big steps,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w007d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-7">Week 7: Functions II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#big-steps-first" data-sec="big-steps-first">Big steps first</a></li><li><a href="#stubs-running-an-unfinished-program" data-sec="stubs-running-an-unfinished-program">Stubs: running an unfinished program</a></li><li><a href="#main-and-the-name-guard" data-sec="main-and-the-name-guard">main() and the name guard</a></li><li><a href="#a-worked-example-start-to-finish" data-sec="a-worked-example-start-to-finish">A worked example, start to finish</a></li><li><a href="#good-pieces" data-sec="good-pieces">Good pieces</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 7, Day 4</span></p>
+      <h1>Top-down design</h1>
+      <div class="day-intro"><p>How do you write a program too big to hold in your head? You don&rsquo;t start with the first line. You start with the whole idea, split it into a few big steps, give each step a function, and then split each of those, until every piece is small enough to write easily. Today you&rsquo;ll design programs this way, with stubs, a main function, and a structure chart that shows the plan.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Break a problem into a few steps, and each step into smaller ones, before writing the details</li><li>Write stubs, functions with a name, parameters and a docstring but no real body yet, and run the program while it&rsquo;s unfinished</li><li>Organise a program with a <code>main()</code> function and the <code>if __name__ == "__main__":</code> guard</li><li>Draw and read a structure chart showing which functions call which</li><li>Fill in and test one function at a time</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Big steps first: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Stubs: running an unfinished program: 30 min"></span><span class="plan-seg s1" style="flex:20" title="main() and the __name__ guard: 20 min"></span><span class="plan-seg s0" style="flex:25" title="A worked example, start to finish: 25 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Big steps first</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Stubs: running an unfinished program</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">main() and the <strong>name</strong> guard</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">A worked example, start to finish</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w007d4.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d4-p1"><textarea class="pc-src pc-code" hidden>def a():
+    return b() + c()
+
+def b():
+    return 1
+
+def c():
+    return b() * 10
+
+print(a())</textarea></div>
+<p><code>a</code> was written as if <code>b</code> and <code>c</code> already existed. You can read <code>a</code> and understand it before knowing how <code>b</code> and <code>c</code> work. That&rsquo;s the idea behind today: write the top first, trusting that the pieces below will be filled in.</p>
+<h2 id="big-steps-first">Big steps first</h2>
+<p>Suppose you&rsquo;re asked for a program that runs a times-table quiz: it asks ten random questions, tells the player whether each answer is right, and gives a score at the end with a comment.</p>
+<p>Don&rsquo;t start by writing <code>import random</code>. Start by saying, in a few lines, what the program does:</p>
+<ol>
+<li>Greet the player.</li>
+<li>Ask ten questions, counting the right answers.</li>
+<li>Show the score and a comment.</li>
+</ol>
+<p>Each of those is a function. Step 2 is still big, so split it again: asking <strong>one</strong> question means making up two numbers, asking for an answer, and checking it. Keep splitting until each piece is something you could write in a few lines without thinking hard.</p>
+<p>This is called <strong>top-down design</strong>, or <strong>stepwise refinement</strong>: you refine the big steps into smaller ones, level by level. You can draw it as a <strong>structure chart</strong>, with each function above the functions it calls:</p>
+<figure class="widget" data-widget="callgraph"><script type="application/json">{"code": "def main():\n    \"\"\"Run the whole quiz.\"\"\"\n    greet()\n    score = ask_questions(10)\n    show_result(score, 10)\n\ndef greet():\n    \"\"\"Explain the quiz to the player.\"\"\"\n    pass\n\ndef ask_questions(count):\n    \"\"\"Ask count questions; return how many were right.\"\"\"\n    right = 0\n    for _ in range(count):\n        if ask_one():\n            right += 1\n    return right\n\ndef ask_one():\n    \"\"\"Ask one random question; return True if answered correctly.\"\"\"\n    return False\n\ndef show_result(score, out_of):\n    \"\"\"Print the score and a comment.\"\"\"\n    pass\n\nmain()"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The plan for the quiz as a structure chart. Yellow boxes are stubs, not written yet. Open &lsquo;Edit the program&rsquo;, fill in a stub, and watch its box change.</figcaption></figure>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Design from the top: describe the whole program in a few steps, make each step a function, and split any step that&rsquo;s still too big. Write the details last.</p></aside>
+<h2 id="stubs-running-an-unfinished-program">Stubs: running an unfinished program</h2>
+<p>You don&rsquo;t have to write every function before you can run the program. A <strong>stub</strong> is a function with its name, parameters and docstring, but a placeholder body: <code>pass</code>, or a simple <code>return</code> of a value of the right type.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d4-e2"><div class="pc-title">A program made of stubs</div><textarea class="pc-src pc-code" hidden>def main():
+    &quot;&quot;&quot;Run the whole quiz.&quot;&quot;&quot;
+    greet()
+    score = ask_questions(3)
+    show_result(score, 3)
+
+def greet():
+    &quot;&quot;&quot;Explain the quiz to the player.&quot;&quot;&quot;
+    print(&quot;(greet: not written yet)&quot;)
+
+def ask_questions(count):
+    &quot;&quot;&quot;Ask count questions; return how many were right.&quot;&quot;&quot;
+    print(f&quot;(ask_questions: would ask {count})&quot;)
+    return 0
+
+def show_result(score, out_of):
+    &quot;&quot;&quot;Print the score and a comment.&quot;&quot;&quot;
+    print(f&quot;(show_result: {score}/{out_of})&quot;)
+
+main()</textarea></div>
+<p>It runs! The output is placeholders, but it proves that the <strong>structure</strong> works: every function is called with the right arguments, and every return value goes to the right place. Now you fill in one stub at a time, running the program after each, and the rest of the program keeps working around it.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>A stub that returns something should return a <strong>sensible</strong> value of the right type: <code>0</code> for a count, <code>False</code> for a yes/no question, <code>""</code> for text. Then the code that calls it can run normally.</p></aside>
+<p>Why work this way?</p>
+<ul>
+<li><strong>You never face a blank page.</strong> There&rsquo;s always a next stub to fill in, and each one is small.</li>
+<li><strong>Mistakes show up early.</strong> A badly designed step is obvious when you write <code>main</code>, before you&rsquo;ve spent an hour on its details.</li>
+<li><strong>Each function can be tested alone.</strong> When a stub becomes real, you check just that one function.</li>
+</ul>
+<h2 id="main-and-the-name-guard">main() and the <strong>name</strong> guard</h2>
+<p>The top of the structure chart is usually a function called <code>main</code>. It&rsquo;s the program&rsquo;s summary, readable in a few seconds. The last line of the file calls it.</p>
+<p>You&rsquo;ll often see that last line written like this:</p>
+<pre><code class="language-python">if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<p>Python sets the special variable <code>__name__</code> to <code>"__main__"</code> when a file is run directly. When the same file is <strong>imported</strong> by another program as a module (you&rsquo;ll do this in Week 15), <code>__name__</code> is the module&rsquo;s name instead, so <code>main()</code> doesn&rsquo;t run, and the other program can use the file&rsquo;s functions without starting the quiz. On this site every program is run directly, so the guard is always true:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d4-e3"><textarea class="pc-src pc-code" hidden>print(__name__)</textarea></div>
+<p>It&rsquo;s a good habit to start now: definitions first, <code>main</code> last, then the guard.</p>
+<h2 id="a-worked-example-start-to-finish">A worked example, start to finish</h2>
+<p>Here&rsquo;s the times-table quiz built fully, top-down. The design came first; each stub was then filled in. Read <code>main</code> first, then each function it calls, in order. Run it, and X-ray it to watch the frames come and go.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d4-e4"><div class="pc-title">The finished quiz</div><textarea class="pc-src pc-code" hidden>import random
+
+def main():
+    &quot;&quot;&quot;Run a three-question times-table quiz.&quot;&quot;&quot;
+    greet()
+    score = ask_questions(3)
+    show_result(score, 3)
+
+def greet():
+    &quot;&quot;&quot;Explain the quiz to the player.&quot;&quot;&quot;
+    print(&quot;Times tables! Answer three questions.&quot;)
+
+def ask_questions(count):
+    &quot;&quot;&quot;Ask count questions; return how many were right.&quot;&quot;&quot;
+    right = 0
+    for _ in range(count):
+        if ask_one():
+            right += 1
+    return right
+
+def ask_one():
+    &quot;&quot;&quot;Ask one random question; return True if answered correctly.&quot;&quot;&quot;
+    a = random.randint(2, 12)
+    b = random.randint(2, 12)
+    answer = int(input(f&quot;{a} x {b} = &quot;))
+    if answer == a * b:
+        print(&quot;Correct!&quot;)
+        return True
+    print(f&quot;No, it&#x27;s {a * b}.&quot;)
+    return False
+
+def show_result(score, out_of):
+    &quot;&quot;&quot;Print the score and a comment.&quot;&quot;&quot;
+    print(f&quot;You scored {score}/{out_of}.&quot;)
+    if score == out_of:
+        print(&quot;Perfect!&quot;)
+    elif score &gt;= out_of / 2:
+        print(&quot;Well done.&quot;)
+    else:
+        print(&quot;Keep practising.&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()</textarea></div>
+<p>Notice how short every function is. Notice too that <code>ask_one</code> is the only function that knows <strong>how</strong> a question is asked. If you decided to ask addition questions instead, you&rsquo;d change only <code>ask_one</code>.</p>
+<h2 id="good-pieces">Good pieces</h2>
+<p>How do you know you&rsquo;ve split a problem well? Good functions have these qualities:</p>
+<ul>
+<li><strong>One job.</strong> You can describe it in one sentence without saying &ldquo;and&rdquo;. <code>ask_one</code> asks one question. A function that &ldquo;reads the file and calculates the averages and prints the report&rdquo; should be three.</li>
+<li><strong>A clear name.</strong> A verb for functions that do something (<code>show_result</code>), a question for ones that answer yes or no (<code>is_finished</code>).</li>
+<li><strong>Short.</strong> If it doesn&rsquo;t fit on your screen, it&rsquo;s probably doing more than one job.</li>
+<li><strong>Talks only through its parameters and return value.</strong> No hidden global variables.</li>
+</ul>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d4-fill_stubs" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Fill in the stubs</div><div class="pc-prompt"><p>This program&rsquo;s design is finished and <code>main</code> works. Fill in the three stubs so that the program prints a box around a title, followed by the number of vowels in it:</p>
+<pre><code>+--------------+
+| Python Atlas |
++--------------+
+Vowels: 3
+</code></pre></div><textarea class="pc-src pc-code" hidden>def main():
+    &quot;&quot;&quot;Draw a titled box and report its vowels.&quot;&quot;&quot;
+    title = &quot;Python Atlas&quot;
+    draw_box(title)
+    print(&quot;Vowels:&quot;, count_vowels(title))
+
+def border(width):
+    &quot;&quot;&quot;Return a border line for a box whose text is width characters wide.&quot;&quot;&quot;
+    return &quot;&quot;
+
+def draw_box(text):
+    &quot;&quot;&quot;Print text inside a box made of +, - and |.&quot;&quot;&quot;
+    pass
+
+def count_vowels(text):
+    &quot;&quot;&quot;Return how many vowels text contains.&quot;&quot;&quot;
+    return 0
+
+main()</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the box and the count&quot;
+    expect_output(&quot;+--------------+\n| Python Atlas |\n+--------------+\nVowels: 3&quot;)
+def test_functions():
+    &quot;each function on its own&quot;
+    assert border(2) == &quot;+----+&quot;, &quot;border(2) should be +----+ (the text plus a space on each side).&quot;
+    assert count_vowels(&quot;AEIOU xyz&quot;) == 5</textarea><textarea class="pc-src pc-solution" hidden>def main():
+    &quot;&quot;&quot;Draw a titled box and report its vowels.&quot;&quot;&quot;
+    title = &quot;Python Atlas&quot;
+    draw_box(title)
+    print(&quot;Vowels:&quot;, count_vowels(title))
+
+def border(width):
+    &quot;&quot;&quot;Return a border line for a box whose text is width characters wide.&quot;&quot;&quot;
+    return &quot;+&quot; + &quot;-&quot; * (width + 2) + &quot;+&quot;
+
+def draw_box(text):
+    &quot;&quot;&quot;Print text inside a box made of +, - and |.&quot;&quot;&quot;
+    print(border(len(text)))
+    print(&quot;| &quot; + text + &quot; |&quot;)
+    print(border(len(text)))
+
+def count_vowels(text):
+    &quot;&quot;&quot;Return how many vowels text contains.&quot;&quot;&quot;
+    count = 0
+    for ch in text.lower():
+        if ch in &quot;aeiou&quot;:
+            count += 1
+    return count
+
+main()</textarea><template class="pc-src pc-hint"><code>border(width)</code> is <code>"+" + "-" * (width + 2) + "+"</code>. <code>draw_box</code> prints the border, the text line, and the border again, using <code>border(len(text))</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d4-write_main" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Write main</div><div class="pc-prompt"><p>The functions are written. Write <code>main()</code> so the program asks for a temperature in Celsius with the prompt <code>Celsius:</code>, converts it, and prints a line like <code>25.0 C = 77.0 F (warm)</code>. Finish with the <code>__name__</code> guard.</p></div><textarea class="pc-src pc-code" hidden>def read_celsius():
+    &quot;&quot;&quot;Ask for a temperature in Celsius and return it as a float.&quot;&quot;&quot;
+    return float(input(&quot;Celsius: &quot;))
+
+def to_fahrenheit(c):
+    &quot;&quot;&quot;Return the Fahrenheit equivalent of c degrees Celsius.&quot;&quot;&quot;
+    return c * 9 / 5 + 32
+
+def describe(c):
+    &quot;&quot;&quot;Return a one-word description of a temperature in Celsius.&quot;&quot;&quot;
+    if c &lt; 10:
+        return &quot;cold&quot;
+    if c &lt; 25:
+        return &quot;mild&quot;
+    return &quot;warm&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;several temperatures&quot;
+    expect_output(&quot;Celsius: 25\n25.0 C = 77.0 F (warm)&quot;, inputs=[&quot;25&quot;], echo=True)
+    expect_output(&quot;Celsius: 3\n3.0 C = 37.4 F (cold)&quot;, inputs=[&quot;3&quot;], echo=True)
+def test_structure():
+    &quot;main and the guard&quot;
+    assert callable(main), &quot;Define main().&quot;
+    assert &#x27;if __name__ == &quot;__main__&quot;:&#x27; in source or &quot;if __name__ == &#x27;__main__&#x27;:&quot; in source, &quot;End with the __name__ guard.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def read_celsius():
+    &quot;&quot;&quot;Ask for a temperature in Celsius and return it as a float.&quot;&quot;&quot;
+    return float(input(&quot;Celsius: &quot;))
+
+def to_fahrenheit(c):
+    &quot;&quot;&quot;Return the Fahrenheit equivalent of c degrees Celsius.&quot;&quot;&quot;
+    return c * 9 / 5 + 32
+
+def describe(c):
+    &quot;&quot;&quot;Return a one-word description of a temperature in Celsius.&quot;&quot;&quot;
+    if c &lt; 10:
+        return &quot;cold&quot;
+    if c &lt; 25:
+        return &quot;mild&quot;
+    return &quot;warm&quot;
+
+def main():
+    &quot;&quot;&quot;Convert one temperature and describe it.&quot;&quot;&quot;
+    c = read_celsius()
+    print(f&quot;{c} C = {to_fahrenheit(c)} F ({describe(c)})&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d4-design_stubs" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Design with stubs</div><div class="pc-prompt"><p>Design, but don&rsquo;t write, a program that marks a multiple-choice test. Write <strong>stubs</strong> for exactly these four functions, each with the parameters shown and a one-line docstring:</p>
+<ul>
+<li><code>read_answers(prompt)</code> reads a line of answers like <code>ABCDA</code> and returns it in capitals.</li>
+<li><code>count_correct(answers, key)</code> returns how many answers match the key, position by position.</li>
+<li><code>percentage(correct, total)</code> returns the score as a percentage.</li>
+<li><code>grade(percent)</code> returns a letter grade.</li>
+</ul>
+<p>Each stub must return a sensible placeholder of the right type, so the program can run. Then write <code>main()</code> that uses all four, with the key <code>"ABCDA"</code>, and call it.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_stubs():
+    &quot;four documented functions&quot;
+    import inspect
+    for name, params in [(&quot;read_answers&quot;, [&quot;prompt&quot;]), (&quot;count_correct&quot;, [&quot;answers&quot;, &quot;key&quot;]), (&quot;percentage&quot;, [&quot;correct&quot;, &quot;total&quot;]), (&quot;grade&quot;, [&quot;percent&quot;])]:
+        f = globals().get(name)
+        assert callable(f), f&quot;Define {name}.&quot;
+        assert list(inspect.signature(f).parameters) == params, f&quot;{name} should take {params}.&quot;
+        assert f.__doc__, f&quot;Give {name} a docstring.&quot;
+    assert isinstance(count_correct(&quot;A&quot;, &quot;A&quot;), int)
+    assert isinstance(grade(50.0), str)
+    assert callable(main)
+def test_runs():
+    &quot;the unfinished program runs&quot;
+    out = run(inputs=[&quot;ABCDA&quot;] * 3)</textarea><textarea class="pc-src pc-solution" hidden>def read_answers(prompt):
+    &quot;&quot;&quot;Read a line of answers and return it in capitals.&quot;&quot;&quot;
+    return &quot;&quot;
+
+def count_correct(answers, key):
+    &quot;&quot;&quot;Return how many answers match the key, position by position.&quot;&quot;&quot;
+    return 0
+
+def percentage(correct, total):
+    &quot;&quot;&quot;Return correct out of total as a percentage.&quot;&quot;&quot;
+    return 0.0
+
+def grade(percent):
+    &quot;&quot;&quot;Return a letter grade for a percentage.&quot;&quot;&quot;
+    return &quot;F&quot;
+
+def main():
+    &quot;&quot;&quot;Mark one set of answers.&quot;&quot;&quot;
+    key = &quot;ABCDA&quot;
+    answers = read_answers(&quot;Answers: &quot;)
+    correct = count_correct(answers, key)
+    percent = percentage(correct, len(key))
+    print(f&quot;{correct}/{len(key)}, {percent}%, grade {grade(percent)}&quot;)
+
+main()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d4-finish_design" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Now finish it</div><div class="pc-prompt"><p>Here&rsquo;s a finished design for the test marker. Fill in the bodies, so that answers <code>abcca</code> against key <code>ABCDA</code> print <code>4/5, 80.0%, grade A</code>. Grades: A for 70% or more, B for 60%, C for 50%, otherwise F. If the answers are shorter than the key, missing answers count as wrong.</p></div><textarea class="pc-src pc-code" hidden>def read_answers(prompt):
+    &quot;&quot;&quot;Read a line of answers and return it in capitals.&quot;&quot;&quot;
+    return &quot;&quot;
+
+def count_correct(answers, key):
+    &quot;&quot;&quot;Return how many answers match the key, position by position.&quot;&quot;&quot;
+    return 0
+
+def percentage(correct, total):
+    &quot;&quot;&quot;Return correct out of total as a percentage.&quot;&quot;&quot;
+    return 0.0
+
+def grade(percent):
+    &quot;&quot;&quot;Return a letter grade for a percentage.&quot;&quot;&quot;
+    return &quot;F&quot;
+
+def main():
+    &quot;&quot;&quot;Mark one set of answers.&quot;&quot;&quot;
+    key = &quot;ABCDA&quot;
+    answers = read_answers(&quot;Answers: &quot;)
+    correct = count_correct(answers, key)
+    percent = percentage(correct, len(key))
+    print(f&quot;{correct}/{len(key)}, {percent}%, grade {grade(percent)}&quot;)
+
+main()</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;marks the answers&quot;
+    expect_output(&quot;Answers: abcca\n4/5, 80.0%, grade A&quot;, inputs=[&quot;abcca&quot;], echo=True)
+    expect_output(&quot;Answers: AB\n2/5, 40.0%, grade F&quot;, inputs=[&quot;AB&quot;], echo=True)
+def test_functions():
+    &quot;each function&quot;
+    assert count_correct(&quot;ABC&quot;, &quot;ABD&quot;) == 2 and count_correct(&quot;&quot;, &quot;AB&quot;) == 0
+    assert percentage(3, 4) == 75.0
+    assert grade(70) == &quot;A&quot; and grade(65) == &quot;B&quot; and grade(50) == &quot;C&quot; and grade(49.9) == &quot;F&quot;</textarea><textarea class="pc-src pc-solution" hidden>def read_answers(prompt):
+    &quot;&quot;&quot;Read a line of answers and return it in capitals.&quot;&quot;&quot;
+    return input(prompt).upper()
+
+def count_correct(answers, key):
+    &quot;&quot;&quot;Return how many answers match the key, position by position.&quot;&quot;&quot;
+    count = 0
+    for i in range(min(len(answers), len(key))):
+        if answers[i] == key[i]:
+            count += 1
+    return count
+
+def percentage(correct, total):
+    &quot;&quot;&quot;Return correct out of total as a percentage.&quot;&quot;&quot;
+    return correct / total * 100
+
+def grade(percent):
+    &quot;&quot;&quot;Return a letter grade for a percentage.&quot;&quot;&quot;
+    if percent &gt;= 70:
+        return &quot;A&quot;
+    if percent &gt;= 60:
+        return &quot;B&quot;
+    if percent &gt;= 50:
+        return &quot;C&quot;
+    return &quot;F&quot;
+
+def main():
+    &quot;&quot;&quot;Mark one set of answers.&quot;&quot;&quot;
+    key = &quot;ABCDA&quot;
+    answers = read_answers(&quot;Answers: &quot;)
+    correct = count_correct(answers, key)
+    percent = percentage(correct, len(key))
+    print(f&quot;{correct}/{len(key)}, {percent}%, grade {grade(percent)}&quot;)
+
+main()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d4-split_job" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">One job each</div><div class="pc-prompt"><p><code>process</code> does three jobs at once. Split it into <code>clean(text)</code> (strip and lower-case), <code>count_words(text)</code> and <code>longest_word(text)</code>, each doing one job, and rewrite <code>process</code> to call them. The output must not change.</p></div><textarea class="pc-src pc-code" hidden>def process(text):
+    text = text.strip().lower()
+    words = text.split()
+    best = &quot;&quot;
+    for w in words:
+        if len(w) &gt; len(best):
+            best = w
+    print(f&quot;{len(words)} words, longest: {best}&quot;)
+
+process(&quot;  The QUICK brown Fox  &quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;same output&quot;
+    expect_output(&quot;4 words, longest: quick&quot;)
+def test_pieces():
+    &quot;three small functions&quot;
+    assert clean(&quot;  Hi There &quot;) == &quot;hi there&quot;
+    assert count_words(&quot;a b  c&quot;) == 3
+    assert longest_word(&quot;fig banana kiwi&quot;) == &quot;banana&quot;</textarea><textarea class="pc-src pc-solution" hidden>def clean(text):
+    &quot;&quot;&quot;Return text stripped and in lower case.&quot;&quot;&quot;
+    return text.strip().lower()
+
+def count_words(text):
+    &quot;&quot;&quot;Return the number of words in text.&quot;&quot;&quot;
+    return len(text.split())
+
+def longest_word(text):
+    &quot;&quot;&quot;Return the longest word in text, the first if tied.&quot;&quot;&quot;
+    best = &quot;&quot;
+    for w in text.split():
+        if len(w) &gt; len(best):
+            best = w
+    return best
+
+def process(text):
+    text = clean(text)
+    print(f&quot;{count_words(text)} words, longest: {longest_word(text)}&quot;)
+
+process(&quot;  The QUICK brown Fox  &quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Nothing happens</div><div class="pc-prompt"><p>This program has a complete design, but running it prints nothing. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def main():
+    &quot;&quot;&quot;Say hello and goodbye.&quot;&quot;&quot;
+    hello()
+    goodbye()
+
+def hello():
+    print(&quot;Hello&quot;)
+
+def goodbye():
+    print(&quot;Goodbye&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints both&quot;
+    expect_output(&quot;Hello\nGoodbye&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def main():
+    &quot;&quot;&quot;Say hello and goodbye.&quot;&quot;&quot;
+    hello()
+    goodbye()
+
+def hello():
+    print(&quot;Hello&quot;)
+
+def goodbye():
+    print(&quot;Goodbye&quot;)
+
+main()</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A stub that breaks the caller</div><div class="pc-prompt"><p>The program crashes with a <code>TypeError</code> while the design is still unfinished, because one stub returns the wrong kind of placeholder. Fix that stub so the program runs (and prints <code>Total: 0</code>), without writing its real body.</p></div><textarea class="pc-src pc-code" hidden>def main():
+    &quot;&quot;&quot;Add up the prices.&quot;&quot;&quot;
+    total = 0
+    for p in &quot;100 250 75&quot;.split():
+        total += price_with_tax(int(p))
+    print(&quot;Total:&quot;, total)
+
+def price_with_tax(price):
+    &quot;&quot;&quot;Return price plus 7.5% tax.&quot;&quot;&quot;
+    pass
+
+main()</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the unfinished program runs&quot;
+    expect_output(&quot;Total: 0&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def main():
+    &quot;&quot;&quot;Add up the prices.&quot;&quot;&quot;
+    total = 0
+    for p in &quot;100 250 75&quot;.split():
+        total += price_with_tax(int(p))
+    print(&quot;Total:&quot;, total)
+
+def price_with_tax(price):
+    &quot;&quot;&quot;Return price plus 7.5% tax.&quot;&quot;&quot;
+    return 0
+
+main()</textarea><template class="pc-src pc-hint"><code>pass</code> makes the function return <code>None</code>, and <code>0 + None</code> is an error. A stub for a number should return a number.</template></div>
+<div class="parsons" data-id="w007d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">The shape of a program</div><div class="pc-prompt"><p>Arrange the lines into the standard layout: a helper, a <code>main</code> that uses it, and the guard. One line is a trap.</p></div><script type="application/json">{"lines": ["def square(n):", "    return n * n", "def main():", "    print(square(9))", "if __name__ == \"__main__\":", "    main()"], "distractors": ["main"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Read the design</div><div class="pc-prompt"><p>Without running it, answer the questions about this design.</p>
+<pre><code class="language-python">def main():
+    data = load()
+    result = analyse(data)
+    report(result)
+
+def load():
+    return &quot;3 1 4 1 5&quot;
+
+def analyse(data):
+    return largest(data) - smallest(data)
+
+def largest(data): ...
+def smallest(data): ...
+def report(value): ...
+</code></pre></div><textarea class="pc-src pc-code" hidden>called_by_main = ___      # how many different functions main calls directly
+called_by_analyse = ___   # how many different functions analyse calls
+deepest = &quot;___&quot;           # the name of one function at the deepest level below main</textarea><textarea class="pc-src pc-tests" hidden>def test_answers():
+    &quot;each answer&quot;
+    assert called_by_main == 3, &quot;load, analyse and report.&quot;
+    assert called_by_analyse == 2, &quot;largest and smallest.&quot;
+    assert deepest in (&quot;largest&quot;, &quot;smallest&quot;), &quot;main calls analyse, which calls largest and smallest.&quot;</textarea><textarea class="pc-src pc-solution" hidden>called_by_main = 3
+called_by_analyse = 2
+deepest = &quot;largest&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w007d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does top-down design start with?", "answer": 1, "explain": "Details come last.", "options": ["The first line of code", "The whole program described in a few big steps", "The hardest function", "Testing"]}, {"type": "mc", "q": "What is a stub?", "answer": 1, "explain": "It lets the unfinished program run.", "options": ["A broken function", "A function with its name, parameters and docstring but a placeholder body", "A comment", "A short variable name"]}, {"type": "mc", "q": "What should a stub for count_items() return?", "answer": 1, "explain": "So the code that calls it can carry on.", "options": ["None", "A sensible placeholder of the right type, like 0", "A string", "Nothing at all"]}, {"type": "text", "q": "What is <code>__name__</code> when a file is run directly?", "answer": ["__main__", "'__main__'", "\"__main__\""], "explain": "It&rsquo;s the module&rsquo;s name when the file is imported instead."}, {"type": "mc", "q": "Why end a file with <code>if __name__ == \"__main__\":</code> and then <code>main()</code>?", "answer": 1, "explain": "Other programs can import its functions safely.", "options": ["It&rsquo;s faster", "So main only runs when the file is run directly, not when it&rsquo;s imported", "Python requires it", "To catch errors"]}, {"type": "mc", "q": "What does a structure chart show?", "answer": 1, "explain": "Each function above the ones it calls.", "options": ["The order of lines", "Which functions call which", "Variable values", "Errors"]}, {"type": "mc", "q": "Which function description suggests it should be split?", "answer": 1, "explain": "Three &lsquo;and&rsquo;s, three jobs.", "options": ["Return the area of a circle", "Read the file and work out the averages and print the report", "Return True if n is prime", "Print the menu"]}, {"type": "mc", "q": "What should main() usually look like?", "answer": 1, "explain": "Readable in a few seconds.", "options": ["Very long, with all the details", "A short summary that calls the big steps", "Empty", "Only print statements"]}, {"type": "mc", "q": "What&rsquo;s a benefit of filling in one stub at a time?", "answer": 1, "explain": "Small steps, each checked.", "options": ["The program never has bugs", "Each function can be written and checked on its own", "It uses less memory", "No testing is needed"]}, {"type": "mc", "q": "What is stepwise refinement?", "answer": 1, "explain": "Another name for top-down design.", "options": ["Making code faster", "Splitting each step into smaller steps until they&rsquo;re easy to write", "Renaming variables", "Removing comments"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d4-challenge" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Challenge: hangman, top-down</div><div class="pc-prompt"><p>Build a game of hangman from this design. The secret word is passed to <code>play</code>, which the checks call with different words. The player has 6 wrong guesses.</p>
+<ul>
+<li><code>show(word, guessed)</code> returns the word with unguessed letters as <code>_</code>, separated by spaces: <code>p _ t h _ n</code>.</li>
+<li><code>is_solved(word, guessed)</code> returns <code>True</code> when every letter of the word has been guessed.</li>
+<li><code>get_guess(guessed)</code> asks <code>Guess:</code> until the player types a single letter they haven&rsquo;t guessed yet (case doesn&rsquo;t matter), printing <code>One new letter, please</code> otherwise, and returns it in lower case.</li>
+<li><code>play(word)</code> runs the game: before each guess it prints the progress and <code>Wrong guesses left: N</code>. A correct guess prints <code>Yes!</code>, a wrong one <code>No.</code>. It ends with <code>You win! The word was python</code> or <code>You lose. The word was python</code>.</li>
+</ul>
+<p><code>guessed</code> is a string holding every letter guessed so far.</p></div><textarea class="pc-src pc-code" hidden>def show(word, guessed):
+    &quot;&quot;&quot;Return the word with unguessed letters as _, separated by spaces.&quot;&quot;&quot;
+    return &quot;&quot;
+
+def is_solved(word, guessed):
+    &quot;&quot;&quot;Return True if every letter of word has been guessed.&quot;&quot;&quot;
+    return False
+
+def get_guess(guessed):
+    &quot;&quot;&quot;Ask until the player types one new letter; return it in lower case.&quot;&quot;&quot;
+    return &quot;a&quot;
+
+def play(word):
+    &quot;&quot;&quot;Play one game of hangman with the secret word.&quot;&quot;&quot;
+    pass
+
+if __name__ == &quot;__main__&quot;:
+    play(&quot;python&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_show():
+    &quot;show&quot;
+    assert show(&quot;python&quot;, &quot;pn&quot;) == &quot;p _ _ _ _ n&quot;
+    assert show(&quot;aa&quot;, &quot;&quot;) == &quot;_ _&quot;
+def test_solved():
+    &quot;is_solved&quot;
+    assert is_solved(&quot;level&quot;, &quot;elv&quot;) and not is_solved(&quot;level&quot;, &quot;el&quot;)
+def test_win():
+    &quot;a win, with a repeated and an invalid guess&quot;
+    want = (&quot;_ _ _\nWrong guesses left: 6\nGuess: c\nYes!\n&quot;
+            &quot;c _ _\nWrong guesses left: 6\nGuess: x\nNo.\n&quot;
+            &quot;c _ _\nWrong guesses left: 5\nGuess: C\nOne new letter, please\nGuess: ab\nOne new letter, please\nGuess: a\nYes!\n&quot;
+            &quot;c a _\nWrong guesses left: 5\nGuess: t\nYes!\nYou win! The word was cat&quot;)
+    got = norm(run_with({&#x27;    play(&quot;python&quot;)&#x27;: &#x27;    play(&quot;cat&quot;)&#x27;}, inputs=[&quot;c&quot;, &quot;x&quot;, &quot;C&quot;, &quot;ab&quot;, &quot;a&quot;, &quot;t&quot;], echo=True))
+    assert got == want, &quot;For the word &#x27;cat&#x27; and guesses c, x, C, ab, a, t your program printed:\n&quot; + got
+def test_lose():
+    &quot;a loss&quot;
+    got = norm(run_with({&#x27;    play(&quot;python&quot;)&#x27;: &#x27;    play(&quot;hi&quot;)&#x27;}, inputs=list(&quot;abcdef&quot;), echo=True))
+    assert got.endswith(&quot;Guess: f\nNo.\nYou lose. The word was hi&quot;), &quot;After six wrong guesses the game should end:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>def show(word, guessed):
+    &quot;&quot;&quot;Return the word with unguessed letters as _, separated by spaces.&quot;&quot;&quot;
+    shown = &quot;&quot;
+    for ch in word:
+        letter = ch if ch in guessed else &quot;_&quot;
+        shown = letter if shown == &quot;&quot; else shown + &quot; &quot; + letter
+    return shown
+
+def is_solved(word, guessed):
+    &quot;&quot;&quot;Return True if every letter of word has been guessed.&quot;&quot;&quot;
+    for ch in word:
+        if ch not in guessed:
+            return False
+    return True
+
+def get_guess(guessed):
+    &quot;&quot;&quot;Ask until the player types one new letter; return it in lower case.&quot;&quot;&quot;
+    while True:
+        g = input(&quot;Guess: &quot;).lower()
+        if len(g) == 1 and g.isalpha() and g not in guessed:
+            return g
+        print(&quot;One new letter, please&quot;)
+
+def play(word):
+    &quot;&quot;&quot;Play one game of hangman with the secret word.&quot;&quot;&quot;
+    guessed = &quot;&quot;
+    wrong_left = 6
+    while not is_solved(word, guessed) and wrong_left &gt; 0:
+        print(show(word, guessed))
+        print(&quot;Wrong guesses left:&quot;, wrong_left)
+        g = get_guess(guessed)
+        guessed += g
+        if g in word:
+            print(&quot;Yes!&quot;)
+        else:
+            print(&quot;No.&quot;)
+            wrong_left -= 1
+    if is_solved(word, guessed):
+        print(&quot;You win! The word was&quot;, word)
+    else:
+        print(&quot;You lose. The word was&quot;, word)
+
+if __name__ == &quot;__main__&quot;:
+    play(&quot;python&quot;)</textarea><template class="pc-src pc-hint"><code>play</code> loops while the word isn&rsquo;t solved and wrong guesses remain. Keep <code>guessed</code> as a string and add each new letter to it.</template><template class="pc-src pc-hint">In <code>get_guess</code>, a valid answer has length 1, is a letter, and isn&rsquo;t already <code>in guessed</code> (after lower-casing).</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Pick a program you&rsquo;d like to write, any program. Write its <code>main()</code> in five lines or fewer, as calls to functions that don&rsquo;t exist yet. Then write those functions as stubs with docstrings, and run it. Tomorrow: <code>assert</code>, the tool for checking that each function really does what its docstring promises.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w007d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w007d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w007d4", "week": 7, "day": 4, "title": "Top-down design", "exercises": [{"id": "w007d4-fill_stubs", "title": "Fill in the stubs", "points": 15}, {"id": "w007d4-write_main", "title": "Write main", "points": 10}, {"id": "w007d4-design_stubs", "title": "Design with stubs", "points": 15}, {"id": "w007d4-finish_design", "title": "Now finish it", "points": 15}, {"id": "w007d4-split_job", "title": "One job each", "points": 10}, {"id": "w007d4-bug1", "title": "Nothing happens", "points": 10}, {"id": "w007d4-bug2", "title": "A stub that breaks the caller", "points": 10}, {"id": "w007d4-trace", "title": "Read the design", "points": 15}, {"id": "w007d4-challenge", "title": "Challenge: hangman, top-down", "points": 30}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

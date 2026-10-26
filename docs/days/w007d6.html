@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="dd97601b29">
+<title>Week 7 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=dd97601b29">
+<link rel="stylesheet" href="../assets/css/site.css?v=dd97601b29">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=dd97601b29"></script>
+<script src="../assets/vendor/codemirror.js?v=dd97601b29" defer></script>
+<meta name="description" content="This week you learned flexible signatures, functions as values, top-down design and testing. Today they all come together: a password checker whose rules...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w007d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 7 Day 6: Forge">
+<meta property="og:description" content="This week you learned flexible signatures, functions as values, top-down design and testing. Today they all come together: a password checker whose rules...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w007d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-7">Week 7: Functions II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-password-rule-kit" data-sec="forge-the-password-rule-kit">Forge: the password rule kit</a></li><li><a href="#forge-bonus-encode-decode-round-trip" data-sec="forge-bonus-encode-decode-round-trip">Forge bonus: encode, decode, round trip</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-7-review" data-sec="week-7-review">Week 7 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 7, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>This week you learned flexible signatures, functions as values, top-down design and testing. Today they all come together: a password checker whose rules are functions you can build and combine, designed from the top and tested at every step, and an encoder and decoder that test each other. Then the weekly quiz and review.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Design a program top-down and test each function as you fill it in</li><li>Pass functions as arguments and build new ones with closures</li><li>Use <code>*args</code> and keyword-only parameters to make a flexible, safe interface</li><li>Test two functions against each other with a round trip</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:65" title="Forge: the password rule kit: 65 min"></span><span class="plan-seg s1" style="flex:35" title="Forge bonus: encode, decode, round trip: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 7 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: the password rule kit</span><span class="plan-min">65 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Forge bonus: encode, decode, round trip</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 7 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w007d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d6-p1"><textarea class="pc-src pc-code" hidden>def f(*args, sep=&quot;-&quot;):
+    return sep.join(args)
+
+print(f(&quot;a&quot;, &quot;b&quot;), f(&quot;x&quot;, sep=&quot;+&quot;), f())</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d6-p2"><textarea class="pc-src pc-code" hidden>def make(n):
+    return lambda s: s * n
+
+twice = make(2)
+print(twice(&quot;ab&quot;), make(0)(&quot;ab&quot;) == &quot;&quot;)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d6-p3"><textarea class="pc-src pc-code" hidden>print(max(&quot;apple&quot;, &quot;Fig&quot;, &quot;kiwi&quot;, key=str.lower))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d6-p4"><textarea class="pc-src pc-code" hidden>size = 2
+def box(n=size):
+    return &quot;#&quot; * n
+size = 5
+print(box())</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d6-p5"><textarea class="pc-src pc-code" hidden>def check(n):
+    assert n &gt; 0, &quot;n must be positive&quot;
+    return n * 2
+
+print(check(4))</textarea></div>
+<p>If any surprised you, revisit <a href="w007d1.html">defaults and keywords</a>, <a href="w007d2.html"><em>args and </em>*kwargs</a>, <a href="w007d3.html">functions as values</a>, <a href="w007d4.html">top-down design</a> or <a href="w007d5.html">assert</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d6-mix_stats" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Statistics of anything</div><div class="pc-prompt"><p>Write <code>stats(*numbers, places=2)</code> that returns three values: the smallest, the largest and the mean rounded to <code>places</code>. <code>places</code> must be keyword-only (it already is, after <code>*numbers</code>). If no numbers are given, return <code>None, None, None</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert tuple(stats(4, 8, 15, 16, 23, 42)) == (4, 42, 18.0)
+    assert tuple(stats(1, 2, places=0)) == (1, 2, 2.0)
+    assert tuple(stats(1, 1, 2, places=3)) == (1, 2, 1.333)
+    assert tuple(stats()) == (None, None, None)</textarea><textarea class="pc-src pc-solution" hidden>def stats(*numbers, places=2):
+    if len(numbers) == 0:
+        return None, None, None
+    return min(numbers), max(numbers), round(sum(numbers) / len(numbers), places)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d6-mix_sort" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sort by surname</div><div class="pc-prompt"><p>Ask for names on one line, separated by commas, with the prompt <code>Names:</code>. Print them sorted by <strong>surname</strong> (the last word), ignoring case, one per line. Use <code>sorted</code> with a <code>key</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_names():
+    &quot;several names&quot;
+    expect_output(&quot;Names: Grace Hopper, ada Lovelace, Alan Turing, Katherine johnson\nGrace Hopper\nKatherine johnson\nada Lovelace\nAlan Turing&quot;,
+                  inputs=[&quot;Grace Hopper, ada Lovelace, Alan Turing, Katherine johnson&quot;], echo=True)
+def test_key():
+    &quot;uses key=&quot;
+    assert &quot;key=&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>names = input(&quot;Names: &quot;).split(&quot;,&quot;)
+for n in sorted(names, key=lambda n: n.split()[-1].lower()):
+    print(n.strip())</textarea><template class="pc-src pc-hint">Split on commas. The key is the last word in lower case: <code>lambda n: n.split()[-1].lower()</code>. Strip each name when you print it.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d6-mix_greeter" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A greeter factory</div><div class="pc-prompt"><p>Write <code>make_greeter(greeting, *, punctuation="!")</code> that returns a function taking a name and returning a greeting like <code>Hello, Ada!</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several greeters&quot;
+    hi = make_greeter(&quot;Hi&quot;)
+    hey = make_greeter(&quot;Hey&quot;, punctuation=&quot;?&quot;)
+    assert hi(&quot;Ada&quot;) == &quot;Hi, Ada!&quot;
+    assert hey(&quot;Bo&quot;) == &quot;Hey, Bo?&quot;
+def test_kwonly():
+    &quot;punctuation is keyword-only&quot;
+    try:
+        make_greeter(&quot;Hi&quot;, &quot;?&quot;)
+    except TypeError:
+        pass
+    else:
+        assert False, &quot;punctuation should be keyword-only.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def make_greeter(greeting, *, punctuation=&quot;!&quot;):
+    def greet(name):
+        return f&quot;{greeting}, {name}{punctuation}&quot;
+    return greet</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d6-mix_test" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Test it</div><div class="pc-prompt"><p>Write <code>test_count_words()</code> with at least four asserts for <code>count_words</code> below, including an empty string and a string of only spaces. Call it, then print <code>ok</code>.</p></div><textarea class="pc-src pc-code" hidden>def count_words(text):
+    return len(text.split())</textarea><textarea class="pc-src pc-tests" hidden>def test_passes():
+    &quot;your test passes&quot;
+    expect_output(&quot;ok&quot;)
+def test_catches():
+    &quot;your test catches a broken version&quot;
+    g = test_count_words.__globals__
+    good = g[&quot;count_words&quot;]
+    g[&quot;count_words&quot;] = lambda t: len(t.split(&quot; &quot;))
+    try:
+        try:
+            test_count_words()
+        except AssertionError:
+            return
+        assert False, &quot;Your test passed a version that counts empty pieces. Try extra spaces.&quot;
+    finally:
+        g[&quot;count_words&quot;] = good</textarea><textarea class="pc-src pc-solution" hidden>def count_words(text):
+    return len(text.split())
+
+def test_count_words():
+    assert count_words(&quot;the cat sat&quot;) == 3
+    assert count_words(&quot;&quot;) == 0
+    assert count_words(&quot;    &quot;) == 0
+    assert count_words(&quot;  two   words &quot;) == 2
+
+test_count_words()
+print(&quot;ok&quot;)</textarea></div>
+<h2 id="forge-the-password-rule-kit">Forge: the password rule kit</h2>
+<p>About an hour. Websites have password rules, and they keep changing them. Instead of one long function full of <code>if</code>s, you&rsquo;ll make each rule a <strong>function</strong>, and build a checker that applies any rules it&rsquo;s given.</p>
+<p>A <strong>rule</strong> is a function that takes a password and returns an empty string if the password is fine, or a short message saying what&rsquo;s wrong.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the password rule kit</div><div class="pc-prompt"><p>Write these, each with a docstring:</p>
+<ol>
+<li><code>min_length(n)</code> returns a rule that complains <code>At least N characters</code> (with the number) when the password is shorter than <code>n</code>.</li>
+<li><code>needs(test, what)</code> returns a rule that complains <code>Needs WHAT</code> when <strong>no</strong> character of the password passes <code>test</code>. For example <code>needs(str.isdigit, "a digit")</code> complains <code>Needs a digit</code>.</li>
+<li><code>no_spaces(password)</code> is itself a rule: it complains <code>No spaces allowed</code> when the password contains a space.</li>
+<li><code>check(password, *rules)</code> applies every rule in order and returns all the complaints joined with <code>"; "</code>, or <code>"OK"</code> if there are none.</li>
+<li><code>test_check()</code> tests <code>check</code> with at least four asserts, including one that expects <code>"OK"</code> and one that expects two complaints at once.</li>
+</ol>
+<p>Finally, the main program builds this rule set and checks the password typed after the prompt <code>Password:</code>:</p>
+<pre><code class="language-python">rules = (min_length(8), needs(str.isupper, &quot;a capital letter&quot;), needs(str.isdigit, &quot;a digit&quot;), no_spaces)
+</code></pre>
+<pre><code>Password: hello world
+Needs a capital letter; Needs a digit; No spaces allowed
+</code></pre>
+<p>(<code>hello world</code> has 11 characters, so the length rule is happy.) Use <code>check(password, *rules)</code> to pass the rules in.</p></div><textarea class="pc-src pc-code" hidden>def min_length(n):
+    &quot;&quot;&quot;Return a rule that complains if a password is shorter than n.&quot;&quot;&quot;
+    ___
+
+def needs(test, what):
+    &quot;&quot;&quot;Return a rule that complains if no character passes test.&quot;&quot;&quot;
+    ___
+
+def no_spaces(password):
+    &quot;&quot;&quot;Complain if the password contains a space.&quot;&quot;&quot;
+    ___
+
+def check(password, *rules):
+    &quot;&quot;&quot;Return every complaint from rules, joined by &#x27;; &#x27;, or &#x27;OK&#x27;.&quot;&quot;&quot;
+    ___
+
+def test_check():
+    pass</textarea><textarea class="pc-src pc-tests" hidden>def test_rules():
+    &quot;each rule&quot;
+    r = min_length(8)
+    assert r(&quot;short&quot;) == &quot;At least 8 characters&quot; and r(&quot;longenough&quot;) == &quot;&quot;
+    d = needs(str.isdigit, &quot;a digit&quot;)
+    assert d(&quot;abc&quot;) == &quot;Needs a digit&quot; and d(&quot;ab3&quot;) == &quot;&quot;
+    assert no_spaces(&quot;a b&quot;) == &quot;No spaces allowed&quot; and no_spaces(&quot;ab&quot;) == &quot;&quot;
+def test_check_fn():
+    &quot;check&quot;
+    assert check(&quot;abc&quot;) == &quot;OK&quot;, &quot;With no rules, every password is OK.&quot;
+    assert check(&quot;Abcdefg1&quot;, min_length(8), needs(str.isdigit, &quot;a digit&quot;)) == &quot;OK&quot;
+    assert check(&quot;abc&quot;, min_length(5), needs(str.isupper, &quot;a capital&quot;)) == &quot;At least 5 characters; Needs a capital&quot;
+def test_your_tests():
+    &quot;your test has four asserts and passes&quot;
+    start = source.find(&quot;def test_check&quot;)
+    body = source[start:].split(&quot;\ndef &quot;)[0]
+    assert body.count(&quot;assert&quot;) &gt;= 4, &quot;Write at least four asserts in test_check.&quot;
+    test_check()
+def test_program():
+    &quot;the main program&quot;
+    expect_output(&quot;Password: hello world\nNeeds a capital letter; Needs a digit; No spaces allowed&quot;, inputs=[&quot;hello world&quot;], echo=True)
+    expect_output(&quot;Password: Str0ngPass\nOK&quot;, inputs=[&quot;Str0ngPass&quot;], echo=True)
+    expect_output(&quot;Password: Ab1\nAt least 8 characters&quot;, inputs=[&quot;Ab1&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>def min_length(n):
+    &quot;&quot;&quot;Return a rule that complains if a password is shorter than n.&quot;&quot;&quot;
+    def rule(password):
+        return f&quot;At least {n} characters&quot; if len(password) &lt; n else &quot;&quot;
+    return rule
+
+def needs(test, what):
+    &quot;&quot;&quot;Return a rule that complains if no character passes test.&quot;&quot;&quot;
+    def rule(password):
+        for ch in password:
+            if test(ch):
+                return &quot;&quot;
+        return f&quot;Needs {what}&quot;
+    return rule
+
+def no_spaces(password):
+    &quot;&quot;&quot;Complain if the password contains a space.&quot;&quot;&quot;
+    return &quot;No spaces allowed&quot; if &quot; &quot; in password else &quot;&quot;
+
+def check(password, *rules):
+    &quot;&quot;&quot;Return every complaint from rules, joined by &#x27;; &#x27;, or &#x27;OK&#x27;.&quot;&quot;&quot;
+    complaints = &quot;&quot;
+    for rule in rules:
+        message = rule(password)
+        if message:
+            complaints = message if complaints == &quot;&quot; else complaints + &quot;; &quot; + message
+    return complaints if complaints else &quot;OK&quot;
+
+def test_check():
+    assert check(&quot;anything&quot;) == &quot;OK&quot;
+    assert check(&quot;Abcdefg1&quot;, min_length(8)) == &quot;OK&quot;
+    assert check(&quot;ab&quot;, min_length(3)) == &quot;At least 3 characters&quot;
+    assert check(&quot;ab&quot;, min_length(3), needs(str.isdigit, &quot;a digit&quot;)) == &quot;At least 3 characters; Needs a digit&quot;
+
+rules = (min_length(8), needs(str.isupper, &quot;a capital letter&quot;), needs(str.isdigit, &quot;a digit&quot;), no_spaces)
+password = input(&quot;Password: &quot;)
+print(check(password, *rules))</textarea><template class="pc-src pc-hint"><code>min_length</code> and <code>needs</code> are factories, like <code>make_multiplier</code>: define a function inside, using <code>n</code> (or <code>test</code> and <code>what</code>), and return it.</template><template class="pc-src pc-hint"><code>check</code> loops over <code>rules</code>, calls each one with the password, and collects the non-empty messages into a string.</template></div>
+<aside class="callout c-think"><div class="callout-t">Why rules as functions?</div><p>Suppose the website adds a rule tomorrow: &ldquo;needs a symbol&rdquo;. With one big function, you&rsquo;d edit its middle and hope nothing else breaks. With rules as functions, you write <code>needs(lambda c: not c.isalnum(), "a symbol")</code> and add it to the tuple. Nothing else changes, and <code>test_check</code> still guards the checker. This idea of building behaviour out of small interchangeable functions is used all over professional software.</p></aside>
+<h2 id="forge-bonus-encode-decode-round-trip">Forge bonus: encode, decode, round trip</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: round trip</div><div class="pc-prompt"><p>In Week 4 you wrote run-length <strong>encoding</strong>: <code>aaabcc</code> becomes <code>a3b1c2</code>. Now write both directions, and test them against each other.</p>
+<ol>
+<li><code>encode(text)</code> returns the run-length encoding. Text may contain any characters except digits.</li>
+<li><code>decode(code)</code> turns an encoding back into the text. A count may have several digits: <code>x12</code> means twelve <code>x</code>s.</li>
+<li><code>test_round_trip()</code> checks that <code>decode(encode(s)) == s</code> for at least six different strings, including the empty string, a single character, and a run longer than 9.</li>
+</ol>
+<p>A <strong>round-trip test</strong> checks two functions that undo each other at the same time: if either is wrong, the round trip almost always fails.</p></div><textarea class="pc-src pc-code" hidden>def encode(text):
+    &quot;&quot;&quot;Return the run-length encoding of text.&quot;&quot;&quot;
+    ___
+
+def decode(code):
+    &quot;&quot;&quot;Return the text that the run-length code stands for.&quot;&quot;&quot;
+    ___
+
+def test_round_trip():
+    pass</textarea><textarea class="pc-src pc-tests" hidden>def test_encode():
+    &quot;encode&quot;
+    assert encode(&quot;aaabcc&quot;) == &quot;a3b1c2&quot;
+    assert encode(&quot;&quot;) == &quot;&quot;
+    assert encode(&quot;x&quot; * 12) == &quot;x12&quot;
+def test_decode():
+    &quot;decode&quot;
+    assert decode(&quot;a3b1c2&quot;) == &quot;aaabcc&quot;
+    assert decode(&quot;x12y1&quot;) == &quot;x&quot; * 12 + &quot;y&quot;
+    assert decode(&quot;&quot;) == &quot;&quot;
+def test_your_round_trip():
+    &quot;your round-trip test&quot;
+    start = source.find(&quot;def test_round_trip&quot;)
+    body = source[start:].split(&quot;\ndef &quot;)[0]
+    assert body.count(&quot;assert&quot;) &gt;= 1 and (body.count(&#x27;&quot;&#x27;) + body.count(&quot;&#x27;&quot;)) &gt;= 12, &quot;Check at least six strings.&quot;
+    test_round_trip()
+def test_catches():
+    &quot;your round trip catches a broken decode&quot;
+    g = test_round_trip.__globals__
+    good = g[&quot;decode&quot;]
+    def bad(code):
+        out, i = &quot;&quot;, 0
+        while i &lt; len(code):
+            out += code[i] * int(code[i + 1])
+            i += 2
+        return out
+    g[&quot;decode&quot;] = bad
+    try:
+        try:
+            test_round_trip()
+        except (AssertionError, ValueError, IndexError):
+            return
+        assert False, &quot;Your round trip passed a decode that only reads one-digit counts. Include a run longer than 9.&quot;
+    finally:
+        g[&quot;decode&quot;] = good</textarea><textarea class="pc-src pc-solution" hidden>def encode(text):
+    &quot;&quot;&quot;Return the run-length encoding of text.&quot;&quot;&quot;
+    if text == &quot;&quot;:
+        return &quot;&quot;
+    out = &quot;&quot;
+    current = text[0]
+    count = 1
+    for ch in text[1:]:
+        if ch == current:
+            count += 1
+        else:
+            out += current + str(count)
+            current = ch
+            count = 1
+    return out + current + str(count)
+
+def decode(code):
+    &quot;&quot;&quot;Return the text that the run-length code stands for.&quot;&quot;&quot;
+    out = &quot;&quot;
+    i = 0
+    while i &lt; len(code):
+        ch = code[i]
+        i += 1
+        digits = &quot;&quot;
+        while i &lt; len(code) and code[i].isdigit():
+            digits += code[i]
+            i += 1
+        out += ch * int(digits)
+    return out
+
+def test_round_trip():
+    for s in [&quot;&quot;, &quot;a&quot;, &quot;aaabcc&quot;, &quot;abc&quot;, &quot;z&quot; * 25 + &quot;y&quot;, &quot;hello  world!!&quot;]:
+        assert decode(encode(s)) == s, f&quot;round trip failed for {s!r}&quot;</textarea><template class="pc-src pc-hint"><code>decode</code> walks through the code: take a character, then collect every digit after it into a number string, then add that many of the character.</template></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w007d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "mc", "q": "When is a default value worked out?", "answer": 1, "explain": "It&rsquo;s stored in the function.", "options": ["At every call", "Once, when def runs"]}, {"type": "mc", "q": "What does a bare <code>*</code> in a def do?", "answer": 1, "explain": "They must be named.", "options": ["Collects extra arguments", "Makes the parameters after it keyword-only", "Multiplies"]}, {"type": "mc", "q": "How do you check whether an optional argument was left out?", "answer": 1, "explain": "0 and &lsquo;&rsquo; are real values.", "options": ["<code>if not x</code>", "<code>if x is None</code>"]}, {"type": "output", "q": "What does this print?", "answer": "(1, 2)", "explain": "A tuple of the arguments.", "code": "def f(*a):\n    return a\nprint(f(1, 2))"}, {"type": "output", "q": "What does this print?", "answer": "3", "explain": "A dictionary of three keyword arguments.", "code": "def f(**k):\n    return len(k)\nprint(f(x=1, y=2, z=3))"}, {"type": "mc", "q": "What does <code>f(*\"a b\".split())</code> pass to f?", "answer": 1, "explain": "The star spreads the pieces out.", "options": ["One argument", "Two arguments, &lsquo;a&rsquo; and &lsquo;b&rsquo;", "A list"]}, {"type": "mc", "q": "What&rsquo;s the difference between <code>f</code> and <code>f()</code>?", "answer": 1, "explain": "Pass functions without brackets.", "options": ["None", "f is the function; f() calls it"]}, {"type": "output", "q": "What does this print?", "answer": "alice", "explain": "Compared in lower case.", "code": "print(min(\"Bob\", \"alice\", key=str.lower))"}, {"type": "mc", "q": "What does a lambda&rsquo;s body have to be?", "answer": 0, "explain": "Its value is returned.", "options": ["A single expression", "Any statements", "A return statement"]}, {"type": "output", "q": "What does this print?", "answer": "7", "explain": "A closure remembering n = 3.", "code": "def make(n):\n    return lambda x: x + n\nprint(make(3)(4))"}, {"type": "mc", "q": "What is a stub?", "answer": 1, "explain": "It lets an unfinished design run.", "options": ["A finished function", "A placeholder function with its name, parameters and docstring", "A test"]}, {"type": "text", "q": "What is <code>__name__</code> in a file that&rsquo;s run directly?", "answer": ["__main__", "'__main__'"], "explain": "Used by the guard at the bottom."}, {"type": "mc", "q": "Why does <code>assert(x &gt; 0, \"msg\")</code> never fail?", "answer": 0, "explain": "Drop the brackets.", "options": ["It&rsquo;s a tuple, which is truthy", "The message stops it", "assert ignores brackets"]}, {"type": "mc", "q": "What does a round-trip test check?", "answer": 1, "explain": "Two functions that undo each other.", "options": ["That a function is fast", "That decode(encode(x)) gives back x", "That a loop ends"]}, {"type": "mc", "q": "Should assert be used to check user input?", "answer": 1, "explain": "Asserts can be switched off; use if and a message.", "options": ["Yes", "No"]}]</script></div>
+<h2 id="week-7-review">Week 7 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I know when defaults are worked out, I use <code>None</code> for &ldquo;not given&rdquo;, and I can use <code>*</code> and <code>/</code> in a signature. (<a href="w007d1.html">Day 1</a>)</li>
+<li>I can write functions that take any number of arguments, and spread a sequence into a call. (<a href="w007d2.html">Day 2</a>)</li>
+<li>I can pass functions around, use <code>key=</code> and <code>lambda</code>, and write a closure. (<a href="w007d3.html">Day 3</a>)</li>
+<li>I can design a program top-down with stubs and a <code>main()</code> function. (<a href="w007d4.html">Day 4</a>)</li>
+<li>I write tests with <code>assert</code>, check boundaries, and can write tests first. (<a href="w007d5.html">Day 5</a>)</li>
+<li>I built a flexible rule kit and a round-trip tested encoder. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week, at last, <strong>lists</strong>: Python&rsquo;s most-used way to keep many values together, and the answer to all those &ldquo;you&rsquo;ll learn this in Week 8&rdquo; notes.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w007d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w007d6", "week": 7, "day": 6, "title": "Forge", "exercises": [{"id": "w007d6-mix_stats", "title": "Statistics of anything", "points": 10}, {"id": "w007d6-mix_sort", "title": "Sort by surname", "points": 10}, {"id": "w007d6-mix_greeter", "title": "A greeter factory", "points": 10}, {"id": "w007d6-mix_test", "title": "Test it", "points": 10}, {"id": "w007d6-forge", "title": "Forge: the password rule kit", "points": 50}, {"id": "w007d6-forge2", "title": "Forge bonus: round trip", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

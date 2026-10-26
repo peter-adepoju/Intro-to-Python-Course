@@ -874,5 +874,42 @@ def bind_call(params, args):
     return {"rows": rows, "error": None}
 
 
+def call_graph(code):
+    """Which of the program's own functions call which (for the structure-chart figure)."""
+    try:
+        tree = ast.parse(code)
+    except SyntaxError as e:
+        return {"error": f"SyntaxError: {e.msg} (line {e.lineno})"}
+    defs = {}
+    for node in tree.body:
+        if isinstance(node, ast.FunctionDef):
+            defs[node.name] = node
+
+    def calls_in(nodes):
+        found = []
+        for n in nodes:
+            for sub in ast.walk(n):
+                if isinstance(sub, ast.Call) and isinstance(sub.func, ast.Name) and sub.func.id in defs:
+                    if sub.func.id not in found:
+                        found.append(sub.func.id)
+        return found
+
+    main_nodes = [n for n in tree.body if not isinstance(n, ast.FunctionDef)]
+    edges = {"(main program)": calls_in(main_nodes)}
+    docs = {}
+    for name, node in defs.items():
+        edges[name] = [c for c in calls_in(node.body) if c != name] + ([name] if name in calls_in(node.body) else [])
+        d = ast.get_docstring(node)
+        docs[name] = d.strip().splitlines()[0] if d else ""
+    def placeholder(b):
+        if isinstance(b, ast.Pass):
+            return True
+        if isinstance(b, ast.Expr) and isinstance(b.value, ast.Constant):
+            return True
+        return isinstance(b, ast.Return) and (b.value is None or isinstance(b.value, ast.Constant))
+    stubs = [name for name, node in defs.items() if all(placeholder(b) for b in node.body)]
+    return {"edges": edges, "docs": docs, "stubs": stubs, "unused": [n for n in defs if not any(n in v for k, v in edges.items() if k != n)], "error": None}
+
+
 def call(fn, args_json):
     return globals()[fn](*json.loads(args_json))

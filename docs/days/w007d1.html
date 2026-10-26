@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="dd97601b29">
+<title>Week 7 Day 1: Default and keyword arguments | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=dd97601b29">
+<link rel="stylesheet" href="../assets/css/site.css?v=dd97601b29">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=dd97601b29"></script>
+<script src="../assets/vendor/codemirror.js?v=dd97601b29" defer></script>
+<meta name="description" content="Last week you met defaults and keyword arguments. Today you’ll go deeper: when exactly a default is worked out, how to force callers to name an argument,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w007d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 7 Day 1: Default and keyword arguments">
+<meta property="og:description" content="Last week you met defaults and keyword arguments. Today you’ll go deeper: when exactly a default is worked out, how to force callers to name an argument,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w007d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-7">Week 7: Functions II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#when-defaults-are-worked-out" data-sec="when-defaults-are-worked-out">When defaults are worked out</a></li><li><a href="#none-as-a-default" data-sec="none-as-a-default">None as a default</a></li><li><a href="#keyword-only-parameters" data-sec="keyword-only-parameters">Keyword-only parameters</a></li><li><a href="#positional-only-parameters" data-sec="positional-only-parameters">Positional-only parameters</a></li><li><a href="#designing-a-good-parameter-list" data-sec="designing-a-good-parameter-list">Designing a good parameter list</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 7, Day 1</span></p>
+      <h1>Default and keyword arguments</h1>
+      <div class="day-intro"><p>Last week you met defaults and keyword arguments. Today you&rsquo;ll go deeper: when exactly a default is worked out, how to force callers to name an argument, how to forbid naming one, and how to design a function&rsquo;s parameters so that it&rsquo;s easy to call correctly and hard to call wrongly.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain that a default value is worked out once, when the def runs, not at each call</li><li>Use None as a default to mean &ldquo;not given&rdquo;, and work out the real value inside the function</li><li>Make parameters keyword-only with a bare <code>*</code>, and positional-only with <code>/</code></li><li>Read signatures like <code>print(*objects, sep=' ', end='\n')</code> in Python&rsquo;s documentation</li><li>Design parameter lists in a sensible order, with safe defaults and named flags</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="When defaults are worked out: 30 min"></span><span class="plan-seg s0" style="flex:25" title="None as a default: 25 min"></span><span class="plan-seg s1" style="flex:30" title="Keyword-only and positional-only parameters: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Designing a good parameter list: 25 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">When defaults are worked out</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">None as a default</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Keyword-only and positional-only parameters</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Designing a good parameter list</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w007d1.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d1-p1"><textarea class="pc-src pc-code" hidden>def greet(name, greeting=&quot;Hello&quot;, punct=&quot;!&quot;):
+    return f&quot;{greeting}, {name}{punct}&quot;
+
+print(greet(&quot;Ada&quot;))
+print(greet(&quot;Ada&quot;, punct=&quot;?&quot;))
+print(greet(greeting=&quot;Hi&quot;, name=&quot;Bo&quot;))</textarea></div>
+<p>All from last week. Today&rsquo;s question: how far can you push this, and where are the traps?</p>
+<h2 id="when-defaults-are-worked-out">When defaults are worked out</h2>
+<p>A default value is worked out <strong>once</strong>, when Python runs the <code>def</code> line, and that same value is used for every call that leaves the argument out. Most of the time you&rsquo;d never notice. Here&rsquo;s a case where you would:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d1-e2"><textarea class="pc-src pc-code" hidden>rate = 0.05
+
+def with_interest(amount, r=rate):
+    return amount * (1 + r)
+
+print(with_interest(1000))
+rate = 0.10
+print(with_interest(1000))</textarea></div>
+<p>Both lines print 1050.0. When the <code>def</code> ran, <code>rate</code> was 0.05, so the default became 0.05, and changing <code>rate</code> afterwards doesn&rsquo;t touch it. Press X-ray and look at the function object: the default is stored inside it.</p>
+<p>If you wanted the <strong>current</strong> rate at every call, the function should read the global (or better, take it as an argument) inside its body, not in its <code>def</code> line.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Default values are evaluated <strong>once</strong>, when the function is defined. They are not recalculated on each call.</p></aside>
+<h3 id="why-this-matters-defaults-that-can-change">Why this matters: defaults that can change</h3>
+<p>For numbers and strings, which can&rsquo;t be changed, being worked out once is harmless. For values that <strong>can</strong> change in place, like the lists you&rsquo;ll meet next week, it&rsquo;s a famous trap: every call shares the same object. Here&rsquo;s a preview, using <code>.split()</code> to make a list and <code>.append()</code> to add to it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d1-e3"><div class="pc-title">The shared default</div><textarea class="pc-src pc-code" hidden>def add_item(item, basket=&quot;&quot;.split()):
+    basket.append(item)
+    return basket
+
+print(add_item(&quot;rice&quot;))
+print(add_item(&quot;beans&quot;))</textarea></div>
+<p>The second call still has <code>"rice"</code> in it! There&rsquo;s only one list, made when the <code>def</code> ran, and both calls add to it. You&rsquo;ll study this properly in Week 8. The rule to remember now: <strong>never use a changeable value as a default</strong>. Use <code>None</code> instead.</p>
+<h2 id="none-as-a-default">None as a default</h2>
+<p>When a default must be worked out at call time, or must be a fresh object each time, use <code>None</code> to mean &ldquo;the caller didn&rsquo;t give one&rdquo;, and fill in the real value inside the function:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d1-e4"><textarea class="pc-src pc-code" hidden>def with_interest(amount, r=None):
+    if r is None:
+        r = current_rate()
+    return amount * (1 + r)
+
+def current_rate():
+    return 0.07
+
+print(with_interest(1000))
+print(with_interest(1000, 0.02))</textarea></div>
+<p>This pattern is everywhere in Python&rsquo;s own libraries. When you read <code>x=None</code> in a signature, it almost always means &ldquo;optional; if you don&rsquo;t give it, something sensible is worked out for you&rdquo;.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Check for &ldquo;not given&rdquo; with <code>is None</code>, not with <code>if not r:</code>. A caller might pass <code>0</code> on purpose, and <code>0</code> is falsy too.</p></aside>
+<h2 id="keyword-only-parameters">Keyword-only parameters</h2>
+<p>Look at this call:</p>
+<pre><code class="language-python">make_rectangle(10, 4, True, False)
+</code></pre>
+<p>What do <code>True</code> and <code>False</code> mean? Nobody can tell without looking up the function. If those parameters had to be <strong>named</strong> in the call, the code would explain itself:</p>
+<pre><code class="language-python">make_rectangle(10, 4, filled=True, rounded=False)
+</code></pre>
+<p>You can insist on that. Parameters after a bare <code>*</code> in the <code>def</code> are <strong>keyword-only</strong>: they can only be given by name.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d1-e5"><textarea class="pc-src pc-code" hidden>def make_rectangle(width, height, *, filled=False, char=&quot;#&quot;):
+    for _ in range(height):
+        print(char * width if filled else char + &quot; &quot; * (width - 2) + char)
+
+make_rectangle(6, 3, filled=True)
+make_rectangle(6, 3, char=&quot;+&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w007d1-e6"><textarea class="pc-src pc-code" hidden>def make_rectangle(width, height, *, filled=False, char=&quot;#&quot;):
+    pass
+
+make_rectangle(6, 3, True)</textarea></div>
+<p><code>takes 2 positional arguments but 3 were given</code>: the <code>True</code> can&rsquo;t sneak into <code>filled</code> by position.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Put a bare <code>*</code> in a parameter list to make every parameter after it keyword-only. Use it for flags (<code>True</code>/<code>False</code> options) and for settings that would be confusing as bare values.</p></aside>
+<h2 id="positional-only-parameters">Positional-only parameters</h2>
+<p>The opposite also exists. Parameters <strong>before</strong> a <code>/</code> are <strong>positional-only</strong>: they can&rsquo;t be given by name. You&rsquo;ll mostly see this in Python&rsquo;s documentation for built-in functions:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d1-e7"><textarea class="pc-src pc-code" hidden>help(abs)</textarea></div>
+<p><code>abs(x, /)</code> means you write <code>abs(-5)</code>, never <code>abs(x=-5)</code>. Built-ins do this so that the parameter&rsquo;s name isn&rsquo;t part of the promise: it could be renamed without breaking anyone&rsquo;s code. You can use it too:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d1-e8"><textarea class="pc-src pc-code" hidden>def distance(x1, y1, x2, y2, /):
+    return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+
+print(distance(0, 0, 3, 4))</textarea></div>
+<h3 id="reading-signatures-in-the-documentation">Reading signatures in the documentation</h3>
+<p>You can now read any signature in Python&rsquo;s documentation. For example, <code>help(print)</code> shows:</p>
+<pre><code>print(*objects, sep=' ', end='\n', file=None, flush=False)
+</code></pre>
+<ul>
+<li><code>*objects</code>: any number of values to print. (That <code>*</code> before a name is tomorrow&rsquo;s lesson.)</li>
+<li>Everything after it is keyword-only, because it comes after a <code>*</code>: you must write <code>sep="-"</code>, never a bare <code>"-"</code>.</li>
+<li><code>file=None</code>: the &ldquo;not given&rdquo; pattern. If you don&rsquo;t give a file, <code>print</code> uses the screen.</li>
+</ul>
+<h2 id="designing-a-good-parameter-list">Designing a good parameter list</h2>
+<p>A function&rsquo;s parameters are its <strong>interface</strong>: the part other people (and you, next month) have to get right every time they call it. A few guidelines:</p>
+<ol>
+<li><strong>Most important first.</strong> The values every call needs come first, in the order people would naturally say them: <code>area(width, height)</code>, <code>send(to, subject, body)</code>.</li>
+<li><strong>Required before optional.</strong> Python forces this anyway.</li>
+<li><strong>Flags are keyword-only.</strong> <code>True</code> and <code>False</code> mean nothing on their own in a call.</li>
+<li><strong>Safe defaults.</strong> A default should be the value that&rsquo;s right most of the time, and never a changeable object.</li>
+<li><strong>Not too many.</strong> More than four or five parameters usually means the function is doing several jobs and should be split.</li>
+</ol>
+<div class="pc pc-example" data-kind="example" data-id="w007d1-e9"><div class="pc-title">A well-designed signature</div><textarea class="pc-src pc-code" hidden>def format_price(amount, *, symbol=&quot;₦&quot;, places=2, show_sign=False):
+    &quot;&quot;&quot;Return amount formatted as money, like &#x27;₦1,234.50&#x27;.&quot;&quot;&quot;
+    sign = &quot;+&quot; if show_sign and amount &gt; 0 else &quot;&quot;
+    return f&quot;{sign}{symbol}{amount:,.{places}f}&quot;
+
+print(format_price(1234.5))
+print(format_price(99, symbol=&quot;$&quot;, places=0))
+print(format_price(250, show_sign=True))</textarea></div>
+<p>Every call reads clearly, and nobody can accidentally pass a currency symbol into the <code>places</code> slot.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d1-snapshot" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">When was it worked out?</div><div class="pc-prompt"><p>Predict what this prints, then fill in your answers.</p>
+<pre><code class="language-python">size = 3
+
+def stars(n=size):
+    return &quot;*&quot; * n
+
+size = 5
+print(stars())      # line 1
+print(stars(size))  # line 2
+</code></pre></div><textarea class="pc-src pc-code" hidden>line_1 = &quot;___&quot;
+line_2 = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_lines():
+    &quot;both lines&quot;
+    assert line_1 == &quot;***&quot;, &quot;The default was worked out when def ran, when size was 3.&quot;
+    assert line_2 == &quot;*****&quot;, &quot;Here size is passed at the call, when it&#x27;s 5.&quot;</textarea><textarea class="pc-src pc-solution" hidden>line_1 = &quot;***&quot;
+line_2 = &quot;*****&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d1-none_default" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">None means not given</div><div class="pc-prompt"><p>Write <code>greeting(name, hour=None)</code> that returns <code>Good morning, NAME</code> if the hour is below 12, <code>Good afternoon, NAME</code> if it&rsquo;s below 18, and <code>Good evening, NAME</code> otherwise. If no hour is given, use the value returned by <code>current_hour()</code> (already written). An hour of <code>0</code> is midnight, a real hour, so check with <code>is None</code>.</p></div><textarea class="pc-src pc-code" hidden>def current_hour():
+    return 15
+
+def greeting(name, hour=None):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_given():
+    &quot;with an hour&quot;
+    assert greeting(&quot;Ada&quot;, 9) == &quot;Good morning, Ada&quot;
+    assert greeting(&quot;Ada&quot;, 12) == &quot;Good afternoon, Ada&quot;
+    assert greeting(&quot;Ada&quot;, 20) == &quot;Good evening, Ada&quot;
+    assert greeting(&quot;Ada&quot;, 0) == &quot;Good morning, Ada&quot;, &quot;0 is midnight: check with &#x27;is None&#x27;, not &#x27;if not hour&#x27;.&quot;
+def test_default():
+    &quot;without an hour&quot;
+    assert greeting(&quot;Bo&quot;) == &quot;Good afternoon, Bo&quot;, &quot;With no hour, use current_hour().&quot;</textarea><textarea class="pc-src pc-solution" hidden>def current_hour():
+    return 15
+
+def greeting(name, hour=None):
+    if hour is None:
+        hour = current_hour()
+    if hour &lt; 12:
+        return f&quot;Good morning, {name}&quot;
+    if hour &lt; 18:
+        return f&quot;Good afternoon, {name}&quot;
+    return f&quot;Good evening, {name}&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d1-kwonly" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Name your flags</div><div class="pc-prompt"><p>Change the <code>def</code> line of <code>describe</code> so that <code>shout</code> and <code>excited</code> are <strong>keyword-only</strong>, without changing the body. Then fix the last line so it still prints <code>HELLO THERE!</code>.</p></div><textarea class="pc-src pc-code" hidden>def describe(text, shout=False, excited=False):
+    if shout:
+        text = text.upper()
+    if excited:
+        text += &quot;!&quot;
+    return text
+
+print(describe(&quot;hello there&quot;, True, True))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints HELLO THERE!&quot;
+    expect_output(&quot;HELLO THERE!&quot;)
+def test_keyword_only():
+    &quot;flags can&#x27;t be passed by position&quot;
+    try:
+        describe(&quot;x&quot;, True)
+    except TypeError:
+        pass
+    else:
+        assert False, &quot;describe(&#x27;x&#x27;, True) should be refused: put a * before shout.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def describe(text, *, shout=False, excited=False):
+    if shout:
+        text = text.upper()
+    if excited:
+        text += &quot;!&quot;
+    return text
+
+print(describe(&quot;hello there&quot;, shout=True, excited=True))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d1-posonly" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Positional only</div><div class="pc-prompt"><p>Write <code>hypotenuse(a, b, /)</code> returning the length of the longest side of a right-angled triangle with sides <code>a</code> and <code>b</code>, rounded to 2 places. Both parameters must be positional-only.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several triangles&quot;
+    assert hypotenuse(3, 4) == 5.0
+    assert hypotenuse(1, 1) == 1.41
+def test_posonly():
+    &quot;can&#x27;t be called with names&quot;
+    try:
+        hypotenuse(a=3, b=4)
+    except TypeError:
+        pass
+    else:
+        assert False, &quot;hypotenuse(a=3, b=4) should be refused: put a / after the parameters.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def hypotenuse(a, b, /):
+    return round((a * a + b * b) ** 0.5, 2)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d1-format_price" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A friendly signature</div><div class="pc-prompt"><p>Write <code>format_price(amount, *, symbol="₦", places=2, show_sign=False)</code> that returns the amount formatted as money: an optional <code>+</code> (only when <code>show_sign</code> is True and the amount is above 0), the symbol, then the amount with thousands separators and <code>places</code> decimals. Negative amounts put the minus before the symbol: <code>-₦5.00</code>.</p></div><textarea class="pc-src pc-code" hidden>def format_price(amount, *, symbol=&quot;₦&quot;, places=2, show_sign=False):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several prices&quot;
+    assert format_price(1234.5) == &quot;₦1,234.50&quot;
+    assert format_price(99, symbol=&quot;$&quot;, places=0) == &quot;$99&quot;
+    assert format_price(250, show_sign=True) == &quot;+₦250.00&quot;
+    assert format_price(-5) == &quot;-₦5.00&quot;
+    assert format_price(-5, show_sign=True) == &quot;-₦5.00&quot;
+    assert format_price(0, show_sign=True) == &quot;₦0.00&quot;
+def test_kwonly():
+    &quot;the options are keyword-only&quot;
+    try:
+        format_price(1, &quot;$&quot;)
+    except TypeError:
+        pass
+    else:
+        assert False, &quot;Keep the * so the options must be named.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def format_price(amount, *, symbol=&quot;₦&quot;, places=2, show_sign=False):
+    if amount &lt; 0:
+        sign = &quot;-&quot;
+    elif show_sign and amount &gt; 0:
+        sign = &quot;+&quot;
+    else:
+        sign = &quot;&quot;
+    return f&quot;{sign}{symbol}{abs(amount):,.{places}f}&quot;</textarea><template class="pc-src pc-hint">Format <code>abs(amount)</code>, then put <code>-</code> or <code>+</code> (or nothing) in front of the symbol.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d1-redesign" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Redesign the call</div><div class="pc-prompt"><p>This function is called with a mystery list of values. Redesign its <code>def</code> line so that <code>width</code> and <code>height</code> come first and are required, and <code>border</code>, <code>fill</code> and <code>title</code> are keyword-only with defaults <code>"#"</code>, <code>" "</code> and <code>""</code>. Then rewrite the two calls to match, so the output is unchanged.</p></div><textarea class="pc-src pc-code" hidden>def panel(border, fill, title, width, height):
+    print(border * width)
+    inner = title.center(width - 2, fill) if title else fill * (width - 2)
+    print(border + inner + border)
+    for _ in range(height - 3):
+        print(border + fill * (width - 2) + border)
+    print(border * width)
+
+panel(&quot;#&quot;, &quot; &quot;, &quot;&quot;, 8, 4)
+panel(&quot;*&quot;, &quot;.&quot;, &quot;Hi&quot;, 10, 5)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;same output&quot;
+    expect_output(&quot;########\n#      #\n#      #\n########\n**********\n*...Hi...*\n*........*\n*........*\n**********&quot;)
+def test_signature():
+    &quot;the new signature&quot;
+    import inspect
+    ps = inspect.signature(panel).parameters
+    names = list(ps)
+    assert names[:2] == [&quot;width&quot;, &quot;height&quot;], &quot;width and height should come first.&quot;
+    for n, d in [(&quot;border&quot;, &quot;#&quot;), (&quot;fill&quot;, &quot; &quot;), (&quot;title&quot;, &quot;&quot;)]:
+        assert ps[n].kind is inspect.Parameter.KEYWORD_ONLY and ps[n].default == d, f&quot;{n} should be keyword-only with default {d!r}.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def panel(width, height, *, border=&quot;#&quot;, fill=&quot; &quot;, title=&quot;&quot;):
+    print(border * width)
+    inner = title.center(width - 2, fill) if title else fill * (width - 2)
+    print(border + inner + border)
+    for _ in range(height - 3):
+        print(border + fill * (width - 2) + border)
+    print(border * width)
+
+panel(8, 4)
+panel(10, 5, border=&quot;*&quot;, fill=&quot;.&quot;, title=&quot;Hi&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Zero is not nothing</div><div class="pc-prompt"><p><code>repeat("ab", 0)</code> should return an empty string, but it returns <code>"ab"</code>. The default is meant to be &ldquo;once&rdquo;. Fix the check.</p></div><textarea class="pc-src pc-code" hidden>def repeat(text, times=None):
+    if not times:
+        times = 1
+    return text * times</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert repeat(&quot;ab&quot;) == &quot;ab&quot;
+    assert repeat(&quot;ab&quot;, 3) == &quot;ababab&quot;
+    assert repeat(&quot;ab&quot;, 0) == &quot;&quot;, &quot;0 is a real value. Check for None with &#x27;is None&#x27;.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def repeat(text, times=None):
+    if times is None:
+        times = 1
+    return text * times</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Stuck in the past</div><div class="pc-prompt"><p><code>stamp()</code> should label each message with the <strong>current</strong> version, but after <code>VERSION</code> changes it still uses the old one. Fix the function so the default is worked out at each call.</p></div><textarea class="pc-src pc-code" hidden>VERSION = &quot;1.0&quot;
+
+def stamp(message, version=VERSION):
+    return f&quot;[v{version}] {message}&quot;
+
+print(stamp(&quot;started&quot;))
+VERSION = &quot;2.0&quot;
+print(stamp(&quot;updated&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;uses the current version&quot;
+    expect_output(&quot;[v1.0] started\n[v2.0] updated&quot;)</textarea><textarea class="pc-src pc-solution" hidden>VERSION = &quot;1.0&quot;
+
+def stamp(message, version=None):
+    if version is None:
+        version = VERSION
+    return f&quot;[v{version}] {message}&quot;
+
+print(stamp(&quot;started&quot;))
+VERSION = &quot;2.0&quot;
+print(stamp(&quot;updated&quot;))</textarea><template class="pc-src pc-hint">Use <code>None</code> as the default, and read <code>VERSION</code> inside the body when no version was given.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d1-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A refused call</div><div class="pc-prompt"><p>This crashes with a <code>TypeError</code>. The function is designed correctly; fix the call so it prints <code>$12.50</code>.</p></div><textarea class="pc-src pc-code" hidden>def price(amount, *, symbol=&quot;₦&quot;):
+    return f&quot;{symbol}{amount:.2f}&quot;
+
+print(price(12.5, &quot;$&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints $12.50&quot;
+    expect_output(&quot;$12.50&quot;)
+def test_def():
+    &quot;the function is unchanged&quot;
+    assert &#x27;def price(amount, *, symbol=&quot;₦&quot;):&#x27; in source</textarea><textarea class="pc-src pc-solution" hidden>def price(amount, *, symbol=&quot;₦&quot;):
+    return f&quot;{symbol}{amount:.2f}&quot;
+
+print(price(12.5, symbol=&quot;$&quot;))</textarea></div>
+<div class="parsons" data-id="w007d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">An optional prefix</div><div class="pc-prompt"><p>Arrange the lines into a function with an optional prefix that&rsquo;s worked out at call time. One line is a trap.</p></div><script type="application/json">{"lines": ["def label(text, prefix=None):", "    if prefix is None:", "        prefix = \"Note\"", "    return prefix + \": \" + text", "print(label(\"hello\"))"], "distractors": ["    if not prefix:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Which calls work?</div><div class="pc-prompt"><p>For <code>def f(a, /, b, *, c=0):</code>, say whether each call works. Write <code>True</code> if it runs, <code>False</code> if it raises a <code>TypeError</code>.</p></div><textarea class="pc-src pc-code" hidden>call_1 = ___   # f(1, 2)
+call_2 = ___   # f(1, b=2)
+call_3 = ___   # f(a=1, b=2)
+call_4 = ___   # f(1, 2, 3)
+call_5 = ___   # f(1, 2, c=3)</textarea><textarea class="pc-src pc-tests" hidden>def test_calls():
+    &quot;each call&quot;
+    assert call_1 is True, &quot;a by position, b by position: fine.&quot;
+    assert call_2 is True, &quot;b may be named.&quot;
+    assert call_3 is False, &quot;a is positional-only.&quot;
+    assert call_4 is False, &quot;c is keyword-only, so 3 has nowhere to go.&quot;
+    assert call_5 is True</textarea><textarea class="pc-src pc-solution" hidden>call_1 = True
+call_2 = True
+call_3 = False
+call_4 = False
+call_5 = True</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w007d1-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "When is a default value worked out?", "answer": 1, "explain": "It&rsquo;s stored in the function object.", "options": ["At every call", "Once, when the def line runs", "When the program ends", "Never"]}, {"type": "mc", "q": "What does a bare <code>*</code> in a parameter list do?", "answer": 1, "explain": "They must be named in every call.", "options": ["Multiplies", "Makes the following parameters keyword-only", "Makes all parameters optional", "Nothing"]}, {"type": "mc", "q": "What does <code>/</code> in a parameter list do?", "answer": 1, "explain": "They can&rsquo;t be given by name.", "options": ["Divides", "Makes the parameters before it positional-only", "Ends the function", "Makes them optional"]}, {"type": "mc", "q": "Why use <code>None</code> as a default?", "answer": 1, "explain": "Also to avoid sharing a changeable default.", "options": ["It&rsquo;s faster", "To mean &lsquo;not given&rsquo;, and work out the real value at call time", "It&rsquo;s required", "To save memory"]}, {"type": "mc", "q": "How should you check whether an optional argument was left out?", "answer": 1, "explain": "0 and &lsquo;&rsquo; are falsy but may be real values.", "options": ["<code>if not x:</code>", "<code>if x is None:</code>", "<code>if x == 0:</code>", "<code>if x:</code>"]}, {"type": "output", "q": "What does this print?", "answer": "2", "explain": "The default was fixed when def ran.", "code": "n = 2\ndef f(x=n):\n    return x\nn = 9\nprint(f())"}, {"type": "mc", "q": "Which is the best signature for a function with a True/False option?", "answer": 1, "explain": "The flag must be named, so calls explain themselves.", "options": ["<code>def draw(size, fill):</code>", "<code>def draw(size, *, fill=False):</code>", "<code>def draw(fill, size):</code>"]}, {"type": "mc", "q": "What does <code>print(*objects, sep=' ', end='\\n')</code> tell you about sep?", "answer": 1, "explain": "You must write sep=&hellip;", "options": ["It&rsquo;s positional", "It&rsquo;s keyword-only, because it comes after *objects", "It&rsquo;s required", "It&rsquo;s a list"]}, {"type": "mc", "q": "Which default is dangerous?", "answer": 2, "explain": "Every call would share the same object.", "options": ["<code>n=0</code>", "<code>name=\"\"</code>", "a changeable object, such as a list", "<code>flag=False</code>"]}, {"type": "mc", "q": "How many parameters suggest a function is doing too much?", "answer": 1, "explain": "Split it into smaller functions.", "options": ["2", "More than about four or five", "Any default", "1"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a table formatter</div><div class="pc-prompt"><p>Write <code>table_row(*, cells, widths, align="left", sep=" | ")</code> that returns one row of a text table, where <code>cells</code> is a string of values separated by commas, and <code>widths</code> is a string of column widths separated by commas. Each value is stripped, cut to its column&rsquo;s width if it&rsquo;s too long, and aligned within it: <code>align</code> is <code>"left"</code>, <code>"right"</code> or <code>"centre"</code> for every column. The cells are joined by <code>sep</code>.</p>
+<p>Every parameter is keyword-only, so calls look like this:</p>
+<pre><code class="language-python">table_row(cells=&quot;Ada, 93, A&quot;, widths=&quot;8,4,2&quot;)                 # 'Ada      | 93   | A '
+table_row(cells=&quot;Ada, 93, A&quot;, widths=&quot;8,4,2&quot;, align=&quot;right&quot;)  # '     Ada |   93 |  A'
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def row(cells, widths, align=&quot;left&quot;, sep=&quot; | &quot;):
+    out = []
+    for c, w in zip(cells.split(&quot;,&quot;), widths.split(&quot;,&quot;)):
+        c, w = c.strip()[:int(w)], int(w)
+        out.append(c.ljust(w) if align == &quot;left&quot; else c.rjust(w) if align == &quot;right&quot; else c.center(w))
+    return sep.join(out)
+def test_values():
+    &quot;several rows&quot;
+    for kw in [dict(cells=&quot;Ada, 93, A&quot;, widths=&quot;8,4,2&quot;), dict(cells=&quot;Ada, 93, A&quot;, widths=&quot;8,4,2&quot;, align=&quot;right&quot;),
+               dict(cells=&quot;Grace Hopper, 100&quot;, widths=&quot;5,5&quot;, align=&quot;centre&quot;), dict(cells=&quot;x,y,z&quot;, widths=&quot;3,3,3&quot;, sep=&quot;&quot;)]:
+        assert table_row(**kw) == row(**kw), f&quot;table_row({kw}) should be {row(**kw)!r}.&quot;
+def test_keyword_only():
+    &quot;every parameter is keyword-only&quot;
+    try:
+        table_row(&quot;a&quot;, &quot;1&quot;)
+    except TypeError:
+        pass
+    else:
+        assert False, &quot;Start the parameter list with * so every argument must be named.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def table_row(*, cells, widths, align=&quot;left&quot;, sep=&quot; | &quot;):
+    values = cells.split(&quot;,&quot;)
+    sizes = widths.split(&quot;,&quot;)
+    out = &quot;&quot;
+    for i in range(len(values)):
+        w = int(sizes[i])
+        v = values[i].strip()[:w]
+        if align == &quot;right&quot;:
+            v = v.rjust(w)
+        elif align == &quot;centre&quot;:
+            v = v.center(w)
+        else:
+            v = v.ljust(w)
+        out = v if i == 0 else out + sep + v
+    return out</textarea><template class="pc-src pc-hint">Split both strings on commas and walk through them with one index: <code>for i in range(len(parts))</code>.</template><template class="pc-src pc-hint">Cut a value to its width with a slice: <code>value[:width]</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Write down from memory what <code>*</code> and <code>/</code> mean in a parameter list, and when a default value is worked out. Then look up <code>help(sorted)</code> and <code>help(str.split)</code> and read their signatures: you can now understand every part. Tomorrow: <code>*args</code> and <code>**kwargs</code>, the stars that let a function take any number of arguments.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w006d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w007d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w007d1", "week": 7, "day": 1, "title": "Default and keyword arguments", "exercises": [{"id": "w007d1-snapshot", "title": "When was it worked out?", "points": 10}, {"id": "w007d1-none_default", "title": "None means not given", "points": 10}, {"id": "w007d1-kwonly", "title": "Name your flags", "points": 10}, {"id": "w007d1-posonly", "title": "Positional only", "points": 10}, {"id": "w007d1-format_price", "title": "A friendly signature", "points": 15}, {"id": "w007d1-redesign", "title": "Redesign the call", "points": 15}, {"id": "w007d1-bug1", "title": "Zero is not nothing", "points": 10}, {"id": "w007d1-bug2", "title": "Stuck in the past", "points": 10}, {"id": "w007d1-bug3", "title": "A refused call", "points": 10}, {"id": "w007d1-trace", "title": "Which calls work?", "points": 15}, {"id": "w007d1-challenge", "title": "Challenge: a table formatter", "points": 25}], "points": 140}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="dd97601b29">
+<title>Week 7 Day 2: *args and **kwargs | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=dd97601b29">
+<link rel="stylesheet" href="../assets/css/site.css?v=dd97601b29">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=dd97601b29"></script>
+<script src="../assets/vendor/codemirror.js?v=dd97601b29" defer></script>
+<meta name="description" content="print accepts any number of values: one, two, or twenty. Today you’ll learn how to write functions like that. A star in front of a parameter collects any...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w007d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 7 Day 2: *args and **kwargs">
+<meta property="og:description" content="print accepts any number of values: one, two, or twenty. Today you’ll learn how to write functions like that. A star in front of a parameter collects any...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w007d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-7">Week 7: Functions II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#args-any-number-of-positional-arguments" data-sec="args-any-number-of-positional-arguments">*args: any number of positional arguments</a></li><li><a href="#kwargs-any-number-of-keyword-arguments" data-sec="kwargs-any-number-of-keyword-arguments">**kwargs: any number of keyword arguments</a></li><li><a href="#the-full-order-of-parameters" data-sec="the-full-order-of-parameters">The full order of parameters</a></li><li><a href="#stars-in-a-call-spreading-out" data-sec="stars-in-a-call-spreading-out">Stars in a call: spreading out</a></li><li><a href="#when-to-use-the-stars" data-sec="when-to-use-the-stars">When to use the stars</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 7, Day 2</span></p>
+      <h1>*args and **kwargs</h1>
+      <div class="day-intro"><p><code>print</code> accepts any number of values: one, two, or twenty. Today you&rsquo;ll learn how to write functions like that. A star in front of a parameter collects any extra positional arguments; two stars collect any extra keyword arguments. The same stars work in the other direction too, spreading a sequence out into separate arguments.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write a function that takes any number of positional arguments with <code>*args</code>, and loop over them</li><li>Write a function that takes any number of keyword arguments with <code>**kwargs</code>, and loop over their names and values</li><li>Combine ordinary, <code>*args</code>, keyword-only and <code>**kwargs</code> parameters in the right order</li><li>Spread a sequence into separate arguments with <code>*</code> in a call</li><li>Explain when a flexible signature helps and when it hides mistakes</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="*args: any number of positional arguments: 35 min"></span><span class="plan-seg s0" style="flex:30" title="**kwargs: any number of keyword arguments: 30 min"></span><span class="plan-seg s1" style="flex:20" title="The full order of parameters: 20 min"></span><span class="plan-seg s0" style="flex:20" title="Stars in a call: spreading arguments out: 20 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">*args: any number of positional arguments</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">**kwargs: any number of keyword arguments</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:15</span><span class="plan-what">The full order of parameters</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Stars in a call: spreading arguments out</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w007d2.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d2-p1"><textarea class="pc-src pc-code" hidden>print(1)
+print(1, 2, 3)
+print()
+print(&quot;a&quot;, &quot;b&quot;, sep=&quot;&quot;)</textarea></div>
+<p>The same function took one argument, three, none, and two plus a keyword. Its signature, from yesterday, is <code>print(*objects, sep=' ', end='\n', ...)</code>. The <code>*</code> in front of <code>objects</code> is what makes it accept any number.</p>
+<h2 id="args-any-number-of-positional-arguments">*args: any number of positional arguments</h2>
+<p>Put a <code>*</code> in front of a parameter name, and that parameter collects <strong>all the extra positional arguments</strong> into one value:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e2"><textarea class="pc-src pc-code" hidden>def show(*args):
+    print(args)
+    print(len(args), &quot;arguments&quot;)
+
+show(1, 2, 3)
+show(&quot;just one&quot;)
+show()</textarea></div>
+<p><code>args</code> is a <strong>tuple</strong>: an ordered, unchangeable sequence, written with round brackets. You&rsquo;ll learn all about tuples in Week 9. For now you only need what you already know from strings and <code>split</code> results: <code>len(args)</code>, <code>args[0]</code>, and <code>for x in args:</code> all work.</p>
+<p>The name <code>args</code> is a convention, short for &ldquo;arguments&rdquo;. You can choose a better one when the meaning is clearer:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e3"><div class="pc-title">Add up any amount of numbers</div><textarea class="pc-src pc-code" hidden>def total(*numbers):
+    result = 0
+    for n in numbers:
+        result += n
+    return result
+
+print(total(1, 2, 3))
+print(total(10, 20, 30, 40, 50))
+print(total())</textarea></div>
+<h3 id="required-parameters-then-the-rest">Required parameters, then the rest</h3>
+<p>Ordinary parameters can come before the starred one. They take the first arguments, and the star takes whatever&rsquo;s left:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e4"><textarea class="pc-src pc-code" hidden>def greet_all(greeting, *names):
+    for name in names:
+        print(f&quot;{greeting}, {name}!&quot;)
+
+greet_all(&quot;Hello&quot;, &quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;)
+greet_all(&quot;Hi&quot;)</textarea></div>
+<p>Try it in the figure from last week. Each extra argument lands in the tuple:</p>
+<figure class="widget" data-widget="callbind"><script type="application/json">{"params": "greeting, *names", "args": "\"Hello\", \"Ada\", \"Grace\", \"Alan\"", "tries": ["\"Hello\", \"Ada\", \"Grace\", \"Alan\"", "\"Hi\"", "", "\"Hi\", names=\"Bo\""]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The first argument goes to greeting; everything left over is collected into the tuple names. Try a call with only one argument, and one with a keyword.</figcaption></figure>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>*name</code> in a <code>def</code> collects every extra positional argument into a tuple called <code>name</code>. There can be at most one starred parameter.</p></aside>
+<h2 id="kwargs-any-number-of-keyword-arguments">**kwargs: any number of keyword arguments</h2>
+<p>Two stars collect <strong>all the extra keyword arguments</strong>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e5"><textarea class="pc-src pc-code" hidden>def show(**kwargs):
+    print(kwargs)
+
+show(colour=&quot;red&quot;, size=12)
+show()</textarea></div>
+<p><code>kwargs</code> (short for &ldquo;keyword arguments&rdquo;) is a <strong>dictionary</strong>: a collection of names, called <strong>keys</strong>, each paired with a value. Dictionaries are Week 10&rsquo;s topic. Today you need just two things:</p>
+<ul>
+<li><code>for key, value in kwargs.items():</code> visits every name and its value;</li>
+<li><code>"colour" in kwargs</code> checks whether a keyword was given, and <code>kwargs["colour"]</code> gets its value.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e6"><div class="pc-title">Describe anything</div><textarea class="pc-src pc-code" hidden>def describe(thing, **details):
+    print(thing)
+    for key, value in details.items():
+        print(f&quot;  {key}: {value}&quot;)
+
+describe(&quot;Lagos&quot;, population=&quot;15 million&quot;, country=&quot;Nigeria&quot;)
+describe(&quot;Python&quot;, created=1991, creator=&quot;Guido van Rossum&quot;)</textarea></div>
+<p>The keywords come out in the order they were given in the call.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e7"><div class="pc-title">Checking for an option</div><textarea class="pc-src pc-code" hidden>def make_tag(name, **attrs):
+    text = &quot;&lt;&quot; + name
+    for key, value in attrs.items():
+        text += f&#x27; {key}=&quot;{value}&quot;&#x27;
+    return text + &quot;&gt;&quot;
+
+print(make_tag(&quot;a&quot;, href=&quot;https://example.com&quot;, target=&quot;_blank&quot;))
+print(make_tag(&quot;br&quot;))</textarea></div>
+<p>That&rsquo;s how a web page&rsquo;s tags are written: a name, then any number of attributes. Functions in real web frameworks build HTML exactly like this.</p>
+<h2 id="the-full-order-of-parameters">The full order of parameters</h2>
+<p>All the kinds of parameter can appear in one <code>def</code>, but only in this order:</p>
+<pre><code class="language-python">def f(pos_only, /, normal, default=1, *args, kw_only, kw_default=2, **kwargs):
+</code></pre>
+<ol>
+<li>positional-only parameters, then <code>/</code>;</li>
+<li>ordinary parameters (with and without defaults);</li>
+<li><code>*args</code>, or a bare <code>*</code>;</li>
+<li>keyword-only parameters;</li>
+<li><code>**kwargs</code>, always last.</li>
+</ol>
+<p>Anything after <code>*args</code> is automatically keyword-only. That&rsquo;s exactly how <code>print(*objects, sep=' ', end='\n')</code> works: <code>sep</code> and <code>end</code> come after the star, so you must name them.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e8"><textarea class="pc-src pc-code" hidden>def log(*messages, level=&quot;INFO&quot;, sep=&quot; &quot;):
+    print(f&quot;[{level}]&quot;, sep.join(messages))
+
+log(&quot;disk&quot;, &quot;almost&quot;, &quot;full&quot;, level=&quot;WARN&quot;)
+log(&quot;started&quot;)</textarea></div>
+<h2 id="stars-in-a-call-spreading-out">Stars in a call: spreading out</h2>
+<p>The star also works the other way round. In a <strong>call</strong>, <code>*sequence</code> spreads the sequence out into separate positional arguments:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e9"><textarea class="pc-src pc-code" hidden>def full_name(first, middle, last):
+    return f&quot;{last.upper()}, {first} {middle}&quot;
+
+parts = &quot;Ada Augusta Lovelace&quot;.split()
+print(full_name(*parts))</textarea></div>
+<p><code>full_name(*parts)</code> is the same as <code>full_name("Ada", "Augusta", "Lovelace")</code>. This is handy for passing on the pieces from a <code>split</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d2-e10"><div class="pc-title">Several numbers from one line</div><textarea class="pc-src pc-code" hidden>def largest(*numbers):
+    best = numbers[0]
+    for n in numbers[1:]:
+        if n &gt; best:
+            best = n
+    return best
+
+pieces = input(&quot;Numbers: &quot;).split()
+print(largest(*pieces))</textarea></div>
+<p>That compares the pieces as <strong>strings</strong>. To compare them as numbers, you&rsquo;d convert each one first, and you&rsquo;ll have a neat way to do that in Week 9.</p>
+<h2 id="when-to-use-the-stars">When to use the stars</h2>
+<p>Flexible signatures are powerful, but they have a cost: Python can no longer catch a wrong call. If <code>area(width, height)</code> is called with three arguments, Python complains. If <code>area(*sides)</code> is called with three, it doesn&rsquo;t.</p>
+<p>Use <code>*args</code> when the arguments really are &ldquo;a bunch of the same kind of thing&rdquo;, like numbers to add or names to greet. Use <code>**kwargs</code> when the set of options is genuinely open-ended, like attributes on a tag. When a function has a fixed set of inputs, list them by name.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>A good test: could someone reading only the <code>def</code> line know what to pass? <code>def area(width, height)</code> passes. <code>def area(*args, **kwargs)</code> fails.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-total" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Total of anything</div><div class="pc-prompt"><p>Write <code>total(*numbers)</code> that returns the sum of any number of numbers, and <code>0</code> when there are none. Don&rsquo;t use <code>sum</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert total(1, 2, 3) == 6
+    assert total(2.5) == 2.5
+    assert total() == 0
+    assert total(*range(101)) == 5050
+    assert &quot;sum(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def total(*numbers):
+    result = 0
+    for n in numbers:
+        result += n
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-mean" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Average of anything</div><div class="pc-prompt"><p>Write <code>mean(*numbers)</code> that returns the average of its arguments, or <code>None</code> if there are none.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert mean(1, 2, 3, 4) == 2.5
+    assert mean(7) == 7
+    assert mean() is None</textarea><textarea class="pc-src pc-solution" hidden>def mean(*numbers):
+    if len(numbers) == 0:
+        return None
+    total = 0
+    for n in numbers:
+        total += n
+    return total / len(numbers)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-longest" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The longest word</div><div class="pc-prompt"><p>Write <code>longest(*words)</code> that returns the longest of its arguments (the first one if there&rsquo;s a tie), or <code>""</code> if there are none.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert longest(&quot;fig&quot;, &quot;banana&quot;, &quot;kiwi&quot;) == &quot;banana&quot;
+    assert longest(&quot;ab&quot;, &quot;cd&quot;) == &quot;ab&quot;
+    assert longest() == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def longest(*words):
+    best = &quot;&quot;
+    for w in words:
+        if len(w) &gt; len(best):
+            best = w
+    return best</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-join_all" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Join with a separator</div><div class="pc-prompt"><p>Write <code>join_all(*parts, sep="-")</code> that returns all the parts, turned into strings, joined by <code>sep</code>. Because <code>sep</code> comes after <code>*parts</code>, it&rsquo;s automatically keyword-only.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert join_all(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;) == &quot;a-b-c&quot;
+    assert join_all(2026, 10, 27, sep=&quot;/&quot;) == &quot;2026/10/27&quot;
+    assert join_all(&quot;solo&quot;) == &quot;solo&quot;
+    assert join_all() == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def join_all(*parts, sep=&quot;-&quot;):
+    out = &quot;&quot;
+    for i in range(len(parts)):
+        if i &gt; 0:
+            out += sep
+        out += str(parts[i])
+    return out</textarea><template class="pc-src pc-hint">Convert each part with <code>str()</code> as you build the result.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-profile" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A profile card</div><div class="pc-prompt"><p>Write <code>profile(name, **details)</code> that <strong>returns</strong> a multi-line string: the name in capitals on the first line, then one line per detail, formatted as <code>key: value</code> with two spaces in front. Lines are joined with <code>"\n"</code>.</p>
+<pre><code class="language-python">print(profile(&quot;Ada&quot;, born=1815, field=&quot;mathematics&quot;))
+</code></pre>
+<pre><code>ADA
+  born: 1815
+  field: mathematics
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several profiles&quot;
+    assert profile(&quot;Ada&quot;, born=1815, field=&quot;mathematics&quot;) == &quot;ADA\n  born: 1815\n  field: mathematics&quot;
+    assert profile(&quot;Bo&quot;) == &quot;BO&quot;</textarea><textarea class="pc-src pc-solution" hidden>def profile(name, **details):
+    text = name.upper()
+    for key, value in details.items():
+        text += f&quot;\n  {key}: {value}&quot;
+    return text</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-tag" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">HTML tags</div><div class="pc-prompt"><p>Write <code>tag(name, content="", **attrs)</code> that returns an HTML element: an opening tag with its attributes, the content, and a closing tag. Attributes are written as <code>key="value"</code> in the order given.</p>
+<pre><code class="language-python">tag(&quot;p&quot;, &quot;Hello&quot;)                          # '&lt;p&gt;Hello&lt;/p&gt;'
+tag(&quot;a&quot;, &quot;Atlas&quot;, href=&quot;/atlas&quot;, id=&quot;top&quot;) # '&lt;a href=&quot;/atlas&quot; id=&quot;top&quot;&gt;Atlas&lt;/a&gt;'
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several tags&quot;
+    assert tag(&quot;p&quot;, &quot;Hello&quot;) == &quot;&lt;p&gt;Hello&lt;/p&gt;&quot;
+    assert tag(&quot;a&quot;, &quot;Atlas&quot;, href=&quot;/atlas&quot;, id=&quot;top&quot;) == &#x27;&lt;a href=&quot;/atlas&quot; id=&quot;top&quot;&gt;Atlas&lt;/a&gt;&#x27;
+    assert tag(&quot;div&quot;) == &quot;&lt;div&gt;&lt;/div&gt;&quot;
+    assert tag(&quot;img&quot;, src=&quot;cat.png&quot;) == &#x27;&lt;img src=&quot;cat.png&quot;&gt;&lt;/img&gt;&#x27;</textarea><textarea class="pc-src pc-solution" hidden>def tag(name, content=&quot;&quot;, **attrs):
+    opening = &quot;&lt;&quot; + name
+    for key, value in attrs.items():
+        opening += f&#x27; {key}=&quot;{value}&quot;&#x27;
+    return opening + &quot;&gt;&quot; + content + &quot;&lt;/&quot; + name + &quot;&gt;&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-spread" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Spread the pieces</div><div class="pc-prompt"><p>Ask for a date like <code>27 10 2026</code> (day, month, year separated by spaces) with the prompt <code>Date:</code>. Pass the three pieces to the given <code>iso_date</code> function <strong>with a star</strong>, and print the result.</p></div><textarea class="pc-src pc-code" hidden>def iso_date(day, month, year):
+    return f&quot;{year}-{int(month):02}-{int(day):02}&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_dates():
+    &quot;several dates&quot;
+    expect_output(&quot;Date: 27 10 2026\n2026-10-27&quot;, inputs=[&quot;27 10 2026&quot;], echo=True)
+    expect_output(&quot;Date: 5 3 2026\n2026-03-05&quot;, inputs=[&quot;5 3 2026&quot;], echo=True)
+def test_star():
+    &quot;uses a star in the call&quot;
+    assert &quot;iso_date(*&quot; in source, &quot;Spread the pieces into the call with *.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def iso_date(day, month, year):
+    return f&quot;{year}-{int(month):02}-{int(day):02}&quot;
+
+pieces = input(&quot;Date: &quot;).split()
+print(iso_date(*pieces))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Can&rsquo;t change a tuple</div><div class="pc-prompt"><p>This should return the arguments with <code>"!"</code> added to each, but it crashes. A tuple can&rsquo;t be changed, so build a new result instead. Return the results joined by spaces.</p></div><textarea class="pc-src pc-code" hidden>def excite(*words):
+    for i in range(len(words)):
+        words[i] = words[i] + &quot;!&quot;
+    return &quot; &quot;.join(words)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert excite(&quot;hi&quot;, &quot;there&quot;) == &quot;hi! there!&quot;
+    assert excite() == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def excite(*words):
+    out = &quot;&quot;
+    for w in words:
+        out = w + &quot;!&quot; if out == &quot;&quot; else out + &quot; &quot; + w + &quot;!&quot;
+    return out</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">One argument, not three</div><div class="pc-prompt"><p><code>largest</code> works when called as <code>largest(4, 9, 2)</code>, but this call returns the whole string instead of the largest number. Fix the call, not the function.</p></div><textarea class="pc-src pc-code" hidden>def largest(*numbers):
+    best = numbers[0]
+    for n in numbers:
+        if n &gt; best:
+            best = n
+    return best
+
+values = &quot;4 9 2&quot;.split()
+print(largest(values))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 9&quot;
+    expect_output(&quot;9&quot;)
+def test_function():
+    &quot;the function is unchanged&quot;
+    assert &quot;def largest(*numbers):&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def largest(*numbers):
+    best = numbers[0]
+    for n in numbers:
+        if n &gt; best:
+            best = n
+    return best
+
+values = &quot;4 9 2&quot;.split()
+print(largest(*values))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The separator got swallowed</div><div class="pc-prompt"><p><code>log("a", "b", "--")</code> was meant to use <code>--</code> as the separator, but the output is <code>a b --</code>. Fix the <strong>call</strong> so the program prints <code>a--b</code>.</p></div><textarea class="pc-src pc-code" hidden>def log(*parts, sep=&quot; &quot;):
+    return sep.join(parts)
+
+print(log(&quot;a&quot;, &quot;b&quot;, &quot;--&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints a--b&quot;
+    expect_output(&quot;a--b&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def log(*parts, sep=&quot; &quot;):
+    return sep.join(parts)
+
+print(log(&quot;a&quot;, &quot;b&quot;, sep=&quot;--&quot;))</textarea><template class="pc-src pc-hint">Everything after <code>*parts</code> must be named.</template></div>
+<div class="parsons" data-id="w007d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Greet everyone</div><div class="pc-prompt"><p>Arrange the lines into a function that greets any number of people, then a call. One line is a trap.</p></div><script type="application/json">{"lines": ["def greet_all(greeting, *names):", "    for name in names:", "        print(greeting + \", \" + name)", "greet_all(\"Hello\", \"Ada\", \"Bo\")"], "distractors": ["def greet_all(*names, greeting):"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Where does everything go?</div><div class="pc-prompt"><p>For <code>def f(a, *rest, b=0, **extra):</code>, write what <code>a</code>, <code>rest</code>, <code>b</code> and <code>extra</code> are for the call <code>f(1, 2, 3, b=4, c=5)</code>. Use a tuple for <code>rest</code> and a dictionary, like <code>{"c": 5}</code>, for <code>extra</code>.</p></div><textarea class="pc-src pc-code" hidden>a = ___
+rest = ___
+b = ___
+extra = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each parameter&quot;
+    assert a == 1, &quot;The first positional argument goes to a.&quot;
+    assert rest == (2, 3), &quot;The other positional arguments are collected into rest.&quot;
+    assert b == 4, &quot;b is keyword-only, after *rest.&quot;
+    assert extra == {&quot;c&quot;: 5}, &quot;Any other keyword arguments go into extra.&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = 1
+rest = (2, 3)
+b = 4
+extra = {&quot;c&quot;: 5}</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w007d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What type is <code>args</code> in <code>def f(*args)</code>?", "answer": 1, "explain": "An ordered, unchangeable sequence.", "options": ["A string", "A tuple", "A dictionary", "An int"]}, {"type": "mc", "q": "What type is <code>kwargs</code> in <code>def f(**kwargs)</code>?", "answer": 1, "explain": "Names paired with values.", "options": ["A tuple", "A dictionary", "A string", "A list"]}, {"type": "output", "q": "What does this print?", "answer": "0 1 3", "explain": "a collects however many there are.", "code": "def f(*a):\n    return len(a)\nprint(f(), f(1), f(1, 2, 3))"}, {"type": "output", "q": "What does this print?", "answer": "1 (2, 3)", "explain": "x takes the first; rest takes the others.", "code": "def f(x, *rest):\n    print(x, rest)\nf(1, 2, 3)"}, {"type": "mc", "q": "In <code>def f(*args, sep=\" \")</code>, how must sep be given?", "answer": 1, "explain": "Everything after *args is keyword-only.", "options": ["By position", "By name", "Either way"]}, {"type": "mc", "q": "What does <code>f(*\"abc\".split())</code> pass when the string has no spaces?", "answer": 1, "explain": "split() gives a single piece.", "options": ["Three arguments", "One argument, &lsquo;abc&rsquo;", "No arguments"]}, {"type": "output", "q": "What does this print?", "answer": "45", "explain": "The pieces are strings, so + joins them.", "code": "def add(a, b):\n    return a + b\nnums = \"4 5\".split()\nprint(add(*nums))"}, {"type": "mc", "q": "Where must **kwargs go in a def?", "answer": 1, "explain": "It collects whatever keyword arguments are left.", "options": ["First", "Last", "Anywhere", "Before *args"]}, {"type": "mc", "q": "How do you loop over every name and value in kwargs?", "answer": 1, "explain": ".items() gives each key with its value.", "options": ["<code>for k in kwargs:</code>", "<code>for k, v in kwargs.items():</code>", "<code>for v in kwargs.values:</code>", "You can&rsquo;t"]}, {"type": "mc", "q": "What&rsquo;s the main cost of <code>def f(*args, **kwargs)</code>?", "answer": 1, "explain": "Prefer named parameters when the inputs are fixed.", "options": ["It&rsquo;s slower", "Python can&rsquo;t catch calls with the wrong arguments, and readers can&rsquo;t see what to pass", "It uses more memory", "Nothing"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: rebuild print</div><div class="pc-prompt"><p>Write <code>make_line(*objects, sep=" ", end="\n")</code> that <strong>returns</strong> exactly the text <code>print(*objects, sep=sep, end=end)</code> would write: each object turned into a string with <code>str()</code>, joined by <code>sep</code>, followed by <code>end</code>. Then write <code>show(*objects, sep=" ", end="\n")</code> that writes the line using <code>print(..., end="")</code> on that one string, so that <code>show</code> behaves exactly like <code>print</code> for these arguments.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_make_line():
+    &quot;make_line matches print&quot;
+    assert make_line(&quot;a&quot;, 1, 2.5) == &quot;a 1 2.5\n&quot;
+    assert make_line(&quot;x&quot;, &quot;y&quot;, sep=&quot;&quot;) == &quot;xy\n&quot;
+    assert make_line(end=&quot;&quot;) == &quot;&quot;
+    assert make_line(3, sep=&quot;-&quot;, end=&quot;!&quot;) == &quot;3!&quot;
+    assert make_line(True, None) == &quot;True None\n&quot;
+def test_show():
+    &quot;show prints the same as print&quot;
+    import io, contextlib
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        show(&quot;a&quot;, 1, sep=&quot;, &quot;, end=&quot;!\n&quot;)
+        show()
+        show(&quot;x&quot;, end=&quot;&quot;)
+    assert buf.getvalue() == &quot;a, 1!\n\nx&quot;, &quot;show should write exactly what print would.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def make_line(*objects, sep=&quot; &quot;, end=&quot;\n&quot;):
+    text = &quot;&quot;
+    for i in range(len(objects)):
+        if i &gt; 0:
+            text += sep
+        text += str(objects[i])
+    return text + end
+
+def show(*objects, sep=&quot; &quot;, end=&quot;\n&quot;):
+    print(make_line(*objects, sep=sep, end=end), end=&quot;&quot;)</textarea></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Write the full order of parameter kinds from memory, from positional-only to <code>**kwargs</code>. Then explain what the star does in a <code>def</code> and what it does in a call: they&rsquo;re opposites. Tomorrow: functions as values, which means storing them, passing them to other functions and making new ones on the spot with <code>lambda</code>.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w007d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w007d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w007d2", "week": 7, "day": 2, "title": "*args and **kwargs", "exercises": [{"id": "w007d2-total", "title": "Total of anything", "points": 10}, {"id": "w007d2-mean", "title": "Average of anything", "points": 10}, {"id": "w007d2-longest", "title": "The longest word", "points": 10}, {"id": "w007d2-join_all", "title": "Join with a separator", "points": 10}, {"id": "w007d2-profile", "title": "A profile card", "points": 10}, {"id": "w007d2-tag", "title": "HTML tags", "points": 15}, {"id": "w007d2-spread", "title": "Spread the pieces", "points": 10}, {"id": "w007d2-bug1", "title": "Can't change a tuple", "points": 10}, {"id": "w007d2-bug2", "title": "One argument, not three", "points": 10}, {"id": "w007d2-bug3", "title": "The separator got swallowed", "points": 10}, {"id": "w007d2-trace", "title": "Where does everything go?", "points": 15}, {"id": "w007d2-challenge", "title": "Challenge: rebuild print", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

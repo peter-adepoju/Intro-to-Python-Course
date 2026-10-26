@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="dd97601b29">
+<title>Week 7 Day 3: Functions as values | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=dd97601b29">
+<link rel="stylesheet" href="../assets/css/site.css?v=dd97601b29">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=dd97601b29"></script>
+<script src="../assets/vendor/codemirror.js?v=dd97601b29" defer></script>
+<meta name="description" content="In Python, a function is a value, just like a number or a string. You can give it another name, pass it to another function, and even make a new function...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w007d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 7 Day 3: Functions as values">
+<meta property="og:description" content="In Python, a function is a value, just like a number or a string. You can give it another name, pass it to another function, and even make a new function...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w007d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-7">Week 7: Functions II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#functions-are-values" data-sec="functions-are-values">Functions are values</a></li><li><a href="#passing-functions-to-functions" data-sec="passing-functions-to-functions">Passing functions to functions</a></li><li><a href="#key-choosing-what-to-compare" data-sec="key-choosing-what-to-compare">key=: choosing what to compare</a></li><li><a href="#lambda-a-function-on-the-spot" data-sec="lambda-a-function-on-the-spot">lambda: a function on the spot</a></li><li><a href="#functions-that-make-functions" data-sec="functions-that-make-functions">Functions that make functions</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 7, Day 3</span></p>
+      <h1>Functions as values</h1>
+      <div class="day-intro"><p>In Python, a function is a value, just like a number or a string. You can give it another name, pass it to another function, and even make a new function inside a function and hand it back. Today you&rsquo;ll learn these ideas, which let you write one general piece of code and plug different behaviour into it.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Treat a function as a value, giving it another name and telling the difference between <code>f</code> and <code>f()</code></li><li>Write functions that take other functions as arguments</li><li>Use <code>key=</code> with <code>max</code>, <code>min</code> and <code>sorted</code> to choose what to compare by</li><li>Write small functions on the spot with <code>lambda</code>, and know when a <code>def</code> is better</li><li>Write a function that builds and returns a new function, and explain how it remembers its values</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Functions are values: 25 min"></span><span class="plan-seg s0" style="flex:30" title="Passing functions to functions: 30 min"></span><span class="plan-seg s1" style="flex:25" title="key= and lambda: 25 min"></span><span class="plan-seg s0" style="flex:30" title="Functions that make functions: 30 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Functions are values</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Passing functions to functions</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">key= and lambda</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Functions that make functions</span><span class="plan-min">30 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w007d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w007d3.ipynb" download>download it</a>. Exercises today are worth 150 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w007d3-p1"><textarea class="pc-src pc-code" hidden>def double(n):
+    return n * 2
+
+print(double(5))
+print(type(double))
+print(double)</textarea></div>
+<p>The last two lines show <code>double</code> itself, not a call to it. It has a type, <code>function</code>, and Python can print it. That&rsquo;s because a function is an object, like any other value.</p>
+<h2 id="functions-are-values">Functions are values</h2>
+<p>Since a function is a value, you can do with it the things you do with values. You can give it another name:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e2"><textarea class="pc-src pc-code" hidden>def shout(text):
+    return text.upper() + &quot;!&quot;
+
+yell = shout
+print(yell(&quot;hello&quot;))
+print(yell is shout)</textarea></div>
+<p><code>yell = shout</code> doesn&rsquo;t call anything (there are no brackets). It ties a second label, <code>yell</code>, to the same function object. Press X-ray: both names point at one function.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>f</code> is the function itself. <code>f()</code> <strong>calls</strong> it and gives you its result. Passing a function around means writing its name <strong>without</strong> brackets.</p></aside>
+<h2 id="passing-functions-to-functions">Passing functions to functions</h2>
+<p>Because a function is a value, you can pass it as an argument. The receiving function can then call it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e3"><textarea class="pc-src pc-code" hidden>def apply_twice(f, x):
+    return f(f(x))
+
+def add_three(n):
+    return n + 3
+
+def double(n):
+    return n * 2
+
+print(apply_twice(add_three, 10))
+print(apply_twice(double, 10))</textarea></div>
+<p><code>apply_twice</code> doesn&rsquo;t know or care what <code>f</code> does. It just knows how to call it twice. A function that takes or returns other functions is called a <strong>higher-order function</strong>, and it lets one piece of code handle many jobs.</p>
+<h3 id="one-loop-many-jobs">One loop, many jobs</h3>
+<p>Last week you wrote several loops that went through a string, changing each character. They differed in only one line: what to do to a character. Pass that in as a function:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e4"><div class="pc-title">One loop, any change</div><textarea class="pc-src pc-code" hidden>def transform(text, change):
+    result = &quot;&quot;
+    for ch in text:
+        result += change(ch)
+    return result
+
+def double_letter(ch):
+    return ch * 2
+
+def hide_vowel(ch):
+    return &quot;*&quot; if ch in &quot;aeiou&quot; else ch
+
+print(transform(&quot;hello&quot;, double_letter))
+print(transform(&quot;hello&quot;, hide_vowel))
+print(transform(&quot;hello&quot;, str.upper))</textarea></div>
+<p>The last line passes <code>str.upper</code>, the method itself, as the function. Every string method can be used this way.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e5"><div class="pc-title">Count anything</div><textarea class="pc-src pc-code" hidden>def count_if(test, text):
+    count = 0
+    for ch in text:
+        if test(ch):
+            count += 1
+    return count
+
+print(count_if(str.isdigit, &quot;R2-D2 and C-3PO&quot;))
+print(count_if(str.isupper, &quot;R2-D2 and C-3PO&quot;))</textarea></div>
+<h2 id="key-choosing-what-to-compare">key=: choosing what to compare</h2>
+<p><code>max</code> and <code>min</code> take an optional <code>key</code> function. Instead of comparing the values themselves, they compare <code>key(value)</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e6"><textarea class="pc-src pc-code" hidden>print(max(&quot;fig&quot;, &quot;banana&quot;, &quot;kiwi&quot;))
+print(max(&quot;fig&quot;, &quot;banana&quot;, &quot;kiwi&quot;, key=len))
+print(min(&quot;Bob&quot;, &quot;alice&quot;, &quot;Carol&quot;))
+print(min(&quot;Bob&quot;, &quot;alice&quot;, &quot;Carol&quot;, key=str.lower))</textarea></div>
+<p>Plain <code>max</code> compares strings alphabetically, so <code>"kiwi"</code> wins. With <code>key=len</code>, it compares lengths, so <code>"banana"</code> wins, but it still gives you back the word, not the length. <code>key=str.lower</code> compares the lower-case versions, so capitals no longer jump the queue.</p>
+<p><code>sorted</code> takes a <code>key</code> too. It returns a <strong>list</strong> (next week&rsquo;s topic) of the items in order:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e7"><textarea class="pc-src pc-code" hidden>words = &quot;Banana apple Cherry date&quot;.split()
+print(sorted(words))
+print(sorted(words, key=str.lower))
+print(sorted(words, key=len))</textarea></div>
+<h2 id="lambda-a-function-on-the-spot">lambda: a function on the spot</h2>
+<p>Writing a whole <code>def</code> for a one-line function you&rsquo;ll use once is clumsy. A <strong>lambda</strong> makes a small function inside an expression:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e8"><textarea class="pc-src pc-code" hidden>square = lambda n: n * n
+print(square(7))
+
+words = &quot;fig banana kiwi apple&quot;.split()
+print(max(words, key=lambda w: w[-1]))
+print(sorted(words, key=lambda w: (len(w), w)))</textarea></div>
+<p><code>lambda n: n * n</code> means &ldquo;a function that takes <code>n</code> and returns <code>n * n</code>&rdquo;. The part after the colon must be a single <strong>expression</strong>: no <code>if</code> statements, loops or assignments, though a conditional expression is fine. Its value is returned automatically, with no <code>return</code> keyword.</p>
+<p>The middle line finds the word whose <strong>last letter</strong> is greatest. The last line sorts by length, and for equal lengths alphabetically, by giving each word a pair of values to compare.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Use <code>lambda</code> for short functions passed straight into another function, like a <code>key</code>. If you&rsquo;d give it a name, or it needs more than one simple expression, write a <code>def</code> with a docstring instead.</p></aside>
+<h2 id="functions-that-make-functions">Functions that make functions</h2>
+<p>A function can define another function inside itself and return it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e9"><textarea class="pc-src pc-code" hidden>def make_multiplier(factor):
+    def multiply(n):
+        return n * factor
+    return multiply
+
+double = make_multiplier(2)
+triple = make_multiplier(3)
+print(double(10), triple(10))</textarea></div>
+<p>Each call to <code>make_multiplier</code> builds a <strong>new</strong> function. Here&rsquo;s the remarkable part: <code>multiply</code> uses <code>factor</code>, which is a local variable of <code>make_multiplier</code>, and that call has already finished. Yet <code>double</code> still knows its factor is 2.</p>
+<p>The inner function <strong>remembers</strong> the variables of the function it was made in. A function that carries remembered variables like this is called a <strong>closure</strong>. It&rsquo;s the <strong>E</strong> in LEGB from last week: when <code>multiply</code> looks up <code>factor</code>, it isn&rsquo;t local, so Python looks in the <strong>enclosing</strong> function&rsquo;s variables, which were kept alive for it. Step through it in X-ray and watch the frames.</p>
+<div class="pc pc-example" data-kind="example" data-id="w007d3-e10"><div class="pc-title">A family of formatters</div><textarea class="pc-src pc-code" hidden>def make_money_formatter(symbol, places=2):
+    def fmt(amount):
+        return f&quot;{symbol}{amount:,.{places}f}&quot;
+    return fmt
+
+naira = make_money_formatter(&quot;₦&quot;)
+dollars = make_money_formatter(&quot;$&quot;, 0)
+print(naira(1234.5), dollars(99.4))</textarea></div>
+<p>You configure the formatter once, then use it many times without repeating the settings.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-apply_n" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Apply n times</div><div class="pc-prompt"><p>Write <code>apply_n(f, x, n)</code> that applies <code>f</code> to <code>x</code>, <code>n</code> times in a row, and returns the result. <code>apply_n(f, x, 0)</code> returns <code>x</code> unchanged.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert apply_n(lambda v: v + 1, 0, 5) == 5
+    assert apply_n(lambda v: v * 2, 1, 10) == 1024
+    assert apply_n(str.upper, &quot;hi&quot;, 0) == &quot;hi&quot;</textarea><textarea class="pc-src pc-solution" hidden>def apply_n(f, x, n):
+    for _ in range(n):
+        x = f(x)
+    return x</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-transform" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Transform each character</div><div class="pc-prompt"><p>Write <code>transform(text, change)</code> that returns a new string where every character <code>ch</code> has been replaced by <code>change(ch)</code>. Then write <code>swap(ch)</code>, which swaps capitals and lower case and leaves other characters alone, so that <code>transform("Hello, World", swap)</code> gives <code>"hELLO, wORLD"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_transform():
+    &quot;transform works with any function&quot;
+    assert transform(&quot;abc&quot;, lambda c: c * 2) == &quot;aabbcc&quot;
+    assert transform(&quot;&quot;, str.upper) == &quot;&quot;
+def test_swap():
+    &quot;swap&quot;
+    assert transform(&quot;Hello, World&quot;, swap) == &quot;hELLO, wORLD&quot;</textarea><textarea class="pc-src pc-solution" hidden>def transform(text, change):
+    out = &quot;&quot;
+    for ch in text:
+        out += change(ch)
+    return out
+
+def swap(ch):
+    if ch.isupper():
+        return ch.lower()
+    if ch.islower():
+        return ch.upper()
+    return ch</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-count_if" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count if</div><div class="pc-prompt"><p>Write <code>count_if(test, text)</code> that returns how many characters of <code>text</code> make <code>test</code> return <code>True</code>. Then use it with a <code>lambda</code> to print how many characters in <code>"Python Atlas 2026!"</code> are <strong>not</strong> letters.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_function():
+    &quot;count_if&quot;
+    assert count_if(str.isdigit, &quot;a1b22&quot;) == 3
+    assert count_if(lambda c: c == &quot;s&quot;, &quot;mississippi&quot;) == 4
+def test_output():
+    &quot;the printed count&quot;
+    expect_output(&quot;7&quot;)
+    assert &quot;lambda&quot; in source, &quot;Use a lambda for the test.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def count_if(test, text):
+    count = 0
+    for ch in text:
+        if test(ch):
+            count += 1
+    return count
+
+print(count_if(lambda c: not c.isalpha(), &quot;Python Atlas 2026!&quot;))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-key_max" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Choosing with key</div><div class="pc-prompt"><p>Ask for some words on one line with the prompt <code>Words:</code>. Print three lines, using <code>max</code> or <code>min</code> with a <code>key</code> each time: <code>Longest:</code> (the first if tied), <code>Shortest:</code>, and <code>Most vowels:</code> (the first if tied).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_words():
+    &quot;several word lists&quot;
+    expect_output(&quot;Words: fig banana kiwi education\nLongest: education\nShortest: fig\nMost vowels: education&quot;, inputs=[&quot;fig banana kiwi education&quot;], echo=True)
+    expect_output(&quot;Words: aa bb cc\nLongest: aa\nShortest: aa\nMost vowels: aa&quot;, inputs=[&quot;aa bb cc&quot;], echo=True)
+def test_key():
+    &quot;uses key=&quot;
+    assert source.count(&quot;key=&quot;) &gt;= 3, &quot;Use key= with max or min for each line.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def count_vowels(word):
+    n = 0
+    for ch in word:
+        if ch in &quot;aeiou&quot;:
+            n += 1
+    return n
+
+words = input(&quot;Words: &quot;).split()
+print(&quot;Longest:&quot;, max(words, key=len))
+print(&quot;Shortest:&quot;, min(words, key=len))
+print(&quot;Most vowels:&quot;, max(words, key=count_vowels))</textarea><template class="pc-src pc-hint">For the vowels, write a small helper <code>count_vowels(word)</code> that returns how many vowels a word has, and pass it as the key: <code>key=count_vowels</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-make_adder" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Make an adder</div><div class="pc-prompt"><p>Write <code>make_adder(n)</code> that returns a function which adds <code>n</code> to whatever it&rsquo;s given. <code>add5 = make_adder(5)</code> then <code>add5(10)</code> is 15.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several adders&quot;
+    add5 = make_adder(5)
+    minus2 = make_adder(-2)
+    assert add5(10) == 15 and add5(0) == 5
+    assert minus2(10) == 8
+    assert make_adder(1)(make_adder(1)(0)) == 2</textarea><textarea class="pc-src pc-solution" hidden>def make_adder(n):
+    def add(x):
+        return x + n
+    return add</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-compose" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Compose</div><div class="pc-prompt"><p>Write <code>compose(f, g)</code> that returns a new function which, given <code>x</code>, returns <code>f(g(x))</code>. Then build <code>shout_trimmed = compose(str.upper, str.strip)</code> and print <code>shout_trimmed("  hello  ")</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_compose():
+    &quot;compose&quot;
+    inc = lambda x: x + 1
+    dbl = lambda x: x * 2
+    assert compose(inc, dbl)(5) == 11, &quot;compose(f, g)(x) is f(g(x)): g first.&quot;
+    assert compose(dbl, inc)(5) == 12
+def test_output():
+    &quot;prints HELLO&quot;
+    expect_output(&quot;HELLO&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def compose(f, g):
+    def both(x):
+        return f(g(x))
+    return both
+
+shout_trimmed = compose(str.upper, str.strip)
+print(shout_trimmed(&quot;  hello  &quot;))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-calc" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Pick an operation</div><div class="pc-prompt"><p>Write <code>get_operation(symbol)</code> that returns a <strong>function</strong> for <code>+</code>, <code>-</code>, <code>*</code> or <code>/</code>, each taking two numbers. Use lambdas. For any other symbol it returns <code>None</code>. Then the program asks <code>a:</code>, <code>op:</code> and <code>b:</code> and prints the result, or <code>Unknown operation</code>.</p></div><textarea class="pc-src pc-code" hidden>def get_operation(symbol):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_function():
+    &quot;get_operation returns functions&quot;
+    assert get_operation(&quot;+&quot;)(2, 3) == 5 and get_operation(&quot;-&quot;)(2, 3) == -1
+    assert get_operation(&quot;*&quot;)(2, 3) == 6 and get_operation(&quot;/&quot;)(3, 2) == 1.5
+    assert get_operation(&quot;%&quot;) is None
+def test_program():
+    &quot;the program&quot;
+    expect_output(&quot;a: 6\nop: *\nb: 7\n42.0&quot;, inputs=[&quot;6&quot;, &quot;*&quot;, &quot;7&quot;], echo=True)
+    expect_output(&quot;a: 6\nop: ^\nb: 7\nUnknown operation&quot;, inputs=[&quot;6&quot;, &quot;^&quot;, &quot;7&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>def get_operation(symbol):
+    if symbol == &quot;+&quot;:
+        return lambda x, y: x + y
+    if symbol == &quot;-&quot;:
+        return lambda x, y: x - y
+    if symbol == &quot;*&quot;:
+        return lambda x, y: x * y
+    if symbol == &quot;/&quot;:
+        return lambda x, y: x / y
+    return None
+
+a = float(input(&quot;a: &quot;))
+op = get_operation(input(&quot;op: &quot;))
+b = float(input(&quot;b: &quot;))
+if op is None:
+    print(&quot;Unknown operation&quot;)
+else:
+    print(op(a, b))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Called too soon</div><div class="pc-prompt"><p>This crashes with <code>TypeError: apply_twice() missing ...</code> or <code>'str' object is not callable</code>. It should print <code>HELLO!!</code>. Fix the call.</p></div><textarea class="pc-src pc-code" hidden>def apply_twice(f, x):
+    return f(f(x))
+
+def excite(text):
+    return text.upper() + &quot;!&quot;
+
+print(apply_twice(excite(), &quot;hello&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints HELLO!!&quot;
+    expect_output(&quot;HELLO!!&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def apply_twice(f, x):
+    return f(f(x))
+
+def excite(text):
+    return text.upper() + &quot;!&quot;
+
+print(apply_twice(excite, &quot;hello&quot;))</textarea><template class="pc-src pc-hint">Pass the function itself, with no brackets.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Comparing the wrong thing</div><div class="pc-prompt"><p>This should print the word with the <strong>most letters</strong>, but it prints <code>pear</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>words = &quot;banana fig pear&quot;.split()
+print(max(words))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints banana&quot;
+    expect_output(&quot;banana&quot;)</textarea><textarea class="pc-src pc-solution" hidden>words = &quot;banana fig pear&quot;.split()
+print(max(words, key=len))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w007d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A lambda that returns nothing useful</div><div class="pc-prompt"><p><code>by_last_letter</code> should sort words by their last letter, but this crashes with a <code>SyntaxError</code>. A lambda can only hold an expression. Fix it.</p></div><textarea class="pc-src pc-code" hidden>words = &quot;kiwi apple fig&quot;.split()
+print(sorted(words, key=lambda w: return w[-1]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;sorted by last letter&quot;
+    expect_output(&quot;[&#x27;apple&#x27;, &#x27;fig&#x27;, &#x27;kiwi&#x27;]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>words = &quot;kiwi apple fig&quot;.split()
+print(sorted(words, key=lambda w: w[-1]))</textarea></div>
+<div class="parsons" data-id="w007d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Make a multiplier</div><div class="pc-prompt"><p>Arrange the lines into a function that makes multiplier functions, then use it. One line is a trap.</p></div><script type="application/json">{"lines": ["def make_multiplier(factor):", "    def multiply(n):", "        return n * factor", "    return multiply", "triple = make_multiplier(3)", "print(triple(5))"], "distractors": ["    return multiply(n)"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">What do they print?</div><div class="pc-prompt"><p>Work these out without running them.</p>
+<pre><code class="language-python">def make(n):
+    return lambda x: x * n + 1
+
+f = make(2)
+g = make(10)
+print(f(3))           # A
+print(g(f(0)))        # B
+print(max(&quot;ab&quot;, &quot;c&quot;, &quot;def&quot;, key=len))   # C
+</code></pre></div><textarea class="pc-src pc-code" hidden>answer_a = ___
+answer_b = ___
+answer_c = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each line&quot;
+    assert answer_a == 7, &quot;f is x * 2 + 1.&quot;
+    assert answer_b == 11, &quot;f(0) is 1, then g(1) is 1 * 10 + 1.&quot;
+    assert answer_c == &quot;def&quot;, &quot;The longest by len.&quot;</textarea><textarea class="pc-src pc-solution" hidden>answer_a = 7
+answer_b = 11
+answer_c = &quot;def&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w007d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What&rsquo;s the difference between <code>f</code> and <code>f()</code>?", "answer": 1, "explain": "Without brackets you have the function itself.", "options": ["None", "f is the function; f() calls it", "f() is the function; f calls it", "f is a variable"]}, {"type": "output", "q": "What does this print?", "answer": "2", "explain": "g points at the same function.", "code": "def f(x):\n    return x + 1\ng = f\nprint(g(1))"}, {"type": "text", "q": "What does <code>max(\"pear\", \"fig\", \"banana\", key=len)</code> give?", "answer": ["banana", "'banana'"], "explain": "It compares lengths but returns the word."}, {"type": "mc", "q": "What can the body of a lambda contain?", "answer": 1, "explain": "Its value is returned automatically.", "options": ["Any statements", "A single expression", "Only a return statement", "A loop"]}, {"type": "output", "q": "What does this print?", "answer": "16", "explain": "sq(2) is 4; sq(4) is 16.", "code": "sq = lambda n: n * n\nprint(sq(sq(2)))"}, {"type": "mc", "q": "What is a higher-order function?", "answer": 1, "explain": "Like apply_twice or max with key.", "options": ["A very fast function", "A function that takes or returns functions", "A function inside a class", "A built-in"]}, {"type": "output", "q": "What does this print?", "answer": "7", "explain": "add2 remembers n = 2.", "code": "def make(n):\n    def f(x):\n        return x + n\n    return f\nadd2 = make(2)\nprint(add2(5))"}, {"type": "mc", "q": "What is a closure?", "answer": 1, "explain": "The E in LEGB.", "options": ["A function that ends the program", "A function that remembers variables from where it was made", "A closed file", "A lambda with no arguments"]}, {"type": "mc", "q": "Which is a correct key for sorting words ignoring case?", "answer": 1, "explain": "Pass the method itself, without calling it.", "options": ["<code>key=lower</code>", "<code>key=str.lower</code>", "<code>key=str.lower()</code>", "<code>key='lower'</code>"]}, {"type": "mc", "q": "When should you write a def instead of a lambda?", "answer": 1, "explain": "lambda is for short, throwaway functions.", "options": ["Never", "When the function needs a name, a docstring or more than one simple expression", "Always", "Only for maths"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w007d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: Newton&rsquo;s method for any function</div><div class="pc-prompt"><p>In Week 4 you used Newton&rsquo;s method to find square roots. It works for almost any function: to find where <code>f(x) = 0</code>, start from a guess <code>x</code> and repeat <code>x = x - f(x) / slope</code>, where <code>slope</code> is how steeply <code>f</code> is rising at <code>x</code>.</p>
+<ol>
+<li>Write <code>derivative(f, h=1e-6)</code> that <strong>returns a function</strong> giving the approximate slope of <code>f</code> at any <code>x</code>: <code>(f(x + h) - f(x - h)) / (2 * h)</code>.</li>
+<li>Write <code>newton(f, x, tolerance=1e-10)</code> that repeats the Newton step, using <code>derivative(f)</code>, until <code>abs(f(x)) &lt; tolerance</code>, and returns <code>x</code>. Stop after 100 steps if it hasn&rsquo;t got there.</li>
+<li>Print the positive root of <code>x² − 2</code> (that&rsquo;s √2) and of <code>x³ − x − 1</code>, each rounded to 6 places, starting from 1.</li>
+</ol></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_derivative():
+    &quot;derivative returns a slope function&quot;
+    d = derivative(lambda x: x * x)
+    assert abs(d(3) - 6) &lt; 1e-4, &quot;The slope of x*x at 3 is 6.&quot;
+    d = derivative(lambda x: x ** 3)
+    assert abs(d(2) - 12) &lt; 1e-4
+def test_newton():
+    &quot;newton finds roots&quot;
+    assert abs(newton(lambda x: x * x - 2, 1) - 2 ** 0.5) &lt; 1e-8
+    assert abs(newton(lambda x: x * x - 9, 1) - 3) &lt; 1e-8
+def test_output():
+    &quot;prints both roots&quot;
+    expect_output(&quot;1.414214\n1.324718&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def derivative(f, h=1e-6):
+    def slope(x):
+        return (f(x + h) - f(x - h)) / (2 * h)
+    return slope
+
+def newton(f, x, tolerance=1e-10):
+    slope = derivative(f)
+    for _ in range(100):
+        if abs(f(x)) &lt; tolerance:
+            break
+        x = x - f(x) / slope(x)
+    return x
+
+print(round(newton(lambda x: x * x - 2, 1), 6))
+print(round(newton(lambda x: x ** 3 - x - 1, 1), 6))</textarea><template class="pc-src pc-hint"><code>derivative</code> defines an inner function <code>slope(x)</code> that uses <code>f</code> and <code>h</code>, and returns it, exactly like <code>make_multiplier</code>.</template><template class="pc-src pc-hint">Inside <code>newton</code>, make <code>slope = derivative(f)</code> once, then loop: <code>x = x - f(x) / slope(x)</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain in your own words how <code>double = make_multiplier(2)</code> still knows its factor after <code>make_multiplier</code> has finished. Then write a <code>key</code> function that sorts words by their number of vowels. Tomorrow: top-down design, which means starting a program from the big picture and filling in the functions it needs, step by step.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w007d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w007d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w007d3", "week": 7, "day": 3, "title": "Functions as values", "exercises": [{"id": "w007d3-apply_n", "title": "Apply n times", "points": 10}, {"id": "w007d3-transform", "title": "Transform each character", "points": 10}, {"id": "w007d3-count_if", "title": "Count if", "points": 10}, {"id": "w007d3-key_max", "title": "Choosing with key", "points": 10}, {"id": "w007d3-make_adder", "title": "Make an adder", "points": 10}, {"id": "w007d3-compose", "title": "Compose", "points": 15}, {"id": "w007d3-calc", "title": "Pick an operation", "points": 15}, {"id": "w007d3-bug1", "title": "Called too soon", "points": 10}, {"id": "w007d3-bug2", "title": "Comparing the wrong thing", "points": 10}, {"id": "w007d3-bug3", "title": "A lambda that returns nothing useful", "points": 10}, {"id": "w007d3-trace", "title": "What do they print?", "points": 15}, {"id": "w007d3-challenge", "title": "Challenge: Newton's method for any function", "points": 25}], "points": 150}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
