@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9bab6cc08b">
+<title>Week 5 Day 1: String methods | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9bab6cc08b">
+<link rel="stylesheet" href="../assets/css/site.css?v=9bab6cc08b">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9bab6cc08b"></script>
+<script src="../assets/vendor/codemirror.js?v=9bab6cc08b" defer></script>
+<meta name="description" content="Strings come with dozens of built-in tools, called methods, for the jobs people do with text every day: changing case, trimming spaces, finding and...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w005d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 5 Day 1: String methods">
+<meta property="og:description" content="Strings come with dozens of built-in tools, called methods, for the jobs people do with text every day: changing case, trimming spaces, finding and...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w005d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-5">Week 5: Strings II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#what-a-method-is" data-sec="what-a-method-is">What a method is</a></li><li><a href="#changing-case" data-sec="changing-case">Changing case</a></li><li><a href="#trimming-strip" data-sec="trimming-strip">Trimming: strip</a></li><li><a href="#searching-find-index-count" data-sec="searching-find-index-count">Searching: find, index, count</a></li><li><a href="#replacing" data-sec="replacing">Replacing</a></li><li><a href="#starts-and-ends-with" data-sec="starts-and-ends-with">Starts and ends with</a></li><li><a href="#testing-what-a-string-contains" data-sec="testing-what-a-string-contains">Testing what a string contains</a></li><li><a href="#methods-return-new-strings" data-sec="methods-return-new-strings">Methods return new strings</a></li><li><a href="#chaining-methods" data-sec="chaining-methods">Chaining methods</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 5, Day 1</span></p>
+      <h1>String methods</h1>
+      <div class="day-intro"><p>Strings come with dozens of built-in tools, called methods, for the jobs people do with text every day: changing case, trimming spaces, finding and replacing, checking what kind of characters they contain. Today you&rsquo;ll meet the most useful ones, and the one rule they all follow: a method never changes the string, it gives you a new one.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Call a string method with the dot syntax, and explain the difference between a method and a function</li><li>Use the case methods, the <code>strip</code> family, <code>find</code>, <code>index</code>, <code>count</code>, <code>replace</code>, <code>startswith</code> and <code>endswith</code></li><li>Test what a string contains with the <code>is...</code> methods</li><li>Remember that methods return new strings, and store the result</li><li>Chain several methods in one expression, in the right order</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="What a method is: 25 min"></span><span class="plan-seg s0" style="flex:35" title="Case, strip, find, count and replace: 35 min"></span><span class="plan-seg s1" style="flex:20" title="Testing strings, and starts or ends with: 20 min"></span><span class="plan-seg s0" style="flex:20" title="Methods return new strings; chaining: 20 min"></span><span class="plan-seg s1" style="flex:60" title="Practice: 60 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">What a method is</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Case, strip, find, count and replace</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Testing strings, and starts or ends with</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Methods return new strings; chaining</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Practice</span><span class="plan-min">60 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w005d1.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d1-p1"><textarea class="pc-src pc-code" hidden>s = &quot;Hello&quot;
+print(len(s))
+print(s.upper())
+print(s)</textarea></div>
+<p><code>len(s)</code> and <code>s.upper()</code> look different, and the difference matters. The last line shows the other thing to notice: after <code>s.upper()</code>, <code>s</code> is still <code>"Hello"</code>.</p>
+<h2 id="what-a-method-is">What a method is</h2>
+<p>A <strong>function</strong> like <code>len</code> or <code>print</code> stands on its own: you hand it a value in brackets. A <strong>method</strong> belongs to a value. You write the value, a dot, and the method&rsquo;s name:</p>
+<pre><code class="language-python">len(word)         # a function: word goes inside the brackets
+word.upper()      # a method: upper belongs to word
+</code></pre>
+<p>Every string has the same set of methods, because they come with the <code>str</code> type. You&rsquo;ve already met a few: <code>.lower()</code>, <code>.upper()</code>, <code>.isdigit()</code>, <code>.isalpha()</code>. Today you&rsquo;ll meet the rest of the everyday ones. Python has about 47; nobody memorises them all. You learn the dozen you use most and look up the others.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>In any Python, <code>dir(str)</code> lists every string method, and <code>help(str.replace)</code> explains one. Try them in the playground.</p></aside>
+<p>Play with the methods here. Pick one, change the string or the arguments, and watch what comes back:</p>
+<figure class="widget" data-widget="methodlab"><script type="application/json">{"text": "  Banana Bread  ", "method": "strip"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Every method returns something new. Underneath, s is shown again: it never changes. Spaces are shown as dots.</figcaption></figure>
+<h2 id="changing-case">Changing case</h2>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e2"><textarea class="pc-src pc-code" hidden>s = &quot;the Python language&quot;
+print(s.upper())
+print(s.lower())
+print(s.title())
+print(s.capitalize())
+print(s.swapcase())</textarea></div>
+<p><code>.lower()</code> is the one you&rsquo;ll use most: comparing text without caring about capitals, as you did in Week 2.</p>
+<h2 id="trimming-strip">Trimming: strip</h2>
+<p>Text typed by people, or read from files, often has stray spaces at the ends. <code>.strip()</code> removes whitespace (spaces, tabs and new lines) from <strong>both ends</strong>, but never from the middle:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e3"><textarea class="pc-src pc-code" hidden>raw = &quot;   Ada Lovelace   &quot;
+print(&quot;[&quot; + raw + &quot;]&quot;)
+print(&quot;[&quot; + raw.strip() + &quot;]&quot;)
+print(&quot;[&quot; + raw.lstrip() + &quot;]&quot;)
+print(&quot;[&quot; + raw.rstrip() + &quot;]&quot;)</textarea></div>
+<p><code>lstrip</code> trims only the left end and <code>rstrip</code> only the right. Give <code>strip</code> an argument to remove other characters from the ends instead:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e4"><textarea class="pc-src pc-code" hidden>print(&quot;***SALE***&quot;.strip(&quot;*&quot;))
+print(&quot;www.example.com&quot;.strip(&quot;w.moc&quot;))</textarea></div>
+<p>The second one surprises people. The argument is a <strong>set of characters</strong> to remove, not a word: <code>strip</code> keeps peeling off any of <code>w</code>, <code>.</code>, <code>m</code>, <code>o</code> and <code>c</code> from both ends until it meets a character that isn&rsquo;t in the set.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Strip user input as a habit: <code>name = input("Name: ").strip()</code>. A stray space at the end of <code>"yes "</code> would otherwise make <code>answer == "yes"</code> false.</p></aside>
+<h2 id="searching-find-index-count">Searching: find, index, count</h2>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e5"><textarea class="pc-src pc-code" hidden>s = &quot;banana&quot;
+print(s.find(&quot;an&quot;))
+print(s.find(&quot;an&quot;, 2))
+print(s.find(&quot;z&quot;))
+print(s.count(&quot;a&quot;))
+print(s.count(&quot;an&quot;))</textarea></div>
+<ul>
+<li><code>.find(sub)</code> gives the position where <code>sub</code> <strong>first</strong> starts, or <code>-1</code> if it isn&rsquo;t there. An optional second argument says where to start looking.</li>
+<li><code>.rfind(sub)</code> is the same but searches from the <strong>right</strong>: the last occurrence.</li>
+<li><code>.count(sub)</code> counts how many times <code>sub</code> appears, without overlapping.</li>
+<li><code>.index(sub)</code> is like <code>find</code>, but raises a <code>ValueError</code> if <code>sub</code> isn&rsquo;t there:</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e6"><textarea class="pc-src pc-code" hidden>print(&quot;banana&quot;.index(&quot;z&quot;))</textarea></div>
+<p>Use <code>find</code> when &ldquo;not there&rdquo; is normal and you&rsquo;ll check for <code>-1</code>. Use <code>index</code> when &ldquo;not there&rdquo; would be a bug that you want to hear about loudly.</p>
+<p><code>find</code> and slicing work beautifully together:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e7"><div class="pc-title">Split an email address</div><textarea class="pc-src pc-code" hidden>email = input(&quot;Email: &quot;).strip()
+at = email.find(&quot;@&quot;)
+print(&quot;User:&quot;, email[:at])
+print(&quot;Domain:&quot;, email[at + 1:])</textarea></div>
+<h2 id="replacing">Replacing</h2>
+<p><code>.replace(old, new)</code> gives a copy with every <code>old</code> replaced by <code>new</code>. An optional third argument limits how many are replaced:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e8"><textarea class="pc-src pc-code" hidden>s = &quot;I like cats. cats are great.&quot;
+print(s.replace(&quot;cats&quot;, &quot;dogs&quot;))
+print(s.replace(&quot;cats&quot;, &quot;dogs&quot;, 1))
+print(s.replace(&quot; &quot;, &quot;&quot;))</textarea></div>
+<p>Replacing with <code>""</code> deletes, which is handy for removing every space or every comma.</p>
+<h2 id="starts-and-ends-with">Starts and ends with</h2>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e9"><textarea class="pc-src pc-code" hidden>filename = &quot;report_final.pdf&quot;
+print(filename.endswith(&quot;.pdf&quot;))
+print(filename.startswith(&quot;report&quot;))
+print(filename.endswith(&quot;.PDF&quot;))</textarea></div>
+<p>These are clearer and safer than slicing: <code>filename[-4:] == ".pdf"</code> breaks if you change the extension to one of a different length.</p>
+<h2 id="testing-what-a-string-contains">Testing what a string contains</h2>
+<p>These methods all return <code>True</code> or <code>False</code>, and all return <code>False</code> for an empty string:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>True when every character is&hellip;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.isalpha()</code></td>
+<td>a letter</td>
+</tr>
+<tr>
+<td><code>.isdigit()</code></td>
+<td>a digit 0 to 9</td>
+</tr>
+<tr>
+<td><code>.isalnum()</code></td>
+<td>a letter or a digit</td>
+</tr>
+<tr>
+<td><code>.isspace()</code></td>
+<td>whitespace</td>
+</tr>
+<tr>
+<td><code>.isupper()</code></td>
+<td>upper case (and there&rsquo;s at least one letter)</td>
+</tr>
+<tr>
+<td><code>.islower()</code></td>
+<td>lower case (and there&rsquo;s at least one letter)</td>
+</tr>
+</tbody>
+</table>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e10"><textarea class="pc-src pc-code" hidden>for s in [&quot;abc&quot;, &quot;abc123&quot;, &quot;123&quot;, &quot;  &quot;, &quot;ABC&quot;, &quot;Abc&quot;, &quot;&quot;]:
+    print(repr(s), s.isalpha(), s.isalnum(), s.isdigit(), s.isupper())</textarea></div>
+<p><code>repr(s)</code> shows a string with its quotes, so you can see empty strings and spaces.</p>
+<h2 id="methods-return-new-strings">Methods return new strings</h2>
+<p>Strings can <strong>never</strong> be changed. Every method that seems to change a string actually builds and returns a new one. If you don&rsquo;t store the result, it&rsquo;s lost:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e11"><div class="pc-title">The classic mistake</div><textarea class="pc-src pc-code" hidden>name = &quot;ada&quot;
+name.upper()
+print(name)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e12"><div class="pc-title">Store the result</div><textarea class="pc-src pc-code" hidden>name = &quot;ada&quot;
+name = name.upper()
+print(name)</textarea></div>
+<p><code>name = name.upper()</code> points the label <code>name</code> at the new string. The old one is thrown away.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>String methods never change the string they belong to. To keep the result, assign it: <code>s = s.strip()</code>.</p></aside>
+<h2 id="chaining-methods">Chaining methods</h2>
+<p>Since a method returns a string, you can call another method on the result straight away. Python works from left to right:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e13"><textarea class="pc-src pc-code" hidden>raw = &quot;   YES please  &quot;
+print(raw.strip().lower())
+print(raw.strip().lower().startswith(&quot;yes&quot;))</textarea></div>
+<p>Read it as a pipeline: start with <code>raw</code>, strip it, make that lower case, then ask whether <em>that</em> starts with <code>"yes"</code>. Order can matter:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d1-e14"><textarea class="pc-src pc-code" hidden>s = &quot;  Hello  &quot;
+print(repr(s.strip().center(11, &quot;*&quot;)))
+print(repr(s.center(11, &quot;*&quot;).strip()))</textarea></div>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-tidy_name" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Tidy a name</div><div class="pc-prompt"><p>Ask for a name with the prompt <code>Name:</code>. People type names messily: extra spaces at the ends, odd capitals. Print <code>Hello,</code> followed by the name with the ends trimmed and each word starting with a capital, then <code>!</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several names&quot;
+    for raw, tidy in [(&quot;  ada lovelace &quot;, &quot;Ada Lovelace&quot;), (&quot;GRACE HOPPER&quot;, &quot;Grace Hopper&quot;), (&quot;alan&quot;, &quot;Alan&quot;)]:
+        expect_output(f&quot;Name: {raw}\nHello, {tidy}!&quot;, inputs=[raw], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;Name: &quot;).strip().title()
+print(f&quot;Hello, {name}!&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-yes_no" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Any kind of yes</div><div class="pc-prompt"><p>Ask <code>Continue?</code> and print <code>Continuing</code> if the answer is <code>y</code> or <code>yes</code>, in any capitals, with or without spaces around it. Otherwise print <code>Stopping</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_yes():
+    &quot;several yeses&quot;
+    for a in [&quot;y&quot;, &quot;YES&quot;, &quot;  Yes &quot;, &quot;Y&quot;]:
+        expect_output(f&quot;Continue? {a}\nContinuing&quot;, inputs=[a], echo=True)
+def test_no():
+    &quot;not yes&quot;
+    for a in [&quot;no&quot;, &quot;yess&quot;, &quot;&quot;]:
+        expect_output(f&quot;Continue? {a}\nStopping&quot;, inputs=[a], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>answer = input(&quot;Continue? &quot;).strip().lower()
+if answer == &quot;y&quot; or answer == &quot;yes&quot;:
+    print(&quot;Continuing&quot;)
+else:
+    print(&quot;Stopping&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-domain" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Which domain?</div><div class="pc-prompt"><p>Ask for an email address with the prompt <code>Email:</code> and print <code>Domain:</code> and everything after the <code>@</code>. If there&rsquo;s no <code>@</code>, print <code>Not an email address</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_ok():
+    &quot;an address&quot;
+    expect_output(&quot;Email: grace@navy.example\nDomain: navy.example&quot;, inputs=[&quot;grace@navy.example&quot;], echo=True)
+def test_bad():
+    &quot;no @&quot;
+    expect_output(&quot;Email: grace.navy\nNot an email address&quot;, inputs=[&quot;grace.navy&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>email = input(&quot;Email: &quot;)
+at = email.find(&quot;@&quot;)
+if at == -1:
+    print(&quot;Not an email address&quot;)
+else:
+    print(&quot;Domain:&quot;, email[at + 1:])</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-extension" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">File extension</div><div class="pc-prompt"><p>Ask for a file name with the prompt <code>File:</code> and print <code>Extension:</code> and the part after the <strong>last</strong> full stop, in lower case. If there&rsquo;s no full stop, print <code>No extension</code>. (<code>archive.tar.GZ</code> has the extension <code>gz</code>.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several files&quot;
+    for f, want in [(&quot;photo.JPG&quot;, &quot;Extension: jpg&quot;), (&quot;archive.tar.GZ&quot;, &quot;Extension: gz&quot;), (&quot;README&quot;, &quot;No extension&quot;), (&quot;notes.txt&quot;, &quot;Extension: txt&quot;)]:
+        expect_output(f&quot;File: {f}\n{want}&quot;, inputs=[f], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;File: &quot;)
+dot = name.rfind(&quot;.&quot;)
+if dot == -1:
+    print(&quot;No extension&quot;)
+else:
+    print(&quot;Extension:&quot;, name[dot + 1:].lower())</textarea><template class="pc-src pc-hint"><code>.rfind(".")</code> finds the last full stop.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-censor" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Mind your language</div><div class="pc-prompt"><p>Ask for a sentence with the prompt <code>Sentence:</code> and replace every <code>darn</code> with <code>****</code>, in lower case only. Then print <code>Censored:</code> and how many were replaced, and the new sentence on the next line.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_two():
+    &quot;two of them&quot;
+    expect_output(&quot;Sentence: darn it, darn it all\nCensored: 2\n**** it, **** it all&quot;, inputs=[&quot;darn it, darn it all&quot;], echo=True)
+def test_none():
+    &quot;none&quot;
+    expect_output(&quot;Sentence: lovely day\nCensored: 0\nlovely day&quot;, inputs=[&quot;lovely day&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+n = s.count(&quot;darn&quot;)
+s = s.replace(&quot;darn&quot;, &quot;****&quot;)
+print(&quot;Censored:&quot;, n)
+print(s)</textarea><template class="pc-src pc-hint"><code>.count</code> before you replace, then <code>.replace</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-username" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Valid username</div><div class="pc-prompt"><p>A username is valid if it has 3 to 15 characters, contains only letters and digits, and starts with a letter. Ask with the prompt <code>Username:</code> and print <code>Valid</code> or <code>Invalid</code>. Use string methods, not a loop.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_valid():
+    &quot;valid names&quot;
+    for u in [&quot;ada&quot;, &quot;grace99&quot;, &quot;A1b2C3d4e5f6g7h&quot;]:
+        expect_output(f&quot;Username: {u}\nValid&quot;, inputs=[u], echo=True)
+def test_invalid():
+    &quot;invalid names&quot;
+    for u in [&quot;ab&quot;, &quot;9lives&quot;, &quot;ada lovelace&quot;, &quot;a_b&quot;, &quot;abcdefghijklmnop&quot;, &quot;&quot;]:
+        expect_output(f&quot;Username: {u}\nInvalid&quot;, inputs=[u], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>u = input(&quot;Username: &quot;)
+if 3 &lt;= len(u) &lt;= 15 and u.isalnum() and u[0].isalpha():
+    print(&quot;Valid&quot;)
+else:
+    print(&quot;Invalid&quot;)</textarea><template class="pc-src pc-hint">Three conditions joined with <code>and</code>: the length, <code>.isalnum()</code>, and <code>[0].isalpha()</code>. Put the length check first, so <code>[0]</code> is never asked of an empty string.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-between" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Between the brackets</div><div class="pc-prompt"><p>Ask for some text with the prompt <code>Text:</code> that contains a pair of round brackets, and print what&rsquo;s between the first <code>(</code> and the first <code>)</code> after it.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several texts&quot;
+    for t, want in [(&quot;Python (the language)&quot;, &quot;the language&quot;), (&quot;f(x) = 2x&quot;, &quot;x&quot;), (&quot;a () b&quot;, &quot;&quot;)]:
+        expect_output(f&quot;Text: {t}\n{want}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>t = input(&quot;Text: &quot;)
+start = t.find(&quot;(&quot;)
+end = t.find(&quot;)&quot;, start)
+print(t[start + 1:end])</textarea><template class="pc-src pc-hint"><code>find("(")</code> gives the opening bracket; <code>find(")", start)</code> searches from a position onwards.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Nothing changed</div><div class="pc-prompt"><p>This should print the message in capitals without the spaces at the ends, but it prints it unchanged. Fix it.</p></div><textarea class="pc-src pc-code" hidden>msg = input(&quot;Message: &quot;)
+msg.strip()
+msg.upper()
+print(&quot;[&quot; + msg + &quot;]&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;tidied&quot;
+    expect_output(&quot;Message:   hi there  \n[HI THERE]&quot;, inputs=[&quot;  hi there  &quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>msg = input(&quot;Message: &quot;)
+msg = msg.strip().upper()
+print(&quot;[&quot; + msg + &quot;]&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Crashes when it&rsquo;s missing</div><div class="pc-prompt"><p>This should print the position of the first comma, or <code>No comma</code>, but it crashes when there isn&rsquo;t one. Fix it.</p></div><textarea class="pc-src pc-code" hidden>s = input(&quot;Text: &quot;)
+pos = s.index(&quot;,&quot;)
+if pos == -1:
+    print(&quot;No comma&quot;)
+else:
+    print(&quot;Comma at&quot;, pos)</textarea><textarea class="pc-src pc-tests" hidden>def test_yes():
+    &quot;a comma&quot;
+    expect_output(&quot;Text: one, two\nComma at 3&quot;, inputs=[&quot;one, two&quot;], echo=True)
+def test_no():
+    &quot;no comma&quot;
+    expect_output(&quot;Text: one two\nNo comma&quot;, inputs=[&quot;one two&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Text: &quot;)
+pos = s.find(&quot;,&quot;)
+if pos == -1:
+    print(&quot;No comma&quot;)
+else:
+    print(&quot;Comma at&quot;, pos)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d1-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The case-sensitive check</div><div class="pc-prompt"><p>This should accept any file ending in <code>.csv</code>, but it rejects <code>DATA.CSV</code>. Fix it without changing the printed file name.</p></div><textarea class="pc-src pc-code" hidden>name = input(&quot;File: &quot;)
+if name.endswith(&quot;.csv&quot;):
+    print(&quot;Loading&quot;, name)
+else:
+    print(&quot;Not a CSV file&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several files&quot;
+    expect_output(&quot;File: data.csv\nLoading data.csv&quot;, inputs=[&quot;data.csv&quot;], echo=True)
+    expect_output(&quot;File: DATA.CSV\nLoading DATA.CSV&quot;, inputs=[&quot;DATA.CSV&quot;], echo=True)
+    expect_output(&quot;File: data.txt\nNot a CSV file&quot;, inputs=[&quot;data.txt&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;File: &quot;)
+if name.lower().endswith(&quot;.csv&quot;):
+    print(&quot;Loading&quot;, name)
+else:
+    print(&quot;Not a CSV file&quot;)</textarea></div>
+<div class="parsons" data-id="w005d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Clean then check</div><div class="pc-prompt"><p>Arrange the lines: read an answer, clean it up, and check whether it starts with <code>y</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["answer = input(\"Answer: \")", "answer = answer.strip().lower()", "if answer.startswith(\"y\"):", "    print(\"Agreed\")", "else:", "    print(\"Not agreed\")"], "distractors": ["answer.strip().lower()"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict the methods</div><div class="pc-prompt"><p>Write what each expression gives, without running it. Use the right type: a string, a number or a bool.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # &quot;Mississippi&quot;.count(&quot;ss&quot;)
+b = ___   # &quot;Mississippi&quot;.find(&quot;ss&quot;, 3)
+c = ___   # &quot;  ok &quot;.strip() == &quot;ok&quot;
+d = ___   # &quot;Hello World&quot;.replace(&quot;o&quot;, &quot;0&quot;, 1)
+e = ___   # &quot;abc123&quot;.isalnum()
+f = ___   # &quot;python&quot;.title()</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;a&quot;
+    assert a == 2, &quot;count doesn&#x27;t overlap: &#x27;ss&#x27; twice.&quot;
+def test_b():
+    &quot;b&quot;
+    assert b == 5, &quot;Searching from position 3, the next &#x27;ss&#x27; starts at 5.&quot;
+def test_c():
+    &quot;c&quot;
+    assert c is True
+def test_d():
+    &quot;d&quot;
+    assert d == &quot;Hell0 World&quot;, &quot;Only the first o is replaced.&quot;
+def test_e():
+    &quot;e&quot;
+    assert e is True, &quot;Letters and digits only.&quot;
+def test_f():
+    &quot;f&quot;
+    assert f == &quot;Python&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = 2
+b = 5
+c = True
+d = &quot;Hell0 World&quot;
+e = True
+f = &quot;Python&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w005d1-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "output", "q": "What does this print?", "answer": "abc", "explain": "The result of upper() was never stored.", "code": "s = \"abc\"\ns.upper()\nprint(s)"}, {"type": "text", "q": "What does <code>\"banana\".find(\"n\")</code> give?", "answer": "2", "explain": "The first n is at position 2."}, {"type": "text", "q": "What does <code>\"banana\".find(\"x\")</code> give?", "answer": "-1", "explain": "find returns -1 when the text isn&rsquo;t there."}, {"type": "mc", "q": "What happens with <code>\"banana\".index(\"x\")</code>?", "answer": 2, "explain": "index raises an error instead of returning -1.", "options": ["-1", "None", "A ValueError", "0"]}, {"type": "text", "q": "What does <code>\"  hi  \".strip()</code> give?", "answer": ["hi", "'hi'", "\"hi\""], "explain": "Whitespace is removed from both ends."}, {"type": "text", "q": "What does <code>\"a-b-c\".replace(\"-\", \"\")</code> give?", "answer": ["abc", "'abc'", "\"abc\""], "explain": "Replacing with an empty string deletes."}, {"type": "mc", "q": "Which is True?", "answer": 2, "explain": "Letters and digits count as alphanumeric.", "options": ["<code>\"abc1\".isalpha()</code>", "<code>\"\".isdigit()</code>", "<code>\"abc1\".isalnum()</code>", "<code>\" \".isalpha()</code>"]}, {"type": "output", "q": "What does this print?", "answer": "True", "explain": "Strip first, then lower case.", "code": "print(\"  Yes \".strip().lower() == \"yes\")"}, {"type": "mc", "q": "How do you call a method on a string s?", "answer": 1, "explain": "The value, a dot, and the method name.", "options": ["method(s)", "s.method()", "s-&gt;method()", "s[method]"]}, {"type": "text", "q": "What does <code>\"hello world\".title()</code> give?", "answer": ["Hello World", "'Hello World'", "\"Hello World\""], "explain": "Each word starts with a capital."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: make a URL slug</div><div class="pc-prompt"><p>Blogs turn titles into web addresses called <strong>slugs</strong>: <code>Hello, World! Learning Python in 2026</code> becomes <code>hello-world-learning-python-in-2026</code>. The rules:</p>
+<ul>
+<li>lower case;</li>
+<li>letters and digits are kept;</li>
+<li>every run of other characters (spaces, punctuation) becomes a <strong>single</strong> <code>-</code>;</li>
+<li>no <code>-</code> at the start or end.</li>
+</ul>
+<p>Ask for a title with the prompt <code>Title:</code> and print the slug.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several titles&quot;
+    for t, s in [(&quot;Hello, World! Learning Python in 2026&quot;, &quot;hello-world-learning-python-in-2026&quot;),
+                 (&quot;  10 Tips &amp; Tricks!!  &quot;, &quot;10-tips-tricks&quot;), (&quot;Simple&quot;, &quot;simple&quot;), (&quot;C++ vs. Rust&quot;, &quot;c-vs-rust&quot;)]:
+        expect_output(f&quot;Title: {t}\n{s}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>title = input(&quot;Title: &quot;).lower()
+slug = &quot;&quot;
+for ch in title:
+    if ch.isalnum():
+        slug += ch
+    elif not slug.endswith(&quot;-&quot;):
+        slug += &quot;-&quot;
+print(slug.strip(&quot;-&quot;))</textarea><template class="pc-src pc-hint">Loop over the lower-case title. Keep each letter or digit. For anything else, add a <code>-</code> only if the slug so far doesn&rsquo;t already end with one.</template><template class="pc-src pc-hint">At the end, <code>.strip("-")</code> removes a dash from either end.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Without looking, name a method for each job: remove spaces from the ends, find where something starts, count something, swap one piece of text for another, check the end of a string. Then explain why <code>s.upper()</code> on its own line does nothing useful. Tomorrow: <code>split</code> and <code>join</code>, which turn a sentence into words and back again.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w004d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w005d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w005d1", "week": 5, "day": 1, "title": "String methods", "exercises": [{"id": "w005d1-tidy_name", "title": "Tidy a name", "points": 10}, {"id": "w005d1-yes_no", "title": "Any kind of yes", "points": 10}, {"id": "w005d1-domain", "title": "Which domain?", "points": 10}, {"id": "w005d1-extension", "title": "File extension", "points": 10}, {"id": "w005d1-censor", "title": "Mind your language", "points": 10}, {"id": "w005d1-username", "title": "Valid username", "points": 15}, {"id": "w005d1-between", "title": "Between the brackets", "points": 10}, {"id": "w005d1-bug1", "title": "Nothing changed", "points": 10}, {"id": "w005d1-bug2", "title": "Crashes when it's missing", "points": 10}, {"id": "w005d1-bug3", "title": "The case-sensitive check", "points": 10}, {"id": "w005d1-trace", "title": "Predict the methods", "points": 15}, {"id": "w005d1-challenge", "title": "Challenge: make a URL slug", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

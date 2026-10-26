@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9bab6cc08b">
+<title>Week 5 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9bab6cc08b">
+<link rel="stylesheet" href="../assets/css/site.css?v=9bab6cc08b">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9bab6cc08b"></script>
+<script src="../assets/vendor/codemirror.js?v=9bab6cc08b" defer></script>
+<meta name="description" content="A week of text: methods, split and join, scanning, formatting and Unicode. Today you’ll use all of it on the kind of job programs do every day: turn a messy...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w005d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 5 Day 6: Forge">
+<meta property="og:description" content="A week of text: methods, split and join, scanning, formatting and Unicode. Today you’ll use all of it on the kind of job programs do every day: turn a messy...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w005d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-5">Week 5: Strings II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-receipt-maker" data-sec="forge-the-receipt-maker">Forge: the receipt maker</a></li><li><a href="#forge-bonus-morse-code" data-sec="forge-bonus-morse-code">Forge bonus: Morse code</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-5-review" data-sec="week-5-review">Week 5 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 5, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>A week of text: methods, split and join, scanning, formatting and Unicode. Today you&rsquo;ll use all of it on the kind of job programs do every day: turn a messy line of shopping into a tidy receipt, then build a Morse code translator that works in both directions. The weekly quiz and review finish the week.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Parse structured text with <code>split</code>, <code>strip</code> and slicing, and check it as you go</li><li>Lay out a report whose columns fit their data</li><li>Use a split string as a lookup table, and search it in both directions</li><li>Find the gaps in your understanding with the weekly quiz</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:65" title="Forge: the receipt maker: 65 min"></span><span class="plan-seg s1" style="flex:35" title="Forge bonus: Morse code: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 5 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: the receipt maker</span><span class="plan-min">65 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Forge bonus: Morse code</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 5 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w005d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d6-p1"><textarea class="pc-src pc-code" hidden>s = &quot;  Python,Atlas , Week 5 &quot;
+print(s.split(&quot;,&quot;))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d6-p2"><textarea class="pc-src pc-code" hidden>print(&quot;-&quot;.join(&quot;abc&quot;))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d6-p3"><textarea class="pc-src pc-code" hidden>word = &quot;level&quot;
+print(word.find(&quot;l&quot;), word.rfind(&quot;l&quot;), word.count(&quot;l&quot;))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d6-p4"><textarea class="pc-src pc-code" hidden>print(f&quot;{&#x27;x&#x27;:*^7}|{3.14159:8.3f}|{255:#x}&quot;)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d6-p5"><textarea class="pc-src pc-code" hidden>print(chr((ord(&quot;y&quot;) - ord(&quot;a&quot;) + 4) % 26 + ord(&quot;a&quot;)))</textarea></div>
+<p>If any surprised you, revisit <a href="w005d1.html">string methods</a>, <a href="w005d2.html">split and join</a>, <a href="w005d3.html">walking through text</a>, <a href="w005d4.html">formatting</a> or <a href="w005d5.html">Unicode</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d6-mix_camel" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">camelCase to snake_case</div><div class="pc-prompt"><p>Some languages name things in <code>camelCase</code>; Python uses <code>snake_case</code>. Ask for a camelCase name with the prompt <code>Name:</code> and print it in snake_case: every capital letter becomes an underscore followed by the lower-case letter. <code>totalPriceInNaira</code> becomes <code>total_price_in_naira</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several names&quot;
+    for c, s in [(&quot;totalPriceInNaira&quot;, &quot;total_price_in_naira&quot;), (&quot;x&quot;, &quot;x&quot;), (&quot;numberOfStudents&quot;, &quot;number_of_students&quot;), (&quot;getURL&quot;, &quot;get_u_r_l&quot;)]:
+        expect_output(f&quot;Name: {c}\n{s}&quot;, inputs=[c], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;Name: &quot;)
+out = &quot;&quot;
+for ch in name:
+    if ch.isupper():
+        out += &quot;_&quot; + ch.lower()
+    else:
+        out += ch
+print(out)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d6-mix_sentences" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count the sentences</div><div class="pc-prompt"><p>Ask for some text with the prompt <code>Text:</code> and print <code>Sentences:</code> and the number of sentences. A sentence ends with <code>.</code>, <code>!</code> or <code>?</code>, but a run of them like <code>?!</code> or <code>...</code> ends only one sentence.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several texts&quot;
+    for t, n in [(&quot;Hi. How are you? Great!&quot;, 3), (&quot;Wait... What?!&quot;, 2), (&quot;No end&quot;, 0), (&quot;One.&quot;, 1)]:
+        expect_output(f&quot;Text: {t}\nSentences: {n}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+count = 0
+prev = &quot;&quot;
+for ch in text:
+    if ch in &quot;.!?&quot; and prev not in &quot;.!?&quot;:
+        count += 1
+    prev = ch
+print(&quot;Sentences:&quot;, count)</textarea><template class="pc-src pc-hint">Compare with the previous character: count an ending character only if the previous one wasn&rsquo;t also an ending character.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d6-mix_mask" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Mask a card number</div><div class="pc-prompt"><p>Ask for a card number with the prompt <code>Card:</code> (digits, perhaps with spaces) and print it with every digit except the last four replaced by <code>*</code>, keeping the spaces where they were.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for c, m in [(&quot;4111 1111 1111 1234&quot;, &quot;**** **** **** 1234&quot;), (&quot;1234&quot;, &quot;1234&quot;), (&quot;98765&quot;, &quot;*8765&quot;)]:
+        expect_output(f&quot;Card: {c}\n{m}&quot;, inputs=[c], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>card = input(&quot;Card: &quot;)
+total = 0
+for ch in card:
+    if ch.isdigit():
+        total += 1
+out = &quot;&quot;
+seen = 0
+for ch in card:
+    if ch.isdigit():
+        seen += 1
+        out += &quot;*&quot; if seen &lt;= total - 4 else ch
+    else:
+        out += ch
+print(out)</textarea><template class="pc-src pc-hint">Count the digits first. Then walk through the number counting digits as you go: the first <code>total - 4</code> digits become <code>*</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d6-mix_words" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Longest word</div><div class="pc-prompt"><p>Ask for a sentence with the prompt <code>Sentence:</code> and print the longest word with any punctuation stripped from its ends, like <code>Longest: wonderful</code>. The first wins a tie.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several sentences&quot;
+    for s, w in [(&quot;What a wonderful, sunny day!&quot;, &quot;wonderful&quot;), (&quot;I am&quot;, &quot;am&quot;), (&quot;Hi!!!&quot;, &quot;Hi&quot;)]:
+        expect_output(f&quot;Sentence: {s}\nLongest: {w}&quot;, inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+best = &quot;&quot;
+for word in s.split():
+    w = word.strip(&quot;.,!?;:&quot;)
+    if len(w) &gt; len(best):
+        best = w
+print(&quot;Longest:&quot;, best)</textarea><template class="pc-src pc-hint"><code>word.strip(".,!?;:")</code> removes punctuation from the ends of a word.</template></div>
+<h2 id="forge-the-receipt-maker">Forge: the receipt maker</h2>
+<p>About an hour. Shops often receive orders as one line of text. Your program turns that line into a receipt. Plan the parsing first: what do you split on, and in what order? Then plan the layout: which widths depend on the data?</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the receipt maker</div><div class="pc-prompt"><p>Ask for an order with the prompt <code>Order:</code>. An order is a list of items separated by <code>;</code>. Each item looks like <code>name x quantity @ price</code>, with any amount of space around the parts, for example:</p>
+<pre><code>Rice (5kg) x 2 @ 8500; bread x1@950 ;  Palm oil x 3 @ 1200.50
+</code></pre>
+<p>Print a receipt like this:</p>
+<pre><code>Item          Qty      Price      Total
+---------------------------------------
+Rice (5kg)      2   8,500.00  17,000.00
+Bread           1     950.00     950.00
+Palm Oil        3   1,200.50   3,601.50
+---------------------------------------
+Subtotal                      21,551.50
+VAT 7.5%                       1,616.36
+TOTAL                         23,167.86
+</code></pre>
+<p>The rules:</p>
+<ul>
+<li>Item names are stripped and written in title case.</li>
+<li>The item column is as wide as the longest item name or the word <code>Item</code>, whichever is longer. Then a space, then <code>Qty</code> right-aligned in 4, <code>Price</code> and <code>Total</code> right-aligned in 11, all money with thousands separators and 2 decimal places.</li>
+<li>The dashed lines are as wide as the whole table.</li>
+<li>The <code>Subtotal</code>, <code>VAT 7.5%</code> and <code>TOTAL</code> labels are left-aligned in a column as wide as the table minus 11, then the amount right-aligned in 11.</li>
+<li>Empty items (for example from a <code>;</code> at the very end) are skipped.</li>
+<li>If any item can&rsquo;t be read (missing <code>x</code> or <code>@</code>, or a quantity that isn&rsquo;t a whole number), print <code>Can't read:</code> and that item exactly as it appeared, stripped, and print <strong>no</strong> receipt.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>order = input(&quot;Order: &quot;)</textarea><textarea class="pc-src pc-tests" hidden>def build(line):
+    items = []
+    for raw in line.split(&quot;;&quot;):
+        raw = raw.strip()
+        if not raw:
+            continue
+        x = raw.find(&quot; x&quot;)
+        at = raw.find(&quot;@&quot;)
+        if x == -1 or at == -1 or at &lt; x:
+            return &quot;Can&#x27;t read: &quot; + raw
+        name = raw[:x].strip().title()
+        q = raw[x + 2:at].strip()
+        if not q.isdigit():
+            return &quot;Can&#x27;t read: &quot; + raw
+        items.append((name, int(q), float(raw[at + 1:].strip())))
+    w = max([len(&quot;Item&quot;)] + [len(n) for n, _, _ in items])
+    width = w + 1 + 4 + 11 + 11
+    rows = [f&quot;{&#x27;Item&#x27;:&lt;{w}} {&#x27;Qty&#x27;:&gt;4}{&#x27;Price&#x27;:&gt;11}{&#x27;Total&#x27;:&gt;11}&quot;, &quot;-&quot; * width]
+    sub = 0
+    for n, q, p in items:
+        rows.append(f&quot;{n:&lt;{w}} {q:&gt;4}{p:&gt;11,.2f}{q * p:&gt;11,.2f}&quot;)
+        sub += q * p
+    vat = sub * 0.075
+    rows += [&quot;-&quot; * width, f&quot;{&#x27;Subtotal&#x27;:&lt;{width - 11}}{sub:&gt;11,.2f}&quot;, f&quot;{&#x27;VAT 7.5%&#x27;:&lt;{width - 11}}{vat:&gt;11,.2f}&quot;, f&quot;{&#x27;TOTAL&#x27;:&lt;{width - 11}}{sub + vat:&gt;11,.2f}&quot;]
+    return &quot;\n&quot;.join(rows)
+def check(line):
+    expect_output(&quot;Order: &quot; + line + &quot;\n&quot; + build(line), inputs=[line], echo=True)
+def test_example():
+    &quot;the example&quot;
+    check(&quot;Rice (5kg) x 2 @ 8500; bread x1@950 ;  Palm oil x 3 @ 1200.50&quot;)
+def test_one():
+    &quot;a single item, trailing semicolon&quot;
+    check(&quot;tea x 4 @ 150;&quot;)
+def test_long_name():
+    &quot;a long name widens the table&quot;
+    check(&quot;extra large family size pizza x 1 @ 15000; cola x 6 @ 400&quot;)
+def test_bad():
+    &quot;an item that can&#x27;t be read&quot;
+    check(&quot;rice x 2 @ 8500; bread 950; tea x 1 @ 100&quot;)
+    check(&quot;rice x two @ 8500&quot;)</textarea><textarea class="pc-src pc-solution" hidden>order = input(&quot;Order: &quot;)
+w = len(&quot;Item&quot;)
+bad = &quot;&quot;
+for raw in order.split(&quot;;&quot;):
+    raw = raw.strip()
+    if raw == &quot;&quot;:
+        continue
+    x = raw.find(&quot; x&quot;)
+    at = raw.find(&quot;@&quot;)
+    if x == -1 or at == -1 or at &lt; x or not raw[x + 2:at].strip().isdigit():
+        bad = raw
+        break
+    w = max(w, len(raw[:x].strip()))
+if bad:
+    print(&quot;Can&#x27;t read:&quot;, bad)
+else:
+    width = w + 1 + 4 + 11 + 11
+    print(f&quot;{&#x27;Item&#x27;:&lt;{w}} {&#x27;Qty&#x27;:&gt;4}{&#x27;Price&#x27;:&gt;11}{&#x27;Total&#x27;:&gt;11}&quot;)
+    print(&quot;-&quot; * width)
+    subtotal = 0
+    for raw in order.split(&quot;;&quot;):
+        raw = raw.strip()
+        if raw == &quot;&quot;:
+            continue
+        x = raw.find(&quot; x&quot;)
+        at = raw.find(&quot;@&quot;)
+        name = raw[:x].strip().title()
+        qty = int(raw[x + 2:at].strip())
+        price = float(raw[at + 1:].strip())
+        print(f&quot;{name:&lt;{w}} {qty:&gt;4}{price:&gt;11,.2f}{qty * price:&gt;11,.2f}&quot;)
+        subtotal += qty * price
+    vat = subtotal * 0.075
+    print(&quot;-&quot; * width)
+    print(f&quot;{&#x27;Subtotal&#x27;:&lt;{width - 11}}{subtotal:&gt;11,.2f}&quot;)
+    print(f&quot;{&#x27;VAT 7.5%&#x27;:&lt;{width - 11}}{vat:&gt;11,.2f}&quot;)
+    print(f&quot;{&#x27;TOTAL&#x27;:&lt;{width - 11}}{subtotal + vat:&gt;11,.2f}&quot;)</textarea><template class="pc-src pc-hint">For each item, find <code>" x"</code> (a space then x, so a name like <code>Xylophone</code> or <code>box</code> doesn&rsquo;t confuse it) and <code>"@"</code>. The name is before <code>" x"</code>, the quantity is between, and the price is after <code>@</code>.</template><template class="pc-src pc-hint">You need two passes: one to read and check every item and find the longest name, and one to print. Since you don&rsquo;t have lists yet, the simplest way is to loop over <code>order.split(";")</code> twice: the first time to validate and measure, the second to print.</template><template class="pc-src pc-hint">Width of the table: <code>w + 1 + 4 + 11 + 11</code>, where <code>w</code> is the item column width.</template></div>
+<aside class="callout c-think"><div class="callout-t">The cost of not having lists</div><p>You had to split the order twice, and work out each item&rsquo;s parts twice. In Week 8, lists let you read every item once, store the pieces, and use them as often as you like. Remember this program: you will rewrite it then, in half the code.</p></aside>
+<h2 id="forge-bonus-morse-code">Forge bonus: Morse code</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: Morse code</div><div class="pc-prompt"><p>Morse code writes each letter as dots and dashes. Here are the codes for <code>a</code> to <code>z</code>, in order, in one string:</p>
+<pre><code class="language-python">MORSE = &quot;.- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --..&quot;
+</code></pre>
+<p><code>MORSE.split()</code> turns it into a lookup table: piece number 0 is the code for <code>a</code>, piece number 1 is for <code>b</code>, and so on, so the code for a letter is <code>codes[ord(letter) - ord("a")]</code>.</p>
+<p>Ask for a mode with the prompt <code>Mode (to/from):</code>, then a message with the prompt <code>Message:</code>.</p>
+<ul>
+<li><strong>to</strong>: translate the message into Morse. Letters are separated by single spaces and words by <code>/</code>. Ignore anything that isn&rsquo;t a letter or a space, and ignore case. <code>Hi there!</code> becomes <code>.... .. / - .... . .-. .</code>.</li>
+<li><strong>from</strong>: translate Morse back into lower-case text. Codes are separated by spaces, and <code>/</code> separates words. An unknown code becomes <code>?</code>.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>MORSE = &quot;.- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --..&quot;
+codes = MORSE.split()</textarea><textarea class="pc-src pc-tests" hidden>M = &quot;.- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --..&quot;.split()
+def to_m(t):
+    words = []
+    for w in t.lower().split():
+        letters = [M[ord(c) - 97] for c in w if &quot;a&quot; &lt;= c &lt;= &quot;z&quot;]
+        if letters:
+            words.append(&quot; &quot;.join(letters))
+    return &quot; / &quot;.join(words)
+def from_m(m):
+    out = []
+    for w in m.split(&quot;/&quot;):
+        out.append(&quot;&quot;.join(chr(M.index(c) + 97) if c in M else &quot;?&quot; for c in w.split()))
+    return &quot; &quot;.join(out)
+def test_to():
+    &quot;into Morse&quot;
+    for t in [&quot;Hi there!&quot;, &quot;SOS&quot;, &quot;Python Atlas&quot;]:
+        expect_output(f&quot;Mode (to/from): to\nMessage: {t}\n{to_m(t)}&quot;, inputs=[&quot;to&quot;, t], echo=True)
+def test_from():
+    &quot;from Morse&quot;
+    for m in [&quot;.... .. / - .... . .-. .&quot;, &quot;... --- ...&quot;, &quot;.--. -.-- / ......&quot;]:
+        expect_output(f&quot;Mode (to/from): from\nMessage: {m}\n{from_m(m)}&quot;, inputs=[&quot;from&quot;, m], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>MORSE = &quot;.- -... -.-. -.. . ..-. --. .... .. .--- -.- .-.. -- -. --- .--. --.- .-. ... - ..- ...- .-- -..- -.-- --..&quot;
+codes = MORSE.split()
+mode = input(&quot;Mode (to/from): &quot;)
+msg = input(&quot;Message: &quot;)
+if mode == &quot;to&quot;:
+    out = &quot;&quot;
+    for word in msg.lower().split():
+        w = &quot;&quot;
+        for ch in word:
+            if &quot;a&quot; &lt;= ch &lt;= &quot;z&quot;:
+                w = w + &quot; &quot; + codes[ord(ch) - ord(&quot;a&quot;)] if w else codes[ord(ch) - ord(&quot;a&quot;)]
+        if w:
+            out = out + &quot; / &quot; + w if out else w
+    print(out)
+else:
+    out = &quot;&quot;
+    for word in msg.split(&quot;/&quot;):
+        text = &quot;&quot;
+        for code in word.split():
+            letter = &quot;?&quot;
+            for i in range(26):
+                if codes[i] == code:
+                    letter = chr(i + ord(&quot;a&quot;))
+                    break
+            text += letter
+        out = out + &quot; &quot; + text if out else text
+    print(out)</textarea><template class="pc-src pc-hint"><strong>to</strong>: loop over the words from <code>split()</code>; for each word, build its letters&rsquo; codes joined by spaces; then join the words with <code>" / "</code>. Skip words that end up empty.</template><template class="pc-src pc-hint"><strong>from</strong>: split on <code>/</code> to get words, then split each word into codes. To find which letter a code is, loop <code>for i in range(26)</code> and compare with <code>codes[i]</code>; the letter is <code>chr(i + ord("a"))</code>.</template></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w005d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "output", "q": "What does this print?", "answer": "hello", "explain": "The new string was thrown away.", "code": "s = \"hello\"\ns.upper()\nprint(s)"}, {"type": "text", "q": "What does <code>\"banana\".find(\"na\")</code> give?", "answer": "2", "explain": "The first &lsquo;na&rsquo; starts at 2."}, {"type": "text", "q": "What does <code>\"  hi  \".rstrip()</code> give?", "answer": ["  hi", "'  hi'"], "explain": "Only the right end is trimmed."}, {"type": "text", "q": "What does <code>\"a b  c\".split()</code> give?", "answer": ["['a', 'b', 'c']", "[\"a\", \"b\", \"c\"]"], "explain": "Runs of spaces count as one break."}, {"type": "text", "q": "What does <code>\", \".join([\"x\", \"y\"])</code> give?", "answer": ["x, y", "'x, y'"], "explain": "The separator goes between."}, {"type": "mc", "q": "What happens with <code>s[0] = \"J\"</code> when s is a string?", "answer": 1, "explain": "Strings are immutable.", "options": ["It works", "TypeError", "IndexError", "Nothing happens"]}, {"type": "text", "q": "How many positions can &ldquo;abc&rdquo; start at in a 10-character text?", "answer": ["8", "eight"], "explain": "10 - 3 + 1."}, {"type": "text", "q": "What does <code>\"a\\nb\\nc\".splitlines()</code> give?", "answer": ["['a', 'b', 'c']", "[\"a\", \"b\", \"c\"]"], "explain": "One piece per line."}, {"type": "text", "q": "What does <code>f\"{42:05}\"</code> give?", "answer": ["00042", "'00042'"], "explain": "Zero-padded to 5."}, {"type": "text", "q": "What does <code>f\"{10:#b}\"</code> give?", "answer": ["0b1010", "'0b1010'"], "explain": "Binary with its prefix."}, {"type": "mc", "q": "How do you take a width from a variable w?", "answer": 1, "explain": "Nested braces.", "options": ["<code>{x:w}</code>", "<code>{x:{w}}</code>", "<code>{x:[w]}</code>"]}, {"type": "text", "q": "What does <code>ord(\"b\") - ord(\"a\")</code> give?", "answer": ["1", "one"], "explain": "b is one place after a."}, {"type": "text", "q": "What does a Caesar shift of 3 turn &ldquo;z&rdquo; into?", "answer": ["c", "'c'"], "explain": "It wraps round: z, a, b, c."}, {"type": "text", "q": "How many bytes does &ldquo;\u00e9&rdquo; take in UTF-8?", "answer": ["2", "two"], "explain": "Characters outside ASCII take more than one byte."}, {"type": "mc", "q": "Which method compares text without caring about case most thoroughly?", "answer": 1, "explain": "casefold handles cases like \u00df.", "options": [".lower()", ".casefold()", ".upper()", ".title()"]}]</script></div>
+<h2 id="week-5-review">Week 5 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I can use the everyday string methods, and I always store their results. (<a href="w005d1.html">Day 1</a>)</li>
+<li>I can split text into pieces, join them back, and read several values from one line. (<a href="w005d2.html">Day 2</a>)</li>
+<li>I can search text with a window, read text line by line, and check a format safely. (<a href="w005d3.html">Day 3</a>)</li>
+<li>I can write any format spec, use other number bases, and lay out a table that fits its data. (<a href="w005d4.html">Day 4</a>)</li>
+<li>I can explain Unicode and UTF-8, and encrypt, decrypt and break a Caesar cipher. (<a href="w005d5.html">Day 5</a>)</li>
+<li>I turned messy text into a tidy receipt and built a two-way translator. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week is a big step: <strong>functions</strong>. You&rsquo;ll give names to pieces of code, and every program you write will get shorter and clearer.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w005d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w005d6", "week": 5, "day": 6, "title": "Forge", "exercises": [{"id": "w005d6-mix_camel", "title": "camelCase to snake_case", "points": 10}, {"id": "w005d6-mix_sentences", "title": "Count the sentences", "points": 10}, {"id": "w005d6-mix_mask", "title": "Mask a card number", "points": 10}, {"id": "w005d6-mix_words", "title": "Longest word", "points": 10}, {"id": "w005d6-forge", "title": "Forge: the receipt maker", "points": 50}, {"id": "w005d6-forge2", "title": "Forge bonus: Morse code", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

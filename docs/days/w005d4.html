@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9bab6cc08b">
+<title>Week 5 Day 4: Formatting output | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9bab6cc08b">
+<link rel="stylesheet" href="../assets/css/site.css?v=9bab6cc08b">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9bab6cc08b"></script>
+<script src="../assets/vendor/codemirror.js?v=9bab6cc08b" defer></script>
+<meta name="description" content="In Week 1 you met f-strings and a few format codes. Today you’ll learn the whole format specification: signs, padding, every number base, widths that come...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w005d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 5 Day 4: Formatting output">
+<meta property="og:description" content="In Week 1 you met f-strings and a few format codes. Today you’ll learn the whole format specification: signs, padding, every number base, widths that come...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w005d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-5">Week 5: Strings II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#the-format-spec-part-by-part" data-sec="the-format-spec-part-by-part">The format spec, part by part</a></li><li><a href="#numbers-signs-bases-and-scientific" data-sec="numbers-signs-bases-and-scientific">Numbers: signs, bases and scientific</a></li><li><a href="#widths-from-variables" data-sec="widths-from-variables">Widths from variables</a></li><li><a href="#tables-that-fit-their-data" data-sec="tables-that-fit-their-data">Tables that fit their data</a></li><li><a href="#older-styles-you-ll-meet" data-sec="older-styles-you-ll-meet">Older styles you’ll meet</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 5, Day 4</span></p>
+      <h1>Formatting output</h1>
+      <div class="day-intro"><p>In Week 1 you met f-strings and a few format codes. Today you&rsquo;ll learn the whole format specification: signs, padding, every number base, widths that come from variables, and the <code>!r</code> conversion. Then you&rsquo;ll put it to work on things people actually read: tables whose columns fit their data, progress bars, receipts and boxes.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Read and write any format spec in the order fill, align, sign, width, grouping, precision, type</li><li>Format numbers with signs, separators, percentages, scientific notation and in binary, octal and hexadecimal</li><li>Take a width or a precision from a variable with nested braces</li><li>Lay out a table whose column widths are worked out from the data</li><li>Recognise the older <code>%</code> and <code>.format()</code> styles when you meet them in other people&rsquo;s code</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="The format spec, part by part: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Numbers: signs, bases and scientific: 25 min"></span><span class="plan-seg s1" style="flex:20" title="Widths from variables, and !r: 20 min"></span><span class="plan-seg s0" style="flex:25" title="Tables that fit their data: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Older styles: 10 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The format spec, part by part</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Numbers: signs, bases and scientific</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Widths from variables, and !r</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Tables that fit their data</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Older styles</span><span class="plan-min">10 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w005d4.ipynb" download>download it</a>. Exercises today are worth 155 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d4-p1"><textarea class="pc-src pc-code" hidden>price = 1234.5
+print(f&quot;{price:.2f}&quot;)
+print(f&quot;{price:,.2f}&quot;)
+print(f&quot;[{&#x27;hi&#x27;:&gt;6}]&quot;)
+print(f&quot;[{7:03}]&quot;)</textarea></div>
+<p>All from Week 1, Day 6. Today you&rsquo;ll learn every part of what can go after that colon.</p>
+<h2 id="the-format-spec-part-by-part">The format spec, part by part</h2>
+<p>Inside an f-string, <code>{value:spec}</code> formats <code>value</code> according to <code>spec</code>. A spec can have up to seven parts, and they always come <strong>in this order</strong>:</p>
+<pre><code>{value:  fill  align  sign  width  grouping  .precision  type}
+         *     &gt;      +     10     ,         .2          f
+</code></pre>
+<p>Every part is optional. Here&rsquo;s that whole example, and some of its parts on their own:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e2"><textarea class="pc-src pc-code" hidden>x = 1234.5678
+print(f&quot;[{x:*&gt;+10,.2f}]&quot;)
+print(f&quot;[{x:10.2f}]&quot;)
+print(f&quot;[{x:&lt;10.1f}]&quot;)
+print(f&quot;[{x:^12,.0f}]&quot;)</textarea></div>
+<p>The parts:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Options</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fill</td>
+<td>any one character</td>
+<td>what pads the empty space (only with an align)</td>
+</tr>
+<tr>
+<td>align</td>
+<td><code>&lt;</code> <code>&gt;</code> <code>^</code> <code>=</code></td>
+<td>left, right, centre; <code>=</code> pads after the sign</td>
+</tr>
+<tr>
+<td>sign</td>
+<td><code>+</code> <code>-</code> space</td>
+<td>show <code>+</code> on positives; only <code>-</code> (the default); a space for positives</td>
+</tr>
+<tr>
+<td>width</td>
+<td>a number</td>
+<td>the minimum total width</td>
+</tr>
+<tr>
+<td>grouping</td>
+<td><code>,</code> or <code>_</code></td>
+<td>thousands separators</td>
+</tr>
+<tr>
+<td>precision</td>
+<td><code>.</code> then a number</td>
+<td>digits after the point for <code>f</code>; maximum length for strings</td>
+</tr>
+<tr>
+<td>type</td>
+<td><code>f</code> <code>e</code> <code>%</code> <code>d</code> <code>b</code> <code>o</code> <code>x</code> <code>X</code> <code>s</code> &hellip;</td>
+<td>how to write the value</td>
+</tr>
+</tbody>
+</table>
+<p>The figure from Week 1 builds specs for you. Try a sign and a fill together:</p>
+<figure class="widget" data-widget="fstringlab"><script type="application/json">{"value": "-1234.5", "name": "x"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Build a spec from its parts and see Python&rsquo;s exact output. Padding is underlined in yellow.</figcaption></figure>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Numbers are right-aligned by default and strings are left-aligned. Give an explicit <code>&lt;</code>, <code>&gt;</code> or <code>^</code> whenever the default isn&rsquo;t what you want.</p></aside>
+<h3 id="precision-on-strings">Precision on strings</h3>
+<p>For a string, the precision is a <strong>maximum length</strong>. It truncates:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e3"><textarea class="pc-src pc-code" hidden>title = &quot;A Very Long Book Title Indeed&quot;
+print(f&quot;[{title:.10}]&quot;)
+print(f&quot;[{title:15.10}]&quot;)</textarea></div>
+<h2 id="numbers-signs-bases-and-scientific">Numbers: signs, bases and scientific</h2>
+<h3 id="signs">Signs</h3>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e4"><textarea class="pc-src pc-code" hidden>for change in [3.25, -1.5, 0]:
+    print(f&quot;{change:+.1f}%   [{change: .1f}]&quot;)</textarea></div>
+<p><code>+</code> is perfect for changes, scores and temperatures, where a plus sign carries meaning.</p>
+<h3 id="percentages-and-scientific-notation">Percentages and scientific notation</h3>
+<p><code>%</code> multiplies by 100 and adds a percent sign. <code>e</code> writes numbers in scientific notation, which is how scientists write very large and very small numbers:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e5"><textarea class="pc-src pc-code" hidden>print(f&quot;{0.4567:.1%}&quot;)
+print(f&quot;{299792458:.3e}&quot;)
+print(f&quot;{0.000000123:.2e}&quot;)
+print(f&quot;{6.02214076e23:.4g}&quot;)</textarea></div>
+<p><code>2.998e+08</code> means 2.998 × 10⁸. The <code>g</code> type (&ldquo;general&rdquo;) chooses between plain and scientific automatically.</p>
+<h3 id="binary-octal-and-hexadecimal">Binary, octal and hexadecimal</h3>
+<p>In Week 1 you saw that computers store everything in binary. Format codes write integers in other bases: <code>b</code> for binary (base 2), <code>o</code> for octal (base 8), <code>x</code> and <code>X</code> for hexadecimal (base 16, using the digits 0 to 9 and a to f):</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e6"><textarea class="pc-src pc-code" hidden>n = 2026
+print(f&quot;{n:b}&quot;)
+print(f&quot;{n:o}&quot;)
+print(f&quot;{n:x}  {n:X}&quot;)
+print(f&quot;{n:#x}  {n:#b}&quot;)
+print(f&quot;{5:08b}&quot;)</textarea></div>
+<p>The <code>#</code> adds the prefix Python uses for that base (<code>0b</code>, <code>0o</code>, <code>0x</code>). <code>08b</code> pads with zeros to 8 binary digits, which is one <strong>byte</strong>.</p>
+<p>Hexadecimal is everywhere in computing because each hex digit is exactly 4 bits. Web colours are written as three hex bytes, for red, green and blue:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e7"><div class="pc-title">A colour as hex</div><textarea class="pc-src pc-code" hidden>r, g, b = 242, 194, 48
+print(f&quot;#{r:02x}{g:02x}{b:02x}&quot;)</textarea></div>
+<p>That&rsquo;s the yellow this site uses to show the line that&rsquo;s about to run.</p>
+<p>Going the other way, <code>int(text, base)</code> reads a string written in another base:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e8"><textarea class="pc-src pc-code" hidden>print(int(&quot;11111101010&quot;, 2))
+print(int(&quot;7ea&quot;, 16))
+print(int(&quot;ff&quot;, 16))</textarea></div>
+<h2 id="widths-from-variables">Widths from variables</h2>
+<p>Sometimes the width isn&rsquo;t known when you write the code. Put a variable in its own braces <strong>inside</strong> the spec:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e9"><div class="pc-title">Nested braces</div><textarea class="pc-src pc-code" hidden>width = 12
+for word in [&quot;cat&quot;, &quot;giraffe&quot;, &quot;ox&quot;]:
+    print(f&quot;[{word:&gt;{width}}]&quot;)
+digits = 3
+print(f&quot;{3.14159265:.{digits}f}&quot;)</textarea></div>
+<h3 id="showing-exactly-what-a-value-is-r">Showing exactly what a value is: !r</h3>
+<p><code>!r</code> formats a value with <code>repr()</code> instead of <code>str()</code>, which shows quotes on strings and makes spaces and escape characters visible. It&rsquo;s the best way to debug a string you don&rsquo;t trust:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e10"><textarea class="pc-src pc-code" hidden>answer = &quot;yes \n&quot;
+print(f&quot;Got {answer}!&quot;)
+print(f&quot;Got {answer!r}!&quot;)
+print(f&quot;{answer=}&quot;)</textarea></div>
+<p>The <code>=</code> shortcut from Week 3 uses <code>!r</code> automatically.</p>
+<h2 id="tables-that-fit-their-data">Tables that fit their data</h2>
+<p>A table with fixed widths breaks the moment a value is longer than you planned. The professional approach takes <strong>two passes</strong>: first find the longest value in each column, then print every row using those widths.</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e11"><div class="pc-title">Columns that fit</div><textarea class="pc-src pc-code" hidden>names = &quot;Ada,Grace,Alan,Katherine&quot;
+scores = &quot;93,88,97,100&quot;
+w = len(&quot;Name&quot;)
+for name in names.split(&quot;,&quot;):
+    w = max(w, len(name))
+print(f&quot;{&#x27;Name&#x27;:&lt;{w}}  {&#x27;Score&#x27;:&gt;5}&quot;)
+print(&quot;-&quot; * (w + 7))
+name_list = names.split(&quot;,&quot;)
+score_list = scores.split(&quot;,&quot;)
+for i in range(len(name_list)):
+    print(f&quot;{name_list[i]:&lt;{w}}  {int(score_list[i]):&gt;5}&quot;)</textarea></div>
+<p>Change one of the names to something much longer and run it again. Every column adjusts.</p>
+<h3 id="bars-and-boxes">Bars and boxes</h3>
+<p>Repetition and widths together make simple charts:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e12"><div class="pc-title">A progress bar</div><textarea class="pc-src pc-code" hidden>done = 7
+total = 20
+width = 30
+filled = round(width * done / total)
+print(f&quot;[{&#x27;#&#x27; * filled}{&#x27;.&#x27; * (width - filled)}] {done / total:.0%}&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e13"><div class="pc-title">A box around a message</div><textarea class="pc-src pc-code" hidden>msg = &quot;Python Atlas&quot;
+print(&quot;+&quot; + &quot;-&quot; * (len(msg) + 2) + &quot;+&quot;)
+print(f&quot;| {msg} |&quot;)
+print(&quot;+&quot; + &quot;-&quot; * (len(msg) + 2) + &quot;+&quot;)</textarea></div>
+<h2 id="older-styles-you-ll-meet">Older styles you&rsquo;ll meet</h2>
+<p>f-strings arrived in Python 3.6, in 2016. Code written before then, and some code written since, uses two older styles. You don&rsquo;t need to write them, but you&rsquo;ll need to read them:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d4-e14"><textarea class="pc-src pc-code" hidden>name, score = &quot;Ada&quot;, 93.456
+print(&quot;%s scored %.1f&quot; % (name, score))
+print(&quot;{} scored {:.1f}&quot;.format(name, score))
+print(f&quot;{name} scored {score:.1f}&quot;)</textarea></div>
+<p>All three print the same thing. The format specs after the colon in the <code>.format()</code> style are exactly the ones you learned today.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-signed" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Price changes</div><div class="pc-prompt"><p>Ask for an old price and a new price (they may have decimals) with the prompts <code>Old:</code> and <code>New:</code>. Print the change with a sign and 2 decimal places, then the percentage change with a sign and 1 decimal place, like <code>Change: +250.00 (+12.5%)</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several changes&quot;
+    for o, n, want in [(&quot;2000&quot;, &quot;2250&quot;, &quot;Change: +250.00 (+12.5%)&quot;), (&quot;80&quot;, &quot;60&quot;, &quot;Change: -20.00 (-25.0%)&quot;), (&quot;50&quot;, &quot;50&quot;, &quot;Change: +0.00 (+0.0%)&quot;)]:
+        expect_output(f&quot;Old: {o}\nNew: {n}\n{want}&quot;, inputs=[o, n], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>old = float(input(&quot;Old: &quot;))
+new = float(input(&quot;New: &quot;))
+print(f&quot;Change: {new - old:+.2f} ({(new - old) / old:+.1%})&quot;)</textarea><template class="pc-src pc-hint">The <code>%</code> type multiplies by 100 for you: format <code>(new - old) / old</code> with <code>+.1%</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-hex_colour" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Colour codes</div><div class="pc-prompt"><p>Ask for red, green and blue values (each 0 to 255) on one line, separated by spaces, with the prompt <code>RGB:</code>, and print the web colour code in lower-case hex, like <code>#f2c230</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several colours&quot;
+    for rgb, code in [(&quot;242 194 48&quot;, &quot;#f2c230&quot;), (&quot;0 0 0&quot;, &quot;#000000&quot;), (&quot;255 255 255&quot;, &quot;#ffffff&quot;), (&quot;1 2 3&quot;, &quot;#010203&quot;)]:
+        expect_output(f&quot;RGB: {rgb}\n{code}&quot;, inputs=[rgb], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>r, g, b = input(&quot;RGB: &quot;).split()
+print(f&quot;#{int(r):02x}{int(g):02x}{int(b):02x}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-bases" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">One number, four bases</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>Number:</code> and print it in four bases, labels left-aligned in 6 characters:</p>
+<pre><code>Number: 2026
+Dec   2026
+Bin   0b11111101010
+Oct   0o3752
+Hex   0x7ea
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for n in [2026, 0, 255]:
+        expect_output(f&quot;Number: {n}\nDec   {n}\nBin   {n:#b}\nOct   {n:#o}\nHex   {n:#x}&quot;, inputs=[str(n)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+print(f&quot;{&#x27;Dec&#x27;:&lt;6}{n}&quot;)
+print(f&quot;{&#x27;Bin&#x27;:&lt;6}{n:#b}&quot;)
+print(f&quot;{&#x27;Oct&#x27;:&lt;6}{n:#o}&quot;)
+print(f&quot;{&#x27;Hex&#x27;:&lt;6}{n:#x}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-from_binary" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Read binary</div><div class="pc-prompt"><p>Ask for a binary number with the prompt <code>Binary:</code> and print <code>Decimal:</code> and its value. If it contains anything except 0 and 1, print <code>Not binary</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for b, want in [(&quot;101&quot;, &quot;Decimal: 5&quot;), (&quot;11111111&quot;, &quot;Decimal: 255&quot;), (&quot;0&quot;, &quot;Decimal: 0&quot;), (&quot;102&quot;, &quot;Not binary&quot;), (&quot;&quot;, &quot;Not binary&quot;)]:
+        expect_output(f&quot;Binary: {b}\n{want}&quot;, inputs=[b], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>b = input(&quot;Binary: &quot;)
+ok = b != &quot;&quot;
+for ch in b:
+    if ch not in &quot;01&quot;:
+        ok = False
+        break
+if ok:
+    print(&quot;Decimal:&quot;, int(b, 2))
+else:
+    print(&quot;Not binary&quot;)</textarea><template class="pc-src pc-hint">Check every character is <code>0</code> or <code>1</code> (and that there is at least one), then use <code>int(text, 2)</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-progress" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Progress bar</div><div class="pc-prompt"><p>Ask for the number of tasks done and the total with the prompts <code>Done:</code> and <code>Total:</code>. Print a 20-character bar of <code>#</code> and <code>-</code>, followed by the percentage with no decimals, like <code>[##########----------] 50%</code>. Round the number of <code>#</code> to the nearest whole number.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several amounts&quot;
+    for d, t in [(5, 10), (0, 7), (7, 7), (1, 3), (2, 3)]:
+        f = round(20 * d / t)
+        expect_output(f&quot;Done: {d}\nTotal: {t}\n[{&#x27;#&#x27; * f}{&#x27;-&#x27; * (20 - f)}] {d / t:.0%}&quot;, inputs=[str(d), str(t)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>done = int(input(&quot;Done: &quot;))
+total = int(input(&quot;Total: &quot;))
+filled = round(20 * done / total)
+print(f&quot;[{&#x27;#&#x27; * filled}{&#x27;-&#x27; * (20 - filled)}] {done / total:.0%}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-fit_table" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A table that fits</div><div class="pc-prompt"><p>Ask for a line of <code>name:price</code> items separated by commas with the prompt <code>Items:</code>. Print a two-column table where the item column is exactly as wide as the longest name (or <code>Item</code>, if that&rsquo;s longer), then two spaces, then the price right-aligned in 10 characters with a thousands separator and 2 decimal places. Put a header and a line of dashes as wide as the table.</p>
+<pre><code>Items: Rice:8500,Bread:950,Palm oil:12000.5
+Item          Price
+-------------------
+Rice       8,500.00
+Bread        950.00
+Palm oil  12,000.50
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def table(line):
+    items = [x.split(&quot;:&quot;) for x in line.split(&quot;,&quot;)]
+    w = max([len(&quot;Item&quot;)] + [len(n) for n, _ in items])
+    rows = [f&quot;{&#x27;Item&#x27;:&lt;{w}}  {&#x27;Price&#x27;:&gt;10}&quot;, &quot;-&quot; * (w + 12)]
+    rows += [f&quot;{n:&lt;{w}}  {float(p):&gt;10,.2f}&quot; for n, p in items]
+    return &quot;\n&quot;.join(rows)
+def test_cases():
+    &quot;several tables&quot;
+    for line in [&quot;Rice:8500,Bread:950,Palm oil:12000.5&quot;, &quot;Tea:1,Pen:2&quot;, &quot;A very long item name:3&quot;]:
+        expect_output(f&quot;Items: {line}\n&quot; + table(line), inputs=[line], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>line = input(&quot;Items: &quot;)
+w = len(&quot;Item&quot;)
+for item in line.split(&quot;,&quot;):
+    name, price = item.split(&quot;:&quot;)
+    w = max(w, len(name))
+print(f&quot;{&#x27;Item&#x27;:&lt;{w}}  {&#x27;Price&#x27;:&gt;10}&quot;)
+print(&quot;-&quot; * (w + 12))
+for item in line.split(&quot;,&quot;):
+    name, price = item.split(&quot;:&quot;)
+    print(f&quot;{name:&lt;{w}}  {float(price):&gt;10,.2f}&quot;)</textarea><template class="pc-src pc-hint">First pass: loop over the items to find the longest name, starting from <code>len("Item")</code>. Second pass: print the rows using <code>{name:&lt;{w}}</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-box" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A name badge</div><div class="pc-prompt"><p>Ask for a name with the prompt <code>Name:</code> and print it centred in a box 20 characters wide inside the border. The border is made of <code>=</code> on the top and bottom and <code>|</code> at the sides:</p>
+<pre><code>Name: Ada
+======================
+|        Ada         |
+======================
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several names&quot;
+    for n in [&quot;Ada&quot;, &quot;Grace Hopper&quot;, &quot;X&quot;]:
+        expect_output(f&quot;Name: {n}\n{&#x27;=&#x27; * 22}\n|{n:^20}|\n{&#x27;=&#x27; * 22}&quot;, inputs=[n], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;Name: &quot;)
+print(&quot;=&quot; * 22)
+print(f&quot;|{name:^20}|&quot;)
+print(&quot;=&quot; * 22)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-modernise" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Modernise it</div><div class="pc-prompt"><p>This program uses the old <code>%</code> style. Rewrite both <code>print</code> lines with f-strings, keeping the output identical.</p></div><textarea class="pc-src pc-code" hidden>item, qty, price = &quot;Notebook&quot;, 3, 450.0
+print(&quot;%-10s x%d&quot; % (item, qty))
+print(&quot;Total: %8.2f&quot; % (qty * price))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;same output&quot;
+    expect_output(&quot;Notebook   x3\nTotal:  1350.00&quot;)
+def test_fstrings():
+    &quot;uses f-strings&quot;
+    assert &quot;%&quot; not in source and source.count(&#x27;f&quot;&#x27;) + source.count(&quot;f&#x27;&quot;) &gt;= 2, &quot;Use f-strings for both lines.&quot;</textarea><textarea class="pc-src pc-solution" hidden>item, qty, price = &quot;Notebook&quot;, 3, 450.0
+print(f&quot;{item:&lt;10} x{qty}&quot;)
+print(f&quot;Total: {qty * price:8.2f}&quot;)</textarea><template class="pc-src pc-hint"><code>%-10s</code> means a string left-aligned in 10. <code>%8.2f</code> means a float in 8 characters with 2 decimals.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Ragged numbers</div><div class="pc-prompt"><p>The numbers should line up on the right in a column 8 wide, but they&rsquo;re ragged. Fix the format.</p></div><textarea class="pc-src pc-code" hidden>for value in [&quot;5&quot;, &quot;120&quot;, &quot;3500&quot;]:
+    print(f&quot;[{value:8}]&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;right-aligned&quot;
+    expect_output(&quot;[       5]\n[     120]\n[    3500]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>for value in [&quot;5&quot;, &quot;120&quot;, &quot;3500&quot;]:
+    print(f&quot;[{value:&gt;8}]&quot;)</textarea><template class="pc-src pc-hint">These values are strings, and strings are left-aligned by default. Either convert them to numbers or ask for right alignment.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Braces printed</div><div class="pc-prompt"><p>This should print the price to the number of decimal places in <code>dp</code>, but it prints the braces. Fix it.</p></div><textarea class="pc-src pc-code" hidden>price = 2.71828
+dp = 3
+print(&quot;{price:.{dp}f}&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;2.718&quot;
+    expect_output(&quot;2.718&quot;)</textarea><textarea class="pc-src pc-solution" hidden>price = 2.71828
+dp = 3
+print(f&quot;{price:.{dp}f}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The wrong order</div><div class="pc-prompt"><p>This should print <code>0042</code> (zero-padded to 4 digits) and then <code>+42</code> (with a sign), but it raises an error. Fix both specs by putting their parts in the right order.</p></div><textarea class="pc-src pc-code" hidden>n = 42
+print(f&quot;{n:4 0}&quot;)
+print(f&quot;{n:d+}&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;0042 and +42&quot;
+    expect_output(&quot;0042\n+42&quot;)</textarea><textarea class="pc-src pc-solution" hidden>n = 42
+print(f&quot;{n:04}&quot;)
+print(f&quot;{n:+d}&quot;)</textarea><template class="pc-src pc-hint">The order is fill, align, sign, width, grouping, precision, type. A leading 0 before the width means zero padding.</template></div>
+<div class="parsons" data-id="w005d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Two-pass table</div><div class="pc-prompt"><p>Arrange the lines: find the longest word, then print each word right-aligned to that width. One line is a trap.</p></div><script type="application/json">{"lines": ["words = \"a bb cccc ddd\".split()", "w = 0", "for word in words:", "    w = max(w, len(word))", "for word in words:", "    print(f\"{word:>{w}}\")"], "distractors": ["    print(f\"{word:>w}\")"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict the formats</div><div class="pc-prompt"><p>Write exactly what each f-string gives, as a string. Spaces matter.</p></div><textarea class="pc-src pc-code" hidden>a = &quot;___&quot;   # f&quot;{3.14159:.3f}&quot;
+b = &quot;___&quot;   # f&quot;{42:&gt;6}&quot;
+c = &quot;___&quot;   # f&quot;{&#x27;ab&#x27;:*^6}&quot;
+d = &quot;___&quot;   # f&quot;{255:x}&quot;
+e = &quot;___&quot;   # f&quot;{0.075:.1%}&quot;
+f = &quot;___&quot;   # f&quot;{1234567:,}&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;a&quot;
+    assert a == &quot;3.142&quot;
+def test_b():
+    &quot;b&quot;
+    assert b == &quot;    42&quot;, &quot;Right-aligned in 6: four spaces then 42.&quot;
+def test_c():
+    &quot;c&quot;
+    assert c == &quot;**ab**&quot;
+def test_d():
+    &quot;d&quot;
+    assert d == &quot;ff&quot;
+def test_e():
+    &quot;e&quot;
+    assert e == &quot;7.5%&quot;
+def test_f():
+    &quot;f&quot;
+    assert f == &quot;1,234,567&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;3.142&quot;
+b = &quot;    42&quot;
+c = &quot;**ab**&quot;
+d = &quot;ff&quot;
+e = &quot;7.5%&quot;
+f = &quot;1,234,567&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w005d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "In what order do the parts of a format spec come?", "answer": 1, "explain": "Fill and align first, type last.", "options": ["width, align, fill, type", "fill, align, sign, width, grouping, precision, type", "type, precision, width", "any order"]}, {"type": "text", "q": "What does <code>f\"{7:+}\"</code> give?", "answer": ["+7", "'+7'"], "explain": "The + sign option shows a plus on positive numbers."}, {"type": "text", "q": "What does <code>f\"{10:b}\"</code> give?", "answer": ["1010", "'1010'"], "explain": "10 in binary."}, {"type": "text", "q": "What does <code>int(\"ff\", 16)</code> give?", "answer": "255", "explain": "f is 15: 15 x 16 + 15."}, {"type": "text", "q": "What does <code>f\"{'python':.3}\"</code> give?", "answer": ["pyt", "'pyt'"], "explain": "For strings, precision is a maximum length."}, {"type": "text", "q": "What does <code>f\"{0.5:.0%}\"</code> give?", "answer": ["50%", "'50%'"], "explain": "% multiplies by 100."}, {"type": "mc", "q": "How do you take the width from a variable w?", "answer": 1, "explain": "A variable inside the spec needs its own braces.", "options": ["<code>f\"{x:w}\"</code>", "<code>f\"{x:{w}}\"</code>", "<code>f\"{x:(w)}\"</code>", "<code>f\"{x}:{w}\"</code>"]}, {"type": "mc", "q": "What does <code>!r</code> do in <code>f\"{s!r}\"</code>?", "answer": 1, "explain": "Great for seeing hidden spaces.", "options": ["Reverses s", "Formats s with repr(), showing quotes and escapes", "Rounds s", "Right-aligns s"]}, {"type": "mc", "q": "How are strings aligned by default in a width?", "answer": 0, "explain": "Numbers go right, strings go left.", "options": ["Left", "Right", "Centre"]}, {"type": "text", "q": "What does <code>\"%.2f\" % 3.14159</code> give?", "answer": ["3.14", "'3.14'"], "explain": "The old style with the same precision code."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the auto-sized multiplication table</div><div class="pc-prompt"><p>Ask for <code>n</code> with the prompt <code>n:</code> and print an <code>n</code> by <code>n</code> multiplication table with a header row and header column, separated by lines. <strong>Every</strong> column is exactly as wide as the largest number in the whole table, plus one space in front. For <code>n = 4</code>:</p>
+<pre><code>n: 4
+  x |  1  2  3  4
+----+------------
+  1 |  1  2  3  4
+  2 |  2  4  6  8
+  3 |  3  6  9 12
+  4 |  4  8 12 16
+</code></pre>
+<p>The left column (with <code>x</code> and the row numbers) uses the same width plus one, then <code>|</code>. The dashed line has a <code>+</code> under the <code>|</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def table(n):
+    w = len(str(n * n))
+    rows = [f&quot;{&#x27;x&#x27;:&gt;{w + 1}} |&quot; + &quot;&quot;.join(f&quot;{c:&gt;{w + 1}}&quot; for c in range(1, n + 1))]
+    rows.append(&quot;-&quot; * (w + 2) + &quot;+&quot; + &quot;-&quot; * ((w + 1) * n))
+    for r in range(1, n + 1):
+        rows.append(f&quot;{r:&gt;{w + 1}} |&quot; + &quot;&quot;.join(f&quot;{r * c:&gt;{w + 1}}&quot; for c in range(1, n + 1)))
+    return &quot;\n&quot;.join(rows)
+def test_cases():
+    &quot;several sizes&quot;
+    for n in [4, 1, 10, 12]:
+        expect_output(f&quot;n: {n}\n&quot; + table(n), inputs=[str(n)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;n: &quot;))
+w = len(str(n * n))
+header = f&quot;{&#x27;x&#x27;:&gt;{w + 1}} |&quot;
+for c in range(1, n + 1):
+    header += f&quot;{c:&gt;{w + 1}}&quot;
+print(header)
+print(&quot;-&quot; * (w + 2) + &quot;+&quot; + &quot;-&quot; * ((w + 1) * n))
+for r in range(1, n + 1):
+    row = f&quot;{r:&gt;{w + 1}} |&quot;
+    for c in range(1, n + 1):
+        row += f&quot;{r * c:&gt;{w + 1}}&quot;
+    print(row)</textarea><template class="pc-src pc-hint">The largest number is <code>n * n</code>, so the width is <code>len(str(n * n))</code>. Every cell, including the header cells, is <code>f"{value:&gt;{w + 1}}"</code>.</template><template class="pc-src pc-hint">Build each row as a string in an inner loop, then print it.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Write a format spec from memory that shows a number with a sign, a width of 12, thousands separators and 2 decimal places. Then explain why a well-made table needs two passes over the data. Tomorrow: what characters really are inside a computer, Unicode, and the oldest cipher in history.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w005d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w005d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w005d4", "week": 5, "day": 4, "title": "Formatting output", "exercises": [{"id": "w005d4-signed", "title": "Price changes", "points": 10}, {"id": "w005d4-hex_colour", "title": "Colour codes", "points": 10}, {"id": "w005d4-bases", "title": "One number, four bases", "points": 10}, {"id": "w005d4-from_binary", "title": "Read binary", "points": 10}, {"id": "w005d4-progress", "title": "Progress bar", "points": 10}, {"id": "w005d4-fit_table", "title": "A table that fits", "points": 15}, {"id": "w005d4-box", "title": "A name badge", "points": 10}, {"id": "w005d4-modernise", "title": "Modernise it", "points": 10}, {"id": "w005d4-bug1", "title": "Ragged numbers", "points": 10}, {"id": "w005d4-bug2", "title": "Braces printed", "points": 10}, {"id": "w005d4-bug3", "title": "The wrong order", "points": 10}, {"id": "w005d4-trace", "title": "Predict the formats", "points": 15}, {"id": "w005d4-challenge", "title": "Challenge: the auto-sized multiplication table", "points": 25}], "points": 155}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9bab6cc08b">
+<title>Week 5 Day 5: Unicode and a Caesar cipher | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9bab6cc08b">
+<link rel="stylesheet" href="../assets/css/site.css?v=9bab6cc08b">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9bab6cc08b"></script>
+<script src="../assets/vendor/codemirror.js?v=9bab6cc08b" defer></script>
+<meta name="description" content="Inside a computer, every character is a number. Today you’ll see which numbers: from the 128 characters of ASCII to the more than 150,000 of Unicode,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w005d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 5 Day 5: Unicode and a Caesar cipher">
+<meta property="og:description" content="Inside a computer, every character is a number. Today you’ll see which numbers: from the 128 characters of ASCII to the more than 150,000 of Unicode,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w005d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-5">Week 5: Strings II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#characters-are-numbers" data-sec="characters-are-numbers">Characters are numbers</a></li><li><a href="#unicode-every-character-in-every-language" data-sec="unicode-every-character-in-every-language">Unicode: every character in every language</a></li><li><a href="#the-caesar-cipher" data-sec="the-caesar-cipher">The Caesar cipher</a></li><li><a href="#breaking-it" data-sec="breaking-it">Breaking it</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 5, Day 5</span></p>
+      <h1>Unicode and a Caesar cipher</h1>
+      <div class="day-intro"><p>Inside a computer, every character is a number. Today you&rsquo;ll see which numbers: from the 128 characters of ASCII to the more than 150,000 of Unicode, covering every writing system and emoji. Then you&rsquo;ll use those numbers to build the cipher Julius Caesar used to protect his messages, and break it, two different ways.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Convert between characters and their code points with <code>ord</code> and <code>chr</code></li><li>Explain the difference between ASCII, Unicode and UTF-8, and why a character can take more than one byte</li><li>Write any character with an escape such as <code>é</code>, and handle case changes that aren&rsquo;t one-to-one</li><li>Encrypt and decrypt text with a Caesar shift, keeping capitals and leaving other characters alone</li><li>Break a Caesar cipher by brute force and by letter frequencies</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Characters are numbers: ord and chr: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Unicode and UTF-8: 25 min"></span><span class="plan-seg s1" style="flex:35" title="The Caesar cipher: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Breaking it: 25 min"></span><span class="plan-seg s1" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Characters are numbers: ord and chr</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Unicode and UTF-8</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">The Caesar cipher</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Breaking it</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w005d5.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d5-p1"><textarea class="pc-src pc-code" hidden>print(ord(&quot;A&quot;), ord(&quot;a&quot;), ord(&quot;0&quot;))
+print(&quot;B&quot; &lt; &quot;a&quot;)</textarea></div>
+<p>You&rsquo;ve used <code>ord</code> since Week 2, to see why capitals sort before lower-case letters. Today <code>ord</code> and its partner <code>chr</code> become tools you&rsquo;ll use to change text.</p>
+<h2 id="characters-are-numbers">Characters are numbers</h2>
+<p><code>ord(ch)</code> gives a character&rsquo;s <strong>code point</strong>, the number that stands for it. <code>chr(n)</code> goes the other way:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e2"><textarea class="pc-src pc-code" hidden>print(ord(&quot;A&quot;), chr(65))
+print(ord(&quot;z&quot;), chr(122))
+print(chr(ord(&quot;A&quot;) + 1))
+for n in range(65, 75):
+    print(chr(n), end=&quot; &quot;)</textarea></div>
+<p>Because the letters have consecutive codes, arithmetic on codes moves through the alphabet. <code>chr(ord("A") + 1)</code> is <code>"B"</code>. That one idea powers today&rsquo;s cipher.</p>
+<p>A letter&rsquo;s <strong>position in the alphabet</strong> (0 for a, 25 for z) is its code minus the code of <code>a</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e3"><textarea class="pc-src pc-code" hidden>for ch in &quot;hello&quot;:
+    print(ch, ord(ch) - ord(&quot;a&quot;))</textarea></div>
+<h3 id="ascii">ASCII</h3>
+<p>The first 128 code points form <strong>ASCII</strong>, a standard from 1963: the English letters, digits, punctuation, and invisible control characters such as the new line (10) and the tab (9).</p>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Characters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 to 31</td>
+<td>control characters (tab is 9, new line is 10)</td>
+</tr>
+<tr>
+<td>32</td>
+<td>space</td>
+</tr>
+<tr>
+<td>48 to 57</td>
+<td><code>0</code> to <code>9</code></td>
+</tr>
+<tr>
+<td>65 to 90</td>
+<td><code>A</code> to <code>Z</code></td>
+</tr>
+<tr>
+<td>97 to 122</td>
+<td><code>a</code> to <code>z</code></td>
+</tr>
+</tbody>
+</table>
+<p>Notice that each lower-case letter is exactly 32 more than its capital. That&rsquo;s how the earliest computers changed case: by flipping one bit.</p>
+<h2 id="unicode-every-character-in-every-language">Unicode: every character in every language</h2>
+<p>ASCII has no room for <code>é</code>, <code>ọ</code>, <code>ñ</code>, <code>π</code>, Arabic, Chinese or emoji. <strong>Unicode</strong> fixes this by giving a number to every character in every writing system, more than 150,000 so far, while keeping ASCII&rsquo;s first 128 exactly as they were. Python strings are Unicode, so all of them just work:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e4"><textarea class="pc-src pc-code" hidden>for ch in &quot;éọñπ€你😀&quot;:
+    print(ch, ord(ch))</textarea></div>
+<p>You can write any character by its number with an <strong>escape</strong>: <code>\u</code> followed by four hex digits, or <code>\U</code> followed by eight. You can also use its official name:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e5"><textarea class="pc-src pc-code" hidden>print(&quot;café&quot;)
+print(&quot;ọ&quot;)
+print(&quot;\U0001F600&quot;)
+print(&quot;\N{GREEK SMALL LETTER PI}&quot;)</textarea></div>
+<aside class="callout c-note"><div class="callout-t">Note</div><p>Some characters you see as one can be made of several code points, such as some emoji and some letters with accents built from a letter plus a separate accent mark. Then <code>len()</code> counts the code points, not what you see. Handling this properly is a specialist job, with its own tools.</p></aside>
+<h3 id="case-is-more-complicated-than-it-looks">Case is more complicated than it looks</h3>
+<p>In ASCII, every letter has exactly one capital. In the world&rsquo;s languages it isn&rsquo;t that simple:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e6"><textarea class="pc-src pc-code" hidden>print(&quot;straße&quot;.upper())
+print(&quot;ǅ&quot;.lower(), &quot;ǅ&quot;.upper())
+print(&quot;Straße&quot;.lower() == &quot;STRASSE&quot;.lower())
+print(&quot;Straße&quot;.casefold() == &quot;STRASSE&quot;.casefold())</textarea></div>
+<p>The German <code>ß</code> becomes <code>SS</code> in capitals. For comparing text without caring about case, <code>.casefold()</code> is the more thorough version of <code>.lower()</code>.</p>
+<h3 id="utf-8-storing-characters-as-bytes">UTF-8: storing characters as bytes</h3>
+<p>Code points are numbers, but files and networks store <strong>bytes</strong>, each holding a number from 0 to 255. <strong>UTF-8</strong> is the standard way to turn code points into bytes. ASCII characters take one byte each, so plain English text is unchanged. Other characters take two, three or four:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e7"><textarea class="pc-src pc-code" hidden>for ch in &quot;Aéọ😀&quot;:
+    data = ch.encode(&quot;utf-8&quot;)
+    print(ch, ord(ch), len(data), &quot;byte(s):&quot;, data)
+print(&quot;café&quot;.encode().decode())</textarea></div>
+<p><code>.encode()</code> turns a string into bytes, and <code>.decode()</code> turns bytes back into a string. Nearly every web page and file you&rsquo;ll ever read is UTF-8. When you see garbled text like <code>cafÃ©</code>, it&rsquo;s almost always UTF-8 bytes being read with the wrong encoding.</p>
+<h2 id="the-caesar-cipher">The Caesar cipher</h2>
+<p>Over 2,000 years ago, Julius Caesar protected military messages by shifting every letter three places along the alphabet: <code>A</code> became <code>D</code>, <code>B</code> became <code>E</code>, and at the end it wrapped round, so <code>X</code> became <code>A</code>. Play with the shift:</p>
+<figure class="widget" data-widget="cipherwheel"><script type="application/json">{"shift": 3, "text": "Meet me at noon"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Top row: the alphabet. Bottom row: what each letter becomes. Letters in your message are highlighted. The second line shows the message decrypted again.</figcaption></figure>
+<p>To shift one lower-case letter in Python:</p>
+<ol>
+<li>Turn it into its position: <code>p = ord(ch) - ord("a")</code>, from 0 to 25.</li>
+<li>Add the shift, wrapping round with <code>% 26</code>: <code>(p + shift) % 26</code>.</li>
+<li>Turn it back into a letter: <code>chr(... + ord("a"))</code>.</li>
+</ol>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e8"><div class="pc-title">Shift one letter</div><textarea class="pc-src pc-code" hidden>ch = &quot;x&quot;
+shift = 3
+p = ord(ch) - ord(&quot;a&quot;)
+new = chr((p + shift) % 26 + ord(&quot;a&quot;))
+print(ch, &quot;becomes&quot;, new)</textarea></div>
+<p>The <code>% 26</code> is what makes the alphabet wrap: <code>x</code> is position 23, plus 3 is 26, and 26 % 26 is 0, which is <code>a</code>. Remember from Week 1 that <code>%</code> with a positive divisor never gives a negative answer, so the same line also works for <strong>negative</strong> shifts.</p>
+<p>Now a whole message, keeping capitals as capitals and leaving everything else alone:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e9"><div class="pc-title">Caesar encryption</div><textarea class="pc-src pc-code" hidden>text = input(&quot;Message: &quot;)
+shift = int(input(&quot;Shift: &quot;))
+result = &quot;&quot;
+for ch in text:
+    if &quot;a&quot; &lt;= ch &lt;= &quot;z&quot;:
+        result += chr((ord(ch) - ord(&quot;a&quot;) + shift) % 26 + ord(&quot;a&quot;))
+    elif &quot;A&quot; &lt;= ch &lt;= &quot;Z&quot;:
+        result += chr((ord(ch) - ord(&quot;A&quot;) + shift) % 26 + ord(&quot;A&quot;))
+    else:
+        result += ch
+print(result)</textarea></div>
+<p>To <strong>decrypt</strong>, shift the other way: by <code>-shift</code>, or equivalently by <code>26 - shift</code>.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Shift a letter with <code>chr((ord(ch) - base + shift) % 26 + base)</code>, where <code>base</code> is <code>ord("a")</code> or <code>ord("A")</code>. The <code>% 26</code> wraps the end of the alphabet round to the start.</p></aside>
+<h2 id="breaking-it">Breaking it</h2>
+<p>A cipher is only as good as its resistance to being broken, and Caesar&rsquo;s is weak. There are only 25 possible shifts.</p>
+<h3 id="by-brute-force">By brute force</h3>
+<p>Try them all, and read which one makes sense:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e10"><div class="pc-title">Every possible shift</div><textarea class="pc-src pc-code" hidden>secret = &quot;Wkh txlfn eurzq ira&quot;
+for shift in range(1, 26):
+    plain = &quot;&quot;
+    for ch in secret:
+        if ch.isalpha():
+            base = ord(&quot;a&quot;) if ch.islower() else ord(&quot;A&quot;)
+            plain += chr((ord(ch) - base - shift) % 26 + base)
+        else:
+            plain += ch
+    print(f&quot;{shift:2}: {plain}&quot;)</textarea></div>
+<p>Scan the list: shift 3 is the only one that reads as English. Last week&rsquo;s brute-force idea, applied to code-breaking.</p>
+<h3 id="by-letter-frequencies">By letter frequencies</h3>
+<p>In English text, <code>e</code> is by far the most common letter. A shift doesn&rsquo;t change <strong>how often</strong> letters appear, only which letter stands for which. So the most common letter in a long secret message probably stands for <code>e</code>, and the distance between them is the shift. This idea, <strong>frequency analysis</strong>, was first written down by the Arab scholar al-Kindi in the ninth century, and it breaks every simple substitution cipher.</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d5-e11"><div class="pc-title">Guess the shift from the commonest letter</div><textarea class="pc-src pc-code" hidden>secret = &quot;Mjqqt, ymnx nx f xjhwjy rjxxflj ymfy jsix ns ymj jfwqd jajsnsl.&quot;
+best = &quot;&quot;
+best_n = 0
+for letter in &quot;abcdefghijklmnopqrstuvwxyz&quot;:
+    n = secret.lower().count(letter)
+    if n &gt; best_n:
+        best, best_n = letter, n
+shift = (ord(best) - ord(&quot;e&quot;)) % 26
+print(&quot;Commonest letter:&quot;, best, &quot;so the shift is probably&quot;, shift)</textarea></div>
+<p>Frequency analysis needs a reasonably long message. On three words it can easily guess wrong, which is why brute force is still handy.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-codes" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Character codes</div><div class="pc-prompt"><p>Ask for a word with the prompt <code>Word:</code> and print each character with its code point, like <code>A 65</code>, one per line.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several words&quot;
+    for w in [&quot;Ada&quot;, &quot;é!&quot;, &quot;a b&quot;]:
+        expect_output(f&quot;Word: {w}\n&quot; + &quot;\n&quot;.join(f&quot;{c} {ord(c)}&quot; for c in w), inputs=[w], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;)
+for ch in word:
+    print(ch, ord(ch))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-alphabet" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Alphabet from codes</div><div class="pc-prompt"><p>Print the lower-case alphabet on one line, with no spaces, then the capital alphabet backwards on the next line, using <code>chr</code> and <code>range</code> (don&rsquo;t type the alphabet).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;both alphabets&quot;
+    expect_output(&quot;abcdefghijklmnopqrstuvwxyz\nZYXWVUTSRQPONMLKJIHGFEDCBA&quot;)
+def test_no_typing():
+    &quot;uses chr&quot;
+    assert &quot;abc&quot; not in source and &quot;chr(&quot; in source, &quot;Build them with chr and range.&quot;</textarea><textarea class="pc-src pc-solution" hidden>low = &quot;&quot;
+for n in range(ord(&quot;a&quot;), ord(&quot;z&quot;) + 1):
+    low += chr(n)
+print(low)
+up = &quot;&quot;
+for n in range(ord(&quot;Z&quot;), ord(&quot;A&quot;) - 1, -1):
+    up += chr(n)
+print(up)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-caesar" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Caesar encryption</div><div class="pc-prompt"><p>Ask for a message with the prompt <code>Message:</code> and a shift (which may be negative or bigger than 26) with the prompt <code>Shift:</code>, and print the encrypted message. Keep capitals as capitals and leave every non-letter alone.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def enc(t, k):
+    out = &quot;&quot;
+    for c in t:
+        if &quot;a&quot; &lt;= c &lt;= &quot;z&quot;:
+            out += chr((ord(c) - 97 + k) % 26 + 97)
+        elif &quot;A&quot; &lt;= c &lt;= &quot;Z&quot;:
+            out += chr((ord(c) - 65 + k) % 26 + 65)
+        else:
+            out += c
+    return out
+def test_cases():
+    &quot;several messages and shifts&quot;
+    for t, k in [(&quot;Meet me at noon!&quot;, 3), (&quot;xyz XYZ&quot;, 3), (&quot;Hello, World&quot;, -1), (&quot;abc&quot;, 29), (&quot;2026 Lagos&quot;, 13)]:
+        expect_output(f&quot;Message: {t}\nShift: {k}\n{enc(t, k)}&quot;, inputs=[t, str(k)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Message: &quot;)
+shift = int(input(&quot;Shift: &quot;))
+result = &quot;&quot;
+for ch in text:
+    if &quot;a&quot; &lt;= ch &lt;= &quot;z&quot;:
+        result += chr((ord(ch) - ord(&quot;a&quot;) + shift) % 26 + ord(&quot;a&quot;))
+    elif &quot;A&quot; &lt;= ch &lt;= &quot;Z&quot;:
+        result += chr((ord(ch) - ord(&quot;A&quot;) + shift) % 26 + ord(&quot;A&quot;))
+    else:
+        result += ch
+print(result)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-rot13" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">ROT13</div><div class="pc-prompt"><p>ROT13 is a Caesar shift of 13. Because 13 + 13 = 26, applying it twice gives back the original, so the same program both encrypts and decrypts. It was used on early internet forums to hide spoilers. Ask for text with the prompt <code>Text:</code> and print it in ROT13, keeping case and non-letters.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several texts&quot;
+    for t, r in [(&quot;Hello&quot;, &quot;Uryyb&quot;), (&quot;Uryyb&quot;, &quot;Hello&quot;), (&quot;Why did the chicken cross the road?&quot;, &quot;Jul qvq gur puvpxra pebff gur ebnq?&quot;)]:
+        expect_output(f&quot;Text: {t}\n{r}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+out = &quot;&quot;
+for ch in text:
+    if ch.islower() and ch.isascii():
+        out += chr((ord(ch) - ord(&quot;a&quot;) + 13) % 26 + ord(&quot;a&quot;))
+    elif ch.isupper() and ch.isascii():
+        out += chr((ord(ch) - ord(&quot;A&quot;) + 13) % 26 + ord(&quot;A&quot;))
+    else:
+        out += ch
+print(out)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-atbash" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The Atbash cipher</div><div class="pc-prompt"><p>The Atbash cipher, used in ancient Hebrew texts, reverses the alphabet: <code>a</code> ↔ <code>z</code>, <code>b</code> ↔ <code>y</code>, and so on. Ask for text with the prompt <code>Text:</code> and print it in Atbash. Keep capitals and leave non-letters alone.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several texts&quot;
+    for t, r in [(&quot;abc xyz&quot;, &quot;zyx cba&quot;), (&quot;Hello!&quot;, &quot;Svool!&quot;), (&quot;Svool!&quot;, &quot;Hello!&quot;)]:
+        expect_output(f&quot;Text: {t}\n{r}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+out = &quot;&quot;
+for ch in text:
+    if &quot;a&quot; &lt;= ch &lt;= &quot;z&quot;:
+        out += chr(25 - (ord(ch) - ord(&quot;a&quot;)) + ord(&quot;a&quot;))
+    elif &quot;A&quot; &lt;= ch &lt;= &quot;Z&quot;:
+        out += chr(25 - (ord(ch) - ord(&quot;A&quot;)) + ord(&quot;A&quot;))
+    else:
+        out += ch
+print(out)</textarea><template class="pc-src pc-hint">Position <code>p</code> becomes position <code>25 - p</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-crack" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Crack it by frequency</div><div class="pc-prompt"><p>Ask for a secret message with the prompt <code>Secret:</code> that was made with a Caesar shift. Find its most common letter (ignoring case; the earliest letter in the alphabet wins a tie), assume it stands for <code>e</code>, and print <code>Shift:</code> and the shift, then the decrypted message.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;two long messages&quot;
+    expect_output(&quot;Secret: Mjqqt, ymnx nx f xjhwjy rjxxflj ymfy jsix ns ymj jfwqd jajsnsl.\nShift: 5\nHello, this is a secret message that ends in the early evening.&quot;,
+                  inputs=[&quot;Mjqqt, ymnx nx f xjhwjy rjxxflj ymfy jsix ns ymj jfwqd jajsnsl.&quot;], echo=True)
+    expect_output(&quot;Secret: Wkh wuhh vwhhsohv vhh wkh vhd\nShift: 3\nThe tree steeples see the sea&quot;,
+                  inputs=[&quot;Wkh wuhh vwhhsohv vhh wkh vhd&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>secret = input(&quot;Secret: &quot;)
+best = &quot;a&quot;
+best_n = -1
+for letter in &quot;abcdefghijklmnopqrstuvwxyz&quot;:
+    n = secret.lower().count(letter)
+    if n &gt; best_n:
+        best, best_n = letter, n
+shift = (ord(best) - ord(&quot;e&quot;)) % 26
+print(&quot;Shift:&quot;, shift)
+plain = &quot;&quot;
+for ch in secret:
+    if &quot;a&quot; &lt;= ch &lt;= &quot;z&quot;:
+        plain += chr((ord(ch) - ord(&quot;a&quot;) - shift) % 26 + ord(&quot;a&quot;))
+    elif &quot;A&quot; &lt;= ch &lt;= &quot;Z&quot;:
+        plain += chr((ord(ch) - ord(&quot;A&quot;) - shift) % 26 + ord(&quot;A&quot;))
+    else:
+        plain += ch
+print(plain)</textarea><template class="pc-src pc-hint">Count each letter of the alphabet in the lower-case secret; keep the best so far with <code>&gt;</code> so ties keep the earlier letter. Then <code>shift = (ord(best) - ord("e")) % 26</code>, and decrypt by shifting <code>-shift</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-bytes" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How many bytes?</div><div class="pc-prompt"><p>Ask for text with the prompt <code>Text:</code> and print <code>Characters:</code> and its length, then <code>UTF-8 bytes:</code> and how many bytes it takes in UTF-8, then <code>ASCII only:</code> and whether every character is ASCII (code point below 128).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several texts&quot;
+    for t in [&quot;hello&quot;, &quot;café&quot;, &quot;Ọlá 😀&quot;]:
+        expect_output(f&quot;Text: {t}\nCharacters: {len(t)}\nUTF-8 bytes: {len(t.encode())}\nASCII only: {all(ord(c) &lt; 128 for c in t)}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>t = input(&quot;Text: &quot;)
+print(&quot;Characters:&quot;, len(t))
+print(&quot;UTF-8 bytes:&quot;, len(t.encode(&quot;utf-8&quot;)))
+ascii_only = True
+for ch in t:
+    if ord(ch) &gt;= 128:
+        ascii_only = False
+        break
+print(&quot;ASCII only:&quot;, ascii_only)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Off the end of the alphabet</div><div class="pc-prompt"><p>This shifts each letter by 3, but <code>x</code>, <code>y</code> and <code>z</code> turn into <code>{</code>, <code>|</code> and <code>}</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+out = &quot;&quot;
+for ch in text:
+    out += chr(ord(ch) + 3)
+print(out)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;lower-case words&quot;
+    for t, r in [(&quot;abc&quot;, &quot;def&quot;), (&quot;xyz&quot;, &quot;abc&quot;), (&quot;zebra&quot;, &quot;cheud&quot;)]:
+        expect_output(f&quot;Text: {t}\n{r}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+out = &quot;&quot;
+for ch in text:
+    out += chr((ord(ch) - ord(&quot;a&quot;) + 3) % 26 + ord(&quot;a&quot;))
+print(out)</textarea><template class="pc-src pc-hint">Turn the letter into a position 0 to 25, add 3, wrap with <code>% 26</code>, then turn it back.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Capitals go wrong</div><div class="pc-prompt"><p>This works for lower-case letters, but capitals come out as strange lower-case letters, and spaces turn into letters too. Fix it so capitals stay capitals and other characters are left alone.</p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+out = &quot;&quot;
+for ch in text:
+    out += chr((ord(ch) - ord(&quot;a&quot;) + 1) % 26 + ord(&quot;a&quot;))
+print(out)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;mixed text&quot;
+    for t, r in [(&quot;abc&quot;, &quot;bcd&quot;), (&quot;Hal 9000&quot;, &quot;Ibm 9000&quot;), (&quot;Zz!&quot;, &quot;Aa!&quot;)]:
+        expect_output(f&quot;Text: {t}\n{r}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+out = &quot;&quot;
+for ch in text:
+    if &quot;a&quot; &lt;= ch &lt;= &quot;z&quot;:
+        out += chr((ord(ch) - ord(&quot;a&quot;) + 1) % 26 + ord(&quot;a&quot;))
+    elif &quot;A&quot; &lt;= ch &lt;= &quot;Z&quot;:
+        out += chr((ord(ch) - ord(&quot;A&quot;) + 1) % 26 + ord(&quot;A&quot;))
+    else:
+        out += ch
+print(out)</textarea></div>
+<div class="parsons" data-id="w005d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Shift one letter</div><div class="pc-prompt"><p>Arrange the lines to shift a lower-case letter by <code>k</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["ch = input(\"Letter: \")", "k = int(input(\"Shift: \"))", "p = ord(ch) - ord(\"a\")", "p = (p + k) % 26", "print(chr(p + ord(\"a\")))"], "distractors": ["p = p + k % 26"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict the codes</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # ord(&quot;C&quot;) - ord(&quot;A&quot;)
+b = &quot;___&quot; # chr(ord(&quot;a&quot;) + 25)
+c = ___   # (ord(&quot;y&quot;) - ord(&quot;a&quot;) + 5) % 26
+d = &quot;___&quot; # chr(ord(&quot;m&quot;) - 32)
+e = ___   # len(&quot;é&quot;.encode(&quot;utf-8&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;a&quot;
+    assert a == 2
+def test_b():
+    &quot;b&quot;
+    assert b == &quot;z&quot;
+def test_c():
+    &quot;c&quot;
+    assert c == 3, &quot;y is 24; 24 + 5 = 29; 29 % 26 = 3.&quot;
+def test_d():
+    &quot;d&quot;
+    assert d == &quot;M&quot;, &quot;Lower case is 32 above its capital.&quot;
+def test_e():
+    &quot;e&quot;
+    assert e == 2, &quot;é takes two bytes in UTF-8.&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = 2
+b = &quot;z&quot;
+c = 3
+d = &quot;M&quot;
+e = 2</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w005d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "What does <code>chr(ord(\"a\") + 2)</code> give?", "answer": ["c", "'c'"], "explain": "Two places after a."}, {"type": "text", "q": "How many characters does ASCII have?", "answer": "128", "explain": "Code points 0 to 127."}, {"type": "text", "q": "What is the difference between the codes of &ldquo;a&rdquo; and &ldquo;A&rdquo;?", "answer": "32", "explain": "97 - 65."}, {"type": "mc", "q": "What is Unicode?", "answer": 1, "explain": "UTF-8 is how those numbers are stored as bytes.", "options": ["A font", "A number for every character in every writing system", "A way to store bytes", "A cipher"]}, {"type": "text", "q": "How many bytes does &ldquo;A&rdquo; take in UTF-8?", "answer": ["1", "one"], "explain": "ASCII characters take one byte."}, {"type": "text", "q": "What does <code>\"\u00df\".upper()</code> give?", "answer": ["SS", "'SS'"], "explain": "Case changes aren&rsquo;t always one character to one."}, {"type": "mc", "q": "Why does a Caesar shift use <code>% 26</code>?", "answer": 1, "explain": "Position 26 becomes 0.", "options": ["To make capitals", "To wrap past z back to a", "To remove spaces", "To make it faster"]}, {"type": "text", "q": "What does &ldquo;Hello&rdquo; become with a Caesar shift of 1?", "answer": ["Ifmmp", "'Ifmmp'"], "explain": "Each letter moves one place."}, {"type": "text", "q": "How many Caesar shifts does brute force need to try?", "answer": ["25", "26"], "explain": "Shifts 1 to 25 (26 is the same as 0)."}, {"type": "mc", "q": "What does frequency analysis assume about English?", "answer": 0, "explain": "So the commonest secret letter probably stands for e.", "options": ["e is the most common letter", "Words are short", "Capitals come first", "z never appears"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the Vigenère cipher</div><div class="pc-prompt"><p>The <strong>Vigenère</strong> cipher, from 16th-century France, was called &ldquo;the indecipherable cipher&rdquo; for 300 years. Instead of one shift, it uses a <strong>keyword</strong>: each letter of the keyword gives a shift (<code>a</code> = 0, <code>b</code> = 1, &hellip;, <code>z</code> = 25), and the keyword repeats along the message. Only letters use up keyword letters; other characters are copied unchanged.</p>
+<p>With the keyword <code>lemon</code>, the message <code>Attack at dawn!</code> is shifted by l, e, m, o, n, l, e, m, o, n&hellip; giving <code>Lxfopv ef rnhr!</code>.</p>
+<p>Ask for a message with the prompt <code>Message:</code>, a keyword (lower-case letters) with the prompt <code>Keyword:</code>, and a mode with the prompt <code>Mode (e/d):</code>. Print the result of encrypting (<code>e</code>) or decrypting (<code>d</code>). Keep capitals as capitals.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def vig(t, key, d):
+    out, k = &quot;&quot;, 0
+    for c in t:
+        if c.isalpha() and c.isascii():
+            s = ord(key[k % len(key)]) - 97
+            if d:
+                s = -s
+            base = 97 if c.islower() else 65
+            out += chr((ord(c) - base + s) % 26 + base)
+            k += 1
+        else:
+            out += c
+    return out
+def test_example():
+    &quot;the example&quot;
+    expect_output(&quot;Message: Attack at dawn!\nKeyword: lemon\nMode (e/d): e\nLxfopv ef rnhr!&quot;, inputs=[&quot;Attack at dawn!&quot;, &quot;lemon&quot;, &quot;e&quot;], echo=True)
+def test_decrypt():
+    &quot;decrypting&quot;
+    expect_output(&quot;Message: Lxfopv ef rnhr!\nKeyword: lemon\nMode (e/d): d\nAttack at dawn!&quot;, inputs=[&quot;Lxfopv ef rnhr!&quot;, &quot;lemon&quot;, &quot;d&quot;], echo=True)
+def test_other():
+    &quot;another message&quot;
+    t = &quot;Python Atlas, Week 5.&quot;
+    expect_output(f&quot;Message: {t}\nKeyword: key\nMode (e/d): e\n{vig(t, &#x27;key&#x27;, False)}&quot;, inputs=[t, &quot;key&quot;, &quot;e&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Message: &quot;)
+key = input(&quot;Keyword: &quot;)
+mode = input(&quot;Mode (e/d): &quot;)
+out = &quot;&quot;
+k = 0
+for ch in text:
+    if &quot;a&quot; &lt;= ch &lt;= &quot;z&quot; or &quot;A&quot; &lt;= ch &lt;= &quot;Z&quot;:
+        shift = ord(key[k % len(key)]) - ord(&quot;a&quot;)
+        if mode == &quot;d&quot;:
+            shift = -shift
+        base = ord(&quot;a&quot;) if ch.islower() else ord(&quot;A&quot;)
+        out += chr((ord(ch) - base + shift) % 26 + base)
+        k += 1
+    else:
+        out += ch
+print(out)</textarea><template class="pc-src pc-hint">Keep a counter <code>k</code> of how many letters you&rsquo;ve shifted so far. The shift for the next letter comes from <code>keyword[k % len(keyword)]</code>.</template><template class="pc-src pc-hint">For decrypting, use the negative of each shift.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain, in your own words, the difference between a character, a code point and a byte. Then write the Caesar shift formula from memory, and explain what the <code>% 26</code> does. Tomorrow is the Forge: a bigger text project, the weekly quiz and the review of Phase 1&rsquo;s first five weeks.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w005d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w005d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w005d5", "week": 5, "day": 5, "title": "Unicode and a Caesar cipher", "exercises": [{"id": "w005d5-codes", "title": "Character codes", "points": 10}, {"id": "w005d5-alphabet", "title": "Alphabet from codes", "points": 10}, {"id": "w005d5-caesar", "title": "Caesar encryption", "points": 15}, {"id": "w005d5-rot13", "title": "ROT13", "points": 10}, {"id": "w005d5-atbash", "title": "The Atbash cipher", "points": 10}, {"id": "w005d5-crack", "title": "Crack it by frequency", "points": 15}, {"id": "w005d5-bytes", "title": "How many bytes?", "points": 10}, {"id": "w005d5-bug1", "title": "Off the end of the alphabet", "points": 10}, {"id": "w005d5-bug2", "title": "Capitals go wrong", "points": 10}, {"id": "w005d5-trace", "title": "Predict the codes", "points": 15}, {"id": "w005d5-challenge", "title": "Challenge: the Vigen\u00e8re cipher", "points": 25}], "points": 140}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

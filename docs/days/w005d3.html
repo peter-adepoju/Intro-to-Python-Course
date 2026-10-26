@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9bab6cc08b">
+<title>Week 5 Day 3: Walking through text | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9bab6cc08b">
+<link rel="stylesheet" href="../assets/css/site.css?v=9bab6cc08b">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9bab6cc08b"></script>
+<script src="../assets/vendor/codemirror.js?v=9bab6cc08b" defer></script>
+<meta name="description" content="Real text is messy: punctuation, capitals, numbers mixed in with words, lines of different lengths. Today you’ll learn the techniques for scanning text...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w005d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 5 Day 3: Walking through text">
+<meta property="og:description" content="Real text is messy: punctuation, capitals, numbers mixed in with words, lines of different lengths. Today you’ll learn the techniques for scanning text...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w005d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-5">Week 5: Strings II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#searching-for-a-pattern-yourself" data-sec="searching-for-a-pattern-yourself">Searching for a pattern yourself</a></li><li><a href="#sliding-windows" data-sec="sliding-windows">Sliding windows</a></li><li><a href="#line-by-line" data-sec="line-by-line">Line by line</a></li><li><a href="#counting-every-letter" data-sec="counting-every-letter">Counting every letter</a></li><li><a href="#checking-a-format" data-sec="checking-a-format">Checking a format</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 5, Day 3</span></p>
+      <h1>Walking through text</h1>
+      <div class="day-intro"><p>Real text is messy: punctuation, capitals, numbers mixed in with words, lines of different lengths. Today you&rsquo;ll learn the techniques for scanning text properly: looking at a window of characters at a time, searching for a pattern yourself, reading text line by line, counting how often every letter appears, and checking that text has the right format.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Compare a slice with a pattern to find every occurrence of a substring, including overlapping ones</li><li>Walk through text with a sliding window of a fixed width</li><li>Work with multi-line text using <code>\n</code> and <code>.splitlines()</code></li><li>Count how often each letter appears, and use the counts to compare words</li><li>Check that a string has an exact format, such as a time or a code</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Searching for a pattern yourself: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Sliding windows: 20 min"></span><span class="plan-seg s1" style="flex:25" title="Line by line: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Counting letters, and anagrams: 25 min"></span><span class="plan-seg s1" style="flex:15" title="Checking a format: 15 min"></span><span class="plan-seg s0" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Searching for a pattern yourself</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Sliding windows</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Line by line</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Counting letters, and anagrams</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Checking a format</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w005d3.ipynb" download>download it</a>. Exercises today are worth 155 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d3-p1"><textarea class="pc-src pc-code" hidden>text = &quot;banana&quot;
+print(text[1:4])
+print(text[1:4] == &quot;ana&quot;)
+print(text.count(&quot;ana&quot;))</textarea></div>
+<p><code>count</code> says <code>"ana"</code> appears once, but look again: it starts at position 1 <strong>and</strong> at position 3. The two overlap, and <code>count</code> doesn&rsquo;t count overlaps. Today you&rsquo;ll write your own search that does.</p>
+<h2 id="searching-for-a-pattern-yourself">Searching for a pattern yourself</h2>
+<p><code>in</code>, <code>.find()</code> and <code>.count()</code> all search for a pattern. Underneath, the simplest way to search is this: put the pattern at every position in the text, and check whether the slice there matches.</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d3-e2"><div class="pc-title">Every position, including overlaps</div><textarea class="pc-src pc-code" hidden>text = &quot;banana&quot;
+pattern = &quot;ana&quot;
+for i in range(len(text) - len(pattern) + 1):
+    if text[i:i + len(pattern)] == pattern:
+        print(&quot;Found at&quot;, i)</textarea></div>
+<p>The range stops at <code>len(text) - len(pattern) + 1</code> because the pattern has to fit: the last place it can start is <code>len(text) - len(pattern)</code>. Watch the search work character by character:</p>
+<figure class="widget" data-widget="textsearch"><script type="application/json">{"text": "abracadabra", "pattern": "abra"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The pattern slides along the text. At each position the characters are compared from the left, stopping at the first difference. Green shows matches found so far. Try a text with lots of near misses, like aaaaaaab and aab.</figcaption></figure>
+<aside class="callout c-note"><div class="callout-t">Note</div><p>This simple method can be slow for long patterns with many near misses: for every position it might compare almost the whole pattern. Python&rsquo;s own <code>find</code> uses cleverer algorithms. You&rsquo;ll study them in Phase 4.</p></aside>
+<h2 id="sliding-windows">Sliding windows</h2>
+<p>The search above looks at a <strong>window</strong> of the text, <code>len(pattern)</code> characters wide, at every position. The window idea is useful on its own:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d3-e3"><div class="pc-title">Every three-letter chunk</div><textarea class="pc-src pc-code" hidden>word = &quot;python&quot;
+for i in range(len(word) - 2):
+    print(word[i:i + 3])</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w005d3-e4"><div class="pc-title">The pair of digits with the biggest sum</div><textarea class="pc-src pc-code" hidden>digits = input(&quot;Digits: &quot;)
+best = -1
+best_at = 0
+for i in range(len(digits) - 1):
+    s = int(digits[i]) + int(digits[i + 1])
+    if s &gt; best:
+        best = s
+        best_at = i
+print(digits[best_at:best_at + 2], &quot;add up to&quot;, best)</textarea></div>
+<p>Windows are how spell checkers suggest corrections, how DNA sequences are searched, and how you spot the hottest week in a year of temperature readings.</p>
+<h2 id="line-by-line">Line by line</h2>
+<p>Text often has several <strong>lines</strong>. Inside a string, a line break is the single character <code>\n</code>. A string written with three quotes can span lines directly:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d3-e5"><textarea class="pc-src pc-code" hidden>poem = &quot;&quot;&quot;Roses are red,
+Violets are blue,
+Python is fun,
+And so are you.&quot;&quot;&quot;
+print(len(poem.splitlines()), &quot;lines&quot;)
+for line in poem.splitlines():
+    print(len(line), line)</textarea></div>
+<p><code>.splitlines()</code> splits at every line break and returns the lines without the <code>\n</code> characters. Each line is an ordinary string: you can split it into words, strip it, search it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d3-e6"><div class="pc-title">The longest line, and its number</div><textarea class="pc-src pc-code" hidden>text = &quot;&quot;&quot;first line
+the second is longer
+short
+fourth&quot;&quot;&quot;
+best = &quot;&quot;
+best_n = 0
+n = 0
+for line in text.splitlines():
+    n += 1
+    if len(line) &gt; len(best):
+        best = line
+        best_n = n
+print(&quot;Line&quot;, best_n, &quot;is longest:&quot;, best)</textarea></div>
+<p>Next week&rsquo;s files, and every log file and data file you&rsquo;ll ever read, are handled this way: one line at a time.</p>
+<h2 id="counting-every-letter">Counting every letter</h2>
+<p>How often does each letter appear in a text? With what you know now, loop over the alphabet and count each letter:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d3-e7"><div class="pc-title">Letter frequencies</div><textarea class="pc-src pc-code" hidden>text = &quot;the quick brown fox jumps over the lazy dog&quot;
+for letter in &quot;abcdefghijklmnopqrstuvwxyz&quot;:
+    n = text.count(letter)
+    if n &gt; 1:
+        print(letter, &quot;#&quot; * n)</textarea></div>
+<p>(That sentence uses every letter of the alphabet at least once. A sentence like that is called a <strong>pangram</strong>.)</p>
+<p>In Week 10 you&rsquo;ll meet dictionaries, which make counting anything much easier. For letters, the alphabet loop is fine.</p>
+<h3 id="anagrams">Anagrams</h3>
+<p>Two words are <strong>anagrams</strong> if they use exactly the same letters the same number of times: <code>listen</code> and <code>silent</code>. With letter counts, the check is simple: the words are anagrams when every letter has the same count in both.</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d3-e8"><div class="pc-title">Anagram check</div><textarea class="pc-src pc-code" hidden>a = input(&quot;First: &quot;).lower()
+b = input(&quot;Second: &quot;).lower()
+same = len(a) == len(b)
+for letter in &quot;abcdefghijklmnopqrstuvwxyz&quot;:
+    if a.count(letter) != b.count(letter):
+        same = False
+        break
+print(&quot;Anagrams&quot; if same else &quot;Not anagrams&quot;)</textarea></div>
+<h2 id="checking-a-format">Checking a format</h2>
+<p>Many strings must follow a fixed <strong>format</strong>: a time like <code>14:05</code>, a postcode, a product code. Checking one means checking its length, then each part:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d3-e9"><div class="pc-title">Is it a valid 24-hour time?</div><textarea class="pc-src pc-code" hidden>t = input(&quot;Time (HH:MM): &quot;)
+ok = (len(t) == 5 and t[2] == &quot;:&quot; and t[:2].isdigit() and t[3:].isdigit()
+      and int(t[:2]) &lt;= 23 and int(t[3:]) &lt;= 59)
+print(&quot;Valid&quot; if ok else &quot;Invalid&quot;)</textarea></div>
+<p>Notice the brackets around the long condition: inside brackets, Python lets you continue on the next line. And notice the order: the length is checked first, so the slices are safe, and <code>.isdigit()</code> is checked before <code>int()</code>, so it can&rsquo;t crash. Short-circuit evaluation from Week 2 is doing real work here.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Check a format from the outside in: the length first, then the fixed characters (like <code>:</code>), then each part&rsquo;s kind, and only then its value.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-all_positions" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Every occurrence</div><div class="pc-prompt"><p>Ask for a text with the prompt <code>Text:</code> and a pattern with the prompt <code>Pattern:</code>, and print every position where the pattern starts, <strong>including overlaps</strong>, separated by spaces. Print <code>None</code> if there are none. Compare slices; don&rsquo;t use <code>find</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several searches&quot;
+    for t, p, want in [(&quot;banana&quot;, &quot;ana&quot;, &quot;1 3&quot;), (&quot;aaaa&quot;, &quot;aa&quot;, &quot;0 1 2&quot;), (&quot;hello&quot;, &quot;z&quot;, &quot;None&quot;), (&quot;abc&quot;, &quot;abc&quot;, &quot;0&quot;), (&quot;ab&quot;, &quot;abc&quot;, &quot;None&quot;)]:
+        expect_output(f&quot;Text: {t}\nPattern: {p}\n{want}&quot;, inputs=[t, p], echo=True)
+def test_no_find():
+    &quot;uses slices&quot;
+    assert &quot;.find(&quot; not in source and &quot;.index(&quot; not in source, &quot;Compare a slice with the pattern at every position.&quot;</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+pattern = input(&quot;Pattern: &quot;)
+found = &quot;&quot;
+for i in range(len(text) - len(pattern) + 1):
+    if text[i:i + len(pattern)] == pattern:
+        found += str(i) + &quot; &quot;
+print(found.strip() if found else &quot;None&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-window" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Biggest three in a row</div><div class="pc-prompt"><p>Ask for a string of digits with the prompt <code>Digits:</code> (at least 3 of them) and print <code>Biggest:</code> and the largest sum of three digits in a row.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several strings&quot;
+    for d, b in [(&quot;3829461&quot;, 19), (&quot;111&quot;, 3), (&quot;9000009&quot;, 9), (&quot;12345&quot;, 12)]:
+        expect_output(f&quot;Digits: {d}\nBiggest: {b}&quot;, inputs=[d], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>d = input(&quot;Digits: &quot;)
+best = -1
+for i in range(len(d) - 2):
+    s = int(d[i]) + int(d[i + 1]) + int(d[i + 2])
+    if s &gt; best:
+        best = s
+print(&quot;Biggest:&quot;, best)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-lines" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count lines and words</div><div class="pc-prompt"><p>The program below has a multi-line text. Print <code>Lines:</code>, <code>Words:</code> and <code>Longest line:</code> with the number of the longest line (counting from 1; the first wins a tie).</p></div><textarea class="pc-src pc-code" hidden>text = &quot;&quot;&quot;It was a bright cold day in April,
+and the clocks were striking thirteen.
+Winston Smith, his chin nuzzled into his breast
+in an effort to escape the vile wind,
+slipped quickly through the glass doors.&quot;&quot;&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the counts&quot;
+    expect_output(&quot;Lines: 5\nWords: 36\nLongest line: 3&quot;)
+def test_other_text():
+    &quot;works for another text&quot;
+    got = norm(run_with({&#x27;&#x27;&#x27;text = &quot;&quot;&quot;It was a bright cold day in April,&#x27;&#x27;&#x27;: &#x27;&#x27;&#x27;text = &quot;&quot;&quot;one\\ntwo three four\\nfive six\\nIt was a bright cold day in April,&#x27;&#x27;&#x27;}))
+    assert got == &quot;Lines: 8\nWords: 42\nLongest line: 6&quot;, &quot;Count from the text, don&#x27;t type the numbers. With other text your program printed:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>text = &quot;&quot;&quot;It was a bright cold day in April,
+and the clocks were striking thirteen.
+Winston Smith, his chin nuzzled into his breast
+in an effort to escape the vile wind,
+slipped quickly through the glass doors.&quot;&quot;&quot;
+lines = 0
+words = 0
+longest = -1
+longest_n = 0
+for line in text.splitlines():
+    lines += 1
+    words += len(line.split())
+    if len(line) &gt; longest:
+        longest = len(line)
+        longest_n = lines
+print(&quot;Lines:&quot;, lines)
+print(&quot;Words:&quot;, words)
+print(&quot;Longest line:&quot;, longest_n)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-pangram" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Pangram?</div><div class="pc-prompt"><p>Ask for a sentence with the prompt <code>Sentence:</code> and print <code>Pangram</code> if it contains every letter from a to z at least once (ignoring case), or <code>Missing:</code> followed by the missing letters in alphabetical order.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_yes():
+    &quot;a pangram&quot;
+    expect_output(&quot;Sentence: The quick brown fox jumps over the lazy dog\nPangram&quot;, inputs=[&quot;The quick brown fox jumps over the lazy dog&quot;], echo=True)
+def test_no():
+    &quot;missing letters&quot;
+    expect_output(&quot;Sentence: Hello world\nMissing: abcfgijkmnpqstuvxyz&quot;, inputs=[&quot;Hello world&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;).lower()
+missing = &quot;&quot;
+for letter in &quot;abcdefghijklmnopqrstuvwxyz&quot;:
+    if letter not in s:
+        missing += letter
+if missing:
+    print(&quot;Missing:&quot;, missing)
+else:
+    print(&quot;Pangram&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-anagram" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Anagrams, ignoring spaces</div><div class="pc-prompt"><p>Ask for two phrases with the prompts <code>First:</code> and <code>Second:</code>. Print <code>Anagrams</code> if they use the same letters the same number of times, ignoring case, spaces and punctuation; otherwise <code>Not anagrams</code>. (<code>Dormitory</code> and <code>Dirty room!</code> are anagrams.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several pairs&quot;
+    for a, b, want in [(&quot;Dormitory&quot;, &quot;Dirty room!&quot;, &quot;Anagrams&quot;), (&quot;listen&quot;, &quot;silent&quot;, &quot;Anagrams&quot;), (&quot;hello&quot;, &quot;world&quot;, &quot;Not anagrams&quot;), (&quot;aab&quot;, &quot;abb&quot;, &quot;Not anagrams&quot;)]:
+        expect_output(f&quot;First: {a}\nSecond: {b}\n{want}&quot;, inputs=[a, b], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>a = input(&quot;First: &quot;).lower()
+b = input(&quot;Second: &quot;).lower()
+same = True
+for letter in &quot;abcdefghijklmnopqrstuvwxyz&quot;:
+    if a.count(letter) != b.count(letter):
+        same = False
+        break
+print(&quot;Anagrams&quot; if same else &quot;Not anagrams&quot;)</textarea><template class="pc-src pc-hint">Compare the count of each letter of the alphabet in both lower-case phrases. Non-letters never get counted, so they&rsquo;re ignored for free.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-code_format" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Product codes</div><div class="pc-prompt"><p>A product code looks like <code>AB-1234-X</code>: two capital letters, a dash, four digits, a dash, and one capital letter. Ask with the prompt <code>Code:</code> and print <code>Valid</code> or <code>Invalid</code>. It must never crash.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_valid():
+    &quot;valid codes&quot;
+    for c in [&quot;AB-1234-X&quot;, &quot;ZZ-0000-A&quot;]:
+        expect_output(f&quot;Code: {c}\nValid&quot;, inputs=[c], echo=True)
+def test_invalid():
+    &quot;invalid codes&quot;
+    for c in [&quot;ab-1234-X&quot;, &quot;AB-12345-X&quot;, &quot;AB1234X&quot;, &quot;AB-12a4-X&quot;, &quot;AB-1234-&quot;, &quot;&quot;, &quot;AB-1234-XX&quot;]:
+        expect_output(f&quot;Code: {c}\nInvalid&quot;, inputs=[c], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>c = input(&quot;Code: &quot;)
+ok = (len(c) == 9 and c[2] == &quot;-&quot; and c[7] == &quot;-&quot;
+      and c[:2].isalpha() and c[:2].isupper()
+      and c[3:7].isdigit()
+      and c[8].isalpha() and c[8].isupper())
+print(&quot;Valid&quot; if ok else &quot;Invalid&quot;)</textarea><template class="pc-src pc-hint">Check the length (9) first. Then the dashes at positions 2 and 7. Then <code>[:2]</code>, <code>[3:7]</code> and <code>[8]</code>.</template><template class="pc-src pc-hint"><code>.isupper()</code> alone isn&rsquo;t enough for <code>[:2]</code>: <code>"A1".isupper()</code> is True. Use <code>.isalpha() and .isupper()</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-sentence_palindrome" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Palindromic sentences</div><div class="pc-prompt"><p><code>A man, a plan, a canal: Panama!</code> reads the same backwards if you ignore everything except letters and ignore case. Ask for a sentence with the prompt <code>Sentence:</code> and print <code>Palindrome</code> or <code>Not a palindrome</code> by that rule.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several sentences&quot;
+    for s, want in [(&quot;A man, a plan, a canal: Panama!&quot;, &quot;Palindrome&quot;), (&quot;Never odd or even&quot;, &quot;Palindrome&quot;), (&quot;Hello&quot;, &quot;Not a palindrome&quot;), (&quot;Was it a car or a cat I saw?&quot;, &quot;Palindrome&quot;)]:
+        expect_output(f&quot;Sentence: {s}\n{want}&quot;, inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+letters = &quot;&quot;
+for ch in s.lower():
+    if ch.isalpha():
+        letters += ch
+print(&quot;Palindrome&quot; if letters == letters[::-1] else &quot;Not a palindrome&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Missing the last match</div><div class="pc-prompt"><p>This should find every position of the pattern, but it misses one at the very end of the text. Fix it.</p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+pattern = input(&quot;Pattern: &quot;)
+for i in range(len(text) - len(pattern)):
+    if text[i:i + len(pattern)] == pattern:
+        print(i)</textarea><textarea class="pc-src pc-tests" hidden>def test_end():
+    &quot;a match at the end&quot;
+    expect_output(&quot;Text: abcab\nPattern: ab\n0\n3&quot;, inputs=[&quot;abcab&quot;, &quot;ab&quot;], echo=True)
+def test_whole():
+    &quot;the whole text&quot;
+    expect_output(&quot;Text: xyz\nPattern: xyz\n0&quot;, inputs=[&quot;xyz&quot;, &quot;xyz&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+pattern = input(&quot;Pattern: &quot;)
+for i in range(len(text) - len(pattern) + 1):
+    if text[i:i + len(pattern)] == pattern:
+        print(i)</textarea><template class="pc-src pc-hint">How many positions can a pattern of length <code>p</code> start at, in a text of length <code>t</code>? Try <code>t = 3</code>, <code>p = 3</code>.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The time that crashes</div><div class="pc-prompt"><p>This time checker crashes on <code>ab:cd</code> and on <code>9</code>. Make it print <code>Invalid</code> for both, without changing the checks themselves, only their order.</p></div><textarea class="pc-src pc-code" hidden>t = input(&quot;Time: &quot;)
+ok = int(t[:2]) &lt;= 23 and int(t[3:]) &lt;= 59 and t[:2].isdigit() and t[3:].isdigit() and t[2] == &quot;:&quot; and len(t) == 5
+print(&quot;Valid&quot; if ok else &quot;Invalid&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several times&quot;
+    for t, want in [(&quot;12:30&quot;, &quot;Valid&quot;), (&quot;ab:cd&quot;, &quot;Invalid&quot;), (&quot;9&quot;, &quot;Invalid&quot;), (&quot;24:00&quot;, &quot;Invalid&quot;), (&quot;07:5x&quot;, &quot;Invalid&quot;)]:
+        expect_output(f&quot;Time: {t}\n{want}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>t = input(&quot;Time: &quot;)
+ok = len(t) == 5 and t[2] == &quot;:&quot; and t[:2].isdigit() and t[3:].isdigit() and int(t[:2]) &lt;= 23 and int(t[3:]) &lt;= 59
+print(&quot;Valid&quot; if ok else &quot;Invalid&quot;)</textarea><template class="pc-src pc-hint">Short-circuiting stops at the first False. Put the checks that make the later ones safe first.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Counting the empty line</div><div class="pc-prompt"><p>This should count the non-empty lines of the text, but it gives 5 instead of 3. Fix it.</p></div><textarea class="pc-src pc-code" hidden>text = &quot;&quot;&quot;first
+
+second
+
+third&quot;&quot;&quot;
+count = 0
+for line in text.splitlines():
+    count += 1
+print(count)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;3&quot;
+    expect_output(&quot;3&quot;)</textarea><textarea class="pc-src pc-solution" hidden>text = &quot;&quot;&quot;first
+
+second
+
+third&quot;&quot;&quot;
+count = 0
+for line in text.splitlines():
+    if line.strip():
+        count += 1
+print(count)</textarea></div>
+<div class="parsons" data-id="w005d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Three-letter windows</div><div class="pc-prompt"><p>Arrange the lines to print every three-letter window of a word. One line is a trap.</p></div><script type="application/json">{"lines": ["word = input(\"Word: \")", "for i in range(len(word) - 2):", "    print(word[i:i + 3])"], "distractors": ["for i in range(len(word)):"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict the scans</div><div class="pc-prompt"><p>Work these out without running them.</p>
+<pre><code class="language-python"># A: how many times is &quot;Found&quot; printed?
+text = &quot;aaaaa&quot;
+for i in range(len(text) - 1):
+    if text[i:i + 2] == &quot;aa&quot;:
+        print(&quot;Found&quot;)
+
+# B: what is printed?
+print(len(&quot;one\ntwo\n\nthree&quot;.splitlines()))
+
+# C: what is printed?
+s = &quot;mississippi&quot;
+print(s.count(&quot;s&quot;), s.count(&quot;ss&quot;), s.count(&quot;i&quot;))
+</code></pre></div><textarea class="pc-src pc-code" hidden>answer_a = ___
+answer_b = ___
+answer_c = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;A&quot;
+    assert answer_a == 4, &quot;Positions 0, 1, 2 and 3 all start &#x27;aa&#x27;.&quot;
+def test_b():
+    &quot;B&quot;
+    assert answer_b == 4, &quot;The empty line between two \\n characters counts as a line.&quot;
+def test_c():
+    &quot;C&quot;
+    assert answer_c.replace(&quot;,&quot;, &quot; &quot;).split() == [&quot;4&quot;, &quot;2&quot;, &quot;4&quot;], &quot;s appears 4 times, &#x27;ss&#x27; twice (no overlaps), i 4 times.&quot;</textarea><textarea class="pc-src pc-solution" hidden>answer_a = 4
+answer_b = 4
+answer_c = &quot;4 2 4&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w005d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "In a text of length 10, how many positions can a pattern of length 3 start at?", "answer": ["8", "eight"], "explain": "Positions 0 to 7: 10 - 3 + 1."}, {"type": "mc", "q": "Does <code>\"aaaa\".count(\"aa\")</code> count overlaps?", "answer": 1, "explain": "count finds non-overlapping matches.", "options": ["Yes, it gives 3", "No, it gives 2"]}, {"type": "text", "q": "What does <code>\"a\\nb\".splitlines()</code> give?", "answer": ["['a', 'b']", "[\"a\", \"b\"]"], "explain": "The line breaks are removed."}, {"type": "text", "q": "How many characters long is <code>\"a\\nb\"</code>?", "answer": ["3", "three"], "explain": "\\n is one character."}, {"type": "output", "q": "What does this print?", "answer": "co od de ", "explain": "Two-letter windows.", "code": "w = \"code\"\nfor i in range(len(w) - 1):\n    print(w[i:i + 2], end=\" \")"}, {"type": "mc", "q": "Which order of checks is safe for a time like &lsquo;12:30&rsquo;?", "answer": 1, "explain": "Each check makes the next one safe.", "options": ["int() first, then the length", "The length first, then isdigit(), then int()", "Any order"]}, {"type": "mc", "q": "How can a condition continue on the next line?", "answer": 1, "explain": "Inside (), [] or {}, a line can continue.", "options": ["It can&rsquo;t", "Put it inside brackets", "End the line with a comma", "Use a semicolon"]}, {"type": "mc", "q": "What makes two words anagrams?", "answer": 2, "explain": "Like listen and silent.", "options": ["Same length", "Same first letter", "Same letters, each the same number of times", "Same letters in the same order"]}, {"type": "mc", "q": "What is a pangram?", "answer": 1, "explain": "Like &lsquo;the quick brown fox jumps over the lazy dog&rsquo;.", "options": ["A sentence that reads the same backwards", "A sentence using every letter of the alphabet", "A word with no vowels"]}, {"type": "text", "q": "What does <code>\"abc\"[1:1 + 2]</code> give?", "answer": ["bc", "'bc'", "\"bc\""], "explain": "A window of width 2 starting at 1."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: word wrap</div><div class="pc-prompt"><p>Text editors <strong>wrap</strong> long lines so they fit a width. Ask for a paragraph with the prompt <code>Text:</code> and a width with the prompt <code>Width:</code>, and print the text wrapped: put as many whole words on each line as fit within the width (counting single spaces between words), then start a new line. A word longer than the width goes on a line of its own.</p>
+<pre><code>Text: the quick brown fox jumps over the lazy dog
+Width: 10
+the quick
+brown fox
+jumps over
+the lazy
+dog
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def wrap(text, w):
+    lines, cur = [], &quot;&quot;
+    for word in text.split():
+        if cur == &quot;&quot;:
+            cur = word
+        elif len(cur) + 1 + len(word) &lt;= w:
+            cur += &quot; &quot; + word
+        else:
+            lines.append(cur)
+            cur = word
+    if cur:
+        lines.append(cur)
+    return &quot;\n&quot;.join(lines)
+def test_cases():
+    &quot;several wraps&quot;
+    for t, w in [(&quot;the quick brown fox jumps over the lazy dog&quot;, 10), (&quot;a b c d e f g&quot;, 3), (&quot;supercalifragilistic is long&quot;, 8), (&quot;fits on one line&quot;, 40)]:
+        expect_output(f&quot;Text: {t}\nWidth: {w}\n&quot; + wrap(t, w), inputs=[t, str(w)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+width = int(input(&quot;Width: &quot;))
+line = &quot;&quot;
+for word in text.split():
+    if line == &quot;&quot;:
+        line = word
+    elif len(line) + 1 + len(word) &lt;= width:
+        line += &quot; &quot; + word
+    else:
+        print(line)
+        line = word
+if line:
+    print(line)</textarea><template class="pc-src pc-hint">Keep the current line in a string. For each word: if the line is empty, the word starts it. Otherwise, if the line plus a space plus the word fits, add them; if not, print the line and start a new one with the word.</template><template class="pc-src pc-hint">After the loop, print the last line if there is one.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Write, from memory, the loop that finds every position of a pattern in a text. Then explain why its <code>range</code> ends at <code>len(text) - len(pattern) + 1</code>. Tomorrow: formatting output properly, with every option of the f-string format spec, to make reports and tables that look professional.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w005d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w005d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w005d3", "week": 5, "day": 3, "title": "Walking through text", "exercises": [{"id": "w005d3-all_positions", "title": "Every occurrence", "points": 10}, {"id": "w005d3-window", "title": "Biggest three in a row", "points": 10}, {"id": "w005d3-lines", "title": "Count lines and words", "points": 10}, {"id": "w005d3-pangram", "title": "Pangram?", "points": 10}, {"id": "w005d3-anagram", "title": "Anagrams, ignoring spaces", "points": 15}, {"id": "w005d3-code_format", "title": "Product codes", "points": 15}, {"id": "w005d3-sentence_palindrome", "title": "Palindromic sentences", "points": 15}, {"id": "w005d3-bug1", "title": "Missing the last match", "points": 10}, {"id": "w005d3-bug2", "title": "The time that crashes", "points": 10}, {"id": "w005d3-bug3", "title": "Counting the empty line", "points": 10}, {"id": "w005d3-trace", "title": "Predict the scans", "points": 15}, {"id": "w005d3-challenge", "title": "Challenge: word wrap", "points": 25}], "points": 155}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9bab6cc08b">
+<title>Week 5 Day 2: split, join, immutability | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9bab6cc08b">
+<link rel="stylesheet" href="../assets/css/site.css?v=9bab6cc08b">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9bab6cc08b"></script>
+<script src="../assets/vendor/codemirror.js?v=9bab6cc08b" defer></script>
+<meta name="description" content="Most text is made of pieces: words in a sentence, values in a line, parts of a date. split breaks a string into its pieces and join glues pieces back...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w005d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 5 Day 2: split, join, immutability">
+<meta property="og:description" content="Most text is made of pieces: words in a sentence, values in a line, parts of a date. split breaks a string into its pieces and join glues pieces back...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w005d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-5">Week 5: Strings II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#split-one-string-into-many" data-sec="split-one-string-into-many">split: one string into many</a></li><li><a href="#join-many-strings-into-one" data-sec="join-many-strings-into-one">join: many strings into one</a></li><li><a href="#reading-several-values-from-one-line" data-sec="reading-several-values-from-one-line">Reading several values from one line</a></li><li><a href="#strings-can-t-be-changed" data-sec="strings-can-t-be-changed">Strings can’t be changed</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 5, Day 2</span></p>
+      <h1>split, join, immutability</h1>
+      <div class="day-intro"><p>Most text is made of pieces: words in a sentence, values in a line, parts of a date. <code>split</code> breaks a string into its pieces and <code>join</code> glues pieces back together. Today you&rsquo;ll use them to read several values from one line, rearrange words, and reformat data, and you&rsquo;ll see why strings can never be changed in place.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Break a string into a list of pieces with <code>split()</code> and <code>split(sep)</code>, and know how they differ</li><li>Loop over, index and count the pieces</li><li>Join pieces back together with <code>sep.join(pieces)</code></li><li>Read several numbers typed on one line</li><li>Explain why strings are immutable, and what to do instead of changing one</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="split: one string into many: 30 min"></span><span class="plan-seg s0" style="flex:25" title="join: many strings into one: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Reading several values from one line: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Strings can&#x27;t be changed: 20 min"></span><span class="plan-seg s1" style="flex:60" title="Practice: 60 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">split: one string into many</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">join: many strings into one</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Reading several values from one line</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Strings can&rsquo;t be changed</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Practice</span><span class="plan-min">60 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w005d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w005d2.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w005d2-p1"><textarea class="pc-src pc-code" hidden>s = &quot;  the quick brown fox  &quot;
+count = 0
+prev = &quot; &quot;
+for ch in s:
+    if ch != &quot; &quot; and prev == &quot; &quot;:
+        count += 1
+    prev = ch
+print(count)</textarea></div>
+<p>Last week, counting words took a loop, a flag and some care. Today it takes one method call.</p>
+<h2 id="split-one-string-into-many">split: one string into many</h2>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e2"><textarea class="pc-src pc-code" hidden>sentence = &quot;the quick brown fox&quot;
+words = sentence.split()
+print(words)
+print(len(words))
+print(words[0], words[-1])</textarea></div>
+<p><code>.split()</code> cuts the string wherever there&rsquo;s whitespace and gives back the pieces. The result, written with square brackets, is a <strong>list</strong>: an ordered collection of values. Lists get two whole weeks of their own (Weeks 8 and 9). For now you only need three things, and they all work the way they do for strings:</p>
+<ul>
+<li><code>len(words)</code> is how many pieces there are;</li>
+<li><code>words[0]</code> is the first piece, <code>words[-1]</code> the last;</li>
+<li><code>for w in words:</code> visits each piece in turn.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e3"><div class="pc-title">Visit each word</div><textarea class="pc-src pc-code" hidden>for word in &quot;split makes this easy&quot;.split():
+    print(word.upper(), len(word))</textarea></div>
+<h3 id="with-no-argument-or-with-a-separator">With no argument, or with a separator</h3>
+<p>With <strong>no argument</strong>, <code>split()</code> treats any run of whitespace (spaces, tabs, new lines) as one break, and ignores whitespace at the ends. That&rsquo;s what you want for words:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e4"><textarea class="pc-src pc-code" hidden>print(&quot;  lots   of    space  &quot;.split())</textarea></div>
+<p>With <strong>an argument</strong>, it splits on exactly that text, every time it appears. Two separators in a row give an <strong>empty</strong> piece between them:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e5"><textarea class="pc-src pc-code" hidden>print(&quot;2026-10-26&quot;.split(&quot;-&quot;))
+print(&quot;a,b,,c&quot;.split(&quot;,&quot;))
+print(&quot;a  b&quot;.split(&quot; &quot;))</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>split()</code> with no argument is for words: runs of whitespace count as one break. <code>split(sep)</code> is for data with a fixed separator: every single separator makes a break, even if that gives empty pieces.</p></aside>
+<p>You can limit the number of cuts with a second argument:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e6"><textarea class="pc-src pc-code" hidden>print(&quot;key=value=with=equals&quot;.split(&quot;=&quot;, 1))</textarea></div>
+<h2 id="join-many-strings-into-one">join: many strings into one</h2>
+<p><code>join</code> is the opposite of <code>split</code>. You call it on the <strong>separator</strong>, and pass it the pieces:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e7"><textarea class="pc-src pc-code" hidden>words = [&quot;the&quot;, &quot;quick&quot;, &quot;brown&quot;, &quot;fox&quot;]
+print(&quot; &quot;.join(words))
+print(&quot;-&quot;.join(words))
+print(&quot;&quot;.join(words))
+print(&quot;, &quot;.join(words))</textarea></div>
+<p>It reads a little backwards at first: <code>"-".join(words)</code> means &ldquo;join the words, with <code>-</code> between them&rdquo;. The separator goes <strong>between</strong> pieces, never at the start or end, so there&rsquo;s no trailing comma to remove.</p>
+<p><code>split</code> and <code>join</code> together make a powerful pair:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e8"><div class="pc-title">Tidy the spaces in a sentence</div><textarea class="pc-src pc-code" hidden>messy = &quot;  too    many     spaces   here &quot;
+print(&quot; &quot;.join(messy.split()))</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e9"><div class="pc-title">Reverse the order of the words</div><textarea class="pc-src pc-code" hidden>s = &quot;one two three four&quot;
+backwards = &quot;&quot;
+for word in s.split():
+    backwards = word + &quot; &quot; + backwards
+print(backwards.strip())</textarea></div>
+<p>(In Week 8 you&rsquo;ll learn a one-step way to reverse a list.)</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>join</code> only joins <strong>strings</strong>. Joining numbers raises a <code>TypeError</code>. Convert them first, with <code>str()</code>.</p></aside>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e10"><textarea class="pc-src pc-code" hidden>print(&quot;, &quot;.join([1, 2, 3]))</textarea></div>
+<h2 id="reading-several-values-from-one-line">Reading several values from one line</h2>
+<p>Until now, each <code>input()</code> read one value. With <code>split</code>, the user can type several on one line:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e11"><div class="pc-title">Two numbers on one line</div><textarea class="pc-src pc-code" hidden>a, b = input(&quot;Two numbers: &quot;).split()
+print(int(a) + int(b))</textarea></div>
+<p><code>a, b = ...</code> unpacks the two pieces into two names, just like <code>a, b = 1, 2</code> in Week 1. It needs exactly as many names as pieces, or Python raises a <code>ValueError</code>.</p>
+<p>When you don&rsquo;t know how many values are coming, loop over the pieces:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e12"><div class="pc-title">Any number of numbers</div><textarea class="pc-src pc-code" hidden>total = 0
+count = 0
+for piece in input(&quot;Numbers: &quot;).split():
+    total += int(piece)
+    count += 1
+print(&quot;Sum:&quot;, total, &quot;Average:&quot;, total / count)</textarea></div>
+<h3 id="data-with-separators">Data with separators</h3>
+<p>Lots of real data looks like <code>name:score</code> or <code>21/10/2026</code>. Split on the separator, then pick out the parts:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e13"><div class="pc-title">Reformat a date</div><textarea class="pc-src pc-code" hidden>date = &quot;26/10/2026&quot;
+day, month, year = date.split(&quot;/&quot;)
+print(f&quot;{year}-{month}-{day}&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e14"><div class="pc-title">Name and score</div><textarea class="pc-src pc-code" hidden>entry = input(&quot;name:score &quot;)
+name, score = entry.split(&quot;:&quot;)
+print(name.strip(), &quot;scored&quot;, int(score))</textarea></div>
+<h2 id="strings-can-t-be-changed">Strings can&rsquo;t be changed</h2>
+<p>You&rsquo;ve seen hints of this all week. Now the rule: once a string exists, it can <strong>never</strong> be changed. Not one character of it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e15"><textarea class="pc-src pc-code" hidden>word = &quot;jello&quot;
+word[0] = &quot;h&quot;</textarea></div>
+<p><code>TypeError: 'str' object does not support item assignment</code>. To get <code>"hello"</code>, you build a <strong>new</strong> string and point the name at it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e16"><textarea class="pc-src pc-code" hidden>word = &quot;jello&quot;
+word = &quot;h&quot; + word[1:]
+print(word)</textarea></div>
+<p>This is called <strong>immutability</strong>, and it&rsquo;s deliberate. Remember from Week 1 that names are labels on objects. If two names point at the same string and strings could change, changing it through one name would silently change it for the other. Because strings are immutable, sharing them is always safe:</p>
+<div class="pc pc-example" data-kind="example" data-id="w005d2-e17"><div class="pc-title">Sharing is safe</div><textarea class="pc-src pc-code" hidden>a = &quot;python&quot;
+b = a
+a = a.upper()
+print(a, b)</textarea></div>
+<p><code>a.upper()</code> made a new string, and <code>a = ...</code> moved the label <code>a</code> to it. <code>b</code> still points at the original. In Week 8 you&rsquo;ll meet lists, which <strong>can</strong> change, and this exact situation becomes a famous source of bugs.</p>
+<aside class="callout c-note"><div class="callout-t">Note</div><p>Building a long string one piece at a time with <code>+=</code> creates a new string every time. For a few hundred pieces it doesn&rsquo;t matter. For millions, collect the pieces and <code>join</code> them once; you&rsquo;ll see how in Week 8.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-word_count" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count the words</div><div class="pc-prompt"><p>Ask for a sentence with the prompt <code>Sentence:</code> and print <code>Words:</code> and how many words it has. Words are separated by any amount of whitespace.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several sentences&quot;
+    for s, n in [(&quot;the cat sat&quot;, 3), (&quot;  lots   of   space  &quot;, 3), (&quot;one&quot;, 1), (&quot;&quot;, 0)]:
+        expect_output(f&quot;Sentence: {s}\nWords: {n}&quot;, inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+print(&quot;Words:&quot;, len(s.split()))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-average_line" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Average of a line of numbers</div><div class="pc-prompt"><p>Ask for whole numbers on one line, separated by spaces, with the prompt <code>Numbers:</code>. Print <code>Average:</code> and their average rounded to 2 places. If no numbers were typed, print <code>No numbers</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several lines&quot;
+    expect_output(&quot;Numbers: 4 8 15 16 23 42\nAverage: 18.0&quot;, inputs=[&quot;4 8 15 16 23 42&quot;], echo=True)
+    expect_output(&quot;Numbers: 1 2\nAverage: 1.5&quot;, inputs=[&quot;1 2&quot;], echo=True)
+    expect_output(&quot;Numbers: 10 20 25\nAverage: 18.33&quot;, inputs=[&quot;10 20 25&quot;], echo=True)
+    expect_output(&quot;Numbers: \nNo numbers&quot;, inputs=[&quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>pieces = input(&quot;Numbers: &quot;).split()
+if len(pieces) == 0:
+    print(&quot;No numbers&quot;)
+else:
+    total = 0
+    for p in pieces:
+        total += int(p)
+    print(&quot;Average:&quot;, round(total / len(pieces), 2))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-initials" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Initials, the easy way</div><div class="pc-prompt"><p>Ask for a full name with the prompt <code>Name:</code> (any amount of spaces between names) and print its initials in capitals with full stops, like <code>A.M.L.</code>. Use <code>split</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several names&quot;
+    for n, i in [(&quot;ada mary lovelace&quot;, &quot;A.M.L.&quot;), (&quot;  grace   hopper &quot;, &quot;G.H.&quot;), (&quot;Plato&quot;, &quot;P.&quot;)]:
+        expect_output(f&quot;Name: {n}\n{i}&quot;, inputs=[n], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;Name: &quot;)
+result = &quot;&quot;
+for part in name.split():
+    result += part[0].upper() + &quot;.&quot;
+print(result)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-reverse_words" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Backwards sentence</div><div class="pc-prompt"><p>Ask for a sentence with the prompt <code>Sentence:</code> and print its words in reverse order, separated by single spaces.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several sentences&quot;
+    for s, r in [(&quot;one two three&quot;, &quot;three two one&quot;), (&quot;  hello   world &quot;, &quot;world hello&quot;), (&quot;solo&quot;, &quot;solo&quot;)]:
+        expect_output(f&quot;Sentence: {s}\n{r}&quot;, inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+result = &quot;&quot;
+for word in s.split():
+    if result:
+        result = word + &quot; &quot; + result
+    else:
+        result = word
+print(result)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-snake" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">snake_case</div><div class="pc-prompt"><p>Python names use <code>snake_case</code>. Ask for a phrase with the prompt <code>Phrase:</code> and print it in lower case with the words joined by underscores. <code>Total Price In Naira</code> becomes <code>total_price_in_naira</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several phrases&quot;
+    for p, s in [(&quot;Total Price In Naira&quot;, &quot;total_price_in_naira&quot;), (&quot;  number of   students &quot;, &quot;number_of_students&quot;), (&quot;x&quot;, &quot;x&quot;)]:
+        expect_output(f&quot;Phrase: {p}\n{s}&quot;, inputs=[p], echo=True)
+def test_join():
+    &quot;uses join&quot;
+    assert &quot;.join(&quot; in source, &quot;Split into words, then join them with underscores.&quot;</textarea><textarea class="pc-src pc-solution" hidden>phrase = input(&quot;Phrase: &quot;)
+print(&quot;_&quot;.join(phrase.lower().split()))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-date_format" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Dates, the international way</div><div class="pc-prompt"><p>Ask for a date like <code>26/10/2026</code> with the prompt <code>Date (dd/mm/yyyy):</code> and print it in the international format <code>2026-10-26</code>. Single-digit days and months, like <code>5/3/2026</code>, should come out padded: <code>2026-03-05</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several dates&quot;
+    for d, i in [(&quot;26/10/2026&quot;, &quot;2026-10-26&quot;), (&quot;5/3/2026&quot;, &quot;2026-03-05&quot;), (&quot;01/01/2000&quot;, &quot;2000-01-01&quot;)]:
+        expect_output(f&quot;Date (dd/mm/yyyy): {d}\n{i}&quot;, inputs=[d], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>d, m, y = input(&quot;Date (dd/mm/yyyy): &quot;).split(&quot;/&quot;)
+print(f&quot;{y}-{int(m):02}-{int(d):02}&quot;)</textarea><template class="pc-src pc-hint">Split on <code>/</code>, then turn day and month into ints so that <code>:02</code> can pad them.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-scores" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Results line</div><div class="pc-prompt"><p>A results line looks like <code>Ada:93,Grace:88,Alan:97</code>. Ask for one with the prompt <code>Results:</code> and print each person on a line as <code>Ada 93</code>, then <code>Top:</code> and the name with the highest score.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;a results line&quot;
+    expect_output(&quot;Results: Ada:93,Grace:88,Alan:97\nAda 93\nGrace 88\nAlan 97\nTop: Alan&quot;, inputs=[&quot;Ada:93,Grace:88,Alan:97&quot;], echo=True)
+    expect_output(&quot;Results: Kemi:70\nKemi 70\nTop: Kemi&quot;, inputs=[&quot;Kemi:70&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>line = input(&quot;Results: &quot;)
+top_name = &quot;&quot;
+top_score = -1
+for entry in line.split(&quot;,&quot;):
+    name, score = entry.split(&quot;:&quot;)
+    score = int(score)
+    print(name, score)
+    if score &gt; top_score:
+        top_score = score
+        top_name = name
+print(&quot;Top:&quot;, top_name)</textarea><template class="pc-src pc-hint">Split on <code>,</code> to get the entries, then split each entry on <code>:</code>. Keep a best-so-far.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Join refuses</div><div class="pc-prompt"><p>This should print <code>1-2-3-4-5</code>, but it crashes. Fix it.</p></div><textarea class="pc-src pc-code" hidden>result = &quot;&quot;
+for n in range(1, 6):
+    if result:
+        result += &quot;-&quot;
+    result += n
+print(result)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;1-2-3-4-5&quot;
+    expect_output(&quot;1-2-3-4-5&quot;)</textarea><textarea class="pc-src pc-solution" hidden>result = &quot;&quot;
+for n in range(1, 6):
+    if result:
+        result += &quot;-&quot;
+    result += str(n)
+print(result)</textarea><template class="pc-src pc-hint">You can only add a string to a string.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Empty words</div><div class="pc-prompt"><p>This counts the words in a sentence, but <code>"hello   world"</code> (three spaces) gives 4. Fix it.</p></div><textarea class="pc-src pc-code" hidden>s = input(&quot;Sentence: &quot;)
+print(&quot;Words:&quot;, len(s.split(&quot; &quot;)))</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several sentences&quot;
+    for t, n in [(&quot;hello   world&quot;, 2), (&quot;one&quot;, 1), (&quot;  a b  &quot;, 2)]:
+        expect_output(f&quot;Sentence: {t}\nWords: {n}&quot;, inputs=[t], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+print(&quot;Words:&quot;, len(s.split()))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w005d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Change one letter</div><div class="pc-prompt"><p>This should replace the first letter of the word with a capital, but it crashes. Fix it without using <code>.capitalize()</code> or <code>.title()</code>.</p></div><textarea class="pc-src pc-code" hidden>word = input(&quot;Word: &quot;)
+word[0] = word[0].upper()
+print(word)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several words&quot;
+    for w, c in [(&quot;python&quot;, &quot;Python&quot;), (&quot;x&quot;, &quot;X&quot;), (&quot;ada&quot;, &quot;Ada&quot;)]:
+        expect_output(f&quot;Word: {w}\n{c}&quot;, inputs=[w], echo=True)
+def test_no_methods():
+    &quot;builds a new string&quot;
+    assert &quot;capitalize&quot; not in source and &quot;title&quot; not in source, &quot;Build a new string from the pieces.&quot;</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;)
+word = word[0].upper() + word[1:]
+print(word)</textarea></div>
+<div class="parsons" data-id="w005d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Swap first and last names</div><div class="pc-prompt"><p>Arrange the lines to turn <code>Ada Lovelace</code> into <code>Lovelace, Ada</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["name = input(\"Name: \")", "first, last = name.split()", "print(last + \", \" + first)"], "distractors": ["first, last = name.split(\",\")"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict split and join</div><div class="pc-prompt"><p>Write what each expression gives, without running it. For lists, use square brackets, like <code>["a", "b"]</code>.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # &quot;a b  c&quot;.split()
+b = ___   # &quot;a b  c&quot;.split(&quot; &quot;)
+c = ___   # &quot;-&quot;.join([&quot;x&quot;, &quot;y&quot;, &quot;z&quot;])
+d = ___   # len(&quot;2026-10-26&quot;.split(&quot;-&quot;))
+e = ___   # &quot;&quot;.join(&quot;hello&quot;.split(&quot;l&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;a&quot;
+    assert a == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], &quot;No argument: runs of spaces count as one break.&quot;
+def test_b():
+    &quot;b&quot;
+    assert b == [&quot;a&quot;, &quot;b&quot;, &quot;&quot;, &quot;c&quot;], &quot;With &#x27; &#x27;, two spaces in a row leave an empty piece.&quot;
+def test_c():
+    &quot;c&quot;
+    assert c == &quot;x-y-z&quot;
+def test_d():
+    &quot;d&quot;
+    assert d == 3
+def test_e():
+    &quot;e&quot;
+    assert e == &quot;heo&quot;, &quot;Splitting on &#x27;l&#x27; gives [&#x27;he&#x27;, &#x27;&#x27;, &#x27;o&#x27;]; joining with nothing gives &#x27;heo&#x27;.&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+b = [&quot;a&quot;, &quot;b&quot;, &quot;&quot;, &quot;c&quot;]
+c = &quot;x-y-z&quot;
+d = 3
+e = &quot;heo&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w005d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "What does <code>\"a  b c\".split()</code> give?", "answer": ["['a', 'b', 'c']", "[\"a\", \"b\", \"c\"]"], "explain": "Runs of whitespace count as one break."}, {"type": "text", "q": "What does <code>\"a,,b\".split(\",\")</code> give?", "answer": ["['a', '', 'b']", "[\"a\", \"\", \"b\"]"], "explain": "Two separators in a row leave an empty piece."}, {"type": "text", "q": "What does <code>\"+\".join([\"1\", \"2\", \"3\"])</code> give?", "answer": ["1+2+3", "'1+2+3'", "\"1+2+3\""], "explain": "The separator goes between the pieces."}, {"type": "mc", "q": "What happens with <code>\"-\".join([1, 2])</code>?", "answer": 1, "explain": "join only joins strings.", "options": ["&lsquo;1-2&rsquo;", "A TypeError", "&lsquo;12&rsquo;", "3"]}, {"type": "output", "q": "What does this print?", "answer": "79", "explain": "The pieces are strings, so + joins them.", "code": "a, b = \"7 9\".split()\nprint(a + b)"}, {"type": "mc", "q": "What happens with <code>word[0] = \"X\"</code>?", "answer": 1, "explain": "Strings are immutable.", "options": ["The first letter changes", "A TypeError: strings can&rsquo;t be changed", "A new string is made", "Nothing"]}, {"type": "text", "q": "How many pieces does <code>\"a b c\".split(\" \", 1)</code> give?", "answer": ["2", "two"], "explain": "Only one cut: [&lsquo;a&rsquo;, &lsquo;b c&rsquo;]."}, {"type": "output", "q": "What does this print?", "answer": "hi", "explain": "a now points at a new string; b still points at the old one.", "code": "a = \"hi\"\nb = a\na = a + \"!\"\nprint(b)"}, {"type": "mc", "q": "Which line tidies all the spaces in s into single spaces?", "answer": 1, "explain": "split() then join with one space.", "options": ["<code>s.replace(\" \", \"\")</code>", "<code>\" \".join(s.split())</code>", "<code>s.strip()</code>", "<code>s.split(\" \")</code>"]}, {"type": "text", "q": "What does <code>len(\"\".split())</code> give?", "answer": "0", "explain": "An empty string has no words."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w005d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: Pig Latin</div><div class="pc-prompt"><p>Pig Latin is a word game. To translate a word:</p>
+<ul>
+<li>if it starts with a vowel (a, e, i, o, u), add <code>way</code> to the end: <code>apple</code> → <code>appleway</code>;</li>
+<li>otherwise, move all the consonants <strong>before the first vowel</strong> to the end and add <code>ay</code>: <code>string</code> → <code>ingstray</code>, <code>pig</code> → <code>igpay</code>;</li>
+<li>a word with no vowels at all just gets <code>ay</code>: <code>rhythm</code> → <code>rhythmay</code>.</li>
+</ul>
+<p>Ask for a sentence (lower-case words, no punctuation) with the prompt <code>Sentence:</code> and print it in Pig Latin, words separated by single spaces.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def pig(w):
+    for i in range(len(w)):
+        if w[i] in &quot;aeiou&quot;:
+            return w + &quot;way&quot; if i == 0 else w[i:] + w[:i] + &quot;ay&quot;
+    return w + &quot;ay&quot;
+def test_cases():
+    &quot;several sentences&quot;
+    for s in [&quot;pig latin is fun&quot;, &quot;apple string rhythm&quot;, &quot;  the   quick brown fox  &quot;]:
+        expect_output(f&quot;Sentence: {s}\n&quot; + &quot; &quot;.join(pig(w) for w in s.split()), inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+out = &quot;&quot;
+for w in s.split():
+    first = -1
+    for i in range(len(w)):
+        if w[i] in &quot;aeiou&quot;:
+            first = i
+            break
+    if first == 0:
+        piece = w + &quot;way&quot;
+    elif first == -1:
+        piece = w + &quot;ay&quot;
+    else:
+        piece = w[first:] + w[:first] + &quot;ay&quot;
+    out = piece if out == &quot;&quot; else out + &quot; &quot; + piece
+print(out)</textarea><template class="pc-src pc-hint">For each word, find the position of the first vowel with a loop (find first). Then the answer is a slice after it, plus a slice before it, plus <code>ay</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain the difference between <code>split()</code> and <code>split(" ")</code> with an example where they give different answers. Then write, from memory, the one line that turns any messy sentence into one with single spaces. Tomorrow: walking through text, with the techniques for scanning, tokenising and checking real text.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w005d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w005d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w005d2", "week": 5, "day": 2, "title": "split, join, immutability", "exercises": [{"id": "w005d2-word_count", "title": "Count the words", "points": 10}, {"id": "w005d2-average_line", "title": "Average of a line of numbers", "points": 10}, {"id": "w005d2-initials", "title": "Initials, the easy way", "points": 10}, {"id": "w005d2-reverse_words", "title": "Backwards sentence", "points": 10}, {"id": "w005d2-snake", "title": "snake_case", "points": 10}, {"id": "w005d2-date_format", "title": "Dates, the international way", "points": 10}, {"id": "w005d2-scores", "title": "Results line", "points": 15}, {"id": "w005d2-bug1", "title": "Join refuses", "points": 10}, {"id": "w005d2-bug2", "title": "Empty words", "points": 10}, {"id": "w005d2-bug3", "title": "Change one letter", "points": 10}, {"id": "w005d2-trace", "title": "Predict split and join", "points": 15}, {"id": "w005d2-challenge", "title": "Challenge: Pig Latin", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
