@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="">
+<meta name="site-version" content="2026.10.1">
+<title>Playground — Python Atlas</title>
+<meta name="description" content="Learn Python from zero to senior level by watching your code run: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
+<link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/vendor/codemirror.css?v=2026.10.1">
+<link rel="stylesheet" href="assets/css/site.css?v=2026.10.1">
+<script>try { const t = localStorage.getItem("atlas.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script src="assets/config.js?v=2026.10.1"></script>
+<script src="assets/vendor/codemirror.js?v=2026.10.1" defer></script>
+
+</head>
+<body class="page-play">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="map.html">Course map</a>
+    <a href="playground.html">Playground</a>
+    <a href="review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="btn btn-quiet" id="account-link" href="account.html">Sign in</a>
+  </div>
+</header>
+<main id="main">
+<div class="wrap play">
+  <div class="play-head">
+    <h1>Playground</h1>
+    <p class="lede">Your own space to write any Python you like. Your scripts are saved on this device, and to your account when you're signed in.</p>
+  </div>
+  <div class="play-grid">
+    <aside class="play-files panel">
+      <div class="play-fileshead"><strong>Your scripts</strong><button type="button" class="btn btn-quiet btn-tiny" id="new-file">New</button></div>
+      <ul id="files"></ul>
+      <div class="play-fileshead"><strong>Start from</strong></div>
+      <ul id="templates"></ul>
+    </aside>
+    <section>
+      <div class="w-row play-namebar"><input class="w-input" id="file-name" aria-label="Script name" spellcheck="false"><button type="button" class="btn btn-quiet btn-tiny" id="delete-file">Delete</button><span class="muted" id="saved-note"></span></div>
+      <div class="pc pc-play" data-kind="playground" id="play-console"><textarea class="pc-src pc-code" hidden></textarea></div>
+    </section>
+  </div>
+</div>
+
+</main>
+<footer class="foot">
+  <p>Python Atlas — created by Peter Oluwafemi Adepoju.</p>
+  <p><a href="guide.html">How this course works</a> <a href="map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
+</footer>
+<script type="module" src="assets/js/pages/playground.js"></script>
+</body>
+</html>

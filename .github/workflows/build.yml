@@ -1,0 +1,31 @@
+name: Build the course site
+
+on:
+  push:
+    branches: [main]
+    paths: ["course/**", ".github/workflows/build.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install markdown pyyaml
+      - name: Check every exercise and example
+        run: python course/validate.py
+      - name: Build docs/
+        run: python course/build.py
+      - name: Commit the built site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git diff --cached --quiet || git commit -m "Rebuild site from course/"
+          git push

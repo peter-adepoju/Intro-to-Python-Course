@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="">
+<meta name="site-version" content="2026.10.1">
+<title>Your account — Python Atlas</title>
+<meta name="description" content="Learn Python from zero to senior level by watching your code run: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
+<link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/vendor/codemirror.css?v=2026.10.1">
+<link rel="stylesheet" href="assets/css/site.css?v=2026.10.1">
+<script>try { const t = localStorage.getItem("atlas.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script src="assets/config.js?v=2026.10.1"></script>
+<script src="assets/vendor/codemirror.js?v=2026.10.1" defer></script>
+
+</head>
+<body class="page-account">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="map.html">Course map</a>
+    <a href="playground.html">Playground</a>
+    <a href="review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="btn btn-quiet" id="account-link" href="account.html">Sign in</a>
+  </div>
+</header>
+<main id="main">
+<div class="wrap narrow">
+  <h1 id="acct-title">Your account</h1>
+  <div id="acct-off" class="panel" hidden>
+    <p>Accounts aren't switched on for this copy of the course yet, so your progress is saved on this device only. Everything else works.</p>
+  </div>
+  <div id="acct-signin" hidden>
+    <p class="lede">Sign in to keep your progress, streak, review cards and scripts on every device. Lessons are open to everyone either way.</p>
+    <div class="panel">
+      <button type="button" class="btn btn-quiet" id="google">Continue with Google</button>
+      <p class="muted or">or with email</p>
+      <form id="email-form">
+        <label class="field"><span>Email</span><input type="email" id="email" autocomplete="email" required></label>
+        <label class="field"><span>Password</span><input type="password" id="password" autocomplete="current-password" minlength="8" required></label>
+        <div class="w-row"><button class="btn btn-run" type="submit" id="signin-btn">Sign in</button><button class="btn btn-quiet" type="button" id="signup-btn">Create account</button><button class="btn btn-quiet btn-tiny" type="button" id="reset-btn">Forgot password</button></div>
+        <p id="auth-msg" class="w-note" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+  <div id="acct-in" hidden>
+    <p class="lede">Signed in as <strong id="who"></strong>. Your progress syncs automatically.</p>
+    <div class="panel"><div class="stats" id="stats"></div></div>
+    <p><button class="btn btn-quiet" type="button" id="signout">Sign out</button></p>
+  </div>
+  <h2>Appearance</h2>
+  <div class="w-row" role="group" aria-label="Colour theme">
+    <button class="btn btn-quiet" data-theme-set="auto" type="button">Match my device</button>
+    <button class="btn btn-quiet" data-theme-set="light" type="button">Light</button>
+    <button class="btn btn-quiet" data-theme-set="dark" type="button">Dark</button>
+  </div>
+  <h2>Your data</h2>
+  <p>Download everything this site has saved about your learning, or load a file you downloaded earlier (for example, to move devices without an account).</p>
+  <div class="w-row"><button class="btn btn-quiet" type="button" id="export">Download my progress</button><label class="btn btn-quiet">Load a progress file<input type="file" id="import" accept="application/json" hidden></label></div>
+</div>
+
+</main>
+<footer class="foot">
+  <p>Python Atlas — created by Peter Oluwafemi Adepoju.</p>
+  <p><a href="guide.html">How this course works</a> <a href="map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
+</footer>
+<script type="module" src="assets/js/pages/account.js"></script>
+</body>
+</html>

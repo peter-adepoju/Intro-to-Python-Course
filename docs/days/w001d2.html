@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="2026.10.1">
+<title>Week 1 Day 2: Values and types; Python as a calculator — Python Atlas</title>
+<meta name="description" content="Learn Python from zero to senior level by watching your code run: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=2026.10.1">
+<link rel="stylesheet" href="../assets/css/site.css?v=2026.10.1">
+<script>try { const t = localStorage.getItem("atlas.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<script src="../assets/config.js?v=2026.10.1"></script>
+<script src="../assets/vendor/codemirror.js?v=2026.10.1" defer></script>
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="btn btn-quiet" id="account-link" href="../account.html">Sign in</a>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-1">Week 1: First steps</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#values-have-types" data-sec="values-have-types">Values have types</a></li><li><a href="#the-arithmetic-operators" data-sec="the-arithmetic-operators">The arithmetic operators</a></li><li><a href="#order-of-operations" data-sec="order-of-operations">Order of operations</a></li><li><a href="#python-as-a-calculator" data-sec="python-as-a-calculator">Python as a calculator</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 1, Day 2</span></p>
+      <h1>Values and types; Python as a calculator</h1>
+      <div class="day-intro"><p>Every piece of data in Python is a value, and every value has a type. Today you&rsquo;ll meet the four basic types, learn all seven arithmetic operators, and find out exactly how Python decides what to calculate first.</p></div>
+      <div class="day-cards">
+        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Recognise <code>int</code>, <code>float</code>, <code>str</code> and <code>bool</code> values and check any value&rsquo;s type with <code>type()</code></li><li>Use <code>+ - * / // % **</code> and predict whether the answer is an int or a float</li><li>Work out the value of an expression in Python&rsquo;s order, step by step</li><li>Use Python to solve everyday calculations</li></ul></section>
+        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>15 min</span> Warm-up review of Day 1</li><li><span class='plan-min'>35 min</span> Values and their types</li><li><span class='plan-min'>45 min</span> The seven arithmetic operators</li><li><span class='plan-min'>35 min</span> Order of operations, step by step</li><li><span class='plan-min'>40 min</span> Practice: Python as a calculator</li><li><span class='plan-min'>10 min</span> Quiz and daily challenge</li></ol></section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w001d2.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<p>Before anything new, check yesterday is still in your head. Predict, then run.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d2-p1"><textarea class="pc-src pc-code" hidden>print(&quot;5 + 5&quot;)
+print(5 + 5)
+print(&quot;5&quot;, &quot;+&quot;, 5)</textarea></div>
+<p>If all three were right, you&rsquo;re ready. If not, re-read <a href="w001d1.html#printing-numbers">Printing numbers</a> from Day 1 — it&rsquo;ll take two minutes, and today builds on it.</p>
+<h2 id="values-have-types">Values have types</h2>
+<p>A <strong>value</strong> is a single piece of data: <code>42</code>, <code>3.14</code>, <code>"hello"</code>. Every value has a <strong>type</strong>, which tells Python what kind of thing it is and what you can do with it. Remember the eight switches from yesterday: the same bits can be a number or a letter. The type decides.</p>
+<p>Today&rsquo;s four basic types:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Examples</th>
+<th>What it&rsquo;s for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>integer</td>
+<td><code>7</code>, <code>0</code>, <code>-12</code>, <code>1_000_000</code></td>
+<td>whole numbers</td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td>floating-point number</td>
+<td><code>3.14</code>, <code>-0.5</code>, <code>2.0</code>, <code>1e3</code></td>
+<td>numbers with a decimal point</td>
+</tr>
+<tr>
+<td><code>str</code></td>
+<td>string</td>
+<td><code>"hi"</code>, <code>'42'</code>, <code>""</code></td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>bool</code></td>
+<td>Boolean</td>
+<td><code>True</code>, <code>False</code></td>
+<td>yes/no, on/off</td>
+</tr>
+</tbody>
+</table>
+<p>Try sorting these values into their types. Then ask Python to check. Some are traps — look closely at quotes and decimal points.</p>
+<figure class="widget" data-widget="typesorter"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Twelve values, four types. Some are traps: look closely at quotes and decimal points.</figcaption></figure>
+<p>The rule that catches most people: <strong>anything in quotes is a string</strong>, even if it looks like a number. <code>"42"</code> is text made of the characters <code>4</code> and <code>2</code>. And <code>2.0</code> is a float, not an int, because it has a decimal point.</p>
+<h3 id="asking-python-type">Asking Python: type()</h3>
+<p>The function <code>type()</code> tells you the type of any value.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d2-e2"><textarea class="pc-src pc-code" hidden>print(type(42))
+print(type(3.14))
+print(type(&quot;42&quot;))
+print(type(True))</textarea></div>
+<p><code>&lt;class 'int'&gt;</code> is Python&rsquo;s way of saying &ldquo;the type int&rdquo;. (Types are called <em>classes</em> in Python; you&rsquo;ll make your own in Phase 3.)</p>
+<p>Use the inspector below to look at any value. Try <code>2 ** 100</code>: a gigantic number. Python&rsquo;s ints can be as big as your memory allows.</p>
+<figure class="widget" data-widget="typeinspect"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Type any value or calculation. Python reports its type, how it shows it, and how many bytes of memory it takes.</figcaption></figure>
+<h3 id="writing-numbers">Writing numbers</h3>
+<ul>
+<li>Long numbers can use underscores to make them readable: <code>1_000_000</code> is one million. The underscores are ignored.</li>
+<li><code>1e3</code> means 1 × 10³ = <code>1000.0</code> (a float). <code>2.5e-3</code> is <code>0.0025</code>. This is <em>scientific notation</em>.</li>
+<li>Don&rsquo;t write commas inside numbers: <code>1,000</code> isn&rsquo;t one thousand in Python — it&rsquo;s two values, <code>1</code> and <code>0</code>, separated by a comma.</li>
+</ul>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d2-p3"><textarea class="pc-src pc-code" hidden>print(1_000_000)
+print(1e3)
+print(1,000)</textarea></div>
+<h2 id="the-arithmetic-operators">The arithmetic operators</h2>
+<p>Python has seven arithmetic operators. Drag the sliders below and watch all seven results update at once.</p>
+<figure class="widget" data-widget="operators"><script type="application/json">{"a": 17, "b": 5}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>All seven operators on the same two numbers. Try a = 17, b = 5, then a = -17. Try b = 0.</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Meaning</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code></td>
+<td>add</td>
+<td><code>7 + 2</code></td>
+<td><code>9</code></td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>subtract</td>
+<td><code>7 - 2</code></td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>multiply</td>
+<td><code>7 * 2</code></td>
+<td><code>14</code></td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>divide</td>
+<td><code>7 / 2</code></td>
+<td><code>3.5</code></td>
+</tr>
+<tr>
+<td><code>//</code></td>
+<td>floor divide (divide and round down)</td>
+<td><code>7 // 2</code></td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>remainder (&ldquo;modulo&rdquo;)</td>
+<td><code>7 % 2</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>**</code></td>
+<td>power</td>
+<td><code>7 ** 2</code></td>
+<td><code>49</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>//</code> and <code>%</code> are a pair: <code>7 // 2</code> is how many whole 2s fit into 7 (three), and <code>7 % 2</code> is what&rsquo;s left over (one). On Day 4 you&rsquo;ll explore them properly — they&rsquo;re more useful than they look.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d2-e4"><textarea class="pc-src pc-code" hidden>print(17 / 5)
+print(17 // 5)
+print(17 % 5)
+print(2 ** 10)</textarea></div>
+<h3 id="int-or-float">int or float?</h3>
+<p>Python follows simple rules for the type of the answer:</p>
+<ol>
+<li><code>/</code> <strong>always</strong> gives a float, even when the division is exact: <code>6 / 3</code> is <code>2.0</code>.</li>
+<li>If <strong>either</strong> side is a float, the answer is a float: <code>2 + 1.0</code> is <code>3.0</code>.</li>
+<li>Otherwise (<code>int</code> with <code>int</code>, using <code>+ - * // % **</code>) the answer is an int.</li>
+</ol>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d2-p5"><textarea class="pc-src pc-code" hidden>print(6 / 3)
+print(6 // 3)
+print(2 * 3.0)
+print(2 ** 3)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>/</code> means &ldquo;divide exactly, give me a float&rdquo;. <code>//</code> means &ldquo;how many whole times does it fit&rdquo;. Choose deliberately.</p></aside>
+<h3 id="errors-with-arithmetic">Errors with arithmetic</h3>
+<p>Dividing by zero has no answer, so Python raises an error.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d2-e6"><textarea class="pc-src pc-code" hidden>print(10 / 0)</textarea></div>
+<p>And arithmetic between a number and text doesn&rsquo;t work (we&rsquo;ll come back to this on Day 4):</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d2-e7"><textarea class="pc-src pc-code" hidden>print(&quot;10&quot; + 5)</textarea></div>
+<h2 id="order-of-operations">Order of operations</h2>
+<p>What is <code>2 + 3 * 4</code>? It depends on which you do first. Python follows fixed rules, the same ones you learnt in school, often remembered as <strong>BODMAS</strong> or <strong>PEMDAS</strong>:</p>
+<ol>
+<li><strong>Brackets</strong> first: <code>( )</code></li>
+<li><strong>Powers</strong>: <code>**</code></li>
+<li><strong>Multiplying and dividing</strong>: <code>* / // %</code> (left to right)</li>
+<li><strong>Adding and subtracting</strong>: <code>+ -</code> (left to right)</li>
+</ol>
+<p>Don&rsquo;t just trust the rule: watch Python apply it. Press <strong>Next step</strong> to see exactly which part Python works out next. Then choose another example from the list, or type your own.</p>
+<figure class="widget" data-widget="stepper"><script type="application/json">{"exprs": ["2 + 3 * 4", "(2 + 3) * 4", "2 + 3 * 4 ** 2", "10 - 4 - 3", "100 / 10 / 5", "2 ** 3 ** 2", "(1 + 2) * (3 + 4) - 5", "7 + 10 // 3 % 2"], "vars": {}}</script><div class="widget-body"></div><figcaption>Python evaluates an expression one small step at a time. The yellow part is always what it works out next.</figcaption></figure>
+<p>Two surprises worth looking at in the stepper:</p>
+<ul>
+<li><code>10 - 4 - 3</code> is worked from <strong>left to right</strong>: <code>(10 - 4) - 3</code> = 3, not <code>10 - (4 - 3)</code> = 9.</li>
+<li><code>2 ** 3 ** 2</code> is worked from <strong>right to left</strong>: <code>2 ** (3 ** 2)</code> = <code>2 ** 9</code> = 512. Powers are the exception.</li>
+</ul>
+<p>And one more trap:</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w001d2-p8"><textarea class="pc-src pc-code" hidden>print(-3 ** 2)
+print((-3) ** 2)</textarea></div>
+<p><code>**</code> is done before the minus sign, so <code>-3 ** 2</code> is <code>-(3 ** 2)</code> = <code>-9</code>. When in doubt, <strong>add brackets</strong>. Brackets never hurt, and they make your intention clear to the next person who reads your code.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Professional programmers add brackets even when they&rsquo;re not strictly needed, if it makes an expression easier to read. <code>(price * quantity) + delivery</code> is clearer than relying on everyone remembering the rules.</p></aside>
+<h2 id="python-as-a-calculator">Python as a calculator</h2>
+<p>You now have a calculator more powerful than any you can buy. Here are some everyday problems.</p>
+<div class="pc pc-example" data-kind="example" data-id="w001d2-e9"><div class="pc-title">Shopping</div><textarea class="pc-src pc-code" hidden># 3 loaves at 1200 naira, 2 cartons of milk at 950
+print(&quot;Total:&quot;, 3 * 1200 + 2 * 950)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w001d2-e10"><div class="pc-title">Converting temperature</div><textarea class="pc-src pc-code" hidden># Celsius to Fahrenheit: F = C × 9/5 + 32
+print(&quot;30 °C is&quot;, 30 * 9 / 5 + 32, &quot;°F&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w001d2-e11"><div class="pc-title">Minutes and hours</div><textarea class="pc-src pc-code" hidden># 135 minutes is how many hours and minutes?
+print(135 // 60, &quot;hours and&quot;, 135 % 60, &quot;minutes&quot;)</textarea></div>
+<p>That last one is a pattern you&rsquo;ll use again and again: <code>//</code> to count whole units, <code>%</code> for what&rsquo;s left over.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-types" data-points="5"><div class="pc-label"><span>Exercise</span><span class="pc-pts">5 points</span></div><div class="pc-title">What type is it?</div><div class="pc-prompt"><p>Print the type of each of these four values, one per line: <code>5</code>, <code>5.0</code>, <code>"5"</code>, <code>False</code>. Use <code>type()</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the four types in order&quot;
+    expect_output(&quot;&lt;class &#x27;int&#x27;&gt;\n&lt;class &#x27;float&#x27;&gt;\n&lt;class &#x27;str&#x27;&gt;\n&lt;class &#x27;bool&#x27;&gt;&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(type(5))
+print(type(5.0))
+print(type(&quot;5&quot;))
+print(type(False))</textarea><template class="pc-src pc-hint"><code>print(type(5))</code> is the first line.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-seconds" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Seconds in a day</div><div class="pc-prompt"><p>Print the number of seconds in one day. Let Python multiply: 24 hours × 60 minutes × 60 seconds.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 86400&quot;
+    expect_output(&quot;86400&quot;)
+def test_calc():
+    &quot;calculates rather than typing the answer&quot;
+    assert &quot;86400&quot; not in source and &quot;*&quot; in source, &quot;Write the multiplication; don&#x27;t type 86400 yourself.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(24 * 60 * 60)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-average" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The average of three</div><div class="pc-prompt"><p>Print the average (mean) of 72, 85 and 91. The average is the sum divided by how many there are. Careful with the order of operations!</p>
+<p>Expected output: <code>82.66666666666667</code></p></div><textarea class="pc-src pc-code" hidden>print(72 + 85 + 91 / 3)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the correct average&quot;
+    expect_output(&quot;82.66666666666667&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print((72 + 85 + 91) / 3)</textarea><template class="pc-src pc-hint">Without brackets, Python divides only 91 by 3. Bracket the sum.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-split" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sharing sweets</div><div class="pc-prompt"><p>47 sweets are shared equally between 6 children. Print how many each child gets, and on the next line how many are left over.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 7 then 5&quot;
+    expect_output(&quot;7\n5&quot;)
+def test_ops():
+    &quot;uses // and %&quot;
+    assert &quot;//&quot; in source and &quot;%&quot; in source, &quot;Use // for the share and % for the leftovers.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(47 // 6)
+print(47 % 6)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-power" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Powers of two</div><div class="pc-prompt"><p>Print 2 to the power of 8, then 2 to the power of 16, then 2 to the power of 64, each on its own line.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the three powers&quot;
+    expect_output(&quot;256\n65536\n18446744073709551616&quot;)
+def test_ops():
+    &quot;uses **&quot;
+    assert source.count(&quot;**&quot;) &gt;= 3, &quot;Use ** for powers.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(2 ** 8)
+print(2 ** 16)
+print(2 ** 64)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-fahrenheit" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Fever check</div><div class="pc-prompt"><p>A temperature of 98.6 °F is normal body temperature. Convert it to Celsius with C = (F − 32) × 5 / 9 and print the result. You should get <code>37.0</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 37.0&quot;
+    expect_output(&quot;37.0&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print((98.6 - 32) * 5 / 9)</textarea><template class="pc-src pc-hint">Bracket <code>98.6 - 32</code> so it happens before the multiplication.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-label" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Label your answer</div><div class="pc-prompt"><p>Print the area of a rectangle 12.5 metres long and 4 metres wide, as <code>Area: 50.0 square metres</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints Area: 50.0 square metres&quot;
+    expect_output(&quot;Area: 50.0 square metres&quot;)
+def test_calc():
+    &quot;the area is calculated&quot;
+    assert &quot;50.0&quot; not in source, &quot;Let Python calculate 12.5 * 4.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;Area:&quot;, 12.5 * 4, &quot;square metres&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Wrong total</div><div class="pc-prompt"><p>A café sells coffee at 800 and cake at 1500. Ada buys 2 coffees and 1 cake. This program should print <code>3100</code> but doesn&rsquo;t. Fix it with the smallest change.</p></div><textarea class="pc-src pc-code" hidden>print(2 * (800 + 1500))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 3100&quot;
+    expect_output(&quot;3100&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(2 * 800 + 1500)</textarea><template class="pc-src pc-hint">The brackets make Python add the coffee and cake first, then double both.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w001d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A float sneaks in</div><div class="pc-prompt"><p>This program should print the number of full boxes needed to pack 100 eggs, 12 to a box (leftover eggs don&rsquo;t count). It prints <code>8.333333333333334</code>. Fix it so it prints <code>8</code>.</p></div><textarea class="pc-src pc-code" hidden>print(100 / 12)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 8&quot;
+    expect_output(&quot;8&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(100 // 12)</textarea></div>
+<div class="parsons" data-id="w001d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Minutes to hours</div><div class="pc-prompt"><p>Build a program that prints how long 200 minutes is, as <code>3 hours</code> on one line and <code>20 minutes</code> on the next. One line is a trap.</p></div><script type="application/json">{"lines": ["print(200 // 60, \"hours\")", "print(200 % 60, \"minutes\")"], "distractors": ["print(200 / 60, \"hours\")"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-fuel" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Road trip</div><div class="pc-prompt"><p>A car uses 7.5 litres of fuel per 100 km. Fuel costs 750 naira per litre. Print the cost of a 340 km trip. Expected output: <code>19125.0</code>.</p></div><textarea class="pc-src pc-code" hidden># litres needed = distance / 100 * 7.5</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 19125.0&quot;
+    expect_output(&quot;19125.0&quot;)</textarea><textarea class="pc-src pc-solution" hidden>print(340 / 100 * 7.5 * 750)</textarea><template class="pc-src pc-hint">First work out litres (<code>340 / 100 * 7.5</code>), then multiply by the price. You can do it all in one expression.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-digits" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Last digit, first digits</div><div class="pc-prompt"><p>Using <code>%</code> and <code>//</code> with 10, print the last digit of 2026 on one line, and all the digits except the last (that&rsquo;s <code>202</code>) on the next.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 6 then 202&quot;
+    expect_output(&quot;6\n202&quot;)
+def test_ops():
+    &quot;uses % 10 and // 10&quot;
+    assert &quot;% 10&quot; in source.replace(&quot;%10&quot;, &quot;% 10&quot;) and &quot;// 10&quot; in source.replace(&quot;//10&quot;, &quot;// 10&quot;), &quot;Use % 10 and // 10.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(2026 % 10)
+print(2026 // 10)</textarea><template class="pc-src pc-hint">Dividing by 10 shifts the number one place: the remainder is the digit that falls off.</template></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w001d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is the type of <code>\"3.5\"</code>?", "answer": 2, "explain": "It&rsquo;s in quotes, so it&rsquo;s a string.", "options": ["int", "float", "str", "bool"]}, {"type": "output", "q": "What does this print?", "answer": "3.0", "explain": "/ always gives a float.", "code": "print(9 / 3)"}, {"type": "output", "q": "What does this print?", "answer": "4 1", "explain": "Two whole 2s\u2026 four of them fit into 9, with 1 left over.", "code": "print(9 // 2, 9 % 2)"}, {"type": "text", "q": "What is the value of <code>2 + 3 * 4</code>?", "answer": "14", "explain": "Multiplication first: 3 * 4 is 12, then 2 + 12."}, {"type": "mc", "q": "What is the value of <code>2 ** 3 ** 2</code>?", "answer": 1, "explain": "Powers go right to left: 3 ** 2 is 9, then 2 ** 9 is 512.", "options": ["64", "512", "36", "18"]}, {"type": "mc", "q": "What is the type of <code>4 + 1.0</code>?", "answer": 1, "explain": "If either side is a float, the answer is a float: 5.0.", "options": ["int", "float", "str"]}, {"type": "output", "q": "What does this print?", "answer": "-4", "explain": "** happens before the minus sign: -(2 ** 2).", "code": "print(-2 ** 2)"}, {"type": "mc", "q": "What is <code>1e2</code>?", "answer": 1, "explain": "Scientific notation always makes a float.", "options": ["The int 100", "The float 100.0", "The string &lsquo;1e2&rsquo;", "An error"]}, {"type": "mc", "q": "Which expression gives the number of whole weeks in 50 days?", "answer": 1, "explain": "// counts whole weeks (7); % would give the 1 leftover day.", "options": ["<code>50 / 7</code>", "<code>50 // 7</code>", "<code>50 % 7</code>", "<code>50 ** 7</code>"]}, {"type": "output", "q": "What does <code>print(10 - 4 - 3)</code> print?", "answer": "3", "explain": "Left to right: 10 - 4 is 6, then 6 - 3 is 3."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w001d2-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: the time machine</div><div class="pc-prompt"><p>A film lasts 10 000 seconds. Print its length in the form below, calculating every number from <code>10000</code> with <code>//</code> and <code>%</code>:</p>
+<pre><code>2 hours
+46 minutes
+40 seconds
+</code></pre>
+<p>Then, on a fourth line, prove your answer is right: print the total seconds rebuilt from your three numbers (it should print <code>10000</code>).</p></div><textarea class="pc-src pc-code" hidden># 1 hour = 3600 seconds</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the breakdown and the check&quot;
+    expect_output(&quot;2 hours\n46 minutes\n40 seconds\n10000&quot;)
+def test_calc():
+    &quot;everything is calculated from 10000&quot;
+    assert &quot;46&quot; not in source and &quot;40&quot; not in source, &quot;Calculate 46 and 40 with // and %, don&#x27;t type them.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print(10000 // 3600, &quot;hours&quot;)
+print(10000 % 3600 // 60, &quot;minutes&quot;)
+print(10000 % 60, &quot;seconds&quot;)
+print(10000 // 3600 * 3600 + 10000 % 3600 // 60 * 60 + 10000 % 60)</textarea><template class="pc-src pc-hint">Minutes: first take the remainder after removing the hours (<code>10000 % 3600</code>), then divide that by 60.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Write down the order Python uses to work out an expression, in your own words. Then explain the difference between <code>/</code>, <code>//</code> and <code>%</code> to an imaginary friend. Tomorrow: <strong>variables</strong>, which let you name values and stop repeating numbers like <code>10000</code> all over your code.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w001d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w001d2", "week": 1, "day": 2, "title": "Values and types; Python as a calculator", "exercises": [{"id": "w001d2-types", "title": "What type is it?", "points": 5}, {"id": "w001d2-seconds", "title": "Seconds in a day", "points": 10}, {"id": "w001d2-average", "title": "The average of three", "points": 10}, {"id": "w001d2-split", "title": "Sharing sweets", "points": 10}, {"id": "w001d2-power", "title": "Powers of two", "points": 10}, {"id": "w001d2-fahrenheit", "title": "Fever check", "points": 10}, {"id": "w001d2-label", "title": "Label your answer", "points": 10}, {"id": "w001d2-bug1", "title": "Wrong total", "points": 10}, {"id": "w001d2-bug2", "title": "A float sneaks in", "points": 10}, {"id": "w001d2-fuel", "title": "Road trip", "points": 15}, {"id": "w001d2-digits", "title": "Last digit, first digits", "points": 15}, {"id": "w001d2-challenge", "title": "Challenge: the time machine", "points": 20}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>Python Atlas — created by Peter Oluwafemi Adepoju.</p>
+  <p><a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="https://github.com/peter-adepoju/intro-to-python-course">Source</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
