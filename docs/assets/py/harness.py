@@ -1179,5 +1179,66 @@ def edge_grid(versions_json, cases_json, ref):
     return {"table": table, "cases": cases}
 
 
+def call_tree(code, call, limit=400):
+    """Record every call and return of the functions defined in `code` while running `call`
+    (for the recursion figure). Events are in order; each call has an id and a parent."""
+    ns = {"__builtins__": builtins, "__name__": "__main__"}
+    try:
+        exec(compile(code, FILENAME, "exec"), ns)
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}", "events": []}
+    names = {k for k, v in ns.items() if isinstance(v, types.FunctionType)}
+    events, stack, counter = [], [], [0]
+    out = _Out()
+
+    def show(v):
+        r = repr(v)
+        return r if len(r) <= 40 else r[:37] + "..."
+
+    class TooMany(Exception):
+        pass
+
+    def tracer(frame, event, arg):
+        if frame.f_code.co_name not in names or frame.f_code.co_filename != FILENAME:
+            return tracer
+        if event == "call":
+            if len(events) >= limit:
+                raise TooMany()
+            counter[0] += 1
+            n = frame.f_code.co_argcount
+            args = ", ".join(show(frame.f_locals[v]) for v in frame.f_code.co_varnames[:n])
+            events.append({"kind": "call", "id": counter[0], "parent": stack[-1] if stack else 0,
+                           "label": f"{frame.f_code.co_name}({args})", "depth": len(stack)})
+            stack.append(counter[0])
+        elif event == "return":
+            if stack:
+                cid = stack.pop()
+                events.append({"kind": "return", "id": cid, "value": show(arg), "depth": len(stack)})
+        return tracer
+
+    old_out = sys.stdout
+    sys.stdout = out
+    error = None
+    sys.settrace(tracer)
+    try:
+        result = eval(call, ns)
+    except TooMany:
+        if not any(e["kind"] == "return" for e in events):
+            error = f"{limit} calls and not one has returned: there's no base case, or the calls never reach it."
+        else:
+            error = f"Stopped after {limit} steps: the tree is too big to show."
+        result = None
+    except RecursionError:
+        error = "RecursionError: maximum recursion depth exceeded. Is there a base case, and does every call get closer to it?"
+        result = None
+    except Exception as e:  # noqa: BLE001
+        error = f"{type(e).__name__}: {e}"
+        result = None
+    finally:
+        sys.settrace(None)
+        sys.stdout = old_out
+    return {"error": error, "events": events, "result": show(result), "output": out.getvalue()}
+
+
 def call(fn, args_json):
     return globals()[fn](*json.loads(args_json))
