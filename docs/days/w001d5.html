@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="../">
 <meta name="site-version" content="2026.10.1">
-<title>Week 1 Day 5: Strings I: quotes, escapes, length, indexing and slicing | Python Atlas</title>
+<title>Week 1 Day 5: Strings: indexing and slicing | Python Atlas</title>
 <meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,11 +50,17 @@
   <article class="day-main">
     <header class="day-head">
       <p class="day-where">Phase 1: Foundations <span>Week 1, Day 5</span></p>
-      <h1>Strings I: quotes, escapes, length, indexing and slicing</h1>
+      <h1>Strings: indexing and slicing</h1>
       <div class="day-intro"><p>Most data that programs handle is text: names, messages, web pages, DNA, even code itself. Today you&rsquo;ll learn how Python stores text, how to write any character (even invisible ones), and how to pick out exactly the characters you want with indexing and slicing.</p></div>
       <div class="day-cards">
-        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Write strings with single, double and triple quotes, and include quotes and special characters with escapes</li><li>Find a string&rsquo;s length with <code>len()</code> and join and repeat strings with <code>+</code> and <code>*</code></li><li>Pick out one character with an index, counting from the start (0) or the end (-1)</li><li>Cut out any piece of a string with a slice <code>s[start:stop:step]</code>, including reversing it</li><li>Explain why you can&rsquo;t change a character inside a string</li></ul></section>
-        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>10 min</span> Warm-up</li><li><span class='plan-min'>25 min</span> Writing strings: quotes and escapes</li><li><span class='plan-min'>20 min</span> Length, joining and repeating</li><li><span class='plan-min'>30 min</span> Indexing: one character at a time</li><li><span class='plan-min'>40 min</span> Slicing: cutting out pieces</li><li><span class='plan-min'>45 min</span> Practice</li><li><span class='plan-min'>10 min</span> Quiz and daily challenge</li></ol></section>
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write strings with single, double and triple quotes, and include quotes and special characters with escapes</li><li>Find a string&rsquo;s length with <code>len()</code> and join and repeat strings with <code>+</code> and <code>*</code></li><li>Pick out one character with an index, counting from the start (0) or the end (-1)</li><li>Cut out any piece of a string with a slice <code>s[start:stop:step]</code>, including reversing it</li><li>Explain why you can&rsquo;t change a character inside a string</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Writing strings: quotes and escapes: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Length, joining and repeating: 20 min"></span><span class="plan-seg s1" style="flex:30" title="Indexing: one character at a time: 30 min"></span><span class="plan-seg s0" style="flex:40" title="Slicing: cutting out pieces: 40 min"></span><span class="plan-seg s1" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Writing strings: quotes and escapes</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Length, joining and repeating</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">Indexing: one character at a time</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Slicing: cutting out pieces</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
       </div>
       <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w001d5.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
     </header>
@@ -304,7 +310,7 @@ print(word[:mid] + word[mid] + word[:mid][::-1])</textarea><template class="pc-s
     <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w001d6.html">Next day</a></nav>
   </article>
 </div>
-<script type="application/json" id="day-data">{"id": "w001d5", "week": 1, "day": 5, "title": "Strings I: quotes, escapes, length, indexing and slicing", "exercises": [{"id": "w001d5-initials", "title": "Initials", "points": 10}, {"id": "w001d5-lastchar", "title": "The last character", "points": 10}, {"id": "w001d5-underline", "title": "Underline a title", "points": 10}, {"id": "w001d5-slices", "title": "Slice it up", "points": 10}, {"id": "w001d5-reverse", "title": "Backwards", "points": 10}, {"id": "w001d5-middle", "title": "The middle letter", "points": 15}, {"id": "w001d5-escapes", "title": "A tidy table", "points": 10}, {"id": "w001d5-quotes", "title": "Quotes in quotes", "points": 10}, {"id": "w001d5-bug1", "title": "One past the end", "points": 10}, {"id": "w001d5-bug2", "title": "Change a letter", "points": 10}, {"id": "w001d5-email", "title": "Hide an email", "points": 15}, {"id": "w001d5-challenge", "title": "Challenge: palindrome parts", "points": 20}], "points": 140}</script>
+<script type="application/json" id="day-data">{"id": "w001d5", "week": 1, "day": 5, "title": "Strings: indexing and slicing", "exercises": [{"id": "w001d5-initials", "title": "Initials", "points": 10}, {"id": "w001d5-lastchar", "title": "The last character", "points": 10}, {"id": "w001d5-underline", "title": "Underline a title", "points": 10}, {"id": "w001d5-slices", "title": "Slice it up", "points": 10}, {"id": "w001d5-reverse", "title": "Backwards", "points": 10}, {"id": "w001d5-middle", "title": "The middle letter", "points": 15}, {"id": "w001d5-escapes", "title": "A tidy table", "points": 10}, {"id": "w001d5-quotes", "title": "Quotes in quotes", "points": 10}, {"id": "w001d5-bug1", "title": "One past the end", "points": 10}, {"id": "w001d5-bug2", "title": "Change a letter", "points": 10}, {"id": "w001d5-email", "title": "Hide an email", "points": 15}, {"id": "w001d5-challenge", "title": "Challenge: palindrome parts", "points": 20}], "points": 140}</script>
 
 </main>
 <footer class="foot">

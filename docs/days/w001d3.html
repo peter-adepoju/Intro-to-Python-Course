@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="../">
 <meta name="site-version" content="2026.10.1">
-<title>Week 1 Day 3: Variables: names that point at objects | Python Atlas</title>
+<title>Week 1 Day 3: Variables | Python Atlas</title>
 <meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,11 +50,17 @@
   <article class="day-main">
     <header class="day-head">
       <p class="day-where">Phase 1: Foundations <span>Week 1, Day 3</span></p>
-      <h1>Variables: names that point at objects</h1>
+      <h1>Variables</h1>
       <div class="day-intro"><p>A variable is a name you give to a value so you can use it again. Today you&rsquo;ll learn how assignment really works in Python, not as boxes, but as labels stuck onto objects. Getting this picture right now will save you from some of the most confusing bugs in later weeks.</p></div>
       <div class="day-cards">
-        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Create variables with <code>=</code> and use them in calculations</li><li>Explain why <code>=</code> means &ldquo;make this name point at that value&rdquo;, and that the right side is worked out first</li><li>Update variables with <code>x = x + 1</code> and the shortcuts <code>+=</code>, <code>-=</code>, <code>*=</code></li><li>Choose good, legal variable names</li><li>Trace a program by hand, writing down the value of every variable after every line</li></ul></section>
-        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>10 min</span> Warm-up</li><li><span class='plan-min'>30 min</span> Why variables, and how <code>=</code> works</li><li><span class='plan-min'>40 min</span> Names point at objects: the real picture</li><li><span class='plan-min'>30 min</span> Changing variables and the shortcut operators</li><li><span class='plan-min'>20 min</span> Naming things well</li><li><span class='plan-min'>40 min</span> Tracing by hand and practice</li><li><span class='plan-min'>10 min</span> Quiz and daily challenge</li></ol></section>
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Create variables with <code>=</code> and use them in calculations</li><li>Explain why <code>=</code> means &ldquo;make this name point at that value&rdquo;, and that the right side is worked out first</li><li>Update variables with <code>x = x + 1</code> and the shortcuts <code>+=</code>, <code>-=</code>, <code>*=</code></li><li>Choose good, legal variable names</li><li>Trace a program by hand, writing down the value of every variable after every line</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Why variables, and how `=` works: 30 min"></span><span class="plan-seg s0" style="flex:40" title="Names point at objects: the real picture: 40 min"></span><span class="plan-seg s1" style="flex:30" title="Changing variables and the shortcut operators: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Naming things well: 20 min"></span><span class="plan-seg s1" style="flex:40" title="Tracing by hand and practice: 40 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Why variables, and how <code>=</code> works</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Names point at objects: the real picture</span><span class="plan-min">40 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">Changing variables and the shortcut operators</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Naming things well</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Tracing by hand and practice</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
       </div>
       <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w001d3.ipynb" download>download it</a>. Exercises today are worth 115 points.</p>
     </header>
@@ -381,7 +387,7 @@ print(first, second, third)</textarea></div>
     <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w001d4.html">Next day</a></nav>
   </article>
 </div>
-<script type="application/json" id="day-data">{"id": "w001d3", "week": 1, "day": 3, "title": "Variables: names that point at objects", "exercises": [{"id": "w001d3-rect", "title": "A rectangle", "points": 10}, {"id": "w001d3-change_one", "title": "One change, everything follows", "points": 10}, {"id": "w001d3-update", "title": "A bank balance", "points": 10}, {"id": "w001d3-swap", "title": "Swap them", "points": 10}, {"id": "w001d3-celsius", "title": "Temperature converter", "points": 10}, {"id": "w001d3-bug1", "title": "Order matters", "points": 10}, {"id": "w001d3-bug2", "title": "It never grows", "points": 10}, {"id": "w001d3-bug3", "title": "Mystery NameError", "points": 10}, {"id": "w001d3-trace", "title": "Trace it, then prove it", "points": 15}, {"id": "w001d3-challenge", "title": "Challenge: three-way rotate", "points": 20}], "points": 115}</script>
+<script type="application/json" id="day-data">{"id": "w001d3", "week": 1, "day": 3, "title": "Variables", "exercises": [{"id": "w001d3-rect", "title": "A rectangle", "points": 10}, {"id": "w001d3-change_one", "title": "One change, everything follows", "points": 10}, {"id": "w001d3-update", "title": "A bank balance", "points": 10}, {"id": "w001d3-swap", "title": "Swap them", "points": 10}, {"id": "w001d3-celsius", "title": "Temperature converter", "points": 10}, {"id": "w001d3-bug1", "title": "Order matters", "points": 10}, {"id": "w001d3-bug2", "title": "It never grows", "points": 10}, {"id": "w001d3-bug3", "title": "Mystery NameError", "points": 10}, {"id": "w001d3-trace", "title": "Trace it, then prove it", "points": 15}, {"id": "w001d3-challenge", "title": "Challenge: three-way rotate", "points": 20}], "points": 115}</script>
 
 </main>
 <footer class="foot">

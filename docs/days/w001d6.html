@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="site-root" content="../">
 <meta name="site-version" content="2026.10.1">
-<title>Week 1 Day 6: Input, output and f-strings, and your first Forge | Python Atlas</title>
+<title>Week 1 Day 6: Input, output and f-strings | Python Atlas</title>
 <meta name="description" content="Build the habit of coding in Python, from your first line to mastery: daily lessons, an in-browser Python console, step-by-step memory views, challenges and reviews.">
 <link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,12 +49,18 @@
   </aside>
   <article class="day-main">
     <header class="day-head">
-      <p class="day-where">Phase 1: Foundations <span>Week 1, Day 6</span></p>
-      <h1>Input, output and f-strings, and your first Forge</h1>
+      <p class="day-where">Phase 1: Foundations <span>Week 1, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Input, output and f-strings</h1>
       <div class="day-intro"><p>Until now your programs have talked, but never listened. Today they&rsquo;ll ask questions with <code>input()</code>, work with the answers, and present results neatly with f-strings. Then it&rsquo;s your first Forge: the end-of-week session where you pull everything together, test yourself on the whole week and review.</p></div>
       <div class="day-cards">
-        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul><li>Read text from the user with <code>input()</code>, and convert it to a number when you need one</li><li>Control exactly what <code>print()</code> writes with <code>sep</code> and <code>end</code></li><li>Build output with f-strings, including widths, alignment, decimal places and thousands separators</li><li>Write complete input → process → output programs</li><li>Check your grip on the whole of Week 1 in the weekly quiz and challenge</li></ul></section>
-        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol><li><span class='plan-min'>10 min</span> Warm-up</li><li><span class='plan-min'>30 min</span> Asking the user: input()</li><li><span class='plan-min'>20 min</span> print() in depth: sep and end</li><li><span class='plan-min'>40 min</span> f-strings and formatting</li><li><span class='plan-min'>30 min</span> Practice: interactive programs</li><li><span class='plan-min'>40 min</span> Forge: the weekly challenge</li><li><span class='plan-min'>10 min</span> Weekly quiz and review</li></ol></section>
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Read text from the user with <code>input()</code>, and convert it to a number when you need one</li><li>Control exactly what <code>print()</code> writes with <code>sep</code> and <code>end</code></li><li>Build output with f-strings, including widths, alignment, decimal places and thousands separators</li><li>Write complete input → process → output programs</li><li>Check your grip on the whole of Week 1 in the weekly quiz and challenge</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Asking the user: input(): 30 min"></span><span class="plan-seg s0" style="flex:20" title="print() in depth: sep and end: 20 min"></span><span class="plan-seg s1" style="flex:40" title="f-strings and formatting: 40 min"></span><span class="plan-seg s0" style="flex:30" title="Practice: interactive programs: 30 min"></span><span class="plan-seg s1" style="flex:40" title="Forge: the weekly challenge: 40 min"></span><span class="plan-seg s0" style="flex:10" title="Weekly quiz and review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Asking the user: input()</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">print() in depth: sep and end</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">f-strings and formatting</span><span class="plan-min">40 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Practice: interactive programs</span><span class="plan-min">30 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Forge: the weekly challenge</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Weekly quiz and review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
       </div>
       <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/intro-to-python-course/blob/main/docs/notebooks/w001d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w001d6.ipynb" download>download it</a>. Exercises today are worth 165 points.</p>
     </header>
@@ -369,7 +375,7 @@ print(f&quot;Middle letter of first name: {first[len(first) // 2]}&quot;)</texta
     <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
   </article>
 </div>
-<script type="application/json" id="day-data">{"id": "w001d6", "week": 1, "day": 6, "title": "Input, output and f-strings, and your first Forge", "exercises": [{"id": "w001d6-greet", "title": "Greet the user", "points": 10}, {"id": "w001d6-double", "title": "Double it", "points": 10}, {"id": "w001d6-rectangle", "title": "Rectangle from the user", "points": 10}, {"id": "w001d6-date", "title": "Dashes", "points": 10}, {"id": "w001d6-price", "title": "Two decimal places", "points": 10}, {"id": "w001d6-percent", "title": "Exam score", "points": 10}, {"id": "w001d6-table", "title": "Aligned columns", "points": 15}, {"id": "w001d6-bug1", "title": "Not an f-string", "points": 10}, {"id": "w001d6-bug2", "title": "Joined at the hip", "points": 10}, {"id": "w001d6-forge", "title": "Forge: the receipt printer", "points": 40}, {"id": "w001d6-forge2", "title": "Forge bonus: the name analyser", "points": 30}], "points": 165}</script>
+<script type="application/json" id="day-data">{"id": "w001d6", "week": 1, "day": 6, "title": "Input, output and f-strings", "exercises": [{"id": "w001d6-greet", "title": "Greet the user", "points": 10}, {"id": "w001d6-double", "title": "Double it", "points": 10}, {"id": "w001d6-rectangle", "title": "Rectangle from the user", "points": 10}, {"id": "w001d6-date", "title": "Dashes", "points": 10}, {"id": "w001d6-price", "title": "Two decimal places", "points": 10}, {"id": "w001d6-percent", "title": "Exam score", "points": 10}, {"id": "w001d6-table", "title": "Aligned columns", "points": 15}, {"id": "w001d6-bug1", "title": "Not an f-string", "points": 10}, {"id": "w001d6-bug2", "title": "Joined at the hip", "points": 10}, {"id": "w001d6-forge", "title": "Forge: the receipt printer", "points": 40}, {"id": "w001d6-forge2", "title": "Forge bonus: the name analyser", "points": 30}], "points": 165}</script>
 
 </main>
 <footer class="foot">

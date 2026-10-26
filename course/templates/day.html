@@ -9,12 +9,18 @@
   </aside>
   <article class="day-main">
     <header class="day-head">
-      <p class="day-where">{{phase}} <span>Week {{week}}, Day {{day}}</span></p>
+      <p class="day-where">{{phase}} <span>Week {{week}}, Day {{day}}</span>{{forge}}</p>
       <h1>{{title}}</h1>
       <div class="day-intro">{{intro}}</div>
       <div class="day-cards">
-        <section class="day-goals"><h2 class="mini">By the end of today you can</h2><ul>{{goals}}</ul></section>
-        <section class="day-plan"><h2 class="mini">Your three hours</h2><ol>{{plan}}</ol></section>
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list">{{goals}}</ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">{{hours}}</span></div>
+          {{plan}}
+        </section>
       </div>
       <p class="day-links"><a href="{{colab}}" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="{{notebook}}" download>download it</a>. Exercises today are worth {{points}} points.</p>
     </header>

@@ -433,12 +433,23 @@ def build():
         cards += day.cards
         prev_d = next((x for x in reversed(flat[:n]) if x[1]["id"] in built), None)
         next_d = next((x for x in flat[n + 1:] if x[1]["id"] in built), None)
-        dm = {"week": w["week"], "day": d["day"], "title": meta.get("title", d["title"]), "id": d["id"]}
+        # The page title is the same short title shown on the course map.
+        dm = {"week": w["week"], "day": d["day"], "title": d["title"], "id": d["id"]}
         nb = notebook(dm, day)
         (OUT / "notebooks" / f"{d['id']}.ipynb").write_text(json.dumps(nb, indent=1))
         colab = f"https://colab.research.google.com/github/{REPO}/blob/{BRANCH}/docs/notebooks/{d['id']}.ipynb"
         phase = course["phases"][w["phase"] - 1]
-        plan = "".join(f"<li><span class='plan-min'>{p[0]} min</span> {md_inline(p[1])}</li>" for p in meta.get("plan", []))
+        steps = meta.get("plan", [])
+        total = sum(p[0] for p in steps) or 1
+        t0, plan_rows, bar = 0, [], []
+        for i, (mins, what) in enumerate(steps):
+            plan_rows.append(f'<li><span class="plan-at">{t0 // 60}:{t0 % 60:02d}</span>'
+                             f'<span class="plan-what">{md_inline(what)}</span><span class="plan-min">{mins} min</span></li>')
+            bar.append(f'<span class="plan-seg s{i % 2}" style="flex:{mins}" title="{esc(what)}: {mins} min"></span>')
+            t0 += mins
+        hours = f"{total // 60} h" + (f" {total % 60} min" if total % 60 else "")
+        plan = (f'<div class="plan-bar" aria-hidden="true">{"".join(bar)}</div>'
+                f'<ol class="plan-list">{"".join(plan_rows)}</ol>')
         goals = "".join(f"<li>{md_inline(g)}</li>" for g in meta.get("goals", []))
         toc_html = "".join(f'<li><a href="#{s}" data-sec="{s}">{esc(t)}</a></li>' for s, t in toc)
         pts = sum(x["points"] for x in day.exercises)
@@ -455,8 +466,9 @@ def build():
                      .replace("{{phase}}", esc(f"Phase {phase['id']}: {phase['title']}"))
                      .replace("{{week_title}}", esc(w["title"]))
                      .replace("{{title}}", esc(dm["title"]))
+                     .replace("{{forge}}", '<span class="forge-tag">Forge day</span>' if d["forge"] else "")
                      .replace("{{intro}}", md(meta.get("intro", "")))
-                     .replace("{{goals}}", goals).replace("{{plan}}", plan)
+                     .replace("{{goals}}", goals).replace("{{plan}}", plan).replace("{{hours}}", hours)
                      .replace("{{toc}}", toc_html).replace("{{body}}", body)
                      .replace("{{colab}}", colab).replace("{{notebook}}", f"../notebooks/{d['id']}.ipynb")
                      .replace("{{nav}}", "".join(nav)).replace("{{points}}", str(pts))

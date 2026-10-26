@@ -127,12 +127,25 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
 .day-where { color: var(--ink-3); font-weight: 700; font-size: .95rem; margin: 0; display: flex; gap: 1rem; flex-wrap: wrap; }
 .day-where span { color: var(--blue); }
 .day-intro { font-size: 1.15rem; color: var(--ink-2); max-width: 66ch; }
-.day-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.6rem 0 1rem; }
-.day-cards section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 1rem 1.2rem; }
-.day-cards ul, .day-cards ol { padding-left: 1.1rem; margin: 0; font-size: .97rem; }
-.day-plan ol { list-style: none; padding: 0; }
-.day-plan li { display: flex; gap: .7rem; padding: .18rem 0; }
-.plan-min { flex: 0 0 4.2em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.day-cards { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1rem; margin: 1.6rem 0 1rem; align-items: stretch; }
+.day-cards section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: .9rem 1.2rem .75rem; border-bottom: 1px solid var(--line); }
+.card-head .mini { margin: 0; }
+.card-total { font: 700 .9rem var(--f-head); color: var(--ink-3); white-space: nowrap; }
+.goal-list { list-style: none; margin: 0; padding: .7rem 1.2rem 1rem; display: grid; gap: .55rem; font-size: .97rem; }
+.goal-list li { position: relative; padding-left: 1.75rem; line-height: 1.5; }
+.goal-list li::before { content: ""; position: absolute; left: 0; top: .2em; width: 1.05rem; height: 1.05rem; border-radius: 50%; border: 2px solid var(--blue); }
+.goal-list li::after { content: ""; position: absolute; left: .36rem; top: .42em; width: .28rem; height: .5rem; border: solid var(--blue); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.plan-bar { display: flex; gap: 3px; margin: .9rem 1.2rem .3rem; height: 8px; }
+.plan-seg { border-radius: 2px; }
+.plan-seg.s0 { background: var(--blue); }
+.plan-seg.s1 { background: color-mix(in srgb, var(--blue) 45%, var(--surface)); }
+.plan-list { list-style: none; margin: 0; padding: .4rem 1.2rem 1rem; display: grid; }
+.plan-list li { display: grid; grid-template-columns: 2.9rem minmax(0, 1fr) auto; gap: .8rem; align-items: baseline; padding: .42rem 0; border-top: 1px dashed var(--line); font-size: .95rem; }
+.plan-list li:first-child { border-top: 0; }
+.plan-at { font: 600 .82rem var(--f-code); color: var(--ink-3); }
+.plan-min { font-size: .82rem; font-weight: 700; color: var(--ink-2); background: var(--sunk); border-radius: 99px; padding: .05rem .55rem; white-space: nowrap; }
+.day-where .forge-tag { font-size: .85rem; }
 .mini { font-size: 1rem; margin: 0 0 .5rem; }
 .day-links { font-size: .95rem; color: var(--ink-2); }
 .day-body > p, .day-body > ul, .day-body > ol { max-width: 70ch; }
