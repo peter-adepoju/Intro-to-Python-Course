@@ -1,21 +1,57 @@
-MIT License
+Python Atlas — Proprietary Licence (All Rights Reserved)
 
-Copyright (c) 2026 Peter Adepoju
+Copyright (c) 2026 Peter Oluwafemi Adepoju. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This repository and the website built from it ("the Course") — including the
+curriculum, lesson text, exercises, tests, solutions, quizzes, notebooks,
+interactive figures, illustrations, source code, page designs and the name
+"Python Atlas" — are the property of Peter Oluwafemi Adepoju. The source is
+publicly visible so that learners can read it; being visible does not make it
+free to reuse.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. What you may do
+   a. Read the Course and use it for your own personal, non-commercial learning.
+   b. Run the Course's code and notebooks for your own study, and keep your own
+      answers and notes.
+   c. Copy short code snippets from lessons into your own learning projects.
+   d. Link to the Course's website or repository.
+   e. View and fork this repository on GitHub, only to the extent GitHub's Terms
+      of Service require, and only for the purposes in (a)–(d).
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. What you may not do without written permission from the copyright holder
+   a. Copy, republish, mirror, host, translate or redistribute the Course or any
+      substantial part of it, in any form or medium.
+   b. Sell, license, rent or charge for access to the Course or any part of it,
+      or include it in a paid product, service, course, bootcamp or training.
+   c. Rebrand the Course, remove this notice, or present the Course or a work
+      derived from it as your own.
+   d. Make derivative courses, books, videos or platforms based on the Course's
+      curriculum, lessons, exercises or interactive figures.
+   e. Use the Course's content to train, fine-tune or evaluate machine-learning
+      models, or include it in datasets.
+   f. Use the name "Python Atlas" or the Course's logo for any other product.
+
+3. Teaching
+   Teachers and institutions who want to use the Course with their learners
+   must ask for written permission first. Permission may be given on terms set
+   by the copyright holder.
+
+4. Third-party components
+   Some files are other people's work and remain under their own licences:
+   - CodeMirror 5 (course/static/vendor/, docs/assets/vendor/): MIT licence,
+     see CODEMIRROR-LICENSE in that folder.
+   - Pyodide, loaded at run time from its CDN: Mozilla Public License 2.0.
+   - Supabase client library, loaded at run time: MIT licence.
+   This licence does not change the terms of those components.
+
+5. Earlier versions
+   Versions of this repository published before 26 October 2026 were released
+   under the MIT licence; copies obtained under those terms keep them. This
+   licence applies to everything published from 26 October 2026 onwards.
+
+6. No warranty
+   The Course is provided "as is", without warranty of any kind. The copyright
+   holder is not liable for any claim, damages or other liability arising from
+   its use.
+
+Permissions and enquiries: petera@aims.ac.za
