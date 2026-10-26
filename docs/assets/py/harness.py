@@ -1159,5 +1159,25 @@ def _chars_at(text, f):
     return len(data[:f.tell()].decode("utf-8", errors="ignore"))
 
 
+def edge_grid(versions_json, cases_json, ref):
+    """Run several versions of a function f on several inputs (for the edge-case figure)."""
+    versions = json.loads(versions_json)
+    cases = json.loads(cases_json)
+    def run_one(code, case):
+        ns = {"__builtins__": builtins}
+        try:
+            exec(code, ns)
+            args = eval(f"({case},)", {"__builtins__": builtins})
+            return {"ok": True, "value": repr(ns["f"](*args))}
+        except Exception as e:  # noqa: BLE001
+            return {"ok": False, "value": f"{type(e).__name__}"}
+    table = {name: [run_one(code, c) for c in cases] for name, code in versions.items()}
+    want = table[ref]
+    for name, cells in table.items():
+        for cell, good in zip(cells, want):
+            cell["right"] = cell == {"ok": good["ok"], "value": good["value"]} or (cell["ok"] and good["ok"] and cell["value"] == good["value"])
+    return {"table": table, "cases": cases}
+
+
 def call(fn, args_json):
     return globals()[fn](*json.loads(args_json))

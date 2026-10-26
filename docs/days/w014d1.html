@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="8d61681a02">
+<title>Week 14 Day 1: Understanding the problem | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=8d61681a02">
+<link rel="stylesheet" href="../assets/css/site.css?v=8d61681a02">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=8d61681a02"></script>
+<script src="../assets/vendor/codemirror.js?v=8d61681a02" defer></script>
+<meta name="description" content="Welcome to Phase 2. In Phase 1 you learned Python; now you’ll learn to solve problems with it, including problems you’ve never seen anything like. This week...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w014d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 14 Day 1: Understanding the problem">
+<meta property="og:description" content="Welcome to Phase 2. In Phase 1 you learned Python; now you’ll learn to solve problems with it, including problems you’ve never seen anything like. This week...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w014d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-14">Week 14: A method for solving problems</a>
+      <ol class="rail-toc"><li><a href="#a-method" data-sec="a-method">A method</a></li><li><a href="#inputs-outputs-and-rules" data-sec="inputs-outputs-and-rules">Inputs, outputs and rules</a></li><li><a href="#examples-by-hand" data-sec="examples-by-hand">Examples by hand</a></li><li><a href="#finding-the-gaps" data-sec="finding-the-gaps">Finding the gaps</a></li><li><a href="#examples-become-checks" data-sec="examples-become-checks">Examples become checks</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 2: Thinking like a programmer <span>Week 14, Day 1</span></p>
+      <h1>Understanding the problem</h1>
+      <div class="day-intro"><p>Welcome to Phase 2. In Phase 1 you learned Python; now you&rsquo;ll learn to solve problems with it, including problems you&rsquo;ve never seen anything like. This week is about the method. It starts before any code: most wrong programs are correct answers to a slightly different question. Today you&rsquo;ll learn to pin a problem down exactly, with inputs, outputs, rules and worked examples, before you write a line.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Restate a problem in your own words, naming its inputs, outputs and rules</li><li>Work examples by hand, and use them to find what the description leaves unclear</li><li>Spot ambiguities and decide them explicitly, rather than by accident</li><li>Turn worked examples into checks before writing the solution</li><li>Follow the four steps of a problem-solving method on unfamiliar problems</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="A method: 15 min"></span><span class="plan-seg s1" style="flex:25" title="Inputs, outputs and rules: 25 min"></span><span class="plan-seg s0" style="flex:30" title="Examples by hand: 30 min"></span><span class="plan-seg s1" style="flex:20" title="Finding the gaps: 20 min"></span><span class="plan-seg s0" style="flex:20" title="Examples become checks: 20 min"></span><span class="plan-seg s1" style="flex:60" title="Practice: 60 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">A method</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Inputs, outputs and rules</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Examples by hand</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Finding the gaps</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Examples become checks</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Practice</span><span class="plan-min">60 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w014d1.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="a-method">A method</h2>
+<p>In 1945 the mathematician George Pólya wrote a small book called <em>How to Solve It</em>, about how to approach a problem you don&rsquo;t yet know how to solve. Programmers still use its four steps, which this week is built around:</p>
+<ol>
+<li><strong>Understand the problem.</strong> What is given, what is wanted, and what are the rules? (Today.)</li>
+<li><strong>Make a plan.</strong> Find a way from what&rsquo;s given to what&rsquo;s wanted: a similar problem you&rsquo;ve solved, a pattern, a way to split it into smaller problems. (Days 3 to 5.)</li>
+<li><strong>Carry out the plan</strong>, checking each step.</li>
+<li><strong>Look back.</strong> Check the result, test the awkward cases (Day 2), and ask what you&rsquo;ve learned for next time.</li>
+</ol>
+<p>The step that beginners skip is the first, because it doesn&rsquo;t feel like progress. It is: a few minutes understanding a problem saves hours of debugging a solution to the wrong one.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Before you write code, you should be able to say, in your own words: what goes in, what comes out, and the rule that connects them. And you should have worked at least two examples by hand.</p></aside>
+<h2 id="inputs-outputs-and-rules">Inputs, outputs and rules</h2>
+<p>Here&rsquo;s a problem, as it might be given to you:</p>
+<blockquote>
+<p>Write a function that checks whether a credit card number is valid.</p>
+</blockquote>
+<p>That isn&rsquo;t something you can program yet. <strong>What</strong> goes in? A number? A string with spaces? <strong>What</strong> comes out? <code>True</code> or <code>False</code>, or a message? <strong>What</strong> makes it valid? You need the rule.</p>
+<p>Card numbers use the <strong>Luhn check</strong>, invented by Hans Peter Luhn at IBM in the 1950s, which catches most single-digit typing mistakes. Here&rsquo;s the rule:</p>
+<blockquote>
+<p>Starting from the rightmost digit and moving left, double every second digit (so the second from the right, the fourth from the right, and so on). If doubling gives more than 9, subtract 9. Add up all the digits, doubled and not. The number is valid if the total is a multiple of 10.</p>
+</blockquote>
+<p>Now you can write the problem down properly:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Input</strong></td>
+<td>a string of digits, possibly containing spaces (as people type card numbers)</td>
+</tr>
+<tr>
+<td><strong>Output</strong></td>
+<td><code>True</code> if it passes the Luhn check, otherwise <code>False</code></td>
+</tr>
+<tr>
+<td><strong>Rules</strong></td>
+<td>ignore spaces; anything else that isn&rsquo;t a digit makes it invalid; fewer than 2 digits is invalid; then the Luhn rule</td>
+</tr>
+</tbody>
+</table>
+<p>Notice the rows that weren&rsquo;t in the original sentence: spaces, other characters, very short input. Writing the table <strong>made you decide</strong>. You might decide differently (raise an error for letters, say), and that&rsquo;s fine, as long as it&rsquo;s a decision, not an accident.</p>
+<h2 id="examples-by-hand">Examples by hand</h2>
+<p>Before coding, work an example on paper. Take <code>79927398713</code>, the example Luhn himself used:</p>
+<table>
+<thead>
+<tr>
+<th>Digit (from the right)</th>
+<th>3</th>
+<th>1</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>3</th>
+<th>7</th>
+<th>2</th>
+<th>9</th>
+<th>9</th>
+<th>7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Double?</td>
+<td>no</td>
+<td>yes</td>
+<td>no</td>
+<td>yes</td>
+<td>no</td>
+<td>yes</td>
+<td>no</td>
+<td>yes</td>
+<td>no</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Value</td>
+<td>3</td>
+<td>2</td>
+<td>7</td>
+<td>16 → 7</td>
+<td>9</td>
+<td>6</td>
+<td>7</td>
+<td>4</td>
+<td>9</td>
+<td>18 → 9</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>Total: 3 + 2 + 7 + 7 + 9 + 6 + 7 + 4 + 9 + 9 + 7 = 70, a multiple of 10, so it&rsquo;s valid.</p>
+<p>Working it by hand does three things. It checks you understand the rule. It tells you the <strong>steps</strong> your program needs (reverse, double every second one, subtract 9, add up). And it gives you an <strong>example with a known answer</strong> to check your program against.</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d1-e1"><div class="pc-title">Luhn, straight from the worked example</div><textarea class="pc-src pc-code" hidden>def luhn_ok(number):
+    digits = number.replace(&quot; &quot;, &quot;&quot;)
+    if len(digits) &lt; 2 or not digits.isdigit():
+        return False
+    total = 0
+    for i, ch in enumerate(reversed(digits)):
+        d = int(ch)
+        if i % 2 == 1:
+            d *= 2
+            if d &gt; 9:
+                d -= 9
+        total += d
+    return total % 10 == 0
+
+print(luhn_ok(&quot;79927398713&quot;))
+print(luhn_ok(&quot;79927398710&quot;))
+print(luhn_ok(&quot;4539 1488 0343 6467&quot;))</textarea></div>
+<p>Every line of that function comes straight from the worked table. That&rsquo;s what working an example first buys you.</p>
+<h2 id="finding-the-gaps">Finding the gaps</h2>
+<p>Real problem descriptions are incomplete. Working examples is how you find the gaps. Here&rsquo;s another:</p>
+<blockquote>
+<p>Write a function that returns the time difference between two clock times.</p>
+</blockquote>
+<p>Work some examples, and the questions appear:</p>
+<ul>
+<li><code>"09:00"</code> and <code>"17:30"</code>: 8 hours 30 minutes. In what form: <code>510</code> minutes, <code>"8:30"</code>, <code>(8, 30)</code>?</li>
+<li><code>"17:30"</code> and <code>"09:00"</code>: is that minus 8:30, or 15:30 (from 5.30 pm to 9 the next morning)?</li>
+<li><code>"23:00"</code> and <code>"01:00"</code>: probably 2 hours, across midnight. Is that the same rule as the previous one?</li>
+<li><code>"9:5"</code>: allowed? <code>"24:00"</code>?</li>
+</ul>
+<p>None of these are hard to program. All of them are decisions, and each one would be a bug if you guessed differently from what was meant. In real work you&rsquo;d <strong>ask</strong>. In an exercise, the examples given usually answer them; read them closely.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>When you find a gap, write your decision down as an example: <code>diff("23:00", "01:00") == 120</code>. Now the decision is visible, and it becomes a check.</p></aside>
+<h3 id="questions-to-ask-every-time">Questions to ask every time</h3>
+<ul>
+<li>What exactly are the inputs: types, ranges, formats? Can they be empty?</li>
+<li>What exactly is the output: type, format, order?</li>
+<li>What happens at the edges: zero, one, none, the largest, ties, duplicates?</li>
+<li>What should happen with bad input: an error, a special value, or can I assume it won&rsquo;t happen?</li>
+<li>Is there an example in the description? Do my rules give the same answer for it?</li>
+</ul>
+<h2 id="examples-become-checks">Examples become checks</h2>
+<p>Every worked example is a ready-made check. Write them <strong>before</strong> the function, and you&rsquo;ll know the moment it works, and the moment a later change breaks it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d1-e2"><textarea class="pc-src pc-code" hidden>def clock_diff(start, end):
+    &quot;&quot;&quot;Minutes from start to end, going forward, so across midnight if needed.&quot;&quot;&quot;
+    def minutes(t):
+        h, m = t.split(&quot;:&quot;)
+        return int(h) * 60 + int(m)
+    return (minutes(end) - minutes(start)) % (24 * 60)
+
+assert clock_diff(&quot;09:00&quot;, &quot;17:30&quot;) == 510
+assert clock_diff(&quot;23:00&quot;, &quot;01:00&quot;) == 120
+assert clock_diff(&quot;17:30&quot;, &quot;09:00&quot;) == 930
+assert clock_diff(&quot;12:00&quot;, &quot;12:00&quot;) == 0
+print(&quot;all examples pass&quot;)</textarea></div>
+<p>The <code>% (24 * 60)</code> handles midnight in one step. From 23:00 to 01:00, the plain difference is 60 - 1380 = -1320 minutes, and <code>-1320 % 1440</code> is <code>120</code>. Python&rsquo;s <code>%</code> always gives a result from 0 up to (but not including) the divisor, which is exactly &ldquo;going forward round the clock&rdquo;. The examples confirmed it before we had to trust the reasoning.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Understanding a problem means: inputs, outputs and rules written down; at least two examples worked by hand, including an awkward one; every gap you found decided and written as an example; and those examples turned into checks.</p></aside>
+<h2 id="practice">Practice</h2>
+<p>In each exercise, work an example by hand <strong>before</strong> coding. The descriptions are complete, but read every sentence: each one matters.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d1-luhn_digit" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The check digit</div><div class="pc-prompt"><p>The last digit of a card number is a <strong>check digit</strong>, chosen so the whole number passes the Luhn check. Write <code>check_digit(partial)</code> that takes the digits without the check digit (a string, no spaces) and returns the digit (as an int, 0 to 9) that makes it valid. For <code>"7992739871"</code> it&rsquo;s <code>3</code>. Work out why by hand first: when the check digit is added on the right, which digits get doubled?</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def luhn(n):
+    t = 0
+    for i, ch in enumerate(reversed(n)):
+        d = int(ch) * (2 if i % 2 else 1)
+        t += d - 9 if d &gt; 9 else d
+    return t % 10 == 0
+def test_values():
+    &quot;several&quot;
+    assert check_digit(&quot;7992739871&quot;) == 3
+    for p in [&quot;453914880343646&quot;, &quot;0&quot;, &quot;12345&quot;, &quot;999999999&quot;]:
+        d = check_digit(p)
+        assert isinstance(d, int) and 0 &lt;= d &lt;= 9 and luhn(p + str(d)), f&quot;check_digit({p!r}) gave {d}&quot;</textarea><textarea class="pc-src pc-solution" hidden>def check_digit(partial):
+    total = 0
+    for i, ch in enumerate(reversed(partial)):
+        d = int(ch)
+        if i % 2 == 0:
+            d *= 2
+            if d &gt; 9:
+                d -= 9
+        total += d
+    return (10 - total % 10) % 10</textarea><template class="pc-src pc-hint">Once the check digit is added at the right, the <strong>rightmost digit of <code>partial</code></strong> becomes second from the right, so it&rsquo;s doubled. Add up <code>partial</code> that way, then the check digit is whatever brings the total to a multiple of 10: <code>(10 - total % 10) % 10</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d1-look_say" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Look and say</div><div class="pc-prompt"><p>In the <strong>look-and-say</strong> sequence, each term describes the previous one aloud: <code>1</code> is &ldquo;one 1&rdquo;, so the next term is <code>11</code>; that&rsquo;s &ldquo;two 1s&rdquo;, so <code>21</code>; then &ldquo;one 2, one 1&rdquo;, so <code>1211</code>; then <code>111221</code>. Write <code>next_term(term)</code> (strings in, string out), and <code>look_say(n)</code> that returns the first <code>n</code> terms as a list, starting from <code>"1"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert next_term(&quot;1&quot;) == &quot;11&quot; and next_term(&quot;1211&quot;) == &quot;111221&quot; and next_term(&quot;3&quot;) == &quot;13&quot;
+    assert look_say(6) == [&quot;1&quot;, &quot;11&quot;, &quot;21&quot;, &quot;1211&quot;, &quot;111221&quot;, &quot;312211&quot;]
+    assert look_say(0) == []</textarea><textarea class="pc-src pc-solution" hidden>def next_term(term):
+    out = []
+    i = 0
+    while i &lt; len(term):
+        j = i
+        while j &lt; len(term) and term[j] == term[i]:
+            j += 1
+        out.append(str(j - i) + term[i])
+        i = j
+    return &quot;&quot;.join(out)
+
+def look_say(n):
+    terms = []
+    term = &quot;1&quot;
+    for _ in range(n):
+        terms.append(term)
+        term = next_term(term)
+    return terms</textarea><template class="pc-src pc-hint">Work <code>111221</code> by hand: three 1s, two 2s, one 1. The program needs exactly that: walk through, count each run of the same digit, and write the count then the digit.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d1-kaprekar" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Kaprekar&rsquo;s routine</div><div class="pc-prompt"><p>Take a four-digit number whose digits aren&rsquo;t all the same (leading zeros allowed, so 0021 is fine). Arrange its digits in descending order and in ascending order, and subtract the smaller from the larger. Repeat with the result, always treating it as four digits (so 999 is 0999). The Indian mathematician D. R. Kaprekar found that this always reaches <strong>6174</strong> within 7 steps, and stays there. Write <code>kaprekar_steps(n)</code> that returns how many subtractions it takes to reach 6174 (0 for 6174 itself). Raise a <code>ValueError</code> if <code>n</code> isn&rsquo;t from 0 to 9999 or all its four digits are the same.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert kaprekar_steps(6174) == 0
+    assert kaprekar_steps(3524) == 3
+    assert kaprekar_steps(2111) == 5
+    assert kaprekar_steps(21) == 3 and kaprekar_steps(14) == 7
+    assert max(kaprekar_steps(n) for n in range(10000) if len(set(f&quot;{n:04d}&quot;)) &gt; 1) == 7
+    for bad in (1111, 0, 10000, -5):
+        try:
+            kaprekar_steps(bad)
+        except ValueError:
+            continue
+        raise AssertionError(f&quot;kaprekar_steps({bad}) should raise a ValueError&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def kaprekar_steps(n):
+    if not 0 &lt;= n &lt;= 9999 or len(set(f&quot;{n:04d}&quot;)) == 1:
+        raise ValueError(f&quot;not a valid start: {n}&quot;)
+    steps = 0
+    while n != 6174:
+        digits = sorted(f&quot;{n:04d}&quot;)
+        n = int(&quot;&quot;.join(reversed(digits))) - int(&quot;&quot;.join(digits))
+        steps += 1
+    return steps</textarea><template class="pc-src pc-hint">Work 3524 by hand: 5432 - 2345 = 3087; 8730 - 0378 = 8352; 8532 - 2358 = 6174. Three steps. <code>f"{n:04d}"</code> gives four digits with leading zeros.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d1-isbn" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">ISBN-10</div><div class="pc-prompt"><p>An old ISBN-10 book number has 10 characters: nine digits and a final check character, which is a digit or <code>X</code> (meaning 10). It&rsquo;s valid if 10 × the first + 9 × the second + &hellip; + 1 × the last is a multiple of 11. Hyphens are ignored. Write <code>isbn10_ok(text)</code>. <code>"0-306-40615-2"</code> is valid. Anything else, wrong length, letters other than a final <code>X</code>, is invalid (return <code>False</code>).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    for t in [&quot;0-306-40615-2&quot;, &quot;0306406152&quot;, &quot;0-8044-2957-X&quot;, &quot;080442957X&quot;]:
+        assert isbn10_ok(t) is True, t
+    for t in [&quot;0-306-40615-3&quot;, &quot;030640615&quot;, &quot;X306406152&quot;, &quot;0-306-4O615-2&quot;, &quot;&quot;, &quot;0-8044-2957-x5&quot;]:
+        assert isbn10_ok(t) is False, t</textarea><textarea class="pc-src pc-solution" hidden>def isbn10_ok(text):
+    chars = text.replace(&quot;-&quot;, &quot;&quot;)
+    if len(chars) != 10 or not chars[:9].isdigit() or not (chars[9].isdigit() or chars[9] == &quot;X&quot;):
+        return False
+    values = [int(c) for c in chars[:9]] + [10 if chars[9] == &quot;X&quot; else int(chars[9])]
+    return sum(w * v for w, v in zip(range(10, 0, -1), values)) % 11 == 0</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d1-examples_first" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Examples first</div><div class="pc-prompt"><p>Here&rsquo;s a description with gaps: <em>&ldquo;Write <code>shorten(text, n)</code> that shortens text to at most n characters, adding &lsquo;&hellip;&rsquo; if it was cut.&rdquo;</em> The examples below decide the gaps. Study them, write down the rules they imply, then write the function.</p>
+<pre><code>shorten(&quot;Hello world&quot;, 20)      -&gt;  &quot;Hello world&quot;      (fits: unchanged)
+shorten(&quot;Hello world&quot;, 8)       -&gt;  &quot;Hello...&quot;         (the result, dots included, is at most 8)
+shorten(&quot;Hello world&quot;, 11)      -&gt;  &quot;Hello world&quot;      (exactly fits)
+shorten(&quot;Hello wonderful world&quot;, 15)  -&gt;  &quot;Hello...&quot;   (cut at a space: never mid-word)
+shorten(&quot;Supercalifragilistic&quot;, 10)   -&gt;  &quot;Superca...&quot; (one long word: cut mid-word after all)
+shorten(&quot;Hi&quot;, 2)                -&gt;  &quot;Hi&quot;
+shorten(&quot;Hello&quot;, 3)             -&gt;  &quot;...&quot;
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_examples():
+    &quot;the examples&quot;
+    assert shorten(&quot;Hello world&quot;, 20) == &quot;Hello world&quot;
+    assert shorten(&quot;Hello world&quot;, 8) == &quot;Hello...&quot;
+    assert shorten(&quot;Hello world&quot;, 11) == &quot;Hello world&quot;
+    assert shorten(&quot;Hello wonderful world&quot;, 15) == &quot;Hello...&quot;
+    assert shorten(&quot;Supercalifragilistic&quot;, 10) == &quot;Superca...&quot;
+    assert shorten(&quot;Hi&quot;, 2) == &quot;Hi&quot;
+    assert shorten(&quot;Hello&quot;, 3) == &quot;...&quot;
+def test_more():
+    &quot;more cases&quot;
+    assert shorten(&quot;a b c d e f&quot;, 7) == &quot;a b...&quot;
+    assert shorten(&quot;one two&quot;, 6) == &quot;one...&quot;</textarea><textarea class="pc-src pc-solution" hidden>def shorten(text, n):
+    if len(text) &lt;= n:
+        return text
+    room = text[:n - 3]
+    if &quot; &quot; in room:
+        room = room[:room.rfind(&quot; &quot;)]
+    return room.rstrip() + &quot;...&quot;</textarea><template class="pc-src pc-hint">The rules: if it fits, unchanged. Otherwise there are <code>n - 3</code> characters of room for text. Take that much, then cut back to the last space in it if there is one, and strip trailing spaces. Add the dots.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d1-write_checks" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Checks before code</div><div class="pc-prompt"><p>Before anyone writes <code>median(values)</code>, write the checks. Write <code>median_checks()</code>, which uses <code>assert</code> to check <code>median</code> on worked examples: an odd-length list, an even-length list (the mean of the middle two), an unsorted list, a list with repeats, a one-item list, negative numbers, and that it doesn&rsquo;t change the list it&rsquo;s given. The checker runs your checks against a correct <code>median</code> and against four broken ones.</p></div><textarea class="pc-src pc-code" hidden>def median(values):
+    s = sorted(values)
+    mid = len(s) // 2
+    return s[mid] if len(s) % 2 else (s[mid - 1] + s[mid]) / 2
+
+def median_checks():
+    ___
+
+median_checks()
+print(&quot;checks pass&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def b_unsorted(values):
+    mid = len(values) // 2
+    return values[mid] if len(values) % 2 else (values[mid - 1] + values[mid]) / 2
+def b_even(values):
+    s = sorted(values)
+    return s[len(s) // 2]
+def b_mutates(values):
+    values.sort()
+    mid = len(values) // 2
+    return values[mid] if len(values) % 2 else (values[mid - 1] + values[mid]) / 2
+def b_int(values):
+    s = sorted(values)
+    mid = len(s) // 2
+    return s[mid] if len(s) % 2 else (s[mid - 1] + s[mid]) // 2
+def test_pass():
+    &quot;pass with the real median&quot;
+    median_checks()
+def test_catch():
+    &quot;catch the broken ones&quot;
+    g = median_checks.__globals__
+    real = g[&quot;median&quot;]
+    missed = []
+    for name, fn in [(&quot;ignores order&quot;, b_unsorted), (&quot;even length wrong&quot;, b_even), (&quot;changes the list&quot;, b_mutates), (&quot;rounds the even case down&quot;, b_int)]:
+        g[&quot;median&quot;] = fn
+        try:
+            median_checks()
+            missed.append(name)
+        except Exception:
+            pass
+        finally:
+            g[&quot;median&quot;] = real
+    assert not missed, &quot;Your checks didn&#x27;t catch: &quot; + &quot;, &quot;.join(missed)</textarea><textarea class="pc-src pc-solution" hidden>def median(values):
+    s = sorted(values)
+    mid = len(s) // 2
+    return s[mid] if len(s) % 2 else (s[mid - 1] + s[mid]) / 2
+
+def median_checks():
+    assert median([1, 2, 3]) == 2
+    assert median([3, 1, 2]) == 2
+    assert median([4, 1, 3, 2]) == 2.5
+    assert median([5, 5, 1]) == 5
+    assert median([7]) == 7
+    assert median([-3, -1, -2]) == -2
+    v = [3, 1, 2]
+    median(v)
+    assert v == [3, 1, 2]
+
+median_checks()
+print(&quot;checks pass&quot;)</textarea><template class="pc-src pc-hint"><code>[3, 1, 2]</code> (unsorted, odd) and <code>[4, 1, 3, 2]</code> (unsorted, even: the median is 2.5, which also catches rounding down). To check for changes, keep a copy: <code>v = [3, 1, 2]</code>, <code>median(v)</code>, then <code>assert v == [3, 1, 2]</code>.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w014d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The wrong question</div><div class="pc-prompt"><p>The brief: <em>&ldquo;Return how many days are left until the end of the year, not counting today.&rdquo;</em> The function below was written for a different question. Using the examples, work out what it gets wrong, and fix it. <code>date</code> objects come from the <code>datetime</code> module, and subtracting two gives a difference whose <code>.days</code> is a whole number.</p></div><textarea class="pc-src pc-code" hidden>from datetime import date
+
+def days_left(today):
+    end = date(today.year, 12, 31)
+    return (end - today).days + 1</textarea><textarea class="pc-src pc-tests" hidden>from datetime import date
+def test_values():
+    &quot;examples&quot;
+    assert days_left(date(2026, 12, 31)) == 0
+    assert days_left(date(2026, 12, 30)) == 1
+    assert days_left(date(2026, 1, 1)) == 364
+    assert days_left(date(2024, 1, 1)) == 365</textarea><textarea class="pc-src pc-solution" hidden>from datetime import date
+
+def days_left(today):
+    end = date(today.year, 12, 31)
+    return (end - today).days</textarea><template class="pc-src pc-hint">On 31 December, how many days are left, not counting today? Work it by hand.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Work it by hand</div><div class="pc-prompt"><p>Use the rules from today, working by hand, not by running code.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # luhn_ok(&quot;18&quot;) (True or False)
+b = ___   # clock_diff(&quot;22:15&quot;, &quot;06:45&quot;) in minutes
+c = ___   # next_term(&quot;312211&quot;)
+d = ___   # the 6174 step from 6174 itself: 7641 - 1467</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a is True
+    assert b == 510
+    assert c == &quot;13112221&quot;
+    assert d == 6174</textarea><textarea class="pc-src pc-solution" hidden>a = True
+b = 510
+c = &quot;13112221&quot;
+d = 6174</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w014d1-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What are P\u00f3lya&rsquo;s four steps?", "answer": 1, "explain": "Understanding comes first.", "options": ["Code, test, debug, ship", "Understand, plan, carry out, look back", "Read, write, run, fix", "Input, process, output, store"]}, {"type": "mc", "q": "Why work an example by hand before coding?", "answer": 1, "explain": "Three benefits for a few minutes&rsquo; work.", "options": ["It&rsquo;s required", "It checks you understand the rule, shows the steps, and gives you a known answer to test against", "It&rsquo;s faster than running code", "It isn&rsquo;t useful"]}, {"type": "mc", "q": "You find a case the description doesn&rsquo;t cover. What should you do?", "answer": 2, "explain": "A decision, not an accident.", "options": ["Ignore it", "Guess and move on", "Ask, or decide explicitly and write the decision as an example", "Make the program crash"]}, {"type": "mc", "q": "What does <code>-120 % 1440</code> give in Python?", "answer": 1, "explain": "Python&rsquo;s % result has the sign of the divisor.", "options": ["-120", "1320", "120", "An error"]}, {"type": "mc", "q": "Which is an output question?", "answer": 1, "explain": "The others are about the input.", "options": ["Can the list be empty?", "Should the result be minutes or a string like &lsquo;8:30&rsquo;?", "Are the times 24-hour?", "Can there be spaces?"]}, {"type": "mc", "q": "Why write checks before the function?", "answer": 1, "explain": "Examples become checks.", "options": ["They run faster", "You know exactly when it works, and when a later change breaks it", "Python needs them", "To save typing"]}, {"type": "mc", "q": "The brief says &lsquo;at most n characters&rsquo;. Which example decides whether the &lsquo;&hellip;&rsquo; counts?", "answer": 1, "explain": "8 characters including the dots.", "options": ["shorten(&lsquo;Hi&rsquo;, 2)", "shorten(&lsquo;Hello world&rsquo;, 8) giving &lsquo;Hello&hellip;&rsquo;", "shorten(&lsquo;Hello world&rsquo;, 20)"]}, {"type": "mc", "q": "Which input should you think about for almost every problem?", "answer": 3, "explain": "Tomorrow is all about this.", "options": ["The empty one", "A very long one", "One with one item", "All of these"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the next date</div><div class="pc-prompt"><p>Write <code>next_day(text)</code> that takes a date written <code>YYYY-MM-DD</code> and returns the next day&rsquo;s date in the same format, <strong>without</strong> using the <code>datetime</code> module. Raise a <code>ValueError</code> (message <code>invalid date:</code> and the text in quotes) for anything that isn&rsquo;t a real date from year 1 to 9999. Work examples by hand first: an ordinary day, the end of a 30-day month, the end of February in a leap year and in a non-leap year (remember the century rule), and New Year&rsquo;s Eve.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def bad(t):
+    try:
+        next_day(t)
+    except ValueError as e:
+        assert str(e) == f&quot;invalid date: {t!r}&quot;
+        return
+    raise AssertionError(f&quot;{t!r} should raise a ValueError&quot;)
+def test_values():
+    &quot;several&quot;
+    assert next_day(&quot;2026-10-27&quot;) == &quot;2026-10-28&quot;
+    assert next_day(&quot;2026-04-30&quot;) == &quot;2026-05-01&quot;
+    assert next_day(&quot;2024-02-28&quot;) == &quot;2024-02-29&quot;
+    assert next_day(&quot;2024-02-29&quot;) == &quot;2024-03-01&quot;
+    assert next_day(&quot;2026-02-28&quot;) == &quot;2026-03-01&quot;
+    assert next_day(&quot;1900-02-28&quot;) == &quot;1900-03-01&quot;
+    assert next_day(&quot;2000-02-28&quot;) == &quot;2000-02-29&quot;
+    assert next_day(&quot;2026-12-31&quot;) == &quot;2027-01-01&quot;
+    assert next_day(&quot;0009-12-31&quot;) == &quot;0010-01-01&quot;
+def test_bad():
+    &quot;invalid&quot;
+    for t in [&quot;2026-02-29&quot;, &quot;2026-13-01&quot;, &quot;2026-04-31&quot;, &quot;2026-1-01&quot;, &quot;2026/10/27&quot;, &quot;&quot;, &quot;9999-12-31&quot;, &quot;0000-01-01&quot;]:
+        bad(t)
+def test_all():
+    &quot;every day of four years&quot;
+    from datetime import date, timedelta
+    d = date(1999, 1, 1)
+    while d &lt; date(2003, 1, 1):
+        assert next_day(d.isoformat()) == (d + timedelta(days=1)).isoformat()
+        d += timedelta(days=1)
+    assert &quot;datetime&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def is_leap(y):
+    return y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
+
+def month_length(y, m):
+    return [31, 29 if is_leap(y) else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1]
+
+def next_day(text):
+    parts = text.split(&quot;-&quot;)
+    if [len(p) for p in parts] != [4, 2, 2] or not all(p.isdigit() for p in parts):
+        raise ValueError(f&quot;invalid date: {text!r}&quot;)
+    y, m, d = (int(p) for p in parts)
+    if not (1 &lt;= y &lt;= 9999 and 1 &lt;= m &lt;= 12 and 1 &lt;= d &lt;= month_length(y, m)) or (y, m, d) == (9999, 12, 31):
+        raise ValueError(f&quot;invalid date: {text!r}&quot;)
+    if d &lt; month_length(y, m):
+        d += 1
+    elif m &lt; 12:
+        m, d = m + 1, 1
+    else:
+        y, m, d = y + 1, 1, 1
+    return f&quot;{y:04d}-{m:02d}-{d:02d}&quot;</textarea><template class="pc-src pc-hint">Check the format first (three parts of 4, 2 and 2 digits), then the month and day using a list of month lengths. <code>9999-12-31</code> is invalid because its next day would be year 10000, which this format can&rsquo;t hold.</template><template class="pc-src pc-hint">To move on: if the day is less than the month&rsquo;s length, add 1 to the day. Otherwise day 1 of the next month, and if the month was 12, January of the next year. <code>f"{y:04d}-{m:02d}-{d:02d}"</code> formats the result.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Take any exercise from Phase 1 that you found hard, and write its inputs, outputs and rules in a table, with two worked examples, as if you&rsquo;d been given only one sentence. Notice how many decisions the exercise had already made for you. Tomorrow: edge cases, the inputs where most bugs live.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w012d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w014d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w014d1", "week": 14, "day": 1, "title": "Understanding the problem", "exercises": [{"id": "w014d1-luhn_digit", "title": "The check digit", "points": 10}, {"id": "w014d1-look_say", "title": "Look and say", "points": 10}, {"id": "w014d1-kaprekar", "title": "Kaprekar's routine", "points": 15}, {"id": "w014d1-isbn", "title": "ISBN-10", "points": 10}, {"id": "w014d1-examples_first", "title": "Examples first", "points": 15}, {"id": "w014d1-write_checks", "title": "Checks before code", "points": 15}, {"id": "w014d1-bug1", "title": "The wrong question", "points": 10}, {"id": "w014d1-trace", "title": "Work it by hand", "points": 15}, {"id": "w014d1-challenge", "title": "Challenge: the next date", "points": 25}], "points": 125}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

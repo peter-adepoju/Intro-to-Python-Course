@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="8d61681a02">
+<title>Week 14 Day 5: Your pattern library | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=8d61681a02">
+<link rel="stylesheet" href="../assets/css/site.css?v=8d61681a02">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=8d61681a02"></script>
+<script src="../assets/vendor/codemirror.js?v=8d61681a02" defer></script>
+<meta name="description" content="Experienced programmers rarely invent a solution from nothing. They recognise the shape of a problem, “this is a running total”, “this needs a seen-set”,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w014d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 14 Day 5: Your pattern library">
+<meta property="og:description" content="Experienced programmers rarely invent a solution from nothing. They recognise the shape of a problem, “this is a running total”, “this needs a seen-set”,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w014d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-14">Week 14: A method for solving problems</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#the-patterns-you-know" data-sec="the-patterns-you-know">The patterns you know</a></li><li><a href="#two-pointers" data-sec="two-pointers">Two pointers</a></li><li><a href="#sliding-windows" data-sec="sliding-windows">Sliding windows</a></li><li><a href="#prefix-sums" data-sec="prefix-sums">Prefix sums</a></li><li><a href="#choosing-a-pattern" data-sec="choosing-a-pattern">Choosing a pattern</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 2: Thinking like a programmer <span>Week 14, Day 5</span></p>
+      <h1>Your pattern library</h1>
+      <div class="day-intro"><p>Experienced programmers rarely invent a solution from nothing. They recognise the shape of a problem, &ldquo;this is a running total&rdquo;, &ldquo;this needs a seen-set&rdquo;, &ldquo;this is a sliding window&rdquo;, and reach for a pattern they&rsquo;ve used many times. Today you&rsquo;ll gather the patterns you already know into one library, add three powerful new ones (two pointers, sliding windows and prefix sums), and practise choosing the right one.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Name the common loop patterns and write each from memory</li><li>Recognise which pattern a problem needs from how it&rsquo;s described</li><li>Use two pointers on a sequence from both ends</li><li>Use a sliding window to examine every run of k neighbouring items efficiently</li><li>Use prefix sums to answer many range-total questions quickly</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="The patterns you know: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Two pointers: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Sliding windows: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Prefix sums: 20 min"></span><span class="plan-seg s1" style="flex:10" title="Choosing a pattern: 10 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The patterns you know</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Two pointers</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Sliding windows</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Prefix sums</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Choosing a pattern</span><span class="plan-min">10 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w014d5.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<p>For each of these, which loop would you write, without writing it?</p>
+<ol>
+<li>Is any mark below 40?</li>
+<li>The total of all the prices.</li>
+<li>The words that appear more than once.</li>
+<li>The position of the first negative number.</li>
+<li>The longest word.</li>
+</ol>
+<p>You probably &ldquo;saw&rdquo; the answer to each one before thinking about the details: a check that stops early, a running total, a seen-set, a search that stops at the first match, a best-so-far. Those are <strong>patterns</strong>, and naming them makes them easier to reach for.</p>
+<h2 id="the-patterns-you-know">The patterns you know</h2>
+<p>Here&rsquo;s your library so far, each with its skeleton. Every one of them has appeared in earlier weeks.</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Use it when the problem says&hellip;</th>
+<th>Skeleton</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Accumulate</strong></td>
+<td>total, product, join all</td>
+<td><code>total = 0</code> / <code>for x in xs: total += x</code></td>
+</tr>
+<tr>
+<td><strong>Count</strong></td>
+<td>how many</td>
+<td><code>n = 0</code> / <code>for x in xs: if cond: n += 1</code></td>
+</tr>
+<tr>
+<td><strong>Find first</strong></td>
+<td>the first&hellip;, where is&hellip;, does it contain</td>
+<td><code>for i, x in enumerate(xs): if cond: return i</code> / <code>return -1</code></td>
+</tr>
+<tr>
+<td><strong>Best so far</strong></td>
+<td>largest, smallest, longest, the most&hellip;</td>
+<td><code>best = xs[0]</code> / <code>for x in xs[1:]: if better(x, best): best = x</code></td>
+</tr>
+<tr>
+<td><strong>Filter</strong></td>
+<td>only the ones that&hellip;</td>
+<td><code>[x for x in xs if cond]</code></td>
+</tr>
+<tr>
+<td><strong>Transform</strong></td>
+<td>each one, changed</td>
+<td><code>[f(x) for x in xs]</code></td>
+</tr>
+<tr>
+<td><strong>Any / all</strong></td>
+<td>is there any&hellip;, are they all&hellip;</td>
+<td><code>any(cond for x in xs)</code></td>
+</tr>
+<tr>
+<td><strong>Frequency map</strong></td>
+<td>how many of each, most common</td>
+<td><code>counts[x] = counts.get(x, 0) + 1</code></td>
+</tr>
+<tr>
+<td><strong>Group</strong></td>
+<td>for each X, the Ys</td>
+<td><code>groups.setdefault(key(x), []).append(x)</code></td>
+</tr>
+<tr>
+<td><strong>Seen-set</strong></td>
+<td>duplicates, first repeat, unique</td>
+<td><code>if x in seen: ...</code> / <code>seen.add(x)</code></td>
+</tr>
+<tr>
+<td><strong>Neighbours</strong></td>
+<td>each with the next, changes, rises</td>
+<td><code>for a, b in zip(xs, xs[1:]):</code></td>
+</tr>
+<tr>
+<td><strong>Stack</strong></td>
+<td>matching, nesting, undo, most recent</td>
+<td><code>stack.append(x)</code> / <code>stack.pop()</code></td>
+</tr>
+</tbody>
+</table>
+<div class="pc pc-example" data-kind="example" data-id="w014d5-e1"><div class="pc-title">Five patterns, five lines each</div><textarea class="pc-src pc-code" hidden>marks = [72, 38, 91, 55, 38, 64]
+print(&quot;any below 40:&quot;, any(m &lt; 40 for m in marks))
+print(&quot;total:&quot;, sum(marks))
+print(&quot;first below 40 at:&quot;, next((i for i, m in enumerate(marks) if m &lt; 40), -1))
+print(&quot;best:&quot;, max(marks))
+seen, repeats = set(), set()
+for m in marks:
+    if m in seen:
+        repeats.add(m)
+    seen.add(m)
+print(&quot;repeated:&quot;, repeats)</textarea></div>
+<p><code>next(generator, default)</code> gives the first value a generator produces, or the default if there are none: a compact &ldquo;find first&rdquo;.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>When you meet a problem, ask: which words in it match a pattern? &ldquo;How many of each&rdquo; is a frequency map. &ldquo;Is there any&rdquo; is <code>any</code>. Most problems are two or three patterns combined.</p></aside>
+<h2 id="two-pointers">Two pointers</h2>
+<p>Some problems on a sequence are easiest with <strong>two positions</strong> moving towards each other from the ends. The classic is checking a palindrome without making a reversed copy:</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d5-e2"><textarea class="pc-src pc-code" hidden>def is_palindrome(text):
+    left, right = 0, len(text) - 1
+    while left &lt; right:
+        if text[left] != text[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+
+for t in [&quot;level&quot;, &quot;racecar&quot;, &quot;python&quot;, &quot;&quot;, &quot;a&quot;, &quot;abba&quot;]:
+    print(repr(t), is_palindrome(t))</textarea></div>
+<p>The real power shows on <strong>sorted</strong> lists. To find two numbers in a sorted list that add up to a target: start at both ends. If the sum is too small, the only way to make it bigger is to move the left pointer right; if it&rsquo;s too big, move the right one left.</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d5-e3"><textarea class="pc-src pc-code" hidden>def pair_with_sum(sorted_values, target):
+    left, right = 0, len(sorted_values) - 1
+    while left &lt; right:
+        total = sorted_values[left] + sorted_values[right]
+        if total == target:
+            return sorted_values[left], sorted_values[right]
+        if total &lt; target:
+            left += 1
+        else:
+            right -= 1
+    return None
+
+print(pair_with_sum([1, 3, 4, 6, 8, 11], 10))
+print(pair_with_sum([1, 3, 4, 6, 8, 11], 13))</textarea></div>
+<p>Each step moves one pointer, so the whole list is examined in one pass, instead of trying every pair. (You&rsquo;ll measure how much that matters in Week 17.)</p>
+<h2 id="sliding-windows">Sliding windows</h2>
+<p>Many problems ask about every run of <code>k</code> <strong>neighbouring</strong> items: the best 3-day total, the busiest hour, the longest stretch without a repeat. The slow way adds up each window from scratch. The <strong>sliding window</strong> way keeps the current window&rsquo;s total and updates it as the window slides: add the item coming in, subtract the item going out.</p>
+<figure class="widget" data-widget="slidewindow"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Slide the window along. Each step does two sums, one item out and one item in, however big the window is. Change the window size with the slider.</figcaption></figure>
+<div class="pc pc-example" data-kind="example" data-id="w014d5-e4"><textarea class="pc-src pc-code" hidden>def best_window(values, k):
+    &quot;&quot;&quot;The largest total of k neighbouring values, and where that window starts.&quot;&quot;&quot;
+    if not 1 &lt;= k &lt;= len(values):
+        raise ValueError(&quot;k must be between 1 and the number of values&quot;)
+    total = sum(values[:k])
+    best, best_start = total, 0
+    for i in range(k, len(values)):
+        total += values[i] - values[i - k]
+        if total &gt; best:
+            best, best_start = total, i - k + 1
+    return best, best_start
+
+sales = [4, 2, 12, 3, 8, 1, 7, 9, 2, 5]
+print(best_window(sales, 3))</textarea></div>
+<p>Windows can also <strong>stretch and shrink</strong>: to find the longest run of different characters, grow the window on the right, and shrink it from the left whenever a repeat gets in. You&rsquo;ll do that in the daily challenge.</p>
+<h2 id="prefix-sums">Prefix sums</h2>
+<p>Suppose you&rsquo;ll be asked many questions like &ldquo;what&rsquo;s the total from position 3 to position 7?&rdquo;. Adding up each range is slow if there are many questions. Instead, work out once the <strong>running totals</strong>, where <code>prefix[i]</code> is the sum of the first <code>i</code> items. Then any range total is one subtraction:</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d5-e5"><textarea class="pc-src pc-code" hidden>values = [4, 2, 12, 3, 8, 1, 7]
+prefix = [0]
+for v in values:
+    prefix.append(prefix[-1] + v)
+print(prefix)
+
+def range_sum(i, j):
+    &quot;&quot;&quot;The sum of values[i] to values[j], including both.&quot;&quot;&quot;
+    return prefix[j + 1] - prefix[i]
+
+print(range_sum(2, 4), sum(values[2:5]))
+print(range_sum(0, 6), sum(values))</textarea></div>
+<p><code>prefix</code> has one more item than <code>values</code>, starting with 0, so that the empty range and the range from the start need no special cases.</p>
+<h2 id="choosing-a-pattern">Choosing a pattern</h2>
+<table>
+<thead>
+<tr>
+<th>The problem mentions&hellip;</th>
+<th>Try</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>each item compared with the next</td>
+<td>neighbours</td>
+</tr>
+<tr>
+<td>a pair, in a sorted list, or the two ends</td>
+<td>two pointers</td>
+</tr>
+<tr>
+<td>every run of k neighbouring items, or the longest stretch with some property</td>
+<td>sliding window</td>
+</tr>
+<tr>
+<td>many questions about totals of ranges</td>
+<td>prefix sums</td>
+</tr>
+<tr>
+<td>matching, nesting, &ldquo;most recent&rdquo;</td>
+<td>stack</td>
+</tr>
+<tr>
+<td>&ldquo;have I seen this before?&rdquo;</td>
+<td>seen-set</td>
+</tr>
+<tr>
+<td>&ldquo;how many of each?&rdquo;</td>
+<td>frequency map</td>
+</tr>
+</tbody>
+</table>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d5-name_it" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Name the pattern</div><div class="pc-prompt"><p>For each problem, set the variable to the name of the pattern that fits best, chosen from: <code>"accumulate"</code>, <code>"count"</code>, <code>"find first"</code>, <code>"best so far"</code>, <code>"any/all"</code>, <code>"frequency map"</code>, <code>"group"</code>, <code>"seen-set"</code>, <code>"neighbours"</code>, <code>"stack"</code>, <code>"two pointers"</code>, <code>"sliding window"</code>, <code>"prefix sums"</code>.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # The largest increase in temperature from one day to the next.
+b = ___   # For each author, the list of their books.
+c = ___   # The busiest 7-day period in a year of daily sales.
+d = ___   # Check that every opening tag in an HTML page has its closing tag, in the right order.
+e = ___   # Answer 10,000 questions of the form &quot;how much rain fell between day i and day j?&quot;
+f = ___   # In a sorted list of prices, is there a pair that costs exactly my budget?</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;neighbours&quot;, &quot;a&quot;
+    assert b == &quot;group&quot;, &quot;b&quot;
+    assert c == &quot;sliding window&quot;, &quot;c&quot;
+    assert d == &quot;stack&quot;, &quot;d&quot;
+    assert e == &quot;prefix sums&quot;, &quot;e&quot;
+    assert f == &quot;two pointers&quot;, &quot;f&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;neighbours&quot;
+b = &quot;group&quot;
+c = &quot;sliding window&quot;
+d = &quot;stack&quot;
+e = &quot;prefix sums&quot;
+f = &quot;two pointers&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d5-reverse_words" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Two pointers: reverse in place</div><div class="pc-prompt"><p>Write <code>reverse_in_place(items)</code> that reverses a list <strong>in place</strong> using two pointers and swaps, without <code>reverse</code>, <code>reversed</code> or slicing with <code>[::-1]</code>. It returns <code>None</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    for v in ([1, 2, 3, 4], [1, 2, 3], [], [7]):
+        w = list(v)
+        assert reverse_in_place(w) is None
+        assert w == v[::-1], f&quot;{v}&quot;
+    assert &quot;.reverse(&quot; not in source and &quot;reversed(&quot; not in source and &quot;[::-1]&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def reverse_in_place(items):
+    left, right = 0, len(items) - 1
+    while left &lt; right:
+        items[left], items[right] = items[right], items[left]
+        left += 1
+        right -= 1</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d5-clean_palindrome" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A sentence palindrome</div><div class="pc-prompt"><p>Write <code>sentence_palindrome(text)</code> that checks whether text reads the same backwards when you ignore everything except letters, and ignore case, using two pointers that skip non-letters (don&rsquo;t build a cleaned copy). <code>"A man, a plan, a canal: Panama!"</code> is one.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert sentence_palindrome(&quot;A man, a plan, a canal: Panama!&quot;) is True
+    assert sentence_palindrome(&quot;Was it a car or a cat I saw?&quot;) is True
+    assert sentence_palindrome(&quot;Python&quot;) is False
+    assert sentence_palindrome(&quot;&quot;) is True and sentence_palindrome(&quot;!!&quot;) is True</textarea><textarea class="pc-src pc-solution" hidden>def sentence_palindrome(text):
+    left, right = 0, len(text) - 1
+    while left &lt; right:
+        if not text[left].isalpha():
+            left += 1
+        elif not text[right].isalpha():
+            right -= 1
+        elif text[left].lower() != text[right].lower():
+            return False
+        else:
+            left += 1
+            right -= 1
+    return True</textarea><template class="pc-src pc-hint">Inside the main loop, move <code>left</code> right while it&rsquo;s on a non-letter (and still <code>&lt; right</code>); likewise move <code>right</code> left. Then compare the two letters in lower case.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d5-avg_window" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Moving averages</div><div class="pc-prompt"><p>Write <code>moving_averages(values, k)</code> that returns the average of every window of <code>k</code> neighbouring values, each rounded to 2 places, using a sliding window (a running total, not <code>sum</code> of each window). Raise a <code>ValueError</code> if <code>k</code> isn&rsquo;t from 1 to <code>len(values)</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert moving_averages([1, 2, 3, 4, 5], 2) == [1.5, 2.5, 3.5, 4.5]
+    assert moving_averages([10, 20, 30], 3) == [20.0]
+    assert moving_averages([4, 8], 1) == [4.0, 8.0]
+    for v, k in (([1, 2], 3), ([1, 2], 0), ([], 1)):
+        try:
+            moving_averages(v, k)
+        except ValueError:
+            continue
+        raise AssertionError(f&quot;moving_averages({v}, {k}) should raise&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def moving_averages(values, k):
+    if not 1 &lt;= k &lt;= len(values):
+        raise ValueError(&quot;bad window size&quot;)
+    total = sum(values[:k])
+    result = [round(total / k, 2)]
+    for i in range(k, len(values)):
+        total += values[i] - values[i - k]
+        result.append(round(total / k, 2))
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d5-prefix_rain" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Rainfall questions</div><div class="pc-prompt"><p>Write <code>rainfall_answers(daily, questions)</code> where <code>daily</code> is a list of daily rainfall amounts and each question is a tuple <code>(i, j)</code> asking for the total from day <code>i</code> to day <code>j</code> inclusive (days counted from 0). Return the list of answers, building a prefix-sum list once.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    daily = [3, 0, 12, 5, 0, 0, 8]
+    assert rainfall_answers(daily, [(0, 6), (2, 3), (4, 5), (6, 6), (0, 0)]) == [28, 17, 0, 8, 3]
+    assert rainfall_answers([], []) == []</textarea><textarea class="pc-src pc-solution" hidden>def rainfall_answers(daily, questions):
+    prefix = [0]
+    for amount in daily:
+        prefix.append(prefix[-1] + amount)
+    return [prefix[j + 1] - prefix[i] for i, j in questions]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d5-pattern_combo" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Two patterns at once</div><div class="pc-prompt"><p>Write <code>first_repeated_pair(words)</code> that returns the first pair of <strong>neighbouring</strong> words, as a tuple, that has appeared as neighbours before (in the same order), or <code>None</code>. In <code>"to be or not to be"</code> the pair <code>("to", "be")</code> appears at the start and again at the end, so it&rsquo;s the answer. It combines two patterns: name them before you start.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert first_repeated_pair(&quot;to be or not to be&quot;.split()) == (&quot;to&quot;, &quot;be&quot;)
+    assert first_repeated_pair(&quot;a b a b&quot;.split()) == (&quot;a&quot;, &quot;b&quot;)
+    assert first_repeated_pair(&quot;a b b a&quot;.split()) is None
+    assert first_repeated_pair([]) is None</textarea><textarea class="pc-src pc-solution" hidden>def first_repeated_pair(words):
+    seen = set()
+    for pair in zip(words, words[1:]):
+        if pair in seen:
+            return pair
+        seen.add(pair)
+    return None</textarea><template class="pc-src pc-hint">Neighbours (<code>zip(words, words[1:])</code>) and a seen-set of pairs.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w014d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The window that drifts</div><div class="pc-prompt"><p><code>best_window_sum(values, k)</code> should return the largest sum of <code>k</code> neighbouring values. Its sliding update is wrong. Find the bug by desk-checking <code>[1, 2, 3, 4]</code> with <code>k = 2</code> (the answer is 7).</p></div><textarea class="pc-src pc-code" hidden>def best_window_sum(values, k):
+    total = sum(values[:k])
+    best = total
+    for i in range(k, len(values)):
+        total += values[i] - values[i - k + 1]
+        best = max(best, total)
+    return best</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert best_window_sum([1, 2, 3, 4], 2) == 7
+    assert best_window_sum([5, 1, 1, 5], 2) == 6
+    assert best_window_sum([2, 9, 1], 1) == 9</textarea><textarea class="pc-src pc-solution" hidden>def best_window_sum(values, k):
+    total = sum(values[:k])
+    best = total
+    for i in range(k, len(values)):
+        total += values[i] - values[i - k]
+        best = max(best, total)
+    return best</textarea></div>
+<div class="parsons" data-id="w014d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Prefix sums</div><div class="pc-prompt"><p>Arrange the lines to build the prefix sums of <code>values</code> and print the total of positions 1 to 3, <code>9</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["values = [5, 2, 3, 4, 1]", "prefix = [0]", "for v in values:", "    prefix.append(prefix[-1] + v)", "print(prefix[4] - prefix[1])"], "distractors": ["print(prefix[3] - prefix[1])"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # next((x for x in [3, 8, 2, 9] if x &gt; 5), None)
+b = ___   # the prefix sums of [2, 0, 5] (with the leading 0)
+c = ___   # list(zip([1, 4, 9], [4, 9]))
+d = ___   # pair_with_sum([1, 2, 3, 9], 5)   (the two-pointer version above)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 8
+    assert b == [0, 2, 2, 7]
+    assert c == [(1, 4), (4, 9)]
+    assert d == (2, 3)</textarea><textarea class="pc-src pc-solution" hidden>a = 8
+b = [0, 2, 2, 7]
+c = [(1, 4), (4, 9)]
+d = (2, 3)</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w014d5-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "Which pattern answers &ldquo;for each class, the list of students&rdquo;?", "answer": 1, "explain": "key \u2192 list.", "options": ["frequency map", "group", "seen-set", "stack"]}, {"type": "mc", "q": "Why does two pointers work for finding a pair with a given sum in a sorted list?", "answer": 1, "explain": "Each step rules out one value for good.", "options": ["It&rsquo;s random", "If the sum is too small only moving left up can help, and if too big only moving right down can", "It tries every pair", "Sorting isn&rsquo;t needed"]}, {"type": "mc", "q": "How does a sliding window update its total?", "answer": 1, "explain": "Two operations per step.", "options": ["Adds up the whole window again", "Adds the item coming in and subtracts the item going out", "Doubles it", "Sorts the window"]}, {"type": "text", "q": "With <code>prefix = [0, 4, 6, 18, 21]</code>, what&rsquo;s the sum of values[1] to values[3]?", "answer": ["17"], "explain": "prefix[4] - prefix[1] = 21 - 4."}, {"type": "mc", "q": "Why does <code>prefix</code> start with 0?", "answer": 1, "explain": "prefix[j + 1] - prefix[0] is just prefix[j + 1].", "options": ["Tradition", "So a range starting at position 0 needs no special case", "To make it longer", "It doesn&rsquo;t need to"]}, {"type": "mc", "q": "What does <code>next((i for i, x in enumerate(xs) if x &lt; 0), -1)</code> do?", "answer": 1, "explain": "A compact find-first.", "options": ["Counts negatives", "Gives the position of the first negative, or -1", "Removes negatives", "Gives the last negative"]}, {"type": "mc", "q": "Which pattern fits &ldquo;the longest stretch of days with no rain&rdquo;?", "answer": 1, "explain": "A run of neighbours with a property.", "options": ["stack", "sliding window (or a running count)", "prefix sums", "group"]}, {"type": "mc", "q": "Most real problems need how many patterns?", "answer": 1, "explain": "Patterns are building blocks.", "options": ["Exactly one", "Usually two or three combined", "None", "All of them"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the longest run without repeats</div><div class="pc-prompt"><p>Write <code>longest_unique(text)</code> that returns the longest stretch of <strong>neighbouring</strong> characters in <code>text</code> with no character repeated (the first one, if several are equally long). For <code>"abcabcbb"</code> it&rsquo;s <code>"abc"</code>; for <code>"pwwkew"</code> it&rsquo;s <code>"wke"</code>. Use a window that stretches and shrinks: move the right edge along one character at a time, and whenever the new character is already in the window, move the left edge just past its previous position. Go through the text once.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert longest_unique(&quot;abcabcbb&quot;) == &quot;abc&quot;
+    assert longest_unique(&quot;pwwkew&quot;) == &quot;wke&quot;
+    assert longest_unique(&quot;bbbbb&quot;) == &quot;b&quot;
+    assert longest_unique(&quot;&quot;) == &quot;&quot;
+    assert longest_unique(&quot;abba&quot;) == &quot;ab&quot;
+    assert longest_unique(&quot;dvdf&quot;) == &quot;vdf&quot;
+    assert longest_unique(&quot;python atlas&quot;) == &quot;python a&quot;</textarea><textarea class="pc-src pc-solution" hidden>def longest_unique(text):
+    last_seen = {}
+    left = 0
+    best = &quot;&quot;
+    for right, ch in enumerate(text):
+        if ch in last_seen and last_seen[ch] &gt;= left:
+            left = last_seen[ch] + 1
+        last_seen[ch] = right
+        if right - left + 1 &gt; len(best):
+            best = text[left:right + 1]
+    return best</textarea><template class="pc-src pc-hint">Keep <code>last_seen</code>, a dictionary from character to its latest position, and <code>left</code>, the start of the window. For each position <code>right</code>, if the character was last seen at or after <code>left</code>, set <code>left</code> to that position plus one. Then the window is <code>text[left:right + 1]</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Without looking, write the skeleton of each pattern in today&rsquo;s first table, and the three new ones. Keep the list somewhere you&rsquo;ll see it: you&rsquo;ll use it in the Forge tomorrow, which is a set of unseen problems to attack with the whole method.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w014d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w014d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w014d5", "week": 14, "day": 5, "title": "Your pattern library", "exercises": [{"id": "w014d5-name_it", "title": "Name the pattern", "points": 10}, {"id": "w014d5-reverse_words", "title": "Two pointers: reverse in place", "points": 10}, {"id": "w014d5-clean_palindrome", "title": "A sentence palindrome", "points": 10}, {"id": "w014d5-avg_window", "title": "Moving averages", "points": 15}, {"id": "w014d5-prefix_rain", "title": "Rainfall questions", "points": 15}, {"id": "w014d5-pattern_combo", "title": "Two patterns at once", "points": 15}, {"id": "w014d5-bug1", "title": "The window that drifts", "points": 10}, {"id": "w014d5-trace", "title": "Predict them", "points": 15}, {"id": "w014d5-challenge", "title": "Challenge: the longest run without repeats", "points": 25}], "points": 125}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

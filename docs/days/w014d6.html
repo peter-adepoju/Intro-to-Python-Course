@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="8d61681a02">
+<title>Week 14 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=8d61681a02">
+<link rel="stylesheet" href="../assets/css/site.css?v=8d61681a02">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=8d61681a02"></script>
+<script src="../assets/vendor/codemirror.js?v=8d61681a02" defer></script>
+<meta name="description" content="This week was about method: understand the problem, plan it, split it into pieces, recognise the patterns, check the edges. Today’s Forge is a chance to use...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w014d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 14 Day 6: Forge">
+<meta property="og:description" content="This week was about method: understand the problem, plan it, split it into pieces, recognise the patterns, check the edges. Today’s Forge is a chance to use...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w014d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-14">Week 14: A method for solving problems</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-wordle" data-sec="forge-wordle">Forge: Wordle</a></li><li><a href="#forge-bonus-a-bulls-and-cows-solver" data-sec="forge-bonus-a-bulls-and-cows-solver">Forge bonus: a Bulls and Cows solver</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-14-review" data-sec="week-14-review">Week 14 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 2: Thinking like a programmer <span>Week 14, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>This week was about method: understand the problem, plan it, split it into pieces, recognise the patterns, check the edges. Today&rsquo;s Forge is a chance to use all of it on something with real subtlety: the scoring and solving logic of the word game Wordle, where repeated letters trip up almost everyone&rsquo;s first attempt. The bonus teaches the computer to play Bulls and Cows by itself. The weekly quiz and review finish the week.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Pin down a subtle rule with worked examples before coding it</li><li>Decompose a game&rsquo;s logic into small functions you can check separately</li><li>Combine patterns (frequency maps, filters, best so far) into a solver</li><li>Check your solution against the awkward cases on purpose</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:60" title="Forge: Wordle: 60 min"></span><span class="plan-seg s1" style="flex:40" title="Forge bonus: a Bulls and Cows solver: 40 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 14 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: Wordle</span><span class="plan-min">60 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Forge bonus: a Bulls and Cows solver</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 14 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w014d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w014d6-p1"><textarea class="pc-src pc-code" hidden>print((5 - 9) % 7, -1 % 24)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w014d6-p2"><textarea class="pc-src pc-code" hidden>values = [3, 1, 4, 1, 5]
+print(list(zip(values, values[1:]))[-1], max(values, key=lambda v: -v))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w014d6-p3"><textarea class="pc-src pc-code" hidden>prefix = [0]
+for v in [2, 4, 6]:
+    prefix.append(prefix[-1] + v)
+print(prefix, prefix[3] - prefix[1])</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w014d6-p4"><textarea class="pc-src pc-code" hidden>from collections import Counter
+left = Counter(&quot;speed&quot;)
+left[&quot;e&quot;] -= 1
+print(left[&quot;e&quot;], left[&quot;z&quot;])</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w014d6-p5"><textarea class="pc-src pc-code" hidden>def f(items):
+    lo, hi = 0, len(items) - 1
+    while lo &lt; hi:
+        items[lo], items[hi] = items[hi], items[lo]
+        lo, hi = lo + 1, hi - 1
+x = [1, 2, 3]
+print(f(x), x)</textarea></div>
+<p>If any surprised you, revisit <a href="w014d1.html">understanding</a>, <a href="w014d2.html">edge cases</a>, <a href="w014d3.html">pseudocode</a>, <a href="w014d4.html">decomposition</a> or <a href="w014d5.html">patterns</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d6-mix_rotate" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Rotate a list</div><div class="pc-prompt"><p>Write <code>rotate(items, k)</code> that returns a new list rotated <code>k</code> places to the right: <code>rotate([1, 2, 3, 4, 5], 2)</code> is <code>[4, 5, 1, 2, 3]</code>. <code>k</code> can be larger than the list or negative (rotating left). An empty list gives <code>[]</code>. Work out the edge cases before you code.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;ordinary and edge&quot;
+    assert rotate([1, 2, 3, 4, 5], 2) == [4, 5, 1, 2, 3]
+    assert rotate([1, 2, 3, 4, 5], 7) == [4, 5, 1, 2, 3]
+    assert rotate([1, 2, 3, 4, 5], -1) == [2, 3, 4, 5, 1]
+    assert rotate([1, 2, 3], 0) == [1, 2, 3] and rotate([1, 2, 3], 3) == [1, 2, 3]
+    assert rotate([], 4) == []
+    v = [1, 2]
+    rotate(v, 1)
+    assert v == [1, 2]</textarea><textarea class="pc-src pc-solution" hidden>def rotate(items, k):
+    if not items:
+        return []
+    k %= len(items)
+    return items[-k:] + items[:-k] if k else list(items)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d6-mix_peaks" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Peaks</div><div class="pc-prompt"><p>A <strong>peak</strong> is a value bigger than both its neighbours; the first and last values count as peaks if they&rsquo;re bigger than their one neighbour. Write <code>peaks(values)</code> that returns the positions of the peaks. A list of one value has a peak at 0; an empty list has none.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;ordinary and edge&quot;
+    assert peaks([1, 3, 2, 5, 4]) == [1, 3]
+    assert peaks([5, 1, 6]) == [0, 2]
+    assert peaks([2, 2, 2]) == []
+    assert peaks([7]) == [0] and peaks([]) == []
+    assert peaks([1, 2]) == [1]</textarea><textarea class="pc-src pc-solution" hidden>def peaks(values):
+    result = []
+    for i, v in enumerate(values):
+        left = values[i - 1] if i &gt; 0 else None
+        right = values[i + 1] if i + 1 &lt; len(values) else None
+        if (left is None or v &gt; left) and (right is None or v &gt; right):
+            result.append(i)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d6-mix_balance" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Balance point</div><div class="pc-prompt"><p>Write <code>balance_index(values)</code> that returns the first position where the sum of the items to its left equals the sum of the items to its right (the item itself counts on neither side), or -1. Use a running total so you go through the list only once or twice.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert balance_index([1, 7, 3, 6, 5, 6]) == 3
+    assert balance_index([1, 2, 3]) == -1
+    assert balance_index([2, 1, -1]) == 0
+    assert balance_index([5]) == 0
+    assert balance_index([]) == -1</textarea><textarea class="pc-src pc-solution" hidden>def balance_index(values):
+    total = sum(values)
+    left = 0
+    for i, v in enumerate(values):
+        if left == total - left - v:
+            return i
+        left += v
+    return -1</textarea><template class="pc-src pc-hint"><code>total = sum(values)</code>. Walk through with <code>left</code> starting at 0: at position i, the right side is <code>total - left - values[i]</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d6-mix_compress" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Compress ranges</div><div class="pc-prompt"><p>Write <code>ranges(numbers)</code> that takes a sorted list of different whole numbers and describes it compactly: <code>[1, 2, 3, 5, 7, 8, 9, 10]</code> gives <code>"1-3,5,7-10"</code>. A run of two, like <code>[4, 5]</code>, is written <code>"4-5"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert ranges([1, 2, 3, 5, 7, 8, 9, 10]) == &quot;1-3,5,7-10&quot;
+    assert ranges([4, 5]) == &quot;4-5&quot;
+    assert ranges([6]) == &quot;6&quot; and ranges([]) == &quot;&quot;
+    assert ranges([-3, -2, 0]) == &quot;-3--2,0&quot;</textarea><textarea class="pc-src pc-solution" hidden>def ranges(numbers):
+    parts = []
+    i = 0
+    while i &lt; len(numbers):
+        j = i
+        while j + 1 &lt; len(numbers) and numbers[j + 1] == numbers[j] + 1:
+            j += 1
+        parts.append(str(numbers[i]) if i == j else f&quot;{numbers[i]}-{numbers[j]}&quot;)
+        i = j + 1
+    return &quot;,&quot;.join(parts)</textarea></div>
+<h2 id="forge-wordle">Forge: Wordle</h2>
+<p>In <strong>Wordle</strong>, you guess a five-letter word. Each letter of your guess is marked <strong>green</strong> if it&rsquo;s in the answer in that position, <strong>yellow</strong> if it&rsquo;s in the answer but somewhere else, and <strong>grey</strong> if it isn&rsquo;t in the answer. That sounds simple until letters repeat. Try these by hand before reading on (we&rsquo;ll write green as <code>G</code>, yellow as <code>Y</code>, grey as <code>.</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Answer</th>
+<th>Guess</th>
+<th>Feedback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>crane</code></td>
+<td><code>react</code></td>
+<td><code>YYGY.</code></td>
+</tr>
+<tr>
+<td><code>crane</code></td>
+<td><code>nanny</code></td>
+<td><code>.Y.G.</code></td>
+</tr>
+<tr>
+<td><code>abbey</code></td>
+<td><code>babes</code></td>
+<td><code>YYGG.</code></td>
+</tr>
+<tr>
+<td><code>speed</code></td>
+<td><code>erase</code></td>
+<td><code>Y..YY</code></td>
+</tr>
+</tbody>
+</table>
+<p>Look at <code>nanny</code>: the answer has one <code>n</code>, and it&rsquo;s matched green by the fourth letter. So the first and third <code>n</code>s are grey, not yellow: a letter can only be marked as many times as it appears in the answer, and greens claim their letters <strong>first</strong>. That&rsquo;s the rule people get wrong.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: Wordle</div><div class="pc-prompt"><p>Write the logic of Wordle and a simple solver, using the word list in <code>words.txt</code> (one five-letter word per line).</p>
+<ol>
+<li><code>feedback(answer, guess)</code>: the five-character feedback string, following the rules above exactly: first mark greens; then, going left to right, mark a letter yellow only if the answer still has an unmatched copy of it.</li>
+<li><code>load_words(path)</code>: the words in the file, stripped, lower case, as a list.</li>
+<li><code>consistent(word, guess, fb)</code>: whether <code>word</code> could be the answer, given that <code>guess</code> received the feedback <code>fb</code>. (Hint: there&rsquo;s a one-line answer using <code>feedback</code>.)</li>
+<li><code>remaining(words, history)</code>: the words consistent with <strong>every</strong> <code>(guess, feedback)</code> pair in <code>history</code>, in their original order.</li>
+<li><code>best_guess(candidates)</code>: the candidate that covers the most common letters. For each letter, count how many candidates contain it at least once; a word&rsquo;s score is the sum of those counts over its <strong>different</strong> letters. Return the highest-scoring word, the alphabetically first if tied.</li>
+</ol><details class="pc-file"><summary><code>words.txt</code></summary><pre class="pc-filetext">about
+above
+actor
+acute
+adapt
+admit
+adopt
+adult
+after
+again
+agent
+agree
+ahead
+alarm
+album
+alert
+alike
+alive
+allow
+alone
+along
+alter
+among
+angel
+anger
+angle
+angry
+apart
+apple
+apply
+arena
+argue
+arise
+armed
+aside
+asset
+audio
+avoid
+award
+aware
+badly
+baker
+basic
+beach
+began
+begin
+being
+below
+bench
+birth
+black
+blade
+blame
+blind
+block
+blood
+board
+boost
+booth
+bound
+brain
+brand
+bread
+break
+brief
+bring
+broad
+brown
+build
+built
+buyer
+cable
+carry
+catch
+cause
+chain
+chair
+chart
+chase
+cheap
+check
+chest
+chief
+child
+china
+chose
+civil
+claim
+class
+clean
+clear
+climb
+clock
+close
+coach
+coast
+could
+count
+court
+cover
+craft
+crash
+cream
+crime
+cross
+crowd
+crown
+curve
+cycle
+daily
+dance
+dated
+dealt
+death
+debut
+delay
+depth
+doing
+doubt
+dozen
+draft
+drama
+drawn
+dream
+dress
+drink
+drive
+drove
+dying
+eager
+early
+earth
+eight
+elite
+empty
+enemy
+enjoy
+enter
+entry
+equal
+error
+event
+every
+exact
+exist
+extra
+faith
+false
+fault
+fiber
+field
+fifth
+fifty
+fight
+final
+first
+fixed
+flash
+fleet
+floor
+fluid
+focus
+force
+forth
+forty
+forum
+found
+frame
+frank
+fraud
+fresh
+front
+fruit
+fully
+funny
+giant
+given
+glass
+globe
+going
+grace
+grade
+grand
+grant
+grass
+great
+green
+gross
+group
+grown
+guard
+guess
+guest
+guide
+happy
+heart
+heavy
+hence
+horse
+hotel
+house
+human
+ideal
+image
+index
+inner
+input
+issue
+joint
+judge
+known
+label
+large
+laser
+later
+laugh
+layer
+learn
+lease
+least
+leave
+legal
+level
+light
+limit
+links
+lives
+local
+logic
+loose
+lower
+lucky
+lunch
+lying
+magic
+major
+maker
+march
+match
+maybe
+mayor
+meant
+media
+metal
+might
+minor
+minus
+mixed
+model
+money
+month
+moral
+motor
+mount
+mouse
+mouth
+movie
+music
+needs
+never
+newly
+night
+noise
+north
+noted
+novel
+nurse
+occur
+ocean
+offer
+often
+order
+other
+ought
+paint
+panel
+paper
+party
+peace
+phase
+phone
+photo
+piece
+pilot
+pitch
+place
+plain
+plane
+plant
+plate
+point
+pound
+power
+press
+price
+pride
+prime
+print
+prior
+prize
+proof
+proud
+prove
+queen
+quick
+quiet
+quite
+radio
+raise
+range
+rapid
+ratio
+reach
+ready
+refer
+right
+rival
+river
+robin
+roger
+roman
+rough
+round
+route
+royal
+rural
+scale
+scene
+scope
+score
+sense
+serve
+seven
+shall
+shape
+share
+sharp
+sheet
+shelf
+shell
+shift
+shirt
+shock
+shoot
+short
+shown
+sight
+since
+sixth
+sixty
+sized
+skill
+sleep
+slide
+small
+smart
+smile
+smith
+smoke
+solid
+solve
+sorry
+sound
+south
+space
+spare
+speak
+speed
+spend
+spent
+split
+spoke
+sport
+staff
+stage
+stake
+stand
+start
+state
+steam
+steel
+stick
+still
+stock
+stone
+stood
+store
+storm
+story
+strip
+stuck
+study
+stuff
+style
+sugar
+suite
+super
+sweet
+table
+taken
+taste
+taxes
+teach
+teeth
+thank
+theft
+their
+theme
+there
+these
+thick
+thing
+think
+third
+those
+three
+threw
+throw
+tight
+times
+tired
+title
+today
+topic
+total
+touch
+tough
+tower
+track
+trade
+train
+treat
+trend
+trial
+tried
+tries
+truck
+truly
+trust
+truth
+twice
+under
+undue
+union
+unity
+until
+upper
+upset
+urban
+usage
+usual
+valid
+value
+video
+virus
+visit
+vital
+voice
+waste
+watch
+water
+wheel
+where
+which
+while
+white
+whole
+whose
+woman
+women
+world
+worry
+worse
+worst
+worth
+would
+wound
+write
+wrong
+wrote
+yield
+young
+youth
+</pre></details></div><textarea class="pc-src pc-code" hidden>from collections import Counter</textarea><textarea class="pc-src pc-tests" hidden>def test_feedback():
+    &quot;feedback&quot;
+    assert feedback(&quot;crane&quot;, &quot;react&quot;) == &quot;YYGY.&quot;
+    assert feedback(&quot;crane&quot;, &quot;nanny&quot;) == &quot;.Y.G.&quot;
+    assert feedback(&quot;abbey&quot;, &quot;babes&quot;) == &quot;YYGG.&quot;
+    assert feedback(&quot;speed&quot;, &quot;erase&quot;) == &quot;Y..YY&quot;
+    assert feedback(&quot;apple&quot;, &quot;apple&quot;) == &quot;GGGGG&quot;
+    assert feedback(&quot;lever&quot;, &quot;eerie&quot;) == &quot;YGY..&quot;
+    assert feedback(&quot;aabbb&quot;, &quot;bbaaa&quot;) == &quot;YYYY.&quot;
+def test_load():
+    &quot;load_words&quot;
+    w = load_words(&quot;words.txt&quot;)
+    assert len(w) == 483 and w[0] == &quot;about&quot; and all(len(x) == 5 for x in w)
+def test_remaining():
+    &quot;consistent and remaining&quot;
+    w = load_words(&quot;words.txt&quot;)
+    assert consistent(&quot;crane&quot;, &quot;react&quot;, &quot;YYGY.&quot;) and not consistent(&quot;trace&quot;, &quot;react&quot;, &quot;YYGY.&quot;)
+    r = remaining(w, [(&quot;arise&quot;, feedback(&quot;dream&quot;, &quot;arise&quot;))])
+    assert &quot;dream&quot; in r and all(feedback(x, &quot;arise&quot;) == feedback(&quot;dream&quot;, &quot;arise&quot;) for x in r)
+    r2 = remaining(w, [(&quot;arise&quot;, feedback(&quot;dream&quot;, &quot;arise&quot;)), (&quot;plant&quot;, feedback(&quot;dream&quot;, &quot;plant&quot;))])
+    assert r2 == [x for x in r if feedback(x, &quot;plant&quot;) == feedback(&quot;dream&quot;, &quot;plant&quot;)]
+    assert remaining(w, []) == w
+def test_best():
+    &quot;best_guess&quot;
+    assert best_guess([&quot;abcde&quot;, &quot;fghij&quot;, &quot;aklmn&quot;]) == &quot;abcde&quot;
+    assert best_guess([&quot;zzzzz&quot;, &quot;yyyyy&quot;]) == &quot;yyyyy&quot;
+    w = load_words(&quot;words.txt&quot;)
+    g = best_guess(w)
+    counts = Counter(ch for x in w for ch in set(x))
+    assert sum(counts[c] for c in set(g)) == max(sum(counts[c] for c in set(x)) for x in w)
+def test_solves():
+    &quot;the solver solves&quot;
+    w = load_words(&quot;words.txt&quot;)
+    for answer in [&quot;dream&quot;, &quot;lucky&quot;, &quot;water&quot;, &quot;fifty&quot;, &quot;sweet&quot;]:
+        cands, turns = w, 0
+        while True:
+            guess = best_guess(cands)
+            turns += 1
+            fb = feedback(answer, guess)
+            if fb == &quot;GGGGG&quot;:
+                break
+            cands = remaining(cands, [(guess, fb)])
+            assert answer in cands, f&quot;solving {answer!r}: it was wrongly ruled out&quot;
+            assert turns &lt; 10, f&quot;{answer!r} took too many guesses&quot;</textarea><textarea class="pc-src pc-files" hidden>{&quot;words.txt&quot;: &quot;about\nabove\nactor\nacute\nadapt\nadmit\nadopt\nadult\nafter\nagain\nagent\nagree\nahead\nalarm\nalbum\nalert\nalike\nalive\nallow\nalone\nalong\nalter\namong\nangel\nanger\nangle\nangry\napart\napple\napply\narena\nargue\narise\narmed\naside\nasset\naudio\navoid\naward\naware\nbadly\nbaker\nbasic\nbeach\nbegan\nbegin\nbeing\nbelow\nbench\nbirth\nblack\nblade\nblame\nblind\nblock\nblood\nboard\nboost\nbooth\nbound\nbrain\nbrand\nbread\nbreak\nbrief\nbring\nbroad\nbrown\nbuild\nbuilt\nbuyer\ncable\ncarry\ncatch\ncause\nchain\nchair\nchart\nchase\ncheap\ncheck\nchest\nchief\nchild\nchina\nchose\ncivil\nclaim\nclass\nclean\nclear\nclimb\nclock\nclose\ncoach\ncoast\ncould\ncount\ncourt\ncover\ncraft\ncrash\ncream\ncrime\ncross\ncrowd\ncrown\ncurve\ncycle\ndaily\ndance\ndated\ndealt\ndeath\ndebut\ndelay\ndepth\ndoing\ndoubt\ndozen\ndraft\ndrama\ndrawn\ndream\ndress\ndrink\ndrive\ndrove\ndying\neager\nearly\nearth\neight\nelite\nempty\nenemy\nenjoy\nenter\nentry\nequal\nerror\nevent\nevery\nexact\nexist\nextra\nfaith\nfalse\nfault\nfiber\nfield\nfifth\nfifty\nfight\nfinal\nfirst\nfixed\nflash\nfleet\nfloor\nfluid\nfocus\nforce\nforth\nforty\nforum\nfound\nframe\nfrank\nfraud\nfresh\nfront\nfruit\nfully\nfunny\ngiant\ngiven\nglass\nglobe\ngoing\ngrace\ngrade\ngrand\ngrant\ngrass\ngreat\ngreen\ngross\ngroup\ngrown\nguard\nguess\nguest\nguide\nhappy\nheart\nheavy\nhence\nhorse\nhotel\nhouse\nhuman\nideal\nimage\nindex\ninner\ninput\nissue\njoint\njudge\nknown\nlabel\nlarge\nlaser\nlater\nlaugh\nlayer\nlearn\nlease\nleast\nleave\nlegal\nlevel\nlight\nlimit\nlinks\nlives\nlocal\nlogic\nloose\nlower\nlucky\nlunch\nlying\nmagic\nmajor\nmaker\nmarch\nmatch\nmaybe\nmayor\nmeant\nmedia\nmetal\nmight\nminor\nminus\nmixed\nmodel\nmoney\nmonth\nmoral\nmotor\nmount\nmouse\nmouth\nmovie\nmusic\nneeds\nnever\nnewly\nnight\nnoise\nnorth\nnoted\nnovel\nnurse\noccur\nocean\noffer\noften\norder\nother\nought\npaint\npanel\npaper\nparty\npeace\nphase\nphone\nphoto\npiece\npilot\npitch\nplace\nplain\nplane\nplant\nplate\npoint\npound\npower\npress\nprice\npride\nprime\nprint\nprior\nprize\nproof\nproud\nprove\nqueen\nquick\nquiet\nquite\nradio\nraise\nrange\nrapid\nratio\nreach\nready\nrefer\nright\nrival\nriver\nrobin\nroger\nroman\nrough\nround\nroute\nroyal\nrural\nscale\nscene\nscope\nscore\nsense\nserve\nseven\nshall\nshape\nshare\nsharp\nsheet\nshelf\nshell\nshift\nshirt\nshock\nshoot\nshort\nshown\nsight\nsince\nsixth\nsixty\nsized\nskill\nsleep\nslide\nsmall\nsmart\nsmile\nsmith\nsmoke\nsolid\nsolve\nsorry\nsound\nsouth\nspace\nspare\nspeak\nspeed\nspend\nspent\nsplit\nspoke\nsport\nstaff\nstage\nstake\nstand\nstart\nstate\nsteam\nsteel\nstick\nstill\nstock\nstone\nstood\nstore\nstorm\nstory\nstrip\nstuck\nstudy\nstuff\nstyle\nsugar\nsuite\nsuper\nsweet\ntable\ntaken\ntaste\ntaxes\nteach\nteeth\nthank\ntheft\ntheir\ntheme\nthere\nthese\nthick\nthing\nthink\nthird\nthose\nthree\nthrew\nthrow\ntight\ntimes\ntired\ntitle\ntoday\ntopic\ntotal\ntouch\ntough\ntower\ntrack\ntrade\ntrain\ntreat\ntrend\ntrial\ntried\ntries\ntruck\ntruly\ntrust\ntruth\ntwice\nunder\nundue\nunion\nunity\nuntil\nupper\nupset\nurban\nusage\nusual\nvalid\nvalue\nvideo\nvirus\nvisit\nvital\nvoice\nwaste\nwatch\nwater\nwheel\nwhere\nwhich\nwhile\nwhite\nwhole\nwhose\nwoman\nwomen\nworld\nworry\nworse\nworst\nworth\nwould\nwound\nwrite\nwrong\nwrote\nyield\nyoung\nyouth\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+
+def feedback(answer, guess):
+    result = [&quot;.&quot;] * 5
+    unmatched = Counter()
+    for i, (a, g) in enumerate(zip(answer, guess)):
+        if a == g:
+            result[i] = &quot;G&quot;
+        else:
+            unmatched[a] += 1
+    for i, g in enumerate(guess):
+        if result[i] != &quot;G&quot; and unmatched[g] &gt; 0:
+            result[i] = &quot;Y&quot;
+            unmatched[g] -= 1
+    return &quot;&quot;.join(result)
+
+def load_words(path):
+    with open(path) as f:
+        return [line.strip().lower() for line in f if line.strip()]
+
+def consistent(word, guess, fb):
+    return feedback(word, guess) == fb
+
+def remaining(words, history):
+    return [w for w in words if all(consistent(w, g, fb) for g, fb in history)]
+
+def best_guess(candidates):
+    counts = Counter(ch for w in candidates for ch in set(w))
+    def score(w):
+        return sum(counts[ch] for ch in set(w))
+    return min(candidates, key=lambda w: (-score(w), w))</textarea><template class="pc-src pc-hint">For <code>feedback</code>, start with <code>result = ["."] * 5</code> and a <code>Counter</code> of the answer&rsquo;s letters that <strong>weren&rsquo;t</strong> matched green. Then go through the guess again: for a position that isn&rsquo;t green, if the counter still has that letter, mark it <code>Y</code> and take one away.</template><template class="pc-src pc-hint"><code>consistent(word, guess, fb)</code> is <code>feedback(word, guess) == fb</code>: if <code>word</code> were the answer, would the guess have received exactly that feedback?</template><template class="pc-src pc-hint">For <code>best_guess</code>, build the counts once: <code>Counter(ch for w in candidates for ch in set(w))</code>. Then <code>min(candidates, key=lambda w: (-score(w), w))</code> picks the highest score, alphabetically first.</template></div>
+<aside class="callout c-think"><div class="callout-t">The method at work</div><p>Look at what made this manageable. <strong>Understanding</strong> came first: the four worked examples pinned down the repeated-letter rule before any code. <strong>Decomposition</strong> turned &ldquo;write Wordle&rdquo; into five functions, each checkable. <strong>Patterns</strong> did the rest: a frequency map for unmatched letters, a filter for <code>remaining</code>, a best-so-far for <code>best_guess</code>. And <code>consistent</code> is one line, because it reuses <code>feedback</code> instead of re-deriving the rules: the cleverest step of the whole solution, and the kind of idea you only see once the pieces are clear.</p></aside>
+<h2 id="forge-bonus-a-bulls-and-cows-solver">Forge bonus: a Bulls and Cows solver</h2>
+<p>On Day 4 you built Bulls and Cows for a human to play. Now the computer plays. The same idea as the Wordle solver works: keep a list of every secret that&rsquo;s still possible, guess one of them, and keep only the secrets that would have given the same feedback.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: a Bulls and Cows solver</div><div class="pc-prompt"><p>Write:</p>
+<ul>
+<li><code>all_secrets()</code>: every string of 4 different digits, in increasing order (<code>"0123"</code> first, <code>"9876"</code> last). There are 5,040.</li>
+<li><code>score(secret, guess)</code>: <code>(bulls, cows)</code>, as on Day 4.</li>
+<li><code>solve(secret)</code>: plays a whole game against <code>secret</code>, and returns the list of guesses made, ending with the secret. Each guess is the <strong>first</strong> candidate still possible; after each guess, keep only the candidates that would give the same score for that guess.</li>
+</ul>
+<p>Most secrets fall in 7 guesses or fewer this way.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_secrets():
+    &quot;all_secrets&quot;
+    s = all_secrets()
+    assert len(s) == 5040 and s[0] == &quot;0123&quot; and s[-1] == &quot;9876&quot; and len(set(s)) == 5040
+def test_solve():
+    &quot;solving&quot;
+    for secret in [&quot;0123&quot;, &quot;9876&quot;, &quot;4271&quot;, &quot;5039&quot;, &quot;1590&quot;, &quot;8604&quot;, &quot;3712&quot;, &quot;6285&quot;]:
+        guesses = solve(secret)
+        assert guesses[-1] == secret, f&quot;solve({secret!r}) should end with the secret&quot;
+        assert guesses[0] == &quot;0123&quot;, &quot;the first guess is the first candidate&quot;
+        assert len(guesses) &lt;= 8, f&quot;solve({secret!r}) took {len(guesses)} guesses&quot;
+        for g in guesses[:-1]:
+            assert score(secret, g) != (4, 0)</textarea><textarea class="pc-src pc-solution" hidden>def all_secrets():
+    return [f&quot;{n:04d}&quot; for n in range(10000) if len(set(f&quot;{n:04d}&quot;)) == 4]
+
+def score(secret, guess):
+    bulls = sum(1 for s, g in zip(secret, guess) if s == g)
+    return bulls, len(set(secret) &amp; set(guess)) - bulls
+
+def solve(secret):
+    candidates = all_secrets()
+    guesses = []
+    while True:
+        guess = candidates[0]
+        guesses.append(guess)
+        result = score(secret, guess)
+        if result == (4, 0):
+            return guesses
+        candidates = [c for c in candidates if score(c, guess) == result]</textarea><template class="pc-src pc-hint"><code>all_secrets</code> can be four nested loops, or a comprehension over <code>range(10000)</code> keeping the numbers whose <code>f"{n:04d}"</code> has 4 different digits.</template><template class="pc-src pc-hint">In <code>solve</code>: <code>candidates = all_secrets()</code>, <code>guesses = []</code>. Loop: <code>guess = candidates[0]</code>, append it, work out <code>result = score(secret, guess)</code>, stop if it&rsquo;s <code>(4, 0)</code>, otherwise <code>candidates = [c for c in candidates if score(c, guess) == result]</code>.</template></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w014d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "mc", "q": "What&rsquo;s the first of P\u00f3lya&rsquo;s four steps?", "answer": 1, "explain": "Then plan, carry out, look back.", "options": ["Make a plan", "Understand the problem", "Write the code", "Test it"]}, {"type": "mc", "q": "Why work examples by hand before coding?", "answer": 1, "explain": "Three benefits.", "options": ["To avoid using the computer", "To check you understand the rule, find the steps, and get answers to test against", "It&rsquo;s faster than coding", "No reason"]}, {"type": "mc", "q": "Which input is most likely to break a &ldquo;find the maximum&rdquo; function?", "answer": 1, "explain": "And all-negative lists, if it starts from 0.", "options": ["[3, 1, 2]", "An empty list", "[1, 2, 3]", "[10, 20]"]}, {"type": "mc", "q": "How many values should you test at a boundary?", "answer": 1, "explain": "Only the exact value tells &lt; from &lt;=.", "options": ["One", "Three: just below, on, just above", "Ten", "None"]}, {"type": "mc", "q": "What is desk-checking?", "answer": 1, "explain": "A trace table before the code exists.", "options": ["Running the tests", "Following a plan by hand on an example", "Reading code aloud", "Using a debugger"]}, {"type": "mc", "q": "What is stepwise refinement?", "answer": 1, "explain": "Wirth&rsquo;s method.", "options": ["Refining bugs", "Starting with big steps and breaking each into smaller ones until they&rsquo;re easy to code", "Running code step by step", "Making code faster"]}, {"type": "mc", "q": "Which is a sign of a good function boundary?", "answer": 1, "explain": "Checkable on its own.", "options": ["It prints and returns", "One job, everything passed in, result returned", "It uses globals", "It&rsquo;s long"]}, {"type": "mc", "q": "Where should <code>input()</code> and <code>print()</code> usually go?", "answer": 1, "explain": "Logic in the middle, input and output at the edges.", "options": ["Inside every function", "At the edges, around the logic", "Nowhere", "In the middle"]}, {"type": "mc", "q": "Which pattern finds &ldquo;the first word that appears twice&rdquo;?", "answer": 1, "explain": "Remember what you&rsquo;ve seen.", "options": ["Prefix sums", "Seen-set", "Two pointers", "Group"]}, {"type": "mc", "q": "Which pattern answers &ldquo;the best total of any 5 consecutive days&rdquo;?", "answer": 0, "explain": "Add the new day, subtract the old one.", "options": ["Sliding window", "Stack", "Group", "Seen-set"]}, {"type": "mc", "q": "With prefix sums <code>p</code> of a list, the total of positions i to j (inclusive) is:", "answer": 1, "explain": "p has one more item, starting with 0.", "options": ["<code>p[j] - p[i]</code>", "<code>p[j + 1] - p[i]</code>", "<code>p[i] + p[j]</code>", "<code>p[j] - p[i - 1]</code>"]}, {"type": "text", "q": "What&rsquo;s Wordle&rsquo;s feedback for guess &lsquo;nanny&rsquo; when the answer is &lsquo;crane&rsquo;?", "answer": [".Y.G."], "explain": "One n in the answer, already claimed by the green."}, {"type": "mc", "q": "What does refactoring mean?", "answer": 1, "explain": "Small steps, checking as you go.", "options": ["Adding features", "Changing structure without changing behaviour", "Deleting tests", "Speeding code up"]}, {"type": "mc", "q": "In the solvers, why can <code>consistent</code> be one line?", "answer": 1, "explain": "Reusing a checked piece.", "options": ["Python is short", "It reuses <code>feedback</code>: a candidate is consistent if it would have produced the same feedback", "It ignores the rules", "It&rsquo;s a lambda"]}, {"type": "mc", "q": "You find a gap in a problem description. What do you do?", "answer": 1, "explain": "Make the decision visible.", "options": ["Guess silently", "Ask, or decide and record the decision as an example and check", "Skip the problem", "Make it crash"]}]</script></div>
+<h2 id="week-14-review">Week 14 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I understand a problem before coding: inputs, outputs, rules, worked examples, and decisions for every gap. (<a href="w014d1.html">Day 1</a>)</li>
+<li>I find edge cases with a checklist, decide what should happen, and test boundaries from both sides. (<a href="w014d2.html">Day 2</a>)</li>
+<li>I plan in pseudocode, refine step by step, and desk-check before I code. (<a href="w014d3.html">Day 3</a>)</li>
+<li>I split problems into functions with good boundaries, with input and output at the edges. (<a href="w014d4.html">Day 4</a>)</li>
+<li>I know the common patterns, including two pointers, sliding windows and prefix sums, and can pick the right one. (<a href="w014d5.html">Day 5</a>)</li>
+<li>I built Wordle&rsquo;s logic and a solver, and a Bulls and Cows solver. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week: <strong>recursion</strong>, functions that solve a problem by calling themselves on a smaller version of it.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w014d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w014d6", "week": 14, "day": 6, "title": "Forge", "exercises": [{"id": "w014d6-mix_rotate", "title": "Rotate a list", "points": 10}, {"id": "w014d6-mix_peaks", "title": "Peaks", "points": 10}, {"id": "w014d6-mix_balance", "title": "Balance point", "points": 10}, {"id": "w014d6-mix_compress", "title": "Compress ranges", "points": 10}, {"id": "w014d6-forge", "title": "Forge: Wordle", "points": 50}, {"id": "w014d6-forge2", "title": "Forge bonus: a Bulls and Cows solver", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

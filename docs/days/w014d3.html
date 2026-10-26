@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="8d61681a02">
+<title>Week 14 Day 3: Pseudocode and planning | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=8d61681a02">
+<link rel="stylesheet" href="../assets/css/site.css?v=8d61681a02">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=8d61681a02"></script>
+<script src="../assets/vendor/codemirror.js?v=8d61681a02" defer></script>
+<meta name="description" content="Between understanding a problem and writing the code comes the plan. Writing the plan in Python straight away mixes two hard jobs: deciding what to do, and...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w014d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 14 Day 3: Pseudocode and planning">
+<meta property="og:description" content="Between understanding a problem and writing the code comes the plan. Writing the plan in Python straight away mixes two hard jobs: deciding what to do, and...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w014d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-14">Week 14: A method for solving problems</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#what-pseudocode-is" data-sec="what-pseudocode-is">What pseudocode is</a></li><li><a href="#stepwise-refinement" data-sec="stepwise-refinement">Stepwise refinement</a></li><li><a href="#desk-checking" data-sec="desk-checking">Desk-checking</a></li><li><a href="#from-plan-to-python" data-sec="from-plan-to-python">From plan to Python</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 2: Thinking like a programmer <span>Week 14, Day 3</span></p>
+      <h1>Pseudocode and planning</h1>
+      <div class="day-intro"><p>Between understanding a problem and writing the code comes the plan. Writing the plan in Python straight away mixes two hard jobs: deciding what to do, and getting the syntax right. Pseudocode separates them. Today you&rsquo;ll write algorithms in structured plain language, refine them step by step until each line is easy to code, check them by hand, and then translate them into Python.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write an algorithm as pseudocode, with sequence, choices and repetition</li><li>Refine a plan step by step, from a few big steps to lines that are each easy to code</li><li>Desk-check a plan by hand on an example before coding it</li><li>Translate pseudocode into Python, line for line</li><li>Plan the data a program needs alongside its steps</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="What pseudocode is: 25 min"></span><span class="plan-seg s0" style="flex:30" title="Stepwise refinement: 30 min"></span><span class="plan-seg s1" style="flex:25" title="Desk-checking: 25 min"></span><span class="plan-seg s0" style="flex:20" title="From plan to Python: 20 min"></span><span class="plan-seg s1" style="flex:60" title="Practice: 60 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">What pseudocode is</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Stepwise refinement</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Desk-checking</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">From plan to Python</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Practice</span><span class="plan-min">60 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w014d3.ipynb" download>download it</a>. Exercises today are worth 115 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<p>Here&rsquo;s a recipe someone wrote for finding the smallest number in a list:</p>
+<pre><code>look at the first number and remember it
+go through the rest of the numbers
+if a number is smaller than the one you remember, remember it instead
+the number you remember at the end is the smallest
+</code></pre>
+<p>It isn&rsquo;t Python, but you could write the Python from it without thinking hard, and you could check it on paper with <code>[5, 3, 8, 1]</code> in under a minute. That&rsquo;s pseudocode, and you&rsquo;ve been reading it all along: the Luhn rule yesterday, the Fisher-Yates shuffle in Week 8.</p>
+<h2 id="what-pseudocode-is">What pseudocode is</h2>
+<p><strong>Pseudocode</strong> is an algorithm written in structured plain language. There&rsquo;s no official syntax; the rules are only:</p>
+<ul>
+<li>one step per line, in the order they happen;</li>
+<li>indentation shows what&rsquo;s inside a choice or a loop, as in Python;</li>
+<li>choices say <strong>if</strong> &hellip; <strong>otherwise</strong>; repetition says <strong>for each</strong> &hellip;, <strong>while</strong> &hellip;, or <strong>repeat until</strong> &hellip;;</li>
+<li>each step is precise enough that two people would do the same thing, but free of Python&rsquo;s details: no colons, no brackets, no <code>range(len(...))</code>.</li>
+</ul>
+<p>The right level of detail is: <strong>as much as you need to stop being unsure</strong>. A step like &ldquo;sort the list&rdquo; is fine if you know how you&rsquo;ll do it (<code>sorted</code>); &ldquo;find the best route&rdquo; isn&rsquo;t, until you know what &ldquo;best&rdquo; means and how to find it.</p>
+<p>Here&rsquo;s a plan and its Python side by side. Hover over (or tap) any line to see where it went:</p>
+<figure class="widget" data-widget="pseudomap"><script type="application/json">{"steps": [["to find the most frequent word in a text:", "def most_frequent(text):"], ["  make an empty tally", "    counts = {}"], ["  for each word in the text, in lower case:", "    for word in text.lower().split():"], ["    remove punctuation from its ends", "        word = word.strip(\".,!?;:\")"], ["    if anything is left, add one to its tally", "        if word:\n            counts[word] = counts.get(word, 0) + 1"], ["  if the tally is empty, the answer is nothing", "    if not counts:\n        return None"], ["  the answer is the word with the biggest tally", "    return max(counts, key=counts.get)"]]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each step of the plan becomes one or two lines of Python. The plan says what to do; the Python adds only details.</figcaption></figure>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Pseudocode lets you get the <strong>logic</strong> right before the <strong>syntax</strong>. If the plan is wrong, no amount of careful Python will fix it; if the plan is right, the Python is mostly translation.</p></aside>
+<h2 id="stepwise-refinement">Stepwise refinement</h2>
+<p>For anything bigger than a few lines, write the plan in stages. Start with a handful of big steps, then <strong>refine</strong> each one into smaller steps, until every line is easy to code. The computer scientist Niklaus Wirth called this <strong>stepwise refinement</strong> in 1971, and it&rsquo;s still how experienced programmers attack a new problem.</p>
+<p>Problem: <em>print a month&rsquo;s calendar, given the year, the month and the weekday the month starts on.</em></p>
+<p><strong>First version</strong>: the big steps.</p>
+<pre><code>print the heading
+print the day names
+print the days in rows of seven
+</code></pre>
+<p><strong>Second version</strong>: refine the hard step. The first two are easy; the third isn&rsquo;t yet.</p>
+<pre><code>print the heading
+print the day names
+work out how many days the month has
+start the first row with blank spaces for the days before the 1st
+for each day of the month:
+    add the day to the current row
+    if the row has seven days, print it and start a new row
+if the last row has anything in it, print it
+</code></pre>
+<p><strong>Third version</strong>: refine anything still unclear. &ldquo;How many days the month has&rdquo; needs the month lengths and the leap-year rule. Everything else can go straight into Python.</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d3-e1"><textarea class="pc-src pc-code" hidden>def days_in_month(year, month):
+    if month == 2:
+        leap = year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+        return 29 if leap else 28
+    return 30 if month in (4, 6, 9, 11) else 31
+
+def calendar(year, month, first_weekday):
+    &quot;&quot;&quot;first_weekday: 0 for Monday up to 6 for Sunday.&quot;&quot;&quot;
+    names = [&quot;&quot;, &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;,
+             &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;]
+    print(f&quot;{names[month]} {year}&quot;.center(20))
+    print(&quot;Mo Tu We Th Fr Sa Su&quot;)
+    row = [&quot;  &quot;] * first_weekday
+    for day in range(1, days_in_month(year, month) + 1):
+        row.append(f&quot;{day:&gt;2}&quot;)
+        if len(row) == 7:
+            print(&quot; &quot;.join(row))
+            row = []
+    if row:
+        print(&quot; &quot;.join(row))
+
+calendar(2026, 10, 3)</textarea></div>
+<p>Every line of the final code traces back to a line of the second version. When something goes wrong, you know which step to look at.</p>
+<h2 id="desk-checking">Desk-checking</h2>
+<p>A plan can be wrong, and it&rsquo;s far cheaper to find out on paper. <strong>Desk-checking</strong> means following the plan by hand on a small example, writing down the values as you go: exactly the trace tables from Week 3, but before the code exists.</p>
+<p>Here&rsquo;s a plan for converting a whole number to binary:</p>
+<pre><code>to write n in binary:
+    start with an empty result
+    while n is more than 0:
+        put n mod 2 at the end of the result
+        set n to n divided by 2, rounded down
+    the answer is the result
+</code></pre>
+<p>Desk-check it with n = 6:</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>n mod 2</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>0</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td><code>01</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td><code>011</code></td>
+</tr>
+<tr>
+<td>0</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The answer is <code>011</code>, but 6 in binary is <code>110</code>. The desk check found a bug before a line of code: the digits come out <strong>backwards</strong>, smallest first. The fix is to put each digit at the <strong>front</strong> of the result. And trying n = 0 finds another: the loop never runs, so the answer is empty, where it should be <code>0</code>.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Desk-check with one ordinary example and one edge case. Most plans that survive both are right.</p></aside>
+<h2 id="from-plan-to-python">From plan to Python</h2>
+<p>Once a plan survives a desk check, translating it is mostly mechanical:</p>
+<table>
+<thead>
+<tr>
+<th>Pseudocode</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>set x to 0 / remember x</td>
+<td><code>x = 0</code></td>
+</tr>
+<tr>
+<td>for each item in the list</td>
+<td><code>for item in items:</code></td>
+</tr>
+<tr>
+<td>repeat until done / while &hellip;</td>
+<td><code>while not done:</code> / <code>while ...:</code></td>
+</tr>
+<tr>
+<td>if &hellip; otherwise &hellip;</td>
+<td><code>if ...:</code> / <code>else:</code></td>
+</tr>
+<tr>
+<td>add one to the tally for w</td>
+<td><code>counts[w] = counts.get(w, 0) + 1</code></td>
+</tr>
+<tr>
+<td>the answer is x</td>
+<td><code>return x</code></td>
+</tr>
+<tr>
+<td>stop as soon as you find it</td>
+<td><code>return</code> inside the loop, or <code>break</code></td>
+</tr>
+</tbody>
+</table>
+<p>Keep the pseudocode as <strong>comments</strong> while you translate, one per step, and delete the ones the code makes obvious. The ones that explain <strong>why</strong> are worth keeping.</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d3-e2"><textarea class="pc-src pc-code" hidden>def to_binary(n):
+    if n == 0:
+        return &quot;0&quot;
+    result = &quot;&quot;
+    while n &gt; 0:
+        result = str(n % 2) + result   # newest digit goes at the front
+        n //= 2
+    return result
+
+for n in [6, 0, 1, 255]:
+    print(n, to_binary(n), bin(n))</textarea></div>
+<h2 id="practice">Practice</h2>
+<p>Each exercise gives a plan in pseudocode. Desk-check it first on a small example, then translate it.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d3-peasant" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Multiplying by halving and doubling</div><div class="pc-prompt"><p>This method of multiplication was used in ancient Egypt and is often called <strong>Russian peasant multiplication</strong>. It only needs halving, doubling and adding. Translate it into <code>multiply(a, b)</code> for whole numbers a, b of at least 0, without using <code>*</code> between <code>a</code> and <code>b</code>.</p>
+<pre><code>to multiply a by b:
+    set total to 0
+    while a is more than 0:
+        if a is odd, add b to total
+        halve a, rounding down
+        double b
+    the answer is total
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    for a, b in [(13, 7), (0, 5), (5, 0), (1, 1), (100, 250), (2026, 31)]:
+        assert multiply(a, b) == a * b, f&quot;multiply({a}, {b})&quot;
+    assert &quot;a * b&quot; not in source and &quot;a*b&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def multiply(a, b):
+    total = 0
+    while a &gt; 0:
+        if a % 2 == 1:
+            total += b
+        a //= 2
+        b += b
+    return total</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d3-sieve" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">The sieve of Eratosthenes</div><div class="pc-prompt"><p>Over 2,000 years ago, Eratosthenes of Cyrene described this way to find every prime up to a limit. Translate it into <code>primes_up_to(n)</code>.</p>
+<pre><code>to find the primes up to n:
+    make a list of flags for 0 to n, all set to &quot;maybe prime&quot;
+    mark 0 and 1 as &quot;not prime&quot;
+    for each number p from 2 while p times p is at most n:
+        if p is still marked &quot;maybe prime&quot;:
+            for each multiple of p, starting at p times p, up to n:
+                mark it &quot;not prime&quot;
+    the answer is every number still marked &quot;maybe prime&quot;
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert primes_up_to(30) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+    assert primes_up_to(1) == [] and primes_up_to(2) == [2]
+    assert len(primes_up_to(10000)) == 1229</textarea><textarea class="pc-src pc-solution" hidden>def primes_up_to(n):
+    if n &lt; 2:
+        return []
+    maybe = [True] * (n + 1)
+    maybe[0] = maybe[1] = False
+    p = 2
+    while p * p &lt;= n:
+        if maybe[p]:
+            for multiple in range(p * p, n + 1, p):
+                maybe[multiple] = False
+        p += 1
+    return [k for k in range(n + 1) if maybe[k]]</textarea><template class="pc-src pc-hint"><code>flags = [True] * (n + 1)</code>, then mark positions 0 and 1 as <code>False</code> (if they exist). &ldquo;Each multiple of p starting at p times p&rdquo; is <code>range(p * p, n + 1, p)</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d3-desk" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Desk-check this</div><div class="pc-prompt"><p>This plan should return the position of the <strong>last</strong> occurrence of <code>target</code> in a list, or -1 if it isn&rsquo;t there. Desk-check it on <code>[4, 7, 4, 2]</code> with target 4, and on an empty list. It has one bug. Fix the plan in your head, then write <code>last_index(items, target)</code> correctly.</p>
+<pre><code>to find the last position of target:
+    set position to 0
+    for each index i of the list, from the start:
+        if the item at i is target, set position to i
+    the answer is position
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert last_index([4, 7, 4, 2], 4) == 2
+    assert last_index([4, 7, 4, 2], 9) == -1
+    assert last_index([], 1) == -1
+    assert last_index([5], 5) == 0</textarea><textarea class="pc-src pc-solution" hidden>def last_index(items, target):
+    position = -1
+    for i, item in enumerate(items):
+        if item == target:
+            position = i
+    return position</textarea><template class="pc-src pc-hint">What does the plan answer when the target isn&rsquo;t there at all?</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d3-refine" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Refine it yourself</div><div class="pc-prompt"><p>Here&rsquo;s a first version of a plan for <code>wrap(text, width)</code>, which wraps text into lines of at most <code>width</code> characters, breaking only at spaces (a single word longer than <code>width</code> goes on a line by itself). Refine the middle step into detailed steps on paper, desk-check it on <code>wrap("the quick brown fox", 10)</code>, then write it. It returns the lines as a list.</p>
+<pre><code>split the text into words
+put the words into lines, starting a new line whenever the next word wouldn't fit
+the answer is the lines
+</code></pre>
+<p><code>wrap("the quick brown fox", 10)</code> is <code>["the quick", "brown fox"]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert wrap(&quot;the quick brown fox&quot;, 10) == [&quot;the quick&quot;, &quot;brown fox&quot;]
+    assert wrap(&quot;the quick brown fox&quot;, 9) == [&quot;the quick&quot;, &quot;brown fox&quot;]
+    assert wrap(&quot;the quick brown fox&quot;, 8) == [&quot;the&quot;, &quot;quick&quot;, &quot;brown&quot;, &quot;fox&quot;]
+    assert wrap(&quot;a supercalifragilistic word&quot;, 6) == [&quot;a&quot;, &quot;supercalifragilistic&quot;, &quot;word&quot;]
+    assert wrap(&quot;&quot;, 5) == []
+    assert wrap(&quot;  spaced   out  &quot;, 20) == [&quot;spaced out&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def wrap(text, width):
+    lines = []
+    line = &quot;&quot;
+    for word in text.split():
+        if not line:
+            line = word
+        elif len(line) + 1 + len(word) &lt;= width:
+            line += &quot; &quot; + word
+        else:
+            lines.append(line)
+            line = word
+    if line:
+        lines.append(line)
+    return lines</textarea><template class="pc-src pc-hint">Refined: keep a <code>line</code> (a string, starting empty). For each word: if the line is empty, the line becomes the word; otherwise, if <code>len(line) + 1 + len(word) &lt;= width</code>, add a space and the word; otherwise save the line and start a new one with the word. After the loop, save the last line if it isn&rsquo;t empty.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d3-digital_root" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Digital root</div><div class="pc-prompt"><p>The <strong>digital root</strong> of a number is what you get by adding up its digits, then adding up the digits of that, and so on until one digit is left: 9875 gives 29, then 11, then 2. Write the plan in pseudocode as a comment first, then <code>digital_root(n)</code> for whole numbers from 0 up.</p></div><textarea class="pc-src pc-code" hidden># Plan:
+#</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert [digital_root(n) for n in (9875, 0, 7, 10, 999999999999)] == [2, 0, 7, 1, 9]</textarea><textarea class="pc-src pc-solution" hidden># Plan:
+#   while n has more than one digit:
+#       set n to the sum of its digits
+#   the answer is n
+def digital_root(n):
+    while n &gt;= 10:
+        n = sum(int(d) for d in str(n))
+    return n</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w014d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A step lost in translation</div><div class="pc-prompt"><p>The plan below is correct, but the translation isn&rsquo;t: one step was translated wrongly. Compare them line by line and fix the code.</p>
+<pre><code>to count how many times each letter appears, ignoring case and anything that isn't a letter:
+    make an empty tally
+    for each character in the text, in lower case:
+        if it's a letter, add one to its tally
+    the answer is the tally
+</code></pre></div><textarea class="pc-src pc-code" hidden>def letter_tally(text):
+    tally = {}
+    for ch in text:
+        if ch.isalpha():
+            tally[ch] = tally.get(ch, 0) + 1
+    return tally</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert letter_tally(&quot;Aa b!&quot;) == {&quot;a&quot;: 2, &quot;b&quot;: 1}
+    assert letter_tally(&quot;&quot;) == {}</textarea><textarea class="pc-src pc-solution" hidden>def letter_tally(text):
+    tally = {}
+    for ch in text.lower():
+        if ch.isalpha():
+            tally[ch] = tally.get(ch, 0) + 1
+    return tally</textarea></div>
+<div class="parsons" data-id="w014d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">From the binary plan</div><div class="pc-prompt"><p>Arrange the lines to translate the corrected binary plan. One line is a trap.</p></div><script type="application/json">{"lines": ["def to_binary(n):", "    if n == 0:", "        return \"0\"", "    result = \"\"", "    while n > 0:", "        result = str(n % 2) + result", "        n = n // 2", "    return result"], "distractors": ["        result = result + str(n % 2)"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Desk-check these</div><div class="pc-prompt"><p>Desk-check each plan on the given input and write the answer.</p></div><textarea class="pc-src pc-code" hidden># Plan A, with n = 13:
+#   set count to 0
+#   while n is more than 1:
+#       if n is even, halve it, otherwise set it to 3 n + 1
+#       add 1 to count
+#   the answer is count
+a = ___
+# Plan B, with the list [3, 8, 2, 9, 4]:
+#   set best to the first item, and second to nothing
+#   for each item after the first:
+#       if it&#x27;s bigger than best, second becomes best and best becomes the item
+#       otherwise, if second is nothing or it&#x27;s bigger than second, second becomes the item
+#   the answer is second
+b = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 9
+    assert b == 8</textarea><textarea class="pc-src pc-solution" hidden>a = 9
+b = 8</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w014d3-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What&rsquo;s pseudocode for?", "answer": 1, "explain": "Plan, then translate.", "options": ["Making code run faster", "Getting the logic right before worrying about syntax", "Replacing Python", "Documentation only"]}, {"type": "mc", "q": "How detailed should pseudocode be?", "answer": 1, "explain": "Refine until each line is easy to code.", "options": ["Exactly like Python", "As detailed as you need to stop being unsure", "One line only", "As vague as possible"]}, {"type": "mc", "q": "What is stepwise refinement?", "answer": 1, "explain": "Wirth, 1971.", "options": ["Running code step by step", "Writing a few big steps, then refining each into smaller ones until they&rsquo;re easy to code", "Fixing bugs one at a time", "Using a debugger"]}, {"type": "mc", "q": "What is desk-checking?", "answer": 1, "explain": "A trace table before the code exists.", "options": ["Testing on a desktop computer", "Following a plan by hand on an example, writing down the values", "Checking spelling", "Running the tests"]}, {"type": "mc", "q": "The binary plan put digits at the end. What did the desk check reveal?", "answer": 1, "explain": "6 gave 011.", "options": ["Nothing", "The digits came out backwards", "It ran for ever", "It crashed"]}, {"type": "mc", "q": "How do you translate &lsquo;stop as soon as you find it&rsquo; in a function?", "answer": 1, "explain": "Leave the loop as soon as you have the answer.", "options": ["<code>pass</code>", "<code>return</code> inside the loop (or <code>break</code>)", "<code>continue</code>", "<code>exit()</code>"]}, {"type": "mc", "q": "Which pseudocode line is too vague to code?", "answer": 2, "explain": "What does best mean, and how will you find it?", "options": ["add one to the tally for this word", "for each number from 1 to n", "find the best route", "if the list is empty, the answer is 0"]}, {"type": "mc", "q": "What should you do with the pseudocode once the code works?", "answer": 1, "explain": "Comments that explain why are valuable; ones that repeat the code aren&rsquo;t.", "options": ["Delete it all", "Keep the steps that explain why as comments", "Keep every line as a comment", "Print it"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: bowling scores</div><div class="pc-prompt"><p>Ten-pin bowling scoring is a classic planning exercise: simple to describe, easy to get wrong. A game has 10 <strong>frames</strong>. In each frame you have up to two rolls to knock down 10 pins.</p>
+<ul>
+<li>A <strong>strike</strong> (all 10 with the first roll) scores 10 plus the next <strong>two rolls</strong>.</li>
+<li>A <strong>spare</strong> (all 10 using both rolls) scores 10 plus the next <strong>one roll</strong>.</li>
+<li>Otherwise the frame scores the pins knocked down.</li>
+<li>In the 10th frame, a strike or spare earns extra rolls (two or one) just to complete its bonus; those extra rolls aren&rsquo;t frames of their own.</li>
+</ul>
+<p>Write <code>score(rolls)</code> that takes the list of pins knocked down by each roll in a complete game and returns the total. Write the plan in pseudocode first, and desk-check it on <code>[10, 7, 3, 9, 0, 10, 0, 8, 8, 2, 0, 6, 10, 10, 10, 8, 1]</code>, which scores 167.</p></div><textarea class="pc-src pc-code" hidden># Plan:
+#</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several games&quot;
+    assert score([0] * 20) == 0
+    assert score([1] * 20) == 20
+    assert score([5, 5, 3] + [0] * 17) == 16
+    assert score([10, 3, 4] + [0] * 16) == 24
+    assert score([10] * 12) == 300
+    assert score([9, 1] * 10 + [9]) == 190
+    assert score([10, 7, 3, 9, 0, 10, 0, 8, 8, 2, 0, 6, 10, 10, 10, 8, 1]) == 167
+    assert score([0] * 18 + [10, 10, 10]) == 30</textarea><textarea class="pc-src pc-solution" hidden># Plan:
+#   set total to 0 and position to the first roll
+#   repeat for each of the 10 frames:
+#       if the roll at position is 10 (a strike):
+#           add 10 and the next two rolls; move on one roll
+#       otherwise, if this roll and the next make 10 (a spare):
+#           add 10 and the roll after them; move on two rolls
+#       otherwise:
+#           add the two rolls; move on two rolls
+#   the answer is total
+def score(rolls):
+    total = 0
+    i = 0
+    for frame in range(10):
+        if rolls[i] == 10:
+            total += 10 + rolls[i + 1] + rolls[i + 2]
+            i += 1
+        elif rolls[i] + rolls[i + 1] == 10:
+            total += 10 + rolls[i + 2]
+            i += 2
+        else:
+            total += rolls[i] + rolls[i + 1]
+            i += 2
+    return total</textarea><template class="pc-src pc-hint">Plan: keep a position <code>i</code> in the rolls, and loop exactly 10 times (once per frame). In each frame, if <code>rolls[i]</code> is 10, it&rsquo;s a strike: add 10 plus the next two rolls, and move on 1. Otherwise, if <code>rolls[i] + rolls[i + 1]</code> is 10, a spare: add 10 plus <code>rolls[i + 2]</code>, move on 2. Otherwise add the two rolls and move on 2.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Pick a problem you haven&rsquo;t solved yet (tomorrow&rsquo;s Forge, or any exercise from earlier you skipped) and write a two-level plan for it: three to five big steps, then refine the hardest one. Desk-check the plan before you write any code. Tomorrow: decomposition, splitting a big problem into functions that can be built and checked one at a time.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w014d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w014d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w014d3", "week": 14, "day": 3, "title": "Pseudocode and planning", "exercises": [{"id": "w014d3-peasant", "title": "Multiplying by halving and doubling", "points": 10}, {"id": "w014d3-sieve", "title": "The sieve of Eratosthenes", "points": 15}, {"id": "w014d3-desk", "title": "Desk-check this", "points": 15}, {"id": "w014d3-refine", "title": "Refine it yourself", "points": 15}, {"id": "w014d3-digital_root", "title": "Digital root", "points": 10}, {"id": "w014d3-bug1", "title": "A step lost in translation", "points": 10}, {"id": "w014d3-trace", "title": "Desk-check these", "points": 15}, {"id": "w014d3-challenge", "title": "Challenge: bowling scores", "points": 25}], "points": 115}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

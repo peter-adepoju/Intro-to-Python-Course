@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="8d61681a02">
+<title>Week 14 Day 2: Edge cases | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=8d61681a02">
+<link rel="stylesheet" href="../assets/css/site.css?v=8d61681a02">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=8d61681a02"></script>
+<script src="../assets/vendor/codemirror.js?v=8d61681a02" defer></script>
+<meta name="description" content="Most bugs don’t live in the ordinary inputs a program was written for. They live at the edges: the empty list, the single item, the tie, the negative...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w014d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 14 Day 2: Edge cases">
+<meta property="og:description" content="Most bugs don’t live in the ordinary inputs a program was written for. They live at the edges: the empty list, the single item, the tie, the negative...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w014d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-14">Week 14: A method for solving problems</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#where-bugs-live" data-sec="where-bugs-live">Where bugs live</a></li><li><a href="#a-checklist" data-sec="a-checklist">A checklist</a></li><li><a href="#deciding-what-should-happen" data-sec="deciding-what-should-happen">Deciding what should happen</a></li><li><a href="#boundaries" data-sec="boundaries">Boundaries</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 2: Thinking like a programmer <span>Week 14, Day 2</span></p>
+      <h1>Edge cases</h1>
+      <div class="day-intro"><p>Most bugs don&rsquo;t live in the ordinary inputs a program was written for. They live at the edges: the empty list, the single item, the tie, the negative number, the first and last positions, the input exactly on a boundary. Today you&rsquo;ll learn a checklist for finding edge cases before your users do, and practise writing checks that catch the bugs hiding there.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain why ordinary examples can hide bugs, and where bugs cluster</li><li>Use a checklist to list the edge cases of a problem before coding</li><li>Write checks for edge cases that catch broken versions of a function</li><li>Decide what a function should do at each edge, and make the decision visible</li><li>Fix functions that fail at the edges without breaking the ordinary cases</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Where bugs live: 25 min"></span><span class="plan-seg s0" style="flex:30" title="A checklist: 30 min"></span><span class="plan-seg s1" style="flex:25" title="Deciding what should happen: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Boundaries: 20 min"></span><span class="plan-seg s1" style="flex:60" title="Practice: 60 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Where bugs live</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">A checklist</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Deciding what should happen</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Boundaries</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Practice</span><span class="plan-min">60 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w014d2.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w014d2-p1"><textarea class="pc-src pc-code" hidden>def average(values):
+    return sum(values) / len(values)
+
+print(average([2, 4, 9]))
+print(average([5]))
+print(average([]))</textarea></div>
+<p>The function is right for every list you&rsquo;d think of first. Then one empty list arrives and the whole program stops. That single input is an <strong>edge case</strong>: an input at the edge of what the problem allows, where the usual reasoning stops working.</p>
+<h2 id="where-bugs-live">Where bugs live</h2>
+<p>Here&rsquo;s a function that should return the second-largest <strong>different</strong> value in a list, or <code>None</code> if there isn&rsquo;t one. Four people wrote it. Every version passes the first two examples, the ones anybody would try first:</p>
+<figure class="widget" data-widget="edgegrid"><script type="application/json">{"versions": {"correct": "def f(values):\n    distinct = sorted(set(values))\n    if len(distinct) < 2:\n        return None\n    return distinct[-2]", "sort_only": "def f(values):\n    s = sorted(values)\n    if len(s) < 2:\n        return None\n    return s[-2]", "start_at_zero": "def f(values):\n    best = second = 0\n    for v in values:\n        if v > best:\n            best, second = v, best\n        elif best > v > second:\n            second = v\n    if len(set(values)) < 2:\n        return None\n    return second", "no_checks": "def f(values):\n    return sorted(set(values))[-2]"}, "cases": ["[3, 9, 4]", "[10, 20, 30]", "[9, 9, 4]", "[-5, -2, -9]", "[7]", "[]", "[5, 5]"], "ref": "correct", "title": "second_largest"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Every column is a different version of second_largest. Red cells disagree with the correct version. Read each version&rsquo;s code and work out why it fails where it does.</figcaption></figure>
+<p>Each wrong version has exactly the kind of bug that lives at an edge:</p>
+<ul>
+<li><code>sort_only</code> forgets that values can <strong>repeat</strong>: the second-largest of <code>[9, 9, 4]</code> is 4, not 9.</li>
+<li><code>start_at_zero</code> assumes values are <strong>positive</strong>: with all negatives, nothing ever beats the starting 0.</li>
+<li><code>no_checks</code> forgets the lists that are <strong>too short</strong> to have an answer at all.</li>
+</ul>
+<p>None of these would be found by <code>[3, 9, 4]</code> or <code>[10, 20, 30]</code>. Ordinary examples check that the idea is right. Edge cases check that the code is right.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Bugs cluster at the edges: empty and single inputs, repeats and ties, zero and negatives, the first and last positions, and exact boundaries. Test there on purpose.</p></aside>
+<h2 id="a-checklist">A checklist</h2>
+<p>You won&rsquo;t think of edge cases reliably by waiting for inspiration. Go through a checklist. Not every line applies to every problem, but asking each question takes a minute:</p>
+<table>
+<thead>
+<tr>
+<th>Ask about</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Zero, one, many</strong></td>
+<td>an empty list, string or file; exactly one item; two items (the smallest case with a &ldquo;between&rdquo;)</td>
+</tr>
+<tr>
+<td><strong>Same and ties</strong></td>
+<td>all items equal; duplicates; two items tied for best</td>
+</tr>
+<tr>
+<td><strong>Signs and zero</strong></td>
+<td>negative numbers, zero, a mix</td>
+</tr>
+<tr>
+<td><strong>First, last, middle</strong></td>
+<td>the thing you&rsquo;re looking for is at the very start, the very end, or not there at all</td>
+</tr>
+<tr>
+<td><strong>Boundaries</strong></td>
+<td>exactly on a limit (a mark of exactly 50, a time of exactly 00:00), and one either side</td>
+</tr>
+<tr>
+<td><strong>Order</strong></td>
+<td>already sorted, sorted backwards, all shuffled</td>
+</tr>
+<tr>
+<td><strong>Size</strong></td>
+<td>very large values, very long inputs (is it still fast enough?)</td>
+</tr>
+<tr>
+<td><strong>Text</strong></td>
+<td>spaces at the ends, upper and lower case, punctuation, accents and other alphabets, an empty string</td>
+</tr>
+<tr>
+<td><strong>Bad input</strong></td>
+<td>the wrong type, a format that&rsquo;s nearly right, a missing file</td>
+</tr>
+</tbody>
+</table>
+<p>Apply it to a small problem: <em>&ldquo;Return the longest word in a sentence.&rdquo;</em></p>
+<ul>
+<li><strong>Zero, one, many</strong>: <code>""</code> (no words: <code>""</code>? <code>None</code>? an error?), <code>"hello"</code>.</li>
+<li><strong>Ties</strong>: <code>"cat dog"</code>: the first, the last, or both?</li>
+<li><strong>Text</strong>: <code>"  hi   there  "</code> (extra spaces), <code>"Hello, world!"</code> (does the comma count as part of the word?).</li>
+<li><strong>First, last</strong>: the longest word at the start, and at the end.</li>
+</ul>
+<p>Four of those are <strong>decisions</strong> the one-sentence description didn&rsquo;t make. That&rsquo;s normal; Day 1 said how to handle it.</p>
+<h2 id="deciding-what-should-happen">Deciding what should happen</h2>
+<p>For each edge case there are only a few sensible behaviours:</p>
+<ol>
+<li><strong>There&rsquo;s a natural answer</strong>: the sum of an empty list is 0; the longest word of <code>""</code> could reasonably be <code>""</code>.</li>
+<li><strong>Return a value meaning &ldquo;none&rdquo;</strong>: <code>None</code>, as <code>second_largest</code> does. Simple, but every caller must remember to check for it.</li>
+<li><strong>Raise an exception</strong>: the average of nothing doesn&rsquo;t exist, so <code>raise ValueError(...)</code>. Clear, and it can&rsquo;t be ignored by accident.</li>
+<li><strong>It can&rsquo;t happen</strong>: you&rsquo;ve checked earlier in the program that the list is never empty. Then say so in the docstring, and perhaps with an <code>assert</code>.</li>
+</ol>
+<p>What&rsquo;s never acceptable is behaviour nobody decided: an <code>IndexError</code> from deep inside, or a confident wrong answer like <code>start_at_zero</code>&rsquo;s <code>0</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d2-e2"><textarea class="pc-src pc-code" hidden>def longest_word(sentence):
+    &quot;&quot;&quot;The longest word in sentence (the first one if several tie).
+    Words are separated by spaces; punctuation counts as part of a word.
+    Returns &quot;&quot; if there are no words.&quot;&quot;&quot;
+    longest = &quot;&quot;
+    for word in sentence.split():
+        if len(word) &gt; len(longest):
+            longest = word
+    return longest
+
+assert longest_word(&quot;the quick brown fox&quot;) == &quot;quick&quot;
+assert longest_word(&quot;&quot;) == &quot;&quot;
+assert longest_word(&quot;   &quot;) == &quot;&quot;
+assert longest_word(&quot;cat dog&quot;) == &quot;cat&quot;
+assert longest_word(&quot;  hi   there &quot;) == &quot;there&quot;
+assert longest_word(&quot;Hello, world!&quot;) == &quot;Hello,&quot;
+print(&quot;all edge cases pass&quot;)</textarea></div>
+<p>Notice where the decisions went: the docstring states them, and a check pins each one down. <code>&gt;</code> (not <code>&gt;=</code>) is what makes the <strong>first</strong> of several tied words win; a check makes sure nobody &ldquo;tidies&rdquo; it into <code>&gt;=</code> later.</p>
+<h2 id="boundaries">Boundaries</h2>
+<p>A <strong>boundary</strong> is a value where the behaviour changes: a pass mark, a size limit, the last valid index. Off-by-one mistakes (<code>&lt;</code> instead of <code>&lt;=</code>, <code>range(n)</code> instead of <code>range(n + 1)</code>) are the commonest bugs of all, and they only show up <strong>on</strong> the boundary.</p>
+<p>The rule is to test three values at every boundary: just below, exactly on, and just above.</p>
+<div class="pc pc-example" data-kind="example" data-id="w014d2-e3"><textarea class="pc-src pc-code" hidden>def ticket_price(age):
+    &quot;&quot;&quot;Children under 12 pay 500, people 65 or over pay 700, everyone else 1000.&quot;&quot;&quot;
+    if age &lt; 12:
+        return 500
+    if age &gt;= 65:
+        return 700
+    return 1000
+
+for age in [11, 12, 13, 64, 65, 66, 0]:
+    print(age, ticket_price(age))</textarea></div>
+<p>If the description had said &ldquo;children 12 and under&rdquo;, then 12 would be the one value that changes: only a check exactly <strong>on</strong> the boundary can tell the two rules apart.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>For a range of valid values (0 to 100, say), test both ends and one step outside each: -1, 0, 100, 101. Four checks catch nearly every off-by-one mistake in a range check.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d2-list_edges" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Edges of a sum</div><div class="pc-prompt"><p>Write <code>sum_of_evens(values)</code> that returns the sum of the even numbers in a list. Then make sure it handles: an empty list, no even numbers, negative even numbers, and zero. (It&rsquo;s simple; the point is to check those cases yourself before pressing Check.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;ordinary and edge cases&quot;
+    assert sum_of_evens([1, 2, 3, 4]) == 6
+    assert sum_of_evens([]) == 0
+    assert sum_of_evens([1, 3, 5]) == 0
+    assert sum_of_evens([-2, -3, 4]) == 2
+    assert sum_of_evens([0, 0, 1]) == 0</textarea><textarea class="pc-src pc-solution" hidden>def sum_of_evens(values):
+    return sum(v for v in values if v % 2 == 0)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d2-chunk_checks" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Checks that catch</div><div class="pc-prompt"><p><code>chunks(items, n)</code> splits a list into pieces of <code>n</code> items, the last piece possibly shorter: <code>chunks([1, 2, 3, 4, 5], 2)</code> is <code>[[1, 2], [3, 4], [5]]</code>. For <code>n</code> less than 1 it raises a <code>ValueError</code>. Write <code>chunk_checks()</code> with <code>assert</code>s that pass for the correct version below and catch each of five broken versions, one for each kind of edge: an empty list, a list that divides exactly, <code>n</code> larger than the list, <code>n</code> of 1, and a bad <code>n</code> of 0.</p></div><textarea class="pc-src pc-code" hidden>def chunks(items, n):
+    if n &lt; 1:
+        raise ValueError(&quot;n must be at least 1&quot;)
+    return [items[i:i + n] for i in range(0, len(items), n)]
+
+def chunk_checks():
+    ___
+
+chunk_checks()
+print(&quot;checks pass&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def b_empty(items, n):
+    if n &lt; 1:
+        raise ValueError(&quot;n must be at least 1&quot;)
+    if not items:
+        return [[]]
+    return [items[i:i + n] for i in range(0, len(items), n)]
+def b_exact(items, n):
+    if n &lt; 1:
+        raise ValueError(&quot;n must be at least 1&quot;)
+    out = [items[i:i + n] for i in range(0, len(items), n)]
+    if items and len(items) % n == 0:
+        out.append([])
+    return out
+def b_big(items, n):
+    if n &lt; 1:
+        raise ValueError(&quot;n must be at least 1&quot;)
+    if n &gt; len(items):
+        return []
+    return [items[i:i + n] for i in range(0, len(items), n)]
+def b_one(items, n):
+    if n &lt; 1:
+        raise ValueError(&quot;n must be at least 1&quot;)
+    if n == 1:
+        return [items]
+    return [items[i:i + n] for i in range(0, len(items), n)]
+def b_zero(items, n):
+    if n &lt; 0:
+        raise ValueError(&quot;n must be at least 1&quot;)
+    if n == 0:
+        return []
+    return [items[i:i + n] for i in range(0, len(items), n)]
+def test_pass():
+    &quot;pass with the correct version&quot;
+    chunk_checks()
+def test_catch():
+    &quot;catch every broken version&quot;
+    g = chunk_checks.__globals__
+    real = g[&quot;chunks&quot;]
+    missed = []
+    for name, fn in [(&quot;empty list&quot;, b_empty), (&quot;exact division&quot;, b_exact), (&quot;n bigger than the list&quot;, b_big), (&quot;n of 1&quot;, b_one), (&quot;n of 0&quot;, b_zero)]:
+        g[&quot;chunks&quot;] = fn
+        try:
+            chunk_checks()
+            missed.append(name)
+        except Exception:
+            pass
+        finally:
+            g[&quot;chunks&quot;] = real
+    assert not missed, &quot;Your checks didn&#x27;t catch the broken version for: &quot; + &quot;, &quot;.join(missed)</textarea><textarea class="pc-src pc-solution" hidden>def chunks(items, n):
+    if n &lt; 1:
+        raise ValueError(&quot;n must be at least 1&quot;)
+    return [items[i:i + n] for i in range(0, len(items), n)]
+
+def chunk_checks():
+    assert chunks([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]]
+    assert chunks([], 3) == []
+    assert chunks([1, 2, 3, 4], 2) == [[1, 2], [3, 4]]
+    assert chunks([1, 2], 5) == [[1, 2]]
+    assert chunks([1, 2], 1) == [[1], [2]]
+    try:
+        chunks([1], 0)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError(&quot;n of 0 should raise&quot;)
+
+chunk_checks()
+print(&quot;checks pass&quot;)</textarea><template class="pc-src pc-hint">One check per edge: <code>chunks([], 3) == []</code>, <code>chunks([1, 2, 3, 4], 2) == [[1, 2], [3, 4]]</code>, <code>chunks([1, 2], 5) == [[1, 2]]</code>, <code>chunks([1, 2], 1) == [[1], [2]]</code>. For n of 0, use <code>try</code>, <code>except ValueError: pass</code>, <code>else: raise AssertionError(...)</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d2-overlap" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Do they overlap?</div><div class="pc-prompt"><p>Write <code>overlap(a, b)</code> for two time ranges, each a tuple <code>(start, end)</code> of minutes with <code>start &lt; end</code>, that returns how many minutes they share (0 if none). Ranges that only touch, like <code>(0, 60)</code> and <code>(60, 90)</code>, share 0 minutes. Before coding, list the edge cases: one range inside the other, identical ranges, touching, the second before the first.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;every arrangement&quot;
+    assert overlap((0, 60), (30, 90)) == 30
+    assert overlap((30, 90), (0, 60)) == 30
+    assert overlap((0, 100), (20, 30)) == 10
+    assert overlap((20, 30), (0, 100)) == 10
+    assert overlap((0, 60), (0, 60)) == 60
+    assert overlap((0, 60), (60, 90)) == 0
+    assert overlap((0, 10), (50, 90)) == 0
+    assert overlap((50, 90), (0, 10)) == 0</textarea><textarea class="pc-src pc-solution" hidden>def overlap(a, b):
+    start = max(a[0], b[0])
+    end = min(a[1], b[1])
+    return max(0, end - start)</textarea><template class="pc-src pc-hint">The shared part starts at the later of the two starts and ends at the earlier of the two ends. If that end isn&rsquo;t after that start, they don&rsquo;t overlap.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d2-initials" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Initials, carefully</div><div class="pc-prompt"><p>Write <code>initials(name)</code> that returns the capitalised initials of each word of a name, with no dots: <code>"ada lovelace"</code> gives <code>"AL"</code>. Handle: extra spaces anywhere, an empty or blank name (<code>""</code>), a single name, names that are already capitalised, and hyphenated names, where each part counts (<code>"Mary-Jane Watson"</code> gives <code>"MJW"</code>).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;ordinary and edge&quot;
+    assert initials(&quot;ada lovelace&quot;) == &quot;AL&quot;
+    assert initials(&quot;  grace   brewster  hopper &quot;) == &quot;GBH&quot;
+    assert initials(&quot;&quot;) == &quot;&quot; and initials(&quot;   &quot;) == &quot;&quot;
+    assert initials(&quot;Plato&quot;) == &quot;P&quot;
+    assert initials(&quot;Mary-Jane Watson&quot;) == &quot;MJW&quot;
+    assert initials(&quot;mary--jane&quot;) == &quot;MJ&quot;</textarea><textarea class="pc-src pc-solution" hidden>def initials(name):
+    return &quot;&quot;.join(part[0].upper() for part in name.replace(&quot;-&quot;, &quot; &quot;).split())</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d2-pass_band" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">On the boundary</div><div class="pc-prompt"><p>A mark from 0 to 100 gets <code>"distinction"</code> from 70, <code>"pass"</code> from 40, otherwise <code>"fail"</code>; anything outside 0 to 100 raises a <code>ValueError</code>. Write <code>band(mark)</code>. Then, before checking, write down the eight marks that test every boundary from both sides, and try them yourself.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;every boundary&quot;
+    assert [band(m) for m in (0, 39, 40, 41, 69, 70, 71, 100)] == [&quot;fail&quot;, &quot;fail&quot;, &quot;pass&quot;, &quot;pass&quot;, &quot;pass&quot;, &quot;distinction&quot;, &quot;distinction&quot;, &quot;distinction&quot;]
+    assert band(39.5) == &quot;fail&quot; and band(69.99) == &quot;pass&quot;
+    for bad in (-1, 101, -0.5, 100.5):
+        try:
+            band(bad)
+        except ValueError:
+            continue
+        raise AssertionError(f&quot;band({bad}) should raise a ValueError&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def band(mark):
+    if not 0 &lt;= mark &lt;= 100:
+        raise ValueError(f&quot;mark must be 0 to 100, got {mark}&quot;)
+    if mark &gt;= 70:
+        return &quot;distinction&quot;
+    if mark &gt;= 40:
+        return &quot;pass&quot;
+    return &quot;fail&quot;</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w014d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Only works in the middle</div><div class="pc-prompt"><p><code>neighbours_sum(values, i)</code> should return the sum of the items either side of position <code>i</code>, treating missing neighbours as 0: for <code>[1, 2, 3]</code>, position 0 gives 2, position 1 gives 4, position 2 gives 2. It&rsquo;s wrong at both ends. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def neighbours_sum(values, i):
+    return values[i - 1] + values[i + 1]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;every position&quot;
+    v = [1, 2, 3]
+    assert [neighbours_sum(v, i) for i in range(3)] == [2, 4, 2]
+    assert neighbours_sum([5], 0) == 0</textarea><textarea class="pc-src pc-solution" hidden>def neighbours_sum(values, i):
+    left = values[i - 1] if i &gt; 0 else 0
+    right = values[i + 1] if i + 1 &lt; len(values) else 0
+    return left + right</textarea><template class="pc-src pc-hint">At position 0, <code>values[-1]</code> is the <strong>last</strong> item, not a missing one. At the last position, <code>values[i + 1]</code> is an <code>IndexError</code>.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w014d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Most common</div><div class="pc-prompt"><p><code>most_common(items)</code> should return the most common item, the one that appears <strong>first</strong> in the list if several tie, or <code>None</code> for an empty list. It fails two edge cases. Find them with your own examples, then fix it.</p></div><textarea class="pc-src pc-code" hidden>def most_common(items):
+    counts = {}
+    for x in items:
+        counts[x] = counts.get(x, 0) + 1
+    best = items[0]
+    for x in counts:
+        if counts[x] &gt;= counts[best]:
+            best = x
+    return best</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;ties and empty&quot;
+    assert most_common([3, 1, 3, 2]) == 3
+    assert most_common([&quot;a&quot;, &quot;b&quot;, &quot;b&quot;, &quot;a&quot;]) == &quot;a&quot;
+    assert most_common([]) is None
+    assert most_common([7]) == 7</textarea><textarea class="pc-src pc-solution" hidden>def most_common(items):
+    if not items:
+        return None
+    counts = {}
+    for x in items:
+        counts[x] = counts.get(x, 0) + 1
+    best = items[0]
+    for x in counts:
+        if counts[x] &gt; counts[best]:
+            best = x
+    return best</textarea><template class="pc-src pc-hint">Try <code>[]</code>, and a tie like <code>["a", "b", "b", "a"]</code>. Which comparison lets a later item take over on a tie?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w014d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Words that end the text</div><div class="pc-prompt"><p><code>count_word(text, word)</code> should count how many times <code>word</code> appears as a whole word, ignoring case and the punctuation <code>.,!?</code>. It misses some. Find the edge it fails on, and fix it.</p></div><textarea class="pc-src pc-code" hidden>def count_word(text, word):
+    count = 0
+    for w in text.lower().split(&quot; &quot;):
+        if w.strip(&quot;.,!?&quot;) == word.lower():
+            count += 1
+    return count</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert count_word(&quot;The cat. THE dog! the end&quot;, &quot;the&quot;) == 3
+    assert count_word(&quot;cat  cat&quot;, &quot;cat&quot;) == 2
+    assert count_word(&quot;the\nthe&quot;, &quot;the&quot;) == 2
+    assert count_word(&quot;&quot;, &quot;the&quot;) == 0</textarea><textarea class="pc-src pc-solution" hidden>def count_word(text, word):
+    count = 0
+    for w in text.lower().split():
+        if w.strip(&quot;.,!?&quot;) == word.lower():
+            count += 1
+    return count</textarea><template class="pc-src pc-hint">What does <code>"the\nthe".split(" ")</code> give? And <code>"cat  cat".split(" ")</code>?</template></div>
+<div class="parsons" data-id="w014d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Safe maximum</div><div class="pc-prompt"><p>Arrange the lines for <code>safe_max</code>, which returns the largest value, or <code>default</code> for an empty list, and works for negative numbers. One line is a trap.</p></div><script type="application/json">{"lines": ["def safe_max(values, default=None):", "    if not values:", "        return default", "    best = values[0]", "    for v in values[1:]:", "        if v > best:", "            best = v", "    return best"], "distractors": ["    best = 0"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict the edges</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # &quot;&quot;.split()
+b = ___   # &quot;a,,b&quot;.split(&quot;,&quot;)
+c = ___   # [1, 2, 3][5:]
+d = ___   # max([], default=0)
+e = ___   # round(2.5), round(3.5)   (as a tuple)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == []
+    assert b == [&quot;a&quot;, &quot;&quot;, &quot;b&quot;]
+    assert c == []
+    assert d == 0
+    assert e == (2, 4)</textarea><textarea class="pc-src pc-solution" hidden>a = []
+b = [&quot;a&quot;, &quot;&quot;, &quot;b&quot;]
+c = []
+d = 0
+e = (2, 4)</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w014d2-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why can a function pass every ordinary example and still be wrong?", "answer": 1, "explain": "Ordinary examples check the idea; edges check the code.", "options": ["Python is unreliable", "Ordinary examples don&rsquo;t reach the edges, where the reasoning changes", "Examples are never useful", "It can&rsquo;t"]}, {"type": "mc", "q": "What are the three values to test at a boundary?", "answer": 1, "explain": "Only the exact value can tell &lt; from &lt;=.", "options": ["0, 1, 2", "Just below, exactly on, just above", "The smallest, largest and middle", "Three random ones"]}, {"type": "mc", "q": "For <code>second_largest([9, 9, 4])</code>, which bug gives 9?", "answer": 1, "explain": "Different values only.", "options": ["Not handling negatives", "Not handling repeats", "Not handling empty lists", "None"]}, {"type": "mc", "q": "Starting <code>best = 0</code> when finding a maximum fails for which input?", "answer": 2, "explain": "Start with the first item instead.", "options": ["[3, 1]", "[0, 5]", "[-4, -2]", "[]"]}, {"type": "mc", "q": "Which is NOT a sensible way to handle an edge case?", "answer": 3, "explain": "Decide on purpose.", "options": ["A natural answer", "Returning None and documenting it", "Raising a clear exception", "Whatever the code happens to do"]}, {"type": "text", "q": "What does <code>'a  b'.split(' ')</code> give?", "answer": ["['a', '', 'b']"], "explain": "split(&rsquo; &lsquo;) splits on every single space; split() on runs of whitespace."}, {"type": "mc", "q": "What should <code>values[i - 1]</code> remind you of when <code>i</code> is 0?", "answer": 1, "explain": "Negative indexes wrap round.", "options": ["It&rsquo;s an IndexError", "It&rsquo;s the last item, not a missing one", "It&rsquo;s 0", "It&rsquo;s None"]}, {"type": "mc", "q": "In the checklist, what does &lsquo;zero, one, many&rsquo; mean?", "answer": 1, "explain": "The smallest sizes break the most code.", "options": ["Test only numbers", "Test an empty input, a single item, and several", "Test three times", "Test 0, 1 and 100"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: merging intervals</div><div class="pc-prompt"><p>Calendar apps merge overlapping bookings to show when someone is busy. Write <code>merge_intervals(intervals)</code> that takes a list of <code>(start, end)</code> tuples with <code>start &lt;= end</code>, in any order, and returns a sorted list of merged intervals in which none overlap or touch: <code>[(1, 3), (2, 6), (8, 10), (10, 12), (15, 18)]</code> gives <code>[(1, 6), (8, 12), (15, 18)]</code>. Before writing it, list the edge cases: empty, one interval, one inside another, identical ones, touching, unsorted input, zero-length intervals like <code>(5, 5)</code>. Don&rsquo;t change the list you&rsquo;re given.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;ordinary and edge cases&quot;
+    assert merge_intervals([(1, 3), (2, 6), (8, 10), (10, 12), (15, 18)]) == [(1, 6), (8, 12), (15, 18)]
+    assert merge_intervals([]) == []
+    assert merge_intervals([(4, 7)]) == [(4, 7)]
+    assert merge_intervals([(1, 10), (2, 3), (4, 5)]) == [(1, 10)]
+    assert merge_intervals([(2, 4), (2, 4)]) == [(2, 4)]
+    assert merge_intervals([(8, 9), (1, 2), (3, 4)]) == [(1, 2), (3, 4), (8, 9)]
+    assert merge_intervals([(5, 5), (5, 7)]) == [(5, 7)]
+    assert merge_intervals([(1, 5), (6, 6)]) == [(1, 5), (6, 6)]
+    v = [(3, 4), (1, 2)]
+    merge_intervals(v)
+    assert v == [(3, 4), (1, 2)], &quot;merge_intervals changed its argument&quot;</textarea><textarea class="pc-src pc-solution" hidden>def merge_intervals(intervals):
+    merged = []
+    for start, end in sorted(intervals):
+        if merged and start &lt;= merged[-1][1]:
+            last_start, last_end = merged[-1]
+            merged[-1] = (last_start, max(last_end, end))
+        else:
+            merged.append((start, end))
+    return merged</textarea><template class="pc-src pc-hint">Sort a copy by start (<code>sorted(intervals)</code> does that). Then walk through it: if an interval starts at or before the end of the last merged one, extend that one&rsquo;s end (to the larger of the two ends); otherwise start a new merged interval.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Choose any function you&rsquo;ve written this year and run it through the checklist. Write a check for each edge case that applies, and fix anything that fails. You&rsquo;ll almost certainly find something. Tomorrow: pseudocode, a way to plan an algorithm in plain words before you commit to code.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w014d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w014d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w014d2", "week": 14, "day": 2, "title": "Edge cases", "exercises": [{"id": "w014d2-list_edges", "title": "Edges of a sum", "points": 10}, {"id": "w014d2-chunk_checks", "title": "Checks that catch", "points": 20}, {"id": "w014d2-overlap", "title": "Do they overlap?", "points": 15}, {"id": "w014d2-initials", "title": "Initials, carefully", "points": 10}, {"id": "w014d2-pass_band", "title": "On the boundary", "points": 10}, {"id": "w014d2-bug1", "title": "Only works in the middle", "points": 10}, {"id": "w014d2-bug2", "title": "Most common", "points": 10}, {"id": "w014d2-bug3", "title": "Words that end the text", "points": 10}, {"id": "w014d2-trace", "title": "Predict the edges", "points": 15}, {"id": "w014d2-challenge", "title": "Challenge: merging intervals", "points": 25}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

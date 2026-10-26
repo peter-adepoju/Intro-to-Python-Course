@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="8d61681a02">
+<title>Week 14 Day 4: Decomposition | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=8d61681a02">
+<link rel="stylesheet" href="../assets/css/site.css?v=8d61681a02">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=8d61681a02"></script>
+<script src="../assets/vendor/codemirror.js?v=8d61681a02" defer></script>
+<meta name="description" content="No one solves a big problem in one go. They split it into smaller problems, and those into smaller ones, until each piece is small enough to solve and check...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w014d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 14 Day 4: Decomposition">
+<meta property="og:description" content="No one solves a big problem in one go. They split it into smaller problems, and those into smaller ones, until each piece is small enough to solve and check...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w014d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-14">Week 14: A method for solving problems</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#splitting-a-problem" data-sec="splitting-a-problem">Splitting a problem</a></li><li><a href="#good-boundaries" data-sec="good-boundaries">Good boundaries</a></li><li><a href="#logic-in-the-middle-input-and-output-at-the-edges" data-sec="logic-in-the-middle-input-and-output-at-the-edges">Logic in the middle, input and output at the edges</a></li><li><a href="#when-to-split" data-sec="when-to-split">When to split</a></li><li><a href="#practice-a-whole-game-piece-by-piece" data-sec="practice-a-whole-game-piece-by-piece">Practice: a whole game, piece by piece</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 2: Thinking like a programmer <span>Week 14, Day 4</span></p>
+      <h1>Decomposition</h1>
+      <div class="day-intro"><p>No one solves a big problem in one go. They split it into smaller problems, and those into smaller ones, until each piece is small enough to solve and check on its own. That&rsquo;s decomposition, and it&rsquo;s the single most important skill in programming anything larger than a page. Today you&rsquo;ll practise splitting problems into functions, choosing where the boundaries go, and building a complete game from pieces.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Split a problem into functions, top-down from the whole or bottom-up from building blocks</li><li>Choose good boundaries, with one job per function and everything it needs passed in</li><li>Keep input and output at the edges, and the logic in functions that only compute</li><li>Recognise a function that should be split, and split it without changing what it does</li><li>Build and check a complete program one function at a time</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Splitting a problem: 25 min"></span><span class="plan-seg s0" style="flex:30" title="Good boundaries: 30 min"></span><span class="plan-seg s1" style="flex:20" title="Logic in the middle, input and output at the edges: 20 min"></span><span class="plan-seg s0" style="flex:15" title="When to split: 15 min"></span><span class="plan-seg s1" style="flex:70" title="Practice: a whole game, piece by piece: 70 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Splitting a problem</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Good boundaries</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Logic in the middle, input and output at the edges</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">When to split</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Practice: a whole game, piece by piece</span><span class="plan-min">70 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w014d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w014d4.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w014d4-p1"><textarea class="pc-src pc-code" hidden>def is_vowel(ch):
+    return ch.lower() in &quot;aeiou&quot;
+
+def count_vowels(word):
+    return sum(1 for ch in word if is_vowel(ch))
+
+def vowel_heavy(words):
+    return [w for w in words if count_vowels(w) &gt; len(w) / 2]
+
+print(vowel_heavy([&quot;audio&quot;, &quot;rhythm&quot;, &quot;aeon&quot;, &quot;queue&quot;, &quot;strength&quot;]))</textarea></div>
+<p>Three functions of one or two lines each, every one obviously right on its own. Put together, they do something you&rsquo;d have to think hard about if it were written as one block. That&rsquo;s decomposition.</p>
+<h2 id="splitting-a-problem">Splitting a problem</h2>
+<p>There are two directions to split from, and you&rsquo;ll usually use both.</p>
+<p><strong>Top-down</strong>: start from the whole problem and ask &ldquo;what are the main steps?&rdquo;. Each step becomes a function, at first just a name, a docstring and a <code>pass</code>. Then do the same for each step. You met this in Week 7, and the gradebook project used it.</p>
+<p><strong>Bottom-up</strong>: start from the small, obviously useful pieces you know you&rsquo;ll need (checking a guess is valid, scoring one guess) and build them first, checking each, then combine them.</p>
+<p>Here&rsquo;s a top-down plan for <strong>Bulls and Cows</strong>, a code-breaking game older than its board-game version, Mastermind. The computer picks a secret of four different digits. You guess four different digits, and it tells you how many <strong>bulls</strong> (right digit, right place) and <strong>cows</strong> (right digit, wrong place) you got. You keep guessing until you get four bulls.</p>
+<figure class="widget" data-widget="callgraph"><script type="application/json">{"code": "def play():\n    \"\"\"Play one game of Bulls and Cows.\"\"\"\n    secret = make_secret(4)\n    guesses = 0\n    while True:\n        guess = ask_guess(4)\n        guesses += 1\n        bulls, cows = score(secret, guess)\n        show_result(bulls, cows)\n        if bulls == 4:\n            break\n    print(\"Got it in\", guesses)\n\ndef make_secret(length):\n    \"\"\"A string of `length` different random digits.\"\"\"\n    pass\n\ndef ask_guess(length):\n    \"\"\"Ask until the player types `length` different digits; return them.\"\"\"\n    while not valid_guess(\"\", length):\n        pass\n    return \"\"\n\ndef valid_guess(text, length):\n    \"\"\"True if text is `length` different digits.\"\"\"\n    pass\n\ndef score(secret, guess):\n    \"\"\"(bulls, cows): right digit in the right place, right digit in the wrong place.\"\"\"\n    pass\n\ndef show_result(bulls, cows):\n    \"\"\"Print the result of one guess.\"\"\"\n    pass\n\nplay()"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The plan for Bulls and Cows. Yellow boxes are stubs. Each could be written, and checked, by a different person.</figcaption></figure>
+<p>Each box is a small problem with a precise question: &ldquo;is this text four different digits?&rdquo;, &ldquo;how many bulls and cows?&rdquo;. You&rsquo;ll write every one of them in the practice below.</p>
+<h2 id="good-boundaries">Good boundaries</h2>
+<p>Where you draw the lines between functions matters as much as drawing them at all. Good functions have these properties:</p>
+<ul>
+<li><strong>One job</strong>, which you can describe in a sentence without &ldquo;and&rdquo;. <code>score</code> scores a guess; it doesn&rsquo;t also print the result.</li>
+<li><strong>Everything it needs comes in as parameters</strong>, and everything it produces goes out with <code>return</code>. No reading global variables that something else changes.</li>
+<li><strong>A small, clear interface</strong>: few parameters, a predictable return value, behaviour at the edges decided and documented.</li>
+<li><strong>Checkable on its own</strong>: you can call it with an example and check the answer, without setting up the rest of the program.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w014d4-e2"><div class="pc-title">Hard to check, and easy to check</div><textarea class="pc-src pc-code" hidden># One function doing everything: it reads input, works something out, and prints.
+def report_tangled():
+    text = input(&quot;Text: &quot;)
+    words = text.split()
+    longest = max(words, key=len) if words else &quot;&quot;
+    print(f&quot;{len(words)} words, longest: {longest}&quot;)
+
+# The same job, split: the logic is a function you can check without typing anything.
+def word_stats(text):
+    words = text.split()
+    return len(words), (max(words, key=len) if words else &quot;&quot;)
+
+assert word_stats(&quot;the quick fox&quot;) == (3, &quot;quick&quot;)
+assert word_stats(&quot;&quot;) == (0, &quot;&quot;)
+print(&quot;word_stats checked&quot;)</textarea></div>
+<p><code>report_tangled</code> can only be checked by running it and typing. <code>word_stats</code> can be checked in two lines, for any number of examples, in a fraction of a second.</p>
+<h2 id="logic-in-the-middle-input-and-output-at-the-edges">Logic in the middle, input and output at the edges</h2>
+<p>The pattern in that example is worth naming. Keep the <strong>logic</strong> (the deciding, calculating and transforming) in functions that take values and return values. Keep <strong>input and output</strong> (<code>input</code>, <code>print</code>, files) in a thin layer at the edges of the program that calls them.</p>
+<pre><code>main (the edge):      read input  -&gt;  call the logic  -&gt;  print the result
+logic (the middle):   pure functions: values in, values out
+</code></pre>
+<p>The middle is where the bugs are, and it&rsquo;s the part you can check easily. The edges are short and boring, which is exactly what you want of the parts that are hard to check.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Decompose until each function has one job, gets everything it needs as parameters, and returns its result. Put input and output in a thin layer around the logic, not inside it.</p></aside>
+<h2 id="when-to-split">When to split</h2>
+<p>A function probably needs splitting when:</p>
+<ul>
+<li>you can&rsquo;t describe what it does without &ldquo;and&rdquo;, or its name is vague (<code>process</code>, <code>handle</code>, <code>do_stuff</code>);</li>
+<li>it&rsquo;s longer than you can see on one screen (roughly 20 to 30 lines);</li>
+<li>it has comments marking sections (&ldquo;# now work out the totals&rdquo;): each section wants to be a function, named after the comment;</li>
+<li>the same few lines appear twice, perhaps with small differences;</li>
+<li>part of it would be useful somewhere else.</li>
+</ul>
+<p>Splitting a working function without changing what it does is called <strong>refactoring</strong>. Do it in small steps, and check after each one that the program still gives the same results. The checks you wrote earlier make that safe.</p>
+<h2 id="practice-a-whole-game-piece-by-piece">Practice: a whole game, piece by piece</h2>
+<p>These exercises build the Bulls and Cows game from the plan above, one function at a time. Each can be checked on its own. The last one puts them together.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d4-valid" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title"><ol>
+<li>A valid guess</li>
+</ol></div><div class="pc-prompt"><p>Write <code>valid_guess(text, length)</code> that returns <code>True</code> if <code>text</code> (after stripping spaces at the ends) is exactly <code>length</code> digits, all different.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert valid_guess(&quot;1234&quot;, 4) is True
+    assert valid_guess(&quot; 9870 &quot;, 4) is True
+    assert valid_guess(&quot;1123&quot;, 4) is False
+    assert valid_guess(&quot;123&quot;, 4) is False
+    assert valid_guess(&quot;12a4&quot;, 4) is False
+    assert valid_guess(&quot;12345&quot;, 4) is False
+    assert valid_guess(&quot;12 34&quot;, 4) is False</textarea><textarea class="pc-src pc-solution" hidden>def valid_guess(text, length):
+    text = text.strip()
+    return len(text) == length and text.isdigit() and len(set(text)) == length</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d4-score" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title"><ol start="2">
+<li>Bulls and cows</li>
+</ol></div><div class="pc-prompt"><p>Write <code>score(secret, guess)</code> that returns a tuple <code>(bulls, cows)</code> for two strings of the same length with all-different digits: bulls are digits in the same position in both; cows are digits in both but in different positions.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert score(&quot;1234&quot;, &quot;1234&quot;) == (4, 0)
+    assert score(&quot;1234&quot;, &quot;4321&quot;) == (0, 4)
+    assert score(&quot;1234&quot;, &quot;1243&quot;) == (2, 2)
+    assert score(&quot;1234&quot;, &quot;5678&quot;) == (0, 0)
+    assert score(&quot;4271&quot;, &quot;1234&quot;) == (1, 2)</textarea><textarea class="pc-src pc-solution" hidden>def score(secret, guess):
+    bulls = sum(1 for s, g in zip(secret, guess) if s == g)
+    common = len(set(secret) &amp; set(guess))
+    return bulls, common - bulls</textarea><template class="pc-src pc-hint">Bulls: count the positions where the characters match (<code>zip</code> helps). Common digits: <code>len(set(secret) &amp; set(guess))</code>. Cows are the common digits that aren&rsquo;t bulls.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d4-secret" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title"><ol start="3">
+<li>A secret</li>
+</ol></div><div class="pc-prompt"><p>Write <code>make_secret(length)</code> that returns a string of <code>length</code> different random digits (in random order) using <code>random.sample</code>, which picks items without repeats: <code>random.sample("0123456789", 4)</code> gives a list of 4 different digits.</p></div><textarea class="pc-src pc-code" hidden>import random</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;random secrets&quot;
+    seen = set()
+    for _ in range(200):
+        s = make_secret(4)
+        assert isinstance(s, str) and len(s) == 4 and s.isdigit() and len(set(s)) == 4, repr(s)
+        seen.add(s)
+    assert len(seen) &gt; 150, &quot;the secrets don&#x27;t look random&quot;
+    assert make_secret(10) != &quot;&quot; and len(set(make_secret(10))) == 10</textarea><textarea class="pc-src pc-solution" hidden>import random
+
+def make_secret(length):
+    return &quot;&quot;.join(random.sample(&quot;0123456789&quot;, length))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d4-feedback" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title"><ol start="4">
+<li>Showing a result</li>
+</ol></div><div class="pc-prompt"><p>Write <code>describe(bulls, cows)</code> that returns the text shown after a guess: <code>2 bulls, 1 cow</code> (with <code>bull</code> and <code>cow</code> in the singular for 1), or <code>Nothing</code> if both are 0, or <code>Four bulls! You win.</code> for 4 bulls. It returns the text rather than printing it, so it can be checked.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert describe(2, 1) == &quot;2 bulls, 1 cow&quot;
+    assert describe(1, 2) == &quot;1 bull, 2 cows&quot;
+    assert describe(0, 3) == &quot;0 bulls, 3 cows&quot;
+    assert describe(0, 0) == &quot;Nothing&quot;
+    assert describe(4, 0) == &quot;Four bulls! You win.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def describe(bulls, cows):
+    if bulls == 4:
+        return &quot;Four bulls! You win.&quot;
+    if bulls == 0 and cows == 0:
+        return &quot;Nothing&quot;
+    def plural(n, word):
+        return f&quot;{n} {word}&quot; + (&quot;&quot; if n == 1 else &quot;s&quot;)
+    return plural(bulls, &quot;bull&quot;) + &quot;, &quot; + plural(cows, &quot;cow&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d4-game" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title"><ol start="5">
+<li>The whole game</li>
+</ol></div><div class="pc-prompt"><p>Put it together. The starter has model versions of the four functions. Write <code>play(secret)</code>, which takes the secret as a parameter (so the game can be checked with a known secret), asks <code>Guess:</code> until the guess is valid (printing <code>Four different digits, please.</code> otherwise; invalid guesses don&rsquo;t count), prints <code>describe(...)</code> after each valid guess, and finishes with <code>Solved in N guesses</code> (or <code>1 guess</code>). The last line of the program is <code>play(make_secret(4))</code>.</p></div><textarea class="pc-src pc-code" hidden>import random
+
+def valid_guess(text, length):
+    text = text.strip()
+    return len(text) == length and text.isdigit() and len(set(text)) == length
+
+def score(secret, guess):
+    bulls = sum(1 for s, g in zip(secret, guess) if s == g)
+    return bulls, len(set(secret) &amp; set(guess)) - bulls
+
+def make_secret(length):
+    return &quot;&quot;.join(random.sample(&quot;0123456789&quot;, length))
+
+def describe(bulls, cows):
+    if bulls == 4:
+        return &quot;Four bulls! You win.&quot;
+    if bulls == 0 and cows == 0:
+        return &quot;Nothing&quot;
+    plural = lambda n, w: f&quot;{n} {w}&quot; + (&quot;&quot; if n == 1 else &quot;s&quot;)
+    return plural(bulls, &quot;bull&quot;) + &quot;, &quot; + plural(cows, &quot;cow&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_game():
+    &quot;a game with a known secret&quot;
+    out = run_with({&quot;play(make_secret(4))&quot;: &#x27;play(&quot;1234&quot;)&#x27;}, inputs=[&quot;5678&quot;, &quot;1123&quot;, &quot;4321&quot;, &quot;12&quot;, &quot;1243&quot;, &quot;1234&quot;], echo=True)
+    want = &quot;Guess: 5678\nNothing\nGuess: 1123\nFour different digits, please.\nGuess: 4321\n0 bulls, 4 cows\nGuess: 12\nFour different digits, please.\nGuess: 1243\n2 bulls, 2 cows\nGuess: 1234\nFour bulls! You win.\nSolved in 4 guesses&quot;
+    assert norm(out) == want, &quot;Got:\n&quot; + out
+def test_one():
+    &quot;first time&quot;
+    out = run_with({&quot;play(make_secret(4))&quot;: &#x27;play(&quot;9876&quot;)&#x27;}, inputs=[&quot;9876&quot;], echo=True)
+    assert norm(out) == &quot;Guess: 9876\nFour bulls! You win.\nSolved in 1 guess&quot;</textarea><textarea class="pc-src pc-solution" hidden>import random
+
+def valid_guess(text, length):
+    text = text.strip()
+    return len(text) == length and text.isdigit() and len(set(text)) == length
+
+def score(secret, guess):
+    bulls = sum(1 for s, g in zip(secret, guess) if s == g)
+    return bulls, len(set(secret) &amp; set(guess)) - bulls
+
+def make_secret(length):
+    return &quot;&quot;.join(random.sample(&quot;0123456789&quot;, length))
+
+def describe(bulls, cows):
+    if bulls == 4:
+        return &quot;Four bulls! You win.&quot;
+    if bulls == 0 and cows == 0:
+        return &quot;Nothing&quot;
+    plural = lambda n, w: f&quot;{n} {w}&quot; + (&quot;&quot; if n == 1 else &quot;s&quot;)
+    return plural(bulls, &quot;bull&quot;) + &quot;, &quot; + plural(cows, &quot;cow&quot;)
+
+def ask_guess(length):
+    while True:
+        text = input(&quot;Guess: &quot;)
+        if valid_guess(text, length):
+            return text.strip()
+        print(&quot;Four different digits, please.&quot;)
+
+def play(secret):
+    guesses = 0
+    while True:
+        guess = ask_guess(len(secret))
+        guesses += 1
+        bulls, cows = score(secret, guess)
+        print(describe(bulls, cows))
+        if bulls == len(secret):
+            break
+    print(f&quot;Solved in {guesses} guess{&#x27;&#x27; if guesses == 1 else &#x27;es&#x27;}&quot;)
+
+play(make_secret(4))</textarea></div>
+<aside class="callout c-think"><div class="callout-t">Look at what you built</div><p><code>play</code> contains no scoring logic, <code>score</code> no printing, <code>valid_guess</code> no input. If someone asks for a five-digit version, the change is <code>play(make_secret(5))</code> and the word &ldquo;Four&rdquo; in <code>describe</code>. If they ask for a version that plays itself (that&rsquo;s tomorrow&rsquo;s bonus idea, and a famous problem), <code>score</code> and <code>valid_guess</code> can be reused unchanged.</p></aside>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d4-refactor" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Refactor: split the report</div><div class="pc-prompt"><p>The function <code>report(text)</code> works, but it does four jobs in one. Split it into four functions that each do one job, and make <code>report</code> call them. Keep the output exactly the same. The checker calls each new function on its own:</p>
+<ul>
+<li><code>sentences(text)</code>: the number of sentences (count of <code>.</code>, <code>!</code> and <code>?</code>, at least 1 if there&rsquo;s any text);</li>
+<li><code>words(text)</code>: the list of words, lower-cased, with the punctuation <code>.,!?;:</code> stripped from their ends, leaving out any that become empty;</li>
+<li><code>average_length(word_list)</code>: the average word length rounded to 1 place (0 for no words);</li>
+<li><code>top_word(word_list)</code>: the most common word, the alphabetically first on a tie (<code>""</code> for no words).</li>
+</ul></div><textarea class="pc-src pc-code" hidden>def report(text):
+    # count sentences
+    n_sentences = sum(text.count(p) for p in &quot;.!?&quot;)
+    if text.strip() and n_sentences == 0:
+        n_sentences = 1
+    # make the word list
+    word_list = []
+    for w in text.lower().split():
+        w = w.strip(&quot;.,!?;:&quot;)
+        if w:
+            word_list.append(w)
+    # average length
+    avg = round(sum(len(w) for w in word_list) / len(word_list), 1) if word_list else 0
+    # most common word
+    counts = {}
+    for w in word_list:
+        counts[w] = counts.get(w, 0) + 1
+    top = min(counts, key=lambda w: (-counts[w], w)) if counts else &quot;&quot;
+    return f&quot;{n_sentences} sentences, {len(word_list)} words, average length {avg}, most common: {top}&quot;
+
+print(report(&quot;The cat sat. The cat ran! Did the dog?&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_parts():
+    &quot;each part on its own&quot;
+    t = &quot;The cat sat. The cat ran! Did the dog?&quot;
+    assert sentences(t) == 3 and sentences(&quot;no full stop&quot;) == 1 and sentences(&quot;&quot;) == 0
+    assert words(t) == [&quot;the&quot;, &quot;cat&quot;, &quot;sat&quot;, &quot;the&quot;, &quot;cat&quot;, &quot;ran&quot;, &quot;did&quot;, &quot;the&quot;, &quot;dog&quot;]
+    assert words(&quot; ... &quot;) == []
+    assert average_length([&quot;ab&quot;, &quot;abcd&quot;]) == 3.0 and average_length([]) == 0
+    assert top_word([&quot;b&quot;, &quot;a&quot;, &quot;b&quot;, &quot;a&quot;]) == &quot;a&quot; and top_word([]) == &quot;&quot;
+def test_same():
+    &quot;the report is unchanged&quot;
+    expect_output(&quot;3 sentences, 9 words, average length 3.0, most common: the&quot;)
+    assert report(&quot;Hi&quot;) == &quot;1 sentences, 1 words, average length 2.0, most common: hi&quot;
+def test_uses():
+    &quot;report uses the new functions&quot;
+    body = source[source.index(&quot;def report&quot;):]
+    body = body[:body.index(&quot;print(&quot;)] if &quot;print(&quot; in body else body
+    for name in (&quot;sentences(&quot;, &quot;words(&quot;, &quot;average_length(&quot;, &quot;top_word(&quot;):
+        assert name in body, f&quot;report should call {name[:-1]}&quot;</textarea><textarea class="pc-src pc-solution" hidden>def sentences(text):
+    n = sum(text.count(p) for p in &quot;.!?&quot;)
+    if text.strip() and n == 0:
+        n = 1
+    return n
+
+def words(text):
+    result = []
+    for w in text.lower().split():
+        w = w.strip(&quot;.,!?;:&quot;)
+        if w:
+            result.append(w)
+    return result
+
+def average_length(word_list):
+    return round(sum(len(w) for w in word_list) / len(word_list), 1) if word_list else 0
+
+def top_word(word_list):
+    counts = {}
+    for w in word_list:
+        counts[w] = counts.get(w, 0) + 1
+    return min(counts, key=lambda w: (-counts[w], w)) if counts else &quot;&quot;
+
+def report(text):
+    word_list = words(text)
+    return (f&quot;{sentences(text)} sentences, {len(word_list)} words, &quot;
+            f&quot;average length {average_length(word_list)}, most common: {top_word(word_list)}&quot;)
+
+print(report(&quot;The cat sat. The cat ran! Did the dog?&quot;))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w014d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A hidden dependency</div><div class="pc-prompt"><p><code>apply_discount(price)</code> uses a global variable, so its answer depends on something that isn&rsquo;t passed in. Here, a later change to <code>rate</code> silently changed an earlier calculation&rsquo;s meaning. Make <code>rate</code> a parameter (with a default of 0.1), so the output is <code>90.0 then 75.0</code>.</p></div><textarea class="pc-src pc-code" hidden>rate = 0.1
+
+def apply_discount(price):
+    return price * (1 - rate)
+
+first = apply_discount(100)
+rate = 0.25
+second = apply_discount(100)
+print(first, &quot;then&quot;, second)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;both&quot;
+    expect_output(&quot;90.0 then 75.0&quot;)
+def test_param():
+    &quot;rate is a parameter&quot;
+    assert apply_discount(200) == 180.0 and apply_discount(200, 0.5) == 100.0
+    assert &quot;global&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def apply_discount(price, rate=0.1):
+    return price * (1 - rate)
+
+first = apply_discount(100)
+second = apply_discount(100, 0.25)
+print(first, &quot;then&quot;, second)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d4-trace" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Which is a good boundary?</div><div class="pc-prompt"><p>For each function, decide whether it has one clear job with everything passed in (<code>True</code>) or not (<code>False</code>).</p></div><textarea class="pc-src pc-code" hidden># a: def total_price(items, vat_rate): returns the sum of item prices plus VAT
+# b: def load_and_print_and_save(path): reads a file, prints a report, writes a summary file
+# c: def is_valid_email(text): returns True or False
+# d: def next_id(): returns the global counter plus one, and adds one to the global counter
+a = ___
+b = ___
+c = ___
+d = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert (a, b, c, d) == (True, False, True, False)</textarea><textarea class="pc-src pc-solution" hidden>a = True
+b = False
+c = True
+d = False</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w014d4-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is decomposition?", "answer": 1, "explain": "Until each piece is small enough to solve and check.", "options": ["Deleting code", "Splitting a problem into smaller problems, each solved by its own function", "Making code shorter", "Compiling code"]}, {"type": "mc", "q": "What&rsquo;s the difference between top-down and bottom-up?", "answer": 1, "explain": "You&rsquo;ll usually use both.", "options": ["None", "Top-down starts from the whole and splits it; bottom-up builds useful pieces first and combines them", "Top-down is faster", "Bottom-up has no functions"]}, {"type": "mc", "q": "Which is the sign of a good function?", "answer": 2, "explain": "And it&rsquo;s checkable on its own.", "options": ["It&rsquo;s long", "It reads several global variables", "It has one job, gets what it needs as parameters, and returns its result", "It prints its result"]}, {"type": "mc", "q": "Why keep input and output at the edges?", "answer": 1, "explain": "The middle is where the bugs are.", "options": ["It&rsquo;s required", "The logic in the middle can then be checked easily with plain values", "It&rsquo;s faster", "Printing is slow"]}, {"type": "text", "q": "What does <code>score('1234', '1243')</code> give for Bulls and Cows?", "answer": ["(2, 2)"], "explain": "1 and 2 in place; 3 and 4 swapped."}, {"type": "mc", "q": "Which is a sign a function should be split?", "answer": 1, "explain": "Each section wants to be a function.", "options": ["It has a docstring", "Its comments mark separate sections", "It returns a value", "It has two parameters"]}, {"type": "mc", "q": "What is refactoring?", "answer": 1, "explain": "In small steps, checking as you go.", "options": ["Adding features", "Changing the structure of code without changing what it does", "Fixing bugs", "Rewriting in another language"]}, {"type": "mc", "q": "Why did <code>play</code> take the secret as a parameter?", "answer": 1, "explain": "Pass things in; it makes code checkable.", "options": ["To save memory", "So a game with a known secret can be checked", "Python requires it", "To make it random"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w014d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a word search</div><div class="pc-prompt"><p>Write a word-search solver, decomposed into small functions:</p>
+<ul>
+<li><code>directions()</code>: the eight <code>(row_step, col_step)</code> directions: right, left, down, up and the four diagonals.</li>
+<li><code>read(grid, r, c, dr, dc, n)</code>: the <code>n</code> letters starting at row <code>r</code>, column <code>c</code>, stepping by <code>(dr, dc)</code>, or <code>None</code> if that runs off the grid.</li>
+<li><code>find(grid, word)</code>: the <code>(row, col, (dr, dc))</code> of the first place the word starts, scanning rows top to bottom, columns left to right, and directions in the order <code>directions()</code> gives, or <code>None</code>. Case is ignored.</li>
+<li><code>solve(grid, words)</code>: a dictionary from each word to its <code>find</code> result.</li>
+</ul>
+<p>The grid is a list of equal-length strings.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>GRID = [&quot;PYTHONX&quot;, &quot;AEAQZCL&quot;, &quot;TSRKOEO&quot;, &quot;CWAHDOP&quot;, &quot;HHEOLAP&quot;, &quot;SBXLSTE&quot;, &quot;ARUNSNR&quot;]
+def test_directions():
+    &quot;directions&quot;
+    d = directions()
+    assert len(d) == 8 and len(set(d)) == 8 and (0, 1) in d and (-1, -1) in d and (0, 0) not in d
+def test_read():
+    &quot;read&quot;
+    assert read(GRID, 0, 0, 0, 1, 6) == &quot;PYTHON&quot;
+    assert read(GRID, 0, 0, 1, 0, 3) == &quot;PAT&quot;
+    assert read(GRID, 0, 5, 0, 1, 3) is None
+    assert read(GRID, 2, 2, -1, -1, 3) == &quot;REP&quot;
+    assert read(GRID, 0, 0, -1, 0, 2) is None
+def test_find():
+    &quot;find&quot;
+    assert find(GRID, &quot;python&quot;) == (0, 0, (0, 1))
+    assert find(GRID, &quot;PATCH&quot;) == (0, 0, (1, 0))
+    assert find(GRID, &quot;RUN&quot;) == (6, 1, (0, 1))
+    assert find(GRID, &quot;rep&quot;) == (2, 2, (-1, -1))
+    assert find(GRID, &quot;LOPPER&quot;) == (1, 6, (1, 0))
+    assert find(GRID, &quot;JAVA&quot;) is None
+def test_solve():
+    &quot;solve&quot;
+    s = solve(GRID, [&quot;python&quot;, &quot;java&quot;])
+    assert s == {&quot;python&quot;: (0, 0, (0, 1)), &quot;java&quot;: None}</textarea><textarea class="pc-src pc-solution" hidden>def directions():
+    return [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+
+def read(grid, r, c, dr, dc, n):
+    letters = []
+    for _ in range(n):
+        if not (0 &lt;= r &lt; len(grid) and 0 &lt;= c &lt; len(grid[0])):
+            return None
+        letters.append(grid[r][c])
+        r += dr
+        c += dc
+    return &quot;&quot;.join(letters)
+
+def find(grid, word):
+    target = word.upper()
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            for dr, dc in directions():
+                if read(grid, r, c, dr, dc, len(target)) == target:
+                    return r, c, (dr, dc)
+    return None
+
+def solve(grid, words):
+    return {w: find(grid, w) for w in words}</textarea><template class="pc-src pc-hint">In <code>read</code>, loop <code>n</code> times: check <code>0 &lt;= r &lt; len(grid)</code> and <code>0 &lt;= c &lt; len(grid[0])</code> before taking <code>grid[r][c]</code>, then step <code>r += dr</code>, <code>c += dc</code>.</template><template class="pc-src pc-hint"><code>find</code> is three nested loops (rows, columns, directions) around one comparison: <code>read(grid, r, c, dr, dc, len(word)) == word.upper()</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Find the longest function you&rsquo;ve written this year. Describe what it does in one sentence. If the sentence has &ldquo;and&rdquo; in it, split the function along that &ldquo;and&rdquo;, and check it still works. Tomorrow: your pattern library, the dozen or so shapes that most solutions are built from.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w014d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w014d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w014d4", "week": 14, "day": 4, "title": "Decomposition", "exercises": [{"id": "w014d4-valid", "title": "1. A valid guess", "points": 10}, {"id": "w014d4-score", "title": "2. Bulls and cows", "points": 15}, {"id": "w014d4-secret", "title": "3. A secret", "points": 10}, {"id": "w014d4-feedback", "title": "4. Showing a result", "points": 10}, {"id": "w014d4-game", "title": "5. The whole game", "points": 20}, {"id": "w014d4-refactor", "title": "Refactor: split the report", "points": 20}, {"id": "w014d4-bug1", "title": "A hidden dependency", "points": 10}, {"id": "w014d4-trace", "title": "Which is a good boundary?", "points": 10}, {"id": "w014d4-challenge", "title": "Challenge: a word search", "points": 25}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
