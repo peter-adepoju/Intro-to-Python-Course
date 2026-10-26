@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="15c1631d82">
+<title>Week 8 Day 5: Aliasing and copying | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=15c1631d82">
+<link rel="stylesheet" href="../assets/css/site.css?v=15c1631d82">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=15c1631d82"></script>
+<script src="../assets/vendor/codemirror.js?v=15c1631d82" defer></script>
+<meta name="description" content="When two names point at the same list, a change through either one is a change to both. That’s called aliasing, and it’s behind some of the most confusing...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w008d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 8 Day 5: Aliasing and copying">
+<meta property="og:description" content="When two names point at the same list, a change through either one is a change to both. That’s called aliasing, and it’s behind some of the most confusing...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w008d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-8">Week 8: Lists I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#aliases" data-sec="aliases">Aliases</a></li><li><a href="#versus-is" data-sec="versus-is">== versus is</a></li><li><a href="#copies" data-sec="copies">Copies</a></li><li><a href="#two-classic-traps" data-sec="two-classic-traps">Two classic traps</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 8, Day 5</span></p>
+      <h1>Aliasing and copying</h1>
+      <div class="day-intro"><p>When two names point at the same list, a change through either one is a change to both. That&rsquo;s called aliasing, and it&rsquo;s behind some of the most confusing bugs in Python, and also some of its most useful tricks. Today you&rsquo;ll learn to see aliases, make real copies when you need them, and understand the difference between a shallow copy and a deep one.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Recognise when two names are aliases for one list, and test it with <code>is</code></li><li>Explain the difference between <code>==</code> (same contents) and <code>is</code> (same object)</li><li>Make a copy of a list with <code>.copy()</code>, <code>list(x)</code> or <code>x[:]</code>, and know when you need to</li><li>Explain why a shallow copy of a list of lists still shares the inner lists, and use <code>copy.deepcopy</code> when needed</li><li>Avoid the two classic traps, <code>[[0] * 3] * 3</code> and a list as a default argument</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Aliases: 30 min"></span><span class="plan-seg s0" style="flex:20" title="== versus is: 20 min"></span><span class="plan-seg s1" style="flex:30" title="Copies, shallow and deep: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Two classic traps: 30 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Aliases</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">== versus is</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Copies, shallow and deep</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Two classic traps</span><span class="plan-min">30 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w008d5.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d5-p1"><textarea class="pc-src pc-code" hidden>original = [1, 2, 3]
+backup = original
+original.append(4)
+print(backup)</textarea></div>
+<p><code>backup</code> changed, although you never touched it. If that surprises you, today will put it right for good. If it doesn&rsquo;t, today will show you every place this matters.</p>
+<h2 id="aliases">Aliases</h2>
+<p><code>backup = original</code> doesn&rsquo;t copy anything. Assignment never copies: it ties a second label to the <strong>same</strong> object. The two names are <strong>aliases</strong>: two names for one list.</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e2"><div class="pc-title">X-ray me</div><textarea class="pc-src pc-code" hidden>original = [1, 2, 3]
+backup = original
+original.append(4)
+backup[0] = 99
+print(original)
+print(backup)</textarea></div>
+<p>Step through it and watch the objects panel. There is only ever <strong>one</strong> list, with two arrows pointing at it. Every change, through either name, happens to that one list.</p>
+<p>With numbers and strings, aliasing never showed, because they can&rsquo;t be changed: the only way to &ldquo;change&rdquo; one is to make a new object and move a name, which leaves the other name alone. With lists, mutation changes the shared object itself.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Assignment never copies. After <code>b = a</code>, both names point at the same list, and any change to the list (through either name) is seen through both.</p></aside>
+<h3 id="aliases-you-didn-t-write">Aliases you didn&rsquo;t write</h3>
+<p>Aliasing also happens without an <code>=</code> in sight:</p>
+<ul>
+<li><strong>Function parameters</strong>: inside <code>f(items)</code>, the parameter is another name for the caller&rsquo;s list. (That&rsquo;s why the functions on Day 2 could change their arguments.)</li>
+<li><strong>Return values</strong>: a function that returns a list it was given hands back the same object, not a copy.</li>
+<li><strong>Items of other lists</strong>: a list can hold another list, and the same inner list can be held in several places.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e3"><textarea class="pc-src pc-code" hidden>def add_item(basket, item):
+    basket.append(item)
+    return basket
+
+mine = [&quot;rice&quot;]
+result = add_item(mine, &quot;beans&quot;)
+result.append(&quot;salt&quot;)
+print(mine)
+print(result is mine)</textarea></div>
+<h2 id="versus-is">== versus is</h2>
+<p>There are two different questions you can ask about two lists:</p>
+<ul>
+<li><code>a == b</code>: do they have <strong>equal contents</strong>?</li>
+<li><code>a is b</code>: are they the <strong>same object</strong>?</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e4"><textarea class="pc-src pc-code" hidden>a = [1, 2, 3]
+b = a
+c = [1, 2, 3]
+print(a == b, a is b)
+print(a == c, a is c)</textarea></div>
+<p><code>a</code> and <code>c</code> look identical, but they&rsquo;re two separate lists that happen to hold the same values. Changing one won&rsquo;t change the other. <code>id(x)</code> shows an object&rsquo;s identity number, so <code>a is b</code> is the same as <code>id(a) == id(b)</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e5"><textarea class="pc-src pc-code" hidden>a = [1, 2, 3]
+b = a
+c = [1, 2, 3]
+print(id(a) == id(b), id(a) == id(c))</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Use <code>==</code> to compare values, almost always. Use <code>is</code> only to ask &ldquo;is this the very same object?&rdquo;, and to check for <code>None</code> (<code>x is None</code>), since there&rsquo;s only one <code>None</code>.</p></aside>
+<h2 id="copies">Copies</h2>
+<p>When you want a separate list with the same items, make a <strong>copy</strong>. There are three common ways, all equivalent:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e6"><textarea class="pc-src pc-code" hidden>original = [1, 2, 3]
+a = original.copy()
+b = list(original)
+c = original[:]
+original.append(4)
+print(original, a, b, c)
+print(a == [1, 2, 3], a is original)</textarea></div>
+<p><code>original[:]</code> is a slice of the whole list, and every slice is a new list. Now each copy is independent: changing the original doesn&rsquo;t affect them.</p>
+<h3 id="when-do-you-need-a-copy">When do you need a copy?</h3>
+<p>When you want to change a list but keep the old version, or when a function shouldn&rsquo;t change the list it was given:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e7"><div class="pc-title">Sort without spoiling the caller&rsquo;s list</div><textarea class="pc-src pc-code" hidden>def median(values):
+    ordered = values.copy()
+    ordered.sort()
+    mid = len(ordered) // 2
+    if len(ordered) % 2:
+        return ordered[mid]
+    return (ordered[mid - 1] + ordered[mid]) / 2
+
+data = [7, 1, 5, 3]
+print(median(data))
+print(data)</textarea></div>
+<p>(Here <code>sorted(values)</code> would also do: it always makes a new list.)</p>
+<h3 id="shallow-and-deep">Shallow and deep</h3>
+<p>A list can hold other lists. A copy made with <code>.copy()</code>, <code>list()</code> or <code>[:]</code> is <strong>shallow</strong>: it&rsquo;s a new outer list, but its slots point at the <strong>same</strong> inner objects as the original.</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e8"><div class="pc-title">A shallow copy shares the inner lists</div><textarea class="pc-src pc-code" hidden>grid = [[1, 2], [3, 4]]
+copy_ = grid.copy()
+copy_.append([5, 6])
+copy_[0][0] = 99
+print(grid)
+print(copy_)</textarea></div>
+<p>Appending to the copy didn&rsquo;t touch the original (two separate outer lists). But <code>copy_[0][0] = 99</code> changed an <strong>inner</strong> list, and that inner list is shared, so the original sees it too. X-ray this one: you&rsquo;ll see two outer lists whose first two slots point at the same two inner lists.</p>
+<p>To copy everything, all the way down, use <code>deepcopy</code> from the <code>copy</code> module:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e9"><textarea class="pc-src pc-code" hidden>import copy
+grid = [[1, 2], [3, 4]]
+deep = copy.deepcopy(grid)
+deep[0][0] = 99
+print(grid)
+print(deep)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>A <strong>shallow</strong> copy makes a new outer list but shares the items. A <strong>deep</strong> copy (<code>copy.deepcopy</code>) copies the items too, all the way down. For a list of numbers or strings, shallow is enough; for a list of lists you&rsquo;ll change, you need deep.</p></aside>
+<h2 id="two-classic-traps">Two classic traps</h2>
+<h3 id="trap-1-repeating-a-list-of-lists">Trap 1: repeating a list of lists</h3>
+<p><code>[0] * 3</code> makes a list of three zeros. So surely <code>[[0] * 3] * 3</code> makes a 3 by 3 grid?</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e10"><div class="pc-title">Three rows, one list</div><textarea class="pc-src pc-code" hidden>grid = [[0] * 3] * 3
+grid[0][0] = 1
+print(grid)</textarea></div>
+<p>Every row changed! <code>* 3</code> repeats the <strong>reference</strong> to the inner list, so all three rows are the same list. X-ray it: three arrows to one inner list.</p>
+<p>Build each row separately instead:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e11"><div class="pc-title">Three separate rows</div><textarea class="pc-src pc-code" hidden>grid = []
+for _ in range(3):
+    grid.append([0] * 3)
+grid[0][0] = 1
+print(grid)</textarea></div>
+<p><code>[0] * 3</code> is fine (numbers can&rsquo;t be changed, so sharing them doesn&rsquo;t matter). It&rsquo;s repeating a <strong>list</strong> that causes the trouble.</p>
+<h3 id="trap-2-a-list-as-a-default-argument">Trap 2: a list as a default argument</h3>
+<p>Week 7 warned about this. Now you can see exactly why it goes wrong:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e12"><div class="pc-title">One default list for every call</div><textarea class="pc-src pc-code" hidden>def add_item(item, basket=[]):
+    basket.append(item)
+    return basket
+
+print(add_item(&quot;rice&quot;))
+print(add_item(&quot;beans&quot;))</textarea></div>
+<p>The default <code>[]</code> is made <strong>once</strong>, when <code>def</code> runs. Every call that doesn&rsquo;t pass a basket gets an alias for that same list, so items pile up between calls. The fix is the <code>None</code> pattern:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d5-e13"><div class="pc-title">A fresh list for every call</div><textarea class="pc-src pc-code" hidden>def add_item(item, basket=None):
+    if basket is None:
+        basket = []
+    basket.append(item)
+    return basket
+
+print(add_item(&quot;rice&quot;))
+print(add_item(&quot;beans&quot;))</textarea></div>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d5-predict_alias" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Alias or not?</div><div class="pc-prompt"><p>What does each block print?</p>
+<pre><code class="language-python"># A
+x = [1, 2]
+y = x
+y.append(3)
+print(x)
+
+# B
+x = [1, 2]
+y = x[:]
+y.append(3)
+print(x)
+
+# C
+x = [[1], [2]]
+y = x.copy()
+y[0].append(9)
+print(x)
+
+# D
+x = [1, 2]
+y = x
+x = [7]
+print(y)
+</code></pre></div><textarea class="pc-src pc-code" hidden>print_a = ___
+print_b = ___
+print_c = ___
+print_d = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each block&quot;
+    assert print_a == [1, 2, 3], &quot;y is an alias.&quot;
+    assert print_b == [1, 2], &quot;x[:] is a copy.&quot;
+    assert print_c == [[1, 9], [2]], &quot;A shallow copy shares the inner lists.&quot;
+    assert print_d == [1, 2], &quot;x = [7] only moves x.&quot;</textarea><textarea class="pc-src pc-solution" hidden>print_a = [1, 2, 3]
+print_b = [1, 2]
+print_c = [[1, 9], [2]]
+print_d = [1, 2]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d5-protect" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Don&rsquo;t touch my list</div><div class="pc-prompt"><p><code>top_three(scores)</code> should return the three highest scores, highest first, <strong>without</strong> changing the caller&rsquo;s list. Write it using a copy and <code>sort</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    data = [50, 90, 70, 80, 60]
+    assert top_three(data) == [90, 80, 70]
+    assert data == [50, 90, 70, 80, 60], &quot;The caller&#x27;s list must be unchanged.&quot;
+    assert top_three([1, 2]) == [2, 1]</textarea><textarea class="pc-src pc-solution" hidden>def top_three(scores):
+    ordered = scores.copy()
+    ordered.sort(reverse=True)
+    return ordered[:3]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d5-same_or_equal" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Equal or identical?</div><div class="pc-prompt"><p>Fill in <code>True</code> or <code>False</code> for each.</p>
+<pre><code class="language-python">a = [1, 2]
+b = [1, 2]
+c = a
+d = a[:]
+</code></pre></div><textarea class="pc-src pc-code" hidden>a_eq_b = ___   # a == b
+a_is_b = ___   # a is b
+a_is_c = ___   # a is c
+a_is_d = ___   # a is d
+a_eq_d = ___   # a == d</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each comparison&quot;
+    assert a_eq_b is True and a_is_b is False
+    assert a_is_c is True
+    assert a_is_d is False and a_eq_d is True</textarea><textarea class="pc-src pc-solution" hidden>a_eq_b = True
+a_is_b = False
+a_is_c = True
+a_is_d = False
+a_eq_d = True</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d5-make_grid" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A proper grid</div><div class="pc-prompt"><p>Write <code>make_grid(rows, cols, fill=0)</code> that returns a grid (a list of <code>rows</code> lists, each of <code>cols</code> items equal to <code>fill</code>) where every row is a <strong>separate</strong> list.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_shape():
+    &quot;the right shape&quot;
+    g = make_grid(2, 3)
+    assert g == [[0, 0, 0], [0, 0, 0]]
+    assert make_grid(1, 2, &quot;.&quot;) == [[&quot;.&quot;, &quot;.&quot;]]
+def test_separate():
+    &quot;rows are separate lists&quot;
+    g = make_grid(3, 3)
+    g[0][0] = 1
+    assert g[1][0] == 0 and g[2][0] == 0, &quot;Changing one row changed another: build each row separately.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def make_grid(rows, cols, fill=0):
+    grid = []
+    for _ in range(rows):
+        grid.append([fill] * cols)
+    return grid</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d5-deep" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A safe copy of a board</div><div class="pc-prompt"><p><code>board</code> is a list of lists. Make <code>saved</code> a copy of it that stays the same when <code>board</code> is changed afterwards, including changes to its inner lists.</p></div><textarea class="pc-src pc-code" hidden>import copy
+board = [[&quot;X&quot;, &quot;O&quot;, &quot; &quot;], [&quot; &quot;, &quot;X&quot;, &quot; &quot;], [&quot; &quot;, &quot; &quot;, &quot;O&quot;]]
+saved = ___
+board[0][2] = &quot;X&quot;
+board.append([&quot;!&quot;])
+print(saved)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;saved is unchanged&quot;
+    expect_output(&quot;[[&#x27;X&#x27;, &#x27;O&#x27;, &#x27; &#x27;], [&#x27; &#x27;, &#x27;X&#x27;, &#x27; &#x27;], [&#x27; &#x27;, &#x27; &#x27;, &#x27;O&#x27;]]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import copy
+board = [[&quot;X&quot;, &quot;O&quot;, &quot; &quot;], [&quot; &quot;, &quot;X&quot;, &quot; &quot;], [&quot; &quot;, &quot; &quot;, &quot;O&quot;]]
+saved = copy.deepcopy(board)
+board[0][2] = &quot;X&quot;
+board.append([&quot;!&quot;])
+print(saved)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The backup changed</div><div class="pc-prompt"><p>This should keep a backup of the list before clearing it, then print the backup, but it prints <code>[]</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>items = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+backup = items
+items.clear()
+print(backup)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the backup survives&quot;
+    expect_output(&quot;[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>items = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+backup = items.copy()
+items.clear()
+print(backup)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Every row at once</div><div class="pc-prompt"><p>This should put an <code>X</code> in the top-left corner only, but the whole first column fills up. Fix how the grid is made.</p></div><textarea class="pc-src pc-code" hidden>grid = [[&quot;.&quot;] * 3] * 3
+grid[0][0] = &quot;X&quot;
+for row in grid:
+    print(&quot;&quot;.join(row))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;only one X&quot;
+    expect_output(&quot;X..\n...\n...&quot;)</textarea><textarea class="pc-src pc-solution" hidden>grid = []
+for _ in range(3):
+    grid.append([&quot;.&quot;] * 3)
+grid[0][0] = &quot;X&quot;
+for row in grid:
+    print(&quot;&quot;.join(row))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d5-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Items from nowhere</div><div class="pc-prompt"><p>Each call should return a list with just the new item, unless a list is passed in. But the second call returns two items. Fix the function.</p></div><textarea class="pc-src pc-code" hidden>def collect(item, into=[]):
+    into.append(item)
+    return into
+
+print(collect(1))
+print(collect(2))
+print(collect(3, [0]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;fresh lists&quot;
+    expect_output(&quot;[1]\n[2]\n[0, 3]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def collect(item, into=None):
+    if into is None:
+        into = []
+    into.append(item)
+    return into
+
+print(collect(1))
+print(collect(2))
+print(collect(3, [0]))</textarea></div>
+<div class="parsons" data-id="w008d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Change a copy</div><div class="pc-prompt"><p>Arrange the lines to change a copy of a list, leaving the original alone, and print both. One line is a trap.</p></div><script type="application/json">{"lines": ["original = [3, 1, 2]", "changed = original.copy()", "changed.sort()", "print(original, changed)"], "distractors": ["changed = original"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the objects</div><div class="pc-prompt"><p>How many separate <strong>list objects</strong> exist at the end of each block? Count every list, including inner ones.</p>
+<pre><code class="language-python"># A
+a = [1, 2]
+b = a
+c = a[:]
+
+# B
+row = [0, 0]
+grid = [row, row]
+
+# C
+grid = [[0, 0], [0, 0]]
+copy_ = grid.copy()
+</code></pre></div><textarea class="pc-src pc-code" hidden>lists_a = ___
+lists_b = ___
+lists_c = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each block&quot;
+    assert lists_a == 2, &quot;a and b are one list; c is a second.&quot;
+    assert lists_b == 2, &quot;row, and grid, which holds row twice.&quot;
+    assert lists_c == 4, &quot;Two inner lists, the original outer list, and the copy&#x27;s outer list.&quot;</textarea><textarea class="pc-src pc-solution" hidden>lists_a = 2
+lists_b = 2
+lists_c = 4</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w008d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "After <code>b = a</code>, where a is a list, what is <code>b is a</code>?", "answer": "True", "explain": "Assignment never copies."}, {"type": "mc", "q": "What does <code>a == b</code> check?", "answer": 1, "explain": "is checks the same object.", "options": ["Same object", "Equal contents", "Same length only", "Same type only"]}, {"type": "mc", "q": "Which of these does NOT make a copy?", "answer": 3, "explain": "That&rsquo;s an alias.", "options": ["<code>x.copy()</code>", "<code>list(x)</code>", "<code>x[:]</code>", "<code>y = x</code>"]}, {"type": "output", "q": "What does this print?", "answer": "[1]", "explain": "b is a separate copy.", "code": "a = [1]\nb = a[:]\nb.append(2)\nprint(a)"}, {"type": "mc", "q": "What does a shallow copy of a list of lists share with the original?", "answer": 2, "explain": "Use copy.deepcopy to copy those too.", "options": ["Nothing", "The outer list", "The inner lists", "Everything"]}, {"type": "output", "q": "What does this print?", "answer": "[[1, 0], [1, 0]]", "explain": "Both rows are the same list.", "code": "g = [[0] * 2] * 2\ng[0][0] = 1\nprint(g)"}, {"type": "mc", "q": "Why is <code>def f(x, items=[])</code> dangerous?", "answer": 1, "explain": "Use None and make a new list inside.", "options": ["It&rsquo;s a syntax error", "The default list is made once and shared by every call", "Lists can&rsquo;t be defaults", "It isn&rsquo;t"]}, {"type": "mc", "q": "How do you check whether x is None?", "answer": 1, "explain": "There&rsquo;s only one None object.", "options": ["<code>x == None</code>", "<code>x is None</code>"]}, {"type": "output", "q": "What does this print?", "answer": "[1, 0]", "explain": "The parameter is an alias for the caller&rsquo;s list.", "code": "def f(lst):\n    lst.append(0)\nx = [1]\nf(x)\nprint(x)"}, {"type": "mc", "q": "Why don&rsquo;t aliases cause surprises with strings?", "answer": 1, "explain": "Every &lsquo;change&rsquo; makes a new string.", "options": ["Strings are copied on assignment", "Strings can&rsquo;t be changed in place", "Strings have no ids", "They do"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a game with history</div><div class="pc-prompt"><p>Noughts and crosses is played on a board kept as a list of 9 strings, positions 0 to 8, each <code>" "</code>, <code>"X"</code> or <code>"O"</code>.</p>
+<p>Write <code>play(moves)</code> where <code>moves</code> is a list of positions. Players take turns, <code>X</code> first. The function returns a list of <strong>snapshots</strong>: the board as it was after each move, each one an independent list. A move to a position that&rsquo;s already taken is skipped (no snapshot, and the same player tries the next move). The original empty board must not appear in the result.</p>
+<p>Then <code>show(board)</code> returns the board as three lines like <code>X|O|</code> joined with <code>"\n"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_snapshots():
+    &quot;independent snapshots&quot;
+    snaps = play([4, 0, 8])
+    assert len(snaps) == 3
+    assert snaps[0] == [&quot; &quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot;X&quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;]
+    assert snaps[1] == [&quot;O&quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot;X&quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;]
+    assert snaps[2] == [&quot;O&quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot;X&quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot;X&quot;]
+    snaps[0][0] = &quot;!&quot;
+    assert snaps[1][0] == &quot;O&quot;, &quot;Each snapshot must be a separate list.&quot;
+def test_taken():
+    &quot;a taken square is skipped&quot;
+    snaps = play([0, 0, 1])
+    assert len(snaps) == 2
+    assert snaps[1][:2] == [&quot;X&quot;, &quot;O&quot;], &quot;The second 0 is skipped, so O plays at 1.&quot;
+def test_show():
+    &quot;show&quot;
+    assert show([&quot;X&quot;, &quot;O&quot;, &quot; &quot;, &quot; &quot;, &quot;X&quot;, &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot;O&quot;]) == &quot;X|O| \n |X| \n | |O&quot;</textarea><textarea class="pc-src pc-solution" hidden>def play(moves):
+    board = [&quot; &quot;] * 9
+    player = &quot;X&quot;
+    snapshots = []
+    for m in moves:
+        if board[m] != &quot; &quot;:
+            continue
+        board[m] = player
+        snapshots.append(board.copy())
+        player = &quot;O&quot; if player == &quot;X&quot; else &quot;X&quot;
+    return snapshots
+
+def show(board):
+    rows = []
+    for r in range(3):
+        rows.append(&quot;|&quot;.join(board[3 * r:3 * r + 3]))
+    return &quot;\n&quot;.join(rows)</textarea><template class="pc-src pc-hint">Keep one working <code>board</code> and a <code>player</code>. For each free move, change the board, then <code>snapshots.append(board.copy())</code>, then switch player.</template><template class="pc-src pc-hint"><code>show</code>: for each row <code>r</code> (0, 1, 2), join <code>board[3 * r:3 * r + 3]</code> with <code>"|"</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Draw the names-and-objects picture for <code>grid = [[0] * 2] * 2</code>, and then for the loop that builds the grid properly. Then explain in one sentence each: aliasing, a shallow copy, a deep copy. Tomorrow is the Forge: the receipt maker from Week 5, rewritten with lists, and the weekly quiz.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w008d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w008d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w008d5", "week": 8, "day": 5, "title": "Aliasing and copying", "exercises": [{"id": "w008d5-predict_alias", "title": "Alias or not?", "points": 10}, {"id": "w008d5-protect", "title": "Don't touch my list", "points": 10}, {"id": "w008d5-same_or_equal", "title": "Equal or identical?", "points": 10}, {"id": "w008d5-make_grid", "title": "A proper grid", "points": 10}, {"id": "w008d5-deep", "title": "A safe copy of a board", "points": 10}, {"id": "w008d5-bug1", "title": "The backup changed", "points": 10}, {"id": "w008d5-bug2", "title": "Every row at once", "points": 10}, {"id": "w008d5-bug3", "title": "Items from nowhere", "points": 10}, {"id": "w008d5-trace", "title": "Trace the objects", "points": 15}, {"id": "w008d5-challenge", "title": "Challenge: a game with history", "points": 25}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

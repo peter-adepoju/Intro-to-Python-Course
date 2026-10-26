@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="15c1631d82">
+<title>Week 8 Day 3: List methods | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=15c1631d82">
+<link rel="stylesheet" href="../assets/css/site.css?v=15c1631d82">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=15c1631d82"></script>
+<script src="../assets/vendor/codemirror.js?v=15c1631d82" defer></script>
+<meta name="description" content="Lists come with a toolbox of methods for adding, removing, finding and ordering items. Today you’ll learn them all, and the one question to ask about each:...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w008d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 8 Day 3: List methods">
+<meta property="og:description" content="Lists come with a toolbox of methods for adding, removing, finding and ordering items. Today you’ll learn them all, and the one question to ask about each:...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w008d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-8">Week 8: Lists I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#adding-items" data-sec="adding-items">Adding items</a></li><li><a href="#removing-items" data-sec="removing-items">Removing items</a></li><li><a href="#finding-items" data-sec="finding-items">Finding items</a></li><li><a href="#ordering-sort-and-reverse" data-sec="ordering-sort-and-reverse">Ordering: sort and reverse</a></li><li><a href="#a-list-as-a-stack" data-sec="a-list-as-a-stack">A list as a stack</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 8, Day 3</span></p>
+      <h1>List methods</h1>
+      <div class="day-intro"><p>Lists come with a toolbox of methods for adding, removing, finding and ordering items. Today you&rsquo;ll learn them all, and the one question to ask about each: does it change the list and return None, or leave the list alone and give back an answer? You&rsquo;ll also use a list as a stack, the structure behind every undo button.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Add items with <code>append</code>, <code>extend</code> and <code>insert</code>, and know the difference between <code>append</code> and <code>extend</code></li><li>Remove items with <code>pop</code>, <code>remove</code> and <code>clear</code>, and use the value <code>pop</code> returns</li><li>Find items with <code>index</code> and <code>count</code>, avoiding the <code>ValueError</code> when an item is missing</li><li>Order a list in place with <code>sort</code> and <code>reverse</code>, and know why <code>x = x.sort()</code> loses your list</li><li>Use a list as a stack with <code>append</code> and <code>pop</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Adding: append, extend, insert: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Removing: pop, remove, clear: 30 min"></span><span class="plan-seg s1" style="flex:20" title="Finding: index and count: 20 min"></span><span class="plan-seg s0" style="flex:25" title="Ordering: sort and reverse; changes or returns?: 25 min"></span><span class="plan-seg s1" style="flex:20" title="A list as a stack: 20 min"></span><span class="plan-seg s0" style="flex:35" title="Practice: 35 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Adding: append, extend, insert</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Removing: pop, remove, clear</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Finding: index and count</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Ordering: sort and reverse; changes or returns?</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">A list as a stack</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:15</span><span class="plan-what">Practice</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w008d3.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d3-p1"><textarea class="pc-src pc-code" hidden>x = [3, 1, 2]
+y = sorted(x)
+print(x, y)
+x.sort()
+print(x)</textarea></div>
+<p><code>sorted(x)</code> gave you a new list and left <code>x</code> alone. <code>x.sort()</code> changed <code>x</code> itself. Today&rsquo;s question for every method: which of those two kinds is it?</p>
+<p>Here&rsquo;s the whole toolbox. Run any operation on the list, and keep chaining:</p>
+<figure class="widget" data-widget="listops"><script type="application/json">{"start": "[3, 1, 4, 1, 5]"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Every list method, run by real Python. Watch for two things: whether the list changes, and what the call returns. Methods that change the list return None.</figcaption></figure>
+<h2 id="adding-items">Adding items</h2>
+<p>You know <code>append</code>, which adds <strong>one</strong> item at the end. Two more:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e2"><textarea class="pc-src pc-code" hidden>x = [1, 2, 3]
+x.append(4)
+print(x)
+x.extend([5, 6])
+print(x)
+x.insert(0, 0)
+print(x)
+x.insert(3, 99)
+print(x)</textarea></div>
+<ul>
+<li><code>extend(other)</code> adds <strong>every item</strong> of another sequence to the end.</li>
+<li><code>insert(i, value)</code> puts a value <strong>at position</strong> <code>i</code>, shifting the rest right.</li>
+</ul>
+<h3 id="append-or-extend">append or extend?</h3>
+<p>The difference catches everyone once:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e3"><textarea class="pc-src pc-code" hidden>a = [1, 2]
+a.append([3, 4])
+print(a, len(a))
+b = [1, 2]
+b.extend([3, 4])
+print(b, len(b))</textarea></div>
+<p><code>append</code> adds its argument as <strong>one</strong> item, even if that item is a list, so <code>a</code> ends up with a list inside it. <code>extend</code> adds the argument&rsquo;s <strong>items</strong> one by one. Use <code>extend</code> (or <code>+=</code>) to join one list onto another.</p>
+<h2 id="removing-items">Removing items</h2>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e4"><textarea class="pc-src pc-code" hidden>x = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]
+last = x.pop()
+print(last, x)
+first = x.pop(0)
+print(first, x)
+x.remove(&quot;c&quot;)
+print(x)
+x.clear()
+print(x)</textarea></div>
+<ul>
+<li><code>pop()</code> removes the <strong>last</strong> item and <strong>returns</strong> it. <code>pop(i)</code> removes and returns the item at position <code>i</code>. Popping from an empty list is an <code>IndexError</code>.</li>
+<li><code>remove(value)</code> removes the <strong>first</strong> item equal to <code>value</code>. If there isn&rsquo;t one, it&rsquo;s a <code>ValueError</code>.</li>
+<li><code>clear()</code> empties the list.</li>
+</ul>
+<p><code>pop</code> is the only one of these that gives you back what it removed, which makes it perfect for taking things out of a list one at a time.</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e5"><textarea class="pc-src pc-code" hidden>x = [1, 2, 3]
+x.remove(7)</textarea></div>
+<p>To remove safely, check first:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e6"><textarea class="pc-src pc-code" hidden>x = [1, 2, 3]
+if 7 in x:
+    x.remove(7)
+print(x)</textarea></div>
+<p>And to remove <strong>every</strong> copy of a value, keep going while one is left:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e7"><textarea class="pc-src pc-code" hidden>x = [1, 0, 2, 0, 0, 3]
+while 0 in x:
+    x.remove(0)
+print(x)</textarea></div>
+<h2 id="finding-items">Finding items</h2>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e8"><textarea class="pc-src pc-code" hidden>x = [10, 20, 30, 20, 10]
+print(x.index(20))
+print(x.index(20, 2))
+print(x.count(10))
+print(x.count(99))</textarea></div>
+<ul>
+<li><code>index(value)</code> gives the position of the <strong>first</strong> match. An optional second argument says where to start looking. If the value isn&rsquo;t there: <code>ValueError</code>.</li>
+<li><code>count(value)</code> gives how many items equal <code>value</code>, and is 0 when there are none.</li>
+</ul>
+<p><code>index</code> on a list is like <code>.index</code> on a string. Unlike strings, lists have no <code>find</code> that returns -1, so check with <code>in</code> first when the value might be missing.</p>
+<h2 id="ordering-sort-and-reverse">Ordering: sort and reverse</h2>
+<p><code>x.sort()</code> sorts the list <strong>in place</strong>. It takes the same <code>key=</code> and <code>reverse=</code> as <code>sorted</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e9"><textarea class="pc-src pc-code" hidden>words = [&quot;banana&quot;, &quot;Fig&quot;, &quot;apple&quot;, &quot;Cherry&quot;]
+words.sort()
+print(words)
+words.sort(key=str.lower)
+print(words)
+words.sort(key=len, reverse=True)
+print(words)
+words.reverse()
+print(words)</textarea></div>
+<p><code>reverse()</code> turns the list round in place. (<code>x[::-1]</code> gives a reversed <strong>copy</strong>.)</p>
+<h3 id="changes-the-list-or-returns-an-answer">Changes the list, or returns an answer?</h3>
+<table>
+<thead>
+<tr>
+<th>Changes the list, returns <code>None</code></th>
+<th>Leaves the list alone, returns an answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>append</code>, <code>extend</code>, <code>insert</code></td>
+<td><code>index</code>, <code>count</code></td>
+</tr>
+<tr>
+<td><code>remove</code>, <code>clear</code></td>
+<td><code>len(x)</code>, <code>sum(x)</code>, <code>min(x)</code>, <code>max(x)</code></td>
+</tr>
+<tr>
+<td><code>sort</code>, <code>reverse</code></td>
+<td><code>sorted(x)</code>, <code>x[::-1]</code>, <code>x[a:b]</code>, <code>x + y</code></td>
+</tr>
+<tr>
+<td><code>pop</code> (also returns the item)</td>
+<td><code>x.copy()</code> (a new list with the same items)</td>
+</tr>
+</tbody>
+</table>
+<p>Python&rsquo;s rule: methods that change a list return <code>None</code>, so that you can&rsquo;t mistake them for ones that give you something new.</p>
+<aside class="callout c-mistake"><div class="callout-t">x = x.sort()</div><p><code>x.sort()</code> returns <code>None</code>, so <code>x = x.sort()</code> sorts the list and then throws it away, leaving <code>x</code> as <code>None</code>. Write <code>x.sort()</code> on its own, or <code>x = sorted(x)</code>.</p></aside>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e10"><textarea class="pc-src pc-code" hidden>x = [3, 1, 2]
+x = x.sort()
+print(x)</textarea></div>
+<h3 id="speed-the-ends-are-not-equal">Speed: the ends are not equal</h3>
+<p><code>append</code> and <code>pop()</code> work at the end of the list and are fast however long the list is. <code>insert(0, ...)</code> and <code>pop(0)</code> work at the front, so every other item has to shift along one place: on a list of a million items, that&rsquo;s a million moves each time. For a few hundred items you&rsquo;ll never notice. You&rsquo;ll learn faster structures for the front, and why, in Phase 4.</p>
+<h2 id="a-list-as-a-stack">A list as a stack</h2>
+<p>A <strong>stack</strong> is a pile: you put things on top, and take them off the top, last in, first out. A list does this perfectly with <code>append</code> (push) and <code>pop</code> (pop):</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d3-e11"><div class="pc-title">Undo</div><textarea class="pc-src pc-code" hidden>history = []
+text = &quot;&quot;
+for word in [&quot;Hello&quot;, &quot; world&quot;, &quot;!!!&quot;]:
+    history.append(text)
+    text += word
+    print(&quot;Typed:&quot;, repr(text))
+text = history.pop()
+print(&quot;Undo: &quot;, repr(text))
+text = history.pop()
+print(&quot;Undo: &quot;, repr(text))</textarea></div>
+<p>Every undo button, the back button in a browser, and the way Python itself keeps track of function calls (the call stack from Week 6) work like this. Stacks will come back many times.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d3-todo" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A to-do list</div><div class="pc-prompt"><p>Write a to-do list manager. It reads commands with the prompt <code>&gt;</code> until <code>quit</code>:</p>
+<ul>
+<li><code>add TASK</code> adds the task at the end;</li>
+<li><code>first TASK</code> adds the task at the front;</li>
+<li><code>done</code> removes and prints the <strong>first</strong> task as <code>Done: TASK</code>, or prints <code>Nothing to do</code>;</li>
+<li><code>drop TASK</code> removes that task if it&rsquo;s in the list, or prints <code>No such task</code>;</li>
+<li><code>list</code> prints the tasks numbered from 1, or <code>Empty</code>.</li>
+</ul>
+<p>The task is everything after the first space.</p></div><textarea class="pc-src pc-code" hidden>tasks = []</textarea><textarea class="pc-src pc-tests" hidden>def test_session():
+    &quot;a session&quot;
+    ins = [&quot;add buy rice&quot;, &quot;add call Ada&quot;, &quot;first wake up&quot;, &quot;list&quot;, &quot;done&quot;, &quot;drop call Ada&quot;, &quot;drop fly&quot;, &quot;list&quot;, &quot;done&quot;, &quot;done&quot;, &quot;list&quot;, &quot;quit&quot;]
+    want = (&quot;&gt; add buy rice\n&gt; add call Ada\n&gt; first wake up\n&gt; list\n1. wake up\n2. buy rice\n3. call Ada\n&quot;
+            &quot;&gt; done\nDone: wake up\n&gt; drop call Ada\n&gt; drop fly\nNo such task\n&gt; list\n1. buy rice\n&quot;
+            &quot;&gt; done\nDone: buy rice\n&gt; done\nNothing to do\n&gt; list\nEmpty\n&gt; quit&quot;)
+    expect_output(want, inputs=ins, echo=True)</textarea><textarea class="pc-src pc-solution" hidden>tasks = []
+while True:
+    line = input(&quot;&gt; &quot;)
+    if line == &quot;quit&quot;:
+        break
+    parts = line.split(&quot; &quot;, 1)
+    cmd = parts[0]
+    task = parts[1] if len(parts) &gt; 1 else &quot;&quot;
+    if cmd == &quot;add&quot;:
+        tasks.append(task)
+    elif cmd == &quot;first&quot;:
+        tasks.insert(0, task)
+    elif cmd == &quot;done&quot;:
+        if tasks:
+            print(&quot;Done:&quot;, tasks.pop(0))
+        else:
+            print(&quot;Nothing to do&quot;)
+    elif cmd == &quot;drop&quot;:
+        if task in tasks:
+            tasks.remove(task)
+        else:
+            print(&quot;No such task&quot;)
+    elif cmd == &quot;list&quot;:
+        if tasks:
+            for i in range(len(tasks)):
+                print(f&quot;{i + 1}. {tasks[i]}&quot;)
+        else:
+            print(&quot;Empty&quot;)</textarea><template class="pc-src pc-hint"><code>command.split(" ", 1)</code> splits off the first word: <code>"add buy rice"</code> becomes <code>["add", "buy rice"]</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d3-merge_lists" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Append or extend?</div><div class="pc-prompt"><p><code>combine(a, b)</code> should return a <strong>new</strong> list with all the items of <code>a</code> followed by all the items of <code>b</code>, leaving both unchanged. Write it using <code>.copy()</code> and <code>.extend()</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    a, b = [1, 2], [3, 4]
+    c = combine(a, b)
+    assert c == [1, 2, 3, 4] and a == [1, 2] and b == [3, 4]
+    assert combine([], [&quot;x&quot;]) == [&quot;x&quot;]
+    assert &quot;.extend(&quot; in source and &quot;.copy()&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def combine(a, b):
+    result = a.copy()
+    result.extend(b)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d3-remove_all" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Remove every copy</div><div class="pc-prompt"><p>Write <code>remove_all(items, value)</code> that removes every item equal to <code>value</code> from the list, in place, and returns how many were removed.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    a = [1, 0, 2, 0, 0, 3]
+    assert remove_all(a, 0) == 3 and a == [1, 2, 3]
+    b = [1, 2]
+    assert remove_all(b, 9) == 0 and b == [1, 2]
+    c = [&quot;x&quot;, &quot;x&quot;]
+    assert remove_all(c, &quot;x&quot;) == 2 and c == []</textarea><textarea class="pc-src pc-solution" hidden>def remove_all(items, value):
+    removed = 0
+    while value in items:
+        items.remove(value)
+        removed += 1
+    return removed</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d3-all_positions" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Every position</div><div class="pc-prompt"><p>Write <code>positions(items, value)</code> that returns a list of every index where <code>value</code> appears, using <code>index</code> with its start argument (not a loop over every position). <code>positions([5, 1, 5, 5], 5)</code> is <code>[0, 2, 3]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert positions([5, 1, 5, 5], 5) == [0, 2, 3]
+    assert positions([1, 2, 3], 9) == []
+    assert positions([&quot;a&quot;], &quot;a&quot;) == [0]
+    assert &quot;.index(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def positions(items, value):
+    result = []
+    start = 0
+    while value in items[start:]:
+        i = items.index(value, start)
+        result.append(i)
+        start = i + 1
+    return result</textarea><template class="pc-src pc-hint">Start looking at 0. While the value is still in the rest of the list (<code>value in items[start:]</code>), find it with <code>items.index(value, start)</code>, record it, and start again just after it.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d3-sort_names" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sort by surname, in place</div><div class="pc-prompt"><p>Write <code>sort_by_surname(names)</code> that sorts a list of full names in place by surname (the last word), ignoring capitals, and returns <code>None</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;a list of names&quot;
+    names = [&quot;Grace Hopper&quot;, &quot;ada Lovelace&quot;, &quot;Alan Turing&quot;, &quot;Katherine johnson&quot;]
+    assert sort_by_surname(names) is None
+    assert names == [&quot;Grace Hopper&quot;, &quot;Katherine johnson&quot;, &quot;ada Lovelace&quot;, &quot;Alan Turing&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def sort_by_surname(names):
+    names.sort(key=lambda n: n.split()[-1].lower())</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d3-undo" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Undo</div><div class="pc-prompt"><p>Write a tiny editor. It reads commands with the prompt <code>&gt;</code> until <code>quit</code>. <code>type WORDS</code> adds the words to the end of the text (with a space before them if the text isn&rsquo;t empty). <code>undo</code> puts the text back to how it was before the last <code>type</code>, or prints <code>Nothing to undo</code>. After every command except <code>quit</code>, it prints the text in square brackets, like <code>[hello world]</code>. Use a list as a stack of previous texts.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_session():
+    &quot;a session&quot;
+    ins = [&quot;type hello&quot;, &quot;type big world&quot;, &quot;undo&quot;, &quot;type there&quot;, &quot;undo&quot;, &quot;undo&quot;, &quot;undo&quot;, &quot;quit&quot;]
+    want = (&quot;&gt; type hello\n[hello]\n&gt; type big world\n[hello big world]\n&gt; undo\n[hello]\n&gt; type there\n[hello there]\n&quot;
+            &quot;&gt; undo\n[hello]\n&gt; undo\n[]\n&gt; undo\nNothing to undo\n[]\n&gt; quit&quot;)
+    expect_output(want, inputs=ins, echo=True)
+def test_stack():
+    &quot;uses append and pop&quot;
+    assert &quot;.append(&quot; in source and &quot;.pop()&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>text = &quot;&quot;
+history = []
+while True:
+    line = input(&quot;&gt; &quot;)
+    if line == &quot;quit&quot;:
+        break
+    if line.startswith(&quot;type &quot;):
+        history.append(text)
+        words = line[5:]
+        text = words if text == &quot;&quot; else text + &quot; &quot; + words
+    elif line == &quot;undo&quot;:
+        if history:
+            text = history.pop()
+        else:
+            print(&quot;Nothing to undo&quot;)
+    print(f&quot;[{text}]&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The vanishing list</div><div class="pc-prompt"><p>This should print the scores in order, but it prints <code>None</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>scores = [72, 95, 64]
+scores = scores.sort()
+print(scores)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;sorted&quot;
+    expect_output(&quot;[64, 72, 95]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>scores = [72, 95, 64]
+scores.sort()
+print(scores)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A list inside a list</div><div class="pc-prompt"><p>This should print <code>[1, 2, 3, 4, 5]</code> and <code>5</code>, but it prints a list with a list inside it, and <code>3</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>numbers = [1, 2, 3]
+numbers.append([4, 5])
+print(numbers)
+print(len(numbers))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;a flat list&quot;
+    expect_output(&quot;[1, 2, 3, 4, 5]\n5&quot;)</textarea><textarea class="pc-src pc-solution" hidden>numbers = [1, 2, 3]
+numbers.extend([4, 5])
+print(numbers)
+print(len(numbers))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Not in the list</div><div class="pc-prompt"><p>This should print the position of the name, or <code>Not found</code>, but it crashes for a missing name. Fix it.</p></div><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+who = input(&quot;Name: &quot;)
+pos = names.index(who)
+if pos == -1:
+    print(&quot;Not found&quot;)
+else:
+    print(&quot;Position&quot;, pos)</textarea><textarea class="pc-src pc-tests" hidden>def test_found():
+    &quot;found&quot;
+    expect_output(&quot;Name: Grace\nPosition 1&quot;, inputs=[&quot;Grace&quot;], echo=True)
+def test_missing():
+    &quot;missing&quot;
+    expect_output(&quot;Name: Bo\nNot found&quot;, inputs=[&quot;Bo&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+who = input(&quot;Name: &quot;)
+if who in names:
+    print(&quot;Position&quot;, names.index(who))
+else:
+    print(&quot;Not found&quot;)</textarea></div>
+<div class="parsons" data-id="w008d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Push and pop</div><div class="pc-prompt"><p>Arrange the lines to push three items onto a stack and pop them all off, printing <code>c b a</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["stack = []", "for item in [\"a\", \"b\", \"c\"]:", "    stack.append(item)", "while stack:", "    print(stack.pop(), end=\" \")"], "distractors": ["    print(stack.pop(0), end=\" \")"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the methods</div><div class="pc-prompt"><p>What is <code>x</code> at the end, and what is <code>r</code>?</p>
+<pre><code class="language-python">x = [5, 3, 8]
+x.append(1)
+x.insert(1, 9)
+r = x.pop(2)
+x.remove(8)
+x.sort(reverse=True)
+</code></pre></div><textarea class="pc-src pc-code" hidden>final_x = ___
+r_value = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;x and r&quot;
+    assert r_value == 3, &quot;Before pop(2), x is [5, 9, 3, 8, 1].&quot;
+    assert final_x == [9, 5, 1]</textarea><textarea class="pc-src pc-solution" hidden>final_x = [9, 5, 1]
+r_value = 3</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w008d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "What does <code>append</code> return?", "answer": "None", "explain": "It changes the list in place."}, {"type": "output", "q": "What does this print?", "answer": "2", "explain": "append adds one item: the list [2, 3].", "code": "x = [1]\nx.append([2, 3])\nprint(len(x))"}, {"type": "output", "q": "What does this print?", "answer": "3", "explain": "extend adds each item.", "code": "x = [1]\nx.extend([2, 3])\nprint(len(x))"}, {"type": "mc", "q": "What does <code>pop()</code> return?", "answer": 1, "explain": "It removes and returns.", "options": ["None", "The removed last item", "The new list", "The length"]}, {"type": "mc", "q": "What does <code>[1, 2, 1].remove(1)</code> do?", "answer": 1, "explain": "Only the first match.", "options": ["Removes every 1", "Removes the first 1", "Removes position 1", "Error"]}, {"type": "text", "q": "What error does <code>[1, 2].index(5)</code> raise?", "answer": ["ValueError", "value error"], "explain": "Lists have no find; check with in first."}, {"type": "text", "q": "What is x after <code>x = [3, 1]; x = x.sort()</code>?", "answer": "None", "explain": "sort returns None."}, {"type": "mc", "q": "Which leaves the list unchanged?", "answer": 2, "explain": "sorted returns a new list.", "options": ["<code>x.sort()</code>", "<code>x.reverse()</code>", "<code>sorted(x)</code>", "<code>x.clear()</code>"]}, {"type": "mc", "q": "In a stack, which item comes out first?", "answer": 1, "explain": "Last in, first out.", "options": ["The first one put in", "The last one put in", "The smallest", "A random one"]}, {"type": "mc", "q": "Why can <code>insert(0, v)</code> be slow on a huge list?", "answer": 1, "explain": "Working at the end is fast; at the front, everything moves.", "options": ["It sorts the list", "Every other item has to shift one place", "It copies the list twice", "It isn&rsquo;t slow"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: matching brackets</div><div class="pc-prompt"><p>Code editors check that brackets match: every <code>(</code>, <code>[</code> and <code>{</code> must be closed by the right kind, in the right order. <code>{[()]}</code> is fine; <code>([)]</code> is not.</p>
+<p>Write <code>check_brackets(text)</code> that returns <code>"OK"</code> if the brackets in <code>text</code> match (other characters are ignored), or a message:</p>
+<ul>
+<li><code>Unexpected X at N</code> if a closing bracket <code>X</code> at position <code>N</code> doesn&rsquo;t match the most recent open bracket (or there isn&rsquo;t one);</li>
+<li><code>Unclosed X at N</code> if an opening bracket <code>X</code> at position <code>N</code> is never closed (report the <strong>last</strong> one still open).</li>
+</ul>
+<p>Use a list as a stack of the open brackets and their positions.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_ok():
+    &quot;matching text&quot;
+    for t in [&quot;&quot;, &quot;abc&quot;, &quot;{[()]}&quot;, &quot;f(a[1], {b: 2})&quot;, &quot;(()())&quot;]:
+        assert check_brackets(t) == &quot;OK&quot;, f&quot;{t!r} matches.&quot;
+def test_unexpected():
+    &quot;a wrong closing bracket&quot;
+    assert check_brackets(&quot;([)]&quot;) == &quot;Unexpected ) at 2&quot;
+    assert check_brackets(&quot;a)&quot;) == &quot;Unexpected ) at 1&quot;
+    assert check_brackets(&quot;{]&quot;) == &quot;Unexpected ] at 1&quot;
+def test_unclosed():
+    &quot;an opening bracket never closed&quot;
+    assert check_brackets(&quot;(a[b]&quot;) == &quot;Unclosed ( at 0&quot;
+    assert check_brackets(&quot;{{}&quot;) == &quot;Unclosed { at 0&quot;
+    assert check_brackets(&quot;([&quot;) == &quot;Unclosed [ at 1&quot;</textarea><textarea class="pc-src pc-solution" hidden>def check_brackets(text):
+    stack = []
+    for i in range(len(text)):
+        ch = text[i]
+        if ch in &quot;([{&quot;:
+            stack.append((ch, i))
+        elif ch in &quot;)]}&quot;:
+            if not stack or &quot;([{&quot;.index(stack[-1][0]) != &quot;)]}&quot;.index(ch):
+                return f&quot;Unexpected {ch} at {i}&quot;
+            stack.pop()
+    if stack:
+        ch, i = stack[-1]
+        return f&quot;Unclosed {ch} at {i}&quot;
+    return &quot;OK&quot;</textarea><template class="pc-src pc-hint">When you see an opening bracket, push it and its position (as a pair: <code>stack.append((ch, i))</code>). When you see a closing one, the stack must not be empty, and the top&rsquo;s bracket must be its partner.</template><template class="pc-src pc-hint"><code>"([{".index(open_ch) == ")]}".index(close_ch)</code> tells you whether two brackets are partners. At the end, anything left on the stack was never closed: report the top one.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Sort the list methods into two piles from memory: the ones that change the list, and the ones that give back an answer. Then explain why <code>x = x.sort()</code> is a bug. Tomorrow: the patterns you learned for strings in Week 4, rewritten for lists, and some new ones only lists make possible.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w008d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w008d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w008d3", "week": 8, "day": 3, "title": "List methods", "exercises": [{"id": "w008d3-todo", "title": "A to-do list", "points": 15}, {"id": "w008d3-merge_lists", "title": "Append or extend?", "points": 10}, {"id": "w008d3-remove_all", "title": "Remove every copy", "points": 10}, {"id": "w008d3-all_positions", "title": "Every position", "points": 10}, {"id": "w008d3-sort_names", "title": "Sort by surname, in place", "points": 10}, {"id": "w008d3-undo", "title": "Undo", "points": 15}, {"id": "w008d3-bug1", "title": "The vanishing list", "points": 10}, {"id": "w008d3-bug2", "title": "A list inside a list", "points": 10}, {"id": "w008d3-bug3", "title": "Not in the list", "points": 10}, {"id": "w008d3-trace", "title": "Trace the methods", "points": 15}, {"id": "w008d3-challenge", "title": "Challenge: matching brackets", "points": 25}], "points": 140}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

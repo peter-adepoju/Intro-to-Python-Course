@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="15c1631d82">
+<title>Week 8 Day 2: Changing lists: mutation | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=15c1631d82">
+<link rel="stylesheet" href="../assets/css/site.css?v=15c1631d82">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=15c1631d82"></script>
+<script src="../assets/vendor/codemirror.js?v=15c1631d82" defer></script>
+<meta name="description" content="Strings can never be changed. Lists can: you can replace an item, delete one, or swap a whole slice for something else, and the list itself changes in...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w008d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 8 Day 2: Changing lists: mutation">
+<meta property="og:description" content="Strings can never be changed. Lists can: you can replace an item, delete one, or swap a whole slice for something else, and the list itself changes in...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w008d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-8">Week 8: Lists I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#changing-an-item" data-sec="changing-an-item">Changing an item</a></li><li><a href="#deleting" data-sec="deleting">Deleting</a></li><li><a href="#mutation-versus-rebinding" data-sec="mutation-versus-rebinding">Mutation versus rebinding</a></li><li><a href="#changing-every-item" data-sec="changing-every-item">Changing every item</a></li><li><a href="#functions-that-change-lists" data-sec="functions-that-change-lists">Functions that change lists</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 8, Day 2</span></p>
+      <h1>Changing lists: mutation</h1>
+      <div class="day-intro"><p>Strings can never be changed. Lists can: you can replace an item, delete one, or swap a whole slice for something else, and the list itself changes in place. That&rsquo;s what makes lists so useful, and it&rsquo;s also the source of some famous bugs. Today you&rsquo;ll learn to change lists, and to tell changing a list apart from making a new one.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Change items in place with <code>items[i] = value</code>, and whole slices with slice assignment</li><li>Delete items and slices with <code>del</code></li><li>Tell the difference between changing a list (mutation) and making a new list and moving a name to it</li><li>Change every item of a list using its indexes, and explain why changing the loop variable doesn&rsquo;t work</li><li>Write functions that change a list they&rsquo;re given, and functions that return a new one, and say which is which</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Changing items and slices: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Deleting: 20 min"></span><span class="plan-seg s1" style="flex:35" title="Mutation versus rebinding: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Changing every item; functions that change lists: 25 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Changing items and slices</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Deleting</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Mutation versus rebinding</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Changing every item; functions that change lists</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w008d2.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d2-p1"><textarea class="pc-src pc-code" hidden>word = &quot;jello&quot;
+print(&quot;h&quot; + word[1:])
+print(word)</textarea></div>
+<p>To &ldquo;change&rdquo; a string you had to build a new one; the old one was untouched. Lists are different.</p>
+<h2 id="changing-an-item">Changing an item</h2>
+<p>Assign to an index, and that item of the list is replaced:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e2"><textarea class="pc-src pc-code" hidden>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]
+fruits[1] = &quot;blueberry&quot;
+print(fruits)
+fruits[-1] = fruits[-1].upper()
+print(fruits)</textarea></div>
+<p>Try the same with a string and Python refuses, as you saw in Week 5. A list is <strong>mutable</strong>: it can be changed after it&rsquo;s made. A string is <strong>immutable</strong>. Press X-ray on the example: there&rsquo;s only ever <strong>one</strong> list object; one of its slots is pointed at a new value.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>items[i] = value</code> changes the list in place. Lists are mutable; strings and numbers are not.</p></aside>
+<h3 id="swapping-two-items">Swapping two items</h3>
+<p>The swap trick from Week 1 works on items too:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e3"><textarea class="pc-src pc-code" hidden>order = [&quot;c&quot;, &quot;b&quot;, &quot;a&quot;]
+order[0], order[2] = order[2], order[0]
+print(order)</textarea></div>
+<h3 id="changing-a-slice">Changing a slice</h3>
+<p>You can replace a whole slice with the items of another list, even a different number of them:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e4"><textarea class="pc-src pc-code" hidden>numbers = [1, 2, 3, 4, 5]
+numbers[1:3] = [20, 30]
+print(numbers)
+numbers[1:3] = [9]
+print(numbers)
+numbers[1:1] = [7, 7, 7]
+print(numbers)</textarea></div>
+<p>The last one replaces the empty slice at position 1, which <strong>inserts</strong> three items without removing any.</p>
+<h2 id="deleting">Deleting</h2>
+<p><code>del</code> removes an item, or a slice, and closes the gap:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e5"><textarea class="pc-src pc-code" hidden>letters = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;]
+del letters[0]
+print(letters)
+del letters[-2:]
+print(letters)
+del letters[::2]
+print(letters)</textarea></div>
+<p>Try the changing operations in the list lab. Each run keeps its result, so you can chain them:</p>
+<figure class="widget" data-widget="listops"><script type="application/json">{"start": "[3, 1, 4, 1, 5]", "ops": ["x[0] = 99", "x[-1] = 0", "x[1:3] = [7, 8, 9]", "x[1:1] = [6]", "del x[0]", "del x[-2:]", "x[0], x[-1] = x[-1], x[0]"]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Assignments and del change the list in place. Notice which operations return a value and which don&rsquo;t.</figcaption></figure>
+<h2 id="mutation-versus-rebinding">Mutation versus rebinding</h2>
+<p>This is the most important idea of the day. There are two very different ways to &ldquo;change&rdquo; <code>x</code>:</p>
+<ul>
+<li><strong>Mutation</strong>: change the list object itself. <code>x[0] = 5</code>, <code>x.append(5)</code>, <code>del x[0]</code>.</li>
+<li><strong>Rebinding</strong>: make a <strong>new</strong> object and move the name <code>x</code> to it. <code>x = x + [5]</code>, <code>x = []</code>.</li>
+</ul>
+<p>When only one name points at the list, you can&rsquo;t see the difference. When two do, you can:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e6"><div class="pc-title">Mutation: both names see it</div><textarea class="pc-src pc-code" hidden>a = [1, 2, 3]
+b = a
+a.append(4)
+print(&quot;a:&quot;, a)
+print(&quot;b:&quot;, b)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e7"><div class="pc-title">Rebinding: only one name moves</div><textarea class="pc-src pc-code" hidden>a = [1, 2, 3]
+b = a
+a = a + [4]
+print(&quot;a:&quot;, a)
+print(&quot;b:&quot;, b)</textarea></div>
+<p>X-ray both. In the first, there&rsquo;s one list with two names on it, and appending changes that one list. In the second, <code>a + [4]</code> builds a <strong>new</strong> list, and only <code>a</code> is moved to it; <code>b</code> still points at the old one.</p>
+<p>This is the labels picture from Week 1, Day 3 doing real work. With numbers and strings it never mattered, because they can&rsquo;t be changed. With lists it matters all the time. You&rsquo;ll spend Day 5 on it.</p>
+<aside class="callout c-warn"><div class="callout-t">+= is mutation for lists</div><p>For numbers, <code>n += 1</code> means <code>n = n + 1</code>. For lists, <code>x += [4]</code> <strong>changes the list in place</strong>, like <code>append</code>, rather than making a new list. So with two names on one list, <code>a += [4]</code> changes what <code>b</code> sees, but <code>a = a + [4]</code> doesn&rsquo;t.</p></aside>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e8"><textarea class="pc-src pc-code" hidden>a = [1, 2, 3]
+b = a
+a += [4]
+print(b)</textarea></div>
+<h2 id="changing-every-item">Changing every item</h2>
+<p>To change every item, loop over the <strong>indexes</strong> and assign through them:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e9"><textarea class="pc-src pc-code" hidden>prices = [100, 250, 80]
+for i in range(len(prices)):
+    prices[i] = prices[i] * 1.1
+print(prices)</textarea></div>
+<p>A tempting mistake is to change the loop variable instead:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e10"><div class="pc-title">This changes nothing</div><textarea class="pc-src pc-code" hidden>prices = [100, 250, 80]
+for p in prices:
+    p = p * 1.1
+print(prices)</textarea></div>
+<p>The loop variable <code>p</code> is a <strong>name</strong> pointing at each item in turn. <code>p = p * 1.1</code> moves the name <code>p</code> to a new number; the list&rsquo;s slots still point at the old ones. Only assigning <strong>through the list</strong>, <code>prices[i] = ...</code>, changes a slot.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>for item in items: item = ...</code> never changes the list. Use <code>for i in range(len(items)): items[i] = ...</code>, or build a new list.</p></aside>
+<h3 id="don-t-change-a-list-s-length-while-looping-over-it">Don&rsquo;t change a list&rsquo;s length while looping over it</h3>
+<p>Removing items from a list while a <code>for</code> loop walks over it makes the loop skip items, because everything after the removed one shifts left:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e11"><div class="pc-title">A skipped item</div><textarea class="pc-src pc-code" hidden>nums = [1, 2, 2, 3]
+for n in nums:
+    if n == 2:
+        nums.remove(n)
+print(nums)</textarea></div>
+<p>(<code>.remove(v)</code> deletes the first item equal to <code>v</code>; you&rsquo;ll meet it properly tomorrow.) One <code>2</code> survived. The safe way is to build a new list of the items you want to <strong>keep</strong> (the filter pattern), which you&rsquo;ll practise in Day 4.</p>
+<h2 id="functions-that-change-lists">Functions that change lists</h2>
+<p>Because a parameter is just another name for the caller&rsquo;s object, a function can <strong>change</strong> a list it&rsquo;s given, and the caller will see the change:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e12"><textarea class="pc-src pc-code" hidden>def add_tax(prices):
+    for i in range(len(prices)):
+        prices[i] = round(prices[i] * 1.075, 2)
+
+basket = [100, 200]
+add_tax(basket)
+print(basket)</textarea></div>
+<p>That&rsquo;s very different from numbers and strings, where a function could never affect the caller&rsquo;s variable. So for every function that takes a list, decide which kind it is, and say so in its docstring:</p>
+<ul>
+<li><strong>It changes the list in place</strong> and returns <code>None</code>, like <code>list.sort()</code> and <code>append</code>.</li>
+<li><strong>It leaves the list alone and returns a new one</strong>, like <code>sorted()</code>.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w008d2-e13"><div class="pc-title">Two designs, both clear</div><textarea class="pc-src pc-code" hidden>def scale(values, factor):
+    &quot;&quot;&quot;Multiply every item of values by factor, in place. Returns None.&quot;&quot;&quot;
+    for i in range(len(values)):
+        values[i] *= factor
+
+def scaled(values, factor):
+    &quot;&quot;&quot;Return a new list: every item of values times factor.&quot;&quot;&quot;
+    result = []
+    for v in values:
+        result.append(v * factor)
+    return result
+
+data = [1, 2, 3]
+print(scaled(data, 10), data)
+scale(data, 10)
+print(data)</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Prefer functions that return a new list. They can&rsquo;t surprise anyone by changing data behind their back. Change in place when the list is large and copying would waste memory, or when changing it is the whole point, and say so in the docstring.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d2-update_item" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Change some items</div><div class="pc-prompt"><p>Starting from the given list, using item and slice assignment only (no new list), make it <code>["Mercury", "Venus", "EARTH", "Mars", "Pluto"]</code>: change <code>"Earth"</code> to capitals, and replace the last two items with the single item <code>"Pluto"</code>.</p></div><textarea class="pc-src pc-code" hidden>planets = [&quot;Mercury&quot;, &quot;Venus&quot;, &quot;Earth&quot;, &quot;Mars&quot;, &quot;Jupiter&quot;, &quot;Saturn&quot;]
+
+print(planets)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the changed list&quot;
+    expect_output(&quot;[&#x27;Mercury&#x27;, &#x27;Venus&#x27;, &#x27;EARTH&#x27;, &#x27;Mars&#x27;, &#x27;Pluto&#x27;]&quot;)
+def test_in_place():
+    &quot;changed in place&quot;
+    assert &quot;planets = [&quot; not in source.split(&quot;\n&quot;, 1)[1], &quot;Change the list with assignments; don&#x27;t write a new list.&quot;</textarea><textarea class="pc-src pc-solution" hidden>planets = [&quot;Mercury&quot;, &quot;Venus&quot;, &quot;Earth&quot;, &quot;Mars&quot;, &quot;Jupiter&quot;, &quot;Saturn&quot;]
+planets[2] = planets[2].upper()
+planets[-2:] = [&quot;Pluto&quot;]
+print(planets)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d2-clip_negatives" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">No negatives</div><div class="pc-prompt"><p>Write <code>clip_negatives(values)</code> that changes every negative number in the list to 0, <strong>in place</strong>, and returns <code>None</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_in_place():
+    &quot;changes the list it&#x27;s given&quot;
+    data = [3, -1, 0, -7, 5]
+    result = clip_negatives(data)
+    assert data == [3, 0, 0, 0, 5], &quot;Change the list in place.&quot;
+    assert result is None, &quot;Return None, like append and sort.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def clip_negatives(values):
+    for i in range(len(values)):
+        if values[i] &lt; 0:
+            values[i] = 0</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d2-swap_ends" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Swap the ends</div><div class="pc-prompt"><p>Write <code>swap_ends(items)</code> that swaps the first and last items of a list in place. A list with fewer than two items is left as it is.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    a = [1, 2, 3, 4]
+    swap_ends(a)
+    assert a == [4, 2, 3, 1]
+    b = [&quot;x&quot;]
+    swap_ends(b)
+    assert b == [&quot;x&quot;]
+    c = []
+    swap_ends(c)
+    assert c == []</textarea><textarea class="pc-src pc-solution" hidden>def swap_ends(items):
+    if len(items) &gt;= 2:
+        items[0], items[-1] = items[-1], items[0]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d2-both_designs" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Two designs</div><div class="pc-prompt"><p>Write two functions:</p>
+<ul>
+<li><code>double_all(values)</code> doubles every item <strong>in place</strong> and returns <code>None</code>;</li>
+<li><code>doubled(values)</code> returns a <strong>new</strong> list with every item doubled, leaving <code>values</code> unchanged.</li>
+</ul></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_in_place():
+    &quot;double_all changes the list&quot;
+    a = [1, 2, 3]
+    assert double_all(a) is None and a == [2, 4, 6]
+def test_new():
+    &quot;doubled returns a new list&quot;
+    a = [1, 2, 3]
+    b = doubled(a)
+    assert b == [2, 4, 6] and a == [1, 2, 3], &quot;doubled must not change its argument.&quot;
+    assert b is not a</textarea><textarea class="pc-src pc-solution" hidden>def double_all(values):
+    for i in range(len(values)):
+        values[i] *= 2
+
+def doubled(values):
+    result = []
+    for v in values:
+        result.append(v * 2)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d2-rotate_one" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Rotate by one</div><div class="pc-prompt"><p>Write <code>rotate_left(items)</code> that moves the first item to the end, in place, using slices and <code>del</code> (or slice assignment). <code>[1, 2, 3, 4]</code> becomes <code>[2, 3, 4, 1]</code>. An empty list stays empty.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    a = [1, 2, 3, 4]
+    rotate_left(a)
+    assert a == [2, 3, 4, 1]
+    b = []
+    rotate_left(b)
+    assert b == []
+    c = [&quot;only&quot;]
+    rotate_left(c)
+    assert c == [&quot;only&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def rotate_left(items):
+    if items:
+        first = items[0]
+        del items[0]
+        items.append(first)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d2-mutation_or_not" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Who sees the change?</div><div class="pc-prompt"><p>For each block, say what <code>b</code> is at the end.</p>
+<pre><code class="language-python"># A
+a = [1, 2]
+b = a
+a.append(3)
+
+# B
+a = [1, 2]
+b = a
+a = a + [3]
+
+# C
+a = [1, 2]
+b = a
+a += [3]
+
+# D
+a = [1, 2]
+b = a
+a[0] = 9
+a = []
+</code></pre></div><textarea class="pc-src pc-code" hidden>b_a = ___
+b_b = ___
+b_c = ___
+b_d = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each block&quot;
+    assert b_a == [1, 2, 3], &quot;append changes the one shared list.&quot;
+    assert b_b == [1, 2], &quot;a + [3] makes a new list; only a moves.&quot;
+    assert b_c == [1, 2, 3], &quot;+= on a list changes it in place.&quot;
+    assert b_d == [9, 2], &quot;a[0] = 9 changes the shared list; a = [] only moves a.&quot;</textarea><textarea class="pc-src pc-solution" hidden>b_a = [1, 2, 3]
+b_b = [1, 2]
+b_c = [1, 2, 3]
+b_d = [9, 2]</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Nothing changed</div><div class="pc-prompt"><p>This should round every price to the nearest 50 in place, but the list is unchanged. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def round_prices(prices):
+    for p in prices:
+        p = round(p / 50) * 50
+
+data = [120, 380, 1001]
+round_prices(data)
+print(data)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;rounded&quot;
+    expect_output(&quot;[100, 400, 1000]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def round_prices(prices):
+    for i in range(len(prices)):
+        prices[i] = round(prices[i] / 50) * 50
+
+data = [120, 380, 1001]
+round_prices(data)
+print(data)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A surprise change</div><div class="pc-prompt"><p><code>with_bonus</code> should return a new list of scores with 5 added to each, leaving the original alone. But after calling it, <code>scores</code> has changed too. Fix the function.</p></div><textarea class="pc-src pc-code" hidden>def with_bonus(scores):
+    for i in range(len(scores)):
+        scores[i] += 5
+    return scores
+
+scores = [60, 70]
+better = with_bonus(scores)
+print(scores, better)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the original is unchanged&quot;
+    expect_output(&quot;[60, 70] [65, 75]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def with_bonus(scores):
+    result = []
+    for s in scores:
+        result.append(s + 5)
+    return result
+
+scores = [60, 70]
+better = with_bonus(scores)
+print(scores, better)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A survivor</div><div class="pc-prompt"><p>This should remove every 0 from the list, but one survives. Fix it by building a new list of the items to keep.</p></div><textarea class="pc-src pc-code" hidden>nums = [0, 0, 1, 0, 2]
+for n in nums:
+    if n == 0:
+        nums.remove(n)
+print(nums)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;no zeros&quot;
+    expect_output(&quot;[1, 2]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>nums = [0, 0, 1, 0, 2]
+kept = []
+for n in nums:
+    if n != 0:
+        kept.append(n)
+nums = kept
+print(nums)</textarea></div>
+<div class="parsons" data-id="w008d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Square every item, in place</div><div class="pc-prompt"><p>Arrange the lines into a function that squares every item of a list in place. One line is a trap.</p></div><script type="application/json">{"lines": ["def square_all(values):", "    for i in range(len(values)):", "        values[i] = values[i] ** 2", "data = [1, 2, 3]", "square_all(data)", "print(data)"], "distractors": ["    for v in values:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the changes</div><div class="pc-prompt"><p>What is <code>x</code> at the end of each block?</p>
+<pre><code class="language-python"># A
+x = [1, 2, 3, 4, 5]
+x[1:4] = [0]
+
+# B
+x = [1, 2, 3, 4, 5]
+del x[1::2]
+
+# C
+x = [1, 2, 3]
+x[1:1] = [9, 9]
+
+# D
+x = [5, 6, 7]
+for i in range(len(x)):
+    x[i] = x[i] - i
+</code></pre></div><textarea class="pc-src pc-code" hidden>x_a = ___
+x_b = ___
+x_c = ___
+x_d = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each block&quot;
+    assert x_a == [1, 0, 5]
+    assert x_b == [1, 3, 5], &quot;Positions 1 and 3 are deleted.&quot;
+    assert x_c == [1, 9, 9, 2, 3]
+    assert x_d == [5, 5, 5]</textarea><textarea class="pc-src pc-solution" hidden>x_a = [1, 0, 5]
+x_b = [1, 3, 5]
+x_c = [1, 9, 9, 2, 3]
+x_d = [5, 5, 5]</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w008d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "Which of these is mutable?", "answer": 2, "explain": "Lists can be changed in place.", "options": ["A string", "An int", "A list", "A float"]}, {"type": "output", "q": "What does this print?", "answer": "[1, 20, 3]", "explain": "Item assignment replaces one slot.", "code": "x = [1, 2, 3]\nx[1] = 20\nprint(x)"}, {"type": "output", "q": "What does this print?", "answer": "[1, 2]", "explain": "One list, two names.", "code": "a = [1]\nb = a\na.append(2)\nprint(b)"}, {"type": "output", "q": "What does this print?", "answer": "[1]", "explain": "a + [2] made a new list; only a moved.", "code": "a = [1]\nb = a\na = a + [2]\nprint(b)"}, {"type": "mc", "q": "For lists, is <code>x += [1]</code> the same as <code>x = x + [1]</code>?", "answer": 1, "explain": "It matters when two names share the list.", "options": ["Yes, exactly", "No: += changes the list in place; + makes a new list"]}, {"type": "output", "q": "What does this print?", "answer": "[1, 2, 3]", "explain": "Changing the loop variable doesn&rsquo;t change the list.", "code": "x = [1, 2, 3]\nfor v in x:\n    v = 0\nprint(x)"}, {"type": "mc", "q": "What does <code>del x[0]</code> do to <code>x = [7, 8, 9]</code>?", "answer": 1, "explain": "x becomes [8, 9].", "options": ["Sets x[0] to None", "Removes 7 and closes the gap", "Deletes the whole list", "Error"]}, {"type": "output", "q": "What does this print?", "answer": "[1, 4]", "explain": "Replacing a slice with nothing deletes it.", "code": "x = [1, 2, 3, 4]\nx[1:3] = []\nprint(x)"}, {"type": "mc", "q": "A function changes the list it was given. What does the caller see?", "answer": 1, "explain": "The parameter is another name for the same list.", "options": ["Nothing", "The change, because it&rsquo;s the same list object", "An error", "A copy"]}, {"type": "mc", "q": "Why is removing items while looping over the same list risky?", "answer": 1, "explain": "Build a new list of items to keep instead.", "options": ["It&rsquo;s slow", "Items shift left, so the loop skips some", "Python forbids it", "It deletes the whole list"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: rotate by any amount</div><div class="pc-prompt"><p>Write <code>reverse_section(items, start, end)</code> that reverses the items from position <code>start</code> up to but not including <code>end</code>, <strong>in place</strong>, by swapping pairs from the outside in (don&rsquo;t use slicing with <code>[::-1]</code> or <code>.reverse()</code>).</p>
+<p>Then write <code>rotate(items, k)</code> that moves every item <code>k</code> places to the <strong>right</strong>, wrapping round, in place, using three calls to <code>reverse_section</code>: reverse the whole list, then the first <code>k</code> items, then the rest. <code>rotate([1, 2, 3, 4, 5], 2)</code> gives <code>[4, 5, 1, 2, 3]</code>. <code>k</code> may be bigger than the length (use <code>%</code>), and an empty list stays empty.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_reverse_section():
+    &quot;reverse_section&quot;
+    a = [1, 2, 3, 4, 5, 6]
+    reverse_section(a, 1, 5)
+    assert a == [1, 5, 4, 3, 2, 6]
+    b = [1, 2]
+    reverse_section(b, 0, 2)
+    assert b == [2, 1]
+    c = [1, 2, 3]
+    reverse_section(c, 1, 1)
+    assert c == [1, 2, 3]
+    assert &quot;[::-1]&quot; not in source and &quot;.reverse()&quot; not in source, &quot;Swap pairs yourself.&quot;
+def test_rotate():
+    &quot;rotate&quot;
+    for items, k, want in [([1, 2, 3, 4, 5], 2, [4, 5, 1, 2, 3]), ([1, 2, 3], 0, [1, 2, 3]), ([1, 2, 3], 4, [3, 1, 2]), ([], 3, []), ([&quot;a&quot;], 9, [&quot;a&quot;])]:
+        x = list(items)
+        assert rotate(x, k) is None, &quot;rotate works in place and returns None.&quot;
+        assert x == want, f&quot;rotate({items}, {k}) should give {want}, got {x}.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def reverse_section(items, start, end):
+    i, j = start, end - 1
+    while i &lt; j:
+        items[i], items[j] = items[j], items[i]
+        i += 1
+        j -= 1
+
+def rotate(items, k):
+    n = len(items)
+    if n == 0:
+        return
+    k = k % n
+    reverse_section(items, 0, n)
+    reverse_section(items, 0, k)
+    reverse_section(items, k, n)</textarea><template class="pc-src pc-hint">In <code>reverse_section</code>, keep two positions, <code>i = start</code> and <code>j = end - 1</code>. While <code>i &lt; j</code>, swap <code>items[i]</code> and <code>items[j]</code>, then move them towards each other.</template><template class="pc-src pc-hint">In <code>rotate</code>, first set <code>k = k % len(items)</code> (but only if the list isn&rsquo;t empty). Then reverse <code>0</code> to <code>n</code>, <code>0</code> to <code>k</code>, and <code>k</code> to <code>n</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain the difference between mutation and rebinding, using <code>a.append(4)</code> and <code>a = a + [4]</code> as your examples, and draw the names-and-objects picture for each. Tomorrow: the list methods, a whole toolbox for adding, removing, finding and ordering items.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w008d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w008d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w008d2", "week": 8, "day": 2, "title": "Changing lists: mutation", "exercises": [{"id": "w008d2-update_item", "title": "Change some items", "points": 10}, {"id": "w008d2-clip_negatives", "title": "No negatives", "points": 10}, {"id": "w008d2-swap_ends", "title": "Swap the ends", "points": 10}, {"id": "w008d2-both_designs", "title": "Two designs", "points": 15}, {"id": "w008d2-rotate_one", "title": "Rotate by one", "points": 10}, {"id": "w008d2-mutation_or_not", "title": "Who sees the change?", "points": 10}, {"id": "w008d2-bug1", "title": "Nothing changed", "points": 10}, {"id": "w008d2-bug2", "title": "A surprise change", "points": 10}, {"id": "w008d2-bug3", "title": "A survivor", "points": 10}, {"id": "w008d2-trace", "title": "Trace the changes", "points": 15}, {"id": "w008d2-challenge", "title": "Challenge: rotate by any amount", "points": 25}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

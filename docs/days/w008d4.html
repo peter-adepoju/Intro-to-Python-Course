@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="15c1631d82">
+<title>Week 8 Day 4: List loop patterns | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=15c1631d82">
+<link rel="stylesheet" href="../assets/css/site.css?v=15c1631d82">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=15c1631d82"></script>
+<script src="../assets/vendor/codemirror.js?v=15c1631d82" defer></script>
+<meta name="description" content="In Week 4 you learned ten loop patterns for strings and numbers. With lists they become more powerful: a filter or a transform can build a whole new list,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w008d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 8 Day 4: List loop patterns">
+<meta property="og:description" content="In Week 4 you learned ten loop patterns for strings and numbers. With lists they become more powerful: a filter or a transform can build a whole new list,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w008d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-8">Week 8: Lists I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#filter-and-transform" data-sec="filter-and-transform">Filter and transform</a></li><li><a href="#built-ins-that-replace-loops" data-sec="built-ins-that-replace-loops">Built-ins that replace loops</a></li><li><a href="#positions-neighbours-running-totals" data-sec="positions-neighbours-running-totals">Positions, neighbours, running totals</a></li><li><a href="#new-patterns" data-sec="new-patterns">New patterns</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 8, Day 4</span></p>
+      <h1>List loop patterns</h1>
+      <div class="day-intro"><p>In Week 4 you learned ten loop patterns for strings and numbers. With lists they become more powerful: a filter or a transform can build a whole new list, and you can keep the results to use again. Today you&rsquo;ll rewrite the patterns for lists, meet any and all, and learn some new patterns that only lists make possible, including merging two sorted lists.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Build new lists with the filter and transform patterns</li><li>Use <code>any</code>, <code>all</code>, <code>sum</code>, <code>min</code> and <code>max</code> in place of hand-written loops where they fit</li><li>Find the position of the best item, and the second best</li><li>Work through two lists in step, compare neighbours, and build running totals</li><li>Remove duplicates, split a list into chunks, and merge two sorted lists</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Filter and transform into new lists: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Built-ins that replace loops: any, all, sum, min, max: 20 min"></span><span class="plan-seg s1" style="flex:25" title="Positions, neighbours and running totals: 25 min"></span><span class="plan-seg s0" style="flex:30" title="New patterns: no duplicates, chunks, merging: 30 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Filter and transform into new lists</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Built-ins that replace loops: any, all, sum, min, max</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Positions, neighbours and running totals</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">New patterns: no duplicates, chunks, merging</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w008d4.ipynb" download>download it</a>. Exercises today are worth 150 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d4-p1"><textarea class="pc-src pc-code" hidden>marks = [72, 45, 88, 51]
+passed = []
+for m in marks:
+    if m &gt;= 50:
+        passed.append(m)
+print(passed, len(passed), sum(passed))</textarea></div>
+<p>The filter pattern, but this time the result is a list you can keep: count it, sum it, print it, pass it on.</p>
+<h2 id="filter-and-transform">Filter and transform</h2>
+<p><strong>Filter</strong> keeps the items that pass a test. <strong>Transform</strong> (also called <strong>map</strong>) changes every item. Both build a <strong>new</strong> list and leave the original alone:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e2"><textarea class="pc-src pc-code" hidden>words = [&quot;apple&quot;, &quot;Fig&quot;, &quot;banana&quot;, &quot;Kiwi&quot;, &quot;cherry&quot;]
+long_ones = []
+for w in words:
+    if len(w) &gt; 4:
+        long_ones.append(w)
+shouted = []
+for w in words:
+    shouted.append(w.upper())
+print(long_ones)
+print(shouted)
+print(words)</textarea></div>
+<p>They combine naturally: filter, then transform.</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e3"><textarea class="pc-src pc-code" hidden>temps = [21.5, -3.0, 19.8, -1.2, 25.1]
+above_zero_f = []
+for t in temps:
+    if t &gt; 0:
+        above_zero_f.append(round(t * 9 / 5 + 32, 1))
+print(above_zero_f)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Filter and transform build a new list: start with <code>result = []</code>, loop over the original, and <code>result.append(...)</code>. This is also the safe way to &ldquo;remove&rdquo; items: keep the ones you want.</p></aside>
+<p>(Next week you&rsquo;ll meet <strong>list comprehensions</strong>, a one-line way to write exactly these two patterns.)</p>
+<h2 id="built-ins-that-replace-loops">Built-ins that replace loops</h2>
+<p>Several patterns are so common that Python has a function for them:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Built-in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>accumulate a sum</td>
+<td><code>sum(items)</code></td>
+</tr>
+<tr>
+<td>best so far</td>
+<td><code>max(items)</code>, <code>min(items)</code>, with <code>key=</code> if needed</td>
+</tr>
+<tr>
+<td>count</td>
+<td><code>items.count(value)</code>, or <code>len</code> of a filtered list</td>
+</tr>
+<tr>
+<td>any of</td>
+<td><code>any(...)</code></td>
+</tr>
+<tr>
+<td>all of</td>
+<td><code>all(...)</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>any</code> and <code>all</code> take a list of <code>True</code>/<code>False</code> values:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e4"><textarea class="pc-src pc-code" hidden>marks = [72, 45, 88, 51]
+checks = []
+for m in marks:
+    checks.append(m &gt;= 50)
+print(checks)
+print(&quot;Anyone passed:&quot;, any(checks))
+print(&quot;Everyone passed:&quot;, all(checks))</textarea></div>
+<p><code>any([])</code> is <code>False</code> (nothing passed) and <code>all([])</code> is <code>True</code> (nothing failed). Next week&rsquo;s comprehensions will let you write <code>all(m &gt;= 50 for m in marks)</code> in one line.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Use the built-in when there is one: it&rsquo;s shorter, it&rsquo;s been tested by millions of people, and it&rsquo;s usually faster. Write the loop yourself when you need something the built-in doesn&rsquo;t give you, like the <strong>position</strong> of the best item.</p></aside>
+<h2 id="positions-neighbours-running-totals">Positions, neighbours, running totals</h2>
+<h3 id="where-is-the-best">Where is the best?</h3>
+<p><code>max</code> gives the best <strong>value</strong>. For its <strong>position</strong>, keep the position in the loop, or use <code>index</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e5"><textarea class="pc-src pc-code" hidden>scores = [72, 95, 64, 95, 80]
+best_at = 0
+for i in range(1, len(scores)):
+    if scores[i] &gt; scores[best_at]:
+        best_at = i
+print(&quot;Best:&quot;, scores[best_at], &quot;at&quot;, best_at)
+print(&quot;Also:&quot;, scores.index(max(scores)))</textarea></div>
+<h3 id="neighbours">Neighbours</h3>
+<p>Comparing each item with the next uses positions up to <code>len - 1</code>, just as with strings:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e6"><div class="pc-title">Daily changes</div><textarea class="pc-src pc-code" hidden>prices = [100, 104, 101, 108, 108]
+changes = []
+for i in range(len(prices) - 1):
+    changes.append(prices[i + 1] - prices[i])
+print(changes)</textarea></div>
+<h3 id="two-lists-in-step">Two lists in step</h3>
+<p>When two lists line up (item <code>i</code> of one goes with item <code>i</code> of the other), loop over the positions:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e7"><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+scores = [93, 88, 97]
+for i in range(len(names)):
+    print(f&quot;{names[i]:&lt;6}{scores[i]:&gt;4}&quot;)</textarea></div>
+<p>(Next week, <code>zip</code> pairs them up for you.)</p>
+<h3 id="running-totals">Running totals</h3>
+<p>A running total kept as a list gives you the total <strong>so far</strong> at every step, which is useful for bank balances, cumulative rainfall, and much more:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e8"><textarea class="pc-src pc-code" hidden>deposits = [100, -30, 250, -80]
+running = []
+total = 0
+for d in deposits:
+    total += d
+    running.append(total)
+print(running)</textarea></div>
+<h2 id="new-patterns">New patterns</h2>
+<h3 id="no-duplicates-order-kept">No duplicates, order kept</h3>
+<p>Keep an item only if it isn&rsquo;t already in the result:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e9"><textarea class="pc-src pc-code" hidden>visits = [&quot;Lagos&quot;, &quot;Accra&quot;, &quot;Lagos&quot;, &quot;Nairobi&quot;, &quot;Accra&quot;]
+unique = []
+for city in visits:
+    if city not in unique:
+        unique.append(city)
+print(unique)</textarea></div>
+<h3 id="chunks">Chunks</h3>
+<p>Split a list into groups of <code>n</code> with a slice in steps of <code>n</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e10"><textarea class="pc-src pc-code" hidden>items = list(range(1, 11))
+chunks = []
+for start in range(0, len(items), 3):
+    chunks.append(items[start:start + 3])
+print(chunks)</textarea></div>
+<p>The result is a list of lists. Next week is all about those.</p>
+<h3 id="merging-two-sorted-lists">Merging two sorted lists</h3>
+<p>Given two lists that are each already sorted, you can combine them into one sorted list in a single pass, without sorting again. Keep a position in each list. At every step, take the smaller of the two front items, and move that list&rsquo;s position on. When one list runs out, add the rest of the other:</p>
+<div class="pc pc-example" data-kind="example" data-id="w008d4-e11"><div class="pc-title">Merge</div><textarea class="pc-src pc-code" hidden>a = [1, 4, 9, 12]
+b = [2, 3, 10]
+i = j = 0
+merged = []
+while i &lt; len(a) and j &lt; len(b):
+    if a[i] &lt;= b[j]:
+        merged.append(a[i])
+        i += 1
+    else:
+        merged.append(b[j])
+        j += 1
+merged.extend(a[i:])
+merged.extend(b[j:])
+print(merged)</textarea></div>
+<p>Trace it in X-ray, watching <code>i</code> and <code>j</code>. This <strong>two-pointer</strong> idea is the heart of <strong>merge sort</strong>, one of the fastest sorting algorithms, which you&rsquo;ll build in Phase 2.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-prefix" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Running totals</div><div class="pc-prompt"><p>Write <code>running_totals(values)</code> that returns a new list where item <code>i</code> is the sum of <code>values[0]</code> to <code>values[i]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert running_totals([1, 2, 3, 4]) == [1, 3, 6, 10]
+    assert running_totals([]) == []
+    assert running_totals([5, -5, 5]) == [5, 0, 5]</textarea><textarea class="pc-src pc-solution" hidden>def running_totals(values):
+    result = []
+    total = 0
+    for v in values:
+        total += v
+        result.append(total)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-dedupe" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">No repeats</div><div class="pc-prompt"><p>Write <code>unique(items)</code> that returns a new list with each item once, in the order it first appeared.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert unique([3, 1, 3, 2, 1]) == [3, 1, 2]
+    assert unique([]) == []
+    assert unique(list(&quot;mississippi&quot;)) == [&quot;m&quot;, &quot;i&quot;, &quot;s&quot;, &quot;p&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def unique(items):
+    result = []
+    for x in items:
+        if x not in result:
+            result.append(x)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-above_average" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Above average</div><div class="pc-prompt"><p>Write <code>above_average(values)</code> that returns a new list of the values that are strictly above the average of the list. An empty list gives <code>[]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert above_average([1, 2, 3, 4, 10]) == [10]
+    assert above_average([5, 5, 5]) == []
+    assert above_average([]) == []
+    assert above_average([2, 8, 4, 6]) == [8, 6]</textarea><textarea class="pc-src pc-solution" hidden>def above_average(values):
+    if not values:
+        return []
+    avg = sum(values) / len(values)
+    result = []
+    for v in values:
+        if v &gt; avg:
+            result.append(v)
+    return result</textarea><template class="pc-src pc-hint">Two passes: work out the average first, then filter.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-all_any" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Every and any</div><div class="pc-prompt"><p>Write <code>report(marks)</code> that returns a string: <code>All passed</code> if every mark is at least 50, <code>Some passed</code> if at least one is, or <code>None passed</code>. Build a list of <code>True</code>/<code>False</code> checks and use <code>all</code> and <code>any</code>. An empty list counts as <code>All passed</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert report([50, 60, 99]) == &quot;All passed&quot;
+    assert report([10, 60]) == &quot;Some passed&quot;
+    assert report([10, 20]) == &quot;None passed&quot;
+    assert report([]) == &quot;All passed&quot;
+    assert &quot;all(&quot; in source and &quot;any(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def report(marks):
+    checks = []
+    for m in marks:
+        checks.append(m &gt;= 50)
+    if all(checks):
+        return &quot;All passed&quot;
+    if any(checks):
+        return &quot;Some passed&quot;
+    return &quot;None passed&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-second_largest" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Second largest</div><div class="pc-prompt"><p>Write <code>second_largest(values)</code> that returns the second-largest <strong>different</strong> value in the list, without sorting. <code>second_largest([5, 9, 9, 7])</code> is 7. If there isn&rsquo;t one (fewer than two different values), return <code>None</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert second_largest([5, 9, 9, 7]) == 7
+    assert second_largest([1, 2]) == 1
+    assert second_largest([4, 4]) is None
+    assert second_largest([]) is None
+    assert second_largest([-1, -5, -3]) == -3
+    assert &quot;sort&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def second_largest(values):
+    first = second = None
+    for v in values:
+        if first is None or v &gt; first:
+            if first is not None:
+                second = first
+            first = v
+        elif v != first and (second is None or v &gt; second):
+            second = v
+    return second</textarea><template class="pc-src pc-hint">Keep two records, <code>first</code> and <code>second</code>, both starting at <code>None</code>. For each value: if it beats <code>first</code>, the old <code>first</code> becomes <code>second</code>; otherwise, if it&rsquo;s different from <code>first</code> and beats <code>second</code>, it becomes <code>second</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-chunks" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Chunks</div><div class="pc-prompt"><p>Write <code>chunks(items, n)</code> that returns a list of lists, each holding <code>n</code> consecutive items (the last may be shorter).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    assert chunks([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]]
+    assert chunks([], 3) == []
+    assert chunks(list(&quot;abcdef&quot;), 3) == [[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], [&quot;d&quot;, &quot;e&quot;, &quot;f&quot;]]</textarea><textarea class="pc-src pc-solution" hidden>def chunks(items, n):
+    result = []
+    for start in range(0, len(items), n):
+        result.append(items[start:start + n])
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-merge" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Merge two sorted lists</div><div class="pc-prompt"><p>Write <code>merge(a, b)</code> that takes two lists, each already sorted, and returns one sorted list with all their items, in a single pass (don&rsquo;t call <code>sort</code> or <code>sorted</code>).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert merge([1, 4, 9], [2, 3, 10, 11]) == [1, 2, 3, 4, 9, 10, 11]
+    assert merge([], [1, 2]) == [1, 2]
+    assert merge([1, 2], []) == [1, 2]
+    assert merge([1, 1], [1]) == [1, 1, 1]
+    assert merge([&quot;ant&quot;, &quot;cat&quot;], [&quot;bee&quot;]) == [&quot;ant&quot;, &quot;bee&quot;, &quot;cat&quot;]
+    assert &quot;sort&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def merge(a, b):
+    i = j = 0
+    result = []
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            result.append(a[i])
+            i += 1
+        else:
+            result.append(b[j])
+            j += 1
+    result.extend(a[i:])
+    result.extend(b[j:])
+    return result</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Divide by zero</div><div class="pc-prompt"><p><code>average</code> crashes on an empty list. Make it return <code>0</code> for an empty list, and the average otherwise.</p></div><textarea class="pc-src pc-code" hidden>def average(values):
+    return sum(values) / len(values)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert average([1, 2, 3]) == 2
+    assert average([]) == 0</textarea><textarea class="pc-src pc-solution" hidden>def average(values):
+    if not values:
+        return 0
+    return sum(values) / len(values)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Lost leftovers</div><div class="pc-prompt"><p><code>merge</code> loses some items: <code>merge([1, 5, 9], [2])</code> gives <code>[1, 2]</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def merge(a, b):
+    i = j = 0
+    result = []
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            result.append(a[i])
+            i += 1
+        else:
+            result.append(b[j])
+            j += 1
+    return result</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert merge([1, 5, 9], [2]) == [1, 2, 5, 9]
+    assert merge([], [3, 4]) == [3, 4]</textarea><textarea class="pc-src pc-solution" hidden>def merge(a, b):
+    i = j = 0
+    result = []
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            result.append(a[i])
+            i += 1
+        else:
+            result.append(b[j])
+            j += 1
+    result.extend(a[i:])
+    result.extend(b[j:])
+    return result</textarea><template class="pc-src pc-hint">When the loop stops, one list still has items left. They&rsquo;re all bigger than everything taken so far.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w008d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The wrong position</div><div class="pc-prompt"><p><code>best_position</code> should return the position of the largest value, but for <code>[3, 9, 2]</code> it returns 9. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def best_position(values):
+    best = 0
+    for i in range(len(values)):
+        if values[i] &gt; values[best]:
+            best = values[i]
+    return best</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert best_position([3, 9, 2]) == 1
+    assert best_position([7]) == 0
+    assert best_position([1, 2, 3]) == 2</textarea><textarea class="pc-src pc-solution" hidden>def best_position(values):
+    best = 0
+    for i in range(len(values)):
+        if values[i] &gt; values[best]:
+            best = i
+    return best</textarea></div>
+<div class="parsons" data-id="w008d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Filter and transform</div><div class="pc-prompt"><p>Arrange the lines to make a list of the squares of the odd numbers. One line is a trap.</p></div><script type="application/json">{"lines": ["numbers = [1, 2, 3, 4, 5]", "squares = []", "for n in numbers:", "    if n % 2 == 1:", "        squares.append(n * n)", "print(squares)"], "distractors": ["        numbers.append(n * n)"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the patterns</div><div class="pc-prompt"><p>Work out each result without running anything.</p>
+<pre><code class="language-python">data = [4, 1, 4, 3, 1]
+
+# A
+out = []
+for x in data:
+    if x not in out:
+        out.append(x)
+
+# B
+diffs = []
+for i in range(len(data) - 1):
+    diffs.append(data[i + 1] - data[i])
+
+# C
+flags = []
+for x in data:
+    flags.append(x &gt; 2)
+c = (any(flags), all(flags))
+</code></pre></div><textarea class="pc-src pc-code" hidden>answer_a = ___
+answer_b = ___
+answer_c = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each result&quot;
+    assert answer_a == [4, 1, 3]
+    assert answer_b == [-3, 3, -1, -2]
+    assert answer_c == (True, False)</textarea><textarea class="pc-src pc-solution" hidden>answer_a = [4, 1, 3]
+answer_b = [-3, 3, -1, -2]
+answer_c = (True, False)</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w008d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does the filter pattern produce?", "answer": 1, "explain": "It leaves the original alone.", "options": ["A changed original list", "A new list of the items that pass a test", "A number", "True or False"]}, {"type": "text", "q": "What does <code>any([False, False, True])</code> give?", "answer": "True", "explain": "At least one is True."}, {"type": "text", "q": "What does <code>all([])</code> give?", "answer": "True", "explain": "Nothing failed."}, {"type": "output", "q": "What does this print?", "answer": "1", "explain": "The position of the largest.", "code": "x = [3, 8, 2]\nprint(x.index(max(x)))"}, {"type": "text", "q": "How many items does <code>range(len(x) - 1)</code> visit for a list of 5?", "answer": ["4", "four"], "explain": "One fewer, so x[i + 1] exists."}, {"type": "output", "q": "What does this print?", "answer": "[2, 4, 6]", "explain": "A running total.", "code": "out = []\nt = 0\nfor v in [2, 2, 2]:\n    t += v\n    out.append(t)\nprint(out)"}, {"type": "mc", "q": "Why build a new list instead of removing items while looping?", "answer": 1, "explain": "Filter into a new list.", "options": ["It&rsquo;s faster to type", "Removing while looping skips items", "Lists can&rsquo;t remove items", "To use more memory"]}, {"type": "mc", "q": "In merging two sorted lists, what do you do when one runs out?", "answer": 2, "explain": "They&rsquo;re already in order and bigger than everything taken.", "options": ["Stop", "Sort the rest", "Add all the remaining items of the other list", "Start again"]}, {"type": "text", "q": "What does <code>[1, 2, 3, 4, 5][0:5:2]</code> give?", "answer": ["[1, 3, 5]", "[1,3,5]"], "explain": "Every second item."}, {"type": "mc", "q": "Which built-in replaces a hand-written &lsquo;best so far&rsquo; loop?", "answer": 1, "explain": "Use min or max, with key= if needed.", "options": ["sum", "max", "len", "any"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the longest rising streak</div><div class="pc-prompt"><p>Write <code>longest_rise(values)</code> that returns the longest run of values where each one is <strong>bigger</strong> than the one before, as a list. If there&rsquo;s a tie, return the first. An empty list gives <code>[]</code>, and a single value is a run of one.</p>
+<p><code>longest_rise([5, 1, 2, 3, 2, 4, 6, 8, 1])</code> is <code>[2, 4, 6, 8]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert longest_rise([5, 1, 2, 3, 2, 4, 6, 8, 1]) == [2, 4, 6, 8]
+    assert longest_rise([]) == []
+    assert longest_rise([7]) == [7]
+    assert longest_rise([3, 3, 3]) == [3]
+    assert longest_rise([1, 2, 1, 2]) == [1, 2]
+    assert longest_rise([9, 8, 1, 2, 3]) == [1, 2, 3]</textarea><textarea class="pc-src pc-solution" hidden>def longest_rise(values):
+    if not values:
+        return []
+    best_start, best_len = 0, 1
+    start = 0
+    for i in range(1, len(values) + 1):
+        if i == len(values) or values[i] &lt;= values[i - 1]:
+            if i - start &gt; best_len:
+                best_start, best_len = start, i - start
+            start = i
+    return values[best_start:best_start + best_len]</textarea><template class="pc-src pc-hint">Remember where the current run <strong>started</strong>. When an item isn&rsquo;t bigger than the one before, the run ends: compare its length with the best so far, and start a new run at this item.</template><template class="pc-src pc-hint">Don&rsquo;t forget the run that&rsquo;s still going when the loop ends. Then return a slice.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Write the merge loop from memory, then trace it by hand for <code>[1, 5]</code> and <code>[2, 3, 6]</code>. Then list which patterns from today have a built-in replacement. Tomorrow: aliasing and copying, the day you master what happens when two names share one list.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w008d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w008d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w008d4", "week": 8, "day": 4, "title": "List loop patterns", "exercises": [{"id": "w008d4-prefix", "title": "Running totals", "points": 10}, {"id": "w008d4-dedupe", "title": "No repeats", "points": 10}, {"id": "w008d4-above_average", "title": "Above average", "points": 10}, {"id": "w008d4-all_any", "title": "Every and any", "points": 10}, {"id": "w008d4-second_largest", "title": "Second largest", "points": 15}, {"id": "w008d4-chunks", "title": "Chunks", "points": 10}, {"id": "w008d4-merge", "title": "Merge two sorted lists", "points": 15}, {"id": "w008d4-bug1", "title": "Divide by zero", "points": 10}, {"id": "w008d4-bug2", "title": "Lost leftovers", "points": 10}, {"id": "w008d4-bug3", "title": "The wrong position", "points": 10}, {"id": "w008d4-trace", "title": "Trace the patterns", "points": 15}, {"id": "w008d4-challenge", "title": "Challenge: the longest rising streak", "points": 25}], "points": 150}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

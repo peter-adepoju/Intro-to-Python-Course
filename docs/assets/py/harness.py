@@ -911,5 +911,30 @@ def call_graph(code):
     return {"edges": edges, "docs": docs, "stubs": stubs, "unused": [n for n in defs if not any(n in v for k, v in edges.items() if k != n)], "error": None}
 
 
+def list_op(list_src, op):
+    """Run one operation on a list named x (for the list figure); report the list and the result."""
+    try:
+        x = eval(list_src, {"__builtins__": builtins})
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}"}
+    before = [repr(v) for v in x] if isinstance(x, list) else None
+    ns = {"x": x, "__builtins__": builtins}
+    try:
+        try:
+            result = eval(op, ns)
+            is_expr = True
+        except SyntaxError:
+            exec(op, ns)
+            result = None
+            is_expr = False
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}", "before": before}
+    after = ns.get("x")
+    return {"error": None, "before": before,
+            "after": [repr(v) for v in after] if isinstance(after, list) else None,
+            "after_repr": repr(after), "same": after is x,
+            "result": repr(result), "is_expr": is_expr}
+
+
 def call(fn, args_json):
     return globals()[fn](*json.loads(args_json))

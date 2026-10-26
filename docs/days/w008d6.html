@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="15c1631d82">
+<title>Week 8 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=15c1631d82">
+<link rel="stylesheet" href="../assets/css/site.css?v=15c1631d82">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=15c1631d82"></script>
+<script src="../assets/vendor/codemirror.js?v=15c1631d82" defer></script>
+<meta name="description" content="In Week 5 you built a receipt maker and had to split the order twice, because there was nowhere to keep the pieces. Today you’ll rebuild it with lists,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w008d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 8 Day 6: Forge">
+<meta property="og:description" content="In Week 5 you built a receipt maker and had to split the order twice, because there was nowhere to keep the pieces. Today you’ll rebuild it with lists,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w008d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-8">Week 8: Lists I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-receipt-maker-rebuilt" data-sec="forge-the-receipt-maker-rebuilt">Forge: the receipt maker, rebuilt</a></li><li><a href="#forge-bonus-shuffling-fairly" data-sec="forge-bonus-shuffling-fairly">Forge bonus: shuffling fairly</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-8-review" data-sec="week-8-review">Week 8 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 8, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>In Week 5 you built a receipt maker and had to split the order twice, because there was nowhere to keep the pieces. Today you&rsquo;ll rebuild it with lists, reading each item once and keeping it. Then you&rsquo;ll implement the shuffle algorithm used by every card game and music player. The weekly quiz and review finish the week.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Parse text into a list of items once, then use the list as often as needed</li><li>Choose between changing a list in place and building a new one, and copy when you must</li><li>Implement a classic in-place algorithm, the Fisher-Yates shuffle</li><li>Test a function that uses random numbers</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:60" title="Forge: the receipt maker, rebuilt: 60 min"></span><span class="plan-seg s1" style="flex:40" title="Forge bonus: shuffling fairly: 40 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 8 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: the receipt maker, rebuilt</span><span class="plan-min">60 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Forge bonus: shuffling fairly</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 8 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w008d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w008d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d6-p1"><textarea class="pc-src pc-code" hidden>x = [5, 3, 8]
+y = x
+y.sort()
+print(x)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d6-p2"><textarea class="pc-src pc-code" hidden>x = [1, 2, 3]
+print(x[::-1], x)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d6-p3"><textarea class="pc-src pc-code" hidden>a = [1, 2]
+a.append([3])
+a.extend([4])
+print(a, len(a))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d6-p4"><textarea class="pc-src pc-code" hidden>g = []
+for r in range(2):
+    g.append([r] * 2)
+g[0][1] = 9
+print(g)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w008d6-p5"><textarea class="pc-src pc-code" hidden>def f(items=None):
+    if items is None:
+        items = []
+    items.append(&quot;x&quot;)
+    return items
+
+print(f(), f())</textarea></div>
+<p>If any surprised you, revisit <a href="w008d1.html">making lists</a>, <a href="w008d2.html">mutation</a>, <a href="w008d3.html">methods</a>, <a href="w008d4.html">patterns</a> or <a href="w008d5.html">aliasing</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d6-mix_stats" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Class statistics</div><div class="pc-prompt"><p>Write <code>summary(marks)</code> that returns four values for a non-empty list of marks: the mean (rounded to 1 place), the median, the highest, and how many are at or above the mean. The median of an even-length list is the average of the two middle values. Don&rsquo;t change the caller&rsquo;s list.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    data = [72, 45, 88, 91, 60]
+    assert tuple(summary(data)) == (71.2, 72, 91, 3)
+    assert data == [72, 45, 88, 91, 60], &quot;Don&#x27;t change the caller&#x27;s list.&quot;
+    assert tuple(summary([1, 2, 3, 4])) == (2.5, 2.5, 4, 2)</textarea><textarea class="pc-src pc-solution" hidden>def summary(marks):
+    mean = sum(marks) / len(marks)
+    ordered = sorted(marks)
+    mid = len(ordered) // 2
+    if len(ordered) % 2:
+        median = ordered[mid]
+    else:
+        median = (ordered[mid - 1] + ordered[mid]) / 2
+    at_or_above = 0
+    for m in marks:
+        if m &gt;= mean:
+            at_or_above += 1
+    return round(mean, 1), median, max(marks), at_or_above</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d6-mix_flatten" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Flatten</div><div class="pc-prompt"><p>Write <code>flatten(groups)</code> that takes a list of lists and returns one list with all their items, in order. <code>flatten([[1, 2], [], [3]])</code> is <code>[1, 2, 3]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert flatten([[1, 2], [], [3]]) == [1, 2, 3]
+    assert flatten([]) == []
+    assert flatten([[&quot;a&quot;], [&quot;b&quot;, &quot;c&quot;]]) == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def flatten(groups):
+    result = []
+    for g in groups:
+        result.extend(g)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d6-mix_interleave" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Interleave</div><div class="pc-prompt"><p>Write <code>interleave(a, b)</code> that returns a new list taking items alternately from <code>a</code> and <code>b</code>, starting with <code>a</code>. When one runs out, the rest of the other follows. <code>interleave([1, 2, 3], ["x"])</code> is <code>[1, "x", 2, 3]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert interleave([1, 2, 3], [&quot;x&quot;]) == [1, &quot;x&quot;, 2, 3]
+    assert interleave([], [1, 2]) == [1, 2]
+    assert interleave([&quot;a&quot;, &quot;b&quot;], [&quot;c&quot;, &quot;d&quot;]) == [&quot;a&quot;, &quot;c&quot;, &quot;b&quot;, &quot;d&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def interleave(a, b):
+    result = []
+    for i in range(max(len(a), len(b))):
+        if i &lt; len(a):
+            result.append(a[i])
+        if i &lt; len(b):
+            result.append(b[i])
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d6-mix_stack" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Reverse Polish</div><div class="pc-prompt"><p>In <strong>Reverse Polish notation</strong>, operators come after their numbers: <code>3 4 +</code> means 3 + 4, and <code>5 1 2 + 4 * + 3 -</code> means 5 + (1 + 2) × 4 − 3. It&rsquo;s evaluated with a stack: push numbers; on an operator, pop two numbers, apply it, and push the result. Write <code>rpn(expression)</code> for <code>+</code>, <code>-</code> and <code>*</code> with whole numbers, returning the final number.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several expressions&quot;
+    assert rpn(&quot;3 4 +&quot;) == 7
+    assert rpn(&quot;5 1 2 + 4 * + 3 -&quot;) == 14
+    assert rpn(&quot;2 3 4 * -&quot;) == -10
+    assert rpn(&quot;42&quot;) == 42</textarea><textarea class="pc-src pc-solution" hidden>def rpn(expression):
+    stack = []
+    for token in expression.split():
+        if token in &quot;+-*&quot;:
+            b = stack.pop()
+            a = stack.pop()
+            if token == &quot;+&quot;:
+                stack.append(a + b)
+            elif token == &quot;-&quot;:
+                stack.append(a - b)
+            else:
+                stack.append(a * b)
+        else:
+            stack.append(int(token))
+    return stack.pop()</textarea><template class="pc-src pc-hint">When you pop for an operator, the first value popped is the <strong>right</strong>-hand number: <code>b = stack.pop()</code>, then <code>a = stack.pop()</code>, then push <code>a - b</code>.</template></div>
+<h2 id="forge-the-receipt-maker-rebuilt">Forge: the receipt maker, rebuilt</h2>
+<p>Look back at your <a href="w005d6.html">Week 5 receipt maker</a>. It split the order twice: once to check every item and measure the names, once to print. Now each item can be read <strong>once</strong> into a list, and everything else works from the list.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the receipt maker, rebuilt</div><div class="pc-prompt"><p>Write the same receipt maker as in Week 5, built from these functions:</p>
+<ul>
+<li><code>parse_order(line)</code> returns a list of items, each a list <code>[name, quantity, price]</code> (name stripped and in title case, quantity an int, price a float), skipping empty items. If any item can&rsquo;t be read, it returns the text of that item (stripped) instead of a list.</li>
+<li><code>receipt(items)</code> returns the whole receipt as one string (lines joined with <code>"\n"</code>), exactly as in Week 5: the item column as wide as the longest name or <code>Item</code>, then <code>Qty</code> in 4, <code>Price</code> and <code>Total</code> in 11, dashed lines as wide as the table, then <code>Subtotal</code>, <code>VAT 7.5%</code> and <code>TOTAL</code>.</li>
+<li>The main program asks <code>Order:</code> and prints either the receipt or <code>Can't read:</code> and the bad item.</li>
+</ul>
+<p>The format of an item is <code>name x quantity @ price</code>, as before. For example:</p>
+<pre><code>Order: Rice (5kg) x 2 @ 8500; bread x1@950
+Item          Qty      Price      Total
+---------------------------------------
+Rice (5Kg)      2   8,500.00  17,000.00
+Bread           1     950.00     950.00
+---------------------------------------
+Subtotal                      17,950.00
+VAT 7.5%                       1,346.25
+TOTAL                         19,296.25
+</code></pre></div><textarea class="pc-src pc-code" hidden>def parse_order(line):
+    &quot;&quot;&quot;Return a list of [name, qty, price] items, or the text of an unreadable item.&quot;&quot;&quot;
+    ___
+
+def receipt(items):
+    &quot;&quot;&quot;Return the receipt for the items as one string.&quot;&quot;&quot;
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def build(line):
+    items = []
+    for raw in line.split(&quot;;&quot;):
+        raw = raw.strip()
+        if not raw:
+            continue
+        x, at = raw.find(&quot; x&quot;), raw.find(&quot;@&quot;)
+        if x == -1 or at == -1 or at &lt; x or not raw[x + 2:at].strip().isdigit():
+            return &quot;Can&#x27;t read: &quot; + raw
+        items.append((raw[:x].strip().title(), int(raw[x + 2:at].strip()), float(raw[at + 1:].strip())))
+    w = max([4] + [len(n) for n, _, _ in items])
+    width = w + 27
+    rows = [f&quot;{&#x27;Item&#x27;:&lt;{w}} {&#x27;Qty&#x27;:&gt;4}{&#x27;Price&#x27;:&gt;11}{&#x27;Total&#x27;:&gt;11}&quot;, &quot;-&quot; * width]
+    sub = 0
+    for n, q, p in items:
+        rows.append(f&quot;{n:&lt;{w}} {q:&gt;4}{p:&gt;11,.2f}{q * p:&gt;11,.2f}&quot;)
+        sub += q * p
+    rows += [&quot;-&quot; * width, f&quot;{&#x27;Subtotal&#x27;:&lt;{width - 11}}{sub:&gt;11,.2f}&quot;, f&quot;{&#x27;VAT 7.5%&#x27;:&lt;{width - 11}}{sub * 0.075:&gt;11,.2f}&quot;, f&quot;{&#x27;TOTAL&#x27;:&lt;{width - 11}}{sub * 1.075:&gt;11,.2f}&quot;]
+    return &quot;\n&quot;.join(rows)
+def test_parse():
+    &quot;parse_order&quot;
+    assert parse_order(&quot;Rice (5kg) x 2 @ 8500; bread x1@950 ;&quot;) == [[&quot;Rice (5Kg)&quot;, 2, 8500.0], [&quot;Bread&quot;, 1, 950.0]]
+    assert parse_order(&quot;tea x 4 @ 150; coffee 900&quot;) == &quot;coffee 900&quot;
+    assert parse_order(&quot;&quot;) == []
+def test_receipt():
+    &quot;receipt&quot;
+    got = receipt([[&quot;Tea&quot;, 4, 150.0]])
+    assert got == build(&quot;Tea x 4 @ 150&quot;), &quot;receipt([[&#x27;Tea&#x27;, 4, 150.0]]) should give:\n&quot; + build(&quot;Tea x 4 @ 150&quot;)
+def test_program():
+    &quot;the whole program&quot;
+    for line in [&quot;Rice (5kg) x 2 @ 8500; bread x1@950&quot;, &quot;extra large family size pizza x 1 @ 15000; cola x 6 @ 400&quot;, &quot;rice x two @ 8500&quot;]:
+        expect_output(&quot;Order: &quot; + line + &quot;\n&quot; + build(line), inputs=[line], echo=True)
+def test_split_once():
+    &quot;the order is split only once&quot;
+    assert source.count(&#x27;.split(&quot;;&quot;)&#x27;) + source.count(&quot;.split(&#x27;;&#x27;)&quot;) == 1, &quot;Split the order once, in parse_order.&quot;</textarea><textarea class="pc-src pc-solution" hidden>def parse_order(line):
+    &quot;&quot;&quot;Return a list of [name, qty, price] items, or the text of an unreadable item.&quot;&quot;&quot;
+    items = []
+    for raw in line.split(&quot;;&quot;):
+        raw = raw.strip()
+        if raw == &quot;&quot;:
+            continue
+        x = raw.find(&quot; x&quot;)
+        at = raw.find(&quot;@&quot;)
+        if x == -1 or at == -1 or at &lt; x or not raw[x + 2:at].strip().isdigit():
+            return raw
+        items.append([raw[:x].strip().title(), int(raw[x + 2:at].strip()), float(raw[at + 1:].strip())])
+    return items
+
+def receipt(items):
+    &quot;&quot;&quot;Return the receipt for the items as one string.&quot;&quot;&quot;
+    w = len(&quot;Item&quot;)
+    for name, qty, price in items:
+        w = max(w, len(name))
+    width = w + 1 + 4 + 11 + 11
+    lines = [f&quot;{&#x27;Item&#x27;:&lt;{w}} {&#x27;Qty&#x27;:&gt;4}{&#x27;Price&#x27;:&gt;11}{&#x27;Total&#x27;:&gt;11}&quot;, &quot;-&quot; * width]
+    subtotal = 0
+    for name, qty, price in items:
+        lines.append(f&quot;{name:&lt;{w}} {qty:&gt;4}{price:&gt;11,.2f}{qty * price:&gt;11,.2f}&quot;)
+        subtotal += qty * price
+    vat = subtotal * 0.075
+    lines.append(&quot;-&quot; * width)
+    lines.append(f&quot;{&#x27;Subtotal&#x27;:&lt;{width - 11}}{subtotal:&gt;11,.2f}&quot;)
+    lines.append(f&quot;{&#x27;VAT 7.5%&#x27;:&lt;{width - 11}}{vat:&gt;11,.2f}&quot;)
+    lines.append(f&quot;{&#x27;TOTAL&#x27;:&lt;{width - 11}}{subtotal + vat:&gt;11,.2f}&quot;)
+    return &quot;\n&quot;.join(lines)
+
+order = parse_order(input(&quot;Order: &quot;))
+if isinstance(order, str):
+    print(&quot;Can&#x27;t read:&quot;, order)
+else:
+    print(receipt(order))</textarea><template class="pc-src pc-hint">In <code>parse_order</code>, build <code>items = []</code>. For each piece, either <code>return raw</code> (when it can&rsquo;t be read) or <code>items.append([name, qty, price])</code>. Return <code>items</code> at the end.</template><template class="pc-src pc-hint">In <code>receipt</code>, <code>w = max(4, max of the name lengths)</code>. Build <code>lines = []</code>, append each line, and <code>return "\n".join(lines)</code>.</template><template class="pc-src pc-hint">Note that <code>"Rice (5kg)".title()</code> gives <code>"Rice (5Kg)"</code>: title case capitalises every letter that follows a non-letter. That&rsquo;s fine; it&rsquo;s what the checks expect.</template></div>
+<aside class="callout c-think"><div class="callout-t">Compare the two versions</div><p>Put your Week 5 receipt maker next to this one. The parsing happens once. <code>receipt</code> doesn&rsquo;t know or care where the items came from: they could come from a file, a web form or a test, and it would work the same. Separating <strong>reading</strong> data from <strong>using</strong> it is one of the most important design habits, and lists are what make it possible.</p></aside>
+<p>The main program used <code>isinstance(order, str)</code> to ask &ldquo;is this a string?&rdquo;. Returning two different kinds of value from one function works, but it&rsquo;s a little awkward. In Week 11 you&rsquo;ll learn the proper tool for &ldquo;this went wrong&rdquo;: raising an exception.</p>
+<h2 id="forge-bonus-shuffling-fairly">Forge bonus: shuffling fairly</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w008d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: the Fisher-Yates shuffle</div><div class="pc-prompt"><p>How do you shuffle a list so that every possible order is <strong>equally likely</strong>? Many people&rsquo;s first idea (swap every item with a random position anywhere) is subtly unfair. The correct method, the <strong>Fisher-Yates shuffle</strong>, works backwards:</p>
+<pre><code>for i from the last position down to 1:
+    pick a random j from 0 to i (including i)
+    swap the items at i and j
+</code></pre>
+<ol>
+<li>Write <code>shuffle(items)</code> that shuffles the list <strong>in place</strong> this way, using <code>random.randint(0, i)</code> for each <code>j</code>, and returns <code>None</code>.</li>
+<li>Write <code>shuffled(items)</code> that returns a shuffled <strong>copy</strong> and leaves the original alone, by copying and then calling <code>shuffle</code>.</li>
+<li>Write <code>deal(n_players, n_cards)</code> that makes a deck <code>list(range(1, 53))</code>, shuffles it, and returns a list of <code>n_players</code> hands, each a list of <code>n_cards</code> cards dealt from the <strong>top</strong> of the deck (the last item), one card to each player in turn.</li>
+</ol>
+<p>The checks fix the random numbers, so your shuffle must call <code>random.randint</code> exactly as described: once for each <code>i</code> from <code>len(items) - 1</code> down to 1.</p></div><textarea class="pc-src pc-code" hidden>import random</textarea><textarea class="pc-src pc-tests" hidden>import random as _r
+def ref_shuffle(items):
+    for i in range(len(items) - 1, 0, -1):
+        j = _r.randint(0, i)
+        items[i], items[j] = items[j], items[i]
+def test_shuffle():
+    &quot;shuffle follows the algorithm exactly&quot;
+    for seed in [1, 7, 42]:
+        a = list(range(10))
+        b = list(range(10))
+        _r.seed(seed)
+        assert shuffle(a) is None, &quot;shuffle works in place and returns None.&quot;
+        _r.seed(seed)
+        ref_shuffle(b)
+        assert a == b, &quot;Use random.randint(0, i) once for each i from the last position down to 1, and swap items i and j.&quot;
+def test_shuffled():
+    &quot;shuffled returns a copy&quot;
+    data = list(range(5))
+    out = shuffled(data)
+    assert data == list(range(5)), &quot;Leave the original alone.&quot;
+    assert sorted(out) == data and out is not data
+def test_deal():
+    &quot;deal&quot;
+    _r.seed(3)
+    hands = deal(4, 5)
+    assert len(hands) == 4 and all(len(h) == 5 for h in hands)
+    cards = [c for h in hands for c in h]
+    assert len(set(cards)) == 20 and all(1 &lt;= c &lt;= 52 for c in cards)
+    _r.seed(3)
+    deck = list(range(1, 53))
+    ref_shuffle(deck)
+    assert hands[0][0] == deck[-1] and hands[1][0] == deck[-2], &quot;Deal from the end of the deck, one card to each player in turn.&quot;</textarea><textarea class="pc-src pc-solution" hidden>import random
+
+def shuffle(items):
+    for i in range(len(items) - 1, 0, -1):
+        j = random.randint(0, i)
+        items[i], items[j] = items[j], items[i]
+
+def shuffled(items):
+    result = items.copy()
+    shuffle(result)
+    return result
+
+def deal(n_players, n_cards):
+    deck = list(range(1, 53))
+    shuffle(deck)
+    hands = []
+    for _ in range(n_players):
+        hands.append([])
+    for _ in range(n_cards):
+        for p in range(n_players):
+            hands[p].append(deck.pop())
+    return hands</textarea><template class="pc-src pc-hint"><code>for i in range(len(items) - 1, 0, -1):</code> counts down from the last position to 1.</template><template class="pc-src pc-hint">In <code>deal</code>, make <code>hands</code> a list of <code>n_players</code> empty lists (each a separate list!). Then for each round, for each player, <code>hands[p].append(deck.pop())</code>.</template></div>
+<p>Python&rsquo;s own <code>random.shuffle</code> uses exactly this algorithm. Now you know what it does.</p>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w008d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "text", "q": "What does <code>[10, 20, 30][-1]</code> give?", "answer": "30", "explain": "The last item."}, {"type": "text", "q": "What does <code>[10, 20, 30][:2]</code> give?", "answer": ["[10, 20]", "[10,20]"], "explain": "A new list of the first two."}, {"type": "mc", "q": "Which is mutable?", "answer": 1, "explain": "Lists can change in place.", "options": ["str", "list", "int", "float"]}, {"type": "output", "q": "What does this print?", "answer": "[1, 2]", "explain": "The loop variable is just a name.", "code": "x = [1, 2]\nfor v in x:\n    v *= 10\nprint(x)"}, {"type": "text", "q": "What does <code>append</code> return?", "answer": "None", "explain": "Methods that change a list return None."}, {"type": "mc", "q": "What&rsquo;s the difference between append and extend?", "answer": 1, "explain": "append([3, 4]) adds a single list.", "options": ["None", "append adds one item; extend adds each item of a sequence", "extend is faster", "append sorts"]}, {"type": "mc", "q": "What does <code>pop()</code> return?", "answer": 1, "explain": "That&rsquo;s what makes it useful for stacks.", "options": ["None", "The removed item", "The list"]}, {"type": "text", "q": "What is x after <code>x = [2, 1]; x = x.sort()</code>?", "answer": "None", "explain": "sort returns None."}, {"type": "text", "q": "What does <code>any([0, 0, 3])</code> give?", "answer": "True", "explain": "3 is truthy."}, {"type": "output", "q": "What does this print?", "answer": "[1, 2, 3]", "explain": "+= changes the list in place.", "code": "a = [1, 2]\nb = a\na += [3]\nprint(b)"}, {"type": "mc", "q": "What does <code>a is b</code> check?", "answer": 1, "explain": "== checks contents.", "options": ["Equal contents", "Same object"]}, {"type": "mc", "q": "Which makes an independent copy of a list of numbers?", "answer": 1, "explain": "A slice of the whole list is a copy.", "options": ["<code>b = a</code>", "<code>b = a[:]</code>", "both", "neither"]}, {"type": "output", "q": "What does this print?", "answer": "[[0, 1], [0, 1]]", "explain": "Both slots hold the same inner list.", "code": "g = [[0]] * 2\ng[0].append(1)\nprint(g)"}, {"type": "mc", "q": "What&rsquo;s the fix for <code>def f(x=[])</code>?", "answer": 1, "explain": "Defaults are made once.", "options": ["<code>def f(x=())</code>", "Use <code>x=None</code> and make a new list inside", "Use <code>global x</code>", "Nothing"]}, {"type": "mc", "q": "In a stack, which item comes off first?", "answer": 1, "explain": "Last in, first out.", "options": ["The oldest", "The newest"]}]</script></div>
+<h2 id="week-8-review">Week 8 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I can make lists, index and slice them, and build them with <code>append</code>. (<a href="w008d1.html">Day 1</a>)</li>
+<li>I can change lists in place and tell mutation apart from rebinding. (<a href="w008d2.html">Day 2</a>)</li>
+<li>I know every list method and whether it changes the list or returns an answer, and I can use a list as a stack. (<a href="w008d3.html">Day 3</a>)</li>
+<li>I can filter, transform, merge and de-duplicate lists, and use <code>any</code> and <code>all</code>. (<a href="w008d4.html">Day 4</a>)</li>
+<li>I understand aliasing, <code>is</code> versus <code>==</code>, and shallow and deep copies, and I avoid the two classic traps. (<a href="w008d5.html">Day 5</a>)</li>
+<li>I rebuilt a parser around a list, and implemented a fair shuffle. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week: grids of lists, sorting with keys, tuples and unpacking, <code>enumerate</code> and <code>zip</code>, and list comprehensions.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w008d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w008d6", "week": 8, "day": 6, "title": "Forge", "exercises": [{"id": "w008d6-mix_stats", "title": "Class statistics", "points": 10}, {"id": "w008d6-mix_flatten", "title": "Flatten", "points": 10}, {"id": "w008d6-mix_interleave", "title": "Interleave", "points": 10}, {"id": "w008d6-mix_stack", "title": "Reverse Polish", "points": 10}, {"id": "w008d6-forge", "title": "Forge: the receipt maker, rebuilt", "points": 50}, {"id": "w008d6-forge2", "title": "Forge bonus: the Fisher-Yates shuffle", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
