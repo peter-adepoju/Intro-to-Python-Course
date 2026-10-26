@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="4b6d584d97">
+<title>Week 3 Day 3: break and continue | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=4b6d584d97">
+<link rel="stylesheet" href="../assets/css/site.css?v=4b6d584d97">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=4b6d584d97"></script>
+<script src="../assets/vendor/codemirror.js?v=4b6d584d97" defer></script>
+<meta name="description" content="Sometimes a loop needs to change course from the inside: stop the moment it finds what it’s looking for, or skip one pass without stopping. Today you’ll...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w003d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 3 Day 3: break and continue">
+<meta property="og:description" content="Sometimes a loop needs to change course from the inside: stop the moment it finds what it’s looking for, or skip one pass without stopping. Today you’ll...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w003d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-3">Week 3: Repetition I: while</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#break-leave-the-loop-now" data-sec="break-leave-the-loop-now">break: leave the loop now</a></li><li><a href="#while-true-and-the-loop-and-a-half" data-sec="while-true-and-the-loop-and-a-half">while True and the loop and a half</a></li><li><a href="#continue-skip-to-the-next-pass" data-sec="continue-skip-to-the-next-pass">continue: skip to the next pass</a></li><li><a href="#searching-did-we-find-it" data-sec="searching-did-we-find-it">Searching: did we find it?</a></li><li><a href="#a-guessing-game-with-random-numbers" data-sec="a-guessing-game-with-random-numbers">A guessing game with random numbers</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 3, Day 3</span></p>
+      <h1>break and continue</h1>
+      <div class="day-intro"><p>Sometimes a loop needs to change course from the inside: stop the moment it finds what it&rsquo;s looking for, or skip one pass without stopping. Today you&rsquo;ll meet <code>break</code> and <code>continue</code>, the <code>while True</code> loop that only stops when told to, and Python&rsquo;s unusual <code>else</code> on a loop.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Leave a loop early with <code>break</code>, and skip the rest of one pass with <code>continue</code></li><li>Write <code>while True</code> loops that read input and stop with <code>break</code></li><li>Search for the first value that matches, and report whether anything was found, with a flag or with <code>while ... else</code></li><li>Avoid the classic <code>continue</code> trap that causes an infinite loop</li><li>Use <code>random.randint</code> to make a guessing game</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="break: leaving early: 30 min"></span><span class="plan-seg s0" style="flex:30" title="while True and the loop and a half: 30 min"></span><span class="plan-seg s1" style="flex:25" title="continue: skipping a pass: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Searching: flags and while-else: 25 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">break: leaving early</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">while True and the loop and a half</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">continue: skipping a pass</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Searching: flags and while-else</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w003d3.ipynb" download>download it</a>. Exercises today are worth 150 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d3-p1"><textarea class="pc-src pc-code" hidden>total = 0
+n = int(&quot;3&quot;)
+while n &gt; 0:
+    total += n
+    n -= 1
+print(total)</textarea></div>
+<p>That loop ran until its condition failed. Today you&rsquo;ll learn two ways to control a loop from <strong>inside</strong> its body.</p>
+<h2 id="break-leave-the-loop-now">break: leave the loop now</h2>
+<p><code>break</code> ends the loop immediately. Python jumps to the first line after the loop, without checking the condition again and without finishing the current pass.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e2"><div class="pc-title">Find the first multiple of 7 above 50</div><textarea class="pc-src pc-code" hidden>n = 51
+while n &lt; 1000:
+    if n % 7 == 0:
+        print(&quot;Found:&quot;, n)
+        break
+    n += 1
+print(&quot;After the loop, n is&quot;, n)</textarea></div>
+<p>Without the <code>break</code>, the loop would keep going to 999, printing every multiple of 7 on the way. With it, the search stops at the first match. Press X-ray and watch: after <code>break</code>, the yellow line jumps straight past the loop.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>break</code> exits the <strong>innermost</strong> loop it&rsquo;s in, straight away. Whatever comes after <code>break</code> in the body is skipped.</p></aside>
+<h2 id="while-true-and-the-loop-and-a-half">while True and the loop and a half</h2>
+<p>Yesterday&rsquo;s priming read needs the <code>input()</code> line written twice: once before the loop, once at the end of the body. There&rsquo;s another shape that writes it once:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e3"><div class="pc-title">Total until 0, with while True</div><textarea class="pc-src pc-code" hidden>total = 0
+while True:
+    n = int(input(&quot;Number (0 to stop): &quot;))
+    if n == 0:
+        break
+    total += n
+print(&quot;Total:&quot;, total)</textarea></div>
+<p><code>while True:</code> would loop forever, since <code>True</code> is always true. The only way out is the <code>break</code>. This shape is sometimes called a <strong>loop and a half</strong>: each pass reads, checks whether to stop, and only then does the work.</p>
+<p>Compare it with the priming read version from yesterday. Both are correct. Which you use is mostly taste:</p>
+<ul>
+<li>The priming read puts the stopping rule in the <code>while</code> line, where readers look for it first.</li>
+<li><code>while True</code> avoids repeating the input line, which matters when getting the next value takes several lines.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e4"><div class="pc-title">A menu that repeats until you quit</div><textarea class="pc-src pc-code" hidden>while True:
+    choice = input(&quot;1 = hello, 2 = time, 3 = joke, q = quit: &quot;)
+    if choice == &quot;q&quot;:
+        print(&quot;Goodbye!&quot;)
+        break
+    elif choice == &quot;1&quot;:
+        print(&quot;Hello!&quot;)
+    elif choice == &quot;2&quot;:
+        print(&quot;Time to practise.&quot;)
+    elif choice == &quot;3&quot;:
+        print(&quot;Why do programmers mix up Halloween and Christmas? Because Oct 31 = Dec 25.&quot;)
+    else:
+        print(&quot;Unknown choice.&quot;)</textarea></div>
+<p>The joke: 31 written in base 8 (octal) is the same number as 25 in our usual base 10.</p>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>Every <code>while True</code> loop needs a <code>break</code> that will definitely be reached. Before you run one, find the <code>break</code> and ask what makes it happen.</p></aside>
+<h2 id="continue-skip-to-the-next-pass">continue: skip to the next pass</h2>
+<p><code>continue</code> abandons the <strong>rest of the current pass</strong> and goes back to check the condition. The loop itself carries on.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e5"><div class="pc-title">Skip the multiples of 3</div><textarea class="pc-src pc-code" hidden>n = 0
+while n &lt; 10:
+    n += 1
+    if n % 3 == 0:
+        continue
+    print(n, end=&quot; &quot;)</textarea></div>
+<p>When <code>n</code> is 3, 6 or 9, <code>continue</code> jumps back to the <code>while</code> line, so the <code>print</code> is skipped for those values only.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e6"><div class="pc-title">Ignore blank lines</div><textarea class="pc-src pc-code" hidden>count = 0
+while True:
+    word = input(&quot;Word (done to stop): &quot;)
+    if word == &quot;done&quot;:
+        break
+    if word == &quot;&quot;:
+        continue
+    count += 1
+print(count, &quot;words&quot;)</textarea></div>
+<h3 id="the-continue-trap">The continue trap</h3>
+<p>Look at where <code>n += 1</code> is in the first example: at the <strong>top</strong> of the body, before the <code>continue</code>. If it were at the bottom, then the first time <code>continue</code> ran, the update would be skipped. <code>n</code> would stay the same, the same <code>continue</code> would run again, and the loop would never end:</p>
+<pre><code class="language-python">n = 0
+while n &lt; 10:
+    if n % 3 == 0:
+        continue        # when n is 0, this runs forever
+    print(n)
+    n += 1              # never reached once n is a multiple of 3
+</code></pre>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>continue</code> skips everything below it, <strong>including the update</strong>. Put the update before any <code>continue</code>, or avoid <code>continue</code> and use an <code>if</code> around the work instead.</p></aside>
+<p>Often an <code>if</code> is clearer anyway:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e7"><div class="pc-title">The same, without continue</div><textarea class="pc-src pc-code" hidden>n = 0
+while n &lt; 10:
+    n += 1
+    if n % 3 != 0:
+        print(n, end=&quot; &quot;)</textarea></div>
+<p>Use <code>continue</code> when it saves a deep indent, typically for &ldquo;skip the bad cases first, then do the real work&rdquo; at the top of a long body.</p>
+<h2 id="searching-did-we-find-it">Searching: did we find it?</h2>
+<p>A search loop has two ways to end: it found what it wanted (and broke out), or it ran out of things to check. Afterwards you usually need to know <strong>which</strong>.</p>
+<h3 id="with-a-flag">With a flag</h3>
+<p>A <strong>flag</strong> is a bool variable that records whether something happened:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e8"><div class="pc-title">Is there a digit in it?</div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+found = False
+i = 0
+while i &lt; len(text):
+    if text[i].isdigit():
+        found = True
+        break
+    i += 1
+if found:
+    print(&quot;First digit at position&quot;, i)
+else:
+    print(&quot;No digits&quot;)</textarea></div>
+<h3 id="with-while-else">With while &hellip; else</h3>
+<p>Python has a feature most languages don&rsquo;t: a loop can have an <code>else</code>. The <code>else</code> block runs if the loop ended <strong>normally</strong>, because its condition became false. It does <strong>not</strong> run if the loop ended with <code>break</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e9"><div class="pc-title">The same search, with while-else</div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+i = 0
+while i &lt; len(text):
+    if text[i].isdigit():
+        print(&quot;First digit at position&quot;, i)
+        break
+    i += 1
+else:
+    print(&quot;No digits&quot;)</textarea></div>
+<p>Read the <code>else</code> as &ldquo;if we never broke out&rdquo;, or &ldquo;<strong>no break</strong>&rdquo;. It&rsquo;s made for searches: break when found, <code>else</code> for not found.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p><code>while ... else</code> surprises people who haven&rsquo;t seen it. If your readers are beginners, a flag is easier to follow. Both are correct.</p></aside>
+<h2 id="a-guessing-game-with-random-numbers">A guessing game with random numbers</h2>
+<p>Python&rsquo;s <code>random</code> module can pick numbers for you. <code>random.randint(1, 100)</code> gives a whole number from 1 to 100, <strong>including both ends</strong>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e10"><textarea class="pc-src pc-code" hidden>import random
+print(random.randint(1, 6))
+print(random.randint(1, 6))
+print(random.randint(1, 6))</textarea></div>
+<p>Run it a few times: the numbers change every time. (When the <strong>Check my answer</strong> button tests your code, it fixes the random sequence, so the results can be compared.)</p>
+<p>Now a game, with a <code>while True</code> loop and a <code>break</code> when the guess is right:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d3-e11"><div class="pc-title">Guess my number</div><textarea class="pc-src pc-code" hidden>import random
+secret = random.randint(1, 50)
+tries = 0
+while True:
+    guess = int(input(&quot;Guess (1-50): &quot;))
+    tries += 1
+    if guess &lt; secret:
+        print(&quot;Too low&quot;)
+    elif guess &gt; secret:
+        print(&quot;Too high&quot;)
+    else:
+        print(f&quot;Yes! It was {secret}. You took {tries} tries.&quot;)
+        break</textarea></div>
+<aside class="callout c-think"><div class="callout-t">Think about it</div><p>What&rsquo;s the best strategy? If you always guess the middle of the range that&rsquo;s left, how many guesses can it possibly take for 1 to 50? For 1 to 1000? You&rsquo;ll meet this idea again as <strong>binary search</strong> in Week 17.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-first_square" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">First big square</div><div class="pc-prompt"><p>Use a loop and <code>break</code> to find the first whole number whose square is greater than 2000. Print <code>Number:</code> and the number, then <code>Square:</code> and its square.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;45 and 2025&quot;
+    expect_output(&quot;Number: 45\nSquare: 2025&quot;)
+def test_break():
+    &quot;uses break&quot;
+    assert &quot;break&quot; in source, &quot;Use break to stop as soon as you find it.&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = 1
+while True:
+    if n * n &gt; 2000:
+        break
+    n += 1
+print(&quot;Number:&quot;, n)
+print(&quot;Square:&quot;, n * n)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-sum_until_negative" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Stop at a negative</div><div class="pc-prompt"><p>Use <code>while True</code> to read whole numbers with the prompt <code>Number:</code>. Stop as soon as a negative number is typed (and don&rsquo;t add it). Print <code>Sum:</code> and the total of the others.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_some():
+    &quot;three then negative&quot;
+    expect_output(&quot;Number: 4\nNumber: 0\nNumber: 6\nNumber: -1\nSum: 10&quot;, inputs=[&quot;4&quot;, &quot;0&quot;, &quot;6&quot;, &quot;-1&quot;], echo=True)
+def test_first():
+    &quot;negative first&quot;
+    expect_output(&quot;Number: -5\nSum: 0&quot;, inputs=[&quot;-5&quot;], echo=True)
+def test_shape():
+    &quot;uses while True and break&quot;
+    assert &quot;while True&quot; in source and &quot;break&quot; in source, &quot;Use while True with a break.&quot;</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+while True:
+    n = int(input(&quot;Number: &quot;))
+    if n &lt; 0:
+        break
+    total += n
+print(&quot;Sum:&quot;, total)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-skip_seven" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Skip the sevens</div><div class="pc-prompt"><p>Print the numbers from 1 to 30 on one line, separated by spaces, but skip any number that divides by 7 <strong>or</strong> contains the digit 7. Use <code>continue</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the right numbers&quot;
+    want = &quot; &quot;.join(str(n) for n in range(1, 31) if n % 7 and &quot;7&quot; not in str(n))
+    assert norm(run()) == want, &quot;Expected:\n&quot; + want
+def test_continue():
+    &quot;uses continue&quot;
+    assert &quot;continue&quot; in source, &quot;Use continue to skip.&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = 0
+while n &lt; 30:
+    n += 1
+    if n % 7 == 0 or &quot;7&quot; in str(n):
+        continue
+    print(n, end=&quot; &quot;)</textarea><template class="pc-src pc-hint"><code>"7" in str(n)</code> checks whether the digit 7 appears in n.</template><template class="pc-src pc-hint">Put <code>n += 1</code> at the top of the loop body, before the <code>continue</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-calculator" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A tiny calculator</div><div class="pc-prompt"><p>Write a loop that repeatedly asks for an operation with the prompt <code>Operation (+, -, *, / or q):</code>. On <code>q</code>, print <code>Bye</code> and stop. For any other operation, ask <code>a:</code> and <code>b:</code> (numbers that may have decimals) and print the result. For an unknown operation print <code>Unknown operation</code> and ask again without asking for numbers. Dividing by zero prints <code>Can't divide by zero</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_session():
+    &quot;a whole session&quot;
+    p = &quot;Operation (+, -, *, / or q): &quot;
+    expect_output(f&quot;{p}+\na: 2\nb: 3.5\n5.5\n{p}%\nUnknown operation\n{p}/\na: 1\nb: 0\nCan&#x27;t divide by zero\n{p}*\na: 4\nb: 2.5\n10.0\n{p}q\nBye&quot;,
+                  inputs=[&quot;+&quot;, &quot;2&quot;, &quot;3.5&quot;, &quot;%&quot;, &quot;/&quot;, &quot;1&quot;, &quot;0&quot;, &quot;*&quot;, &quot;4&quot;, &quot;2.5&quot;, &quot;q&quot;], echo=True)
+def test_quit():
+    &quot;quit straight away&quot;
+    expect_output(&quot;Operation (+, -, *, / or q): q\nBye&quot;, inputs=[&quot;q&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>while True:
+    op = input(&quot;Operation (+, -, *, / or q): &quot;)
+    if op == &quot;q&quot;:
+        print(&quot;Bye&quot;)
+        break
+    if op != &quot;+&quot; and op != &quot;-&quot; and op != &quot;*&quot; and op != &quot;/&quot;:
+        print(&quot;Unknown operation&quot;)
+        continue
+    a = float(input(&quot;a: &quot;))
+    b = float(input(&quot;b: &quot;))
+    if op == &quot;+&quot;:
+        print(a + b)
+    elif op == &quot;-&quot;:
+        print(a - b)
+    elif op == &quot;*&quot;:
+        print(a * b)
+    elif b == 0:
+        print(&quot;Can&#x27;t divide by zero&quot;)
+    else:
+        print(a / b)</textarea><template class="pc-src pc-hint">Inside <code>while True</code>: read the operation; if it&rsquo;s <code>q</code>, print and <code>break</code>; if it isn&rsquo;t one of the four, print the message and <code>continue</code>. Only then read the numbers.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-find_space" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">First word</div><div class="pc-prompt"><p>Ask for a sentence with the prompt <code>Sentence:</code> and print <code>First word:</code> and everything before the first space. If there&rsquo;s no space, the whole sentence is the first word. Walk through the sentence with a loop and use <code>break</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_sentence():
+    &quot;a sentence&quot;
+    expect_output(&quot;Sentence: Python is fun\nFirst word: Python&quot;, inputs=[&quot;Python is fun&quot;], echo=True)
+def test_one():
+    &quot;a single word&quot;
+    expect_output(&quot;Sentence: Hello\nFirst word: Hello&quot;, inputs=[&quot;Hello&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>sentence = input(&quot;Sentence: &quot;)
+i = 0
+while i &lt; len(sentence):
+    if sentence[i] == &quot; &quot;:
+        break
+    i += 1
+print(&quot;First word:&quot;, sentence[:i])</textarea><template class="pc-src pc-hint">Loop with an index <code>i</code>. When <code>sentence[i] == " "</code>, break. Either way, <code>sentence[:i]</code> is the first word afterwards.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-has_upper" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Any capitals?</div><div class="pc-prompt"><p>Ask for a password with the prompt <code>Password:</code>. Search it for a capital letter (<code>ch.isupper()</code> is <code>True</code> for one). Print <code>Has a capital at position</code> and the index of the first one, or <code>No capital letters</code>. Use <code>while ... else</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_yes():
+    &quot;has a capital&quot;
+    expect_output(&quot;Password: secretKey9\nHas a capital at position 6&quot;, inputs=[&quot;secretKey9&quot;], echo=True)
+def test_no():
+    &quot;no capital&quot;
+    expect_output(&quot;Password: lowercase\nNo capital letters&quot;, inputs=[&quot;lowercase&quot;], echo=True)
+def test_else():
+    &quot;uses while-else&quot;
+    import re
+    assert re.search(r&quot;^else:&quot;, source, re.M), &quot;Put an else on the loop itself, lined up with while.&quot;</textarea><textarea class="pc-src pc-solution" hidden>pw = input(&quot;Password: &quot;)
+i = 0
+while i &lt; len(pw):
+    if pw[i].isupper():
+        print(&quot;Has a capital at position&quot;, i)
+        break
+    i += 1
+else:
+    print(&quot;No capital letters&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-guess_fixed" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Higher or lower</div><div class="pc-prompt"><p>Write the guessing game with a secret of 37 (stored in <code>SECRET</code>, so the checks can change it). Ask <code>Guess:</code> until the guess is right, printing <code>Too low</code> or <code>Too high</code> after each wrong guess. When it&rsquo;s right, print <code>Correct in</code> and the number of guesses, then <code>guesses</code> (or <code>guess</code> if it took one).</p></div><textarea class="pc-src pc-code" hidden>SECRET = 37</textarea><textarea class="pc-src pc-tests" hidden>def test_game():
+    &quot;a game&quot;
+    expect_output(&quot;Guess: 50\nToo high\nGuess: 25\nToo low\nGuess: 37\nCorrect in 3 guesses&quot;, inputs=[&quot;50&quot;, &quot;25&quot;, &quot;37&quot;], echo=True)
+def test_first():
+    &quot;lucky first guess&quot;
+    expect_output(&quot;Guess: 37\nCorrect in 1 guess&quot;, inputs=[&quot;37&quot;], echo=True)
+def test_other_secret():
+    &quot;uses SECRET&quot;
+    got = norm(run_with({&quot;SECRET = 37&quot;: &quot;SECRET = 8&quot;}, inputs=[&quot;8&quot;], echo=True))
+    assert got == &quot;Guess: 8\nCorrect in 1 guess&quot;, &quot;Compare with SECRET, not with 37.&quot;</textarea><textarea class="pc-src pc-solution" hidden>SECRET = 37
+tries = 0
+while True:
+    guess = int(input(&quot;Guess: &quot;))
+    tries += 1
+    if guess &lt; SECRET:
+        print(&quot;Too low&quot;)
+    elif guess &gt; SECRET:
+        print(&quot;Too high&quot;)
+    else:
+        break
+word = &quot;guess&quot; if tries == 1 else &quot;guesses&quot;
+print(f&quot;Correct in {tries} {word}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Stops too soon</div><div class="pc-prompt"><p>This should find the first number above 100 that divides by 13, but it prints <code>101</code>. Fix the indentation.</p></div><textarea class="pc-src pc-code" hidden>n = 101
+while n &lt; 1000:
+    if n % 13 == 0:
+        print(n)
+    break
+    n += 1</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 104&quot;
+    expect_output(&quot;104&quot;)</textarea><textarea class="pc-src pc-solution" hidden>n = 101
+while n &lt; 1000:
+    if n % 13 == 0:
+        print(n)
+        break
+    n += 1</textarea><template class="pc-src pc-hint">Is the <code>break</code> inside the <code>if</code>, or does it run on every pass?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Found and not found</div><div class="pc-prompt"><p>When the letter is in the text, this prints the position <strong>and</strong> <code>Not found</code>. Fix it so <code>Not found</code> only appears when the letter isn&rsquo;t there.</p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+i = 0
+while i &lt; len(text):
+    if text[i] == &quot;z&quot;:
+        print(&quot;Found z at&quot;, i)
+        break
+    i += 1
+print(&quot;Not found&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_found():
+    &quot;found&quot;
+    expect_output(&quot;Text: pizza\nFound z at 2&quot;, inputs=[&quot;pizza&quot;], echo=True)
+def test_not_found():
+    &quot;not found&quot;
+    expect_output(&quot;Text: pasta\nNot found&quot;, inputs=[&quot;pasta&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+i = 0
+while i &lt; len(text):
+    if text[i] == &quot;z&quot;:
+        print(&quot;Found z at&quot;, i)
+        break
+    i += 1
+else:
+    print(&quot;Not found&quot;)</textarea><template class="pc-src pc-hint">The last line should only run when the loop ended without a <code>break</code>.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The menu never ends</div><div class="pc-prompt"><p>Typing <code>quit</code> should end this menu, but it just asks again. Fix the condition.</p></div><textarea class="pc-src pc-code" hidden>while True:
+    cmd = input(&quot;&gt; &quot;)
+    if cmd == &quot;quit&quot; and cmd == &quot;exit&quot;:
+        break
+    print(&quot;You typed&quot;, cmd)
+print(&quot;Closed&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_quit():
+    &quot;quit works&quot;
+    expect_output(&quot;&gt; hi\nYou typed hi\n&gt; quit\nClosed&quot;, inputs=[&quot;hi&quot;, &quot;quit&quot;], echo=True)
+def test_exit():
+    &quot;exit works too&quot;
+    expect_output(&quot;&gt; exit\nClosed&quot;, inputs=[&quot;exit&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>while True:
+    cmd = input(&quot;&gt; &quot;)
+    if cmd == &quot;quit&quot; or cmd == &quot;exit&quot;:
+        break
+    print(&quot;You typed&quot;, cmd)
+print(&quot;Closed&quot;)</textarea><template class="pc-src pc-hint">Can <code>cmd</code> be equal to two different words at once?</template></div>
+<div class="parsons" data-id="w003d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Read until valid</div><div class="pc-prompt"><p>Arrange the lines into a <code>while True</code> loop that keeps asking for a whole number until it gets one, then prints its double. One line is a trap.</p></div><script type="application/json">{"lines": ["while True:", "    text = input(\"Number: \")", "    if text.isdigit():", "        break", "    print(\"Whole numbers only\")", "print(int(text) * 2)"], "distractors": ["    continue"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace break and continue</div><div class="pc-prompt"><p>What does each program print? Write the output as a string, with <code>\n</code> between lines.</p>
+<pre><code class="language-python"># Program A
+n = 0
+while n &lt; 6:
+    n += 1
+    if n == 2:
+        continue
+    if n == 5:
+        break
+    print(n)
+
+# Program B
+n = 10
+while n &gt; 0:
+    n -= 3
+else:
+    print(&quot;done&quot;, n)
+</code></pre></div><textarea class="pc-src pc-code" hidden>program_a = &quot;___&quot;
+program_b = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;program A&quot;
+    assert program_a.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;1\n3\n4&quot;, &quot;2 is skipped by continue, and the loop stops at 5 before printing it.&quot;
+def test_b():
+    &quot;program B&quot;
+    assert program_b.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;done -2&quot;, &quot;No break, so else runs. n goes 7, 4, 1, -2.&quot;</textarea><textarea class="pc-src pc-solution" hidden>program_a = &quot;1\n3\n4&quot;
+program_b = &quot;done -2&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w003d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>break</code> do?", "answer": 1, "explain": "Python carries on after the loop.", "options": ["Ends the program", "Leaves the innermost loop immediately", "Skips to the next pass", "Pauses for input"]}, {"type": "mc", "q": "What does <code>continue</code> do?", "answer": 1, "explain": "The loop goes on; only this pass is cut short.", "options": ["Leaves the loop", "Skips the rest of this pass and checks the condition again", "Runs the else", "Nothing"]}, {"type": "output", "q": "What does this print?", "answer": "3", "explain": "The loop stops when n reaches 3.", "code": "n = 0\nwhile n < 5:\n    n += 1\n    if n == 3:\n        break\nprint(n)"}, {"type": "output", "q": "What does this print?", "answer": "135", "explain": "Even numbers are skipped.", "code": "n = 0\nwhile n < 5:\n    n += 1\n    if n % 2 == 0:\n        continue\n    print(n, end=\"\")"}, {"type": "mc", "q": "When does the else of a while loop run?", "answer": 1, "explain": "Think of it as &lsquo;no break&rsquo;.", "options": ["Always", "When the loop ended because its condition became False", "When break ran", "Never"]}, {"type": "output", "q": "What does this print?", "answer": "no break", "explain": "n never reaches 5.", "code": "n = 3\nwhile n > 0:\n    n -= 1\n    if n == 5:\n        break\nelse:\n    print(\"no break\")"}, {"type": "mc", "q": "Why can this loop run forever?", "answer": 1, "explain": "n stays 0 for ever.", "options": ["The condition is wrong", "continue skips the update when n is even", "break is missing", "It can&rsquo;t"], "code": "n = 0\nwhile n < 10:\n    if n % 2 == 0:\n        continue\n    n += 1"}, {"type": "mc", "q": "How does a <code>while True</code> loop end?", "answer": 1, "explain": "True never becomes False.", "options": ["When True becomes False", "Only through a break (or an error)", "After 10 passes", "At the end of the body"]}, {"type": "mc", "q": "Which values can <code>random.randint(1, 3)</code> give?", "answer": 1, "explain": "Both ends are included.", "options": ["1 and 2", "1, 2 and 3", "0, 1, 2 and 3", "Any number"]}, {"type": "mc", "q": "What is a flag?", "answer": 0, "explain": "Like found = True.", "options": ["A bool that records whether something happened", "An error message", "A kind of loop", "A comment"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the full guessing game</div><div class="pc-prompt"><p>Write a guessing game for numbers 1 to 100 with at most 7 guesses. The secret is in <code>SECRET</code> (set it to 64 in your code; the checks will change it).</p>
+<ul>
+<li>Ask <code>Guess 1:</code>, <code>Guess 2:</code> and so on.</li>
+<li>If a guess isn&rsquo;t a whole number from 1 to 100, print <code>1 to 100 please</code> and ask again <strong>without</strong> using up a guess.</li>
+<li>After a wrong guess print <code>Higher</code> or <code>Lower</code>.</li>
+<li>On a right guess print <code>Got it in</code> and the number of guesses, and stop.</li>
+<li>If all 7 guesses are used, print <code>Out of guesses. It was</code> and the secret.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>SECRET = 64</textarea><textarea class="pc-src pc-tests" hidden>def test_win():
+    &quot;a win&quot;
+    expect_output(&quot;Guess 1: 50\nHigher\nGuess 2: 75\nLower\nGuess 3: 64\nGot it in 3&quot;, inputs=[&quot;50&quot;, &quot;75&quot;, &quot;64&quot;], echo=True)
+def test_invalid():
+    &quot;invalid guesses don&#x27;t count&quot;
+    expect_output(&quot;Guess 1: abc\n1 to 100 please\nGuess 1: 500\n1 to 100 please\nGuess 1: 64\nGot it in 1&quot;, inputs=[&quot;abc&quot;, &quot;500&quot;, &quot;64&quot;], echo=True)
+def test_lose():
+    &quot;seven wrong guesses&quot;
+    ins = [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;]
+    lines = []
+    for k, g in enumerate(ins, 1):
+        lines.append(f&quot;Guess {k}: {g}&quot;)
+        lines.append(&quot;Higher&quot;)
+    want = &quot;\n&quot;.join(lines[:-1]) + &quot;\nHigher\nOut of guesses. It was 64&quot;
+    expect_output(want, inputs=ins, echo=True)
+def test_secret():
+    &quot;uses SECRET&quot;
+    got = norm(run_with({&quot;SECRET = 64&quot;: &quot;SECRET = 3&quot;}, inputs=[&quot;3&quot;], echo=True))
+    assert got == &quot;Guess 1: 3\nGot it in 1&quot;, &quot;Compare with SECRET.&quot;</textarea><textarea class="pc-src pc-solution" hidden>SECRET = 64
+used = 0
+while used &lt; 7:
+    text = input(f&quot;Guess {used + 1}: &quot;)
+    if not text.isdigit() or not 1 &lt;= int(text) &lt;= 100:
+        print(&quot;1 to 100 please&quot;)
+        continue
+    guess = int(text)
+    used += 1
+    if guess &lt; SECRET:
+        print(&quot;Higher&quot;)
+    elif guess &gt; SECRET:
+        print(&quot;Lower&quot;)
+    else:
+        print(&quot;Got it in&quot;, used)
+        break
+else:
+    print(&quot;Out of guesses. It was&quot;, SECRET)</textarea><template class="pc-src pc-hint">Keep a counter of guesses used. Loop while it&rsquo;s below 7. Validate inside the loop: on bad input print the message and <code>continue</code> <strong>before</strong> counting the guess.</template><template class="pc-src pc-hint">Use <code>while ... else</code> (or a flag) for the &ldquo;out of guesses&rdquo; message: it should only print if the loop never hit <code>break</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain the difference between <code>break</code> and <code>continue</code> to an imaginary friend, with an example of each. Then write a <code>while True</code> loop from memory that reads words until <code>stop</code> and counts them. Tomorrow you&rsquo;ll get very good at tracing loops by hand, the skill that makes every loop bug findable.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w003d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w003d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w003d3", "week": 3, "day": 3, "title": "break and continue", "exercises": [{"id": "w003d3-first_square", "title": "First big square", "points": 10}, {"id": "w003d3-sum_until_negative", "title": "Stop at a negative", "points": 10}, {"id": "w003d3-skip_seven", "title": "Skip the sevens", "points": 10}, {"id": "w003d3-calculator", "title": "A tiny calculator", "points": 15}, {"id": "w003d3-find_space", "title": "First word", "points": 10}, {"id": "w003d3-has_upper", "title": "Any capitals?", "points": 10}, {"id": "w003d3-guess_fixed", "title": "Higher or lower", "points": 15}, {"id": "w003d3-bug1", "title": "Stops too soon", "points": 10}, {"id": "w003d3-bug2", "title": "Found and not found", "points": 10}, {"id": "w003d3-bug3", "title": "The menu never ends", "points": 10}, {"id": "w003d3-trace", "title": "Trace break and continue", "points": 15}, {"id": "w003d3-challenge", "title": "Challenge: the full guessing game", "points": 25}], "points": 150}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

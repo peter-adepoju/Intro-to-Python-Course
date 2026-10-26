@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="4b6d584d97">
+<title>Week 3 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=4b6d584d97">
+<link rel="stylesheet" href="../assets/css/site.css?v=4b6d584d97">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=4b6d584d97"></script>
+<script src="../assets/vendor/codemirror.js?v=4b6d584d97" defer></script>
+<meta name="description" content="This week your programs learned to repeat themselves. Today you’ll warm up with a mixed review, build a cash machine that runs until the customer leaves,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w003d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 3 Day 6: Forge">
+<meta property="og:description" content="This week your programs learned to repeat themselves. Today you’ll warm up with a mixed review, build a cash machine that runs until the customer leaves,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w003d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-3">Week 3: Repetition I: while</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-cash-machine" data-sec="forge-the-cash-machine">Forge: the cash machine</a></li><li><a href="#forge-bonus-the-computer-guesses" data-sec="forge-bonus-the-computer-guesses">Forge bonus: the computer guesses</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-3-review" data-sec="week-3-review">Week 3 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 3, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>This week your programs learned to repeat themselves. Today you&rsquo;ll warm up with a mixed review, build a cash machine that runs until the customer leaves, then turn the guessing game around so the computer guesses your number. The weekly quiz and review finish the week.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Choose between counting loops, sentinel loops, validation loops and <code>while True</code> without being told which</li><li>Build a menu-driven program that keeps state across many passes of a loop</li><li>Combine validation, accumulators and decisions inside one loop</li><li>Find the gaps in your understanding with the weekly quiz</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:35" title="Mixed review practice: 35 min"></span><span class="plan-seg s0" style="flex:65" title="Forge: the cash machine: 65 min"></span><span class="plan-seg s1" style="flex:30" title="Forge bonus: the computer guesses: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 3 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:50</span><span class="plan-what">Forge: the cash machine</span><span class="plan-min">65 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Forge bonus: the computer guesses</span><span class="plan-min">30 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 3 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w003d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d6-p1"><textarea class="pc-src pc-code" hidden>n = 1
+while n &lt; 20:
+    n = n * 2 + 1
+print(n)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d6-p2"><textarea class="pc-src pc-code" hidden>count = 0
+word = &quot;mississippi&quot;
+i = 0
+while i &lt; len(word):
+    if word[i] == &quot;s&quot;:
+        count += 1
+    i += 1
+print(count)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d6-p3"><textarea class="pc-src pc-code" hidden>n = 10
+while n &gt; 0:
+    n -= 3
+    if n == 4:
+        continue
+    print(n, end=&quot; &quot;)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d6-p4"><textarea class="pc-src pc-code" hidden>a, b = 30, 12
+while b:
+    a, b = b, a % b
+print(a)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d6-p5"><textarea class="pc-src pc-code" hidden>x = 5
+total = 0
+while x &gt; 0:
+    total += x if x % 2 else 0
+    x -= 1
+print(total)</textarea></div>
+<p>If any surprised you, revisit the day it came from: <a href="w003d1.html">while loops</a>, <a href="w003d2.html">accumulators</a>, <a href="w003d3.html">break and continue</a>, <a href="w003d4.html">tracing</a> and <a href="w003d5.html">number algorithms</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d6-mix_stars" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A triangle of numbers</div><div class="pc-prompt"><p>Ask for a number of rows with the prompt <code>Rows:</code>. Row <code>k</code> shows the numbers 1 to <code>k</code> separated by spaces.</p>
+<pre><code>Rows: 4
+1
+1 2
+1 2 3
+1 2 3 4
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_4():
+    &quot;4 rows&quot;
+    expect_output(&quot;Rows: 4\n1\n1 2\n1 2 3\n1 2 3 4&quot;, inputs=[&quot;4&quot;], echo=True)
+def test_1():
+    &quot;1 row&quot;
+    expect_output(&quot;Rows: 1\n1&quot;, inputs=[&quot;1&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>rows = int(input(&quot;Rows: &quot;))
+line = &quot;&quot;
+k = 1
+while k &lt;= rows:
+    line = str(k) if k == 1 else line + &quot; &quot; + str(k)
+    print(line)
+    k += 1</textarea><template class="pc-src pc-hint">Build each row as a string with an inner loop, then print it. Or keep one string that grows by one number per row.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d6-mix_grades" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Grade counter</div><div class="pc-prompt"><p>Read marks with the prompt <code>Mark (blank to stop):</code> until a blank line. Then print how many were passes (50 or more) and how many were fails, as <code>Passed: 3</code> and <code>Failed: 1</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_mixed():
+    &quot;a mix&quot;
+    p = &quot;Mark (blank to stop): &quot;
+    expect_output(f&quot;{p}72\n{p}45\n{p}50\n{p}88\n{p}\nPassed: 3\nFailed: 1&quot;, inputs=[&quot;72&quot;, &quot;45&quot;, &quot;50&quot;, &quot;88&quot;, &quot;&quot;], echo=True)
+def test_none():
+    &quot;no marks&quot;
+    expect_output(&quot;Mark (blank to stop): \nPassed: 0\nFailed: 0&quot;, inputs=[&quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>passed = 0
+failed = 0
+text = input(&quot;Mark (blank to stop): &quot;)
+while text != &quot;&quot;:
+    if int(text) &gt;= 50:
+        passed += 1
+    else:
+        failed += 1
+    text = input(&quot;Mark (blank to stop): &quot;)
+print(&quot;Passed:&quot;, passed)
+print(&quot;Failed:&quot;, failed)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d6-mix_compound" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Savings table</div><div class="pc-prompt"><p>Ask for a starting amount (whole number) with the prompt <code>Amount:</code> and print its value at the end of each year for 5 years at 6% interest, like <code>Year 1: 1,060.00</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_1000():
+    &quot;1000&quot;
+    lines = [&quot;Amount: 1000&quot;]
+    v = 1000.0
+    for y in range(1, 6):
+        v *= 1.06
+        lines.append(f&quot;Year {y}: {v:,.2f}&quot;)
+    expect_output(&quot;\n&quot;.join(lines), inputs=[&quot;1000&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>amount = float(input(&quot;Amount: &quot;))
+year = 1
+while year &lt;= 5:
+    amount *= 1.06
+    print(f&quot;Year {year}: {amount:,.2f}&quot;)
+    year += 1</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d6-mix_initials" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Initials from a full name</div><div class="pc-prompt"><p>Ask for a full name with the prompt <code>Name:</code> (words separated by single spaces) and print the initials in capitals with full stops, like <code>A.M.L.</code> for <code>ada mary lovelace</code>. Walk through the name with a loop.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_three():
+    &quot;three names&quot;
+    expect_output(&quot;Name: ada mary lovelace\nA.M.L.&quot;, inputs=[&quot;ada mary lovelace&quot;], echo=True)
+def test_one():
+    &quot;one name&quot;
+    expect_output(&quot;Name: Plato\nP.&quot;, inputs=[&quot;Plato&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;Name: &quot;)
+initials = &quot;&quot;
+i = 0
+while i &lt; len(name):
+    if i == 0 or name[i - 1] == &quot; &quot;:
+        initials += name[i].upper() + &quot;.&quot;
+    i += 1
+print(initials)</textarea><template class="pc-src pc-hint">A letter is an initial if it&rsquo;s the first character, or if the character before it is a space.</template></div>
+<h2 id="forge-the-cash-machine">Forge: the cash machine</h2>
+<p>Give yourself about an hour. Read the whole specification first, and sketch the shape of the main loop before you write any code. Build it in stages: first the menu and quitting, then each option, running after each stage.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the cash machine</div><div class="pc-prompt"><p>A cash machine starts with a balance of 5,000. It shows a menu and keeps going until the customer quits.</p>
+<p><strong>The menu.</strong> Each time round, print the balance and ask for a choice exactly like this:</p>
+<pre><code>Balance: 5,000
+d = deposit, w = withdraw, q = quit
+Choice: 
+</code></pre>
+<p><strong>Deposit (<code>d</code>).</strong> Ask <code>Amount:</code>. Keep asking, printing <code>Whole numbers above 0 only</code> each time, until the answer is a whole number above 0. Then add it to the balance.</p>
+<p><strong>Withdraw (<code>w</code>).</strong> Ask <code>Amount:</code> with the same check as a deposit. Then:</p>
+<ul>
+<li>if it&rsquo;s not a multiple of 500, print <code>Notes are 500 each</code> and go back to the menu;</li>
+<li>if it&rsquo;s more than the balance, print <code>Not enough money</code> and go back to the menu;</li>
+<li>otherwise take it from the balance.</li>
+</ul>
+<p><strong>Quit (<code>q</code>).</strong> Print <code>Deposits:</code> and the number of successful deposits, <code>Withdrawals:</code> and the number of successful withdrawals, then <code>Goodbye</code>, and stop.</p>
+<p><strong>Anything else.</strong> Print <code>Unknown choice</code> and show the menu again.</p></div><textarea class="pc-src pc-code" hidden>balance = 5000</textarea><textarea class="pc-src pc-tests" hidden>MENU = &quot;d = deposit, w = withdraw, q = quit&quot;
+def menu(b):
+    return f&quot;Balance: {b:,}\n{MENU}\nChoice: &quot;
+def test_quit():
+    &quot;quit straight away&quot;
+    expect_output(menu(5000) + &quot;q\nDeposits: 0\nWithdrawals: 0\nGoodbye&quot;, inputs=[&quot;q&quot;], echo=True)
+def test_deposit():
+    &quot;a deposit with bad amounts first&quot;
+    expect_output(menu(5000) + &quot;d\nAmount: abc\nWhole numbers above 0 only\nAmount: 0\nWhole numbers above 0 only\nAmount: 1200\n&quot; + menu(6200) + &quot;q\nDeposits: 1\nWithdrawals: 0\nGoodbye&quot;,
+                  inputs=[&quot;d&quot;, &quot;abc&quot;, &quot;0&quot;, &quot;1200&quot;, &quot;q&quot;], echo=True)
+def test_withdraw():
+    &quot;withdrawals, good and bad&quot;
+    expect_output(menu(5000) + &quot;w\nAmount: 700\nNotes are 500 each\n&quot; + menu(5000) + &quot;w\nAmount: 6000\nNot enough money\n&quot; + menu(5000) + &quot;w\nAmount: 1500\n&quot; + menu(3500) + &quot;q\nDeposits: 0\nWithdrawals: 1\nGoodbye&quot;,
+                  inputs=[&quot;w&quot;, &quot;700&quot;, &quot;w&quot;, &quot;6000&quot;, &quot;w&quot;, &quot;1500&quot;, &quot;q&quot;], echo=True)
+def test_unknown():
+    &quot;an unknown choice&quot;
+    expect_output(menu(5000) + &quot;x\nUnknown choice\n&quot; + menu(5000) + &quot;q\nDeposits: 0\nWithdrawals: 0\nGoodbye&quot;, inputs=[&quot;x&quot;, &quot;q&quot;], echo=True)
+def test_all():
+    &quot;everything, ending with an empty account&quot;
+    expect_output(menu(5000) + &quot;d\nAmount: 500\n&quot; + menu(5500) + &quot;w\nAmount: 5250\nNotes are 500 each\n&quot; + menu(5500) + &quot;w\nAmount: 5000\n&quot; + menu(500) + &quot;w\nAmount: 500\n&quot; + menu(0) + &quot;q\nDeposits: 1\nWithdrawals: 2\nGoodbye&quot;,
+                  inputs=[&quot;d&quot;, &quot;500&quot;, &quot;w&quot;, &quot;5250&quot;, &quot;w&quot;, &quot;5000&quot;, &quot;w&quot;, &quot;500&quot;, &quot;q&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>balance = 5000
+deposits = 0
+withdrawals = 0
+while True:
+    print(f&quot;Balance: {balance:,}&quot;)
+    print(&quot;d = deposit, w = withdraw, q = quit&quot;)
+    choice = input(&quot;Choice: &quot;)
+    if choice == &quot;q&quot;:
+        print(&quot;Deposits:&quot;, deposits)
+        print(&quot;Withdrawals:&quot;, withdrawals)
+        print(&quot;Goodbye&quot;)
+        break
+    if choice != &quot;d&quot; and choice != &quot;w&quot;:
+        print(&quot;Unknown choice&quot;)
+        continue
+    text = input(&quot;Amount: &quot;)
+    while not text.isdigit() or int(text) == 0:
+        print(&quot;Whole numbers above 0 only&quot;)
+        text = input(&quot;Amount: &quot;)
+    amount = int(text)
+    if choice == &quot;d&quot;:
+        balance += amount
+        deposits += 1
+    elif amount % 500 != 0:
+        print(&quot;Notes are 500 each&quot;)
+    elif amount &gt; balance:
+        print(&quot;Not enough money&quot;)
+    else:
+        balance -= amount
+        withdrawals += 1</textarea><template class="pc-src pc-hint">The outer shape is <code>while True:</code> with the menu at the top and <code>break</code> in the quit branch. Two counters, for deposits and withdrawals, live outside the loop.</template><template class="pc-src pc-hint">The amount check is the same for deposits and withdrawals. Write the validation loop once, before you look at whether the choice was <code>d</code> or <code>w</code>&hellip; or write it twice for now. In Week 6 you&rsquo;ll make it a function.</template><template class="pc-src pc-hint"><code>f"Balance: {balance:,}"</code> prints 5,000 with its comma.</template></div>
+<aside class="callout c-think"><div class="callout-t">Compare with last week&rsquo;s Forge</div><p>Last week, every &ldquo;stop&rdquo; in the ticket machine meant one more level of nesting. This week <code>continue</code> and <code>break</code> let you deal with the odd cases early and keep the main path flat. Look at how deep your cash machine goes, and whether <code>continue</code> could flatten it further.</p></aside>
+<h2 id="forge-bonus-the-computer-guesses">Forge bonus: the computer guesses</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: the computer guesses your number</div><div class="pc-prompt"><p>Now the computer guesses. The player thinks of a number from 1 to 100. The computer always guesses the <strong>middle</strong> of the range still possible (rounding down), and the player answers <code>h</code> (my number is higher), <code>l</code> (lower) or <code>c</code> (correct).</p>
+<p>Print <code>Is it 50?</code> as the prompt for the first guess, and so on. When the answer is <code>c</code>, print <code>Got it in</code> and the number of guesses. If the answers contradict each other so that no number is left, print <code>You're cheating!</code> and stop.</p>
+<pre><code>Is it 50? h
+Is it 75? l
+Is it 62? c
+Got it in 3
+</code></pre></div><textarea class="pc-src pc-code" hidden>low = 1
+high = 100</textarea><textarea class="pc-src pc-tests" hidden>def test_62():
+    &quot;the example&quot;
+    expect_output(&quot;Is it 50? h\nIs it 75? l\nIs it 62? c\nGot it in 3&quot;, inputs=[&quot;h&quot;, &quot;l&quot;, &quot;c&quot;], echo=True)
+def test_first():
+    &quot;50 straight away&quot;
+    expect_output(&quot;Is it 50? c\nGot it in 1&quot;, inputs=[&quot;c&quot;], echo=True)
+def test_1():
+    &quot;the number 1&quot;
+    expect_output(&quot;Is it 50? l\nIs it 25? l\nIs it 12? l\nIs it 6? l\nIs it 3? l\nIs it 1? c\nGot it in 6&quot;, inputs=[&quot;l&quot;, &quot;l&quot;, &quot;l&quot;, &quot;l&quot;, &quot;l&quot;, &quot;c&quot;], echo=True)
+def test_100():
+    &quot;the number 100&quot;
+    expect_output(&quot;Is it 50? h\nIs it 75? h\nIs it 88? h\nIs it 94? h\nIs it 97? h\nIs it 99? h\nIs it 100? c\nGot it in 7&quot;, inputs=[&quot;h&quot;] * 6 + [&quot;c&quot;], echo=True)
+def test_cheat():
+    &quot;contradictory answers&quot;
+    expect_output(&quot;Is it 50? l\nIs it 25? h\nIs it 37? l\nIs it 31? l\nIs it 28? l\nIs it 26? l\nYou&#x27;re cheating!&quot;, inputs=[&quot;l&quot;, &quot;h&quot;, &quot;l&quot;, &quot;l&quot;, &quot;l&quot;, &quot;l&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>low = 1
+high = 100
+tries = 0
+while low &lt;= high:
+    guess = (low + high) // 2
+    answer = input(f&quot;Is it {guess}? &quot;)
+    tries += 1
+    if answer == &quot;c&quot;:
+        print(&quot;Got it in&quot;, tries)
+        break
+    elif answer == &quot;h&quot;:
+        low = guess + 1
+    else:
+        high = guess - 1
+else:
+    print(&quot;You&#x27;re cheating!&quot;)</textarea><template class="pc-src pc-hint">Keep <code>low</code> and <code>high</code>, the smallest and largest numbers still possible. The guess is <code>(low + high) // 2</code>. After <code>h</code>, the number is above the guess: <code>low = guess + 1</code>. After <code>l</code>: <code>high = guess - 1</code>.</template><template class="pc-src pc-hint">Loop <code>while low &lt;= high</code>. If the loop ends without a <code>break</code> (use <code>while ... else</code>), nobody&rsquo;s number fits the answers.</template></div>
+<p>That strategy is <strong>binary search</strong>: every guess halves what&rsquo;s left, so even 1 to 1,000,000 never needs more than 20 guesses. You&rsquo;ll study it properly in Week 17.</p>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w003d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "output", "q": "What does this print?", "answer": "012", "explain": "The body runs for n = 0, 1 and 2.", "code": "n = 0\nwhile n < 3:\n    print(n, end=\"\")\n    n += 1"}, {"type": "text", "q": "How many times does the condition get checked here?", "answer": ["4", "four"], "explain": "Three True checks and a final False one.", "code": "n = 0\nwhile n < 3:\n    n += 1"}, {"type": "mc", "q": "Which loop never ends?", "answer": 1, "explain": "n moves away from 10 for ever.", "options": ["<code>while n &lt; 10: n += 1</code>", "<code>while n &lt; 10: n -= 1</code> (n starts at 0)", "<code>while n &gt; 0: n -= 1</code> (n starts at 5)"]}, {"type": "text", "q": "What should a running product start at?", "answer": ["1", "one"], "explain": "Multiplying by 1 changes nothing."}, {"type": "output", "q": "What does this print?", "answer": "cba", "explain": "Each letter goes on the front.", "code": "s = \"\"\nword = \"abc\"\ni = 0\nwhile i < len(word):\n    s = word[i] + s\n    i += 1\nprint(s)"}, {"type": "mc", "q": "In a priming-read loop, where is the second input() call?", "answer": 2, "explain": "Use the value, then read the next one.", "options": ["Before the loop", "At the start of the body", "At the end of the body", "After the loop"]}, {"type": "output", "q": "What does this print?", "answer": "15", "explain": "5, 10, 15, and 15 &gt; 12 breaks.", "code": "n = 0\nwhile True:\n    n += 5\n    if n > 12:\n        break\nprint(n)"}, {"type": "mc", "q": "When does a while loop&rsquo;s else block run?", "answer": 0, "explain": "Think &lsquo;no break&rsquo;.", "options": ["When the loop ends without break", "When break runs", "Always", "When the condition is True"]}, {"type": "mc", "q": "Why can <code>continue</code> cause an infinite loop?", "answer": 1, "explain": "Put the update before any continue.", "options": ["It restarts the program", "It can skip the update at the bottom of the body", "It ignores the condition", "It can&rsquo;t"]}, {"type": "text", "q": "What does <code>f\"{x=}\"</code> print when x is 3?", "answer": ["x=3"], "explain": "The = shortcut for debugging."}, {"type": "text", "q": "What does <code>9875 % 10</code> give?", "answer": "5", "explain": "The last digit."}, {"type": "mc", "q": "Up to where does the fast prime test try divisors?", "answer": 2, "explain": "One divisor in each pair is at most the square root.", "options": ["n - 1", "n // 2", "while d * d &lt;= n", "100"]}, {"type": "text", "q": "What is gcd(18, 24)?", "answer": "6", "explain": "24 % 18 = 6, 18 % 6 = 0."}, {"type": "mc", "q": "A loop that should add up numbers prints only the last one. What&rsquo;s the likeliest cause?", "answer": 1, "explain": "Accumulators start before the loop.", "options": ["Off by one", "The total is reset inside the loop", "The condition never becomes False", "A missing break"]}, {"type": "mc", "q": "What does <code>random.randint(1, 10)</code> include?", "answer": 1, "explain": "Both ends are included.", "options": ["1 to 9", "1 to 10", "0 to 10", "0 to 9"]}]</script></div>
+<h2 id="week-3-review">Week 3 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I can write a counting loop from its three parts and say exactly how many times it runs. (<a href="w003d1.html">Day 1</a>)</li>
+<li>I can build totals, products, counts, strings and maximums with accumulators, read until a sentinel, and validate input with a loop. (<a href="w003d2.html">Day 2</a>)</li>
+<li>I can use <code>break</code>, <code>continue</code>, <code>while True</code> and <code>while ... else</code>, and avoid the <code>continue</code> trap. (<a href="w003d3.html">Day 3</a>)</li>
+<li>I can trace a loop with a table, add <code>f"{x=}"</code> prints, and name the five common loop bugs. (<a href="w003d4.html">Day 4</a>)</li>
+<li>I can work with digits, divisors and primes, and run Euclid&rsquo;s algorithm. (<a href="w003d5.html">Day 5</a>)</li>
+<li>I built a menu-driven program that keeps state across many passes. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week: the <code>for</code> loop, which walks through strings and ranges for you, and loops inside loops.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w003d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w003d6", "week": 3, "day": 6, "title": "Forge", "exercises": [{"id": "w003d6-mix_stars", "title": "A triangle of numbers", "points": 10}, {"id": "w003d6-mix_grades", "title": "Grade counter", "points": 10}, {"id": "w003d6-mix_compound", "title": "Savings table", "points": 10}, {"id": "w003d6-mix_initials", "title": "Initials from a full name", "points": 10}, {"id": "w003d6-forge", "title": "Forge: the cash machine", "points": 50}, {"id": "w003d6-forge2", "title": "Forge bonus: the computer guesses your number", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

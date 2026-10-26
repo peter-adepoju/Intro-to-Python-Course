@@ -40,7 +40,7 @@ print("hello")
 :::
 ```
 
-Options: `error=yes` if it is meant to raise an error; `try=17,3` gives the validator input values to type. Every example gets Run, X-ray and Reset.
+Options: `error=yes` if it is meant to raise an error; `forever=yes` for an infinite loop shown on purpose (the validator skips it, and the site stops it after 10 seconds); `try=17,3` gives the validator input values to type. Every example gets Run, X-ray and Reset.
 
 ### Predict first
 
@@ -82,6 +82,8 @@ Use `:::bughunt` for code with a mistake to fix (the buggy code is the starter).
 | `uses("print", "len")` | the code mentions these names |
 | any variable or function the learner defined | e.g. `assert area == 28` |
 
+Don't name a learner's variable `output`, `run`, `source` or any other helper above: the helper would hide it.
+
 ### Parsons puzzle
 
 ```
@@ -120,7 +122,7 @@ Wrap a question in single quotes if it contains `: ` or starts with a backtick a
 :::
 ```
 
-Figures live in `course/static/js/widgets/NAME.js` and export `default function (element, params)`. Week 1 figures: `machine`, `bits`, `pipeline`, `anatomy`, `traceback`, `typesorter`, `typeinspect`, `operators`, `stepper`, `labels`, `namecheck`, `divmod`, `floatlab`, `roundlab`, `convert`, `strruler`, `escapes`, `printlab`, `fstringlab`, `inputflow`. Week 2 adds `compare`, `truthtable` and `branch` (an if/elif/else chain with a slider; set `"chain": false` for separate ifs).
+Figures live in `course/static/js/widgets/NAME.js` and export `default function (element, params)`. Week 1 figures: `machine`, `bits`, `pipeline`, `anatomy`, `traceback`, `typesorter`, `typeinspect`, `operators`, `stepper`, `labels`, `namecheck`, `divmod`, `floatlab`, `roundlab`, `convert`, `strruler`, `escapes`, `printlab`, `fstringlab`, `inputflow`. Week 2 adds `compare`, `truthtable` and `branch` (an if/elif/else chain with a slider; set `"chain": false` for separate ifs). Week 3 adds `tracetable` (a hand-style trace table built row by row; params `code` and `inputs`) and `euclid`.
 
 ### Expression stepper (shortcut)
 

@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="4b6d584d97">
+<title>Week 3 Day 2: Accumulators and validation | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=4b6d584d97">
+<link rel="stylesheet" href="../assets/css/site.css?v=4b6d584d97">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=4b6d584d97"></script>
+<script src="../assets/vendor/codemirror.js?v=4b6d584d97" defer></script>
+<meta name="description" content="A loop becomes really useful when it builds something up as it goes: a running total, a count, the biggest value so far, a string growing letter by letter....">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w003d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 3 Day 2: Accumulators and validation">
+<meta property="og:description" content="A loop becomes really useful when it builds something up as it goes: a running total, a count, the biggest value so far, a string growing letter by letter....">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w003d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-3">Week 3: Repetition I: while</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#the-accumulator-pattern" data-sec="the-accumulator-pattern">The accumulator pattern</a></li><li><a href="#the-best-so-far-maximum-and-minimum" data-sec="the-best-so-far-maximum-and-minimum">The best so far: maximum and minimum</a></li><li><a href="#reading-until-the-user-says-stop" data-sec="reading-until-the-user-says-stop">Reading until the user says stop</a></li><li><a href="#keep-asking-until-it-s-valid" data-sec="keep-asking-until-it-s-valid">Keep asking until it’s valid</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 3, Day 2</span></p>
+      <h1>Accumulators and validation</h1>
+      <div class="day-intro"><p>A loop becomes really useful when it builds something up as it goes: a running total, a count, the biggest value so far, a string growing letter by letter. Today you&rsquo;ll learn these accumulator patterns, loops that read until the user says stop, and loops that keep asking until the answer makes sense.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Build a running total, a running product and a count with an accumulator variable</li><li>Keep track of the largest or smallest value seen so far</li><li>Read values until a sentinel such as <code>0</code> or an empty line, using a priming read</li><li>Keep asking until the input is valid, and limit the number of attempts</li><li>Build a string one character at a time</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="Accumulators: totals, products and counts: 35 min"></span><span class="plan-seg s0" style="flex:20" title="Best so far: maximum and minimum: 20 min"></span><span class="plan-seg s1" style="flex:30" title="Reading until a sentinel: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Validation loops and limited attempts: 25 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Accumulators: totals, products and counts</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Best so far: maximum and minimum</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Reading until a sentinel</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Validation loops and limited attempts</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w003d2.ipynb" download>download it</a>. Exercises today are worth 165 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d2-p1"><textarea class="pc-src pc-code" hidden>n = 1
+while n &lt;= 4:
+    print(n * n, end=&quot; &quot;)
+    n += 1</textarea></div>
+<p>The loop <em>printed</em> each square, then forgot it. What if you wanted their <strong>total</strong>? Then each pass has to add its square to something that survives from one pass to the next.</p>
+<h2 id="the-accumulator-pattern">The accumulator pattern</h2>
+<p>An <strong>accumulator</strong> is a variable that collects a result as the loop runs. It always has the same shape:</p>
+<pre><code class="language-python">total = 0              # 1. start it before the loop, at a neutral value
+n = 1
+while n &lt;= 4:
+    total += n * n     # 2. add this pass's contribution
+    n += 1
+print(total)           # 3. use it after the loop
+</code></pre>
+<p>Watch it grow. Predict each row before you reveal it:</p>
+<figure class="widget" data-widget="tracetable"><script type="application/json">{"code": "total = 0\nn = 1\nwhile n <= 4:\n    total += n * n\n    n += 1\nprint(total)"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>total collects one square per pass. It starts at 0 because adding 0 changes nothing.</figcaption></figure>
+<p>The <strong>starting value</strong> matters. For a sum, start at <code>0</code>, because adding 0 changes nothing. For a product, start at <code>1</code>, because multiplying by 1 changes nothing:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e2"><div class="pc-title">A running product: 5 factorial</div><textarea class="pc-src pc-code" hidden>product = 1
+n = 1
+while n &lt;= 5:
+    product *= n
+    n += 1
+print(product)</textarea></div>
+<p><code>5 × 4 × 3 × 2 × 1</code> is written <strong>5!</strong> and called &ldquo;5 factorial&rdquo;. It counts the ways to put 5 things in order: 120.</p>
+<aside class="callout c-mistake"><div class="callout-t">Resetting inside the loop</div><p>If you put <code>total = 0</code> inside the loop, it starts again from zero on every pass, and you&rsquo;re left with only the last value. Accumulators are created <strong>before</strong> the loop.</p></aside>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e3"><div class="pc-title">The bug, so you recognise it</div><textarea class="pc-src pc-code" hidden>n = 1
+while n &lt;= 4:
+    total = 0
+    total += n
+    n += 1
+print(total)</textarea></div>
+<h3 id="counting-is-accumulating-1">Counting is accumulating 1</h3>
+<p>A count is an accumulator that adds 1 whenever something happens. You did this yesterday with multiples of 7. Several accumulators can run in the same loop:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e4"><div class="pc-title">Sum and count of the even numbers</div><textarea class="pc-src pc-code" hidden>total = 0
+count = 0
+n = 1
+while n &lt;= 10:
+    if n % 2 == 0:
+        total += n
+        count += 1
+    n += 1
+print(&quot;Even numbers:&quot;, count, &quot;Sum:&quot;, total)</textarea></div>
+<h3 id="accumulating-a-string">Accumulating a string</h3>
+<p><code>+</code> joins strings, so a string can be an accumulator too. Start with the empty string <code>""</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e5"><div class="pc-title">Build a row of numbers</div><textarea class="pc-src pc-code" hidden>row = &quot;&quot;
+n = 1
+while n &lt;= 5:
+    row += str(n) + &quot;-&quot;
+    n += 1
+print(row)</textarea></div>
+<p>Strings are a natural thing to walk through with a counter, since you can index them:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e6"><div class="pc-title">Reverse a word, letter by letter</div><textarea class="pc-src pc-code" hidden>word = &quot;stressed&quot;
+backwards = &quot;&quot;
+i = 0
+while i &lt; len(word):
+    backwards = word[i] + backwards
+    i += 1
+print(backwards)</textarea></div>
+<p>Each letter is put at the <strong>front</strong> of what&rsquo;s been built so far, so the first letter ends up last. (You know a shortcut, <code>word[::-1]</code>, but building it yourself is how you learn the pattern.)</p>
+<h2 id="the-best-so-far-maximum-and-minimum">The best so far: maximum and minimum</h2>
+<p>To find the largest value, keep a variable holding <strong>the largest seen so far</strong>, and replace it whenever something bigger turns up:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e7"><div class="pc-title">Largest of four readings</div><textarea class="pc-src pc-code" hidden>r1, r2, r3, r4 = 23, 31, 18, 35
+largest = r1
+if r2 &gt; largest:
+    largest = r2
+if r3 &gt; largest:
+    largest = r3
+if r4 &gt; largest:
+    largest = r4
+print(largest)</textarea></div>
+<p>Every value gets the same treatment: compare it with the record, and replace the record if it&rsquo;s beaten. With four separate variables you have to write that out four times. With values arriving one at a time in a loop, you write it once, as you&rsquo;ll see in a moment. (Lists, in Week 8, let you loop over stored values too.)</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Start a &ldquo;best so far&rdquo; variable with the <strong>first</strong> value, not with 0. If every value is negative, a maximum that starts at 0 would wrongly report 0.</p></aside>
+<h2 id="reading-until-the-user-says-stop">Reading until the user says stop</h2>
+<p>Often you don&rsquo;t know how many values are coming. The user keeps typing, and a special value, called a <strong>sentinel</strong>, means &ldquo;that&rsquo;s all&rdquo;. The cleanest shape uses a <strong>priming read</strong>: read the first value before the loop, and the next one at the end of the body.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e8"><div class="pc-title">Add up numbers until 0</div><textarea class="pc-src pc-code" hidden>total = 0
+n = int(input(&quot;Number (0 to stop): &quot;))
+while n != 0:
+    total += n
+    n = int(input(&quot;Number (0 to stop): &quot;))
+print(&quot;Total:&quot;, total)</textarea></div>
+<p>Trace why this works:</p>
+<ul>
+<li>The first read happens before the condition is ever checked, so the condition has something to test.</li>
+<li>Inside the loop, the value is <strong>used first</strong>, then the next value is read.</li>
+<li>When the sentinel arrives, the condition is checked straight away, and the sentinel is never added.</li>
+</ul>
+<p>If the user types <code>0</code> first, the body never runs and the total is 0. Press X-ray and try it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e9"><div class="pc-title">The average of numbers until a blank line</div><textarea class="pc-src pc-code" hidden>total = 0
+count = 0
+text = input(&quot;Mark (blank to stop): &quot;)
+while text != &quot;&quot;:
+    total += int(text)
+    count += 1
+    text = input(&quot;Mark (blank to stop): &quot;)
+if count &gt; 0:
+    print(&quot;Average:&quot;, total / count)
+else:
+    print(&quot;No marks entered&quot;)</textarea></div>
+<p>An empty line is a good sentinel for text. Notice the guard after the loop: if nothing was entered, <code>total / count</code> would divide by zero.</p>
+<h3 id="largest-of-the-numbers-typed">Largest of the numbers typed</h3>
+<p>Now &ldquo;best so far&rdquo; works naturally. The first value starts the record:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e10"><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number (0 to stop): &quot;))
+largest = n
+while n != 0:
+    if n &gt; largest:
+        largest = n
+    n = int(input(&quot;Number (0 to stop): &quot;))
+print(&quot;Largest:&quot;, largest)</textarea></div>
+<h2 id="keep-asking-until-it-s-valid">Keep asking until it&rsquo;s valid</h2>
+<p>Last week a bad answer could only be rejected. With a loop, you can <strong>ask again</strong>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e11"><div class="pc-title">Ask until it&rsquo;s in range</div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;Age (0-120): &quot;))
+while age &lt; 0 or age &gt; 120:
+    print(&quot;That isn&#x27;t a sensible age.&quot;)
+    age = int(input(&quot;Age (0-120): &quot;))
+print(&quot;Thank you. Age:&quot;, age)</textarea></div>
+<p>It&rsquo;s the same priming-read shape: read once, then loop <strong>while the answer is bad</strong>. When the loop ends, you know the value is good.</p>
+<p>Combine it with <code>.isdigit()</code> from last week, and nothing the user types can crash it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e12"><div class="pc-title">Crash-proof</div><textarea class="pc-src pc-code" hidden>text = input(&quot;Quantity: &quot;)
+while not text.isdigit():
+    print(&quot;Please type a whole number.&quot;)
+    text = input(&quot;Quantity: &quot;)
+quantity = int(text)
+print(&quot;Quantity:&quot;, quantity)</textarea></div>
+<h3 id="a-limited-number-of-tries">A limited number of tries</h3>
+<p>Some things should only let you try a few times, like a PIN. The loop needs two reasons to stop, so the condition joins them with <code>and</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d2-e13"><div class="pc-title">Three tries</div><textarea class="pc-src pc-code" hidden>PIN = &quot;1234&quot;
+tries = 0
+entered = input(&quot;PIN: &quot;)
+tries += 1
+while entered != PIN and tries &lt; 3:
+    print(&quot;Wrong PIN.&quot;)
+    entered = input(&quot;PIN: &quot;)
+    tries += 1
+if entered == PIN:
+    print(&quot;Welcome.&quot;)
+else:
+    print(&quot;Card blocked.&quot;)</textarea></div>
+<p>When the loop stops, you don&rsquo;t know which reason stopped it, so the <code>if</code> afterwards checks. This is a very common shape: a loop with two exit conditions, followed by a test of which one happened.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-sum_to_n" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sum to n</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>n:</code> and print <code>Sum:</code> and the sum 1 + 2 + &hellip; + n, using a loop.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_10():
+    &quot;n = 10&quot;
+    expect_output(&quot;n: 10\nSum: 55&quot;, inputs=[&quot;10&quot;], echo=True)
+def test_100():
+    &quot;n = 100&quot;
+    expect_output(&quot;n: 100\nSum: 5050&quot;, inputs=[&quot;100&quot;], echo=True)
+def test_0():
+    &quot;n = 0&quot;
+    expect_output(&quot;n: 0\nSum: 0&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_loop():
+    &quot;uses a loop&quot;
+    assert &quot;while&quot; in source, &quot;Use a while loop (there is a formula, but practise the pattern).&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;n: &quot;))
+total = 0
+i = 1
+while i &lt;= n:
+    total += i
+    i += 1
+print(&quot;Sum:&quot;, total)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-factorial" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Factorial</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>n:</code> and print <code>n! =</code> and its factorial. Remember that <code>0!</code> is 1.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_5():
+    &quot;5!&quot;
+    expect_output(&quot;n: 5\nn! = 120&quot;, inputs=[&quot;5&quot;], echo=True)
+def test_0():
+    &quot;0!&quot;
+    expect_output(&quot;n: 0\nn! = 1&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_20():
+    &quot;20!&quot;
+    expect_output(&quot;n: 20\nn! = 2432902008176640000&quot;, inputs=[&quot;20&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;n: &quot;))
+product = 1
+i = 1
+while i &lt;= n:
+    product *= i
+    i += 1
+print(&quot;n! =&quot;, product)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-till" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Shopping total</div><div class="pc-prompt"><p>Read prices (whole numbers) with the prompt <code>Price (0 to finish):</code> until the user types <code>0</code>. Then print <code>Items:</code> and how many prices were entered, and <code>Total:</code> and their sum.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_three():
+    &quot;three items&quot;
+    expect_output(&quot;Price (0 to finish): 500\nPrice (0 to finish): 1200\nPrice (0 to finish): 300\nPrice (0 to finish): 0\nItems: 3\nTotal: 2000&quot;, inputs=[&quot;500&quot;, &quot;1200&quot;, &quot;300&quot;, &quot;0&quot;], echo=True)
+def test_none():
+    &quot;nothing bought&quot;
+    expect_output(&quot;Price (0 to finish): 0\nItems: 0\nTotal: 0&quot;, inputs=[&quot;0&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+count = 0
+price = int(input(&quot;Price (0 to finish): &quot;))
+while price != 0:
+    total += price
+    count += 1
+    price = int(input(&quot;Price (0 to finish): &quot;))
+print(&quot;Items:&quot;, count)
+print(&quot;Total:&quot;, total)</textarea><template class="pc-src pc-hint">Priming read before the loop, then use the value, then read the next one at the end of the body.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-average" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Average temperature</div><div class="pc-prompt"><p>Read temperatures (which may have decimals) with the prompt <code>Temperature (blank to stop):</code> until the user enters a blank line. Print <code>Average:</code> and the average rounded to 1 decimal place, or <code>No readings</code> if there were none.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_three():
+    &quot;three readings&quot;
+    p = &quot;Temperature (blank to stop): &quot;
+    expect_output(f&quot;{p}21.5\n{p}23\n{p}19.8\n{p}\nAverage: 21.4&quot;, inputs=[&quot;21.5&quot;, &quot;23&quot;, &quot;19.8&quot;, &quot;&quot;], echo=True)
+def test_none():
+    &quot;no readings&quot;
+    p = &quot;Temperature (blank to stop): &quot;
+    expect_output(f&quot;{p}\nNo readings&quot;, inputs=[&quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+count = 0
+text = input(&quot;Temperature (blank to stop): &quot;)
+while text != &quot;&quot;:
+    total += float(text)
+    count += 1
+    text = input(&quot;Temperature (blank to stop): &quot;)
+if count &gt; 0:
+    print(&quot;Average:&quot;, round(total / count, 1))
+else:
+    print(&quot;No readings&quot;)</textarea><template class="pc-src pc-hint"><code>round(total / count, 1)</code> rounds to 1 decimal place. Guard against dividing by zero.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-min_max" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Highest and lowest</div><div class="pc-prompt"><p>Read whole numbers with the prompt <code>Number (blank to stop):</code> until a blank line. There will always be at least one number. Print <code>Highest:</code> and <code>Lowest:</code> on two lines. Don&rsquo;t use <code>max()</code> or <code>min()</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_mixed():
+    &quot;mixed numbers&quot;
+    p = &quot;Number (blank to stop): &quot;
+    expect_output(f&quot;{p}7\n{p}-2\n{p}15\n{p}3\n{p}\nHighest: 15\nLowest: -2&quot;, inputs=[&quot;7&quot;, &quot;-2&quot;, &quot;15&quot;, &quot;3&quot;, &quot;&quot;], echo=True)
+def test_negative():
+    &quot;all negative&quot;
+    p = &quot;Number (blank to stop): &quot;
+    expect_output(f&quot;{p}-5\n{p}-9\n{p}\nHighest: -5\nLowest: -9&quot;, inputs=[&quot;-5&quot;, &quot;-9&quot;, &quot;&quot;], echo=True)
+def test_one():
+    &quot;just one number&quot;
+    p = &quot;Number (blank to stop): &quot;
+    expect_output(f&quot;{p}4\n{p}\nHighest: 4\nLowest: 4&quot;, inputs=[&quot;4&quot;, &quot;&quot;], echo=True)
+def test_no_builtins():
+    &quot;doesn&#x27;t use max or min&quot;
+    assert &quot;max(&quot; not in source and &quot;min(&quot; not in source, &quot;Keep the best so far yourself.&quot;</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Number (blank to stop): &quot;)
+n = int(text)
+highest = n
+lowest = n
+while text != &quot;&quot;:
+    n = int(text)
+    if n &gt; highest:
+        highest = n
+    if n &lt; lowest:
+        lowest = n
+    text = input(&quot;Number (blank to stop): &quot;)
+print(&quot;Highest:&quot;, highest)
+print(&quot;Lowest:&quot;, lowest)</textarea><template class="pc-src pc-hint">Read the first number, and start <strong>both</strong> <code>highest</code> and <code>lowest</code> at it.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-valid_rating" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Rate us</div><div class="pc-prompt"><p>Ask <code>Rating (1-5):</code> until the user types a whole number from 1 to 5. Each time the answer isn&rsquo;t valid (not a number, or out of range), print <code>Please type 1, 2, 3, 4 or 5.</code> Finally print <code>Thanks for rating us</code> and the rating.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_first():
+    &quot;valid first time&quot;
+    expect_output(&quot;Rating (1-5): 4\nThanks for rating us 4&quot;, inputs=[&quot;4&quot;], echo=True)
+def test_retry():
+    &quot;several bad answers&quot;
+    msg = &quot;Please type 1, 2, 3, 4 or 5.&quot;
+    expect_output(f&quot;Rating (1-5): 9\n{msg}\nRating (1-5): great\n{msg}\nRating (1-5): \n{msg}\nRating (1-5): 0\n{msg}\nRating (1-5): 5\nThanks for rating us 5&quot;, inputs=[&quot;9&quot;, &quot;great&quot;, &quot;&quot;, &quot;0&quot;, &quot;5&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Rating (1-5): &quot;)
+while not text.isdigit() or int(text) &lt; 1 or int(text) &gt; 5:
+    print(&quot;Please type 1, 2, 3, 4 or 5.&quot;)
+    text = input(&quot;Rating (1-5): &quot;)
+print(&quot;Thanks for rating us&quot;, int(text))</textarea><template class="pc-src pc-hint">The loop condition needs to say &ldquo;not a number, or out of range&rdquo;. Short-circuiting makes it safe: <code>not text.isdigit() or int(text) &lt; 1 or int(text) &gt; 5</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-password_tries" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Three tries</div><div class="pc-prompt"><p>The password is <code>open sesame</code>. Ask <code>Password:</code> up to three times. After each wrong guess that still leaves a try, print <code>Wrong. Tries left:</code> and the number left. Finish with <code>Access granted</code> or <code>Locked out</code>.</p></div><textarea class="pc-src pc-code" hidden>PASSWORD = &quot;open sesame&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_first():
+    &quot;right first time&quot;
+    expect_output(&quot;Password: open sesame\nAccess granted&quot;, inputs=[&quot;open sesame&quot;], echo=True)
+def test_third():
+    &quot;right on the third try&quot;
+    expect_output(&quot;Password: a\nWrong. Tries left: 2\nPassword: b\nWrong. Tries left: 1\nPassword: open sesame\nAccess granted&quot;, inputs=[&quot;a&quot;, &quot;b&quot;, &quot;open sesame&quot;], echo=True)
+def test_locked():
+    &quot;three wrong guesses&quot;
+    expect_output(&quot;Password: a\nWrong. Tries left: 2\nPassword: b\nWrong. Tries left: 1\nPassword: c\nLocked out&quot;, inputs=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>PASSWORD = &quot;open sesame&quot;
+tries = 1
+guess = input(&quot;Password: &quot;)
+while guess != PASSWORD and tries &lt; 3:
+    print(&quot;Wrong. Tries left:&quot;, 3 - tries)
+    guess = input(&quot;Password: &quot;)
+    tries += 1
+if guess == PASSWORD:
+    print(&quot;Access granted&quot;)
+else:
+    print(&quot;Locked out&quot;)</textarea><template class="pc-src pc-hint">Count the tries used. The loop continues while the guess is wrong <strong>and</strong> tries remain. Print the &ldquo;tries left&rdquo; message inside the loop, before asking again.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-vowels" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count the vowels</div><div class="pc-prompt"><p>Ask for a word with the prompt <code>Word:</code> and print <code>Vowels:</code> and how many of its letters are a, e, i, o or u (in either case). Walk through the word with a <code>while</code> loop and an index.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_banana():
+    &quot;banana&quot;
+    expect_output(&quot;Word: banana\nVowels: 3&quot;, inputs=[&quot;banana&quot;], echo=True)
+def test_caps():
+    &quot;EDUCATION&quot;
+    expect_output(&quot;Word: EDUCATION\nVowels: 5&quot;, inputs=[&quot;EDUCATION&quot;], echo=True)
+def test_none():
+    &quot;rhythm&quot;
+    expect_output(&quot;Word: rhythm\nVowels: 0&quot;, inputs=[&quot;rhythm&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;).lower()
+count = 0
+i = 0
+while i &lt; len(word):
+    if word[i] in &quot;aeiou&quot;:
+        count += 1
+    i += 1
+print(&quot;Vowels:&quot;, count)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Only the last one counts</div><div class="pc-prompt"><p>This should add up the numbers 1 to 5 and print <code>15</code>, but it prints <code>5</code>. Fix it by moving one line.</p></div><textarea class="pc-src pc-code" hidden>n = 1
+while n &lt;= 5:
+    total = 0
+    total += n
+    n += 1
+print(total)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 15&quot;
+    expect_output(&quot;15&quot;)</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+n = 1
+while n &lt;= 5:
+    total += n
+    n += 1
+print(total)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The sentinel gets added</div><div class="pc-prompt"><p>This should total the numbers until <code>-1</code>, but the total is always one less than it should be. Fix it.</p></div><textarea class="pc-src pc-code" hidden>total = 0
+n = 0
+while n != -1:
+    n = int(input(&quot;Number (-1 to stop): &quot;))
+    total += n
+print(&quot;Total:&quot;, total)</textarea><textarea class="pc-src pc-tests" hidden>def test_three():
+    &quot;three numbers&quot;
+    p = &quot;Number (-1 to stop): &quot;
+    expect_output(f&quot;{p}4\n{p}5\n{p}6\n{p}-1\nTotal: 15&quot;, inputs=[&quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;-1&quot;], echo=True)
+def test_none():
+    &quot;stop straight away&quot;
+    p = &quot;Number (-1 to stop): &quot;
+    expect_output(f&quot;{p}-1\nTotal: 0&quot;, inputs=[&quot;-1&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+n = int(input(&quot;Number (-1 to stop): &quot;))
+while n != -1:
+    total += n
+    n = int(input(&quot;Number (-1 to stop): &quot;))
+print(&quot;Total:&quot;, total)</textarea><template class="pc-src pc-hint">The value is added before the loop gets a chance to check it. Use a priming read.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The largest is zero</div><div class="pc-prompt"><p>For these readings, all below zero, this prints <code>Largest: 0</code>, which isn&rsquo;t one of them. Fix it.</p></div><textarea class="pc-src pc-code" hidden>a, b, c, d = -8, -3, -12, -5
+largest = 0
+if a &gt; largest:
+    largest = a
+if b &gt; largest:
+    largest = b
+if c &gt; largest:
+    largest = c
+if d &gt; largest:
+    largest = d
+print(&quot;Largest:&quot;, largest)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints -3&quot;
+    expect_output(&quot;Largest: -3&quot;)
+def test_other():
+    &quot;works for other values&quot;
+    got = norm(run_with({&quot;a, b, c, d = -8, -3, -12, -5&quot;: &quot;a, b, c, d = 4, 9, 2, 7&quot;}))
+    assert got == &quot;Largest: 9&quot;, &quot;With 4, 9, 2, 7 your program printed:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>a, b, c, d = -8, -3, -12, -5
+largest = a
+if b &gt; largest:
+    largest = b
+if c &gt; largest:
+    largest = c
+if d &gt; largest:
+    largest = d
+print(&quot;Largest:&quot;, largest)</textarea></div>
+<div class="parsons" data-id="w003d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Count until done</div><div class="pc-prompt"><p>Arrange the lines: count how many words the user types before typing <code>done</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["count = 0", "word = input(\"Word: \")", "while word != \"done\":", "    count += 1", "    word = input(\"Word: \")", "print(count, \"words\")"], "distractors": ["    count = 0"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the accumulators</div><div class="pc-prompt"><p>Trace this program and fill in the final values, without running it.</p>
+<pre><code class="language-python">total = 0
+product = 1
+text = &quot;&quot;
+n = 1
+while n &lt;= 4:
+    total += n
+    product *= n
+    text = str(n) + text
+    n += 1
+</code></pre></div><textarea class="pc-src pc-code" hidden>final_total = ___
+final_product = ___
+final_text = ___
+final_n = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_total():
+    &quot;total&quot;
+    assert final_total == 10, &quot;1 + 2 + 3 + 4.&quot;
+def test_product():
+    &quot;product&quot;
+    assert final_product == 24, &quot;1 x 2 x 3 x 4.&quot;
+def test_text():
+    &quot;text&quot;
+    assert final_text == &quot;4321&quot;, &quot;Each digit goes on the front of the string, as a string.&quot;
+def test_n():
+    &quot;n&quot;
+    assert final_n == 5, &quot;The loop ends when n is no longer &lt;= 4.&quot;</textarea><textarea class="pc-src pc-solution" hidden>final_total = 10
+final_product = 24
+final_text = &quot;4321&quot;
+final_n = 5</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w003d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What should a running total start at?", "answer": 1, "explain": "Adding 0 changes nothing.", "options": ["1", "0", "The first value", "None"]}, {"type": "mc", "q": "What should a running product start at?", "answer": 1, "explain": "Multiplying by 0 would wipe out everything.", "options": ["0", "1", "-1", "The first value"]}, {"type": "output", "q": "What does this print?", "answer": "123", "explain": "Each pass adds a digit to the end.", "code": "s = \"\"\ni = 1\nwhile i <= 3:\n    s += str(i)\n    i += 1\nprint(s)"}, {"type": "mc", "q": "What is a sentinel?", "answer": 1, "explain": "Like 0 or a blank line.", "options": ["A variable that counts", "A special value that means &lsquo;stop reading&rsquo;", "An error message", "The first value read"]}, {"type": "mc", "q": "Why read the first value before the loop?", "answer": 1, "explain": "That&rsquo;s the priming read.", "options": ["It&rsquo;s faster", "So the condition has a value to check, and the sentinel is never processed", "Python requires it"]}, {"type": "mc", "q": "What&rsquo;s wrong with starting a maximum at 0?", "answer": 1, "explain": "Start with the first value instead.", "options": ["Nothing", "It&rsquo;s wrong if all values are negative", "It&rsquo;s a SyntaxError", "It&rsquo;s slower"]}, {"type": "output", "q": "What does this print?", "answer": "60", "explain": "10 + 20 + 30.", "code": "n = 1\ntotal = 0\nwhile n <= 3:\n    total = total + n * 10\n    n += 1\nprint(total)"}, {"type": "mc", "q": "A validation loop runs while&hellip;", "answer": 1, "explain": "When it ends, the answer must be good.", "options": ["the answer is good", "the answer is bad", "the user is typing", "always"]}, {"type": "mc", "q": "After a loop with the condition <code>guess != pin and tries &lt; 3</code>, what do you know?", "answer": 2, "explain": "Check afterwards which one it was.", "options": ["The guess was right", "Tries ran out", "At least one of the two conditions became False", "Nothing"]}, {"type": "text", "q": "What does <code>5!</code> equal?", "answer": "120", "explain": "5 x 4 x 3 x 2 x 1."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the till receipt</div><div class="pc-prompt"><p>Write a till. Read item prices, which may have decimals, with the prompt <code>Price:</code> until a blank line. Ignore (and don&rsquo;t count) any line that isn&rsquo;t a valid price: print <code>Not a price, ignored</code> for those. A valid price here is digits with at most one full stop, such as <code>350</code> or <code>12.5</code>. Then print:</p>
+<pre><code>Items: 3
+Total: 1,862.50
+Most expensive: 1,200.00
+</code></pre>
+<p>If no items were entered, print just <code>Items: 0</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_normal():
+    &quot;three items&quot;
+    p = &quot;Price: &quot;
+    expect_output(f&quot;{p}350\n{p}1200\n{p}312.5\n{p}\nItems: 3\nTotal: 1,862.50\nMost expensive: 1,200.00&quot;, inputs=[&quot;350&quot;, &quot;1200&quot;, &quot;312.5&quot;, &quot;&quot;], echo=True)
+def test_bad():
+    &quot;ignores bad lines&quot;
+    p = &quot;Price: &quot;
+    expect_output(f&quot;{p}abc\nNot a price, ignored\n{p}10\n{p}1.2.3\nNot a price, ignored\n{p}2.5\n{p}\nItems: 2\nTotal: 12.50\nMost expensive: 10.00&quot;, inputs=[&quot;abc&quot;, &quot;10&quot;, &quot;1.2.3&quot;, &quot;2.5&quot;, &quot;&quot;], echo=True)
+def test_empty():
+    &quot;no items&quot;
+    expect_output(&quot;Price: \nItems: 0&quot;, inputs=[&quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>count = 0
+total = 0
+dearest = 0
+text = input(&quot;Price: &quot;)
+while text != &quot;&quot;:
+    if text.replace(&quot;.&quot;, &quot;&quot;, 1).isdigit():
+        price = float(text)
+        count += 1
+        total += price
+        if price &gt; dearest:
+            dearest = price
+    else:
+        print(&quot;Not a price, ignored&quot;)
+    text = input(&quot;Price: &quot;)
+print(&quot;Items:&quot;, count)
+if count &gt; 0:
+    print(f&quot;Total: {total:,.2f}&quot;)
+    print(f&quot;Most expensive: {dearest:,.2f}&quot;)</textarea><template class="pc-src pc-hint">A valid price: remove one full stop with <code>text.replace(".", "", 1)</code>, and what&rsquo;s left must be all digits.</template><template class="pc-src pc-hint">Keep three accumulators: count, total and the most expensive so far. Since prices are never negative, the most expensive can start at 0 here.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Name the five accumulator patterns from today (sum, product, count, string, best so far) and the starting value each needs. Then write the shape of a priming-read loop from memory. Tomorrow: <code>break</code> and <code>continue</code>, two ways to change a loop&rsquo;s course from the inside.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w003d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w003d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w003d2", "week": 3, "day": 2, "title": "Accumulators and validation", "exercises": [{"id": "w003d2-sum_to_n", "title": "Sum to n", "points": 10}, {"id": "w003d2-factorial", "title": "Factorial", "points": 10}, {"id": "w003d2-till", "title": "Shopping total", "points": 10}, {"id": "w003d2-average", "title": "Average temperature", "points": 15}, {"id": "w003d2-min_max", "title": "Highest and lowest", "points": 15}, {"id": "w003d2-valid_rating", "title": "Rate us", "points": 10}, {"id": "w003d2-password_tries", "title": "Three tries", "points": 15}, {"id": "w003d2-vowels", "title": "Count the vowels", "points": 10}, {"id": "w003d2-bug1", "title": "Only the last one counts", "points": 10}, {"id": "w003d2-bug2", "title": "The sentinel gets added", "points": 10}, {"id": "w003d2-bug3", "title": "The largest is zero", "points": 10}, {"id": "w003d2-trace", "title": "Trace the accumulators", "points": 15}, {"id": "w003d2-challenge", "title": "Challenge: the till receipt", "points": 25}], "points": 165}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

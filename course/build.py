@@ -135,12 +135,14 @@ def render_block(kind, attrs, body, day: Day) -> str:
         extra = src("pc-inputs", inputs) if inputs else ""
         intro = md(lead) if "code" in parts else ""
         day.cells.append(("md", ("**Predict before you run:** what will this print?\n\n" if kind == "predict" else "") + (lead if "code" in parts else "")))
+        if kw.get("forever") == "yes":
+            day.cells.append(("md", "This cell never finishes on its own. Run it, then press the stop button (the square at the top of the notebook, or **Runtime, Interrupt execution** in Colab)."))
         day.cells.append(("code", code))
         if "nb_after" in kw:
             day.cells.append(("md", "Run the next cell to undo the damage, so the rest of this notebook works:"))
             day.cells.append(("code", kw["nb_after"].replace("\\n", "\n")))
         day.examples.append({"id": pid, "code": code, "inputs": inputs or (kw["try"].replace(",", "\n") if "try" in kw else None),
-                             "expect_error": kw.get("error") == "yes"})
+                             "expect_error": kw.get("error") == "yes", "forever": kw.get("forever") == "yes"})
         return (f'<div class="pc pc-{kind}" data-kind="{kind}" data-id="{pid}">{head}{intro}'
                 f'{src("pc-code", code)}{extra}</div>')
 

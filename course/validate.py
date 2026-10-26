@@ -40,6 +40,8 @@ for w in curriculum.build()["weeks"]:
                 print(f"✗ {ex['id']}: the starter code already passes")
         for e in day.examples:
             count["examples"] += 1
+            if e.get("forever"):
+                continue
             inputs = e["inputs"].split("\n") if e["inputs"] else ["Ada"] * 20
             r = harness.run_program(e["code"], inputs, 1, None)
             if bool(r["error"]) != e["expect_error"]:

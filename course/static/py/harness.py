@@ -448,6 +448,94 @@ def trace_program(code, inputs, seed):
             "prompt": need or "", "truncated": truncated, "output": out.getvalue()}
 
 
+# ---------------------------------------------------------------- trace table
+
+def trace_table(code, inputs=None):
+    """Rows for a hand-style trace table: one row per line run (module level only).
+
+    Each row: the line number, its source, the value of every simple variable *after*
+    that line ran, whatever it printed, and for while/if lines the value of the condition."""
+    lines = code.splitlines()
+    tests = {}
+    try:
+        tree = ast.parse(code)
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.While, ast.If)):
+                tests[node.lineno] = compile(ast.Expression(node.test), FILENAME, "eval")
+    except SyntaxError as e:
+        return {"rows": [], "names": [], "error": f"SyntaxError: {e.msg} (line {e.lineno})", "truncated": False}
+    out = _Out()
+    ns = _fresh_namespace()
+    rows = []
+    pending = [None]
+    order = []
+
+    def simple(v):
+        return isinstance(v, (int, float, str, bool)) or v is None
+
+    def snapshot():
+        vals = {}
+        for k, v in ns.items():
+            if k.startswith("__") or not simple(v):
+                continue
+            if k not in order:
+                order.append(k)
+            vals[k] = repr(v)
+        return vals
+
+    def close_pending():
+        p = pending[0]
+        if p is not None:
+            p["vars"] = snapshot()
+            text = out.getvalue()
+            p["out"] = text[p.pop("_mark"):]
+            rows.append(p)
+            pending[0] = None
+
+    def tracer(frame, event, arg):
+        if frame.f_code.co_filename != FILENAME:
+            return None
+        if frame.f_code.co_name != "<module>":
+            return None
+        if event == "line":
+            close_pending()
+            ln = frame.f_lineno
+            row = {"line": ln, "src": lines[ln - 1] if 0 < ln <= len(lines) else "", "cond": None, "_mark": len(out.getvalue())}
+            if ln in tests:
+                try:
+                    row["cond"] = bool(eval(tests[ln], frame.f_globals))
+                except Exception:  # noqa: BLE001
+                    row["cond"] = None
+            pending[0] = row
+            if len(rows) > 300:
+                raise TooManySteps()
+        return tracer
+
+    old = sys.stdout, sys.stderr, builtins.input
+    sys.stdout = sys.stderr = out
+    builtins.input = _make_input(list(inputs or []), out)
+    error, truncated = None, False
+    try:
+        compiled = compile(code, FILENAME, "exec")
+        sys.settrace(tracer)
+        try:
+            exec(compiled, ns)
+        finally:
+            sys.settrace(None)
+        close_pending()
+    except TooManySteps:
+        truncated = True
+    except NeedInput:
+        error = "The program needs more input than the figure gave it."
+    except BaseException as e:  # noqa: BLE001
+        close_pending()
+        info = _error_info(e, code)
+        error = f"{info['type']}: {info['message']}"
+    finally:
+        sys.stdout, sys.stderr, builtins.input = old
+    return {"rows": rows, "names": order, "error": error, "truncated": truncated}
+
+
 # ---------------------------------------------------------------- expression stepper
 
 _SAFE_CALLS = {"len", "abs", "int", "float", "str", "bool", "round", "min", "max",

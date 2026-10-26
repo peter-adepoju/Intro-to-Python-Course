@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="4b6d584d97">
+<title>Week 3 Day 5: Number algorithms | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=4b6d584d97">
+<link rel="stylesheet" href="../assets/css/site.css?v=4b6d584d97">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=4b6d584d97"></script>
+<script src="../assets/vendor/codemirror.js?v=4b6d584d97" defer></script>
+<meta name="description" content="Today you’ll use loops to do real mathematics: take numbers apart digit by digit, find their divisors, test whether they’re prime, and run the oldest...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w003d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 3 Day 5: Number algorithms">
+<meta property="og:description" content="Today you’ll use loops to do real mathematics: take numbers apart digit by digit, find their divisors, test whether they’re prime, and run the oldest...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w003d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-3">Week 3: Repetition I: while</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#digits" data-sec="digits">Digits</a></li><li><a href="#divisors" data-sec="divisors">Divisors</a></li><li><a href="#prime-numbers" data-sec="prime-numbers">Prime numbers</a></li><li><a href="#euclid-s-algorithm" data-sec="euclid-s-algorithm">Euclid’s algorithm</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 3, Day 5</span></p>
+      <h1>Number algorithms</h1>
+      <div class="day-intro"><p>Today you&rsquo;ll use loops to do real mathematics: take numbers apart digit by digit, find their divisors, test whether they&rsquo;re prime, and run the oldest algorithm still in everyday use, Euclid&rsquo;s method for the greatest common divisor. Along the way you&rsquo;ll count how much work an algorithm does, and make it do less.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Take a whole number apart with <code>% 10</code> and <code>// 10</code>, and build numbers back up digit by digit</li><li>Find and count the divisors of a number, and test whether a number is prime</li><li>Explain why a prime test only needs to try divisors up to the square root</li><li>Find the greatest common divisor with Euclid&rsquo;s algorithm, and the lowest common multiple from it</li><li>Count the steps an algorithm takes, and compare two algorithms by that count</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Digits: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Divisors: 25 min"></span><span class="plan-seg s1" style="flex:35" title="Primes, and making the test faster: 35 min"></span><span class="plan-seg s0" style="flex:30" title="Euclid&#x27;s algorithm: 30 min"></span><span class="plan-seg s1" style="flex:40" title="Practice: 40 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Digits</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Divisors</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Primes, and making the test faster</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Euclid&rsquo;s algorithm</span><span class="plan-min">30 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Practice</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w003d5.ipynb" download>download it</a>. Exercises today are worth 150 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d5-p1"><textarea class="pc-src pc-code" hidden>n = 2024
+print(n % 10)
+print(n // 10)
+print(n % 100)
+print(n // 100 % 10)</textarea></div>
+<p><code>% 10</code> gives the last digit and <code>// 10</code> removes it. Those two operations are the start of everything today.</p>
+<h2 id="digits">Digits</h2>
+<p>To work with each digit of a number, peel them off from the right, one per pass, until nothing is left:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e2"><div class="pc-title">Digits from right to left</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+while n &gt; 0:
+    print(n % 10)
+    n //= 10</textarea></div>
+<p>Everything you know about accumulators now applies. Here&rsquo;s the <strong>sum of the digits</strong>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e3"><div class="pc-title">Digit sum</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+total = 0
+while n &gt; 0:
+    total += n % 10
+    n //= 10
+print(&quot;Digit sum:&quot;, total)</textarea></div>
+<p>You can also build a number back up. Each new digit goes on the <strong>right</strong> of the number so far, which means &ldquo;multiply by 10 and add the digit&rdquo;:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e4"><div class="pc-title">Reverse a number</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+backwards = 0
+while n &gt; 0:
+    backwards = backwards * 10 + n % 10
+    n //= 10
+print(backwards)</textarea></div>
+<p>Step it in X-ray: <code>backwards</code> goes 5, 54, 543, 5432, 54321. This works with numbers only, no strings, which matters in languages where turning a number into text is expensive, and it&rsquo;s a favourite interview question.</p>
+<aside class="callout c-note"><div class="callout-t">Note</div><p>You could get digits from <code>str(n)</code> instead, and often that&rsquo;s simpler. Doing it with arithmetic teaches you how numbers are built, and how base 10 works: each digit is worth ten times the one to its right.</p></aside>
+<h2 id="divisors">Divisors</h2>
+<p><code>d</code> is a <strong>divisor</strong> of <code>n</code> when <code>n % d == 0</code>. To find them all, try every candidate:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e5"><div class="pc-title">All the divisors</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+d = 1
+while d &lt;= n:
+    if n % d == 0:
+        print(d, end=&quot; &quot;)
+    d += 1</textarea></div>
+<p>A number is <strong>perfect</strong> if it equals the sum of its divisors other than itself: 6 = 1 + 2 + 3. There are very few. The next ones are 28, 496 and 8128.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e6"><div class="pc-title">Is it perfect?</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+total = 0
+d = 1
+while d &lt; n:
+    if n % d == 0:
+        total += d
+    d += 1
+print(n, &quot;is perfect&quot; if total == n else &quot;is not perfect&quot;)</textarea></div>
+<h2 id="prime-numbers">Prime numbers</h2>
+<p>A <strong>prime</strong> is a whole number greater than 1 whose only divisors are 1 and itself: 2, 3, 5, 7, 11, 13&hellip; Primes are the building blocks of all whole numbers, and they protect almost every secure connection on the internet.</p>
+<p>To test a number, search for a divisor between 2 and <code>n - 1</code>. Finding one proves it isn&rsquo;t prime, so <code>break</code>. If the search finds nothing, it is:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e7"><div class="pc-title">A first prime test</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+d = 2
+while d &lt; n:
+    if n % d == 0:
+        print(n, &quot;is not prime: it divides by&quot;, d)
+        break
+    d += 1
+else:
+    if n &gt; 1:
+        print(n, &quot;is prime&quot;)
+    else:
+        print(n, &quot;is not prime&quot;)</textarea></div>
+<p>That&rsquo;s yesterday&rsquo;s <code>while ... else</code>: the <code>else</code> runs only if no divisor was found. Note the special case: 1 isn&rsquo;t prime, by definition, and neither is 0.</p>
+<h3 id="doing-less-work">Doing less work</h3>
+<p>For a big prime, that test tries every number below it. For 1,000,003 that&rsquo;s a million tries. But it doesn&rsquo;t need to.</p>
+<p>Divisors come in <strong>pairs</strong>: if <code>d</code> divides <code>n</code>, then so does <code>n // d</code>. For 36 the pairs are 1 × 36, 2 × 18, 3 × 12, 4 × 9 and 6 × 6. In every pair, one number is <strong>at most the square root</strong> (6 for 36). So if <code>n</code> has any divisor besides 1 and itself, it has one no bigger than √n. You only need to search up to there.</p>
+<p>You don&rsquo;t even need a square root function: <code>d * d &lt;= n</code> says the same thing as <code>d &lt;= √n</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e8"><div class="pc-title">Count the work</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+slow = 0
+d = 2
+while d &lt; n:
+    slow += 1
+    if n % d == 0:
+        break
+    d += 1
+fast = 0
+d = 2
+while d * d &lt;= n:
+    fast += 1
+    if n % d == 0:
+        break
+    d += 1
+print(&quot;Divisions tried, slow test:&quot;, slow)
+print(&quot;Divisions tried, fast test:&quot;, fast)</textarea></div>
+<p>A million tries against a thousand. For numbers with 20 digits, the slow test would run for longer than you&rsquo;ll live, and the fast one finishes in seconds. Counting the steps an algorithm takes is how computer scientists compare algorithms, and you&rsquo;ll do it properly in Week 16.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>To test whether <code>n</code> is prime, try divisors <code>d</code> from 2 while <code>d * d &lt;= n</code>. If none divides <code>n</code> (and <code>n &gt; 1</code>), it&rsquo;s prime.</p></aside>
+<h3 id="a-loop-inside-a-loop">A loop inside a loop</h3>
+<p>To list the primes up to 50, run the prime test on every number. That puts one loop <strong>inside</strong> another: for each <code>n</code>, the inner loop runs completely.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e9"><div class="pc-title">Primes up to 50</div><textarea class="pc-src pc-code" hidden>n = 2
+while n &lt;= 50:
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            break
+        d += 1
+    else:
+        print(n, end=&quot; &quot;)
+    n += 1</textarea></div>
+<p>Notice where <code>d = 2</code> is: inside the outer loop, so the search starts again for every new <code>n</code>. Next week is all about loops inside loops.</p>
+<h2 id="euclid-s-algorithm">Euclid&rsquo;s algorithm</h2>
+<p>The <strong>greatest common divisor</strong> (gcd) of two numbers is the largest number that divides both. gcd(84, 36) is 12. You need it to simplify fractions: 36/84 is 3/7, dividing top and bottom by 12.</p>
+<p>You could try every number from the smaller one downwards. Around 300 BC, Euclid of Alexandria wrote down something far faster. It rests on one fact: <strong>gcd(a, b) is the same as gcd(b, a % b)</strong>. Replace the pair with that, again and again, until the second number is 0. Then the first number is the answer.</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d5-e10"><div class="pc-title">Euclid&rsquo;s algorithm</div><textarea class="pc-src pc-code" hidden>a = int(input(&quot;a: &quot;))
+b = int(input(&quot;b: &quot;))
+while b != 0:
+    a, b = b, a % b
+print(&quot;gcd:&quot;, a)</textarea></div>
+<p>Three lines of loop, and it&rsquo;s one of the oldest algorithms still in daily use: it runs inside the encryption that secures your web browser. The figure shows why it works. Cut the biggest squares you can from an <code>a</code> by <code>b</code> rectangle, then do the same with the strip that&rsquo;s left over. The last square fits both sides exactly:</p>
+<figure class="widget" data-widget="euclid"><script type="application/json">{"a": 84, "b": 36}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each colour is one step of the algorithm. The table shows the same steps as arithmetic. Try 21, 13: consecutive Fibonacci numbers make Euclid take the most steps.</figcaption></figure>
+<p>The <strong>lowest common multiple</strong> (lcm) is the smallest number both divide into. It comes straight from the gcd: <code>lcm(a, b) = a * b // gcd(a, b)</code>. For 4 and 6: 24 // 2 = 12.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-digit_sum" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Digit sum</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>Number:</code> and print <code>Digit sum:</code> and the sum of its digits, using <code>%</code> and <code>//</code> (no strings).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for n, s in [(4096, 19), (7, 7), (1000, 1), (99999, 45), (0, 0)]:
+        expect_output(f&quot;Number: {n}\nDigit sum: {s}&quot;, inputs=[str(n)], echo=True)
+def test_no_str():
+    &quot;uses arithmetic&quot;
+    assert &quot;str(&quot; not in source, &quot;Use % 10 and // 10, not str().&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+total = 0
+while n &gt; 0:
+    total += n % 10
+    n //= 10
+print(&quot;Digit sum:&quot;, total)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-number_palindrome" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Palindromic numbers</div><div class="pc-prompt"><p>A number like 12321 reads the same backwards. Ask for a whole number with the prompt <code>Number:</code> and print <code>Palindrome: True</code> or <code>Palindrome: False</code>, without using strings.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for n, p in [(12321, True), (1221, True), (7, True), (123, False), (10, False)]:
+        expect_output(f&quot;Number: {n}\nPalindrome: {p}&quot;, inputs=[str(n)], echo=True)
+def test_no_str():
+    &quot;uses arithmetic&quot;
+    assert &quot;str(&quot; not in source and &quot;[::-1]&quot; not in source, &quot;Reverse the number with arithmetic.&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+original = n
+backwards = 0
+while n &gt; 0:
+    backwards = backwards * 10 + n % 10
+    n //= 10
+print(&quot;Palindrome:&quot;, backwards == original)</textarea><template class="pc-src pc-hint">Reverse it with <code>backwards = backwards * 10 + n % 10</code>, but keep a copy of the original first, because the loop destroys <code>n</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-count_divisors" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How many divisors?</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>Number:</code> and print <code>Divisors:</code> and how many divisors it has (including 1 and itself).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for n, c in [(36, 9), (7, 2), (1, 1), (100, 9), (60, 12)]:
+        expect_output(f&quot;Number: {n}\nDivisors: {c}&quot;, inputs=[str(n)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+count = 0
+d = 1
+while d &lt;= n:
+    if n % d == 0:
+        count += 1
+    d += 1
+print(&quot;Divisors:&quot;, count)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-is_prime" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Prime test</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>Number:</code> and print <code>Prime: True</code> or <code>Prime: False</code>. Use the fast test (stop when <code>d * d &gt; n</code>). Remember that 0 and 1 are not prime. The checks include a large prime, so the slow test will be stopped for taking too long.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_small():
+    &quot;small numbers&quot;
+    for n, p in [(0, False), (1, False), (2, True), (3, True), (4, False), (9, False), (97, True), (91, False)]:
+        expect_output(f&quot;Number: {n}\nPrime: {p}&quot;, inputs=[str(n)], echo=True)
+def test_big():
+    &quot;a large prime&quot;
+    expect_output(&quot;Number: 1000000007\nPrime: True&quot;, inputs=[&quot;1000000007&quot;], echo=True)
+def test_square():
+    &quot;the square of a prime&quot;
+    expect_output(&quot;Number: 10201\nPrime: False&quot;, inputs=[&quot;10201&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+prime = n &gt; 1
+d = 2
+while d * d &lt;= n:
+    if n % d == 0:
+        prime = False
+        break
+    d += 1
+print(&quot;Prime:&quot;, prime)</textarea><template class="pc-src pc-hint">Start with <code>prime = n &gt; 1</code>. Then search for a divisor with <code>while d * d &lt;= n</code>; if you find one, set <code>prime = False</code> and break.</template><template class="pc-src pc-hint"><code>10201</code> is 101 × 101. If your test says it&rsquo;s prime, check whether you used <code>&lt;</code> where you needed <code>&lt;=</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-gcd" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Simplify a fraction</div><div class="pc-prompt"><p>Ask for a numerator and a denominator (positive whole numbers) with the prompts <code>Top:</code> and <code>Bottom:</code>, and print the fraction in its simplest form, like <code>3/7</code>. Use Euclid&rsquo;s algorithm.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several fractions&quot;
+    for t, b, want in [(36, 84, &quot;3/7&quot;), (10, 5, &quot;2/1&quot;), (7, 13, &quot;7/13&quot;), (100, 75, &quot;4/3&quot;), (6, 6, &quot;1/1&quot;)]:
+        expect_output(f&quot;Top: {t}\nBottom: {b}\n{want}&quot;, inputs=[str(t), str(b)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>top = int(input(&quot;Top: &quot;))
+bottom = int(input(&quot;Bottom: &quot;))
+a, b = top, bottom
+while b != 0:
+    a, b = b, a % b
+print(f&quot;{top // a}/{bottom // a}&quot;)</textarea><template class="pc-src pc-hint">Euclid destroys the numbers it works on. Copy them into <code>a</code> and <code>b</code> first, so you still have the originals to divide.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-lcm" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">When do the buses meet?</div><div class="pc-prompt"><p>One bus comes every <code>a</code> minutes and another every <code>b</code> minutes. They both leave the station now. Ask for <code>a</code> and <code>b</code> with the prompts <code>a:</code> and <code>b:</code> and print <code>Together again in</code> and the number of minutes, then <code>minutes</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several timetables&quot;
+    for a, b, m in [(12, 18, 36), (4, 6, 12), (7, 5, 35), (10, 10, 10)]:
+        expect_output(f&quot;a: {a}\nb: {b}\nTogether again in {m} minutes&quot;, inputs=[str(a), str(b)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>a = int(input(&quot;a: &quot;))
+b = int(input(&quot;b: &quot;))
+x, y = a, b
+while y != 0:
+    x, y = y, x % y
+print(f&quot;Together again in {a * b // x} minutes&quot;)</textarea><template class="pc-src pc-hint">That&rsquo;s the lowest common multiple: <code>a * b // gcd</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-digital_root" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Digital root</div><div class="pc-prompt"><p>Keep replacing a number with the sum of its digits until only one digit is left: 9875 → 29 → 11 → 2. Ask for a number with the prompt <code>Number:</code> and print <code>Digital root:</code> and the final digit.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for n, r in [(9875, 2), (5, 5), (99, 9), (123456789, 9), (10, 1)]:
+        expect_output(f&quot;Number: {n}\nDigital root: {r}&quot;, inputs=[str(n)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+while n &gt;= 10:
+    total = 0
+    while n &gt; 0:
+        total += n % 10
+        n //= 10
+    n = total
+print(&quot;Digital root:&quot;, n)</textarea><template class="pc-src pc-hint">Two loops: the outer one runs while <code>n &gt;= 10</code>; the inner one adds up the digits of <code>n</code>, then <code>n</code> becomes that sum.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">1 is not prime</div><div class="pc-prompt"><p>This prime test says 1 is prime. Fix it without breaking the other answers.</p></div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+prime = True
+d = 2
+while d * d &lt;= n:
+    if n % d == 0:
+        prime = False
+        break
+    d += 1
+print(&quot;Prime:&quot;, prime)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for n, p in [(1, False), (0, False), (2, True), (15, False), (13, True)]:
+        expect_output(f&quot;Number: {n}\nPrime: {p}&quot;, inputs=[str(n)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+prime = n &gt; 1
+d = 2
+while d * d &lt;= n:
+    if n % d == 0:
+        prime = False
+        break
+    d += 1
+print(&quot;Prime:&quot;, prime)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The missing divisor</div><div class="pc-prompt"><p>This should print every divisor of the number, but the number itself never appears. Fix it.</p></div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+d = 1
+while d &lt; n:
+    if n % d == 0:
+        print(d)
+    d += 1</textarea><textarea class="pc-src pc-tests" hidden>def test_12():
+    &quot;12&quot;
+    expect_output(&quot;Number: 12\n1\n2\n3\n4\n6\n12&quot;, inputs=[&quot;12&quot;], echo=True)
+def test_7():
+    &quot;7&quot;
+    expect_output(&quot;Number: 7\n1\n7&quot;, inputs=[&quot;7&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+d = 1
+while d &lt;= n:
+    if n % d == 0:
+        print(d)
+    d += 1</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d5-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Reversed and wrong</div><div class="pc-prompt"><p>This should reverse a number, so 1234 becomes 4321, but it gives 10. Fix the line that builds the answer.</p></div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+backwards = 0
+while n &gt; 0:
+    backwards = backwards + n % 10
+    n //= 10
+print(backwards)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for n, r in [(1234, 4321), (5, 5), (120, 21), (907, 709)]:
+        expect_output(f&quot;Number: {n}\n{r}&quot;, inputs=[str(n)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+backwards = 0
+while n &gt; 0:
+    backwards = backwards * 10 + n % 10
+    n //= 10
+print(backwards)</textarea><template class="pc-src pc-hint">Each new digit must go on the right. What do you have to do to the number so far to make room?</template></div>
+<div class="parsons" data-id="w003d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Euclid</div><div class="pc-prompt"><p>Arrange the lines into Euclid&rsquo;s algorithm. One line is a trap.</p></div><script type="application/json">{"lines": ["a = int(input(\"a: \"))", "b = int(input(\"b: \"))", "while b != 0:", "    a, b = b, a % b", "print(\"gcd:\", a)"], "distractors": ["    a = b"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace Euclid</div><div class="pc-prompt"><p>Trace Euclid&rsquo;s algorithm by hand for <code>a = 252</code> and <code>b = 105</code>, and fill in the answers.</p>
+<pre><code class="language-python">steps = 0
+while b != 0:
+    a, b = b, a % b
+    steps += 1
+</code></pre></div><textarea class="pc-src pc-code" hidden>final_a = ___
+final_steps = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;the gcd&quot;
+    assert final_a == 21, &quot;252 % 105 is 42; then 105 % 42 is 21; then 42 % 21 is 0.&quot;
+def test_steps():
+    &quot;steps&quot;
+    assert final_steps == 3, &quot;One step per row of your table.&quot;</textarea><textarea class="pc-src pc-solution" hidden>final_a = 21
+final_steps = 3</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w003d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>n % 10</code> give for a positive whole number n?", "answer": 1, "explain": "The remainder after dividing by 10.", "options": ["The first digit", "The last digit", "The number of digits", "n without its last digit"]}, {"type": "text", "q": "What does <code>1234 // 10</code> give?", "answer": "123", "explain": "It removes the last digit."}, {"type": "output", "q": "What does this print?", "answer": "705", "explain": "It reverses the digits.", "code": "n = 507\nr = 0\nwhile n > 0:\n    r = r * 10 + n % 10\n    n //= 10\nprint(r)"}, {"type": "mc", "q": "Which of these is prime?", "answer": 2, "explain": "21 = 3 x 7, 51 = 3 x 17, and 1 isn&rsquo;t prime by definition.", "options": ["1", "21", "29", "51"]}, {"type": "mc", "q": "To test whether n is prime, how far do you need to try divisors?", "answer": 2, "explain": "Divisors come in pairs, and one of each pair is at most the square root.", "options": ["Up to n - 1", "Up to n // 2", "While d * d &lt;= n", "Up to 10"]}, {"type": "text", "q": "What is gcd(48, 18)?", "answer": "6", "explain": "48 % 18 = 12, 18 % 12 = 6, 12 % 6 = 0."}, {"type": "text", "q": "What is lcm(4, 10)?", "answer": "20", "explain": "4 x 10 // gcd(4, 10) = 40 // 2."}, {"type": "mc", "q": "In Euclid&rsquo;s algorithm, what replaces the pair (a, b) on each step?", "answer": 1, "explain": "gcd(a, b) = gcd(b, a % b).", "options": ["(a - b, b)", "(b, a % b)", "(a // b, b)", "(b, a)"]}, {"type": "mc", "q": "Why is 6 a perfect number?", "answer": 1, "explain": "It equals the sum of its divisors other than itself.", "options": ["It&rsquo;s even", "1 + 2 + 3 = 6", "It has 6 divisors", "6 x 1 = 6"]}, {"type": "mc", "q": "About how many divisions does the fast prime test try for a prime near 1,000,000?", "answer": 2, "explain": "The square root of 1,000,000 is 1,000.", "options": ["1,000,000", "500,000", "1,000", "10"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: Goldbach&rsquo;s conjecture</div><div class="pc-prompt"><p>In 1742 Christian Goldbach guessed that <strong>every even number greater than 2 is the sum of two primes</strong>: 28 = 5 + 23. Nobody has ever proved it, but computers have checked it far beyond a billion billion.</p>
+<p>Ask for an even number with the prompt <code>Even number:</code>. Find the pair of primes with the <strong>smallest</strong> first prime, and print it like <code>28 = 5 + 23</code>. If the number is odd or less than 4, print <code>Please type an even number above 2</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for n, p in [(4, 2), (28, 5), (100, 3), (98, 19), (10, 3), (1000000, 17)]:
+        expect_output(f&quot;Even number: {n}\n{n} = {p} + {n - p}&quot;, inputs=[str(n)], echo=True)
+def test_bad():
+    &quot;odd and small numbers&quot;
+    expect_output(&quot;Even number: 15\nPlease type an even number above 2&quot;, inputs=[&quot;15&quot;], echo=True)
+    expect_output(&quot;Even number: 2\nPlease type an even number above 2&quot;, inputs=[&quot;2&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Even number: &quot;))
+if n &lt; 4 or n % 2 != 0:
+    print(&quot;Please type an even number above 2&quot;)
+else:
+    p = 2
+    while True:
+        p_prime = p &gt; 1
+        d = 2
+        while d * d &lt;= p:
+            if p % d == 0:
+                p_prime = False
+                break
+            d += 1
+        q = n - p
+        q_prime = q &gt; 1
+        d = 2
+        while d * d &lt;= q:
+            if q % d == 0:
+                q_prime = False
+                break
+            d += 1
+        if p_prime and q_prime:
+            print(f&quot;{n} = {p} + {q}&quot;)
+            break
+        p += 1</textarea><template class="pc-src pc-hint">Try each <code>p</code> from 2 upwards. For each, you need two prime tests: one on <code>p</code> and one on <code>n - p</code>. Stop at the first <code>p</code> where both pass.</template><template class="pc-src pc-hint">Without functions (they&rsquo;re Week 6), you have to write the prime test out twice inside the loop. That&rsquo;s fine for now. Notice how much you&rsquo;d like to give it a name.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>From memory, write the three-line core of Euclid&rsquo;s algorithm, and the fast prime test. Then explain in one sentence why the prime test can stop at the square root. Tomorrow is the Forge: a bigger loop program, a mixed review and the weekly quiz.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w003d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w003d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w003d5", "week": 3, "day": 5, "title": "Number algorithms", "exercises": [{"id": "w003d5-digit_sum", "title": "Digit sum", "points": 10}, {"id": "w003d5-number_palindrome", "title": "Palindromic numbers", "points": 10}, {"id": "w003d5-count_divisors", "title": "How many divisors?", "points": 10}, {"id": "w003d5-is_prime", "title": "Prime test", "points": 15}, {"id": "w003d5-gcd", "title": "Simplify a fraction", "points": 10}, {"id": "w003d5-lcm", "title": "When do the buses meet?", "points": 10}, {"id": "w003d5-digital_root", "title": "Digital root", "points": 15}, {"id": "w003d5-bug1", "title": "1 is not prime", "points": 10}, {"id": "w003d5-bug2", "title": "The missing divisor", "points": 10}, {"id": "w003d5-bug3", "title": "Reversed and wrong", "points": 10}, {"id": "w003d5-trace", "title": "Trace Euclid", "points": 15}, {"id": "w003d5-challenge", "title": "Challenge: Goldbach's conjecture", "points": 25}], "points": 150}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

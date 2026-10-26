@@ -123,11 +123,13 @@ export class PyConsole {
     this.busy(true);
     const code = this.ed.value;
     const inputs = this.inputsPreset ? this.inputsPreset.split("\n") : [];
+    // A fresh random seed for each run, kept while the program is re-run to collect input.
+    const seed = 1 + Math.floor(Math.random() * 2 ** 30);
     let res;
     for (;;) {
       this.term.textContent = "";
       this.termWrap.hidden = false;
-      res = await py.run(code, { inputs, onStdout: (t) => this.write(t) });
+      res = await py.run(code, { inputs, seed, onStdout: (t) => this.write(t) });
       if (res.stopped) {
         this.write(res.stopped === "timeout"
           ? "\n[Stopped after 10 seconds. Is there a loop that never ends?]\n"
@@ -183,7 +185,8 @@ export class PyConsole {
     this.clearPanels();
     this.busy(true);
     const inputs = this.inputsPreset ? this.inputsPreset.split("\n") : [];
-    let res = await py.trace(this.ed.value, { inputs });
+    const seed = 1 + Math.floor(Math.random() * 2 ** 30);
+    let res = await py.trace(this.ed.value, { inputs, seed });
     // Collect input values like a real run, then trace again with them.
     while (res && res.need_input) {
       this.termWrap.hidden = false;
@@ -191,7 +194,7 @@ export class PyConsole {
       const v = await this.askInput(res.prompt);
       if (v === null) break;
       inputs.push(v);
-      res = await py.trace(this.ed.value, { inputs });
+      res = await py.trace(this.ed.value, { inputs, seed });
     }
     this.busy(false);
     if (!res || res.stopped) return;

@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="4b6d584d97">
+<title>Week 3 Day 4: Tracing loops by hand | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=4b6d584d97">
+<link rel="stylesheet" href="../assets/css/site.css?v=4b6d584d97">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=4b6d584d97"></script>
+<script src="../assets/vendor/codemirror.js?v=4b6d584d97" defer></script>
+<meta name="description" content="A loop can run a thousand times in a blink, which is exactly why loop bugs are hard to see. Today you’ll learn to slow a loop right down: trace it on paper,...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w003d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 3 Day 4: Tracing loops by hand">
+<meta property="og:description" content="A loop can run a thousand times in a blink, which is exactly why loop bugs are hard to see. Today you’ll learn to slow a loop right down: trace it on paper,...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w003d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-3">Week 3: Repetition I: while</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#why-trace-by-hand" data-sec="why-trace-by-hand">Why trace by hand?</a></li><li><a href="#the-trace-table-pass-by-pass" data-sec="the-trace-table-pass-by-pass">The trace table, pass by pass</a></li><li><a href="#what-stays-true-loop-invariants" data-sec="what-stays-true-loop-invariants">What stays true: loop invariants</a></li><li><a href="#making-a-loop-report-on-itself" data-sec="making-a-loop-report-on-itself">Making a loop report on itself</a></li><li><a href="#a-catalogue-of-loop-bugs" data-sec="a-catalogue-of-loop-bugs">A catalogue of loop bugs</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 3, Day 4</span></p>
+      <h1>Tracing loops by hand</h1>
+      <div class="day-intro"><p>A loop can run a thousand times in a blink, which is exactly why loop bugs are hard to see. Today you&rsquo;ll learn to slow a loop right down: trace it on paper, one pass at a time, and make it report on itself with print. With these two skills, no loop bug can hide from you for long.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Trace any loop with a table of its variables, one row per pass</li><li>Predict a loop&rsquo;s final values, its output and its number of passes before running it</li><li>Add debugging prints, including <code>f"{x=}"</code>, to watch a loop as it runs</li><li>State what stays true each time a loop&rsquo;s condition is checked</li><li>Recognise the five common loop bugs from their symptoms</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="The trace table, pass by pass: 35 min"></span><span class="plan-seg s0" style="flex:25" title="What stays true: loop invariants: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Making a loop report on itself: 25 min"></span><span class="plan-seg s0" style="flex:25" title="A catalogue of loop bugs: 25 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The trace table, pass by pass</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">What stays true: loop invariants</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Making a loop report on itself</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">A catalogue of loop bugs</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w003d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w003d4.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d4-p1"><textarea class="pc-src pc-code" hidden>n = 0
+while True:
+    n += 4
+    if n &gt; 10:
+        break
+print(n)</textarea></div>
+<p>If you got that right, you traced it in your head: 4, 8, 12, stop. Today you&rsquo;ll make that a dependable method that works for loops far too long to hold in your head.</p>
+<h2 id="why-trace-by-hand">Why trace by hand?</h2>
+<p>X-ray shows you what a program does. Tracing by hand shows you what <strong>you think</strong> it does. A bug is exactly the place where the two disagree, so the skill is to write down your expectation first, then compare. Professional programmers trace in their heads all the time; they learned by doing it on paper.</p>
+<h2 id="the-trace-table-pass-by-pass">The trace table, pass by pass</h2>
+<p>On Day 1 of this week you saw a trace table with one row for every <strong>line</strong> Python runs. For loops, a more compact table is usually better: one row each time the <strong>condition is checked</strong>, showing every variable at that moment.</p>
+<pre><code class="language-python">total = 0
+n = 5
+while n &gt; 0:
+    total += n
+    n -= 2
+print(total)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>check</th>
+<th><code>n</code></th>
+<th><code>total</code></th>
+<th><code>n &gt; 0</code>?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>0</td>
+<td>True</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>5</td>
+<td>True</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>8</td>
+<td>True</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-1</td>
+<td>9</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p>Read down the table and every question answers itself:</p>
+<ul>
+<li>The body ran <strong>3</strong> times (the number of <code>True</code> rows).</li>
+<li>The final values are in the last row: <code>n</code> is -1, <code>total</code> is 9.</li>
+<li>It prints <code>9</code>.</li>
+</ul>
+<p>Now check it against the figure. This one shows a row for every line, so you can see how the compact table is the rows at the <code>while</code> line:</p>
+<figure class="widget" data-widget="tracetable"><script type="application/json">{"code": "total = 0\nn = 5\nwhile n > 0:\n    total += n\n    n -= 2\nprint(total)"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Find the rows for line 3, the while line. Those rows are the compact trace table. You can edit the program and trace your own.</figcaption></figure>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>When tracing on paper: draw the columns first, fill the <strong>first row</strong> from the lines before the loop, then work through the body once per row. Cross nothing out; just add the next row.</p></aside>
+<p>Try one on paper before running it:</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w003d4-p2"><textarea class="pc-src pc-code" hidden>a = 1
+b = 1
+count = 0
+while b &lt; 30:
+    a, b = b, a + b
+    count += 1
+print(count, a, b)</textarea></div>
+<p>Those are the <strong>Fibonacci numbers</strong>: each one is the sum of the two before. The pair <code>a, b</code> slides along the sequence one step per pass.</p>
+<h2 id="what-stays-true-loop-invariants">What stays true: loop invariants</h2>
+<p>Look back at the table for the first loop. Something is true in <strong>every</strong> row: <code>total</code> plus all the numbers still to come equals 5 + 3 + 1. A statement that is true every time the condition is checked is called a <strong>loop invariant</strong>.</p>
+<p>For the sum loop from Day 2:</p>
+<pre><code class="language-python">total = 0
+i = 1
+while i &lt;= n:
+    total += i
+    i += 1
+</code></pre>
+<p>the invariant is: <strong><code>total</code> is the sum of every number before <code>i</code></strong>, that is 1 + 2 + &hellip; + (i − 1).</p>
+<ul>
+<li>It&rsquo;s true at the start: <code>i</code> is 1, nothing has been added, and <code>total</code> is 0.</li>
+<li>If it&rsquo;s true at one check, the body keeps it true: it adds <code>i</code> and then moves <code>i</code> on.</li>
+<li>When the loop ends, <code>i</code> is <code>n + 1</code>, so the invariant says <code>total</code> is 1 + 2 + &hellip; + n. That&rsquo;s exactly the answer you wanted.</li>
+</ul>
+<p>You don&rsquo;t need to write invariants down for every loop. But asking &ldquo;what does this variable <strong>mean</strong> at each check?&rdquo; is the fastest way to understand a loop someone else wrote, and the best way to get your own loop right first time. You&rsquo;ll use invariants seriously in Phase 4, when you prove that algorithms work.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>For every accumulator, be able to finish this sentence: &ldquo;Each time the condition is checked, this variable holds &hellip;&rdquo;</p></aside>
+<h2 id="making-a-loop-report-on-itself">Making a loop report on itself</h2>
+<p>When a loop misbehaves and you can&rsquo;t see why, make it <strong>print its own trace table</strong>. Add a print at the top of the body that shows every variable:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d4-e3"><div class="pc-title">A debugging print</div><textarea class="pc-src pc-code" hidden>total = 0
+n = 5
+while n &gt; 0:
+    print(&quot;n:&quot;, n, &quot;total:&quot;, total)
+    total += n
+    n -= 2
+print(&quot;result:&quot;, total)</textarea></div>
+<p>Python has a shortcut made for this. In an f-string, <code>{n=}</code> prints the name, an equals sign and the value:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d4-e4"><div class="pc-title">The = shortcut</div><textarea class="pc-src pc-code" hidden>total = 0
+n = 5
+while n &gt; 0:
+    print(f&quot;{n=} {total=}&quot;)
+    total += n
+    n -= 2
+print(f&quot;{total=}&quot;)</textarea></div>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>Debugging prints are scaffolding. Remove them when the bug is fixed, especially in exercises: the checks compare your <strong>exact</strong> output.</p></aside>
+<p>If a loop runs too many times to read, print only some passes, or stop it early with a counter:</p>
+<div class="pc pc-example" data-kind="example" data-id="w003d4-e5"><div class="pc-title">Only watch the first few passes</div><textarea class="pc-src pc-code" hidden>x = 1000
+steps = 0
+while x != 1:
+    if steps &lt; 5:
+        print(f&quot;{steps=} {x=}&quot;)
+    if x % 2 == 0:
+        x //= 2
+    else:
+        x = 3 * x + 1
+    steps += 1
+print(&quot;Reached 1 after&quot;, steps, &quot;steps&quot;)</textarea></div>
+<h2 id="a-catalogue-of-loop-bugs">A catalogue of loop bugs</h2>
+<p>Almost every loop bug is one of these five. Learn their symptoms, and you&rsquo;ll know where to look.</p>
+<table>
+<thead>
+<tr>
+<th>Bug</th>
+<th>Symptom</th>
+<th>Where to look</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Off by one</strong></td>
+<td>One pass too many or too few; first or last value missing</td>
+<td><code>&lt;</code> versus <code>&lt;=</code>; the counter&rsquo;s starting value</td>
+</tr>
+<tr>
+<td><strong>Bad start</strong></td>
+<td>Answer is wrong by a fixed amount, or always 0</td>
+<td>The accumulator&rsquo;s starting value (0 for sums, 1 for products)</td>
+</tr>
+<tr>
+<td><strong>Reset inside</strong></td>
+<td>Only the last pass counts</td>
+<td>An accumulator set to its start value inside the body</td>
+</tr>
+<tr>
+<td><strong>Never ends</strong></td>
+<td>The program hangs</td>
+<td>The update: missing, wrong direction, skipped by <code>continue</code> or an <code>if</code></td>
+</tr>
+<tr>
+<td><strong>Never starts</strong></td>
+<td>Nothing happens, no error</td>
+<td>The condition is false at the first check</td>
+</tr>
+</tbody>
+</table>
+<div class="pc pc-example" data-kind="example" data-id="w003d4-e6"><div class="pc-title">Spot the bug from its symptom</div><textarea class="pc-src pc-code" hidden>count = 0
+n = 1
+while n &lt; 10:
+    count += 1
+    n += 1
+print(&quot;Counted&quot;, count, &quot;numbers from 1 to 10&quot;)</textarea></div>
+<p>It claims to count 1 to 10 but prints 9. Symptom: one too few. Look at the comparison.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d4-final_values" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Final values</div><div class="pc-prompt"><p>Trace this loop with a table and fill in the final values.</p>
+<pre><code class="language-python">x = 2
+y = 0
+while x &lt; 50:
+    y += 1
+    x = x * x
+</code></pre></div><textarea class="pc-src pc-code" hidden>final_x = ___
+final_y = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_x():
+    &quot;x&quot;
+    assert final_x == 256, &quot;x goes 2, 4, 16, 256.&quot;
+def test_y():
+    &quot;y&quot;
+    assert final_y == 3, &quot;The body runs once for each of x = 2, 4 and 16.&quot;</textarea><textarea class="pc-src pc-solution" hidden>final_x = 256
+final_y = 3</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d4-output_trace" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">What does it print?</div><div class="pc-prompt"><p>Write the exact output of this program, with <code>\n</code> between lines.</p>
+<pre><code class="language-python">n = 1
+while n &lt; 40:
+    if n % 3 == 1:
+        print(n)
+    n *= 2
+</code></pre></div><textarea class="pc-src pc-code" hidden>printed = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_out():
+    &quot;the output&quot;
+    assert printed.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;1\n4\n16&quot;, &quot;n takes the values 1, 2, 4, 8, 16, 32. Which leave remainder 1 when divided by 3?&quot;</textarea><textarea class="pc-src pc-solution" hidden>printed = &quot;1\n4\n16&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d4-digits_trace" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Peeling digits</div><div class="pc-prompt"><p>This loop takes a number apart. Trace it for <code>n = 4096</code> and fill in the answers.</p>
+<pre><code class="language-python">count = 0
+total = 0
+while n &gt; 0:
+    total += n % 10
+    n //= 10
+    count += 1
+</code></pre></div><textarea class="pc-src pc-code" hidden>final_count = ___
+final_total = ___
+final_n = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_count():
+    &quot;count&quot;
+    assert final_count == 4, &quot;One pass per digit.&quot;
+def test_total():
+    &quot;total&quot;
+    assert final_total == 19, &quot;n % 10 is the last digit: 6, then 9, then 0, then 4.&quot;
+def test_n():
+    &quot;n&quot;
+    assert final_n == 0, &quot;The loop stops when n is no longer &gt; 0.&quot;</textarea><textarea class="pc-src pc-solution" hidden>final_count = 4
+final_total = 19
+final_n = 0</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d4-invariant" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">What does it hold?</div><div class="pc-prompt"><p>In this loop, which statement is true <strong>every time</strong> the condition is checked?</p>
+<pre><code class="language-python">p = 1
+k = 0
+while k &lt; 6:
+    p *= 2
+    k += 1
+</code></pre>
+<p>Set <code>answer</code> to the letter of the right statement:</p>
+<ul>
+<li><code>"a"</code>: p is 2 to the power of 6</li>
+<li><code>"b"</code>: p is 2 to the power of k</li>
+<li><code>"c"</code>: p is k times 2</li>
+<li><code>"d"</code>: p is always even</li>
+</ul></div><textarea class="pc-src pc-code" hidden>answer = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_answer():
+    &quot;the invariant&quot;
+    assert answer.strip().lower() == &quot;b&quot;, &quot;Check each statement against the trace: k=0, p=1; k=1, p=2; k=2, p=4...&quot;</textarea><textarea class="pc-src pc-solution" hidden>answer = &quot;b&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d4-from_table" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Write the loop from its trace</div><div class="pc-prompt"><p>Someone traced a loop and got this table, one row per check of the condition. Write a loop that produces exactly these values and prints <code>x</code> on each pass (so it prints <code>1</code>, <code>3</code>, <code>7</code>, <code>15</code>, <code>31</code>).</p>
+<table>
+<thead>
+<tr>
+<th>check</th>
+<th>x</th>
+<th>condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>True</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>True</td>
+</tr>
+<tr>
+<td>3</td>
+<td>7</td>
+<td>True</td>
+</tr>
+<tr>
+<td>4</td>
+<td>15</td>
+<td>True</td>
+</tr>
+<tr>
+<td>5</td>
+<td>31</td>
+<td>True</td>
+</tr>
+<tr>
+<td>6</td>
+<td>63</td>
+<td>False</td>
+</tr>
+</tbody>
+</table></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 1 3 7 15 31&quot;
+    expect_output(&quot;1\n3\n7\n15\n31&quot;)
+def test_final():
+    &quot;x ends at 63&quot;
+    assert x == 63, &quot;After the loop, x should be 63, as in the last row.&quot;</textarea><textarea class="pc-src pc-solution" hidden>x = 1
+while x &lt; 50:
+    print(x)
+    x = 2 * x + 1</textarea><template class="pc-src pc-hint">How do you get from each x to the next? 1 to 3, 3 to 7, 7 to 15: double it and add one.</template><template class="pc-src pc-hint">The loop must stop when x is 63 but not at 31: <code>while x &lt; 50</code> would do.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d4-debug_print" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Make it report</div><div class="pc-prompt"><p>Add one line inside the loop so that it prints <code>i=</code> and <code>total=</code> on each pass using the <code>=</code> shortcut, like <code>i=1 total=0</code>. Keep the final line as it is.</p></div><textarea class="pc-src pc-code" hidden>total = 0
+i = 1
+while i &lt;= 3:
+    total += i * i
+    i += 1
+print(total)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the trace and the result&quot;
+    expect_output(&quot;i=1 total=0\ni=2 total=1\ni=3 total=5\n14&quot;)
+def test_shortcut():
+    &quot;uses the = shortcut&quot;
+    assert &quot;{i=}&quot; in source and &quot;{total=}&quot; in source, &#x27;Use f&quot;{i=} {total=}&quot;.&#x27;</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+i = 1
+while i &lt;= 3:
+    print(f&quot;{i=} {total=}&quot;)
+    total += i * i
+    i += 1
+print(total)</textarea><template class="pc-src pc-hint">Put the print at the <strong>top</strong> of the body, before anything changes.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Symptom: always zero</div><div class="pc-prompt"><p>This should multiply the numbers from 1 to 6 and print <code>720</code>, but it prints <code>0</code>. Which bug from the catalogue is it? Fix it.</p></div><textarea class="pc-src pc-code" hidden>product = 0
+i = 1
+while i &lt;= 6:
+    product *= i
+    i += 1
+print(product)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;720&quot;
+    expect_output(&quot;720&quot;)</textarea><textarea class="pc-src pc-solution" hidden>product = 1
+i = 1
+while i &lt;= 6:
+    product *= i
+    i += 1
+print(product)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Symptom: the last one is missing</div><div class="pc-prompt"><p>This should print the multiples of 5 from 5 to 50, but 50 is missing. Fix it.</p></div><textarea class="pc-src pc-code" hidden>m = 5
+while m &lt; 50:
+    print(m)
+    m += 5</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;5 to 50&quot;
+    expect_output(&quot;\n&quot;.join(str(k) for k in range(5, 51, 5)))</textarea><textarea class="pc-src pc-solution" hidden>m = 5
+while m &lt;= 50:
+    print(m)
+    m += 5</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w003d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Symptom: wrong count of digits</div><div class="pc-prompt"><p>This should count the digits in a whole number, so <code>7</code> has 1 and <code>305</code> has 3. It gets most numbers right but says <code>0</code> has 0 digits. Fix it so that <code>0</code> has 1 digit and the others still work.</p></div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+digits = 0
+while n &gt; 0:
+    n //= 10
+    digits += 1
+print(&quot;Digits:&quot;, digits)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for num, d in [(7, 1), (305, 3), (10, 2), (0, 1), (99999, 5)]:
+        expect_output(f&quot;Number: {num}\nDigits: {d}&quot;, inputs=[str(num)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+digits = 0
+while True:
+    n //= 10
+    digits += 1
+    if n == 0:
+        break
+print(&quot;Digits:&quot;, digits)</textarea><template class="pc-src pc-hint">The body never runs for 0. One way out: handle 0 separately before the loop. Another: a <code>while True</code> loop that always does at least one pass and breaks when <code>n</code> reaches 0.</template></div>
+<div class="parsons" data-id="w003d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Count down in a table</div><div class="pc-prompt"><p>Arrange the lines to print a trace of a countdown: <code>n=3</code>, <code>n=2</code>, <code>n=1</code>, then <code>done</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["n = 3", "while n > 0:", "    print(f\"{n=}\")", "    n -= 1", "print(\"done\")"], "distractors": ["    print(f\"{n}=\")"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d4-collatz_trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">The 3n + 1 sequence</div><div class="pc-prompt"><p>Starting from a number, repeat: if it&rsquo;s even, halve it; if it&rsquo;s odd, multiply by 3 and add 1. Stop at 1. Trace it by hand from <strong>6</strong> and answer.</p>
+<pre><code class="language-python">x = 6
+steps = 0
+biggest = x
+while x != 1:
+    if x % 2 == 0:
+        x = x // 2
+    else:
+        x = 3 * x + 1
+    steps += 1
+    if x &gt; biggest:
+        biggest = x
+</code></pre></div><textarea class="pc-src pc-code" hidden>final_steps = ___
+final_biggest = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_steps():
+    &quot;steps&quot;
+    assert final_steps == 8, &quot;6, 3, 10, 5, 16, 8, 4, 2, 1: count the arrows.&quot;
+def test_biggest():
+    &quot;biggest&quot;
+    assert final_biggest == 16, &quot;The highest value the sequence reaches.&quot;</textarea><textarea class="pc-src pc-solution" hidden>final_steps = 8
+final_biggest = 16</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w003d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "In a compact trace table for a while loop, when do you add a row?", "answer": 1, "explain": "One row per check; the number of True rows is the number of passes.", "options": ["After every line", "Each time the condition is checked", "Only at the end", "When something prints"]}, {"type": "text", "q": "How many passes?", "answer": ["5", "five"], "explain": "n is 1, 3, 9, 27, 81 at the start of each pass; 243 ends it.", "code": "n = 1\nwhile n < 100:\n    n *= 3"}, {"type": "output", "q": "What does this print?", "answer": "5 2 1 ", "explain": "10 // 2 is 5, then 2, then 1.", "code": "x = 10\nwhile x > 1:\n    x //= 2\n    print(x, end=\" \")"}, {"type": "text", "q": "What does <code>print(f\"{n=}\")</code> print when n is 4?", "answer": ["n=4"], "explain": "The = shortcut prints the expression, =, and its value."}, {"type": "mc", "q": "A loop that should total some numbers prints only the last number. Which bug?", "answer": 1, "explain": "Each pass starts the total again.", "options": ["Off by one", "The accumulator is reset inside the loop", "Never ends", "Bad start value"]}, {"type": "mc", "q": "A loop does nothing at all and there&rsquo;s no error. What&rsquo;s the likeliest cause?", "answer": 0, "explain": "The body never runs.", "options": ["The condition is False at the first check", "A missing update", "A wrong start value for the total", "A syntax error"]}, {"type": "mc", "q": "What is a loop invariant?", "answer": 1, "explain": "It describes what the variables mean at each check.", "options": ["A variable that never changes", "Something true every time the condition is checked", "A loop that never ends", "The loop&rsquo;s last value"]}, {"type": "output", "q": "What does this print?", "answer": "13", "explain": "b goes 1, 1, 2, 3, 5, 8, 13.", "code": "a, b = 0, 1\nwhile b < 10:\n    a, b = b, a + b\nprint(b)"}, {"type": "output", "q": "What does this print?", "answer": "253", "explain": "It builds the digits in reverse.", "code": "n = 352\ns = 0\nwhile n > 0:\n    s = s * 10 + n % 10\n    n //= 10\nprint(s)"}, {"type": "mc", "q": "Why remove debugging prints before checking an exercise?", "answer": 1, "explain": "Extra lines make the output different.", "options": ["They slow Python down", "The checks compare your exact output", "They cause errors", "They change your variables"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w003d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: print your own trace table</div><div class="pc-prompt"><p>Write a program that asks for a starting number with the prompt <code>Start:</code> and runs the 3n + 1 rule from the last exercise until it reaches 1, printing a neat trace table as it goes. The table has a header line, a line of dashes, and one row per value, <strong>including the starting value and the final 1</strong>. Columns are right-aligned: <code>step</code> 4 wide, then two spaces, then <code>value</code> 8 wide.</p>
+<pre><code>Start: 6
+step     value
+--------------
+   0         6
+   1         3
+   2        10
+   3         5
+   4        16
+   5         8
+   6         4
+   7         2
+   8         1
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def table(start):
+    rows = [&quot;step     value&quot;, &quot;-&quot; * 14]
+    x, k = start, 0
+    rows.append(f&quot;{k:&gt;4}  {x:&gt;8}&quot;)
+    while x != 1:
+        x = x // 2 if x % 2 == 0 else 3 * x + 1
+        k += 1
+        rows.append(f&quot;{k:&gt;4}  {x:&gt;8}&quot;)
+    return &quot;\n&quot;.join(rows)
+def test_6():
+    &quot;from 6&quot;
+    expect_output(&quot;Start: 6\n&quot; + table(6), inputs=[&quot;6&quot;], echo=True)
+def test_27():
+    &quot;from 27 (a long one)&quot;
+    expect_output(&quot;Start: 27\n&quot; + table(27), inputs=[&quot;27&quot;], echo=True)
+def test_1():
+    &quot;from 1&quot;
+    expect_output(&quot;Start: 1\n&quot; + table(1), inputs=[&quot;1&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>x = int(input(&quot;Start: &quot;))
+step = 0
+print(&quot;step     value&quot;)
+print(&quot;-&quot; * 14)
+print(f&quot;{step:&gt;4}  {x:&gt;8}&quot;)
+while x != 1:
+    if x % 2 == 0:
+        x //= 2
+    else:
+        x = 3 * x + 1
+    step += 1
+    print(f&quot;{step:&gt;4}  {x:&gt;8}&quot;)</textarea><template class="pc-src pc-hint">Print the header and the first row (step 0) before the loop. Inside the loop, change the value, add 1 to the step, then print the row.</template><template class="pc-src pc-hint"><code>f"{step:&gt;4}  {value:&gt;8}"</code> makes one row. The header can simply be typed as it appears: <code>step     value</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Pick a loop from an earlier day that you found tricky. Trace it on paper with a compact table, then add an <code>f"{x=}"</code> print and check your table against Python&rsquo;s. Tomorrow you&rsquo;ll use loops to do real mathematics: digits, divisors, primes and the oldest algorithm still in use.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w003d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w003d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w003d4", "week": 3, "day": 4, "title": "Tracing loops by hand", "exercises": [{"id": "w003d4-final_values", "title": "Final values", "points": 10}, {"id": "w003d4-output_trace", "title": "What does it print?", "points": 10}, {"id": "w003d4-digits_trace", "title": "Peeling digits", "points": 10}, {"id": "w003d4-invariant", "title": "What does it hold?", "points": 10}, {"id": "w003d4-from_table", "title": "Write the loop from its trace", "points": 15}, {"id": "w003d4-debug_print", "title": "Make it report", "points": 10}, {"id": "w003d4-bug1", "title": "Symptom: always zero", "points": 10}, {"id": "w003d4-bug2", "title": "Symptom: the last one is missing", "points": 10}, {"id": "w003d4-bug3", "title": "Symptom: wrong count of digits", "points": 10}, {"id": "w003d4-collatz_trace", "title": "The 3n + 1 sequence", "points": 15}, {"id": "w003d4-challenge", "title": "Challenge: print your own trace table", "points": 25}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
