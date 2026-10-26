@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9e41776864">
+<title>Week 4 Day 3: Nested loops | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9e41776864">
+<link rel="stylesheet" href="../assets/css/site.css?v=9e41776864">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9e41776864"></script>
+<script src="../assets/vendor/codemirror.js?v=9e41776864" defer></script>
+<meta name="description" content="A loop body can contain anything, including another loop. Then the inner loop runs all the way through for every single pass of the outer one. Today you’ll...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w004d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 4 Day 3: Nested loops">
+<meta property="og:description" content="A loop body can contain anything, including another loop. Then the inner loop runs all the way through for every single pass of the outer one. Today you’ll...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w004d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-4">Week 4: Repetition II: for and range</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#a-loop-inside-a-loop" data-sec="a-loop-inside-a-loop">A loop inside a loop</a></li><li><a href="#shapes-row-by-row" data-sec="shapes-row-by-row">Shapes, row by row</a></li><li><a href="#tables-and-grids" data-sec="tables-and-grids">Tables and grids</a></li><li><a href="#breaking-out" data-sec="breaking-out">Breaking out</a></li><li><a href="#how-much-work" data-sec="how-much-work">How much work?</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 4, Day 3</span></p>
+      <h1>Nested loops</h1>
+      <div class="day-intro"><p>A loop body can contain anything, including another loop. Then the inner loop runs all the way through for every single pass of the outer one. Today you&rsquo;ll use nested loops to draw shapes, build tables, try every pair of things, and you&rsquo;ll learn why they can get slow very quickly.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Predict the order and number of passes of two nested loops</li><li>Draw rectangles, triangles and other shapes, row by row</li><li>Build two-dimensional tables such as a multiplication grid</li><li>Visit every pair of items, with and without repeats</li><li>Escape from nested loops with a flag, and estimate how much work nested loops do</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="A loop inside a loop: 30 min"></span><span class="plan-seg s0" style="flex:35" title="Shapes, row by row: 35 min"></span><span class="plan-seg s1" style="flex:25" title="Tables and grids: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Every pair; breaking out; how much work: 25 min"></span><span class="plan-seg s1" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">A loop inside a loop</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Shapes, row by row</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:15</span><span class="plan-what">Tables and grids</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Every pair; breaking out; how much work</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w004d3.ipynb" download>download it</a>. Exercises today are worth 165 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d3-p1"><textarea class="pc-src pc-code" hidden>for i in range(3):
+    print(&quot;Row&quot;, i)
+print(&quot;Done&quot;)</textarea></div>
+<p>Now imagine that each row, instead of one <code>print</code>, had to do a whole job with its own loop. That&rsquo;s today.</p>
+<h2 id="a-loop-inside-a-loop">A loop inside a loop</h2>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e2"><div class="pc-title">Every pair of i and j</div><textarea class="pc-src pc-code" hidden>for i in range(3):
+    for j in range(4):
+        print(i, j)</textarea></div>
+<p>That prints 12 lines. Here&rsquo;s what Python does:</p>
+<ol>
+<li>The outer loop sets <code>i</code> to 0.</li>
+<li>The inner loop runs <strong>completely</strong>: <code>j</code> is 0, 1, 2, 3.</li>
+<li>The outer loop moves on: <code>i</code> is 1. The inner loop starts <strong>again from the beginning</strong>: <code>j</code> is 0, 1, 2, 3 again.</li>
+<li>And once more for <code>i</code> = 2.</li>
+</ol>
+<p>So the inner variable changes fastest, like the seconds on a clock, and the outer one only ticks over when the inner loop has finished, like the minutes. Step through it:</p>
+<figure class="widget" data-widget="nested"><script type="application/json">{"rows": 3, "cols": 4}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each cell is one run of the body; the numbers show the order. The inner loop sweeps across a row before the outer loop moves down. Tick the box to make the inner loop depend on i.</figcaption></figure>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>In nested loops, the inner loop runs <strong>completely</strong> for each pass of the outer loop. If the outer loop runs <code>a</code> times and the inner one <code>b</code> times, the body runs <code>a × b</code> times.</p></aside>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d3-p3"><textarea class="pc-src pc-code" hidden>for x in &quot;ab&quot;:
+    for y in &quot;123&quot;:
+        print(x + y, end=&quot; &quot;)</textarea></div>
+<h2 id="shapes-row-by-row">Shapes, row by row</h2>
+<p>Nested loops are natural for anything with <strong>rows</strong> and <strong>columns</strong>. The outer loop goes down the rows; the inner loop goes across one row.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e4"><div class="pc-title">A rectangle</div><textarea class="pc-src pc-code" hidden>for row in range(3):
+    for col in range(8):
+        print(&quot;#&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<p>Look at the <code>print()</code> with nothing in it. It&rsquo;s inside the outer loop but <strong>outside</strong> the inner one, so it runs once per row, after the row is complete, to start a new line. Getting that one line&rsquo;s indentation right is half the battle with shapes.</p>
+<h3 id="when-the-inner-loop-depends-on-the-outer-one">When the inner loop depends on the outer one</h3>
+<p>If the inner <code>range</code> uses the outer variable, each row can have a different length:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e5"><div class="pc-title">A triangle</div><textarea class="pc-src pc-code" hidden>for row in range(1, 6):
+    for col in range(row):
+        print(&quot;*&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<p>Row 1 has one star, row 2 has two, and so on. Tick the box on the figure above to see which cells get visited.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e6"><div class="pc-title">Numbers in a triangle</div><textarea class="pc-src pc-code" hidden>for row in range(1, 6):
+    for col in range(1, row + 1):
+        print(col, end=&quot; &quot;)
+    print()</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>For any shape, first write down <strong>what row number <code>r</code> should look like</strong>: how many spaces, how many stars, which numbers. Then the inner loop (or loops) just builds row <code>r</code>.</p></aside>
+<h3 id="shapes-without-the-inner-loop">Shapes without the inner loop</h3>
+<p>Python&rsquo;s string repetition can sometimes replace the inner loop entirely:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e7"><div class="pc-title">A centred pyramid</div><textarea class="pc-src pc-code" hidden>height = 5
+for r in range(1, height + 1):
+    print(&quot; &quot; * (height - r) + &quot;*&quot; * (2 * r - 1))</textarea></div>
+<p>Row <code>r</code> has <code>height - r</code> spaces then <code>2r - 1</code> stars. Working out formulas like these is the real skill. The loop is the easy part.</p>
+<h2 id="tables-and-grids">Tables and grids</h2>
+<p>A multiplication grid is a classic nested loop. Formatting every entry to the same width makes the columns line up:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e8"><div class="pc-title">A 6 by 6 multiplication grid</div><textarea class="pc-src pc-code" hidden>for a in range(1, 7):
+    for b in range(1, 7):
+        print(f&quot;{a * b:4}&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<h3 id="every-pair">Every pair</h3>
+<p>Nested loops visit every <strong>pair</strong> of things. Two dice give 36 pairs:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e9"><div class="pc-title">How many ways to roll 7 with two dice?</div><textarea class="pc-src pc-code" hidden>ways = 0
+for d1 in range(1, 7):
+    for d2 in range(1, 7):
+        if d1 + d2 == 7:
+            ways += 1
+print(ways, &quot;ways out of 36&quot;)</textarea></div>
+<p>Sometimes you want each pair only <strong>once</strong>, and never a thing paired with itself. Start the inner loop just after the outer one:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e10"><div class="pc-title">Every match in a tournament of four</div><textarea class="pc-src pc-code" hidden>teams = &quot;ABCD&quot;
+for i in range(len(teams)):
+    for j in range(i + 1, len(teams)):
+        print(teams[i], &quot;v&quot;, teams[j])</textarea></div>
+<p>Six matches: A v B, A v C, and so on. Starting <code>j</code> at <code>i + 1</code> means B v A is never repeated, and nobody plays themselves.</p>
+<h2 id="breaking-out">Breaking out</h2>
+<p><code>break</code> only leaves the <strong>innermost</strong> loop it&rsquo;s in. The outer loop carries on:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e11"><div class="pc-title">break stops only the inner loop</div><textarea class="pc-src pc-code" hidden>for i in range(3):
+    for j in range(3):
+        if j == 1:
+            break
+        print(i, j)</textarea></div>
+<p>To stop <strong>both</strong> loops, set a flag before breaking, and check it in the outer loop:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e12"><div class="pc-title">Find the first pair that multiplies to 42</div><textarea class="pc-src pc-code" hidden>found = False
+for a in range(2, 10):
+    for b in range(a, 10):
+        if a * b == 42:
+            found = True
+            break
+    if found:
+        break
+print(a, b)</textarea></div>
+<p>(In Week 6 you&rsquo;ll meet a cleaner way: put the loops in a function, and <code>return</code>.)</p>
+<h2 id="how-much-work">How much work?</h2>
+<p>Two nested loops over <code>n</code> things do <code>n × n</code> passes of the inner body. That grows fast:</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>n × n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>100</td>
+</tr>
+<tr>
+<td>1,000</td>
+<td>1,000,000</td>
+</tr>
+<tr>
+<td>100,000</td>
+<td>10,000,000,000</td>
+</tr>
+</tbody>
+</table>
+<p>At 100,000 things, a computer that does 100 million simple steps a second would need well over a minute. Three nested loops are <code>n × n × n</code>. When a program is mysteriously slow, look for nested loops over large things first. In Phase 2 you&rsquo;ll learn to describe this precisely, and to find faster ways.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d3-e13"><div class="pc-title">Count the work</div><textarea class="pc-src pc-code" hidden>n = 300
+steps = 0
+for i in range(n):
+    for j in range(n):
+        steps += 1
+print(steps, &quot;passes for n =&quot;, n)</textarea></div>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-rectangle" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A rectangle</div><div class="pc-prompt"><p>Ask for a width and height with the prompts <code>Width:</code> and <code>Height:</code> and draw a rectangle of <code>#</code> characters that size. Use two loops.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_4x3():
+    &quot;4 by 3&quot;
+    expect_output(&quot;Width: 4\nHeight: 3\n####\n####\n####&quot;, inputs=[&quot;4&quot;, &quot;3&quot;], echo=True)
+def test_1x1():
+    &quot;1 by 1&quot;
+    expect_output(&quot;Width: 1\nHeight: 1\n#&quot;, inputs=[&quot;1&quot;, &quot;1&quot;], echo=True)
+def test_nested():
+    &quot;uses nested loops&quot;
+    assert source.count(&quot;for &quot;) &gt;= 2, &quot;Use an outer loop for rows and an inner loop for columns.&quot;</textarea><textarea class="pc-src pc-solution" hidden>w = int(input(&quot;Width: &quot;))
+h = int(input(&quot;Height: &quot;))
+for r in range(h):
+    for c in range(w):
+        print(&quot;#&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-down_triangle" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Upside-down triangle</div><div class="pc-prompt"><p>Ask for a size with the prompt <code>Size:</code> and draw an upside-down triangle of stars: the first row has <code>size</code> stars, and each row has one fewer.</p>
+<pre><code>Size: 4
+****
+***
+**
+*
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_4():
+    &quot;size 4&quot;
+    expect_output(&quot;Size: 4\n****\n***\n**\n*&quot;, inputs=[&quot;4&quot;], echo=True)
+def test_1():
+    &quot;size 1&quot;
+    expect_output(&quot;Size: 1\n*&quot;, inputs=[&quot;1&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>size = int(input(&quot;Size: &quot;))
+for r in range(size, 0, -1):
+    for c in range(r):
+        print(&quot;*&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-grid" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Multiplication grid</div><div class="pc-prompt"><p>Ask for a size with the prompt <code>Size:</code> and print a multiplication grid from 1 to that size, every number right-aligned in 4 characters.</p>
+<pre><code>Size: 3
+   1   2   3
+   2   4   6
+   3   6   9
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_3():
+    &quot;size 3&quot;
+    expect_output(&quot;Size: 3\n   1   2   3\n   2   4   6\n   3   6   9&quot;, inputs=[&quot;3&quot;], echo=True)
+def test_10():
+    &quot;size 10&quot;
+    want = &quot;Size: 10\n&quot; + &quot;\n&quot;.join(&quot;&quot;.join(f&quot;{a * b:4}&quot; for b in range(1, 11)) for a in range(1, 11))
+    expect_output(want, inputs=[&quot;10&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Size: &quot;))
+for a in range(1, n + 1):
+    for b in range(1, n + 1):
+        print(f&quot;{a * b:4}&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-number_square" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Number rows</div><div class="pc-prompt"><p>Ask for <code>n</code> with the prompt <code>n:</code> and print <code>n</code> rows, where row <code>r</code> (counting from 1) shows the number <code>r</code> repeated <code>r</code> times with no spaces.</p>
+<pre><code>n: 4
+1
+22
+333
+4444
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_4():
+    &quot;n = 4&quot;
+    expect_output(&quot;n: 4\n1\n22\n333\n4444&quot;, inputs=[&quot;4&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;n: &quot;))
+for r in range(1, n + 1):
+    for _ in range(r):
+        print(r, end=&quot;&quot;)
+    print()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-chess" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Chessboard</div><div class="pc-prompt"><p>Ask for a size with the prompt <code>Size:</code> and draw a chessboard pattern: square (row <code>r</code>, column <code>c</code>) is <code>#</code> when <code>r + c</code> is even and <code>.</code> when it&rsquo;s odd.</p>
+<pre><code>Size: 4
+#.#.
+.#.#
+#.#.
+.#.#
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_4():
+    &quot;size 4&quot;
+    expect_output(&quot;Size: 4\n#.#.\n.#.#\n#.#.\n.#.#&quot;, inputs=[&quot;4&quot;], echo=True)
+def test_3():
+    &quot;size 3&quot;
+    expect_output(&quot;Size: 3\n#.#\n.#.\n#.#&quot;, inputs=[&quot;3&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Size: &quot;))
+for r in range(n):
+    for c in range(n):
+        if (r + c) % 2 == 0:
+            print(&quot;#&quot;, end=&quot;&quot;)
+        else:
+            print(&quot;.&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-hollow" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Hollow square</div><div class="pc-prompt"><p>Ask for a size (at least 2) with the prompt <code>Size:</code> and draw a hollow square: <code>#</code> around the edge, spaces inside.</p>
+<pre><code>Size: 4
+####
+#  #
+#  #
+####
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_4():
+    &quot;size 4&quot;
+    expect_output(&quot;Size: 4\n####\n#  #\n#  #\n####&quot;, inputs=[&quot;4&quot;], echo=True)
+def test_2():
+    &quot;size 2&quot;
+    expect_output(&quot;Size: 2\n##\n##&quot;, inputs=[&quot;2&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Size: &quot;))
+for r in range(n):
+    for c in range(n):
+        if r == 0 or r == n - 1 or c == 0 or c == n - 1:
+            print(&quot;#&quot;, end=&quot;&quot;)
+        else:
+            print(&quot; &quot;, end=&quot;&quot;)
+    print()</textarea><template class="pc-src pc-hint">A cell is on the edge when it&rsquo;s in the first or last row, or the first or last column.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-dice" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Dice totals</div><div class="pc-prompt"><p>Ask for a target with the prompt <code>Total:</code> and print how many of the 36 ways two dice can land add up to it, like <code>6 ways</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several totals&quot;
+    for t, w in [(7, 6), (2, 1), (12, 1), (6, 5), (13, 0)]:
+        expect_output(f&quot;Total: {t}\n{w} ways&quot;, inputs=[str(t)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>target = int(input(&quot;Total: &quot;))
+ways = 0
+for a in range(1, 7):
+    for b in range(1, 7):
+        if a + b == target:
+            ways += 1
+print(ways, &quot;ways&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-pairs" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Pairs of letters</div><div class="pc-prompt"><p>Ask for a word with the prompt <code>Word:</code> and print every pair of its letters, each pair once and never a letter with itself, as in the tournament example. Print one pair per line, like <code>ab</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_abcd():
+    &quot;abcd&quot;
+    expect_output(&quot;Word: abcd\nab\nac\nad\nbc\nbd\ncd&quot;, inputs=[&quot;abcd&quot;], echo=True)
+def test_two():
+    &quot;two letters&quot;
+    expect_output(&quot;Word: xy\nxy&quot;, inputs=[&quot;xy&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;)
+for i in range(len(word)):
+    for j in range(i + 1, len(word)):
+        print(word[i] + word[j])</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Everything on one line</div><div class="pc-prompt"><p>This should draw a 3 by 5 rectangle, but everything comes out on one line. Fix the indentation of one line.</p></div><textarea class="pc-src pc-code" hidden>for r in range(3):
+    for c in range(5):
+        print(&quot;#&quot;, end=&quot;&quot;)
+print()</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three rows&quot;
+    expect_output(&quot;#####\n#####\n#####&quot;)</textarea><textarea class="pc-src pc-solution" hidden>for r in range(3):
+    for c in range(5):
+        print(&quot;#&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A square, not a triangle</div><div class="pc-prompt"><p>This should draw a triangle, but every row is the same length. Fix the inner <code>range</code>.</p></div><textarea class="pc-src pc-code" hidden>for row in range(1, 5):
+    for col in range(4):
+        print(&quot;*&quot;, end=&quot;&quot;)
+    print()</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;a triangle&quot;
+    expect_output(&quot;*\n**\n***\n****&quot;)</textarea><textarea class="pc-src pc-solution" hidden>for row in range(1, 5):
+    for col in range(row):
+        print(&quot;*&quot;, end=&quot;&quot;)
+    print()</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">It keeps looking</div><div class="pc-prompt"><p>This should print the first pair of numbers from 1 to 9 whose product is 24, then stop. Instead it prints several. Make it stop after the first.</p></div><textarea class="pc-src pc-code" hidden>for a in range(1, 10):
+    for b in range(1, 10):
+        if a * b == 24:
+            print(a, b)
+            break</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;only the first pair&quot;
+    expect_output(&quot;3 8&quot;)</textarea><textarea class="pc-src pc-solution" hidden>found = False
+for a in range(1, 10):
+    for b in range(1, 10):
+        if a * b == 24:
+            print(a, b)
+            found = True
+            break
+    if found:
+        break</textarea><template class="pc-src pc-hint"><code>break</code> only leaves the inner loop. Use a flag that the outer loop checks.</template></div>
+<div class="parsons" data-id="w004d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Number staircase</div><div class="pc-prompt"><p>Arrange the lines to print rows <code>1</code>, <code>1 2</code>, <code>1 2 3</code> (each followed by a space). One line is a trap.</p></div><script type="application/json">{"lines": ["for r in range(1, 4):", "    for c in range(1, r + 1):", "        print(c, end=\" \")", "    print()"], "distractors": ["        print()"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Count the passes</div><div class="pc-prompt"><p>How many times does <code>print</code> run in each program? Work it out without running them.</p>
+<pre><code class="language-python"># Program A
+for i in range(4):
+    for j in range(5):
+        print(i, j)
+
+# Program B
+for i in range(4):
+    for j in range(i):
+        print(i, j)
+
+# Program C
+for i in range(5):
+    for j in range(i + 1, 5):
+        print(i, j)
+</code></pre></div><textarea class="pc-src pc-code" hidden>program_a = ___
+program_b = ___
+program_c = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;program A&quot;
+    assert program_a == 20, &quot;4 passes of the outer loop, 5 of the inner each time.&quot;
+def test_b():
+    &quot;program B&quot;
+    assert program_b == 6, &quot;0 + 1 + 2 + 3.&quot;
+def test_c():
+    &quot;program C&quot;
+    assert program_c == 10, &quot;4 + 3 + 2 + 1 + 0: every pair of 5 things.&quot;</textarea><textarea class="pc-src pc-solution" hidden>program_a = 20
+program_b = 6
+program_c = 10</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w004d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "How many times does the inner body run?", "answer": ["21", "twenty-one"], "explain": "3 x 7.", "code": "for a in range(3):\n    for b in range(7):\n        pass"}, {"type": "output", "q": "What does this print?", "answer": "0 0\n0 1\n1 0\n1 1", "explain": "j changes fastest.", "code": "for i in range(2):\n    for j in range(2):\n        print(i, j)"}, {"type": "mc", "q": "In nested loops, which variable changes fastest?", "answer": 1, "explain": "The inner loop finishes before the outer one moves on.", "options": ["The outer one", "The inner one", "They change together"]}, {"type": "output", "q": "What does this print?", "answer": "#\n##\n###", "explain": "String repetition can replace an inner loop.", "code": "for r in range(1, 4):\n    print(\"#\" * r)"}, {"type": "mc", "q": "Where does the print() that ends each row go?", "answer": 1, "explain": "Once per row, after the row is built.", "options": ["Inside the inner loop", "Inside the outer loop, after the inner loop", "After both loops", "Before the outer loop"]}, {"type": "text", "q": "How many pairs does <code>for j in range(i + 1, n)</code> visit for n = 5 things?", "answer": ["10", "ten"], "explain": "4 + 3 + 2 + 1."}, {"type": "mc", "q": "What does break do inside the inner of two loops?", "answer": 1, "explain": "Use a flag to stop the outer loop too.", "options": ["Stops both loops", "Stops only the inner loop", "Stops the program", "Skips one pass"]}, {"type": "mc", "q": "Two nested loops over 1,000 things each do about how many passes?", "answer": 2, "explain": "1,000 x 1,000.", "options": ["2,000", "1,000", "1,000,000", "1,000,000,000"]}, {"type": "output", "q": "What does this print?", "answer": "3", "explain": "(1,2), (1,3), (2,3).", "code": "count = 0\nfor a in range(1, 4):\n    for b in range(1, 4):\n        if a < b:\n            count += 1\nprint(count)"}, {"type": "mc", "q": "How many stars does row r of this pyramid have? <code>\" \" * (h - r) + \"*\" * (2 * r - 1)</code>", "answer": 2, "explain": "1, 3, 5, 7&hellip;", "options": ["r", "2r", "2r - 1", "h - r"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: Pythagorean triples</div><div class="pc-prompt"><p>A <strong>Pythagorean triple</strong> is three whole numbers <code>a &lt; b &lt; c</code> with <code>a² + b² = c²</code>, like 3, 4, 5. They give right-angled triangles with whole-number sides, and builders have used 3, 4, 5 to make square corners for thousands of years.</p>
+<p>Ask for a limit with the prompt <code>Up to:</code> and print every triple with <code>c</code> no bigger than the limit, one per line like <code>3 4 5</code>, in order of <code>a</code>, then <code>b</code>. Finish with <code>Found</code> and the number of triples.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def triples(n):
+    out = []
+    for a in range(1, n + 1):
+        for b in range(a + 1, n + 1):
+            for c in range(b + 1, n + 1):
+                if a * a + b * b == c * c:
+                    out.append(f&quot;{a} {b} {c}&quot;)
+    return out
+def test_20():
+    &quot;up to 20&quot;
+    t = triples(20)
+    expect_output(&quot;Up to: 20\n&quot; + &quot;\n&quot;.join(t) + f&quot;\nFound {len(t)}&quot;, inputs=[&quot;20&quot;], echo=True)
+def test_5():
+    &quot;up to 5&quot;
+    expect_output(&quot;Up to: 5\n3 4 5\nFound 1&quot;, inputs=[&quot;5&quot;], echo=True)
+def test_4():
+    &quot;up to 4&quot;
+    expect_output(&quot;Up to: 4\nFound 0&quot;, inputs=[&quot;4&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Up to: &quot;))
+found = 0
+for a in range(1, n + 1):
+    for b in range(a + 1, n + 1):
+        for c in range(b + 1, n + 1):
+            if a * a + b * b == c * c:
+                print(a, b, c)
+                found += 1
+print(&quot;Found&quot;, found)</textarea><template class="pc-src pc-hint">Three nested loops: <code>a</code> from 1, <code>b</code> from <code>a + 1</code>, <code>c</code> from <code>b + 1</code>, all up to the limit.</template><template class="pc-src pc-hint">Stretch, in your head: you don&rsquo;t really need the <code>c</code> loop. Given <code>a</code> and <code>b</code>, which single <code>c</code> could work? How much faster would that be?</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Draw a 3 by 4 grid on paper and number the cells in the order nested loops visit them. Then write the loops for a right-aligned triangle (spaces first, then stars) without looking anything up. Tomorrow: the loop patterns that come up again and again, named, so you can recognise them instantly.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w004d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w004d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w004d3", "week": 4, "day": 3, "title": "Nested loops", "exercises": [{"id": "w004d3-rectangle", "title": "A rectangle", "points": 10}, {"id": "w004d3-down_triangle", "title": "Upside-down triangle", "points": 10}, {"id": "w004d3-grid", "title": "Multiplication grid", "points": 10}, {"id": "w004d3-number_square", "title": "Number rows", "points": 10}, {"id": "w004d3-chess", "title": "Chessboard", "points": 15}, {"id": "w004d3-hollow", "title": "Hollow square", "points": 15}, {"id": "w004d3-dice", "title": "Dice totals", "points": 10}, {"id": "w004d3-pairs", "title": "Pairs of letters", "points": 15}, {"id": "w004d3-bug1", "title": "Everything on one line", "points": 10}, {"id": "w004d3-bug2", "title": "A square, not a triangle", "points": 10}, {"id": "w004d3-bug3", "title": "It keeps looking", "points": 10}, {"id": "w004d3-trace", "title": "Count the passes", "points": 15}, {"id": "w004d3-challenge", "title": "Challenge: Pythagorean triples", "points": 25}], "points": 165}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

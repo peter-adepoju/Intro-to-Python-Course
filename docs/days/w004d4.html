@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9e41776864">
+<title>Week 4 Day 4: Loop patterns | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9e41776864">
+<link rel="stylesheet" href="../assets/css/site.css?v=9e41776864">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9e41776864"></script>
+<script src="../assets/vendor/codemirror.js?v=9e41776864" defer></script>
+<meta name="description" content="Experienced programmers don’t invent each loop from nothing. They recognise the job, say “that’s a find-first” or “that’s a best-so-far”, and write the...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w004d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 4 Day 4: Loop patterns">
+<meta property="og:description" content="Experienced programmers don’t invent each loop from nothing. They recognise the job, say “that’s a find-first” or “that’s a best-so-far”, and write the...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w004d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-4">Week 4: Repetition II: for and range</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#why-name-patterns" data-sec="why-name-patterns">Why name patterns?</a></li><li><a href="#1-accumulate" data-sec="1-accumulate">1. Accumulate</a></li><li><a href="#2-count" data-sec="2-count">2. Count</a></li><li><a href="#3-filter" data-sec="3-filter">3. Filter</a></li><li><a href="#4-transform" data-sec="4-transform">4. Transform</a></li><li><a href="#5-find-first" data-sec="5-find-first">5. Find first</a></li><li><a href="#6-all-of" data-sec="6-all-of">6. All of</a></li><li><a href="#7-any-of" data-sec="7-any-of">7. Any of</a></li><li><a href="#8-best-so-far" data-sec="8-best-so-far">8. Best so far</a></li><li><a href="#9-running-total" data-sec="9-running-total">9. Running total</a></li><li><a href="#10-compare-with-the-previous" data-sec="10-compare-with-the-previous">10. Compare with the previous</a></li><li><a href="#choosing-and-combining" data-sec="choosing-and-combining">Choosing and combining</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 4, Day 4</span></p>
+      <h1>Loop patterns</h1>
+      <div class="day-intro"><p>Experienced programmers don&rsquo;t invent each loop from nothing. They recognise the job, say &ldquo;that&rsquo;s a find-first&rdquo; or &ldquo;that&rsquo;s a best-so-far&rdquo;, and write the pattern they&rsquo;ve written a hundred times. Today you&rsquo;ll learn the ten patterns that cover most loops you&rsquo;ll ever write, and practise spotting which one a problem needs.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Name and write the ten common loop patterns, from accumulate to compare-with-previous</li><li>Choose the right pattern for a problem described in words</li><li>Track the position of the best value as well as the value itself</li><li>Write all-of and any-of checks with flags, and know which way round the flag starts</li><li>Combine two patterns in one loop</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Accumulate, count, filter, transform: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Find first, all of, any of: 30 min"></span><span class="plan-seg s1" style="flex:30" title="Best so far, running totals, compare with previous: 30 min"></span><span class="plan-seg s0" style="flex:15" title="Choosing and combining patterns: 15 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Accumulate, count, filter, transform</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Find first, all of, any of</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Best so far, running totals, compare with previous</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Choosing and combining patterns</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w004d4.ipynb" download>download it</a>. Exercises today are worth 150 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d4-p1"><textarea class="pc-src pc-code" hidden>total = 0
+best = &quot;&quot;
+for ch in &quot;loop&quot;:
+    total += ord(ch)
+    if ch &gt; best:
+        best = ch
+print(total, best)</textarea></div>
+<p>That loop does two jobs at once: it <strong>accumulates</strong> a total and keeps the <strong>best so far</strong>. Both are patterns you&rsquo;ve already used. Today they get names, along with eight more.</p>
+<h2 id="why-name-patterns">Why name patterns?</h2>
+<p>When you read &ldquo;count the words that start with a capital&rdquo;, you could stare at a blank screen. Or you could think: <em>count</em> (a counter that goes up), and <em>filter</em> (only some items). Two patterns you know, joined together. Naming patterns turns a new problem into a combination of old ones.</p>
+<p>Each pattern below has three parts: what you set up <strong>before</strong> the loop, what you do <strong>inside</strong>, and what you have <strong>after</strong>.</p>
+<h2 id="1-accumulate">1. Accumulate</h2>
+<p>Combine every item into one result.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e2"><textarea class="pc-src pc-code" hidden>total = 0                        # before: the neutral value
+for ch in &quot;2468&quot;:
+    total += int(ch)             # inside: combine
+print(total)                     # after: the answer</textarea></div>
+<p>Start with 0 for sums, 1 for products, <code>""</code> for strings.</p>
+<h2 id="2-count">2. Count</h2>
+<p>Count the items that pass a test. It&rsquo;s accumulate, adding 1 at a time.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e3"><textarea class="pc-src pc-code" hidden>count = 0
+for ch in &quot;Hello World&quot;:
+    if ch.isupper():
+        count += 1
+print(count)</textarea></div>
+<h2 id="3-filter">3. Filter</h2>
+<p>Keep only the items that pass a test, building a new result.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e4"><textarea class="pc-src pc-code" hidden>kept = &quot;&quot;
+for ch in &quot;h3ll0 w0rld&quot;:
+    if ch.isalpha():
+        kept += ch
+print(kept)</textarea></div>
+<h2 id="4-transform">4. Transform</h2>
+<p>Change <strong>every</strong> item, building a new result. No test, or a test that chooses between two changes.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e5"><textarea class="pc-src pc-code" hidden>result = &quot;&quot;
+for ch in &quot;hello&quot;:
+    result += ch.upper() + &quot; &quot;
+print(result)</textarea></div>
+<h2 id="5-find-first">5. Find first</h2>
+<p>Stop at the first item that passes a test. Afterwards, you need to know whether one was found.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e6"><textarea class="pc-src pc-code" hidden>for i in range(len(&quot;listen&quot;)):
+    if &quot;listen&quot;[i] in &quot;aeiou&quot;:
+        print(&quot;First vowel at&quot;, i)
+        break
+else:
+    print(&quot;No vowels&quot;)</textarea></div>
+<h2 id="6-all-of">6. All of</h2>
+<p>Is <strong>every</strong> item OK? Start by assuming yes, and look for one that isn&rsquo;t. One failure is enough to decide, so you can <code>break</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e7"><div class="pc-title">Are all the characters letters?</div><textarea class="pc-src pc-code" hidden>text = &quot;Python&quot;
+all_letters = True
+for ch in text:
+    if not ch.isalpha():
+        all_letters = False
+        break
+print(all_letters)</textarea></div>
+<h2 id="7-any-of">7. Any of</h2>
+<p>Is <strong>at least one</strong> item OK? Start by assuming no, and look for one that is. One success is enough to decide.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e8"><div class="pc-title">Is there at least one digit?</div><textarea class="pc-src pc-code" hidden>text = &quot;pass1word&quot;
+has_digit = False
+for ch in text:
+    if ch.isdigit():
+        has_digit = True
+        break
+print(has_digit)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><strong>All of</strong> starts <code>True</code> and looks for a failure. <strong>Any of</strong> starts <code>False</code> and looks for a success. Neither ever sets the flag back the other way inside the loop.</p></aside>
+<aside class="callout c-mistake"><div class="callout-t">The flag that flips back</div><p>A common bug in an all-of check is an <code>else</code> that sets the flag back to <code>True</code>. Then only the <strong>last</strong> item decides the answer:</p>
+<pre><code class="language-python">ok = True
+for ch in &quot;ab3d&quot;:
+    if ch.isalpha():
+        ok = True      # wrong: this undoes an earlier failure
+    else:
+        ok = False
+</code></pre>
+<p>Here <code>ok</code> ends up <code>True</code> because the last character, <code>d</code>, is a letter, even though <code>3</code> isn&rsquo;t.</p></aside>
+<h2 id="8-best-so-far">8. Best so far</h2>
+<p>Find the largest or smallest. Start with the <strong>first</strong> item, and replace the record whenever it&rsquo;s beaten. Often you also want <strong>where</strong> the best was, so keep its position too:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e9"><div class="pc-title">The latest letter in the alphabet, and its position</div><textarea class="pc-src pc-code" hidden>word = &quot;algorithm&quot;
+best = word[0]
+best_at = 0
+for i in range(1, len(word)):
+    if word[i] &gt; best:
+        best = word[i]
+        best_at = i
+print(best, &quot;at position&quot;, best_at)</textarea></div>
+<p>Should a tie replace the record? With <code>&gt;</code>, the <strong>first</strong> of several equal bests is kept. With <code>&gt;=</code>, the <strong>last</strong> one is. Decide on purpose.</p>
+<h2 id="9-running-total">9. Running total</h2>
+<p>Print (or keep) the total <strong>so far</strong> at every step, not just the final one. Bank statements and scoreboards do this.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e10"><div class="pc-title">A running balance</div><textarea class="pc-src pc-code" hidden>balance = 0
+while True:
+    text = input(&quot;Amount (blank to stop): &quot;)
+    if text == &quot;&quot;:
+        break
+    balance += int(text)
+    print(&quot;Balance now:&quot;, balance)</textarea></div>
+<h2 id="10-compare-with-the-previous">10. Compare with the previous</h2>
+<p>Each item is compared with the one <strong>before</strong> it: is it bigger, the same, part of a run? Keep the previous item in a variable, and update it at the <strong>end</strong> of each pass.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e11"><div class="pc-title">How many times does the temperature rise?</div><textarea class="pc-src pc-code" hidden>rises = 0
+prev = int(input(&quot;Reading: &quot;))
+while True:
+    text = input(&quot;Reading (blank to stop): &quot;)
+    if text == &quot;&quot;:
+        break
+    t = int(text)
+    if t &gt; prev:
+        rises += 1
+    prev = t
+print(&quot;Rises:&quot;, rises)</textarea></div>
+<p>When the items are in a string, you can use positions instead, comparing <code>s[i]</code> with <code>s[i - 1]</code> for <code>i</code> from 1, as you did yesterday with neighbours.</p>
+<h2 id="choosing-and-combining">Choosing and combining</h2>
+<p>Here are some problems and the patterns they need:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Patterns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average of the readings</td>
+<td>accumulate + count</td>
+</tr>
+<tr>
+<td>Is this word a valid code (only capitals and digits)?</td>
+<td>all of</td>
+</tr>
+<tr>
+<td>Where is the first space?</td>
+<td>find first</td>
+</tr>
+<tr>
+<td>How long is the longest run of the same letter?</td>
+<td>compare with previous + best so far</td>
+</tr>
+<tr>
+<td>Remove the vowels and count what&rsquo;s removed</td>
+<td>filter + count</td>
+</tr>
+<tr>
+<td>Does the password contain a symbol?</td>
+<td>any of</td>
+</tr>
+</tbody>
+</table>
+<p>Several patterns can share <strong>one</strong> loop. Each keeps its own variables, set up before the loop:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d4-e12"><div class="pc-title">Three patterns, one loop</div><textarea class="pc-src pc-code" hidden>text = &quot;The Quick Brown fox&quot;
+capitals = 0
+no_spaces = &quot;&quot;
+longest_word = 0
+current = 0
+for ch in text:
+    if ch.isupper():
+        capitals += 1
+    if ch != &quot; &quot;:
+        no_spaces += ch
+        current += 1
+        if current &gt; longest_word:
+            longest_word = current
+    else:
+        current = 0
+print(capitals, no_spaces, longest_word)</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Before writing a loop, say the pattern names out loud. Then write the <strong>before</strong> lines for each one first. Most loop bugs are a missing or misplaced &ldquo;before&rdquo; line.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-name_patterns" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Name the patterns</div><div class="pc-prompt"><p>For each problem, choose the pattern it mainly needs: <code>"accumulate"</code>, <code>"count"</code>, <code>"filter"</code>, <code>"transform"</code>, <code>"find first"</code>, <code>"all of"</code>, <code>"any of"</code>, <code>"best so far"</code>, <code>"running total"</code> or <code>"previous"</code>.</p>
+<ol>
+<li>Does the sentence contain any question marks?</li>
+<li>Turn every letter of a word into its code number, separated by spaces.</li>
+<li>What&rsquo;s the highest mark in the class?</li>
+<li>Is every character in the PIN a digit?</li>
+<li>Where is the first capital letter?</li>
+<li>Print the score after each round of a game.</li>
+</ol></div><textarea class="pc-src pc-code" hidden>p1 = &quot;___&quot;
+p2 = &quot;___&quot;
+p3 = &quot;___&quot;
+p4 = &quot;___&quot;
+p5 = &quot;___&quot;
+p6 = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_all():
+    &quot;each pattern&quot;
+    want = [&quot;any of&quot;, &quot;transform&quot;, &quot;best so far&quot;, &quot;all of&quot;, &quot;find first&quot;, &quot;running total&quot;]
+    got = [p.strip().lower() for p in (p1, p2, p3, p4, p5, p6)]
+    for k in range(6):
+        assert got[k] == want[k], f&quot;Problem {k + 1} isn&#x27;t &#x27;{got[k]}&#x27;. Think about what it needs to keep track of.&quot;</textarea><textarea class="pc-src pc-solution" hidden>p1 = &quot;any of&quot;
+p2 = &quot;transform&quot;
+p3 = &quot;best so far&quot;
+p4 = &quot;all of&quot;
+p5 = &quot;find first&quot;
+p6 = &quot;running total&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-all_caps" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Shouting?</div><div class="pc-prompt"><p>Ask for a message with the prompt <code>Message:</code>. It&rsquo;s shouting if every letter in it is a capital (ignore non-letters) and it has at least one letter. Print <code>Shouting: True</code> or <code>Shouting: False</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_yes():
+    &quot;shouting&quot;
+    expect_output(&quot;Message: STOP THAT, NOW!\nShouting: True&quot;, inputs=[&quot;STOP THAT, NOW!&quot;], echo=True)
+def test_no():
+    &quot;one lower-case letter&quot;
+    expect_output(&quot;Message: STOP That\nShouting: False&quot;, inputs=[&quot;STOP That&quot;], echo=True)
+def test_no_letters():
+    &quot;no letters&quot;
+    expect_output(&quot;Message: 123 !!!\nShouting: False&quot;, inputs=[&quot;123 !!!&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>msg = input(&quot;Message: &quot;)
+all_caps = True
+any_letter = False
+for ch in msg:
+    if ch.isalpha():
+        any_letter = True
+        if not ch.isupper():
+            all_caps = False
+print(&quot;Shouting:&quot;, all_caps and any_letter)</textarea><template class="pc-src pc-hint">Two patterns: all of (every letter is a capital) and any of (there is at least one letter).</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-argmax" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Where is the biggest digit?</div><div class="pc-prompt"><p>Ask for a string of digits with the prompt <code>Digits:</code> and print <code>Biggest:</code> and the largest digit, then <code>First at position:</code> and the position of its <strong>first</strong> appearance.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several strings&quot;
+    for s, b, p in [(&quot;3819&quot;, 9, 3), (&quot;7472&quot;, 7, 0), (&quot;5&quot;, 5, 0), (&quot;1291&quot;, 9, 2), (&quot;4994&quot;, 9, 1)]:
+        expect_output(f&quot;Digits: {s}\nBiggest: {b}\nFirst at position: {p}&quot;, inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Digits: &quot;)
+best = int(s[0])
+best_at = 0
+for i in range(1, len(s)):
+    if int(s[i]) &gt; best:
+        best = int(s[i])
+        best_at = i
+print(&quot;Biggest:&quot;, best)
+print(&quot;First at position:&quot;, best_at)</textarea><template class="pc-src pc-hint">Best so far, with its position. Use <code>&gt;</code> (not <code>&gt;=</code>) so ties keep the first one.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-running" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Running score</div><div class="pc-prompt"><p>A game has rounds. Read each round&rsquo;s points with the prompt <code>Points:</code> until a blank line, printing <code>Total:</code> and the total so far after each round. Finally print <code>Rounds:</code> and the number of rounds.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_game():
+    &quot;four rounds&quot;
+    p = &quot;Points: &quot;
+    expect_output(f&quot;{p}10\nTotal: 10\n{p}25\nTotal: 35\n{p}-5\nTotal: 30\n{p}0\nTotal: 30\n{p}\nRounds: 4&quot;, inputs=[&quot;10&quot;, &quot;25&quot;, &quot;-5&quot;, &quot;0&quot;, &quot;&quot;], echo=True)
+def test_empty():
+    &quot;no rounds&quot;
+    expect_output(&quot;Points: \nRounds: 0&quot;, inputs=[&quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+rounds = 0
+while True:
+    text = input(&quot;Points: &quot;)
+    if text == &quot;&quot;:
+        break
+    total += int(text)
+    rounds += 1
+    print(&quot;Total:&quot;, total)
+print(&quot;Rounds:&quot;, rounds)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-longest_run" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Longest run</div><div class="pc-prompt"><p>Ask for a string with the prompt <code>Text:</code> and print <code>Longest run:</code> and the length of the longest run of one character repeated. <code>aabbbbcc</code> has a longest run of 4. Empty text has a longest run of 0.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several strings&quot;
+    for s, n in [(&quot;aabbbbcc&quot;, 4), (&quot;abc&quot;, 1), (&quot;zzzzz&quot;, 5), (&quot;&quot;, 0), (&quot;aabbaaa&quot;, 3), (&quot;mississippi&quot;, 2)]:
+        expect_output(f&quot;Text: {s}\nLongest run: {n}&quot;, inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+longest = 0
+current = 0
+prev = &quot;&quot;
+for ch in text:
+    if ch == prev:
+        current += 1
+    else:
+        current = 1
+    if current &gt; longest:
+        longest = current
+    prev = ch
+print(&quot;Longest run:&quot;, longest)</textarea><template class="pc-src pc-hint">Compare with previous (is this character the same as the last one?) and best so far (is this run the longest yet?).</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-first_repeat" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">First repeated letter</div><div class="pc-prompt"><p>Ask for a word with the prompt <code>Word:</code> and print the first letter that appears for the <strong>second</strong> time as you read from left to right, like <code>First repeat: l</code> for <code>hello</code>. If no letter repeats, print <code>No repeats</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several words&quot;
+    for w, want in [(&quot;hello&quot;, &quot;First repeat: l&quot;), (&quot;abcdeb&quot;, &quot;First repeat: b&quot;), (&quot;abca&quot;, &quot;First repeat: a&quot;), (&quot;python&quot;, &quot;No repeats&quot;), (&quot;abba&quot;, &quot;First repeat: b&quot;)]:
+        expect_output(f&quot;Word: {w}\n{want}&quot;, inputs=[w], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;)
+for i in range(len(word)):
+    if word[i] in word[:i]:
+        print(&quot;First repeat:&quot;, word[i])
+        break
+else:
+    print(&quot;No repeats&quot;)</textarea><template class="pc-src pc-hint">Find first: for each position <code>i</code>, has <code>word[i]</code> already appeared in <code>word[:i]</code>? The <code>in</code> operator checks that.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-word_count" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count the words</div><div class="pc-prompt"><p>Ask for a sentence with the prompt <code>Sentence:</code> and print <code>Words:</code> and the number of words. Words are separated by one or more spaces, and there may be spaces at the start or end.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several sentences&quot;
+    for s, n in [(&quot;the cat sat&quot;, 3), (&quot;  lots   of   space  &quot;, 3), (&quot;one&quot;, 1), (&quot;&quot;, 0), (&quot;   &quot;, 0)]:
+        expect_output(f&quot;Sentence: {s}\nWords: {n}&quot;, inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+words = 0
+prev = &quot; &quot;
+for ch in s:
+    if ch != &quot; &quot; and prev == &quot; &quot;:
+        words += 1
+    prev = ch
+print(&quot;Words:&quot;, words)</textarea><template class="pc-src pc-hint">Count the places where a word <strong>starts</strong>: a non-space character whose previous character is a space (or that is the very first character).</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The flag that flips back</div><div class="pc-prompt"><p>This should say whether every character is a digit, but it says <code>True</code> for <code>12a4</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>code = input(&quot;Code: &quot;)
+ok = True
+for ch in code:
+    if ch.isdigit():
+        ok = True
+    else:
+        ok = False
+print(&quot;All digits:&quot;, ok)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several codes&quot;
+    for c, want in [(&quot;1234&quot;, True), (&quot;12a4&quot;, False), (&quot;a234&quot;, False), (&quot;1239&quot;, True)]:
+        expect_output(f&quot;Code: {c}\nAll digits: {want}&quot;, inputs=[c], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>code = input(&quot;Code: &quot;)
+ok = True
+for ch in code:
+    if not ch.isdigit():
+        ok = False
+        break
+print(&quot;All digits:&quot;, ok)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Wrong position</div><div class="pc-prompt"><p>This should print the position of the smallest digit, but it always prints the last position. Fix it.</p></div><textarea class="pc-src pc-code" hidden>s = input(&quot;Digits: &quot;)
+smallest = s[0]
+where = 0
+for i in range(len(s)):
+    if s[i] &lt; smallest:
+        smallest = s[i]
+    where = i
+print(&quot;Smallest at&quot;, where)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several strings&quot;
+    for s, p in [(&quot;5381&quot;, 3), (&quot;1999&quot;, 0), (&quot;9192&quot;, 1), (&quot;7&quot;, 0)]:
+        expect_output(f&quot;Digits: {s}\nSmallest at {p}&quot;, inputs=[s], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Digits: &quot;)
+smallest = s[0]
+where = 0
+for i in range(len(s)):
+    if s[i] &lt; smallest:
+        smallest = s[i]
+        where = i
+print(&quot;Smallest at&quot;, where)</textarea><template class="pc-src pc-hint">The position should only change when the record changes.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Any of, or all of?</div><div class="pc-prompt"><p>This should say whether the name contains at least one digit, but it says <code>False</code> for <code>agent007</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>name = input(&quot;Name: &quot;)
+has_digit = True
+for ch in name:
+    if not ch.isdigit():
+        has_digit = False
+        break
+print(&quot;Has a digit:&quot;, has_digit)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several names&quot;
+    for n, want in [(&quot;agent007&quot;, True), (&quot;bond&quot;, False), (&quot;7up&quot;, True), (&quot;x&quot;, False)]:
+        expect_output(f&quot;Name: {n}\nHas a digit: {want}&quot;, inputs=[n], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;Name: &quot;)
+has_digit = False
+for ch in name:
+    if ch.isdigit():
+        has_digit = True
+        break
+print(&quot;Has a digit:&quot;, has_digit)</textarea><template class="pc-src pc-hint">This is written as an all-of check. The question is any-of: start <code>False</code> and look for one success.</template></div>
+<div class="parsons" data-id="w004d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Any vowels?</div><div class="pc-prompt"><p>Arrange the lines into an any-of check. One line is a trap.</p></div><script type="application/json">{"lines": ["word = input(\"Word: \")", "found = False", "for ch in word:", "    if ch in \"aeiou\":", "        found = True", "        break", "print(\"Has a vowel:\", found)"], "distractors": ["    else:", "        found = False"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">What do they print?</div><div class="pc-prompt"><p>Work out each answer without running anything.</p>
+<pre><code class="language-python"># A
+best = &quot;m&quot;
+for ch in &quot;python&quot;:
+    if ch &lt; best:
+        best = ch
+print(best)
+
+# B
+s = &quot;&quot;
+for ch in &quot;a1b2c3&quot;:
+    if ch.isdigit():
+        s = ch + s
+print(s)
+
+# C
+prev = &quot;&quot;
+count = 0
+for ch in &quot;aaabbaa&quot;:
+    if ch != prev:
+        count += 1
+    prev = ch
+print(count)
+</code></pre></div><textarea class="pc-src pc-code" hidden>answer_a = &quot;___&quot;
+answer_b = &quot;___&quot;
+answer_c = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;A&quot;
+    assert answer_a == &quot;h&quot;, &quot;Best so far, looking for the earliest letter, starting from &#x27;m&#x27;.&quot;
+def test_b():
+    &quot;B&quot;
+    assert answer_b == &quot;321&quot;, &quot;Filter the digits, putting each one in front.&quot;
+def test_c():
+    &quot;C&quot;
+    assert answer_c == 3, &quot;It counts the runs: aaa, bb, aa.&quot;</textarea><textarea class="pc-src pc-solution" hidden>answer_a = &quot;h&quot;
+answer_b = &quot;321&quot;
+answer_c = 3</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w004d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What value does an all-of flag start with?", "answer": 0, "explain": "Assume everything passes, and look for one failure.", "options": ["True", "False", "0", "None"]}, {"type": "mc", "q": "What value does an any-of flag start with?", "answer": 1, "explain": "Assume nothing passes, and look for one success.", "options": ["True", "False"]}, {"type": "mc", "q": "Which pattern answers &ldquo;how many words start with a capital&rdquo;?", "answer": 1, "explain": "A counter that goes up when the test passes.", "options": ["filter", "count", "transform", "best so far"]}, {"type": "output", "q": "What does this print?", "answer": "ABC", "explain": "A transform.", "code": "s = \"\"\nfor ch in \"abc\":\n    s += ch.upper()\nprint(s)"}, {"type": "mc", "q": "To keep the first of several equal best values, compare with&hellip;", "answer": 0, "explain": "With &gt; a tie doesn&rsquo;t replace the record.", "options": ["<blockquote></blockquote>", "<blockquote>\n<p>=</p>\n</blockquote>"]}, {"type": "mc", "q": "Where should prev = item go in a compare-with-previous loop?", "answer": 1, "explain": "Compare first, then remember this item for next time.", "options": ["Before the comparison", "At the end of each pass", "Before the loop only", "After the loop"]}, {"type": "output", "q": "What does this print?", "answer": "1 3 6 10 ", "explain": "A running total.", "code": "total = 0\nfor d in \"1234\":\n    total += int(d)\n    print(total, end=\" \")"}, {"type": "mc", "q": "Which needs best so far and compare with previous together?", "answer": 1, "explain": "Runs need the previous character; longest needs a record.", "options": ["Count the vowels", "Length of the longest run of one letter", "Remove the spaces", "Is there a digit?"]}, {"type": "output", "q": "What does this print?", "answer": "False", "explain": "b is lower case.", "code": "ok = True\nfor ch in \"AbC\":\n    if ch.islower():\n        ok = False\nprint(ok)"}, {"type": "mc", "q": "Can one loop carry out several patterns at once?", "answer": 0, "explain": "Set up each pattern&rsquo;s variables before the loop.", "options": ["Yes, each with its own variables", "No, one pattern per loop"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the best trade</div><div class="pc-prompt"><p>Read a share&rsquo;s price on each day with the prompt <code>Price:</code> (whole numbers) until a blank line. You may buy once and then sell once on a <strong>later</strong> day. Print <code>Best profit:</code> and the largest profit possible, or <code>Best profit: 0</code> if prices only fall (then you just don&rsquo;t trade).</p>
+<p>For prices <code>7, 1, 5, 3, 6, 4</code>, buying at 1 and selling at 6 gives 5.</p>
+<p>Use <strong>one</strong> loop, with no loop inside it.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def run_prices(ps):
+    p = &quot;Price: &quot;
+    return &quot;&quot;.join(f&quot;{p}{x}\n&quot; for x in ps) + f&quot;{p}\n&quot;
+def test_example():
+    &quot;the example&quot;
+    expect_output(run_prices([7, 1, 5, 3, 6, 4]) + &quot;Best profit: 5&quot;, inputs=[&quot;7&quot;, &quot;1&quot;, &quot;5&quot;, &quot;3&quot;, &quot;6&quot;, &quot;4&quot;, &quot;&quot;], echo=True)
+def test_falling():
+    &quot;prices only fall&quot;
+    expect_output(run_prices([9, 7, 4, 1]) + &quot;Best profit: 0&quot;, inputs=[&quot;9&quot;, &quot;7&quot;, &quot;4&quot;, &quot;1&quot;, &quot;&quot;], echo=True)
+def test_late_low():
+    &quot;the lowest price comes after the best profit&quot;
+    expect_output(run_prices([2, 10, 1, 5]) + &quot;Best profit: 8&quot;, inputs=[&quot;2&quot;, &quot;10&quot;, &quot;1&quot;, &quot;5&quot;, &quot;&quot;], echo=True)
+def test_one():
+    &quot;a single day&quot;
+    expect_output(run_prices([5]) + &quot;Best profit: 0&quot;, inputs=[&quot;5&quot;, &quot;&quot;], echo=True)
+def test_empty():
+    &quot;no days&quot;
+    expect_output(&quot;Price: \nBest profit: 0&quot;, inputs=[&quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>best = 0
+lowest = 0
+seen_any = False
+while True:
+    text = input(&quot;Price: &quot;)
+    if text == &quot;&quot;:
+        break
+    price = int(text)
+    if not seen_any or price &lt; lowest:
+        lowest = price
+        seen_any = True
+    if price - lowest &gt; best:
+        best = price - lowest
+print(&quot;Best profit:&quot;, best)</textarea><template class="pc-src pc-hint">Two best-so-far records: the <strong>lowest price seen so far</strong> (the best day to have bought), and the <strong>best profit so far</strong>.</template><template class="pc-src pc-hint">For each new price: the best profit from selling today is <code>price - lowest</code>. Check it against the record, then update <code>lowest</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>List the ten patterns from memory, with the &ldquo;before&rdquo; line each one needs. Then pick two exercises from Week 3 and name the patterns they used. Tomorrow: brute force, which means trying every possibility, and approximation, which means getting closer and closer to an answer you can&rsquo;t compute exactly.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w004d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w004d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w004d4", "week": 4, "day": 4, "title": "Loop patterns", "exercises": [{"id": "w004d4-name_patterns", "title": "Name the patterns", "points": 10}, {"id": "w004d4-all_caps", "title": "Shouting?", "points": 10}, {"id": "w004d4-argmax", "title": "Where is the biggest digit?", "points": 10}, {"id": "w004d4-running", "title": "Running score", "points": 10}, {"id": "w004d4-longest_run", "title": "Longest run", "points": 15}, {"id": "w004d4-first_repeat", "title": "First repeated letter", "points": 15}, {"id": "w004d4-word_count", "title": "Count the words", "points": 10}, {"id": "w004d4-bug1", "title": "The flag that flips back", "points": 10}, {"id": "w004d4-bug2", "title": "Wrong position", "points": 10}, {"id": "w004d4-bug3", "title": "Any of, or all of?", "points": 10}, {"id": "w004d4-trace", "title": "What do they print?", "points": 15}, {"id": "w004d4-challenge", "title": "Challenge: the best trade", "points": 25}], "points": 150}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9e41776864">
+<title>Week 4 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9e41776864">
+<link rel="stylesheet" href="../assets/css/site.css?v=9e41776864">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9e41776864"></script>
+<script src="../assets/vendor/codemirror.js?v=9e41776864" defer></script>
+<meta name="description" content="Four weeks in, you can make decisions, repeat work and walk through text. Today you’ll combine all of it: a mixed warm-up, a text analyser that produces a...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w004d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 4 Day 6: Forge">
+<meta property="og:description" content="Four weeks in, you can make decisions, repeat work and walk through text. Today you’ll combine all of it: a mixed warm-up, a text analyser that produces a...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w004d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-4">Week 4: Repetition II: for and range</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-text-analyser" data-sec="forge-the-text-analyser">Forge: the text analyser</a></li><li><a href="#forge-bonus-the-calendar" data-sec="forge-bonus-the-calendar">Forge bonus: the calendar</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-4-review" data-sec="week-4-review">Week 4 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 4, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>Four weeks in, you can make decisions, repeat work and walk through text. Today you&rsquo;ll combine all of it: a mixed warm-up, a text analyser that produces a full report from a paragraph, and a calendar printer that lays out a month in a neat grid. Then the weekly quiz and review.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Pick the right loop and the right pattern for each part of a larger problem</li><li>Combine several patterns in one program, each with its own set-up</li><li>Use nested loops to count and to lay out a grid</li><li>Format a multi-line report exactly to a specification</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:65" title="Forge: the text analyser: 65 min"></span><span class="plan-seg s1" style="flex:35" title="Forge bonus: the calendar: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 4 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: the text analyser</span><span class="plan-min">65 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Forge bonus: the calendar</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 4 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w004d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d6-p1"><textarea class="pc-src pc-code" hidden>for i in range(1, 4):
+    print(str(i) * i)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d6-p2"><textarea class="pc-src pc-code" hidden>s = &quot;&quot;
+for ch in &quot;Forge&quot;:
+    if ch.lower() not in &quot;aeiou&quot;:
+        s = ch + s
+print(s)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d6-p3"><textarea class="pc-src pc-code" hidden>total = 0
+for a in range(3):
+    for b in range(a):
+        total += 1
+print(total)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d6-p4"><textarea class="pc-src pc-code" hidden>print(list(range(10, 0, -4)))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d6-p5"><textarea class="pc-src pc-code" hidden>best = 0
+prev = &quot;&quot;
+run = 0
+for ch in &quot;aabbbab&quot;:
+    run = run + 1 if ch == prev else 1
+    best = max(best, run)
+    prev = ch
+print(best)</textarea></div>
+<p>If any of these surprised you, revisit <a href="w004d1.html">for over strings</a>, <a href="w004d2.html">range</a>, <a href="w004d3.html">nested loops</a>, <a href="w004d4.html">loop patterns</a> or <a href="w004d5.html">brute force</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d6-mix_fizz" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">FizzBuzz</div><div class="pc-prompt"><p>The most famous small programming test. Print the numbers 1 to 30, one per line, but print <code>Fizz</code> instead of numbers divisible by 3, <code>Buzz</code> instead of those divisible by 5, and <code>FizzBuzz</code> for those divisible by both.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;1 to 30&quot;
+    want = []
+    for n in range(1, 31):
+        want.append(&quot;FizzBuzz&quot; if n % 15 == 0 else &quot;Fizz&quot; if n % 3 == 0 else &quot;Buzz&quot; if n % 5 == 0 else str(n))
+    expect_output(&quot;\n&quot;.join(want))</textarea><textarea class="pc-src pc-solution" hidden>for n in range(1, 31):
+    if n % 15 == 0:
+        print(&quot;FizzBuzz&quot;)
+    elif n % 3 == 0:
+        print(&quot;Fizz&quot;)
+    elif n % 5 == 0:
+        print(&quot;Buzz&quot;)
+    else:
+        print(n)</textarea><template class="pc-src pc-hint">Check &ldquo;divisible by both&rdquo; first. Why does the order matter?</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d6-mix_title" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Title case</div><div class="pc-prompt"><p>Ask for a sentence with the prompt <code>Sentence:</code> and print it with the first letter of every word made capital and every other letter lower case. Words are separated by spaces. Use a loop, not <code>.title()</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several sentences&quot;
+    for s, t in [(&quot;the QUICK brown fox&quot;, &quot;The Quick Brown Fox&quot;), (&quot;hello&quot;, &quot;Hello&quot;), (&quot;a  b&quot;, &quot;A  B&quot;)]:
+        expect_output(f&quot;Sentence: {s}\n{t}&quot;, inputs=[s], echo=True)
+def test_no_title():
+    &quot;uses a loop&quot;
+    assert &quot;.title(&quot; not in source and &quot;.capitalize(&quot; not in source, &quot;Build it with a loop.&quot;</textarea><textarea class="pc-src pc-solution" hidden>s = input(&quot;Sentence: &quot;)
+result = &quot;&quot;
+prev = &quot; &quot;
+for ch in s:
+    if prev == &quot; &quot;:
+        result += ch.upper()
+    else:
+        result += ch.lower()
+    prev = ch
+print(result)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d6-mix_bars" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Bar chart</div><div class="pc-prompt"><p>Read whole numbers with the prompt <code>Value:</code> until a blank line, then print a horizontal bar for each, made of <code>#</code>, with the value after it. Each label is the value&rsquo;s position starting from 1.</p>
+<pre><code>Value: 3
+Value: 5
+Value: 
+1 ### 3
+2 ##### 5
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_two():
+    &quot;two values&quot;
+    expect_output(&quot;Value: 3\nValue: 5\nValue: \n1 ### 3\n2 ##### 5&quot;, inputs=[&quot;3&quot;, &quot;5&quot;, &quot;&quot;], echo=True)
+def test_zero():
+    &quot;a zero bar&quot;
+    expect_output(&quot;Value: 0\nValue: 2\nValue: \n1  0\n2 ## 2&quot;, inputs=[&quot;0&quot;, &quot;2&quot;, &quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>chart = &quot;&quot;
+k = 0
+while True:
+    text = input(&quot;Value: &quot;)
+    if text == &quot;&quot;:
+        break
+    k += 1
+    v = int(text)
+    if chart:
+        chart += &quot;\n&quot;
+    chart += f&quot;{k} {&#x27;#&#x27; * v} {v}&quot;
+print(chart)</textarea><template class="pc-src pc-hint">You can&rsquo;t print the bars until all the values are in, and you don&rsquo;t have lists yet. Build the whole chart as one string while reading, with <code>"\n"</code> between rows, and print it at the end.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d6-mix_diamond" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Diamond</div><div class="pc-prompt"><p>Ask for a size with the prompt <code>Size:</code> and draw a diamond whose middle row has <code>2 * size - 1</code> stars, with no spaces after the stars.</p>
+<pre><code>Size: 3
+  *
+ ***
+*****
+ ***
+  *
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def diamond(n):
+    rows = [&quot; &quot; * (n - r) + &quot;*&quot; * (2 * r - 1) for r in range(1, n + 1)]
+    return &quot;\n&quot;.join(rows + rows[-2::-1])
+def test_3():
+    &quot;size 3&quot;
+    expect_output(&quot;Size: 3\n&quot; + diamond(3), inputs=[&quot;3&quot;], echo=True)
+def test_1():
+    &quot;size 1&quot;
+    expect_output(&quot;Size: 1\n*&quot;, inputs=[&quot;1&quot;], echo=True)
+def test_5():
+    &quot;size 5&quot;
+    expect_output(&quot;Size: 5\n&quot; + diamond(5), inputs=[&quot;5&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Size: &quot;))
+for r in range(1, n + 1):
+    print(&quot; &quot; * (n - r) + &quot;*&quot; * (2 * r - 1))
+for r in range(n - 1, 0, -1):
+    print(&quot; &quot; * (n - r) + &quot;*&quot; * (2 * r - 1))</textarea><template class="pc-src pc-hint">Two loops: rows 1 up to <code>size</code>, then rows <code>size - 1</code> back down to 1. Row <code>r</code> is <code>size - r</code> spaces then <code>2r - 1</code> stars.</template></div>
+<h2 id="forge-the-text-analyser">Forge: the text analyser</h2>
+<p>About an hour. Read the specification, list the patterns you&rsquo;ll need for each line of the report, and write their set-up lines first. Then build the report one line at a time.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the text analyser</div><div class="pc-prompt"><p>Ask for a paragraph with the prompt <code>Text:</code> (one line) and print this report about it:</p>
+<pre><code>Characters: 63
+Letters: 50
+Words: 12
+Vowels: 19 (38.0% of letters)
+Longest word: paragraph
+Most common letter: a (9 times)
+Capitalised words: 2
+</code></pre>
+<p>The rules:</p>
+<ul>
+<li><strong>Characters</strong> counts everything, including spaces and punctuation.</li>
+<li><strong>Letters</strong> counts characters for which <code>.isalpha()</code> is <code>True</code>.</li>
+<li><strong>Words</strong> are separated by one or more spaces.</li>
+<li><strong>Vowels</strong> are a, e, i, o, u in either case. The percentage is of letters, with 1 decimal place. If there are no letters, print <code>Vowels: 0 (0.0% of letters)</code>.</li>
+<li><strong>Longest word</strong> is made only of the letters in a word, so <code>paragraph,</code> counts as <code>paragraph</code>. If two words tie, keep the first. Print it exactly as written (capitals kept).</li>
+<li><strong>Most common letter</strong> ignores case and is printed in lower case. On a tie, the letter earliest in the alphabet wins. If there are no letters, print <code>Most common letter: none</code>.</li>
+<li><strong>Capitalised words</strong> are words whose first character is a capital letter.</li>
+</ul>
+<p>For the example the text was <code>A paragraph is a group of sentences. This is a short paragraph.</code></p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)</textarea><textarea class="pc-src pc-tests" hidden>def report(text):
+    letters = [c for c in text if c.isalpha()]
+    vowels = [c for c in letters if c.lower() in &quot;aeiou&quot;]
+    words = text.split()
+    longest = &quot;&quot;
+    for w in words:
+        core = &quot;&quot;.join(c for c in w if c.isalpha())
+        if len(core) &gt; len(longest):
+            longest = core
+    if letters:
+        best = max(&quot;abcdefghijklmnopqrstuvwxyz&quot;, key=lambda L: (sum(1 for c in letters if c.lower() == L), -ord(L)))
+        n = sum(1 for c in letters if c.lower() == best)
+        common = f&quot;{best} ({n} times)&quot;
+        pct = len(vowels) / len(letters) * 100
+    else:
+        common = &quot;none&quot;
+        pct = 0.0
+    caps = sum(1 for w in words if w[0].isupper())
+    return &quot;\n&quot;.join([f&quot;Characters: {len(text)}&quot;, f&quot;Letters: {len(letters)}&quot;, f&quot;Words: {len(words)}&quot;,
+                      f&quot;Vowels: {len(vowels)} ({pct:.1f}% of letters)&quot;, f&quot;Longest word: {longest}&quot;,
+                      f&quot;Most common letter: {common}&quot;, f&quot;Capitalised words: {caps}&quot;])
+def check(text):
+    expect_output(&quot;Text: &quot; + text + &quot;\n&quot; + report(text), inputs=[text], echo=True)
+def test_example():
+    &quot;the example&quot;
+    check(&quot;A paragraph is a group of sentences. This is a short paragraph.&quot;)
+def test_spaces():
+    &quot;extra spaces&quot;
+    check(&quot;  Hello   World  &quot;)
+def test_ties():
+    &quot;ties for longest word and most common letter&quot;
+    check(&quot;bat cab tab&quot;)
+def test_no_letters():
+    &quot;no letters at all&quot;
+    check(&quot;123 456!&quot;)
+def test_capitals():
+    &quot;capitals and punctuation&quot;
+    check(&quot;Python, Java and C. Which is Best?&quot;)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+lower = text.lower()
+
+letters = 0
+vowels = 0
+for ch in text:
+    if ch.isalpha():
+        letters += 1
+        if ch.lower() in &quot;aeiou&quot;:
+            vowels += 1
+
+words = 0
+capitalised = 0
+longest = &quot;&quot;
+current = &quot;&quot;
+prev = &quot; &quot;
+for ch in text + &quot; &quot;:
+    if ch != &quot; &quot; and prev == &quot; &quot;:
+        words += 1
+        if ch.isupper():
+            capitalised += 1
+    if ch == &quot; &quot;:
+        if len(current) &gt; len(longest):
+            longest = current
+        current = &quot;&quot;
+    elif ch.isalpha():
+        current += ch
+    prev = ch
+
+best_letter = &quot;&quot;
+best_count = 0
+for letter in &quot;abcdefghijklmnopqrstuvwxyz&quot;:
+    count = 0
+    for ch in lower:
+        if ch == letter:
+            count += 1
+    if count &gt; best_count:
+        best_letter = letter
+        best_count = count
+
+pct = vowels / letters * 100 if letters else 0.0
+print(&quot;Characters:&quot;, len(text))
+print(&quot;Letters:&quot;, letters)
+print(&quot;Words:&quot;, words)
+print(f&quot;Vowels: {vowels} ({pct:.1f}% of letters)&quot;)
+print(&quot;Longest word:&quot;, longest)
+if best_count:
+    print(f&quot;Most common letter: {best_letter} ({best_count} times)&quot;)
+else:
+    print(&quot;Most common letter: none&quot;)
+print(&quot;Capitalised words:&quot;, capitalised)</textarea><template class="pc-src pc-hint">Counting characters, letters and vowels is one simple loop (count patterns). Words, capitalised words and the longest word can share a second loop over characters that notices where words start and end (compare with previous).</template><template class="pc-src pc-hint">For the longest word, build the current word&rsquo;s letters in a string as you go. When a space ends a word (and also after the loop, for the last word), compare its length with the best so far.</template><template class="pc-src pc-hint">For the most common letter, loop over <code>"abcdefghijklmnopqrstuvwxyz"</code> and count each letter in the lower-case text with an inner loop. Use <code>&gt;</code> so the earliest letter wins ties.</template></div>
+<aside class="callout c-think"><div class="callout-t">Look back at your analyser</div><p>How many loops did you write? Count the &ldquo;before&rdquo; lines each pattern needed. Most real programs are exactly this: several familiar patterns sharing a job. Notice too how the trick of adding a space to the end of the text (<code>text + " "</code>) saved writing the end-of-word check twice.</p></aside>
+<h2 id="forge-bonus-the-calendar">Forge bonus: the calendar</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: the calendar</div><div class="pc-prompt"><p>Ask for the number of days in a month with the prompt <code>Days:</code> and the weekday the month starts on with the prompt <code>Starts on (1=Mon ... 7=Sun):</code>. Print the month as a calendar grid:</p>
+<pre><code> Mo Tu We Th Fr Sa Su
+        1  2  3  4  5
+  6  7  8  9 10 11 12
+ 13 14 15 16 17 18 19
+ 20 21 22 23 24 25 26
+ 27 28 29 30
+</code></pre>
+<p>Every cell is 3 characters wide, right-aligned. Empty cells before day 1 are 3 spaces. Lines end straight after the last day, with no trailing spaces. That example is <code>Days: 30</code> and <code>Starts on (1=Mon ... 7=Sun): 3</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def cal(days, start):
+    rows = [&quot; Mo Tu We Th Fr Sa Su&quot;]
+    line = &quot;   &quot; * (start - 1)
+    col = start - 1
+    for d in range(1, days + 1):
+        line += f&quot;{d:3}&quot;
+        col += 1
+        if col == 7:
+            rows.append(line)
+            line, col = &quot;&quot;, 0
+    if line:
+        rows.append(line)
+    return &quot;\n&quot;.join(rows)
+def check(days, start):
+    expect_output(f&quot;Days: {days}\nStarts on (1=Mon ... 7=Sun): {start}\n&quot; + cal(days, start), inputs=[str(days), str(start)], echo=True)
+def test_example():
+    &quot;the example&quot;
+    check(30, 3)
+def test_monday():
+    &quot;starts on Monday&quot;
+    check(31, 1)
+def test_sunday():
+    &quot;starts on Sunday&quot;
+    check(31, 7)
+def test_feb():
+    &quot;a 28-day February starting on Monday fills exactly four rows&quot;
+    check(28, 1)</textarea><textarea class="pc-src pc-solution" hidden>days = int(input(&quot;Days: &quot;))
+start = int(input(&quot;Starts on (1=Mon ... 7=Sun): &quot;))
+print(&quot; Mo Tu We Th Fr Sa Su&quot;)
+line = &quot;   &quot; * (start - 1)
+col = start - 1
+for d in range(1, days + 1):
+    line += f&quot;{d:3}&quot;
+    col += 1
+    if col == 7:
+        print(line)
+        line = &quot;&quot;
+        col = 0
+if line:
+    print(line)</textarea><template class="pc-src pc-hint">Keep track of which column you&rsquo;re in (0 to 6). Start the first row with <code>start - 1</code> empty cells. After printing a day, move one column on; when you reach column 7, end the row and go back to column 0.</template><template class="pc-src pc-hint">Build each row as a string and print it when it&rsquo;s full. After the loop, print the last row if it isn&rsquo;t empty.</template></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w004d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "text", "q": "How many times does the body run?", "answer": ["5", "five"], "explain": "Once per character.", "code": "for ch in \"loops\":\n    print(ch)"}, {"type": "mc", "q": "What is <code>word</code> after this?", "answer": 0, "explain": "Changing the loop variable doesn&rsquo;t change the string.", "options": ["&ldquo;ab&rdquo;", "&ldquo;AB&rdquo;", "&ldquo;B&rdquo;"], "code": "word = \"ab\"\nfor ch in word:\n    ch = ch.upper()"}, {"type": "text", "q": "What does <code>list(range(2, 9, 3))</code> give?", "answer": ["[2, 5, 8]", "[2,5,8]"], "explain": "From 2 in steps of 3, stopping before 9."}, {"type": "mc", "q": "Which range gives 10, 9, &hellip;, 1?", "answer": 1, "explain": "Stop is never included, so it must be 0.", "options": ["<code>range(10, 1, -1)</code>", "<code>range(10, 0, -1)</code>", "<code>range(1, 10, -1)</code>", "<code>range(10, 0)</code>"]}, {"type": "mc", "q": "Why does <code>for i in range(len(s)): s[i + 1]</code> crash?", "answer": 1, "explain": "Use range(len(s) - 1) when looking one ahead.", "options": ["i starts at 1", "On the last pass, s[len(s)] doesn&rsquo;t exist", "range can&rsquo;t use len", "It doesn&rsquo;t crash"]}, {"type": "text", "q": "How many times does the inner body run?", "answer": ["6", "six"], "explain": "0 + 1 + 2 + 3.", "code": "for a in range(4):\n    for b in range(a):\n        pass"}, {"type": "mc", "q": "What does break inside an inner loop do?", "answer": 1, "explain": "Use a flag to stop the outer one.", "options": ["Stops both loops", "Stops only the inner loop", "Stops the program"]}, {"type": "output", "q": "What does this print?", "answer": "0\n01\n012", "explain": "Row r prints 0 to r - 1.", "code": "for r in range(1, 4):\n    for c in range(r):\n        print(c, end=\"\")\n    print()"}, {"type": "mc", "q": "An all-of flag starts as&hellip;", "answer": 0, "explain": "Assume yes, look for a failure.", "options": ["True", "False"]}, {"type": "mc", "q": "Which pattern finds the position of the largest digit?", "answer": 1, "explain": "Remember the record and where it was.", "options": ["count", "best so far, keeping its position", "filter", "find first"]}, {"type": "output", "q": "What does this print?", "answer": "1 3 6 10 ", "explain": "A running total.", "code": "total = 0\nfor k in range(1, 5):\n    total += k\n    print(total, end=\" \")"}, {"type": "mc", "q": "Why stop an approximation on a tolerance?", "answer": 1, "explain": "== might never become True.", "options": ["It&rsquo;s faster to type", "Floats are rarely exactly equal", "Python requires it"]}, {"type": "mc", "q": "What is the next bisection interval for \u221a20 from lo = 0, hi = 20?", "answer": 0, "explain": "mid is 10, and 100 is not &lt; 20.", "options": ["(0, 10)", "(10, 20)", "(0, 5)"]}, {"type": "text", "q": "Roughly how many candidates do two nested loops, each over <code>range(1000)</code>, try?", "answer": ["1000000", "1,000,000", "a million", "one million"], "explain": "1,000 x 1,000."}, {"type": "mc", "q": "Which job needs while rather than for?", "answer": 2, "explain": "You don&rsquo;t know how many passes it needs.", "options": ["Print every character of a word", "Sum 1 to 100", "Keep asking until the input is a valid number", "Draw a triangle"]}]</script></div>
+<h2 id="week-4-review">Week 4 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I can loop over a string with <code>for</code>, and I know why changing the loop variable changes nothing. (<a href="w004d1.html">Day 1</a>)</li>
+<li>I can predict any <code>range</code>, count down, and loop over positions without going out of range. (<a href="w004d2.html">Day 2</a>)</li>
+<li>I can draw shapes and tables with nested loops, visit every pair, and estimate how much work nested loops do. (<a href="w004d3.html">Day 3</a>)</li>
+<li>I can name the ten loop patterns and combine them in one loop. (<a href="w004d4.html">Day 4</a>)</li>
+<li>I can solve a puzzle by brute force, and approximate a square root with bisection and Newton&rsquo;s method. (<a href="w004d5.html">Day 5</a>)</li>
+<li>I built a full text report and a calendar from a specification. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week: strings in depth, with their methods, <code>split</code> and <code>join</code>, formatting, and Unicode, ending with a cipher.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w004d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w004d6", "week": 4, "day": 6, "title": "Forge", "exercises": [{"id": "w004d6-mix_fizz", "title": "FizzBuzz", "points": 10}, {"id": "w004d6-mix_title", "title": "Title case", "points": 10}, {"id": "w004d6-mix_bars", "title": "Bar chart", "points": 10}, {"id": "w004d6-mix_diamond", "title": "Diamond", "points": 10}, {"id": "w004d6-forge", "title": "Forge: the text analyser", "points": 50}, {"id": "w004d6-forge2", "title": "Forge bonus: the calendar", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

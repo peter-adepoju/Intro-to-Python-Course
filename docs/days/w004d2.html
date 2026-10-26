@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9e41776864">
+<title>Week 4 Day 2: range in depth | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9e41776864">
+<link rel="stylesheet" href="../assets/css/site.css?v=9e41776864">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9e41776864"></script>
+<script src="../assets/vendor/codemirror.js?v=9e41776864" defer></script>
+<meta name="description" content="range turns a for loop into a counting loop: start here, stop before there, take steps of this size. Today you’ll master its three forms, see why the stop...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w004d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 4 Day 2: range in depth">
+<meta property="og:description" content="range turns a for loop into a counting loop: start here, stop before there, take steps of this size. Today you’ll master its three forms, see why the stop...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w004d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-4">Week 4: Repetition II: for and range</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#range-a-sequence-of-numbers" data-sec="range-a-sequence-of-numbers">range: a sequence of numbers</a></li><li><a href="#counting-loops-with-for" data-sec="counting-loops-with-for">Counting loops with for</a></li><li><a href="#positions-range-len-s" data-sec="positions-range-len-s">Positions: range(len(s))</a></li><li><a href="#neighbours-and-staying-inside-the-string" data-sec="neighbours-and-staying-inside-the-string">Neighbours, and staying inside the string</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 4, Day 2</span></p>
+      <h1>range in depth</h1>
+      <div class="day-intro"><p><code>range</code> turns a <code>for</code> loop into a counting loop: start here, stop before there, take steps of this size. Today you&rsquo;ll master its three forms, see why the stop value is never included, count backwards, and use <code>range(len(s))</code> to get the position of every character as well as the character itself.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Use <code>range(stop)</code>, <code>range(start, stop)</code> and <code>range(start, stop, step)</code>, including negative steps</li><li>Predict exactly which numbers a range produces, and how many</li><li>Replace counting <code>while</code> loops with <code>for</code> and <code>range</code></li><li>Loop over positions with <code>range(len(s))</code>, and compare neighbouring characters safely</li><li>Repeat something a fixed number of times with <code>for _ in range(n)</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="The three forms of range: 35 min"></span><span class="plan-seg s0" style="flex:20" title="Counting loops with for: 20 min"></span><span class="plan-seg s1" style="flex:35" title="Positions: range(len(s)): 35 min"></span><span class="plan-seg s0" style="flex:20" title="Neighbours and off-by-one: 20 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The three forms of range</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Counting loops with for</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Positions: range(len(s))</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Neighbours and off-by-one</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w004d2.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d2-p1"><textarea class="pc-src pc-code" hidden>n = 1
+while n &lt;= 5:
+    print(n * n, end=&quot; &quot;)
+    n += 1</textarea></div>
+<p>A counting <code>while</code> loop: start at 1, keep going while <code>n &lt;= 5</code>, add 1 each time. That&rsquo;s three parts in three places. <code>range</code> puts all three in one spot.</p>
+<h2 id="range-a-sequence-of-numbers">range: a sequence of numbers</h2>
+<p><code>range(5)</code> is a sequence of the numbers 0, 1, 2, 3, 4. A <code>for</code> loop walks through it just as it walks through a string:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e2"><textarea class="pc-src pc-code" hidden>for n in range(5):
+    print(n)</textarea></div>
+<p>Five numbers, starting at 0 and stopping <strong>before</strong> 5. That&rsquo;s the most important fact about <code>range</code>: <strong>the stop value is never included</strong>.</p>
+<h3 id="three-forms">Three forms</h3>
+<table>
+<thead>
+<tr>
+<th>You write</th>
+<th>You get</th>
+<th>Read as</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>range(stop)</code></td>
+<td>0, 1, &hellip;, stop − 1</td>
+<td>&ldquo;stop numbers, from 0&rdquo;</td>
+</tr>
+<tr>
+<td><code>range(start, stop)</code></td>
+<td>start, &hellip;, stop − 1</td>
+<td>&ldquo;from start, up to but not including stop&rdquo;</td>
+</tr>
+<tr>
+<td><code>range(start, stop, step)</code></td>
+<td>start, start + step, &hellip;</td>
+<td>&ldquo;from start, in steps of step, before stop&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<p>Explore them. Try each preset, then make your own:</p>
+<figure class="widget" data-widget="rangeviz"><script type="application/json">{"start": 0, "stop": 10, "step": 1}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The yellow dot is the start; the red ring is stop, which is never included. Try a negative step, and a range that comes out empty.</figcaption></figure>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d2-p3"><textarea class="pc-src pc-code" hidden>for n in range(3, 8):
+    print(n, end=&quot; &quot;)
+print()
+for n in range(0, 20, 5):
+    print(n, end=&quot; &quot;)
+print()
+for n in range(10, 0, -2):
+    print(n, end=&quot; &quot;)</textarea></div>
+<h3 id="why-stop-isn-t-included">Why stop isn&rsquo;t included</h3>
+<p>It seems odd at first, but it makes everyday sums tidy:</p>
+<ul>
+<li><code>range(n)</code> has exactly <code>n</code> numbers. <code>range(a, b)</code> has exactly <code>b - a</code>.</li>
+<li><code>range(len(s))</code> gives exactly the valid positions of a string <code>s</code>, from 0 to <code>len(s) - 1</code>.</li>
+<li>Two ranges join without overlap: <code>range(0, 5)</code> then <code>range(5, 10)</code> covers 0 to 9 with nothing repeated.</li>
+</ul>
+<p>It matches slicing, too: <code>s[2:5]</code> stops before position 5, just as <code>range(2, 5)</code> stops before 5.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>To count from 1 to <code>n</code> <strong>inclusive</strong>, write <code>range(1, n + 1)</code>.</p></aside>
+<h3 id="counting-down">Counting down</h3>
+<p>A negative step counts backwards. Now the range stops <strong>before going below</strong> the stop value:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e4"><div class="pc-title">Countdown</div><textarea class="pc-src pc-code" hidden>for n in range(10, 0, -1):
+    print(n, end=&quot; &quot;)
+print(&quot;Lift off!&quot;)</textarea></div>
+<p>To count down to 0 inclusive, the stop must be -1: <code>range(10, -1, -1)</code>.</p>
+<h3 id="empty-ranges">Empty ranges</h3>
+<p>If the start is already at or past the stop, the range is empty and the loop body never runs:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e5"><textarea class="pc-src pc-code" hidden>for n in range(5, 5):
+    print(&quot;never&quot;)
+for n in range(10, 0):
+    print(&quot;never either: counting up from 10 never reaches 0&quot;)
+print(&quot;done&quot;)</textarea></div>
+<h3 id="looking-inside-a-range">Looking inside a range</h3>
+<p>A range doesn&rsquo;t store its numbers; it works each one out when the loop asks for it. That&rsquo;s why <code>range(1000000000)</code> costs almost nothing. To see the numbers, turn the range into a list (you&rsquo;ll meet lists properly in Week 8):</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e6"><textarea class="pc-src pc-code" hidden>print(list(range(4)))
+print(list(range(2, 12, 3)))
+print(len(range(0, 100, 7)))
+print(50 in range(0, 100, 5))</textarea></div>
+<h2 id="counting-loops-with-for">Counting loops with for</h2>
+<p>Every counting <code>while</code> loop from last week can be a <code>for</code> loop. Here&rsquo;s the sum from Week 3, Day 2:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e7"><div class="pc-title">Sum of 1 to 100</div><textarea class="pc-src pc-code" hidden>total = 0
+for n in range(1, 101):
+    total += n
+print(total)</textarea></div>
+<p>And factorial:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e8"><div class="pc-title">10 factorial</div><textarea class="pc-src pc-code" hidden>product = 1
+for k in range(2, 11):
+    product *= k
+print(product)</textarea></div>
+<h3 id="repeat-n-times">Repeat n times</h3>
+<p>When you just want to repeat something and don&rsquo;t need the counter, call it <code>_</code>. It&rsquo;s an ordinary name, but it tells readers &ldquo;I&rsquo;m not going to use this&rdquo;:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e9"><div class="pc-title">Three cheers</div><textarea class="pc-src pc-code" hidden>for _ in range(3):
+    print(&quot;Hip hip hooray!&quot;)</textarea></div>
+<h2 id="positions-range-len-s">Positions: range(len(s))</h2>
+<p>A <code>for</code> loop over a string gives you each character, but not its position. When you need the position, loop over the <strong>positions</strong> instead, and look up each character:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e10"><div class="pc-title">Characters and their positions</div><textarea class="pc-src pc-code" hidden>word = &quot;range&quot;
+for i in range(len(word)):
+    print(i, word[i])</textarea></div>
+<p><code>range(len(word))</code> is <code>range(5)</code>: exactly the indexes 0 to 4. This is the pattern to use when the position matters:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e11"><div class="pc-title">Where are the vowels?</div><textarea class="pc-src pc-code" hidden>word = input(&quot;Word: &quot;)
+for i in range(len(word)):
+    if word[i] in &quot;aeiou&quot;:
+        print(word[i], &quot;at position&quot;, i)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e12"><div class="pc-title">Every other character</div><textarea class="pc-src pc-code" hidden>text = &quot;abcdefghij&quot;
+result = &quot;&quot;
+for i in range(0, len(text), 2):
+    result += text[i]
+print(result)</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Use <code>for ch in s</code> when you only need the characters. Use <code>for i in range(len(s))</code> when you need positions. (In Week 9 you&rsquo;ll meet <code>enumerate</code>, which gives you both at once.)</p></aside>
+<h2 id="neighbours-and-staying-inside-the-string">Neighbours, and staying inside the string</h2>
+<p>Some jobs compare each character with the <strong>next</strong> one: finding double letters, or checking whether letters are in alphabetical order. Then <code>s[i + 1]</code> must exist, so the last <code>i</code> has to be <code>len(s) - 2</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e13"><div class="pc-title">Double letters</div><textarea class="pc-src pc-code" hidden>word = input(&quot;Word: &quot;)
+for i in range(len(word) - 1):
+    if word[i] == word[i + 1]:
+        print(&quot;Double&quot;, word[i], &quot;at position&quot;, i)</textarea></div>
+<p>With <code>range(len(word))</code> instead, the last pass would look at <code>word[len(word)]</code>, one past the end:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d2-e14"><div class="pc-title">One too far</div><textarea class="pc-src pc-code" hidden>word = &quot;book&quot;
+for i in range(len(word)):
+    if word[i] == word[i + 1]:
+        print(&quot;double&quot;, word[i])</textarea></div>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>IndexError: string index out of range</code> inside a loop almost always means the loop went one step too far. Check the stop value of your <code>range</code>, and every <code>[i + 1]</code> or <code>[i - 1]</code>.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-table" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Times table with range</div><div class="pc-prompt"><p>Ask for a number with the prompt <code>Table:</code> and print its times table from 1 to 12 (<code>1 x 7 = 7</code> and so on), using <code>for</code> and <code>range</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_9():
+    &quot;the 9 times table&quot;
+    expect_output(&quot;Table: 9\n&quot; + &quot;\n&quot;.join(f&quot;{i} x 9 = {9 * i}&quot; for i in range(1, 13)), inputs=[&quot;9&quot;], echo=True)
+def test_range():
+    &quot;uses range&quot;
+    assert &quot;range(&quot; in source and &quot;while&quot; not in source, &quot;Use for and range this time.&quot;</textarea><textarea class="pc-src pc-solution" hidden>t = int(input(&quot;Table: &quot;))
+for i in range(1, 13):
+    print(f&quot;{i} x {t} = {i * t}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-odd_sum" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Odd numbers only</div><div class="pc-prompt"><p>Ask for a number with the prompt <code>Up to:</code> and print <code>Sum:</code> and the sum of the odd numbers from 1 up to and including it. Use a range with a step of 2, and no <code>if</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several limits&quot;
+    for n in [9, 10, 1, 0, 99]:
+        expect_output(f&quot;Up to: {n}\nSum: {sum(range(1, n + 1, 2))}&quot;, inputs=[str(n)], echo=True)
+def test_no_if():
+    &quot;no if needed&quot;
+    assert &quot;if &quot; not in source, &quot;Let the range&#x27;s step do the work.&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Up to: &quot;))
+total = 0
+for k in range(1, n + 1, 2):
+    total += k
+print(&quot;Sum:&quot;, total)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-countdown" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Countdown in fives</div><div class="pc-prompt"><p>Ask for a starting number with the prompt <code>Start:</code> and count down in fives as far as you can without going below 0, on one line separated by spaces. <code>Start: 23</code> prints <code>23 18 13 8 3</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_23():
+    &quot;from 23&quot;
+    got = norm(run(inputs=[&quot;23&quot;], echo=True))
+    assert got == &quot;Start: 23\n23 18 13 8 3&quot;, &quot;Expected:\nStart: 23\n23 18 13 8 3\nGot:\n&quot; + got
+def test_20():
+    &quot;from 20, which reaches 0&quot;
+    got = norm(run(inputs=[&quot;20&quot;], echo=True))
+    assert got == &quot;Start: 20\n20 15 10 5 0&quot;, &quot;Expected:\nStart: 20\n20 15 10 5 0\nGot:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>start = int(input(&quot;Start: &quot;))
+for n in range(start, -1, -5):
+    print(n, end=&quot; &quot;)</textarea><template class="pc-src pc-hint"><code>range(start, -1, -5)</code>: the stop is -1 so that 0 is included.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-positions" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Find every position</div><div class="pc-prompt"><p>Ask for a word with the prompt <code>Word:</code> and a letter with the prompt <code>Letter:</code>, and print the positions where the letter appears, on one line separated by spaces, like <code>1 3 5</code>. If it doesn&rsquo;t appear, print <code>Not found</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_banana():
+    &quot;a in banana&quot;
+    expect_output(&quot;Word: banana\nLetter: a\n1 3 5&quot;, inputs=[&quot;banana&quot;, &quot;a&quot;], echo=True)
+def test_none():
+    &quot;not there&quot;
+    expect_output(&quot;Word: banana\nLetter: z\nNot found&quot;, inputs=[&quot;banana&quot;, &quot;z&quot;], echo=True)
+def test_first():
+    &quot;at the start&quot;
+    expect_output(&quot;Word: apple\nLetter: a\n0&quot;, inputs=[&quot;apple&quot;, &quot;a&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;)
+letter = input(&quot;Letter: &quot;)
+found = &quot;&quot;
+for i in range(len(word)):
+    if word[i] == letter:
+        found += str(i) + &quot; &quot;
+if found:
+    print(found.strip())
+else:
+    print(&quot;Not found&quot;)</textarea><template class="pc-src pc-hint">Build a string of positions. After the loop, if it&rsquo;s still empty, print <code>Not found</code>; otherwise print it (without a trailing space).</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-squares_table" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Squares and cubes</div><div class="pc-prompt"><p>Print a table of the numbers 1 to 10 with their squares and cubes. Each column is right-aligned in 6 characters:</p>
+<pre><code>     n     n²     n³
+     1      1      1
+     2      4      8
+</code></pre>
+<p>&hellip;down to 10.</p></div><textarea class="pc-src pc-code" hidden>print(f&quot;{&#x27;n&#x27;:&gt;6}{&#x27;n²&#x27;:&gt;7}{&#x27;n³&#x27;:&gt;7}&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the table&quot;
+    want = [f&quot;{&#x27;n&#x27;:&gt;6}{&#x27;n²&#x27;:&gt;7}{&#x27;n³&#x27;:&gt;7}&quot;] + [f&quot;{n:&gt;6}{n * n:&gt;7}{n ** 3:&gt;7}&quot; for n in range(1, 11)]
+    expect_output(&quot;\n&quot;.join(want))</textarea><textarea class="pc-src pc-solution" hidden>print(f&quot;{&#x27;n&#x27;:&gt;6}{&#x27;n²&#x27;:&gt;7}{&#x27;n³&#x27;:&gt;7}&quot;)
+for n in range(1, 11):
+    print(f&quot;{n:&gt;6}{n * n:&gt;7}{n ** 3:&gt;7}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-alpha_order" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">In alphabetical order?</div><div class="pc-prompt"><p>Ask for a word with the prompt <code>Word:</code> and print <code>Alphabetical: True</code> if its letters are in alphabetical order from left to right (repeats allowed), like <code>almost</code> or <code>billowy</code>. Compare neighbours. Capitals don&rsquo;t matter.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_yes():
+    &quot;almost and billowy&quot;
+    expect_output(&quot;Word: almost\nAlphabetical: True&quot;, inputs=[&quot;almost&quot;], echo=True)
+    expect_output(&quot;Word: Billowy\nAlphabetical: True&quot;, inputs=[&quot;Billowy&quot;], echo=True)
+def test_no():
+    &quot;python&quot;
+    expect_output(&quot;Word: python\nAlphabetical: False&quot;, inputs=[&quot;python&quot;], echo=True)
+def test_short():
+    &quot;one letter&quot;
+    expect_output(&quot;Word: a\nAlphabetical: True&quot;, inputs=[&quot;a&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;).lower()
+ok = True
+for i in range(len(word) - 1):
+    if word[i] &gt; word[i + 1]:
+        ok = False
+        break
+print(&quot;Alphabetical:&quot;, ok)</textarea><template class="pc-src pc-hint">Loop over <code>range(len(word) - 1)</code> and compare <code>word[i]</code> with <code>word[i + 1]</code>. One pair the wrong way round is enough to say False.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-pattern" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Mirror numbers</div><div class="pc-prompt"><p>Ask for a number with the prompt <code>n:</code> and print the numbers from 1 up to <code>n</code> and back down to 1 on one line, separated by spaces. <code>n: 4</code> prints <code>1 2 3 4 3 2 1</code>. Use two <code>for</code> loops.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_4():
+    &quot;n = 4&quot;
+    got = norm(run(inputs=[&quot;4&quot;], echo=True))
+    assert got == &quot;n: 4\n1 2 3 4 3 2 1&quot;, &quot;Got:\n&quot; + got
+def test_1():
+    &quot;n = 1&quot;
+    got = norm(run(inputs=[&quot;1&quot;], echo=True))
+    assert got == &quot;n: 1\n1&quot;, &quot;Got:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;n: &quot;))
+for k in range(1, n + 1):
+    print(k, end=&quot; &quot;)
+for k in range(n - 1, 0, -1):
+    print(k, end=&quot; &quot;)</textarea><template class="pc-src pc-hint">The first loop goes 1 to <code>n</code>; the second goes <code>n - 1</code> down to 1.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">One short again</div><div class="pc-prompt"><p>This should add up 1 to <code>n</code>, but for <code>n = 10</code> it gives 45. Fix the range.</p></div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;n: &quot;))
+total = 0
+for k in range(1, n):
+    total += k
+print(&quot;Sum:&quot;, total)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several n&quot;
+    for n in [10, 1, 100]:
+        expect_output(f&quot;n: {n}\nSum: {n * (n + 1) // 2}&quot;, inputs=[str(n)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;n: &quot;))
+total = 0
+for k in range(1, n + 1):
+    total += k
+print(&quot;Sum:&quot;, total)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Index out of range</div><div class="pc-prompt"><p>This should count the places where a letter is followed by the same letter, but it crashes. Fix it.</p></div><textarea class="pc-src pc-code" hidden>word = input(&quot;Word: &quot;)
+doubles = 0
+for i in range(len(word)):
+    if word[i] == word[i + 1]:
+        doubles += 1
+print(&quot;Doubles:&quot;, doubles)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several words&quot;
+    for w, d in [(&quot;bookkeeper&quot;, 3), (&quot;python&quot;, 0), (&quot;aaa&quot;, 2), (&quot;x&quot;, 0)]:
+        expect_output(f&quot;Word: {w}\nDoubles: {d}&quot;, inputs=[w], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;)
+doubles = 0
+for i in range(len(word) - 1):
+    if word[i] == word[i + 1]:
+        doubles += 1
+print(&quot;Doubles:&quot;, doubles)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The countdown that never starts</div><div class="pc-prompt"><p>This should count down from 5 to 1, but it prints nothing. Fix it.</p></div><textarea class="pc-src pc-code" hidden>for n in range(5, 0):
+    print(n)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;5 down to 1&quot;
+    expect_output(&quot;5\n4\n3\n2\n1&quot;)</textarea><textarea class="pc-src pc-solution" hidden>for n in range(5, 0, -1):
+    print(n)</textarea><template class="pc-src pc-hint">Without a step, <code>range</code> counts up. Counting up from 5 never gets anywhere near 0.</template></div>
+<div class="parsons" data-id="w004d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Every third letter</div><div class="pc-prompt"><p>Arrange the lines to print every third letter of a word, starting with the first. One line is a trap.</p></div><script type="application/json">{"lines": ["word = input(\"Word: \")", "for i in range(0, len(word), 3):", "    print(word[i], end=\"\")"], "distractors": ["for i in range(0, len(word) + 1, 3):"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">What&rsquo;s in the range?</div><div class="pc-prompt"><p>Write each range out as a list of numbers, without running anything. An empty range is <code>[]</code>.</p></div><textarea class="pc-src pc-code" hidden>r1 = ___   # range(4)
+r2 = ___   # range(2, 6)
+r3 = ___   # range(1, 10, 4)
+r4 = ___   # range(6, 0, -2)
+r5 = ___   # range(3, 3)
+r6 = ___   # range(5, 1)</textarea><textarea class="pc-src pc-tests" hidden>def test_1():
+    &quot;range(4)&quot;
+    assert r1 == [0, 1, 2, 3], &quot;Four numbers, starting from 0.&quot;
+def test_2():
+    &quot;range(2, 6)&quot;
+    assert r2 == [2, 3, 4, 5], &quot;Up to but not including 6.&quot;
+def test_3():
+    &quot;range(1, 10, 4)&quot;
+    assert r3 == [1, 5, 9], &quot;1, then add 4 while still below 10.&quot;
+def test_4():
+    &quot;range(6, 0, -2)&quot;
+    assert r4 == [6, 4, 2], &quot;Down in twos, stopping before 0.&quot;
+def test_5():
+    &quot;range(3, 3)&quot;
+    assert r5 == [], &quot;Start equals stop: empty.&quot;
+def test_6():
+    &quot;range(5, 1)&quot;
+    assert r6 == [], &quot;Counting up from 5 never reaches 1: empty.&quot;</textarea><textarea class="pc-src pc-solution" hidden>r1 = [0, 1, 2, 3]
+r2 = [2, 3, 4, 5]
+r3 = [1, 5, 9]
+r4 = [6, 4, 2]
+r5 = []
+r6 = []</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w004d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "What does <code>list(range(3))</code> give?", "answer": ["[0, 1, 2]", "[0,1,2]"], "explain": "Three numbers from 0; 3 is not included."}, {"type": "text", "q": "How many numbers are in <code>range(5, 15)</code>?", "answer": ["10", "ten"], "explain": "stop - start."}, {"type": "mc", "q": "Which range gives 1, 2, &hellip;, 10?", "answer": 2, "explain": "Stop must be one past the last number you want.", "options": ["<code>range(10)</code>", "<code>range(1, 10)</code>", "<code>range(1, 11)</code>", "<code>range(0, 11)</code>"]}, {"type": "output", "q": "What does this print?", "answer": "10 7 4 1 ", "explain": "Down in threes, stopping before 0.", "code": "for n in range(10, 0, -3):\n    print(n, end=\" \")"}, {"type": "text", "q": "How many times does the body run?", "answer": ["0", "zero", "none"], "explain": "Counting up from 4 can&rsquo;t reach 2.", "code": "for i in range(4, 2):\n    print(i)"}, {"type": "mc", "q": "What does <code>range(len(\"hello\"))</code> contain?", "answer": 1, "explain": "Exactly the valid positions.", "options": ["1 to 5", "0 to 4", "0 to 5", "the letters"]}, {"type": "mc", "q": "Why does this crash?", "answer": 1, "explain": "Use range(len(s) - 1) when you look one ahead.", "options": ["range is wrong for strings", "On the last pass, s[3] doesn&rsquo;t exist", "s[i + 1] isn&rsquo;t allowed", "It doesn&rsquo;t crash"], "code": "s = \"abc\"\nfor i in range(len(s)):\n    print(s[i + 1])"}, {"type": "mc", "q": "What does <code>_</code> mean in <code>for _ in range(3):</code>?", "answer": 1, "explain": "It&rsquo;s an ordinary name, by convention &lsquo;unused&rsquo;.", "options": ["A special keyword", "A name for a counter you won&rsquo;t use", "An error", "The last value"]}, {"type": "text", "q": "What is <code>50 in range(0, 100, 5)</code>?", "answer": "True", "explain": "50 is one of 0, 5, 10, &hellip;, 95."}, {"type": "output", "q": "What does this print?", "answer": "20", "explain": "2 + 4 + 6 + 8.", "code": "total = 0\nfor k in range(2, 9, 2):\n    total += k\nprint(total)"}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: run-length encoding</div><div class="pc-prompt"><p><strong>Run-length encoding</strong> shrinks text with lots of repeats by writing each run of the same character as the character and how many times it repeats: <code>aaabccdddd</code> becomes <code>a3b1c2d4</code>. It was used to compress early fax and image files.</p>
+<p>Ask for some text with the prompt <code>Text:</code> and print its run-length encoding. Empty text prints an empty line.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_basic():
+    &quot;aaabccdddd&quot;
+    expect_output(&quot;Text: aaabccdddd\na3b1c2d4&quot;, inputs=[&quot;aaabccdddd&quot;], echo=True)
+def test_single():
+    &quot;one character&quot;
+    expect_output(&quot;Text: z\nz1&quot;, inputs=[&quot;z&quot;], echo=True)
+def test_no_runs():
+    &quot;no repeats&quot;
+    expect_output(&quot;Text: abc\na1b1c1&quot;, inputs=[&quot;abc&quot;], echo=True)
+def test_spaces():
+    &quot;spaces count too&quot;
+    expect_output(&quot;Text: aa  bb\na2 2b2&quot;, inputs=[&quot;aa  bb&quot;], echo=True)
+def test_empty():
+    &quot;empty text&quot;
+    expect_output(&quot;Text: &quot;, inputs=[&quot;&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+result = &quot;&quot;
+if text:
+    current = text[0]
+    count = 1
+    for i in range(1, len(text)):
+        if text[i] == current:
+            count += 1
+        else:
+            result += current + str(count)
+            current = text[i]
+            count = 1
+    result += current + str(count)
+print(result)</textarea><template class="pc-src pc-hint">Keep the current run&rsquo;s character and its length. Loop over positions from 1: if <code>text[i]</code> matches the current character, the run grows; otherwise write out the finished run and start a new one.</template><template class="pc-src pc-hint">Don&rsquo;t forget the last run: it&rsquo;s still waiting when the loop ends.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>From memory: what are the three forms of <code>range</code>, and which number is never included? Write a loop that counts down from 20 to 0 in fours. Tomorrow: loops inside loops, and the shapes, tables and grids they make.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w004d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w004d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w004d2", "week": 4, "day": 2, "title": "range in depth", "exercises": [{"id": "w004d2-table", "title": "Times table with range", "points": 10}, {"id": "w004d2-odd_sum", "title": "Odd numbers only", "points": 10}, {"id": "w004d2-countdown", "title": "Countdown in fives", "points": 10}, {"id": "w004d2-positions", "title": "Find every position", "points": 10}, {"id": "w004d2-squares_table", "title": "Squares and cubes", "points": 10}, {"id": "w004d2-alpha_order", "title": "In alphabetical order?", "points": 15}, {"id": "w004d2-pattern", "title": "Mirror numbers", "points": 10}, {"id": "w004d2-bug1", "title": "One short again", "points": 10}, {"id": "w004d2-bug2", "title": "Index out of range", "points": 10}, {"id": "w004d2-bug3", "title": "The countdown that never starts", "points": 10}, {"id": "w004d2-trace", "title": "What's in the range?", "points": 15}, {"id": "w004d2-challenge", "title": "Challenge: run-length encoding", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

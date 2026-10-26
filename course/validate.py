@@ -2,6 +2,7 @@
 
 Usage: python course/validate.py [w001d1 ...]
 """
+import signal
 import sys
 from pathlib import Path
 
@@ -13,6 +14,29 @@ import curriculum  # noqa: E402
 import harness  # noqa: E402
 
 only = set(sys.argv[1:])
+
+
+class Slow(Exception):
+    pass
+
+
+def _alarm(signum, frame):
+    raise Slow()
+
+
+signal.signal(signal.SIGALRM, _alarm)
+
+
+def timed(fn, *args, seconds=20):
+    """Run one check, but give up if it takes too long (an infinite loop in a starter, say)."""
+    signal.alarm(seconds)
+    try:
+        return fn(*args)
+    except Slow:
+        return None
+    finally:
+        signal.alarm(0)
+
 problems = 0
 count = {"exercises": 0, "examples": 0}
 for w in curriculum.build()["weeks"]:
@@ -30,11 +54,19 @@ for w in curriculum.build()["weeks"]:
                 print(f"  {ex['id']}: no tests"); problems += 1; continue
             if not ex["solution"]:
                 print(f"  {ex['id']}: no solution"); problems += 1; continue
-            r = harness.grade_program(ex["solution"], inputs, 1, ex["tests"])
+            r = timed(harness.grade_program, ex["solution"], inputs, 1, ex["tests"])
+            if r is None:
+                problems += 1
+                print(f"✗ {ex['id']}: the solution took too long")
+                continue
             if r["total"] == 0 or r["passed"] != r["total"]:
                 problems += 1
                 print(f"✗ {ex['id']}: solution fails", r.get("error"), [x for x in r["results"] if not x["ok"]])
-            r2 = harness.grade_program(ex["starter"], inputs, 1, ex["tests"])
+            r2 = timed(harness.grade_program, ex["starter"], inputs, 1, ex["tests"])
+            if r2 is None:
+                problems += 1
+                print(f"✗ {ex['id']}: the starter runs for ever; learners would see a timeout")
+                continue
             if r2["total"] and r2["passed"] == r2["total"]:
                 problems += 1
                 print(f"✗ {ex['id']}: the starter code already passes")
@@ -43,7 +75,11 @@ for w in curriculum.build()["weeks"]:
             if e.get("forever"):
                 continue
             inputs = e["inputs"].split("\n") if e["inputs"] else ["Ada"] * 20
-            r = harness.run_program(e["code"], inputs, 1, None)
+            r = timed(harness.run_program, e["code"], inputs, 1, None)
+            if r is None:
+                problems += 1
+                print(f"✗ example {e['id']}: runs for ever (mark it forever=yes if that's the point)")
+                continue
             if bool(r["error"]) != e["expect_error"]:
                 problems += 1
                 print(f"✗ example {e['id']}: {'error ' + r['error']['type'] + ': ' + r['error']['message'] if r['error'] else 'expected an error but ran cleanly'}\n    {e['code'][:80]!r}")

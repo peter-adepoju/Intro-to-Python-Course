@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9e41776864">
+<title>Week 4 Day 5: Brute force and approximation | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9e41776864">
+<link rel="stylesheet" href="../assets/css/site.css?v=9e41776864">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9e41776864"></script>
+<script src="../assets/vendor/codemirror.js?v=9e41776864" defer></script>
+<meta name="description" content="Two powerful ideas that loops make possible. Brute force: when you can’t see a clever answer, try every possibility and keep the ones that work....">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w004d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 4 Day 5: Brute force and approximation">
+<meta property="og:description" content="Two powerful ideas that loops make possible. Brute force: when you can’t see a clever answer, try every possibility and keep the ones that work....">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w004d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-4">Week 4: Repetition II: for and range</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#brute-force-try-everything" data-sec="brute-force-try-everything">Brute force: try everything</a></li><li><a href="#making-the-search-smaller" data-sec="making-the-search-smaller">Making the search smaller</a></li><li><a href="#approximation-closer-and-closer" data-sec="approximation-closer-and-closer">Approximation: closer and closer</a></li><li><a href="#estimating" data-sec="estimating">Estimating π</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 4, Day 5</span></p>
+      <h1>Brute force and approximation</h1>
+      <div class="day-intro"><p>Two powerful ideas that loops make possible. Brute force: when you can&rsquo;t see a clever answer, try every possibility and keep the ones that work. Approximation: when an answer can&rsquo;t be computed exactly, get closer and closer until you&rsquo;re close enough. Today you&rsquo;ll use both, and learn when each one is too slow.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Solve puzzles by trying every candidate in a carefully chosen range</li><li>Shrink a search with sensible limits, and estimate how many candidates a search tries</li><li>Approximate a square root with bisection and with Newton&rsquo;s method</li><li>Stop an approximation loop when the answer is close enough, using a tolerance</li><li>Estimate π with a series and with random points</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="Brute force: try everything: 35 min"></span><span class="plan-seg s0" style="flex:20" title="Making the search smaller: 20 min"></span><span class="plan-seg s1" style="flex:40" title="Approximation: bisection and Newton: 40 min"></span><span class="plan-seg s0" style="flex:20" title="Estimating π: 20 min"></span><span class="plan-seg s1" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Brute force: try everything</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Making the search smaller</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Approximation: bisection and Newton</span><span class="plan-min">40 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Estimating π</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w004d5.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d5-p1"><textarea class="pc-src pc-code" hidden>count = 0
+for a in range(1, 10):
+    for b in range(1, 10):
+        if a + b == 10:
+            count += 1
+print(count)</textarea></div>
+<p>That&rsquo;s a tiny brute-force search: try all 81 pairs, keep the ones that work. Computers are so fast that trying everything is often the simplest correct solution.</p>
+<h2 id="brute-force-try-everything">Brute force: try everything</h2>
+<p>A farmer has chickens and rabbits. Together they have 35 heads and 94 legs. How many of each?</p>
+<p>You could set up simultaneous equations. Or you could let the computer try every possible number of chickens:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d5-e2"><div class="pc-title">Chickens and rabbits</div><textarea class="pc-src pc-code" hidden>heads = 35
+legs = 94
+for chickens in range(heads + 1):
+    rabbits = heads - chickens
+    if 2 * chickens + 4 * rabbits == legs:
+        print(chickens, &quot;chickens and&quot;, rabbits, &quot;rabbits&quot;)</textarea></div>
+<p>That&rsquo;s <strong>brute force</strong>, also called <strong>exhaustive search</strong>. It has three parts:</p>
+<ol>
+<li><strong>The candidates</strong>: every possible answer, in a range you can loop over.</li>
+<li><strong>The test</strong>: a condition that says whether a candidate works.</li>
+<li><strong>What to do with a match</strong>: print it, count it, or stop at the first one.</li>
+</ol>
+<p>It&rsquo;s reliable: if the answer is among the candidates, brute force finds it. The only question is whether there are too many candidates.</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d5-e3"><div class="pc-title">Which 3-digit numbers equal the sum of the cubes of their digits?</div><textarea class="pc-src pc-code" hidden>for n in range(100, 1000):
+    a = n // 100
+    b = n // 10 % 10
+    c = n % 10
+    if a ** 3 + b ** 3 + c ** 3 == n:
+        print(n)</textarea></div>
+<p>Only four numbers in the whole range have this property. Brute force found them in an instant by trying 900 candidates.</p>
+<h3 id="a-lock-with-clues">A lock with clues</h3>
+<div class="pc pc-example" data-kind="example" data-id="w004d5-e4"><div class="pc-title">Crack the three-digit lock</div><textarea class="pc-src pc-code" hidden>for code in range(1000):
+    a, b, c = code // 100, code // 10 % 10, code % 10
+    if a + b + c == 15 and a &lt; b &lt; c and code % 2 == 0:
+        print(f&quot;{code:03}&quot;)</textarea></div>
+<p>The clues: the digits add up to 15, they go up from left to right, and the code is even. The loop tries all 1,000 codes and prints the two that fit.</p>
+<h2 id="making-the-search-smaller">Making the search smaller</h2>
+<p>Brute force gets slow when the candidates multiply. Three nested loops over 1 to 1,000 try a <strong>billion</strong> combinations. So before you search, shrink the range:</p>
+<ul>
+<li><strong>Use what you know.</strong> In the chickens puzzle, <code>rabbits = heads - chickens</code> means one loop instead of two.</li>
+<li><strong>Use limits.</strong> If <code>a² + b² = c²</code> and <code>c ≤ 100</code>, then <code>a</code> can&rsquo;t be more than 100 either.</li>
+<li><strong>Order the candidates.</strong> Insisting <code>a &lt; b</code> halves the pairs and removes duplicates.</li>
+<li><strong>Stop early.</strong> If you only need one answer, <code>break</code> at the first.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w004d5-e5"><div class="pc-title">How much did that save?</div><textarea class="pc-src pc-code" hidden>tries = 0
+found = 0
+for a in range(1, 101):
+    for b in range(a + 1, 101):
+        tries += 1
+        c2 = a * a + b * b
+        c = int(c2 ** 0.5)
+        if c * c == c2 and c &lt;= 100:
+            found += 1
+print(&quot;Found&quot;, found, &quot;triples with c up to 100&quot;)
+print(&quot;Pairs tried:&quot;, tries, &quot;instead of&quot;, 100 ** 3, &quot;triples&quot;)</textarea></div>
+<p>Working out <code>c</code> from <code>a</code> and <code>b</code> instead of looping over it turned a million tries into about five thousand.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Before writing a brute-force search, estimate how many candidates it will try. Up to a few million is fine. Billions need a smarter idea.</p></aside>
+<h2 id="approximation-closer-and-closer">Approximation: closer and closer</h2>
+<p>What&rsquo;s √2? It&rsquo;s about 1.41421356&hellip;, and its digits never end, so no computer can hold it exactly. But you can get as close as you like. That&rsquo;s <strong>approximation</strong>.</p>
+<h3 id="bisection">Bisection</h3>
+<p>√2 is between 1 and 2, because 1² = 1 is too small and 2² = 4 is too big. Try the <strong>middle</strong>, 1.5: 1.5² = 2.25, too big, so the answer is between 1 and 1.5. Try the middle of <em>that</em>. Every step halves the range where the answer can be:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d5-e6"><div class="pc-title">Square root by bisection</div><textarea class="pc-src pc-code" hidden>x = 2
+lo, hi = 0.0, max(1.0, x)
+steps = 0
+while hi - lo &gt; 1e-10:
+    mid = (lo + hi) / 2
+    if mid * mid &lt; x:
+        lo = mid
+    else:
+        hi = mid
+    steps += 1
+print(lo, &quot;after&quot;, steps, &quot;steps&quot;)</textarea></div>
+<p>The loop stops when the range is narrower than <code>1e-10</code> (that&rsquo;s 0.0000000001). That number is the <strong>tolerance</strong>: how close is close enough.</p>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>Never stop an approximation with <code>while mid * mid != x</code>. Floats are almost never exactly equal, so that loop might run for ever. Always stop on &ldquo;close enough&rdquo;.</p></aside>
+<h3 id="newton-s-method">Newton&rsquo;s method</h3>
+<p>About 4,000 years ago, Babylonian mathematicians used a faster trick. If <code>g</code> is a guess for √x, then <code>x / g</code> is off by the same factor in the other direction, so the <strong>average</strong> of <code>g</code> and <code>x / g</code> is a better guess. Repeat:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d5-e7"><div class="pc-title">The Babylonian method</div><textarea class="pc-src pc-code" hidden>x = 2
+g = x
+steps = 0
+while abs(g * g - x) &gt; 1e-12:
+    g = (g + x / g) / 2
+    steps += 1
+    print(steps, g)</textarea></div>
+<p>Five steps. This is a special case of <strong>Newton&rsquo;s method</strong>, one of the most important algorithms in science and engineering: it&rsquo;s how calculators compute square roots, and how machine learning models are trained, in a more general form. Compare the two methods:</p>
+<figure class="widget" data-widget="approx"><script type="application/json">{"x": 2}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each row is one step. Bisection gains a digit every few steps; Newton&rsquo;s method doubles the correct digits each step once it&rsquo;s close.</figcaption></figure>
+<h2 id="estimating">Estimating π</h2>
+<h3 id="with-a-series">With a series</h3>
+<p>The number π can be written as a never-ending sum: π = 4 × (1 − 1/3 + 1/5 − 1/7 + 1/9 − &hellip;). Add up more and more terms, and you get closer:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d5-e8"><div class="pc-title">The Leibniz series</div><textarea class="pc-src pc-code" hidden>total = 0
+sign = 1
+for k in range(100000):
+    total += sign / (2 * k + 1)
+    sign = -sign
+print(4 * total)</textarea></div>
+<p>A hundred thousand terms give only five correct digits, so this series is beautiful but slow. Mathematicians have found series that gain many digits per term.</p>
+<h3 id="with-random-points">With random points</h3>
+<p>Throw darts at random into a 1 × 1 square. The quarter-circle of radius 1 covers π/4 of the square, so about π/4 of the darts land inside it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d5-e9"><div class="pc-title">Monte Carlo π</div><textarea class="pc-src pc-code" hidden>import random
+inside = 0
+darts = 100000
+for _ in range(darts):
+    x = random.random()
+    y = random.random()
+    if x * x + y * y &lt;= 1:
+        inside += 1
+print(4 * inside / darts)</textarea></div>
+<p><code>random.random()</code> gives a random float from 0 up to (not including) 1. Run it a few times: the answer wobbles. Methods that use randomness like this are called <strong>Monte Carlo</strong> methods, after the casino, and they&rsquo;re used everywhere from physics to finance.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d5-farm" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Heads and legs</div><div class="pc-prompt"><p>Ask for the number of heads and legs with the prompts <code>Heads:</code> and <code>Legs:</code>. The animals are chickens (2 legs) and cows (4 legs). Print <code>Chickens:</code> and <code>Cows:</code> on two lines, or <code>No answer</code> if no whole numbers work.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several farms&quot;
+    expect_output(&quot;Heads: 35\nLegs: 94\nChickens: 23\nCows: 12&quot;, inputs=[&quot;35&quot;, &quot;94&quot;], echo=True)
+    expect_output(&quot;Heads: 10\nLegs: 40\nChickens: 0\nCows: 10&quot;, inputs=[&quot;10&quot;, &quot;40&quot;], echo=True)
+    expect_output(&quot;Heads: 10\nLegs: 41\nNo answer&quot;, inputs=[&quot;10&quot;, &quot;41&quot;], echo=True)
+    expect_output(&quot;Heads: 3\nLegs: 20\nNo answer&quot;, inputs=[&quot;3&quot;, &quot;20&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>heads = int(input(&quot;Heads: &quot;))
+legs = int(input(&quot;Legs: &quot;))
+for chickens in range(heads + 1):
+    cows = heads - chickens
+    if 2 * chickens + 4 * cows == legs:
+        print(&quot;Chickens:&quot;, chickens)
+        print(&quot;Cows:&quot;, cows)
+        break
+else:
+    print(&quot;No answer&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d5-coins" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Making change</div><div class="pc-prompt"><p>How many different ways can you make an amount using any number of 5, 10 and 20 coins? Ask for the amount with the prompt <code>Amount:</code> and print <code>Ways:</code> and the count. For 20 there are 4 ways: 20; 10+10; 10+5+5; 5+5+5+5.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several amounts&quot;
+    for amount, ways in [(20, 4), (5, 1), (7, 0), (50, 12), (100, 36)]:
+        expect_output(f&quot;Amount: {amount}\nWays: {ways}&quot;, inputs=[str(amount)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>amount = int(input(&quot;Amount: &quot;))
+ways = 0
+for twenties in range(amount // 20 + 1):
+    for tens in range((amount - 20 * twenties) // 10 + 1):
+        rest = amount - 20 * twenties - 10 * tens
+        if rest % 5 == 0:
+            ways += 1
+print(&quot;Ways:&quot;, ways)</textarea><template class="pc-src pc-hint">Loop over how many 20s and how many 10s. The rest must be made of 5s: it works if what&rsquo;s left is not negative and divides by 5.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d5-two_digit" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A digit puzzle</div><div class="pc-prompt"><p>Find every two-digit number (10 to 99) that is equal to <strong>three times the sum of its digits</strong>. Print each on its own line.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the numbers&quot;
+    want = [n for n in range(10, 100) if n == 3 * (n // 10 + n % 10)]
+    expect_output(&quot;\n&quot;.join(str(n) for n in want))</textarea><textarea class="pc-src pc-solution" hidden>for n in range(10, 100):
+    if n == 3 * (n // 10 + n % 10):
+        print(n)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d5-cube_root" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Cube root by bisection</div><div class="pc-prompt"><p>Ask for a positive number with the prompt <code>x:</code> and find its cube root by bisection, stopping when the interval is narrower than <code>1e-9</code>. Print <code>Cube root:</code> and the answer rounded to 6 decimal places. Don&rsquo;t use <code>**</code> with a fraction.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several numbers&quot;
+    for x, r in [(&quot;27&quot;, &quot;3.0&quot;), (&quot;2&quot;, &quot;1.259921&quot;), (&quot;1000&quot;, &quot;10.0&quot;), (&quot;0.5&quot;, &quot;0.793701&quot;)]:
+        expect_output(f&quot;x: {x}\nCube root: {r}&quot;, inputs=[x], echo=True)
+def test_no_power():
+    &quot;uses bisection&quot;
+    assert &quot;** (1&quot; not in source and &quot;**(1&quot; not in source and &quot;** 0.&quot; not in source and &quot;**0.&quot; not in source, &quot;Find it by bisection.&quot;</textarea><textarea class="pc-src pc-solution" hidden>x = float(input(&quot;x: &quot;))
+lo, hi = 0.0, max(1.0, x)
+while hi - lo &gt; 1e-9:
+    mid = (lo + hi) / 2
+    if mid * mid * mid &lt; x:
+        lo = mid
+    else:
+        hi = mid
+print(&quot;Cube root:&quot;, round((lo + hi) / 2, 6))</textarea><template class="pc-src pc-hint">Start with <code>lo = 0</code> and <code>hi = max(1, x)</code>, since the cube root of a number below 1 is bigger than the number.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d5-babylon" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count Newton&rsquo;s steps</div><div class="pc-prompt"><p>Ask for a number with the prompt <code>x:</code> (above 0) and use the Babylonian method, starting from the guess <code>g = x</code>, until <code>abs(g * g - x) &lt; 1e-9</code>. Print <code>Steps:</code> and how many steps it took, then <code>Root:</code> and the root rounded to 6 places.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def steps_for(x):
+    g, s = x, 0
+    while abs(g * g - x) &gt;= 1e-9:
+        g = (g + x / g) / 2
+        s += 1
+    return s, round(g, 6)
+def test_cases():
+    &quot;several numbers&quot;
+    for x in [2.0, 10.0, 1000000.0, 0.25]:
+        s, r = steps_for(x)
+        expect_output(f&quot;x: {x:g}\nSteps: {s}\nRoot: {r}&quot;, inputs=[f&quot;{x:g}&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>x = float(input(&quot;x: &quot;))
+g = x
+steps = 0
+while abs(g * g - x) &gt;= 1e-9:
+    g = (g + x / g) / 2
+    steps += 1
+print(&quot;Steps:&quot;, steps)
+print(&quot;Root:&quot;, round(g, 6))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d5-leibniz" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">How many terms?</div><div class="pc-prompt"><p>Using the Leibniz series, find how many terms you need before <code>4 * total</code> is within <code>0.001</code> of <code>3.141592653589793</code>. Print <code>Terms:</code> and the number of terms, then <code>Estimate:</code> and the estimate rounded to 4 places.</p></div><textarea class="pc-src pc-code" hidden>PI = 3.141592653589793</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;the count&quot;
+    total, sign, k = 0.0, 1, 0
+    while True:
+        total += sign / (2 * k + 1)
+        sign = -sign
+        k += 1
+        if abs(4 * total - 3.141592653589793) &lt; 0.001:
+            break
+    expect_output(f&quot;Terms: {k}\nEstimate: {round(4 * total, 4)}&quot;)</textarea><textarea class="pc-src pc-solution" hidden>PI = 3.141592653589793
+total = 0
+sign = 1
+k = 0
+while True:
+    total += sign / (2 * k + 1)
+    sign = -sign
+    k += 1
+    if abs(4 * total - PI) &lt; 0.001:
+        break
+print(&quot;Terms:&quot;, k)
+print(&quot;Estimate:&quot;, round(4 * total, 4))</textarea><template class="pc-src pc-hint">A <code>while True</code> loop: add a term, count it, and break as soon as the estimate is close enough.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Never close enough</div><div class="pc-prompt"><p>This approximates √5 to 6 decimal places and happens to stop. But <code>mid * mid != x</code> is a dangerous test: with other numbers it may never become false, and the tiny limit only just rescues it. Make the stopping rule safe, using a tolerance of <code>1e-9</code> on the width of the interval, and keep the printed answer the same.</p></div><textarea class="pc-src pc-code" hidden>x = 5
+lo, hi = 0.0, 5.0
+mid = (lo + hi) / 2
+while mid * mid != x and hi - lo &gt; 1e-15:
+    if mid * mid &lt; x:
+        lo = mid
+    else:
+        hi = mid
+    mid = (lo + hi) / 2
+print(round(mid, 6))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints the root&quot;
+    expect_output(&quot;2.236068&quot;)
+def test_tolerance():
+    &quot;stops on a tolerance, not on ==&quot;
+    assert &quot;!=&quot; not in source and &quot;1e-9&quot; in source, &quot;Loop while hi - lo &gt; 1e-9.&quot;</textarea><textarea class="pc-src pc-solution" hidden>x = 5
+lo, hi = 0.0, 5.0
+while hi - lo &gt; 1e-9:
+    mid = (lo + hi) / 2
+    if mid * mid &lt; x:
+        lo = mid
+    else:
+        hi = mid
+print(round((lo + hi) / 2, 6))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">One short</div><div class="pc-prompt"><p>This should print every number up to and <strong>including</strong> 105 that divides by 3, 5 and 7. The smallest such number is 3 × 5 × 7 = 105, but the program prints nothing. Fix the range.</p></div><textarea class="pc-src pc-code" hidden>for n in range(1, 105):
+    if n % 3 == 0 and n % 5 == 0 and n % 7 == 0:
+        print(n)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints 105&quot;
+    expect_output(&quot;105&quot;)</textarea><textarea class="pc-src pc-solution" hidden>for n in range(1, 106):
+    if n % 3 == 0 and n % 5 == 0 and n % 7 == 0:
+        print(n)</textarea><template class="pc-src pc-hint">The stop value of a range is never included.</template></div>
+<div class="parsons" data-id="w004d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Newton&rsquo;s method</div><div class="pc-prompt"><p>Arrange the lines into the Babylonian square root. One line is a trap.</p></div><script type="application/json">{"lines": ["x = float(input(\"x: \"))", "g = x", "while abs(g * g - x) > 1e-12:", "    g = (g + x / g) / 2", "print(g)"], "distractors": ["while g * g != x:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace bisection</div><div class="pc-prompt"><p>Trace three steps of bisection for √10, starting with <code>lo = 0</code> and <code>hi = 10</code>. After each step, write down <code>lo</code> and <code>hi</code>.</p>
+<pre><code class="language-python">x = 10
+lo, hi = 0, 10
+# repeat 3 times:
+mid = (lo + hi) / 2
+if mid * mid &lt; x:
+    lo = mid
+else:
+    hi = mid
+</code></pre></div><textarea class="pc-src pc-code" hidden>after_1 = (___, ___)
+after_2 = (___, ___)
+after_3 = (___, ___)</textarea><textarea class="pc-src pc-tests" hidden>def test_1():
+    &quot;step 1&quot;
+    assert after_1 == (0, 5), &quot;mid is 5, and 25 is not &lt; 10, so hi becomes 5.&quot;
+def test_2():
+    &quot;step 2&quot;
+    assert after_2 == (2.5, 5), &quot;mid is 2.5, and 6.25 is &lt; 10, so lo becomes 2.5.&quot;
+def test_3():
+    &quot;step 3&quot;
+    assert after_3 == (2.5, 3.75), &quot;mid is 3.75, and 14.0625 is not &lt; 10, so hi becomes 3.75.&quot;</textarea><textarea class="pc-src pc-solution" hidden>after_1 = (0, 5)
+after_2 = (2.5, 5)
+after_3 = (2.5, 3.75)</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w004d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What are the three parts of a brute-force search?", "answer": 1, "explain": "List every possibility, test each one, act on the matches.", "options": ["Input, process, output", "Candidates, a test, what to do with a match", "Start, condition, update", "Loop, break, else"]}, {"type": "mc", "q": "Roughly how many candidates do three nested loops over 1 to 100 try?", "answer": 2, "explain": "100 x 100 x 100.", "options": ["300", "10,000", "1,000,000", "1,000,000,000"]}, {"type": "mc", "q": "Why is <code>while guess * guess != x</code> a bad stopping rule?", "answer": 1, "explain": "Stop when it&rsquo;s close enough.", "options": ["It&rsquo;s a syntax error", "Floats are rarely exactly equal, so it may never stop", "It&rsquo;s too fast", "It only works for whole numbers"]}, {"type": "mc", "q": "Each step of bisection&hellip;", "answer": 1, "explain": "That&rsquo;s why it&rsquo;s also called the interval-halving method.", "options": ["doubles the correct digits", "halves the range that contains the answer", "adds one correct digit exactly", "tries every number"]}, {"type": "text", "q": "What is the next Babylonian guess for \u221a9 if the current guess is 9?", "answer": ["5", "5.0"], "explain": "(9 + 9/9) / 2 = 5."}, {"type": "mc", "q": "What does <code>1e-6</code> mean?", "answer": 1, "explain": "1 times 10 to the power -6.", "options": ["1 minus 6", "0.000001", "1,000,000", "e to the power -6"]}, {"type": "mc", "q": "What range of values can <code>random.random()</code> return?", "answer": 1, "explain": "It never returns exactly 1.", "options": ["0 to 1, including 1", "0 up to but not including 1", "1 to 100", "any float"]}, {"type": "mc", "q": "Which converges faster once it&rsquo;s close?", "answer": 1, "explain": "Newton roughly doubles the correct digits each step.", "options": ["Bisection", "Newton&rsquo;s method"]}, {"type": "mc", "q": "In the chickens puzzle, why is one loop enough?", "answer": 1, "explain": "rabbits = heads - chickens.", "options": ["Because chickens can&rsquo;t be counted", "Because the number of rabbits follows from the number of chickens", "Because Python is fast", "It isn&rsquo;t"]}, {"type": "mc", "q": "What is a Monte Carlo method?", "answer": 0, "explain": "Like throwing random darts to estimate \u03c0.", "options": ["A method that uses randomness to estimate an answer", "A brute-force search", "A sorting method", "A way to compute square roots exactly"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: divisible by everything</div><div class="pc-prompt"><p>What is the smallest positive number that divides exactly by every whole number from 1 to <code>n</code>? For <code>n = 10</code> it&rsquo;s 2520.</p>
+<p>Ask for <code>n</code> with the prompt <code>n:</code> and print <code>Smallest:</code> and the answer. The checks go up to <code>n = 30</code>, and the answer then has 14 digits, so a brute-force search that tries every number would never finish. Find a faster way.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def answer(n):
+    r = 1
+    for k in range(2, n + 1):
+        a, b = r, k
+        while b:
+            a, b = b, a % b
+        r = r * k // a
+    return r
+def test_small():
+    &quot;small n&quot;
+    for n in [1, 5, 10]:
+        expect_output(f&quot;n: {n}\nSmallest: {answer(n)}&quot;, inputs=[str(n)], echo=True)
+def test_big():
+    &quot;n = 30&quot;
+    expect_output(f&quot;n: 30\nSmallest: {answer(30)}&quot;, inputs=[&quot;30&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;n: &quot;))
+result = 1
+for k in range(2, n + 1):
+    a, b = result, k
+    while b != 0:
+        a, b = b, a % b
+    result = result * k // a
+print(&quot;Smallest:&quot;, result)</textarea><template class="pc-src pc-hint">The answer for <code>1..k</code> is the lowest common multiple of the answer for <code>1..k-1</code> and <code>k</code>. Start with 1 and fold in each number in turn.</template><template class="pc-src pc-hint"><code>lcm(a, b) = a * b // gcd(a, b)</code>, and you have Euclid&rsquo;s algorithm from last week.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Think of a puzzle you could solve by brute force, and estimate how many candidates it would try. Then explain, in two sentences, why approximation loops stop on a tolerance and never on <code>==</code>. Tomorrow is the Forge: a bigger project that brings the week together, and the weekly quiz.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w004d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w004d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w004d5", "week": 4, "day": 5, "title": "Brute force and approximation", "exercises": [{"id": "w004d5-farm", "title": "Heads and legs", "points": 10}, {"id": "w004d5-coins", "title": "Making change", "points": 15}, {"id": "w004d5-two_digit", "title": "A digit puzzle", "points": 10}, {"id": "w004d5-cube_root", "title": "Cube root by bisection", "points": 15}, {"id": "w004d5-babylon", "title": "Count Newton's steps", "points": 10}, {"id": "w004d5-leibniz", "title": "How many terms?", "points": 15}, {"id": "w004d5-bug1", "title": "Never close enough", "points": 10}, {"id": "w004d5-bug2", "title": "One short", "points": 10}, {"id": "w004d5-trace", "title": "Trace bisection", "points": 15}, {"id": "w004d5-challenge", "title": "Challenge: divisible by everything", "points": 25}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

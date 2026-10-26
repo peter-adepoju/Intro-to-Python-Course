@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="9e41776864">
+<title>Week 4 Day 1: for loops over strings | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=9e41776864">
+<link rel="stylesheet" href="../assets/css/site.css?v=9e41776864">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=9e41776864"></script>
+<script src="../assets/vendor/codemirror.js?v=9e41776864" defer></script>
+<meta name="description" content="Last week you walked through strings with a counter and while. Python has a loop made for exactly this: for hands you each item of a sequence in turn, with...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w004d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 4 Day 1: for loops over strings">
+<meta property="og:description" content="Last week you walked through strings with a counter and while. Python has a loop made for exactly this: for hands you each item of a sequence in turn, with...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w004d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-4">Week 4: Repetition II: for and range</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#the-for-loop" data-sec="the-for-loop">The for loop</a></li><li><a href="#the-loop-variable" data-sec="the-loop-variable">The loop variable</a></li><li><a href="#last-week-s-patterns-with-for" data-sec="last-week-s-patterns-with-for">Last week’s patterns, with for</a></li><li><a href="#break-continue-and-else" data-sec="break-continue-and-else">break, continue and else</a></li><li><a href="#for-or-while" data-sec="for-or-while">for or while?</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 4, Day 1</span></p>
+      <h1>for loops over strings</h1>
+      <div class="day-intro"><p>Last week you walked through strings with a counter and <code>while</code>. Python has a loop made for exactly this: <code>for</code> hands you each item of a sequence in turn, with no counter to set up, update or get wrong. Today you&rsquo;ll use it on strings, and redo last week&rsquo;s patterns in half the code.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write a <code>for</code> loop that visits every character of a string</li><li>Explain what the loop variable is, and why changing it doesn&rsquo;t change the string</li><li>Rewrite counting, filtering and building patterns with <code>for</code> instead of <code>while</code></li><li>Use <code>break</code>, <code>continue</code> and <code>else</code> with <code>for</code> loops</li><li>Choose between <code>for</code> and <code>while</code> for a given job</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="The for loop: 30 min"></span><span class="plan-seg s0" style="flex:25" title="The loop variable: 25 min"></span><span class="plan-seg s1" style="flex:35" title="Last week&#x27;s patterns, rewritten: 35 min"></span><span class="plan-seg s0" style="flex:20" title="break, continue and else; for or while?: 20 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The for loop</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">The loop variable</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Last week&rsquo;s patterns, rewritten</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">break, continue and else; for or while?</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w004d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w004d1.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w004d1-p1"><textarea class="pc-src pc-code" hidden>word = &quot;loop&quot;
+i = 0
+while i &lt; len(word):
+    print(word[i].upper(), end=&quot;&quot;)
+    i += 1</textarea></div>
+<p>Four lines of machinery to visit four letters: set up <code>i</code>, check it, use it, move it on. Get any of them wrong and you have an off-by-one bug or an infinite loop. Today that machinery disappears.</p>
+<h2 id="the-for-loop">The for loop</h2>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e2"><div class="pc-title">The same job with for</div><textarea class="pc-src pc-code" hidden>word = &quot;loop&quot;
+for letter in word:
+    print(letter.upper(), end=&quot;&quot;)</textarea></div>
+<p>Read it aloud: &ldquo;<strong>for</strong> each <strong>letter in word</strong>, print it in capitals&rdquo;. Python does all the work:</p>
+<ol>
+<li>It takes the first character of <code>word</code> and makes the name <code>letter</code> point at it.</li>
+<li>It runs the body.</li>
+<li>It moves <code>letter</code> on to the next character and runs the body again.</li>
+<li>When there are no characters left, the loop ends.</li>
+</ol>
+<p>There&rsquo;s no condition to write and no counter to update, so there&rsquo;s nothing to get wrong. Press X-ray and step through: watch <code>letter</code> point at <code>'l'</code>, then <code>'o'</code>, then <code>'o'</code>, then <code>'p'</code>.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>for name in sequence:</code> runs the body once for each item in the sequence, with <code>name</code> pointing at that item. A string is a sequence of characters.</p></aside>
+<p>The body can be as long as you like and can contain anything, just like a <code>while</code> body:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e3"><div class="pc-title">One line per letter</div><textarea class="pc-src pc-code" hidden>name = input(&quot;Name: &quot;)
+for ch in name:
+    print(ch, &quot;is character number&quot;, ord(ch))</textarea></div>
+<p>The name after <code>for</code> is up to you. <code>ch</code>, <code>c</code>, <code>letter</code> and <code>char</code> are all common for characters. Choose one that says what it holds.</p>
+<h2 id="the-loop-variable">The loop variable</h2>
+<p>The <strong>loop variable</strong> is an ordinary name. Each pass, Python points it at the next item. It&rsquo;s a label, exactly like the ones from Week 1, Day 3.</p>
+<p>That explains something that surprises people:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e4"><div class="pc-title">Changing the loop variable changes nothing else</div><textarea class="pc-src pc-code" hidden>word = &quot;cat&quot;
+for ch in word:
+    ch = ch.upper()
+    print(ch, end=&quot; &quot;)
+print()
+print(word)</textarea></div>
+<p><code>ch = ch.upper()</code> moves the label <code>ch</code> to a new string. The string <code>word</code> is untouched (and strings can&rsquo;t be changed anyway). To get a changed string, <strong>build a new one</strong>, as you did with accumulators last week.</p>
+<p>After the loop, the loop variable still points at the last item:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e5"><textarea class="pc-src pc-code" hidden>for ch in &quot;xyz&quot;:
+    pass
+print(ch)</textarea></div>
+<p>(<code>pass</code> means &ldquo;do nothing&rdquo;. Python needs at least one statement in a block, and <code>pass</code> is the statement that does nothing.)</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>If the string is empty, the body never runs and the loop variable is never created. Using it after the loop then raises a <code>NameError</code>. Don&rsquo;t rely on the loop variable after a loop unless you know the sequence wasn&rsquo;t empty.</p></aside>
+<h2 id="last-week-s-patterns-with-for">Last week&rsquo;s patterns, with for</h2>
+<p>Every accumulator pattern from Week 3 works with <code>for</code>, and gets shorter.</p>
+<h3 id="counting">Counting</h3>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e6"><div class="pc-title">Count one letter</div><textarea class="pc-src pc-code" hidden>word = input(&quot;Word: &quot;)
+count = 0
+for ch in word:
+    if ch == &quot;s&quot;:
+        count += 1
+print(count)</textarea></div>
+<h3 id="counting-by-kind">Counting by kind</h3>
+<p>Strings have methods that answer questions about a character: <code>.isalpha()</code> (a letter?), <code>.isdigit()</code> (a digit?), <code>.isupper()</code>, <code>.islower()</code> and <code>.isspace()</code> (a space, tab or new line?).</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e7"><div class="pc-title">What&rsquo;s in this text?</div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+letters = digits = spaces = other = 0
+for ch in text:
+    if ch.isalpha():
+        letters += 1
+    elif ch.isdigit():
+        digits += 1
+    elif ch.isspace():
+        spaces += 1
+    else:
+        other += 1
+print(f&quot;{letters} letters, {digits} digits, {spaces} spaces, {other} other&quot;)</textarea></div>
+<p><code>letters = digits = spaces = other = 0</code> points all four names at 0 in one line.</p>
+<h3 id="filtering-keep-only-some-characters">Filtering: keep only some characters</h3>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e8"><div class="pc-title">Remove the vowels</div><textarea class="pc-src pc-code" hidden>word = input(&quot;Word: &quot;)
+result = &quot;&quot;
+for ch in word:
+    if ch.lower() not in &quot;aeiou&quot;:
+        result += ch
+print(result)</textarea></div>
+<h3 id="transforming-change-every-character">Transforming: change every character</h3>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e9"><div class="pc-title">Double every letter</div><textarea class="pc-src pc-code" hidden>result = &quot;&quot;
+for ch in &quot;hello&quot;:
+    result += ch * 2
+print(result)</textarea></div>
+<h3 id="reversing">Reversing</h3>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e10"><div class="pc-title">Reverse, by putting each character in front</div><textarea class="pc-src pc-code" hidden>backwards = &quot;&quot;
+for ch in &quot;stressed&quot;:
+    backwards = ch + backwards
+print(backwards)</textarea></div>
+<p>Compare these with last week&rsquo;s <code>while</code> versions. Each one has lost three lines: the counter, the condition on it, and its update.</p>
+<h2 id="break-continue-and-else">break, continue and else</h2>
+<p>They all work in <code>for</code> loops, exactly as in <code>while</code> loops:</p>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e11"><div class="pc-title">Stop at the first digit</div><textarea class="pc-src pc-code" hidden>for ch in &quot;pass1word&quot;:
+    if ch.isdigit():
+        print(&quot;First digit:&quot;, ch)
+        break
+else:
+    print(&quot;No digits&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w004d1-e12"><div class="pc-title">Skip the spaces</div><textarea class="pc-src pc-code" hidden>for ch in &quot;a b c&quot;:
+    if ch == &quot; &quot;:
+        continue
+    print(ch, end=&quot;&quot;)</textarea></div>
+<p>The <code>else</code> on a <code>for</code> loop runs if the loop reached the end of the sequence without a <code>break</code>, which is perfect for searches.</p>
+<h2 id="for-or-while">for or while?</h2>
+<table>
+<thead>
+<tr>
+<th>Use <code>for</code> when&hellip;</th>
+<th>Use <code>while</code> when&hellip;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>you&rsquo;re going through every item of a sequence</td>
+<td>you don&rsquo;t know in advance how many passes you need</td>
+</tr>
+<tr>
+<td>you know the loop must finish</td>
+<td>the loop waits for something: valid input, a sentinel, a condition</td>
+</tr>
+<tr>
+<td></td>
+<td>you need to move through a sequence in an unusual way</td>
+</tr>
+</tbody>
+</table>
+<p>A <code>for</code> loop over a string can&rsquo;t run forever, because the string has an end. That alone makes it the safer choice whenever it fits. Searching for the first prime, reading until the user types <code>done</code> and Euclid&rsquo;s algorithm are still <code>while</code> jobs.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>If you catch yourself writing <code>i = 0</code> and <code>while i &lt; len(...)</code>, stop and ask whether a <code>for</code> loop would do.</p></aside>
+<p>You may be wondering how to get the <strong>position</strong> of each character too. That&rsquo;s tomorrow, with <code>range</code>.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-spell" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Spell it out</div><div class="pc-prompt"><p>Ask for a word with the prompt <code>Word:</code> and print its letters in capitals with a dash between them: <code>P-Y-T-H-O-N</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_python():
+    &quot;python&quot;
+    expect_output(&quot;Word: python\nP-Y-T-H-O-N&quot;, inputs=[&quot;python&quot;], echo=True)
+def test_one():
+    &quot;a single letter&quot;
+    expect_output(&quot;Word: a\nA&quot;, inputs=[&quot;a&quot;], echo=True)
+def test_for():
+    &quot;uses a for loop&quot;
+    assert &quot;for &quot; in source, &quot;Use a for loop.&quot;</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;)
+result = &quot;&quot;
+for ch in word:
+    if result:
+        result += &quot;-&quot;
+    result += ch.upper()
+print(result)</textarea><template class="pc-src pc-hint">Build a string. Add a dash before every letter except the first; or add one after every letter and slice the last one off at the end.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-count_char" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How many of them?</div><div class="pc-prompt"><p>Ask for some text with the prompt <code>Text:</code> and a letter with the prompt <code>Letter:</code>. Print how many times the letter appears in the text, ignoring capitals, like <code>3 times</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_banana():
+    &quot;a in Banana&quot;
+    expect_output(&quot;Text: Banana\nLetter: a\n3 times&quot;, inputs=[&quot;Banana&quot;, &quot;a&quot;], echo=True)
+def test_caps():
+    &quot;capitals count&quot;
+    expect_output(&quot;Text: Sassy Sam\nLetter: s\n4 times&quot;, inputs=[&quot;Sassy Sam&quot;, &quot;s&quot;], echo=True)
+def test_none():
+    &quot;not there&quot;
+    expect_output(&quot;Text: hello\nLetter: z\n0 times&quot;, inputs=[&quot;hello&quot;, &quot;z&quot;], echo=True)
+def test_no_count():
+    &quot;counts with a loop&quot;
+    assert &quot;.count(&quot; not in source, &quot;Count with a loop (strings do have a .count method, but practise the pattern).&quot;</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+letter = input(&quot;Letter: &quot;).lower()
+count = 0
+for ch in text.lower():
+    if ch == letter:
+        count += 1
+print(count, &quot;times&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-only_digits" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Just the digits</div><div class="pc-prompt"><p>Ask for a phone number with the prompt <code>Phone:</code> (it may contain spaces, dashes and brackets) and print only its digits: <code>(080) 123-4567</code> becomes <code>0801234567</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_brackets():
+    &quot;brackets and dashes&quot;
+    expect_output(&quot;Phone: (080) 123-4567\n0801234567&quot;, inputs=[&quot;(080) 123-4567&quot;], echo=True)
+def test_plus():
+    &quot;a plus sign&quot;
+    expect_output(&quot;Phone: +234 801 234 5678\n2348012345678&quot;, inputs=[&quot;+234 801 234 5678&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>phone = input(&quot;Phone: &quot;)
+digits = &quot;&quot;
+for ch in phone:
+    if ch.isdigit():
+        digits += ch
+print(digits)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-kinds" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Upper and lower</div><div class="pc-prompt"><p>Ask for some text with the prompt <code>Text:</code> and print <code>Upper:</code> and the number of capital letters, then <code>Lower:</code> and the number of lower-case letters.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_mixed():
+    &quot;mixed text&quot;
+    expect_output(&quot;Text: Hello World 2024\nUpper: 2\nLower: 8&quot;, inputs=[&quot;Hello World 2024&quot;], echo=True)
+def test_none():
+    &quot;only digits&quot;
+    expect_output(&quot;Text: 123\nUpper: 0\nLower: 0&quot;, inputs=[&quot;123&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+upper = 0
+lower = 0
+for ch in text:
+    if ch.isupper():
+        upper += 1
+    elif ch.islower():
+        lower += 1
+print(&quot;Upper:&quot;, upper)
+print(&quot;Lower:&quot;, lower)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-swap_case" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Swap the case</div><div class="pc-prompt"><p>Ask for some text with the prompt <code>Text:</code> and print it with every capital made lower case and every lower-case letter made capital. Other characters stay as they are. Use a loop, not the <code>.swapcase()</code> method.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_mixed():
+    &quot;mixed&quot;
+    expect_output(&quot;Text: Hello World!\nhELLO wORLD!&quot;, inputs=[&quot;Hello World!&quot;], echo=True)
+def test_digits():
+    &quot;digits unchanged&quot;
+    expect_output(&quot;Text: abc123XYZ\nABC123xyz&quot;, inputs=[&quot;abc123XYZ&quot;], echo=True)
+def test_no_method():
+    &quot;uses a loop&quot;
+    assert &quot;swapcase&quot; not in source, &quot;Build it with a loop.&quot;</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+result = &quot;&quot;
+for ch in text:
+    if ch.isupper():
+        result += ch.lower()
+    elif ch.islower():
+        result += ch.upper()
+    else:
+        result += ch
+print(result)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-all_digits" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Is it all digits?</div><div class="pc-prompt"><p>Write your own version of <code>.isdigit()</code>. Ask for text with the prompt <code>Text:</code> and print <code>All digits: True</code> if it&rsquo;s not empty and every character is from <code>0</code> to <code>9</code>. Use a <code>for</code> loop with <code>break</code> (and you may use <code>else</code>). Don&rsquo;t use <code>.isdigit()</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_yes():
+    &quot;digits only&quot;
+    expect_output(&quot;Text: 2024\nAll digits: True&quot;, inputs=[&quot;2024&quot;], echo=True)
+def test_no():
+    &quot;a letter in the middle&quot;
+    expect_output(&quot;Text: 20x4\nAll digits: False&quot;, inputs=[&quot;20x4&quot;], echo=True)
+def test_empty():
+    &quot;empty text&quot;
+    expect_output(&quot;Text: \nAll digits: False&quot;, inputs=[&quot;&quot;], echo=True)
+def test_no_method():
+    &quot;doesn&#x27;t use isdigit&quot;
+    assert &quot;isdigit&quot; not in source, &quot;Check each character yourself: &#x27;0&#x27; &lt;= ch &lt;= &#x27;9&#x27;.&quot;</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+ok = text != &quot;&quot;
+for ch in text:
+    if not &quot;0&quot; &lt;= ch &lt;= &quot;9&quot;:
+        ok = False
+        break
+print(&quot;All digits:&quot;, ok)</textarea><template class="pc-src pc-hint">A character is a digit when <code>"0" &lt;= ch &lt;= "9"</code>. Start with <code>ok = text != ""</code>; when you meet a non-digit, set it to False and break.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-acronym" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Make an acronym</div><div class="pc-prompt"><p>Ask for a phrase with the prompt <code>Phrase:</code> and print its acronym: the first letter of every word, in capitals. <code>portable network graphics</code> gives <code>PNG</code>. Words are separated by single spaces.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_png():
+    &quot;portable network graphics&quot;
+    expect_output(&quot;Phrase: portable network graphics\nPNG&quot;, inputs=[&quot;portable network graphics&quot;], echo=True)
+def test_one():
+    &quot;one word&quot;
+    expect_output(&quot;Phrase: Python\nP&quot;, inputs=[&quot;Python&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>phrase = input(&quot;Phrase: &quot;)
+result = &quot;&quot;
+prev = &quot; &quot;
+for ch in phrase:
+    if prev == &quot; &quot; and ch != &quot; &quot;:
+        result += ch.upper()
+    prev = ch
+print(result)</textarea><template class="pc-src pc-hint">Keep a variable <code>prev</code> holding the previous character, starting as <code>" "</code>. A letter starts a word when <code>prev</code> is a space.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">It didn&rsquo;t change</div><div class="pc-prompt"><p>This should print the word in capitals, but it prints it unchanged. Fix it.</p></div><textarea class="pc-src pc-code" hidden>word = input(&quot;Word: &quot;)
+for ch in word:
+    ch = ch.upper()
+print(word)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;capitals&quot;
+    expect_output(&quot;Word: shout\nSHOUT&quot;, inputs=[&quot;shout&quot;], echo=True)
+def test_loop():
+    &quot;still uses a loop&quot;
+    assert &quot;for &quot; in source and &quot;.upper()&quot; in source, &quot;Build a new string in the loop.&quot;</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;)
+result = &quot;&quot;
+for ch in word:
+    result += ch.upper()
+print(result)</textarea><template class="pc-src pc-hint">Changing <code>ch</code> moves a label. Build a new string instead.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Only one letter</div><div class="pc-prompt"><p>This should print the word without its spaces, but it prints only the last letter. Fix it.</p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+for ch in text:
+    result = &quot;&quot;
+    if ch != &quot; &quot;:
+        result += ch
+print(result)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;no spaces&quot;
+    expect_output(&quot;Text: a b c d\nabcd&quot;, inputs=[&quot;a b c d&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+result = &quot;&quot;
+for ch in text:
+    if ch != &quot; &quot;:
+        result += ch
+print(result)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w004d1-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Not found, every time</div><div class="pc-prompt"><p>This should say whether the text contains an <code>@</code>, but for <code>me@site.com</code> it prints both <code>Found</code> and <code>Not found</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Text: &quot;)
+for ch in text:
+    if ch == &quot;@&quot;:
+        print(&quot;Found&quot;)
+print(&quot;Not found&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_found():
+    &quot;has @&quot;
+    expect_output(&quot;Text: me@site.com\nFound&quot;, inputs=[&quot;me@site.com&quot;], echo=True)
+def test_not():
+    &quot;no @&quot;
+    expect_output(&quot;Text: hello\nNot found&quot;, inputs=[&quot;hello&quot;], echo=True)
+def test_twice():
+    &quot;two @ signs&quot;
+    expect_output(&quot;Text: a@b@c\nFound&quot;, inputs=[&quot;a@b@c&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Text: &quot;)
+for ch in text:
+    if ch == &quot;@&quot;:
+        print(&quot;Found&quot;)
+        break
+else:
+    print(&quot;Not found&quot;)</textarea><template class="pc-src pc-hint">Stop searching once you&rsquo;ve found one, and only print <code>Not found</code> if the loop finished without finding any.</template></div>
+<div class="parsons" data-id="w004d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Count the capitals</div><div class="pc-prompt"><p>Arrange the lines to count the capital letters in a sentence. One line is a trap.</p></div><script type="application/json">{"lines": ["sentence = input(\"Sentence: \")", "count = 0", "for ch in sentence:", "    if ch.isupper():", "        count += 1", "print(count)"], "distractors": ["for ch in range(sentence):"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the for loops</div><div class="pc-prompt"><p>Work out what each program prints, without running it.</p>
+<pre><code class="language-python"># Program A
+s = &quot;&quot;
+for ch in &quot;abc&quot;:
+    s = s + ch + ch
+print(s)
+
+# Program B
+n = 0
+for ch in &quot;a1b22c333&quot;:
+    if ch.isdigit():
+        n += int(ch)
+print(n)
+
+# Program C
+best = &quot;&quot;
+for ch in &quot;python&quot;:
+    if ch &gt; best:
+        best = ch
+print(best)
+</code></pre></div><textarea class="pc-src pc-code" hidden>program_a = &quot;___&quot;
+program_b = ___
+program_c = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_a():
+    &quot;program A&quot;
+    assert program_a == &quot;aabbcc&quot;, &quot;Each letter is added twice.&quot;
+def test_b():
+    &quot;program B&quot;
+    assert program_b == 16, &quot;Add the digits 1, 2, 2, 3, 3, 3.&quot;
+def test_c():
+    &quot;program C&quot;
+    assert program_c == &quot;y&quot;, &quot;It keeps the letter latest in the alphabet.&quot;</textarea><textarea class="pc-src pc-solution" hidden>program_a = &quot;aabbcc&quot;
+program_b = 16
+program_c = &quot;y&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w004d1-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "How many times does the body run?", "answer": ["5", "five"], "explain": "Once per character.", "code": "for ch in \"hello\":\n    print(ch)"}, {"type": "output", "q": "What does this print?", "answer": "aa bb cc ", "explain": "Each character, doubled.", "code": "for ch in \"abc\":\n    print(ch * 2, end=\" \")"}, {"type": "mc", "q": "What is word after this runs?", "answer": 0, "explain": "Changing the loop variable only moves that label.", "options": ["&ldquo;hi&rdquo;", "&ldquo;XX&rdquo;", "&ldquo;X&rdquo;", "an error"], "code": "word = \"hi\"\nfor ch in word:\n    ch = \"X\""}, {"type": "output", "q": "What does this print?", "answer": "8", "explain": "2 + 0 + 2 + 4.", "code": "total = 0\nfor ch in \"2024\":\n    total += int(ch)\nprint(total)"}, {"type": "mc", "q": "Can a for loop over a string run forever?", "answer": 1, "explain": "The string has an end.", "options": ["Yes", "No"]}, {"type": "mc", "q": "What does <code>\"7\".isdigit()</code> give, and <code>\"x\".isalpha()</code>?", "answer": 0, "explain": "Both are true.", "options": ["True, True", "True, False", "False, True", "False, False"]}, {"type": "output", "q": "What does this print?", "answer": "co", "explain": "It stops at d before printing it.", "code": "for ch in \"code\":\n    if ch == \"d\":\n        break\n    print(ch, end=\"\")"}, {"type": "mc", "q": "When does the else of a for loop run?", "answer": 1, "explain": "Same as for while.", "options": ["When the sequence is empty only", "When the loop finished without break", "Always", "When break ran"]}, {"type": "mc", "q": "Which job is a while job, not a for job?", "answer": 2, "explain": "You don&rsquo;t know in advance how many passes it needs.", "options": ["Count the vowels in a word", "Reverse a string", "Keep asking until the user types a valid age", "Remove the spaces from a sentence"]}, {"type": "mc", "q": "What does <code>pass</code> do?", "answer": 2, "explain": "It fills a block that must contain a statement.", "options": ["Skips to the next pass", "Leaves the loop", "Nothing", "Ends the program"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w004d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: password strength</div><div class="pc-prompt"><p>Ask for a password with the prompt <code>Password:</code> and check it against five rules, printing one line for each rule it <strong>breaks</strong>:</p>
+<ul>
+<li><code>At least 8 characters</code></li>
+<li><code>Needs a capital letter</code></li>
+<li><code>Needs a lower-case letter</code></li>
+<li><code>Needs a digit</code></li>
+<li><code>Needs a symbol</code> (a symbol is any character that is not a letter, a digit or a space)</li>
+</ul>
+<p>If it breaks no rules, print <code>Strong password</code>. Otherwise finish with <code>Score:</code> and the number of rules it passes, out of 5, like <code>Score: 3/5</code>. Use one <code>for</code> loop over the password.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_strong():
+    &quot;strong&quot;
+    expect_output(&quot;Password: Tr1cky!Pass\nStrong password&quot;, inputs=[&quot;Tr1cky!Pass&quot;], echo=True)
+def test_weak():
+    &quot;weak&quot;
+    expect_output(&quot;Password: abc\nAt least 8 characters\nNeeds a capital letter\nNeeds a digit\nNeeds a symbol\nScore: 1/5&quot;, inputs=[&quot;abc&quot;], echo=True)
+def test_middle():
+    &quot;missing a symbol&quot;
+    expect_output(&quot;Password: Password123\nNeeds a symbol\nScore: 4/5&quot;, inputs=[&quot;Password123&quot;], echo=True)
+def test_spaces():
+    &quot;spaces aren&#x27;t symbols&quot;
+    expect_output(&quot;Password: AAAA bbbb 1\nNeeds a symbol\nScore: 4/5&quot;, inputs=[&quot;AAAA bbbb 1&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>pw = input(&quot;Password: &quot;)
+has_upper = has_lower = has_digit = has_symbol = False
+for ch in pw:
+    if ch.isupper():
+        has_upper = True
+    elif ch.islower():
+        has_lower = True
+    elif ch.isdigit():
+        has_digit = True
+    elif not ch.isspace():
+        has_symbol = True
+score = 0
+if len(pw) &gt;= 8:
+    score += 1
+else:
+    print(&quot;At least 8 characters&quot;)
+if has_upper:
+    score += 1
+else:
+    print(&quot;Needs a capital letter&quot;)
+if has_lower:
+    score += 1
+else:
+    print(&quot;Needs a lower-case letter&quot;)
+if has_digit:
+    score += 1
+else:
+    print(&quot;Needs a digit&quot;)
+if has_symbol:
+    score += 1
+else:
+    print(&quot;Needs a symbol&quot;)
+if score == 5:
+    print(&quot;Strong password&quot;)
+else:
+    print(f&quot;Score: {score}/5&quot;)</textarea><template class="pc-src pc-hint">Four flags, all starting False: <code>has_upper</code>, <code>has_lower</code>, <code>has_digit</code>, <code>has_symbol</code>. One loop sets them. Then five <code>if</code>s print the problems.</template><template class="pc-src pc-hint">A symbol is <code>not ch.isalnum() and not ch.isspace()</code>, or spell it out with <code>isalpha</code> and <code>isdigit</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Take two <code>while</code> loops you wrote last week that walked through a string, and rewrite them with <code>for</code>. Count how many lines you saved, and name the bug each saved line could have caused. Tomorrow: <code>range</code>, which lets <code>for</code> count, and gives you positions as well as characters.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w003d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w004d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w004d1", "week": 4, "day": 1, "title": "for loops over strings", "exercises": [{"id": "w004d1-spell", "title": "Spell it out", "points": 10}, {"id": "w004d1-count_char", "title": "How many of them?", "points": 10}, {"id": "w004d1-only_digits", "title": "Just the digits", "points": 10}, {"id": "w004d1-kinds", "title": "Upper and lower", "points": 10}, {"id": "w004d1-swap_case", "title": "Swap the case", "points": 10}, {"id": "w004d1-all_digits", "title": "Is it all digits?", "points": 10}, {"id": "w004d1-acronym", "title": "Make an acronym", "points": 10}, {"id": "w004d1-bug1", "title": "It didn't change", "points": 10}, {"id": "w004d1-bug2", "title": "Only one letter", "points": 10}, {"id": "w004d1-bug3", "title": "Not found, every time", "points": 10}, {"id": "w004d1-trace", "title": "Trace the for loops", "points": 15}, {"id": "w004d1-challenge", "title": "Challenge: password strength", "points": 25}], "points": 140}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
