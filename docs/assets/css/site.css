@@ -410,8 +410,11 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
 .road-weeks { color: var(--ink-3); font-weight: 700; font-size: .92rem; padding-top: .1rem; }
 .road p { margin: .2rem 0 0; color: var(--ink-2); max-width: 64ch; }
 @media (max-width: 640px) { .road li { grid-template-columns: 1fr; gap: .2rem; } }
-.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .5rem 2rem; }
-.features h3 { margin: 1rem 0 .3rem; font-size: 1.1rem; }
+.features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.6rem 2.5rem; }
+@media (max-width: 860px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .features { grid-template-columns: 1fr; } }
+.features > div { border-top: 2px solid var(--line); padding-top: .9rem; }
+.features h3 { margin: 0 0 .35rem; font-size: 1.1rem; }
 .features p { color: var(--ink-2); margin: 0; }
 
 /* ---------- map */
