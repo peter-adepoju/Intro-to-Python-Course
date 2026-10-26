@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="b70c1f84f5">
+<title>Week 10 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=b70c1f84f5">
+<link rel="stylesheet" href="../assets/css/site.css?v=b70c1f84f5">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=b70c1f84f5"></script>
+<script src="../assets/vendor/codemirror.js?v=b70c1f84f5" defer></script>
+<meta name="description" content="This week you learned the collection Python programs use most, the dictionary, and its partner, the set. Today’s Forge is a small library system, with...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w010d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 10 Day 6: Forge">
+<meta property="og:description" content="This week you learned the collection Python programs use most, the dictionary, and its partner, the set. Today’s Forge is a small library system, with...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w010d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-10">Week 10: Dictionaries and sets</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-library" data-sec="forge-the-library">Forge: the library</a></li><li><a href="#forge-bonus-a-spelling-corrector" data-sec="forge-bonus-a-spelling-corrector">Forge bonus: a spelling corrector</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-10-review" data-sec="week-10-review">Week 10 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 10, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>This week you learned the collection Python programs use most, the dictionary, and its partner, the set. Today&rsquo;s Forge is a small library system, with books, members and loans, in which every piece of data lives in the collection that suits it. The bonus is a spelling corrector built from sets and a word count. The weekly quiz and review finish the week.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Design data for a problem by choosing a dictionary, list or set for each part</li><li>Keep related pieces of data consistent as they change</li><li>Process text commands and return clear messages for every case</li><li>Generate candidates with sets and comprehensions, and rank them with a <code>Counter</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:60" title="Forge: the library: 60 min"></span><span class="plan-seg s1" style="flex:40" title="Forge bonus: a spelling corrector: 40 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 10 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: the library</span><span class="plan-min">60 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Forge bonus: a spelling corrector</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 10 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w010d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d6-p1"><textarea class="pc-src pc-code" hidden>d = {&quot;a&quot;: 1}
+d[&quot;b&quot;] = d.get(&quot;b&quot;, 0) + 5
+d[&quot;a&quot;] += 1
+print(d)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d6-p2"><textarea class="pc-src pc-code" hidden>g = {}
+for w in [&quot;ox&quot;, &quot;ant&quot;, &quot;owl&quot;]:
+    g.setdefault(w[0], []).append(w)
+print(g)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d6-p3"><textarea class="pc-src pc-code" hidden>from collections import Counter
+print(Counter(&quot;abracadabra&quot;).most_common(2))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d6-p4"><textarea class="pc-src pc-code" hidden>data = {&quot;x&quot;: [{&quot;y&quot;: 1}, {&quot;y&quot;: 2}]}
+print(sum(item[&quot;y&quot;] for item in data[&quot;x&quot;]))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d6-p5"><textarea class="pc-src pc-code" hidden>a = {1, 2, 3}
+b = {3, 4}
+print(sorted(a - b), sorted(a ^ b), a.isdisjoint(b))</textarea></div>
+<p>If any surprised you, revisit <a href="w010d1.html">keys and values</a>, <a href="w010d2.html">methods</a>, <a href="w010d3.html">patterns</a>, <a href="w010d4.html">nested data</a> or <a href="w010d5.html">sets</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d6-mix_merge" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Add up two counts</div><div class="pc-prompt"><p>Write <code>add_counts(a, b)</code> that takes two dictionaries of counts and returns a new one with the counts for each key added together. Don&rsquo;t change <code>a</code> or <code>b</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    a, b = {&quot;x&quot;: 2, &quot;y&quot;: 1}, {&quot;y&quot;: 3, &quot;z&quot;: 4}
+    assert add_counts(a, b) == {&quot;x&quot;: 2, &quot;y&quot;: 4, &quot;z&quot;: 4}
+    assert a == {&quot;x&quot;: 2, &quot;y&quot;: 1} and b == {&quot;y&quot;: 3, &quot;z&quot;: 4}
+    assert add_counts({}, {}) == {}</textarea><textarea class="pc-src pc-solution" hidden>def add_counts(a, b):
+    total = dict(a)
+    for k, n in b.items():
+        total[k] = total.get(k, 0) + n
+    return total</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d6-mix_owners" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Who owns what</div><div class="pc-prompt"><p><code>owner</code> maps each item to the person who owns it. Write <code>belongings(owner)</code> that returns a dictionary from each person to the sorted list of their items.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert belongings({&quot;pen&quot;: &quot;Ada&quot;, &quot;cup&quot;: &quot;Bo&quot;, &quot;book&quot;: &quot;Ada&quot;}) == {&quot;Ada&quot;: [&quot;book&quot;, &quot;pen&quot;], &quot;Bo&quot;: [&quot;cup&quot;]}
+    assert belongings({}) == {}</textarea><textarea class="pc-src pc-solution" hidden>def belongings(owner):
+    result = {}
+    for item, person in owner.items():
+        result.setdefault(person, []).append(item)
+    return {person: sorted(items) for person, items in result.items()}</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d6-mix_tags" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Tag cloud</div><div class="pc-prompt"><p>Each post is a dictionary with a <code>"tags"</code> list. Write <code>tag_report(posts)</code> that returns a tuple: the set of all tags used, and the tag used on the most posts (the first seen if tied). Return <code>(set(), None)</code> for no posts.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    posts = [{&quot;title&quot;: &quot;a&quot;, &quot;tags&quot;: [&quot;py&quot;, &quot;web&quot;]}, {&quot;title&quot;: &quot;b&quot;, &quot;tags&quot;: [&quot;py&quot;]}, {&quot;title&quot;: &quot;c&quot;, &quot;tags&quot;: [&quot;data&quot;, &quot;web&quot;, &quot;py&quot;]}]
+    assert tag_report(posts) == ({&quot;py&quot;, &quot;web&quot;, &quot;data&quot;}, &quot;py&quot;)
+    assert tag_report([]) == (set(), None)</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+
+def tag_report(posts):
+    counts = Counter(tag for post in posts for tag in post[&quot;tags&quot;])
+    if not counts:
+        return set(), None
+    return set(counts), counts.most_common(1)[0][0]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d6-mix_lookup" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Anagram finder</div><div class="pc-prompt"><p>Write <code>anagrams_of(word, words)</code> that returns, sorted, the words in the list that are anagrams of <code>word</code> (the same letters in a different order; not the word itself). Ignore case.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    ws = [&quot;enlist&quot;, &quot;google&quot;, &quot;inlets&quot;, &quot;banana&quot;, &quot;Silent&quot;, &quot;listen&quot;]
+    assert anagrams_of(&quot;listen&quot;, ws) == [&quot;Silent&quot;, &quot;enlist&quot;, &quot;inlets&quot;]
+    assert anagrams_of(&quot;cat&quot;, ws) == []</textarea><textarea class="pc-src pc-solution" hidden>def anagrams_of(word, words):
+    key = sorted(word.lower())
+    return sorted(w for w in words if sorted(w.lower()) == key and w.lower() != word.lower())</textarea></div>
+<h2 id="forge-the-library">Forge: the library</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the library</div><div class="pc-prompt"><p>Build the core of a library system. The whole library is one dictionary:</p>
+<pre><code>library = {
+    &quot;books&quot;: {},    # isbn -&gt; {&quot;title&quot;: ..., &quot;author&quot;: ..., &quot;copies&quot;: ...}
+    &quot;loans&quot;: {},    # member name -&gt; set of isbns they have borrowed
+}
+</code></pre>
+<p>A member may have at most <strong>3</strong> books at once, and never two copies of the same book. A book&rsquo;s <strong>available</strong> copies are its copies minus the number of members who have borrowed it. Write:</p>
+<ul>
+<li><code>new_library()</code> returns an empty library like the one above.</li>
+<li><code>add_book(library, isbn, title, author, copies)</code> adds a book, or adds <code>copies</code> more to a book that&rsquo;s already there.</li>
+<li><code>borrow(library, member, isbn)</code> returns one of these messages, changing the library only for <code>OK</code>, checked in this order: <code>No such book</code>, <code>Already borrowed</code>, <code>Limit reached</code>, <code>None available</code>, <code>OK</code>.</li>
+<li><code>give_back(library, member, isbn)</code> returns <code>OK</code> (and records the return) or <code>Not borrowed</code>. A member with nothing left on loan is removed from <code>loans</code>.</li>
+<li><code>available(library, isbn)</code> returns the number of copies on the shelf.</li>
+<li><code>report(library)</code> returns one line per book, sorted by title: <code>Title by Author: 1 of 2 available</code>, joined with <code>"\n"</code>.</li>
+<li><code>process(library, command)</code> carries out one command and returns its message: <code>borrow NAME ISBN</code>, <code>return NAME ISBN</code>, <code>report</code>, or <code>who ISBN</code>, which returns the borrowers&rsquo; names sorted and joined with <code>", "</code>, or <code>nobody</code>. Anything else returns <code>Unknown command</code>. Member names are one word.</li>
+<li>The main program makes a library, adds the two books below, then reads commands with the prompt <code>&gt;</code> until <code>quit</code>, printing each message.</li>
+</ul>
+<pre><code>add_book(lib, &quot;111&quot;, &quot;Things Fall Apart&quot;, &quot;Chinua Achebe&quot;, 2)
+add_book(lib, &quot;222&quot;, &quot;Americanah&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 1)
+</code></pre>
+<p>For example:</p>
+<pre><code>&gt; borrow Ada 222
+OK
+&gt; borrow Bo 222
+None available
+&gt; who 222
+Ada
+&gt; report
+Americanah by Chimamanda Ngozi Adichie: 0 of 1 available
+Things Fall Apart by Chinua Achebe: 2 of 2 available
+&gt; quit
+</code></pre></div><textarea class="pc-src pc-code" hidden>LIMIT = 3
+
+def new_library():
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def fresh():
+    lib = new_library()
+    add_book(lib, &quot;111&quot;, &quot;Things Fall Apart&quot;, &quot;Chinua Achebe&quot;, 2)
+    add_book(lib, &quot;222&quot;, &quot;Americanah&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 1)
+    return lib
+def test_new():
+    &quot;new_library and add_book&quot;
+    lib = new_library()
+    assert lib == {&quot;books&quot;: {}, &quot;loans&quot;: {}}
+    assert new_library() is not lib and new_library()[&quot;books&quot;] is not lib[&quot;books&quot;], &quot;each library needs its own dictionaries&quot;
+    add_book(lib, &quot;9&quot;, &quot;T&quot;, &quot;A&quot;, 1)
+    add_book(lib, &quot;9&quot;, &quot;T&quot;, &quot;A&quot;, 2)
+    assert lib[&quot;books&quot;][&quot;9&quot;] == {&quot;title&quot;: &quot;T&quot;, &quot;author&quot;: &quot;A&quot;, &quot;copies&quot;: 3}
+def test_borrow():
+    &quot;borrow&quot;
+    lib = fresh()
+    assert borrow(lib, &quot;Ada&quot;, &quot;999&quot;) == &quot;No such book&quot;
+    assert borrow(lib, &quot;Ada&quot;, &quot;222&quot;) == &quot;OK&quot;
+    assert lib[&quot;loans&quot;] == {&quot;Ada&quot;: {&quot;222&quot;}}
+    assert borrow(lib, &quot;Ada&quot;, &quot;222&quot;) == &quot;Already borrowed&quot;
+    assert borrow(lib, &quot;Bo&quot;, &quot;222&quot;) == &quot;None available&quot;
+    assert available(lib, &quot;222&quot;) == 0 and available(lib, &quot;111&quot;) == 2
+    for i in range(3):
+        add_book(lib, f&quot;x{i}&quot;, f&quot;X{i}&quot;, &quot;Z&quot;, 1)
+    assert borrow(lib, &quot;Ada&quot;, &quot;x0&quot;) == &quot;OK&quot; and borrow(lib, &quot;Ada&quot;, &quot;x1&quot;) == &quot;OK&quot;
+    assert borrow(lib, &quot;Ada&quot;, &quot;x2&quot;) == &quot;Limit reached&quot;
+    assert borrow(lib, &quot;Ada&quot;, &quot;999&quot;) == &quot;No such book&quot;
+def test_return():
+    &quot;give_back&quot;
+    lib = fresh()
+    borrow(lib, &quot;Ada&quot;, &quot;111&quot;)
+    assert give_back(lib, &quot;Ada&quot;, &quot;222&quot;) == &quot;Not borrowed&quot;
+    assert give_back(lib, &quot;Bo&quot;, &quot;111&quot;) == &quot;Not borrowed&quot;
+    assert give_back(lib, &quot;Ada&quot;, &quot;111&quot;) == &quot;OK&quot;
+    assert lib[&quot;loans&quot;] == {}, &quot;a member with no loans should be removed&quot;
+    assert available(lib, &quot;111&quot;) == 2
+def test_report():
+    &quot;report&quot;
+    lib = fresh()
+    borrow(lib, &quot;Ada&quot;, &quot;111&quot;)
+    assert report(lib) == &quot;Americanah by Chimamanda Ngozi Adichie: 1 of 1 available\nThings Fall Apart by Chinua Achebe: 1 of 2 available&quot;
+def test_process():
+    &quot;process&quot;
+    lib = fresh()
+    assert process(lib, &quot;borrow Cy 111&quot;) == &quot;OK&quot;
+    assert process(lib, &quot;borrow Ada 111&quot;) == &quot;OK&quot;
+    assert process(lib, &quot;who 111&quot;) == &quot;Ada, Cy&quot;
+    assert process(lib, &quot;who 222&quot;) == &quot;nobody&quot;
+    assert process(lib, &quot;return Cy 111&quot;) == &quot;OK&quot;
+    assert process(lib, &quot;dance&quot;) == &quot;Unknown command&quot;
+    assert process(lib, &quot;report&quot;).startswith(&quot;Americanah&quot;)
+def test_program():
+    &quot;the whole program&quot;
+    cmds = [&quot;borrow Ada 222&quot;, &quot;borrow Bo 222&quot;, &quot;who 222&quot;, &quot;report&quot;, &quot;quit&quot;]
+    want = &quot;&gt; borrow Ada 222\nOK\n&gt; borrow Bo 222\nNone available\n&gt; who 222\nAda\n&gt; report\nAmericanah by Chimamanda Ngozi Adichie: 0 of 1 available\nThings Fall Apart by Chinua Achebe: 2 of 2 available\n&gt; quit&quot;
+    expect_output(want, inputs=cmds, echo=True)</textarea><textarea class="pc-src pc-solution" hidden>LIMIT = 3
+
+def new_library():
+    return {&quot;books&quot;: {}, &quot;loans&quot;: {}}
+
+def add_book(library, isbn, title, author, copies):
+    books = library[&quot;books&quot;]
+    if isbn in books:
+        books[isbn][&quot;copies&quot;] += copies
+    else:
+        books[isbn] = {&quot;title&quot;: title, &quot;author&quot;: author, &quot;copies&quot;: copies}
+
+def available(library, isbn):
+    out = sum(1 for isbns in library[&quot;loans&quot;].values() if isbn in isbns)
+    return library[&quot;books&quot;][isbn][&quot;copies&quot;] - out
+
+def borrow(library, member, isbn):
+    if isbn not in library[&quot;books&quot;]:
+        return &quot;No such book&quot;
+    mine = library[&quot;loans&quot;].get(member, set())
+    if isbn in mine:
+        return &quot;Already borrowed&quot;
+    if len(mine) &gt;= LIMIT:
+        return &quot;Limit reached&quot;
+    if available(library, isbn) == 0:
+        return &quot;None available&quot;
+    library[&quot;loans&quot;].setdefault(member, set()).add(isbn)
+    return &quot;OK&quot;
+
+def give_back(library, member, isbn):
+    mine = library[&quot;loans&quot;].get(member, set())
+    if isbn not in mine:
+        return &quot;Not borrowed&quot;
+    mine.remove(isbn)
+    if not mine:
+        del library[&quot;loans&quot;][member]
+    return &quot;OK&quot;
+
+def report(library):
+    books = library[&quot;books&quot;]
+    lines = []
+    for isbn in sorted(books, key=lambda i: books[i][&quot;title&quot;]):
+        b = books[isbn]
+        lines.append(f&quot;{b[&#x27;title&#x27;]} by {b[&#x27;author&#x27;]}: {available(library, isbn)} of {b[&#x27;copies&#x27;]} available&quot;)
+    return &quot;\n&quot;.join(lines)
+
+def who(library, isbn):
+    names = sorted(m for m, isbns in library[&quot;loans&quot;].items() if isbn in isbns)
+    return &quot;, &quot;.join(names) if names else &quot;nobody&quot;
+
+def process(library, command):
+    parts = command.split()
+    if len(parts) == 3 and parts[0] == &quot;borrow&quot;:
+        return borrow(library, parts[1], parts[2])
+    if len(parts) == 3 and parts[0] == &quot;return&quot;:
+        return give_back(library, parts[1], parts[2])
+    if parts == [&quot;report&quot;]:
+        return report(library)
+    if len(parts) == 2 and parts[0] == &quot;who&quot;:
+        return who(library, parts[1])
+    return &quot;Unknown command&quot;
+
+lib = new_library()
+add_book(lib, &quot;111&quot;, &quot;Things Fall Apart&quot;, &quot;Chinua Achebe&quot;, 2)
+add_book(lib, &quot;222&quot;, &quot;Americanah&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 1)
+command = input(&quot;&gt; &quot;)
+while command != &quot;quit&quot;:
+    print(process(lib, command))
+    command = input(&quot;&gt; &quot;)</textarea><template class="pc-src pc-hint"><code>new_library</code> must build new dictionaries every time it&rsquo;s called: <code>return {"books": {}, "loans": {}}</code>. In <code>add_book</code>, use <code>in</code> to check whether the ISBN is already a key.</template><template class="pc-src pc-hint"><code>available</code> is <code>copies - sum(1 for isbns in library["loans"].values() if isbn in isbns)</code>. In <code>borrow</code>, the member&rsquo;s current set is <code>library["loans"].get(member, set())</code>.</template><template class="pc-src pc-hint">In <code>process</code>, <code>parts = command.split()</code>. Check <code>parts[0]</code> and <code>len(parts)</code> to decide which function to call.</template></div>
+<aside class="callout c-think"><div class="callout-t">One fact, one place</div><p>Notice that the library never stores how many copies are <strong>available</strong>. It works that out from <code>copies</code> and <code>loans</code> whenever it&rsquo;s asked. If it stored the number as well, every borrow and return would have to update two things, and one day a bug would update only one of them. Storing each fact in exactly one place, and working everything else out from it, is one of the most useful rules in data design. Real databases are built around it.</p></aside>
+<h2 id="forge-bonus-a-spelling-corrector">Forge bonus: a spelling corrector</h2>
+<p>This bonus is based on a famous short essay by Peter Norvig, &ldquo;How to Write a Spelling Corrector&rdquo;. The idea: most typing mistakes are one small <strong>edit</strong> away from the word that was meant, and among the real words one edit away, the most likely is the most common one.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: a spelling corrector</div><div class="pc-prompt"><p>An <strong>edit</strong> of a word is one of:</p>
+<ul>
+<li>a <strong>delete</strong>: remove one letter (<code>"speling"</code> → <code>"seling"</code>);</li>
+<li>a <strong>swap</strong>: swap two neighbouring letters (<code>"teh"</code> → <code>"the"</code>);</li>
+<li>a <strong>replace</strong>: change one letter to another letter <code>a</code> to <code>z</code>;</li>
+<li>an <strong>insert</strong>: add one letter <code>a</code> to <code>z</code> anywhere, including at the ends.</li>
+</ul>
+<p>Write:</p>
+<ol>
+<li><code>edits(word)</code> returns the <strong>set</strong> of every word one edit away (the word itself may be included, through a replace with the same letter, which is fine).</li>
+<li><code>train(text)</code> returns a <code>Counter</code> of the words in the text, in lower case, counting only runs of letters (treat every non-letter as a space).</li>
+<li><code>correct(word, counts)</code> returns, in lower case: the word itself if it&rsquo;s known (in <code>counts</code>); otherwise the most common known word one edit away; otherwise the word unchanged. If known words tie, return the alphabetically first.</li>
+</ol>
+<p>Use comprehensions to build the edits. The split points are <code>[(word[:i], word[i:]) for i in range(len(word) + 1)]</code>.</p></div><textarea class="pc-src pc-code" hidden>from collections import Counter
+LETTERS = &quot;abcdefghijklmnopqrstuvwxyz&quot;</textarea><textarea class="pc-src pc-tests" hidden>TEXT = &quot;The cat sat on the mat. The dog sat on the log, and the cat spelled spelling! Then the cat and dog ate.&quot;
+def test_edits():
+    &quot;edits&quot;
+    e = edits(&quot;ab&quot;)
+    assert isinstance(e, set)
+    assert {&quot;a&quot;, &quot;b&quot;, &quot;ba&quot;, &quot;cb&quot;, &quot;ac&quot;, &quot;zab&quot;, &quot;abz&quot;, &quot;axb&quot;} &lt;= e
+    assert len(edits(&quot;speling&quot;)) == 390, &quot;speling has 390 different words one edit away&quot;
+    assert &quot;spelling&quot; in edits(&quot;speling&quot;) and &quot;the&quot; in edits(&quot;teh&quot;) and &quot;cat&quot; in edits(&quot;cst&quot;)
+def test_train():
+    &quot;train&quot;
+    c = train(TEXT)
+    assert c[&quot;the&quot;] == 6 and c[&quot;cat&quot;] == 3 and c[&quot;spelling&quot;] == 1
+    assert &quot;mat.&quot; not in c and &quot;&quot; not in c
+def test_correct():
+    &quot;correct&quot;
+    c = train(TEXT)
+    assert correct(&quot;speling&quot;, c) == &quot;spelling&quot;
+    assert correct(&quot;teh&quot;, c) == &quot;the&quot;
+    assert correct(&quot;cst&quot;, c) == &quot;cat&quot;
+    assert correct(&quot;Dog&quot;, c) == &quot;dog&quot;
+    assert correct(&quot;xylophone&quot;, c) == &quot;xylophone&quot;
+    assert correct(&quot;sa&quot;, c) == &quot;sat&quot;</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+LETTERS = &quot;abcdefghijklmnopqrstuvwxyz&quot;
+
+def edits(word):
+    splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
+    deletes = {L + R[1:] for L, R in splits if R}
+    swaps = {L + R[1] + R[0] + R[2:] for L, R in splits if len(R) &gt; 1}
+    replaces = {L + c + R[1:] for L, R in splits if R for c in LETTERS}
+    inserts = {L + c + R for L, R in splits for c in LETTERS}
+    return deletes | swaps | replaces | inserts
+
+def train(text):
+    cleaned = &quot;&quot;.join(ch if ch.isalpha() else &quot; &quot; for ch in text)
+    return Counter(cleaned.lower().split())
+
+def correct(word, counts):
+    word = word.lower()
+    if word in counts:
+        return word
+    known = [w for w in edits(word) if w in counts]
+    if not known:
+        return word
+    return min(known, key=lambda w: (-counts[w], w))</textarea><template class="pc-src pc-hint">With <code>splits</code> as given: deletes are <code>L + R[1:]</code> for each split with a non-empty <code>R</code>; swaps are <code>L + R[1] + R[0] + R[2:]</code> when <code>len(R) &gt; 1</code>; replaces are <code>L + c + R[1:]</code> for every letter <code>c</code>; inserts are <code>L + c + R</code> for every letter.</template><template class="pc-src pc-hint">For <code>train</code>, turn every character that isn&rsquo;t a letter into a space with a comprehension, join, lower, and split. For <code>correct</code>, <code>known = [w for w in edits(word) if w in counts]</code>, then pick with <code>min(known, key=lambda w: (-counts[w], w))</code>.</template></div>
+<p>Train it on a whole book and it corrects most single typos. Norvig&rsquo;s full version also looks two edits away, and you could add that now: the edits of every edit.</p>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w010d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>{'a': 1}['b']</code> do?", "answer": 2, "explain": "Use get for a missing key.", "options": ["Returns None", "Returns 0", "Raises KeyError", "Adds b"]}, {"type": "mc", "q": "What does <code>\"x\" in d</code> check for a dictionary <code>d</code>?", "answer": 1, "explain": "Keys only.", "options": ["The values", "The keys", "Both", "The items"]}, {"type": "output", "q": "What does this print?", "answer": "a\nbb", "explain": "A string times a number repeats it.", "code": "d = {\"a\": 1, \"b\": 2}\nfor k, v in d.items():\n    print(k * v)"}, {"type": "mc", "q": "Which can be a dictionary key?", "answer": 2, "explain": "Keys must be hashable; tuples of numbers are.", "options": ["<code>[1, 2]</code>", "<code>{1, 2}</code>", "<code>(1, 2)</code>", "<code>{1: 2}</code>"]}, {"type": "text", "q": "What is <code>{'a': 1, 'b': 2} | {'a': 5}</code>?", "answer": ["{'a': 5, 'b': 2}"], "explain": "The right-hand side wins, and the order of first appearance is kept."}, {"type": "mc", "q": "Which builds a dictionary of squares?", "answer": 1, "explain": "<code>{n * n for ...}</code> is a set comprehension.", "options": ["<code>[n: n * n for n in range(4)]</code>", "<code>{n: n * n for n in range(4)}</code>", "<code>{n * n for n in range(4)}</code>", "<code>dict(n * n for n in range(4))</code>"]}, {"type": "mc", "q": "What&rsquo;s the trap in <code>dict.fromkeys(keys, [])</code>?", "answer": 1, "explain": "Use a comprehension.", "options": ["None", "All keys share one list", "Keys are sorted", "It makes a set"]}, {"type": "mc", "q": "Which pattern answers &lsquo;how many times does each word appear?&rsquo;", "answer": 1, "explain": "key \u2192 count.", "options": ["grouping", "counting", "index", "union"]}, {"type": "output", "q": "What does this print?", "answer": "{1: [1, 3, 5], 0: [2, 4]}", "explain": "Grouped by remainder, in the order keys were first seen.", "code": "g = {}\nfor n in [1, 2, 3, 4, 5]:\n    g.setdefault(n % 2, []).append(n)\nprint(g)"}, {"type": "mc", "q": "What is <code>Counter('banana')['a']</code>?", "answer": 2, "explain": "Three a&rsquo;s.", "options": ["1", "2", "3", "0"]}, {"type": "mc", "q": "Why use <code>copy.deepcopy</code> on nested data?", "answer": 1, "explain": "deepcopy copies every level.", "options": ["It&rsquo;s faster", "A shallow copy shares the inner lists and dictionaries", "To sort it", "To make JSON"]}, {"type": "mc", "q": "What does <code>json.dumps(None)</code> give?", "answer": 1, "explain": "JSON&rsquo;s null.", "options": ["&lsquo;None&rsquo;", "&lsquo;null&rsquo;", "&rsquo;&lsquo;", "An error"]}, {"type": "mc", "q": "How do you write an empty set?", "answer": 1, "explain": "<code>{}</code> is a dictionary.", "options": ["<code>{}</code>", "<code>set()</code>", "<code>()</code>", "<code>{,}</code>"]}, {"type": "text", "q": "What is <code>sorted({1, 2, 3} - {2})</code>?", "answer": ["[1, 3]"], "explain": "Difference, then sorted into a list."}, {"type": "mc", "q": "Which collection fits &lsquo;a fast check for words already seen&rsquo;?", "answer": 2, "explain": "Membership is what sets do best.", "options": ["list", "tuple", "set", "string"]}]</script></div>
+<h2 id="week-10-review">Week 10 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I can make dictionaries, look up, add, change and remove entries, use <code>get</code>, and loop over keys, values and items. (<a href="w010d1.html">Day 1</a>)</li>
+<li>I can use <code>pop</code>, <code>setdefault</code>, <code>update</code> and <code>|</code>, build dictionaries with comprehensions, and sort and invert them. (<a href="w010d2.html">Day 2</a>)</li>
+<li>I can write the counting, grouping, totals and index patterns by hand and with <code>Counter</code> and <code>defaultdict</code>. (<a href="w010d3.html">Day 3</a>)</li>
+<li>I can reach into, loop through, build and safely copy nested data, and convert it to and from JSON. (<a href="w010d4.html">Day 4</a>)</li>
+<li>I can use sets for membership, removing duplicates and comparing groups, and choose the right collection. (<a href="w010d5.html">Day 5</a>)</li>
+<li>I built a library system with consistent data, and a spelling corrector. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week: <strong>files and errors</strong>. Your programs will read and write files, and deal with things going wrong.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w010d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w010d6", "week": 10, "day": 6, "title": "Forge", "exercises": [{"id": "w010d6-mix_merge", "title": "Add up two counts", "points": 10}, {"id": "w010d6-mix_owners", "title": "Who owns what", "points": 10}, {"id": "w010d6-mix_tags", "title": "Tag cloud", "points": 10}, {"id": "w010d6-mix_lookup", "title": "Anagram finder", "points": 10}, {"id": "w010d6-forge", "title": "Forge: the library", "points": 50}, {"id": "w010d6-forge2", "title": "Forge bonus: a spelling corrector", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

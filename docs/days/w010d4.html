@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="b70c1f84f5">
+<title>Week 10 Day 4: Nested data | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=b70c1f84f5">
+<link rel="stylesheet" href="../assets/css/site.css?v=b70c1f84f5">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=b70c1f84f5"></script>
+<script src="../assets/vendor/codemirror.js?v=b70c1f84f5" defer></script>
+<meta name="description" content="Real data is rarely a flat list or a single dictionary. A class is a list of students; each student is a dictionary; each dictionary holds a list of marks....">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w010d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 10 Day 4: Nested data">
+<meta property="og:description" content="Real data is rarely a flat list or a single dictionary. A class is a list of students; each student is a dictionary; each dictionary holds a list of marks....">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w010d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-10">Week 10: Dictionaries and sets</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#shapes-of-data" data-sec="shapes-of-data">Shapes of data</a></li><li><a href="#reaching-in" data-sec="reaching-in">Reaching in</a></li><li><a href="#looping-and-building" data-sec="looping-and-building">Looping and building</a></li><li><a href="#copies" data-sec="copies">Copies</a></li><li><a href="#json" data-sec="json">JSON</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 10, Day 4</span></p>
+      <h1>Nested data</h1>
+      <div class="day-intro"><p>Real data is rarely a flat list or a single dictionary. A class is a list of students; each student is a dictionary; each dictionary holds a list of marks. Today you&rsquo;ll learn to read such nested data step by step, loop through it, build it, change it safely, and save it as JSON, the format most of the web uses to send data around.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Choose between a list of dictionaries, a dictionary of lists and a dictionary of dictionaries</li><li>Reach any value in nested data by chaining square brackets, one level at a time</li><li>Loop through nested data, and build it up from flat records</li><li>Copy nested data safely with <code>copy.deepcopy</code></li><li>Turn data into JSON text and back with <code>json.dumps</code> and <code>json.loads</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Shapes of data: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Reaching in: 30 min"></span><span class="plan-seg s1" style="flex:30" title="Looping and building: 30 min"></span><span class="plan-seg s0" style="flex:15" title="Copies: 15 min"></span><span class="plan-seg s1" style="flex:20" title="JSON: 20 min"></span><span class="plan-seg s0" style="flex:35" title="Practice: 35 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Shapes of data</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Reaching in</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Looping and building</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Copies</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">JSON</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:15</span><span class="plan-what">Practice</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w010d4.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d4-p1"><textarea class="pc-src pc-code" hidden>student = {&quot;name&quot;: &quot;Ada&quot;, &quot;marks&quot;: [93, 88, 71]}
+print(student[&quot;marks&quot;][1])
+print(len(student[&quot;marks&quot;]))
+student[&quot;marks&quot;].append(64)
+print(student)</textarea></div>
+<p><code>student["marks"]</code> is a list, so you can index it, take its length, and append to it, like any other list. That one idea is all of today: each pair of square brackets takes you one level deeper.</p>
+<h2 id="shapes-of-data">Shapes of data</h2>
+<p>There are three common shapes, and choosing the right one makes the rest of the program simpler.</p>
+<p><strong>A list of dictionaries</strong>: many records of the same kind, in order. Each dictionary has the same keys. This is the shape of a table, a spreadsheet, or rows from a database.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e2"><textarea class="pc-src pc-code" hidden>students = [
+    {&quot;name&quot;: &quot;Ada&quot;, &quot;city&quot;: &quot;Lagos&quot;, &quot;mark&quot;: 93},
+    {&quot;name&quot;: &quot;Bo&quot;, &quot;city&quot;: &quot;Accra&quot;, &quot;mark&quot;: 41},
+    {&quot;name&quot;: &quot;Cy&quot;, &quot;city&quot;: &quot;Lagos&quot;, &quot;mark&quot;: 78},
+]
+print(students[1][&quot;city&quot;])
+print([s[&quot;name&quot;] for s in students if s[&quot;mark&quot;] &gt;= 50])</textarea></div>
+<p><strong>A dictionary of lists</strong>: a list of things for each key. It&rsquo;s what the grouping pattern produces.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e3"><textarea class="pc-src pc-code" hidden>by_city = {&quot;Lagos&quot;: [&quot;Ada&quot;, &quot;Cy&quot;], &quot;Accra&quot;: [&quot;Bo&quot;]}
+print(by_city[&quot;Lagos&quot;])
+print(len(by_city[&quot;Lagos&quot;]))</textarea></div>
+<p><strong>A dictionary of dictionaries</strong>: a record for each key, found at once by that key. It&rsquo;s what the index pattern produces.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e4"><textarea class="pc-src pc-code" hidden>students = {
+    &quot;ada_l&quot;: {&quot;name&quot;: &quot;Ada&quot;, &quot;city&quot;: &quot;Lagos&quot;, &quot;mark&quot;: 93},
+    &quot;bo99&quot;: {&quot;name&quot;: &quot;Bo&quot;, &quot;city&quot;: &quot;Accra&quot;, &quot;mark&quot;: 41},
+}
+print(students[&quot;bo99&quot;][&quot;mark&quot;])</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Ask what you&rsquo;ll look things up <strong>by</strong>. If you go through records in order, a <strong>list of dictionaries</strong>. If you look up a group by a name, a <strong>dictionary of lists</strong>. If you look up one record by a unique key, a <strong>dictionary of dictionaries</strong>.</p></aside>
+<h2 id="reaching-in">Reaching in</h2>
+<p>Read a chain of square brackets from left to right, one step at a time. Each step gives a new value, and the next bracket applies to that value:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e5"><textarea class="pc-src pc-code" hidden>school = {
+    &quot;name&quot;: &quot;Python Atlas&quot;,
+    &quot;classes&quot;: [
+        {&quot;code&quot;: &quot;3A&quot;, &quot;students&quot;: [&quot;Ada&quot;, &quot;Bo&quot;]},
+        {&quot;code&quot;: &quot;3B&quot;, &quot;students&quot;: [&quot;Cy&quot;]},
+    ],
+}
+print(school[&quot;classes&quot;])
+print(school[&quot;classes&quot;][0])
+print(school[&quot;classes&quot;][0][&quot;students&quot;])
+print(school[&quot;classes&quot;][0][&quot;students&quot;][1])</textarea></div>
+<p><code>school["classes"]</code> is a list; <code>[0]</code> is its first item, a dictionary; <code>["students"]</code> is a list in that; <code>[1]</code> is its second name.</p>
+<p>Explore it yourself. Click any part to see the expression that reaches it:</p>
+<figure class="widget" data-widget="nestview"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Edit the data, or click through it. Each step down the tree is one more pair of square brackets. Try writing the path to Bo&rsquo;s second mark before you click it.</figcaption></figure>
+<h3 id="when-a-level-might-be-missing">When a level might be missing</h3>
+<p>Any step can fail: a key may be missing, a list may be too short. Use <code>get</code> at the levels where something may legitimately be missing, with a default of the right <strong>type</strong>, so the next step still works:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e6"><textarea class="pc-src pc-code" hidden>user = {&quot;name&quot;: &quot;Ada&quot;, &quot;settings&quot;: {&quot;theme&quot;: &quot;dark&quot;}}
+guest = {&quot;name&quot;: &quot;Guest&quot;}
+for u in [user, guest]:
+    theme = u.get(&quot;settings&quot;, {}).get(&quot;theme&quot;, &quot;light&quot;)
+    print(u[&quot;name&quot;], theme)</textarea></div>
+<p><code>u.get("settings", {})</code> gives an empty dictionary when there are no settings, and <code>.get("theme", "light")</code> on an empty dictionary gives <code>"light"</code>.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>When a long chain of brackets fails, split it up and print each step. The error tells you the <strong>key</strong> or <strong>index</strong> that failed; the printed steps tell you what was actually there.</p></aside>
+<h2 id="looping-and-building">Looping and building</h2>
+<h3 id="looping-through-levels">Looping through levels</h3>
+<p>Each level of nesting is usually one loop:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e7"><textarea class="pc-src pc-code" hidden>classes = {
+    &quot;3A&quot;: [{&quot;name&quot;: &quot;Ada&quot;, &quot;mark&quot;: 93}, {&quot;name&quot;: &quot;Bo&quot;, &quot;mark&quot;: 41}],
+    &quot;3B&quot;: [{&quot;name&quot;: &quot;Cy&quot;, &quot;mark&quot;: 78}],
+}
+for code, students in classes.items():
+    print(code)
+    for s in students:
+        print(f&quot;  {s[&#x27;name&#x27;]:&lt;4}{s[&#x27;mark&#x27;]:&gt;4}&quot;)</textarea></div>
+<p>Notice <code>s['name']</code> inside the f-string: the quotes inside must differ from the f-string&rsquo;s own quotes (until Python 3.12 allowed the same quotes).</p>
+<h3 id="summarising">Summarising</h3>
+<p>Comprehensions and generator expressions work well on nested data:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e8"><textarea class="pc-src pc-code" hidden>classes = {
+    &quot;3A&quot;: [{&quot;name&quot;: &quot;Ada&quot;, &quot;mark&quot;: 93}, {&quot;name&quot;: &quot;Bo&quot;, &quot;mark&quot;: 41}],
+    &quot;3B&quot;: [{&quot;name&quot;: &quot;Cy&quot;, &quot;mark&quot;: 78}, {&quot;name&quot;: &quot;Di&quot;, &quot;mark&quot;: 66}],
+}
+averages = {code: sum(s[&quot;mark&quot;] for s in ss) / len(ss) for code, ss in classes.items()}
+print(averages)
+everyone = [s for ss in classes.values() for s in ss]
+best = max(everyone, key=lambda s: s[&quot;mark&quot;])
+print(best[&quot;name&quot;])</textarea></div>
+<h3 id="building-from-flat-records">Building from flat records</h3>
+<p>Data often arrives flat, one record per line, and you build the nested shape you need:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e9"><textarea class="pc-src pc-code" hidden>rows = [(&quot;3A&quot;, &quot;Ada&quot;, 93), (&quot;3B&quot;, &quot;Cy&quot;, 78), (&quot;3A&quot;, &quot;Bo&quot;, 41)]
+classes = {}
+for code, name, mark in rows:
+    classes.setdefault(code, []).append({&quot;name&quot;: name, &quot;mark&quot;: mark})
+print(classes)</textarea></div>
+<h3 id="changing-nested-data">Changing nested data</h3>
+<p>Changing an inner value changes it in place, wherever it&rsquo;s reached from:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e10"><textarea class="pc-src pc-code" hidden>inventory = {&quot;rice&quot;: {&quot;price&quot;: 8500, &quot;stock&quot;: 12}, &quot;beans&quot;: {&quot;price&quot;: 3200, &quot;stock&quot;: 0}}
+inventory[&quot;rice&quot;][&quot;stock&quot;] -= 2
+inventory[&quot;beans&quot;][&quot;price&quot;] = 3500
+inventory[&quot;garri&quot;] = {&quot;price&quot;: 2000, &quot;stock&quot;: 30}
+for item, info in inventory.items():
+    print(item, info)</textarea></div>
+<h2 id="copies">Copies</h2>
+<p>You saw in Week 8 that <code>.copy()</code> is shallow: the new outer container holds the <strong>same</strong> inner objects. With nested data that matters:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e11"><textarea class="pc-src pc-code" hidden>import copy
+original = {&quot;name&quot;: &quot;Ada&quot;, &quot;marks&quot;: [93, 88]}
+shallow = original.copy()
+deep = copy.deepcopy(original)
+shallow[&quot;marks&quot;].append(10)
+deep[&quot;marks&quot;].append(99)
+print(original)
+print(deep)</textarea></div>
+<p>Changing the shallow copy&rsquo;s list changed the original&rsquo;s list, because they&rsquo;re the same list. <code>copy.deepcopy</code> copies every level, so the deep copy is completely separate.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>To change nested data without touching the original, use <code>copy.deepcopy</code>. A shallow <code>.copy()</code> is enough only when you&rsquo;ll replace whole values, not change them inside.</p></aside>
+<h2 id="json">JSON</h2>
+<p><strong>JSON</strong> (JavaScript Object Notation) is a text format for nested data. It looks almost exactly like Python&rsquo;s lists and dictionaries, and it&rsquo;s how most websites and apps send data to each other. The <code>json</code> module converts both ways:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e12"><textarea class="pc-src pc-code" hidden>import json
+data = {&quot;name&quot;: &quot;Ada&quot;, &quot;marks&quot;: [93, 88], &quot;passed&quot;: True, &quot;tutor&quot;: None}
+text = json.dumps(data)
+print(text)
+print(type(text))
+back = json.loads(text)
+print(back[&quot;marks&quot;][0])</textarea></div>
+<p><code>json.dumps</code> (&ldquo;dump to string&rdquo;) turns data into JSON text; <code>json.loads</code> (&ldquo;load from string&rdquo;) turns JSON text back into data. Notice the small differences in the text: JSON writes <code>true</code>, <code>false</code> and <code>null</code> where Python has <code>True</code>, <code>False</code> and <code>None</code>, and always uses double quotes.</p>
+<p><code>indent</code> makes the text readable, which is the easiest way to look at a big nested structure:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d4-e13"><textarea class="pc-src pc-code" hidden>import json
+data = {&quot;school&quot;: &quot;Python Atlas&quot;, &quot;classes&quot;: [{&quot;code&quot;: &quot;3A&quot;, &quot;size&quot;: 2}, {&quot;code&quot;: &quot;3B&quot;, &quot;size&quot;: 1}]}
+print(json.dumps(data, indent=2))</textarea></div>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>JSON keys are always strings. A dictionary with number or tuple keys doesn&rsquo;t come back the same: <code>json.loads(json.dumps({1: "a"}))</code> gives <code>{"1": "a"}</code>, and tuple keys can&rsquo;t be saved at all. Tuples as values come back as lists.</p></aside>
+<p>Next week you&rsquo;ll save JSON to files, so your programs can remember things between runs.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d4-reach" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Reach in</div><div class="pc-prompt"><p>Using <code>shop</code>, set each name to the value described, by writing an expression that reaches it (not by typing the value).</p></div><textarea class="pc-src pc-code" hidden>shop = {
+    &quot;name&quot;: &quot;Mama Put&quot;,
+    &quot;menu&quot;: [
+        {&quot;dish&quot;: &quot;jollof&quot;, &quot;price&quot;: 1500, &quot;tags&quot;: [&quot;rice&quot;, &quot;spicy&quot;]},
+        {&quot;dish&quot;: &quot;moi moi&quot;, &quot;price&quot;: 800, &quot;tags&quot;: [&quot;beans&quot;]},
+    ],
+    &quot;hours&quot;: {&quot;open&quot;: 8, &quot;close&quot;: 21},
+}
+a = ___   # the closing hour
+b = ___   # the price of moi moi
+c = ___   # the second tag of jollof
+d = ___   # how many dishes there are</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 21 and b == 800 and c == &quot;spicy&quot; and d == 2
+    assert &quot;= 21&quot; not in source and &quot;= 800&quot; not in source and &#x27;= &quot;spicy&quot;&#x27; not in source</textarea><textarea class="pc-src pc-solution" hidden>shop = {
+    &quot;name&quot;: &quot;Mama Put&quot;,
+    &quot;menu&quot;: [
+        {&quot;dish&quot;: &quot;jollof&quot;, &quot;price&quot;: 1500, &quot;tags&quot;: [&quot;rice&quot;, &quot;spicy&quot;]},
+        {&quot;dish&quot;: &quot;moi moi&quot;, &quot;price&quot;: 800, &quot;tags&quot;: [&quot;beans&quot;]},
+    ],
+    &quot;hours&quot;: {&quot;open&quot;: 8, &quot;close&quot;: 21},
+}
+a = shop[&quot;hours&quot;][&quot;close&quot;]
+b = shop[&quot;menu&quot;][1][&quot;price&quot;]
+c = shop[&quot;menu&quot;][0][&quot;tags&quot;][1]
+d = len(shop[&quot;menu&quot;])</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d4-records" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Filter the records</div><div class="pc-prompt"><p><code>books</code> is a list of dictionaries with keys <code>title</code>, <code>author</code> and <code>year</code>. Write <code>before(books, year)</code> that returns the titles of books published before <code>year</code>, sorted by year (oldest first).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>BOOKS = [
+    {&quot;title&quot;: &quot;Half of a Yellow Sun&quot;, &quot;author&quot;: &quot;Adichie&quot;, &quot;year&quot;: 2006},
+    {&quot;title&quot;: &quot;Things Fall Apart&quot;, &quot;author&quot;: &quot;Achebe&quot;, &quot;year&quot;: 1958},
+    {&quot;title&quot;: &quot;The Famished Road&quot;, &quot;author&quot;: &quot;Okri&quot;, &quot;year&quot;: 1991},
+]
+def test_values():
+    &quot;several years&quot;
+    assert before(BOOKS, 2000) == [&quot;Things Fall Apart&quot;, &quot;The Famished Road&quot;]
+    assert before(BOOKS, 1900) == []</textarea><textarea class="pc-src pc-solution" hidden>def before(books, year):
+    old = [b for b in books if b[&quot;year&quot;] &lt; year]
+    return [b[&quot;title&quot;] for b in sorted(old, key=lambda b: b[&quot;year&quot;])]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d4-regroup" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Books by author</div><div class="pc-prompt"><p>Write <code>by_author(books)</code> that turns the list of book dictionaries into a dictionary from author to a list of <code>(year, title)</code> tuples, each list sorted by year.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several books&quot;
+    books = [
+        {&quot;title&quot;: &quot;Purple Hibiscus&quot;, &quot;author&quot;: &quot;Adichie&quot;, &quot;year&quot;: 2003},
+        {&quot;title&quot;: &quot;Things Fall Apart&quot;, &quot;author&quot;: &quot;Achebe&quot;, &quot;year&quot;: 1958},
+        {&quot;title&quot;: &quot;Americanah&quot;, &quot;author&quot;: &quot;Adichie&quot;, &quot;year&quot;: 2013},
+        {&quot;title&quot;: &quot;Half of a Yellow Sun&quot;, &quot;author&quot;: &quot;Adichie&quot;, &quot;year&quot;: 2006},
+    ]
+    assert by_author(books) == {
+        &quot;Adichie&quot;: [(2003, &quot;Purple Hibiscus&quot;), (2006, &quot;Half of a Yellow Sun&quot;), (2013, &quot;Americanah&quot;)],
+        &quot;Achebe&quot;: [(1958, &quot;Things Fall Apart&quot;)],
+    }
+    assert by_author([]) == {}</textarea><textarea class="pc-src pc-solution" hidden>def by_author(books):
+    result = {}
+    for b in books:
+        result.setdefault(b[&quot;author&quot;], []).append((b[&quot;year&quot;], b[&quot;title&quot;]))
+    for author in result:
+        result[author].sort()
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d4-theme" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Safe settings</div><div class="pc-prompt"><p>Each user is a dictionary which may or may not have a <code>"settings"</code> dictionary, which may or may not have a <code>"theme"</code>. Write <code>theme_of(user)</code> that returns the theme, or <code>"light"</code> if it&rsquo;s missing at either level.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several users&quot;
+    assert theme_of({&quot;name&quot;: &quot;A&quot;, &quot;settings&quot;: {&quot;theme&quot;: &quot;dark&quot;}}) == &quot;dark&quot;
+    assert theme_of({&quot;name&quot;: &quot;B&quot;, &quot;settings&quot;: {}}) == &quot;light&quot;
+    assert theme_of({&quot;name&quot;: &quot;C&quot;}) == &quot;light&quot;</textarea><textarea class="pc-src pc-solution" hidden>def theme_of(user):
+    return user.get(&quot;settings&quot;, {}).get(&quot;theme&quot;, &quot;light&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d4-sell" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Make a sale</div><div class="pc-prompt"><p><code>inventory</code> maps items to dictionaries with <code>price</code> and <code>stock</code>. Write <code>sell(inventory, item, qty)</code> that, if there&rsquo;s enough stock, reduces the stock in place and returns the cost (<code>price * qty</code>); otherwise it changes nothing and returns 0. An unknown item also gives 0.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several sales&quot;
+    inv = {&quot;rice&quot;: {&quot;price&quot;: 8500, &quot;stock&quot;: 3}}
+    assert sell(inv, &quot;rice&quot;, 2) == 17000 and inv[&quot;rice&quot;][&quot;stock&quot;] == 1
+    assert sell(inv, &quot;rice&quot;, 2) == 0 and inv[&quot;rice&quot;][&quot;stock&quot;] == 1
+    assert sell(inv, &quot;yam&quot;, 1) == 0</textarea><textarea class="pc-src pc-solution" hidden>def sell(inventory, item, qty):
+    info = inventory.get(item)
+    if info is None or info[&quot;stock&quot;] &lt; qty:
+        return 0
+    info[&quot;stock&quot;] -= qty
+    return info[&quot;price&quot;] * qty</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d4-roundtrip" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">To JSON and back</div><div class="pc-prompt"><p>Write <code>save(data)</code> that returns <code>data</code> as JSON text with an indent of 2 and keys sorted (<code>json.dumps</code> has a <code>sort_keys</code> argument), and <code>load(text)</code> that turns such text back into data.</p></div><textarea class="pc-src pc-code" hidden>import json</textarea><textarea class="pc-src pc-tests" hidden>import json as _j
+def test_values():
+    &quot;round trip&quot;
+    d = {&quot;b&quot;: [1, 2], &quot;a&quot;: {&quot;x&quot;: None, &quot;y&quot;: True}}
+    assert save(d) == _j.dumps(d, indent=2, sort_keys=True)
+    assert load(save(d)) == d</textarea><textarea class="pc-src pc-solution" hidden>import json
+
+def save(data):
+    return json.dumps(data, indent=2, sort_keys=True)
+
+def load(text):
+    return json.loads(text)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The original changed</div><div class="pc-prompt"><p><code>with_bonus</code> should return a copy of the class with 5 added to every mark, leaving the original alone. But the original&rsquo;s marks go up too. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def with_bonus(students):
+    result = students.copy()
+    for s in result:
+        s[&quot;mark&quot;] += 5
+    return result</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;original kept&quot;
+    c = [{&quot;name&quot;: &quot;Ada&quot;, &quot;mark&quot;: 90}, {&quot;name&quot;: &quot;Bo&quot;, &quot;mark&quot;: 40}]
+    assert with_bonus(c) == [{&quot;name&quot;: &quot;Ada&quot;, &quot;mark&quot;: 95}, {&quot;name&quot;: &quot;Bo&quot;, &quot;mark&quot;: 45}]
+    assert c == [{&quot;name&quot;: &quot;Ada&quot;, &quot;mark&quot;: 90}, {&quot;name&quot;: &quot;Bo&quot;, &quot;mark&quot;: 40}], &quot;the original was changed&quot;</textarea><textarea class="pc-src pc-solution" hidden>import copy
+
+def with_bonus(students):
+    result = copy.deepcopy(students)
+    for s in result:
+        s[&quot;mark&quot;] += 5
+    return result</textarea><template class="pc-src pc-hint"><code>.copy()</code> makes a new list holding the same dictionaries. Use <code>copy.deepcopy</code>, or build new dictionaries.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">One step too far</div><div class="pc-prompt"><p>This should print each class code and its number of students, but it crashes with <code>TypeError: string indices must be integers</code>. Fix the loop.</p></div><textarea class="pc-src pc-code" hidden>classes = {&quot;3A&quot;: [&quot;Ada&quot;, &quot;Bo&quot;], &quot;3B&quot;: [&quot;Cy&quot;]}
+for code in classes:
+    print(code, len(code[&quot;students&quot;]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;codes and sizes&quot;
+    expect_output(&quot;3A 2\n3B 1&quot;)</textarea><textarea class="pc-src pc-solution" hidden>classes = {&quot;3A&quot;: [&quot;Ada&quot;, &quot;Bo&quot;], &quot;3B&quot;: [&quot;Cy&quot;]}
+for code, students in classes.items():
+    print(code, len(students))</textarea><template class="pc-src pc-hint">Looping over a dictionary gives keys, which are strings here. The value for each key is already the list of students.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A number key comes back as text</div><div class="pc-prompt"><p>This saves a dictionary of room numbers to JSON and loads it again, then looks up room 12. It crashes with <code>KeyError: 12</code>. Fix the lookup so it prints <code>Ada</code>.</p></div><textarea class="pc-src pc-code" hidden>import json
+rooms = {12: &quot;Ada&quot;, 14: &quot;Bo&quot;}
+loaded = json.loads(json.dumps(rooms))
+print(loaded[12])</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;Ada&quot;
+    expect_output(&quot;Ada&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import json
+rooms = {12: &quot;Ada&quot;, 14: &quot;Bo&quot;}
+loaded = json.loads(json.dumps(rooms))
+print(loaded[&quot;12&quot;])</textarea><template class="pc-src pc-hint">JSON keys are always strings. What did the key 12 become?</template></div>
+<div class="parsons" data-id="w010d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Class report</div><div class="pc-prompt"><p>Arrange the lines to print each class with its best student, <code>3A Ada</code> then <code>3B Cy</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["classes = {\"3A\": [{\"name\": \"Ada\", \"mark\": 93}, {\"name\": \"Bo\", \"mark\": 41}], \"3B\": [{\"name\": \"Cy\", \"mark\": 78}]}", "for code, students in classes.items():", "    best = max(students, key=lambda s: s[\"mark\"])", "    print(code, best[\"name\"])"], "distractors": ["    best = max(students[\"mark\"])"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>data = {&quot;a&quot;: [1, {&quot;b&quot;: [2, 3]}], &quot;c&quot;: {&quot;d&quot;: {&quot;e&quot;: 4}}}
+a = ___   # data[&quot;a&quot;][1][&quot;b&quot;][-1]
+b = ___   # data[&quot;c&quot;][&quot;d&quot;]
+c = ___   # len(data[&quot;a&quot;])
+d = ___   # data.get(&quot;x&quot;, {}).get(&quot;y&quot;, 0)
+e = ___   # json.dumps([True, None])   (the string)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 3
+    assert b == {&quot;e&quot;: 4}
+    assert c == 2
+    assert d == 0
+    assert e == &quot;[true, null]&quot;</textarea><textarea class="pc-src pc-solution" hidden>data = {&quot;a&quot;: [1, {&quot;b&quot;: [2, 3]}], &quot;c&quot;: {&quot;d&quot;: {&quot;e&quot;: 4}}}
+a = 3
+b = {&quot;e&quot;: 4}
+c = 2
+d = 0
+e = &quot;[true, null]&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w010d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "Which shape fits &lsquo;look up one customer&rsquo;s record by account number&rsquo;?", "answer": 2, "explain": "key \u2192 record.", "options": ["A list of dictionaries", "A dictionary of lists", "A dictionary of dictionaries", "A list of lists"]}, {"type": "mc", "q": "With <code>d = {'x': [10, {'y': 5}]}</code>, what is <code>d['x'][1]['y']</code>?", "answer": 1, "explain": "One step at a time.", "options": ["10", "5", "&lsquo;y&rsquo;", "An error"]}, {"type": "output", "q": "What does this print?", "answer": "10", "explain": "A generator expression over a list of dictionaries.", "code": "s = [{\"n\": \"A\", \"m\": 3}, {\"n\": \"B\", \"m\": 7}]\nprint(sum(x[\"m\"] for x in s))"}, {"type": "mc", "q": "Why use <code>u.get(\"settings\", {}).get(\"theme\")</code> rather than <code>u.get(\"settings\").get(\"theme\")</code>?", "answer": 1, "explain": "The default must be a dictionary so the next step works.", "options": ["It&rsquo;s faster", "If settings is missing, <code>.get</code> on None would crash", "There&rsquo;s no difference"]}, {"type": "mc", "q": "After <code>b = a.copy()</code> where <code>a = {'m': [1]}</code>, does <code>b['m'].append(2)</code> change <code>a</code>?", "answer": 0, "explain": "A shallow copy shares the inner list.", "options": ["Yes", "No"]}, {"type": "mc", "q": "What copies every level of nested data?", "answer": 2, "explain": "deepcopy.", "options": ["<code>d.copy()</code>", "<code>dict(d)</code>", "<code>copy.deepcopy(d)</code>", "<code>d[:]</code>"]}, {"type": "text", "q": "What does <code>json.dumps({'ok': True})</code> give?", "answer": ["{\"ok\": true}", "'{\"ok\": true}'"], "explain": "JSON uses double quotes and lower-case true."}, {"type": "mc", "q": "What type does <code>json.loads</code> return for the text <code>'[1, 2]'</code>?", "answer": 1, "explain": "JSON arrays become lists.", "options": ["str", "list", "tuple", "dict"]}, {"type": "mc", "q": "What does <code>json.loads(json.dumps({1: 'a'}))</code> give?", "answer": 1, "explain": "JSON keys are always strings.", "options": ["{1: &lsquo;a&rsquo;}", "{&lsquo;1&rsquo;: &lsquo;a&rsquo;}", "An error", "[1, &lsquo;a&rsquo;]"]}, {"type": "output", "q": "What does this print?", "answer": "[1, 2, 3]", "explain": "Flattening the lists.", "code": "g = {\"x\": [1, 2], \"y\": [3]}\nprint([v for vs in g.values() for v in vs])"}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: flatten and unflatten</div><div class="pc-prompt"><p>Settings files and spreadsheets often store nested data as flat keys joined with dots: <code>{"user.name": "Ada", "user.theme.dark": True}</code> stands for <code>{"user": {"name": "Ada", "theme": {"dark": True}}}</code>.</p>
+<p>Write <code>flatten(data)</code> that turns nested dictionaries into a flat dictionary with dotted keys (values that aren&rsquo;t dictionaries, including lists, are kept as they are), and <code>unflatten(flat)</code> that does the reverse. Keys are strings without dots, and an empty inner dictionary can be left out when flattening.</p>
+<pre><code>flatten({&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: 2, &quot;d&quot;: {&quot;e&quot;: 3}}})  -&gt;  {&quot;a&quot;: 1, &quot;b.c&quot;: 2, &quot;b.d.e&quot;: 3}
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_flatten():
+    &quot;flatten&quot;
+    assert flatten({&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: 2, &quot;d&quot;: {&quot;e&quot;: 3}}}) == {&quot;a&quot;: 1, &quot;b.c&quot;: 2, &quot;b.d.e&quot;: 3}
+    assert flatten({&quot;x&quot;: [1, {&quot;y&quot;: 2}]}) == {&quot;x&quot;: [1, {&quot;y&quot;: 2}]}
+    assert flatten({}) == {}
+def test_unflatten():
+    &quot;unflatten&quot;
+    assert unflatten({&quot;a&quot;: 1, &quot;b.c&quot;: 2, &quot;b.d.e&quot;: 3}) == {&quot;a&quot;: 1, &quot;b&quot;: {&quot;c&quot;: 2, &quot;d&quot;: {&quot;e&quot;: 3}}}
+    assert unflatten({}) == {}
+def test_round_trip():
+    &quot;there and back&quot;
+    d = {&quot;user&quot;: {&quot;name&quot;: &quot;Ada&quot;, &quot;theme&quot;: {&quot;dark&quot;: True, &quot;size&quot;: 14}}, &quot;version&quot;: 3}
+    assert unflatten(flatten(d)) == d</textarea><textarea class="pc-src pc-solution" hidden>def flatten(data):
+    result = {}
+    todo = [(&quot;&quot;, data)]
+    while todo:
+        prefix, d = todo.pop(0)
+        for key, value in d.items():
+            full = f&quot;{prefix}.{key}&quot; if prefix else key
+            if isinstance(value, dict):
+                todo.append((full, value))
+            else:
+                result[full] = value
+    return result
+
+def unflatten(flat):
+    result = {}
+    for key, value in flat.items():
+        *path, last = key.split(&quot;.&quot;)
+        node = result
+        for part in path:
+            node = node.setdefault(part, {})
+        node[last] = value
+    return result</textarea><template class="pc-src pc-hint">Flattening one level at a time works with a list of things still to do. Start with <code>todo = [("", data)]</code>. Take one <code>(prefix, d)</code> off; for each key and value, the new key is <code>prefix + key</code> (with a dot in between if there&rsquo;s a prefix). If the value is a dictionary, put <code>(new_key, value)</code> on <code>todo</code>; otherwise store it in the result.</template><template class="pc-src pc-hint">For <code>unflatten</code>, split each key on dots. Walk down from the top with <code>node = node.setdefault(part, {})</code> for every part except the last, then set <code>node[last] = value</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Draw (on paper) the tree for one piece of nested data from today, and write the bracket path to three values in it. Then explain why <code>copy.deepcopy</code> was needed in the first bug hunt. Tomorrow: sets, the collection for &ldquo;is this in it?&rdquo; and &ldquo;what do these have in common?&rdquo;.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w010d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w010d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w010d4", "week": 10, "day": 4, "title": "Nested data", "exercises": [{"id": "w010d4-reach", "title": "Reach in", "points": 10}, {"id": "w010d4-records", "title": "Filter the records", "points": 10}, {"id": "w010d4-regroup", "title": "Books by author", "points": 15}, {"id": "w010d4-theme", "title": "Safe settings", "points": 10}, {"id": "w010d4-sell", "title": "Make a sale", "points": 10}, {"id": "w010d4-roundtrip", "title": "To JSON and back", "points": 10}, {"id": "w010d4-bug1", "title": "The original changed", "points": 10}, {"id": "w010d4-bug2", "title": "One step too far", "points": 10}, {"id": "w010d4-bug3", "title": "A number key comes back as text", "points": 10}, {"id": "w010d4-trace", "title": "Predict them", "points": 15}, {"id": "w010d4-challenge", "title": "Challenge: flatten and unflatten", "points": 25}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

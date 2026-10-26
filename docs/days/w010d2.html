@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="b70c1f84f5">
+<title>Week 10 Day 2: Dictionary methods | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=b70c1f84f5">
+<link rel="stylesheet" href="../assets/css/site.css?v=b70c1f84f5">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=b70c1f84f5"></script>
+<script src="../assets/vendor/codemirror.js?v=b70c1f84f5" defer></script>
+<meta name="description" content="Yesterday you made dictionaries, looked things up and looped over them. Today you’ll learn the rest of the toolkit: removing entries safely, merging...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w010d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 10 Day 2: Dictionary methods">
+<meta property="og:description" content="Yesterday you made dictionaries, looked things up and looped over them. Today you’ll learn the rest of the toolkit: removing entries safely, merging...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w010d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-10">Week 10: Dictionaries and sets</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#removing-and-filling-in" data-sec="removing-and-filling-in">Removing and filling in</a></li><li><a href="#merging" data-sec="merging">Merging</a></li><li><a href="#building-dictionaries" data-sec="building-dictionaries">Building dictionaries</a></li><li><a href="#sorting-and-inverting" data-sec="sorting-and-inverting">Sorting and inverting</a></li><li><a href="#views-and-copies" data-sec="views-and-copies">Views and copies</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 10, Day 2</span></p>
+      <h1>Dictionary methods</h1>
+      <div class="day-intro"><p>Yesterday you made dictionaries, looked things up and looped over them. Today you&rsquo;ll learn the rest of the toolkit: removing entries safely, merging dictionaries, building them with comprehensions, sorting them by value, and turning them inside out. You&rsquo;ll also meet two traps that catch almost everyone once.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Remove entries with <code>pop</code> and a default, and fill in missing ones with <code>setdefault</code></li><li>Merge dictionaries with <code>update</code> and <code>|</code>, and say which value wins</li><li>Build dictionaries with <code>dict</code>, <code>zip</code> and dictionary comprehensions</li><li>Sort a dictionary&rsquo;s entries by key or by value, and invert a dictionary</li><li>Explain that <code>keys</code>, <code>values</code> and <code>items</code> are live views, and copy a dictionary when you need to</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Removing and filling in: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Merging: 25 min"></span><span class="plan-seg s1" style="flex:30" title="Building dictionaries: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Sorting and inverting: 25 min"></span><span class="plan-seg s1" style="flex:15" title="Views and copies: 15 min"></span><span class="plan-seg s0" style="flex:40" title="Practice: 40 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Removing and filling in</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Merging</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Building dictionaries</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Sorting and inverting</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Views and copies</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Practice</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w010d2.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d2-p1"><textarea class="pc-src pc-code" hidden>stock = {&quot;rice&quot;: 12, &quot;beans&quot;: 5}
+print(stock.get(&quot;yam&quot;, 0))
+stock[&quot;yam&quot;] = stock.get(&quot;yam&quot;, 0) + 4
+for item, n in stock.items():
+    print(item, n)</textarea></div>
+<p><code>get</code> with a default, and <code>items</code> with unpacking: you&rsquo;ll use both constantly. Today adds the methods that make other common jobs one line.</p>
+<h2 id="removing-and-filling-in">Removing and filling in</h2>
+<h3 id="pop">pop</h3>
+<p><code>d.pop(key)</code> removes an entry and <strong>returns its value</strong>. Like <code>del</code>, it raises <code>KeyError</code> if the key isn&rsquo;t there, unless you give a default:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e2"><textarea class="pc-src pc-code" hidden>basket = {&quot;apple&quot;: 3, &quot;pear&quot;: 2}
+n = basket.pop(&quot;apple&quot;)
+print(n, basket)
+print(basket.pop(&quot;plum&quot;, 0), basket)</textarea></div>
+<p><code>d.popitem()</code> removes and returns the <strong>last</strong> entry added, as a <code>(key, value)</code> tuple. It&rsquo;s handy for using a dictionary like a stack.</p>
+<p><code>d.clear()</code> removes everything.</p>
+<h3 id="setdefault">setdefault</h3>
+<p><code>d.setdefault(key, default)</code> returns the value for <code>key</code> if it&rsquo;s there. If it isn&rsquo;t, it <strong>adds</strong> <code>key</code> with the value <code>default</code> first, then returns that:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e3"><textarea class="pc-src pc-code" hidden>groups = {}
+groups.setdefault(&quot;A&quot;, []).append(&quot;Ada&quot;)
+groups.setdefault(&quot;B&quot;, []).append(&quot;Bo&quot;)
+groups.setdefault(&quot;A&quot;, []).append(&quot;Alan&quot;)
+print(groups)</textarea></div>
+<p>That line reads &ldquo;get the list for this key, making an empty one if there isn&rsquo;t one yet, and append to it&rdquo;. You&rsquo;ll use it on Day 3 for grouping.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>get(key, default)</code> <strong>reads</strong> without changing the dictionary. <code>setdefault(key, default)</code> <strong>adds</strong> the default when the key is missing. <code>pop(key, default)</code> <strong>removes</strong> the key if it&rsquo;s there.</p></aside>
+<h2 id="merging">Merging</h2>
+<p><code>a.update(b)</code> copies every entry of <code>b</code> into <code>a</code>, changing <code>a</code> in place. Where both have the same key, <strong><code>b</code>&rsquo;s value wins</strong>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e4"><textarea class="pc-src pc-code" hidden>settings = {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14}
+mine = {&quot;theme&quot;: &quot;dark&quot;, &quot;sound&quot;: False}
+settings.update(mine)
+print(settings)</textarea></div>
+<p>From Python 3.9, <code>a | b</code> makes a <strong>new</strong> merged dictionary and leaves both alone, and <code>a |= b</code> is the same as <code>a.update(b)</code>. Again, the right-hand side wins:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e5"><textarea class="pc-src pc-code" hidden>defaults = {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14}
+mine = {&quot;size&quot;: 18}
+print(defaults | mine)
+print(mine | defaults)
+print(defaults)</textarea></div>
+<p>This is the usual way to combine <strong>defaults</strong> with someone&rsquo;s own choices: start with the defaults, merge their choices over the top.</p>
+<p>Try every method here. The figure marks what each one adds, changes or removes:</p>
+<figure class="widget" data-widget="dictops"><script type="application/json">{"start": "{\"theme\": \"light\", \"size\": 14, \"sound\": True}", "ops": ["d.pop(\"size\")", "d.pop(\"font\", None)", "d.popitem()", "d.setdefault(\"size\", 12)", "d.setdefault(\"font\", \"serif\")", "d.update({\"theme\": \"dark\", \"lang\": \"en\"})", "d | {\"theme\": \"dark\"}", "d |= {\"size\": 18}", "d.copy()", "d.clear()", "dict(sorted(d.items()))"]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Run them in order, or pick any. Notice which ones change d and which only return something new.</figcaption></figure>
+<h2 id="building-dictionaries">Building dictionaries</h2>
+<h3 id="dict-and-zip">dict and zip</h3>
+<p><code>dict</code> turns a sequence of pairs into a dictionary. With <code>zip</code>, that&rsquo;s two lists into one dictionary:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e6"><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+marks = [93, 88, 97]
+print(dict(zip(names, marks)))
+print(dict([(&quot;x&quot;, 1), (&quot;y&quot;, 2)]))</textarea></div>
+<p><code>dict</code> can also take keyword arguments, when the keys are simple words: <code>dict(name="Ada", year=1815)</code>.</p>
+<h3 id="dictionary-comprehensions">Dictionary comprehensions</h3>
+<p>A <strong>dictionary comprehension</strong> is a list comprehension with <code>key: value</code> in front and curly brackets around it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e7"><textarea class="pc-src pc-code" hidden>squares = {n: n * n for n in range(1, 6)}
+print(squares)
+words = [&quot;tea&quot;, &quot;biscuits&quot;, &quot;jam&quot;]
+print({w: len(w) for w in words})</textarea></div>
+<p>You can filter, and transform an existing dictionary through <code>items()</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e8"><textarea class="pc-src pc-code" hidden>prices = {&quot;tea&quot;: 150, &quot;coffee&quot;: 900, &quot;bread&quot;: 950, &quot;egg&quot;: 120}
+cheap = {item: p for item, p in prices.items() if p &lt; 500}
+with_vat = {item: round(p * 1.075, 2) for item, p in prices.items()}
+print(cheap)
+print(with_vat)</textarea></div>
+<h3 id="fromkeys-and-its-trap">fromkeys, and its trap</h3>
+<p><code>dict.fromkeys(keys, value)</code> gives every key the <strong>same</strong> value. That&rsquo;s fine for numbers and strings:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e9"><textarea class="pc-src pc-code" hidden>print(dict.fromkeys([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;], 0))</textarea></div>
+<p>But &ldquo;the same value&rdquo; means the same <strong>object</strong>. With a list, every key shares one list, the same trap as <code>[[0] * 3] * 2</code> for grids:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e10"><textarea class="pc-src pc-code" hidden>groups = dict.fromkeys([&quot;A&quot;, &quot;B&quot;], [])
+groups[&quot;A&quot;].append(&quot;Ada&quot;)
+print(groups)</textarea></div>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Never use <code>dict.fromkeys</code> with a mutable value such as <code>[]</code>. Use a comprehension, which makes a new list for each key: <code>{k: [] for k in keys}</code>.</p></aside>
+<h2 id="sorting-and-inverting">Sorting and inverting</h2>
+<p>A dictionary keeps the order its entries were added; it has no <code>sort</code> method. To go through it in another order, sort its <strong>items</strong>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e11"><textarea class="pc-src pc-code" hidden>marks = {&quot;Grace&quot;: 88, &quot;Ada&quot;: 93, &quot;Alan&quot;: 97, &quot;Bo&quot;: 41}
+for name, mark in sorted(marks.items()):
+    print(name, mark)
+print()
+for name, mark in sorted(marks.items(), key=lambda kv: kv[1], reverse=True):
+    print(name, mark)</textarea></div>
+<p>The first sorts by key (tuples compare by their first item). The second sorts by value, highest first: each item <code>kv</code> is a <code>(key, value)</code> tuple, so <code>kv[1]</code> is the value.</p>
+<p><code>dict(sorted(...))</code> turns the sorted pairs back into a dictionary in that order, if you need one.</p>
+<p>To find the key with the largest value, <code>max(marks, key=marks.get)</code> reads: of the keys, the one whose <code>marks.get(key)</code> is largest.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e12"><textarea class="pc-src pc-code" hidden>marks = {&quot;Grace&quot;: 88, &quot;Ada&quot;: 93, &quot;Alan&quot;: 97, &quot;Bo&quot;: 41}
+print(max(marks, key=marks.get), min(marks, key=marks.get))</textarea></div>
+<h3 id="inverting">Inverting</h3>
+<p><strong>Inverting</strong> a dictionary swaps keys and values, so you can look up in the other direction:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e13"><textarea class="pc-src pc-code" hidden>code = {&quot;NG&quot;: &quot;Nigeria&quot;, &quot;GH&quot;: &quot;Ghana&quot;}
+name_to_code = {v: k for k, v in code.items()}
+print(name_to_code[&quot;Ghana&quot;])</textarea></div>
+<p>That only works cleanly when the values are all different and hashable. If two keys share a value, the later one silently wins. You&rsquo;ll handle that properly with grouping tomorrow.</p>
+<h2 id="views-and-copies">Views and copies</h2>
+<p><code>keys()</code>, <code>values()</code> and <code>items()</code> don&rsquo;t make copies. They return <strong>views</strong>: live windows onto the dictionary that change when it does:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e14"><textarea class="pc-src pc-code" hidden>d = {&quot;a&quot;: 1}
+ks = d.keys()
+d[&quot;b&quot;] = 2
+print(ks)
+print(list(ks))</textarea></div>
+<p>Views support <code>len</code>, <code>in</code> and looping. <code>keys()</code> and <code>items()</code> also support set operations, which you&rsquo;ll meet on Day 5. Wrap a view in <code>list(...)</code> when you need a fixed snapshot, or need to index it.</p>
+<p>Assignment never copies a dictionary, exactly as with lists:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d2-e15"><textarea class="pc-src pc-code" hidden>a = {&quot;x&quot;: 1}
+b = a
+c = a.copy()
+b[&quot;y&quot;] = 2
+print(a)
+print(c)</textarea></div>
+<p><code>d.copy()</code> (or <code>dict(d)</code>) is a <strong>shallow</strong> copy: a new dictionary holding the same values. If the values are lists, both dictionaries share those lists, just like a shallow copy of a list of lists.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d2-merge" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Defaults and choices</div><div class="pc-prompt"><p>Write <code>settings(choices)</code> that returns a new dictionary: the defaults <code>{"theme": "light", "size": 14, "sound": True}</code> with <code>choices</code> merged over them. Don&rsquo;t change <code>choices</code>.</p></div><textarea class="pc-src pc-code" hidden>DEFAULTS = {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14, &quot;sound&quot;: True}</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    c = {&quot;size&quot;: 18}
+    assert settings(c) == {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 18, &quot;sound&quot;: True}
+    assert c == {&quot;size&quot;: 18}
+    assert settings({}) == DEFAULTS
+    assert settings({&quot;lang&quot;: &quot;yo&quot;})[&quot;lang&quot;] == &quot;yo&quot;
+    assert DEFAULTS == {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14, &quot;sound&quot;: True}, &quot;DEFAULTS was changed&quot;</textarea><textarea class="pc-src pc-solution" hidden>DEFAULTS = {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14, &quot;sound&quot;: True}
+
+def settings(choices):
+    return DEFAULTS | choices</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d2-lengths" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A comprehension</div><div class="pc-prompt"><p>Write <code>word_lengths(text)</code> that returns a dictionary mapping each word (in lower case) to its length, using a dictionary comprehension.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    assert word_lengths(&quot;The cat sat&quot;) == {&quot;the&quot;: 3, &quot;cat&quot;: 3, &quot;sat&quot;: 3}
+    assert word_lengths(&quot;Hello hello&quot;) == {&quot;hello&quot;: 5}
+    assert word_lengths(&quot;&quot;) == {}
+    assert &quot;{&quot; in source and &quot; for &quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def word_lengths(text):
+    return {w.lower(): len(w) for w in text.split()}</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d2-raise_prices" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Price rise</div><div class="pc-prompt"><p>Write <code>increase(prices, percent)</code> that returns a <strong>new</strong> dictionary with every price increased by <code>percent</code> per cent, rounded to whole naira with <code>round</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    p = {&quot;tea&quot;: 150, &quot;bread&quot;: 950}
+    assert increase(p, 10) == {&quot;tea&quot;: 165, &quot;bread&quot;: 1045}
+    assert p == {&quot;tea&quot;: 150, &quot;bread&quot;: 950}
+    assert increase({}, 5) == {}</textarea><textarea class="pc-src pc-solution" hidden>def increase(prices, percent):
+    return {item: round(p * (1 + percent / 100)) for item, p in prices.items()}</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d2-ranking" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Leaderboard</div><div class="pc-prompt"><p>Write <code>leaderboard(scores, n)</code> that returns the top <code>n</code> entries as a list of <code>(name, score)</code> tuples, highest score first; equal scores in alphabetical order of name.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several boards&quot;
+    s = {&quot;Cy&quot;: 70, &quot;Ada&quot;: 93, &quot;Bo&quot;: 70, &quot;Di&quot;: 41}
+    assert leaderboard(s, 3) == [(&quot;Ada&quot;, 93), (&quot;Bo&quot;, 70), (&quot;Cy&quot;, 70)]
+    assert leaderboard(s, 10) == [(&quot;Ada&quot;, 93), (&quot;Bo&quot;, 70), (&quot;Cy&quot;, 70), (&quot;Di&quot;, 41)]
+    assert leaderboard({}, 2) == []</textarea><textarea class="pc-src pc-solution" hidden>def leaderboard(scores, n):
+    return sorted(scores.items(), key=lambda kv: (-kv[1], kv[0]))[:n]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d2-invert" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Look up the other way</div><div class="pc-prompt"><p>Write <code>invert(d)</code> that returns a new dictionary with keys and values swapped. If two keys share a value, keep the one that appears <strong>first</strong>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several dicts&quot;
+    assert invert({&quot;NG&quot;: &quot;Nigeria&quot;, &quot;GH&quot;: &quot;Ghana&quot;}) == {&quot;Nigeria&quot;: &quot;NG&quot;, &quot;Ghana&quot;: &quot;GH&quot;}
+    assert invert({&quot;a&quot;: 1, &quot;b&quot;: 1, &quot;c&quot;: 2}) == {1: &quot;a&quot;, 2: &quot;c&quot;}
+    assert invert({}) == {}</textarea><textarea class="pc-src pc-solution" hidden>def invert(d):
+    result = {}
+    for k, v in d.items():
+        result.setdefault(v, k)
+    return result</textarea><template class="pc-src pc-hint">A comprehension keeps the last. Use a loop, and only add a value that isn&rsquo;t a key yet (or use <code>setdefault</code>).</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d2-take" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Take from the basket</div><div class="pc-prompt"><p>Write <code>take(basket, item, n)</code> that removes <code>n</code> of <code>item</code> from the basket in place and returns how many were actually taken. You can&rsquo;t take more than there are; if the count reaches 0, remove the item entirely. A missing item gives 0.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    b = {&quot;apple&quot;: 3, &quot;pear&quot;: 2}
+    assert take(b, &quot;apple&quot;, 2) == 2 and b == {&quot;apple&quot;: 1, &quot;pear&quot;: 2}
+    assert take(b, &quot;pear&quot;, 5) == 2 and b == {&quot;apple&quot;: 1}
+    assert take(b, &quot;plum&quot;, 1) == 0 and b == {&quot;apple&quot;: 1}</textarea><textarea class="pc-src pc-solution" hidden>def take(basket, item, n):
+    have = basket.get(item, 0)
+    taken = min(have, n)
+    if have - taken &gt; 0:
+        basket[item] = have - taken
+    else:
+        basket.pop(item, None)
+    return taken</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Everyone in one group</div><div class="pc-prompt"><p><code>empty_groups</code> should give each team its own empty list. But adding a name to one team adds it to all of them. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def empty_groups(teams):
+    return dict.fromkeys(teams, [])</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;separate lists&quot;
+    g = empty_groups([&quot;red&quot;, &quot;blue&quot;])
+    assert g == {&quot;red&quot;: [], &quot;blue&quot;: []}
+    g[&quot;red&quot;].append(&quot;Ada&quot;)
+    assert g[&quot;blue&quot;] == [], &quot;adding to red changed blue too&quot;</textarea><textarea class="pc-src pc-solution" hidden>def empty_groups(teams):
+    return {t: [] for t in teams}</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The defaults changed</div><div class="pc-prompt"><p>After one call, <code>DEFAULTS</code> has changed, so the second person gets the first person&rsquo;s choices. Fix <code>apply</code> so <code>DEFAULTS</code> is never changed.</p></div><textarea class="pc-src pc-code" hidden>DEFAULTS = {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14}
+
+def apply(choices):
+    result = DEFAULTS
+    result.update(choices)
+    return result</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;defaults kept&quot;
+    assert apply({&quot;size&quot;: 20}) == {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 20}
+    assert apply({}) == {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14}
+    assert DEFAULTS == {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14}</textarea><textarea class="pc-src pc-solution" hidden>DEFAULTS = {&quot;theme&quot;: &quot;light&quot;, &quot;size&quot;: 14}
+
+def apply(choices):
+    result = DEFAULTS.copy()
+    result.update(choices)
+    return result</textarea><template class="pc-src pc-hint"><code>result = DEFAULTS</code> makes another name for the same dictionary. Copy it.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Highest first?</div><div class="pc-prompt"><p>This should print the names from highest mark to lowest, but it prints them in reverse alphabetical order. Fix the sort.</p></div><textarea class="pc-src pc-code" hidden>marks = {&quot;Grace&quot;: 88, &quot;Ada&quot;: 93, &quot;Alan&quot;: 97}
+for name, mark in sorted(marks.items(), reverse=True):
+    print(name, mark)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;by mark&quot;
+    expect_output(&quot;Alan 97\nAda 93\nGrace 88&quot;)</textarea><textarea class="pc-src pc-solution" hidden>marks = {&quot;Grace&quot;: 88, &quot;Ada&quot;: 93, &quot;Alan&quot;: 97}
+for name, mark in sorted(marks.items(), key=lambda kv: kv[1], reverse=True):
+    print(name, mark)</textarea><template class="pc-src pc-hint">Without a key, the pairs are sorted by their first item, the name.</template></div>
+<div class="parsons" data-id="w010d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Only the passes, by name</div><div class="pc-prompt"><p>Arrange the lines to print the students with 50 or more, in alphabetical order. One line is a trap.</p></div><script type="application/json">{"lines": ["marks = {\"Grace\": 88, \"Bo\": 41, \"Ada\": 93}", "passed = {name: m for name, m in marks.items() if m >= 50}", "for name in sorted(passed):", "    print(name, passed[name])"], "distractors": ["passed = {name: m for name, m in marks if m >= 50}"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+a = ___   # d.pop(&quot;a&quot;) + d.pop(&quot;z&quot;, 10)
+b = ___   # d                   (after the line above)
+c = ___   # {&quot;x&quot;: 1, &quot;y&quot;: 2} | {&quot;y&quot;: 5}
+e = ___   # {k: v * 2 for k, v in {&quot;p&quot;: 1, &quot;q&quot;: 3}.items() if v &gt; 1}
+f = ___   # sorted({&quot;b&quot;: 1, &quot;a&quot;: 2})</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 11
+    assert b == {&quot;b&quot;: 2}
+    assert c == {&quot;x&quot;: 1, &quot;y&quot;: 5}
+    assert e == {&quot;q&quot;: 6}
+    assert f == [&quot;a&quot;, &quot;b&quot;]</textarea><textarea class="pc-src pc-solution" hidden>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+a = 11
+b = {&quot;b&quot;: 2}
+c = {&quot;x&quot;: 1, &quot;y&quot;: 5}
+e = {&quot;q&quot;: 6}
+f = [&quot;a&quot;, &quot;b&quot;]</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w010d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>d.pop(\"k\", 0)</code> do when <code>\"k\"</code> isn&rsquo;t a key?", "answer": 1, "explain": "The default stops the error.", "options": ["Raises KeyError", "Returns 0 and changes nothing", "Adds k with 0", "Returns None"]}, {"type": "mc", "q": "What does <code>d.setdefault(\"k\", [])</code> do when <code>\"k\"</code> isn&rsquo;t a key?", "answer": 1, "explain": "That&rsquo;s what makes <code>setdefault(k, []).append(x)</code> work.", "options": ["Returns [] and changes nothing", "Adds k with a new [] and returns that list", "Raises KeyError"]}, {"type": "text", "q": "What is <code>{'a': 1, 'b': 2} | {'b': 9}</code>?", "answer": ["{'a': 1, 'b': 9}"], "explain": "The right-hand side wins."}, {"type": "mc", "q": "What&rsquo;s the difference between <code>a.update(b)</code> and <code>a | b</code>?", "answer": 1, "explain": "Mutation versus a new object.", "options": ["None", "update changes a; | makes a new dictionary", "| changes a", "update makes a new dictionary"]}, {"type": "output", "q": "What does this print?", "answer": "{'a': 1, 'b': 2, 'c': 3}", "explain": "A dictionary comprehension.", "code": "print({c: ord(c) - 96 for c in \"abc\"})"}, {"type": "mc", "q": "What&rsquo;s wrong with <code>dict.fromkeys(names, [])</code>?", "answer": 1, "explain": "Use <code>{n: [] for n in names}</code>.", "options": ["Nothing", "Every key shares the same list", "It&rsquo;s a SyntaxError", "The keys are sorted"]}, {"type": "mc", "q": "How do you go through a dictionary&rsquo;s entries from smallest value to largest?", "answer": 1, "explain": "<code>sorted(d.values())</code> loses the keys.", "options": ["<code>sorted(d)</code>", "<code>sorted(d.items(), key=lambda kv: kv[1])</code>", "<code>d.sort()</code>", "<code>sorted(d.values())</code>"]}, {"type": "mc", "q": "What does <code>max(d, key=d.get)</code> give?", "answer": 1, "explain": "It compares keys by their values.", "options": ["The largest value", "The key with the largest value", "The largest key", "An error"]}, {"type": "output", "q": "What does this print?", "answer": "2", "explain": "Views are live.", "code": "d = {\"a\": 1}\nv = d.values()\nd[\"b\"] = 2\nprint(len(v))"}, {"type": "mc", "q": "After <code>b = a.copy()</code> and <code>b['x'] = 1</code>, has <code>a</code> changed?", "answer": 1, "explain": "copy makes a separate dictionary.", "options": ["Yes", "No"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a shopping list from recipes</div><div class="pc-prompt"><p>A recipe is a dictionary from ingredient to amount in grams. Write:</p>
+<ul>
+<li><code>scale(recipe, factor)</code> returns a new recipe with every amount multiplied by <code>factor</code> and rounded to whole grams.</li>
+<li><code>combine(recipes)</code> takes a list of recipes and returns one dictionary of total amounts.</li>
+<li><code>shopping_list(recipes, pantry)</code> returns what you still need to buy: the combined amounts minus what&rsquo;s in the <code>pantry</code> dictionary, leaving out anything you already have enough of. Return it as a list of lines <code>ingredient: amount g</code>, sorted by amount, largest first (ties alphabetically).</li>
+</ul>
+<pre><code>rice = {&quot;rice&quot;: 400, &quot;tomato&quot;: 300, &quot;pepper&quot;: 50, &quot;oil&quot;: 60}
+stew = {&quot;tomato&quot;: 500, &quot;pepper&quot;: 100, &quot;onion&quot;: 150, &quot;oil&quot;: 80}
+pantry = {&quot;oil&quot;: 500, &quot;rice&quot;: 100, &quot;pepper&quot;: 30}
+shopping_list([rice, scale(stew, 0.5)], pantry)
+-&gt;  [&quot;tomato: 550 g&quot;, &quot;rice: 300 g&quot;, &quot;onion: 75 g&quot;, &quot;pepper: 70 g&quot;]
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>rice = {&quot;rice&quot;: 400, &quot;tomato&quot;: 300, &quot;pepper&quot;: 50, &quot;oil&quot;: 60}
+stew = {&quot;tomato&quot;: 500, &quot;pepper&quot;: 100, &quot;onion&quot;: 150, &quot;oil&quot;: 80}
+def test_scale():
+    &quot;scale&quot;
+    assert scale(stew, 0.5) == {&quot;tomato&quot;: 250, &quot;pepper&quot;: 50, &quot;onion&quot;: 75, &quot;oil&quot;: 40}
+    assert stew[&quot;tomato&quot;] == 500, &quot;scale changed the recipe&quot;
+    assert scale({&quot;salt&quot;: 3}, 1.5) == {&quot;salt&quot;: 4} or scale({&quot;salt&quot;: 3}, 1.5) == {&quot;salt&quot;: 5}
+def test_combine():
+    &quot;combine&quot;
+    assert combine([rice, stew]) == {&quot;rice&quot;: 400, &quot;tomato&quot;: 800, &quot;pepper&quot;: 150, &quot;oil&quot;: 140, &quot;onion&quot;: 150}
+    assert combine([]) == {}
+    assert rice == {&quot;rice&quot;: 400, &quot;tomato&quot;: 300, &quot;pepper&quot;: 50, &quot;oil&quot;: 60}, &quot;combine changed a recipe&quot;
+def test_list():
+    &quot;shopping_list&quot;
+    pantry = {&quot;oil&quot;: 500, &quot;rice&quot;: 100, &quot;pepper&quot;: 30}
+    assert shopping_list([rice, scale(stew, 0.5)], pantry) == [&quot;tomato: 550 g&quot;, &quot;rice: 300 g&quot;, &quot;onion: 75 g&quot;, &quot;pepper: 70 g&quot;]
+    assert shopping_list([rice], {&quot;rice&quot;: 400, &quot;tomato&quot;: 300, &quot;pepper&quot;: 50, &quot;oil&quot;: 60}) == []
+    assert shopping_list([{&quot;b&quot;: 10, &quot;a&quot;: 10}], {}) == [&quot;a: 10 g&quot;, &quot;b: 10 g&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def scale(recipe, factor):
+    return {item: round(g * factor) for item, g in recipe.items()}
+
+def combine(recipes):
+    total = {}
+    for recipe in recipes:
+        for item, grams in recipe.items():
+            total[item] = total.get(item, 0) + grams
+    return total
+
+def shopping_list(recipes, pantry):
+    need = {}
+    for item, grams in combine(recipes).items():
+        short = grams - pantry.get(item, 0)
+        if short &gt; 0:
+            need[item] = short
+    pairs = sorted(need.items(), key=lambda kv: (-kv[1], kv[0]))
+    return [f&quot;{item}: {grams} g&quot; for item, grams in pairs]</textarea><template class="pc-src pc-hint">In <code>combine</code>, start with <code>total = {}</code> and, for every amount in every recipe, <code>total[item] = total.get(item, 0) + amount</code>.</template><template class="pc-src pc-hint">In <code>shopping_list</code>, work out <code>need = combined amount - pantry.get(item, 0)</code> for each item and keep those above 0. Sort the <code>(item, need)</code> pairs with <code>key=lambda kv: (-kv[1], kv[0])</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Write down, from memory, what each of these does when the key is missing: <code>d[k]</code>, <code>d.get(k)</code>, <code>d.get(k, 0)</code>, <code>d.pop(k)</code>, <code>d.pop(k, 0)</code>, <code>d.setdefault(k, 0)</code>. Then check yourself in the figure. Tomorrow: the counting and grouping patterns that make dictionaries indispensable.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w010d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w010d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w010d2", "week": 10, "day": 2, "title": "Dictionary methods", "exercises": [{"id": "w010d2-merge", "title": "Defaults and choices", "points": 10}, {"id": "w010d2-lengths", "title": "A comprehension", "points": 10}, {"id": "w010d2-raise_prices", "title": "Price rise", "points": 10}, {"id": "w010d2-ranking", "title": "Leaderboard", "points": 10}, {"id": "w010d2-invert", "title": "Look up the other way", "points": 10}, {"id": "w010d2-take", "title": "Take from the basket", "points": 10}, {"id": "w010d2-bug1", "title": "Everyone in one group", "points": 10}, {"id": "w010d2-bug2", "title": "The defaults changed", "points": 10}, {"id": "w010d2-bug3", "title": "Highest first?", "points": 10}, {"id": "w010d2-trace", "title": "Predict them", "points": 15}, {"id": "w010d2-challenge", "title": "Challenge: a shopping list from recipes", "points": 25}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

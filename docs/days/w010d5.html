@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="b70c1f84f5">
+<title>Week 10 Day 5: Sets | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=b70c1f84f5">
+<link rel="stylesheet" href="../assets/css/site.css?v=b70c1f84f5">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=b70c1f84f5"></script>
+<script src="../assets/vendor/codemirror.js?v=b70c1f84f5" defer></script>
+<meta name="description" content="A set is a collection with no order and no duplicates: like a dictionary with keys but no values. That makes it the perfect tool for two jobs: asking...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w010d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 10 Day 5: Sets">
+<meta property="og:description" content="A set is a collection with no order and no duplicates: like a dictionary with keys but no values. That makes it the perfect tool for two jobs: asking...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w010d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-10">Week 10: Dictionaries and sets</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#what-a-set-is" data-sec="what-a-set-is">What a set is</a></li><li><a href="#changing-a-set" data-sec="changing-a-set">Changing a set</a></li><li><a href="#set-operations" data-sec="set-operations">Set operations</a></li><li><a href="#comparing-sets" data-sec="comparing-sets">Comparing sets</a></li><li><a href="#choosing-a-collection" data-sec="choosing-a-collection">Choosing a collection</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 10, Day 5</span></p>
+      <h1>Sets</h1>
+      <div class="day-intro"><p>A set is a collection with no order and no duplicates: like a dictionary with keys but no values. That makes it the perfect tool for two jobs: asking whether something is in a collection, very quickly, and comparing collections, such as finding the students who take both maths and physics. Today you&rsquo;ll learn both.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Make sets, including the empty set, and remove duplicates with <code>set</code></li><li>Add and remove elements, and check membership with <code>in</code></li><li>Combine sets with union, intersection, difference and symmetric difference</li><li>Test whether one set is a subset of another, or the two have nothing in common</li><li>Choose between a list, a set and a dictionary, and explain why <code>in</code> is fast for a set</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="What a set is: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Changing a set: 20 min"></span><span class="plan-seg s1" style="flex:35" title="Set operations: 35 min"></span><span class="plan-seg s0" style="flex:15" title="Comparing sets: 15 min"></span><span class="plan-seg s1" style="flex:20" title="Choosing a collection: 20 min"></span><span class="plan-seg s0" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">What a set is</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Changing a set</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">Set operations</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Comparing sets</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Choosing a collection</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w010d5.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d5-p1"><textarea class="pc-src pc-code" hidden>visitors = [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Ada&quot;, &quot;Cy&quot;, &quot;Bo&quot;, &quot;Ada&quot;]
+unique = []
+for v in visitors:
+    if v not in unique:
+        unique.append(v)
+print(unique, len(unique))</textarea></div>
+<p>That loop removes duplicates by checking each name against everything kept so far. It works, but <code>v not in unique</code> looks through the whole list each time. With a million visitors, that&rsquo;s very slow. A set does the same job in one step, however big it is.</p>
+<h2 id="what-a-set-is">What a set is</h2>
+<p>A <strong>set</strong> is an unordered collection of <strong>unique</strong> elements, written in curly brackets without colons:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e2"><textarea class="pc-src pc-code" hidden>colours = {&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;red&quot;}
+print(colours)
+print(len(colours))
+print(&quot;green&quot; in colours)</textarea></div>
+<p>The second <code>"red"</code> vanished: a set holds each element once. And the order you see may differ from the order you typed. A set has <strong>no order</strong>, so there&rsquo;s no indexing and no slicing: <code>colours[0]</code> is a <code>TypeError</code>.</p>
+<p><code>set(...)</code> makes a set from any sequence, which is the quickest way to remove duplicates:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e3"><textarea class="pc-src pc-code" hidden>visitors = [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Ada&quot;, &quot;Cy&quot;, &quot;Bo&quot;, &quot;Ada&quot;]
+print(len(set(visitors)))
+print(set(&quot;mississippi&quot;))
+print(sorted(set(visitors)))</textarea></div>
+<p><code>sorted</code> gives a list back, in order, which is the usual way to display a set.</p>
+<h3 id="the-empty-set">The empty set</h3>
+<p><code>{}</code> is an empty <strong>dictionary</strong>. An empty set has to be written <code>set()</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e4"><textarea class="pc-src pc-code" hidden>a = {}
+b = set()
+print(type(a), type(b))</textarea></div>
+<h3 id="what-can-be-in-a-set">What can be in a set</h3>
+<p>Elements follow the same rule as dictionary keys: they must be <strong>hashable</strong> (strings, numbers, tuples, not lists or dictionaries). That isn&rsquo;t a coincidence. A set works like a dictionary&rsquo;s keys: Python stores each element at a place worked out from its hash, so checking whether something is there doesn&rsquo;t need a search.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e5"><textarea class="pc-src pc-code" hidden>s = {[1, 2], [3]}</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>A set holds unique, hashable elements in no particular order. <code>x in s</code> takes about the same time whatever the size of the set. Use a set when you care <strong>whether</strong> something is there, not <strong>where</strong> or <strong>how many times</strong>.</p></aside>
+<h2 id="changing-a-set">Changing a set</h2>
+<p>Sets are mutable. <code>add</code> adds one element (nothing happens if it&rsquo;s already there); <code>update</code> adds every element of a sequence:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e6"><textarea class="pc-src pc-code" hidden>seen = set()
+seen.add(&quot;Ada&quot;)
+seen.add(&quot;Bo&quot;)
+seen.add(&quot;Ada&quot;)
+seen.update([&quot;Cy&quot;, &quot;Di&quot;])
+print(sorted(seen))</textarea></div>
+<p>There are two ways to remove an element. <code>remove</code> raises a <code>KeyError</code> if it isn&rsquo;t there; <code>discard</code> quietly does nothing:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e7"><textarea class="pc-src pc-code" hidden>s = {&quot;Ada&quot;, &quot;Bo&quot;}
+s.discard(&quot;Zed&quot;)
+s.remove(&quot;Bo&quot;)
+print(s)</textarea></div>
+<p><code>pop</code> removes and returns an arbitrary element, and <code>clear</code> empties the set.</p>
+<h3 id="the-seen-pattern">The &ldquo;seen&rdquo; pattern</h3>
+<p>The most common use of a set in a loop is remembering what you&rsquo;ve already met:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e8"><div class="pc-title">First repeated word</div><textarea class="pc-src pc-code" hidden>words = &quot;the quick fox saw the lazy dog&quot;.split()
+seen = set()
+for w in words:
+    if w in seen:
+        print(&quot;First repeat:&quot;, w)
+        break
+    seen.add(w)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e9"><div class="pc-title">Remove duplicates, keeping the order</div><textarea class="pc-src pc-code" hidden>visitors = [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Ada&quot;, &quot;Cy&quot;, &quot;Bo&quot;]
+seen = set()
+unique = []
+for v in visitors:
+    if v not in seen:
+        seen.add(v)
+        unique.append(v)
+print(unique)</textarea></div>
+<p><code>set(visitors)</code> loses the order; this keeps the first appearance of each, and stays fast because the check is against the set.</p>
+<h2 id="set-operations">Set operations</h2>
+<p>The real power of sets is combining them. Suppose <code>a</code> and <code>b</code> are the students taking two subjects:</p>
+<ul>
+<li><code>a | b</code>, the <strong>union</strong>: students in either (or both);</li>
+<li><code>a &amp; b</code>, the <strong>intersection</strong>: students in both;</li>
+<li><code>a - b</code>, the <strong>difference</strong>: in <code>a</code> but not in <code>b</code>;</li>
+<li><code>a ^ b</code>, the <strong>symmetric difference</strong>: in exactly one of them.</li>
+</ul>
+<figure class="widget" data-widget="setvenn"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Pick an operation to shade the regions it keeps. Edit the sets: try adding a name to both, or the same name twice.</figcaption></figure>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e10"><textarea class="pc-src pc-code" hidden>maths = {&quot;Ada&quot;, &quot;Bo&quot;, &quot;Cy&quot;, &quot;Di&quot;}
+physics = {&quot;Cy&quot;, &quot;Di&quot;, &quot;Ed&quot;}
+print(sorted(maths | physics))
+print(sorted(maths &amp; physics))
+print(sorted(maths - physics))
+print(sorted(maths ^ physics))</textarea></div>
+<p>Each operator makes a <strong>new</strong> set. There are method versions too, <code>a.union(b)</code>, <code>a.intersection(b)</code>, <code>a.difference(b)</code> and <code>a.symmetric_difference(b)</code>, which accept any sequence, not just a set:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e11"><textarea class="pc-src pc-code" hidden>maths = {&quot;Ada&quot;, &quot;Bo&quot;, &quot;Cy&quot;}
+print(sorted(maths.intersection([&quot;Bo&quot;, &quot;Cy&quot;, &quot;Zed&quot;])))</textarea></div>
+<p>And there are versions that change a set in place: <code>a |= b</code>, <code>a &amp;= b</code>, <code>a -= b</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e12"><div class="pc-title">Letters in common</div><textarea class="pc-src pc-code" hidden>a, b = &quot;python&quot;, &quot;typhoon&quot;
+print(sorted(set(a) &amp; set(b)))
+print(sorted(set(a) - set(b)))</textarea></div>
+<h2 id="comparing-sets">Comparing sets</h2>
+<p>Two sets are equal when they hold the same elements, whatever order you wrote them in:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e13"><textarea class="pc-src pc-code" hidden>print({1, 2, 3} == {3, 2, 1})
+print([1, 2, 3] == [3, 2, 1])</textarea></div>
+<p><code>a &lt;= b</code> asks whether <code>a</code> is a <strong>subset</strong> of <code>b</code> (every element of <code>a</code> is in <code>b</code>); <code>a &gt;= b</code> asks whether it&rsquo;s a <strong>superset</strong>. <code>a.isdisjoint(b)</code> asks whether they have <strong>nothing</strong> in common.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e14"><textarea class="pc-src pc-code" hidden>required = {&quot;name&quot;, &quot;email&quot;}
+form = {&quot;name&quot;, &quot;email&quot;, &quot;phone&quot;}
+print(required &lt;= form)
+print({&quot;admin&quot;}.isdisjoint(form))</textarea></div>
+<h3 id="frozen-sets">Frozen sets</h3>
+<p>A set can&rsquo;t be an element of another set, or a dictionary key, because it&rsquo;s mutable. A <code>frozenset</code> is a set that can&rsquo;t be changed, so it can:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e15"><textarea class="pc-src pc-code" hidden>pairs = {frozenset({&quot;Ada&quot;, &quot;Bo&quot;}), frozenset({&quot;Bo&quot;, &quot;Ada&quot;})}
+print(len(pairs))</textarea></div>
+<p>The two frozensets are equal (order doesn&rsquo;t matter), so the outer set keeps one. That&rsquo;s a neat way to treat <code>("Ada", "Bo")</code> and <code>("Bo", "Ada")</code> as the same pair.</p>
+<h2 id="choosing-a-collection">Choosing a collection</h2>
+<p>You now know the four built-in collections. Choose by what you need to do:</p>
+<table>
+<thead>
+<tr>
+<th>Collection</th>
+<th>Ordered?</th>
+<th>Duplicates?</th>
+<th>Changeable?</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list <code>[...]</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>a sequence of things, in order</td>
+</tr>
+<tr>
+<td>tuple <code>(...)</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>no</td>
+<td>a fixed group of values, a record, a key</td>
+</tr>
+<tr>
+<td>dict <code>{k: v}</code></td>
+<td>by insertion</td>
+<td>keys unique</td>
+<td>yes</td>
+<td>looking up a value by a key</td>
+</tr>
+<tr>
+<td>set <code>{...}</code></td>
+<td>no</td>
+<td>no</td>
+<td>yes</td>
+<td>membership, removing duplicates, comparing groups</td>
+</tr>
+</tbody>
+</table>
+<p>Speed matters too. Here&rsquo;s the difference for <code>in</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d5-e16"><textarea class="pc-src pc-code" hidden>import time
+n = 10_000
+as_list = list(range(n))
+as_set = set(as_list)
+start = time.perf_counter()
+for x in range(0, n, 10):
+    x in as_list
+middle = time.perf_counter()
+for x in range(0, n, 10):
+    x in as_set
+end = time.perf_counter()
+print(f&quot;list: {middle - start:.4f} s&quot;)
+print(f&quot;set:  {end - middle:.6f} s&quot;)</textarea></div>
+<p>The exact times depend on your computer, but the set is usually hundreds of times faster, and the gap grows with the size. You&rsquo;ll learn to measure and reason about this properly in Phase 2.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Don&rsquo;t use a list for frequent &ldquo;is it in here?&rdquo; checks on large data, and don&rsquo;t use a set when the order or the count matters. Turning a list into a set throws away both.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-distinct" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How many different?</div><div class="pc-prompt"><p>Write <code>distinct_words(text)</code> that returns how many different words <code>text</code> contains, ignoring case.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    assert distinct_words(&quot;The cat saw the other cat&quot;) == 4
+    assert distinct_words(&quot;&quot;) == 0
+    assert distinct_words(&quot;a A a&quot;) == 1</textarea><textarea class="pc-src pc-solution" hidden>def distinct_words(text):
+    return len(set(text.lower().split()))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-common" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Shared interests</div><div class="pc-prompt"><p>Write <code>shared(a, b)</code> that takes two lists of interests and returns the interests both have, as a sorted list.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert shared([&quot;chess&quot;, &quot;music&quot;, &quot;running&quot;], [&quot;music&quot;, &quot;chess&quot;, &quot;art&quot;]) == [&quot;chess&quot;, &quot;music&quot;]
+    assert shared([&quot;a&quot;], [&quot;b&quot;]) == []
+    assert shared([&quot;x&quot;, &quot;x&quot;], [&quot;x&quot;]) == [&quot;x&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def shared(a, b):
+    return sorted(set(a) &amp; set(b))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-missing" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Who&rsquo;s absent?</div><div class="pc-prompt"><p>Write <code>absent(register, present)</code> that returns the names on the register who aren&rsquo;t present, sorted.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several days&quot;
+    assert absent([&quot;Ada&quot;, &quot;Bo&quot;, &quot;Cy&quot;, &quot;Di&quot;], [&quot;Cy&quot;, &quot;Ada&quot;]) == [&quot;Bo&quot;, &quot;Di&quot;]
+    assert absent([&quot;Ada&quot;], [&quot;Ada&quot;, &quot;Zed&quot;]) == []</textarea><textarea class="pc-src pc-solution" hidden>def absent(register, present):
+    return sorted(set(register) - set(present))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-pangram" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Every letter</div><div class="pc-prompt"><p>A <strong>pangram</strong> uses every letter of the alphabet at least once. Write <code>is_pangram(text)</code>, ignoring case and anything that isn&rsquo;t a letter. <code>string.ascii_lowercase</code> holds the 26 letters.</p></div><textarea class="pc-src pc-code" hidden>import string</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    assert is_pangram(&quot;The quick brown fox jumps over the lazy dog&quot;) is True
+    assert is_pangram(&quot;Hello world&quot;) is False
+    assert is_pangram(&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ!&quot;) is True</textarea><textarea class="pc-src pc-solution" hidden>import string
+
+def is_pangram(text):
+    return set(string.ascii_lowercase) &lt;= set(text.lower())</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-first_dup" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">First repeat</div><div class="pc-prompt"><p>Write <code>first_repeat(items)</code> that returns the first item that appears for a second time, or <code>None</code> if nothing repeats. Use a set of items seen so far.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert first_repeat([3, 1, 4, 1, 5, 3]) == 1
+    assert first_repeat(&quot;abcdefa&quot;) == &quot;a&quot;
+    assert first_repeat([1, 2, 3]) is None
+    assert &quot;set(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def first_repeat(items):
+    seen = set()
+    for x in items:
+        if x in seen:
+            return x
+        seen.add(x)
+    return None</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-only_one" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">In exactly one</div><div class="pc-prompt"><p>Write <code>exactly_one(a, b, c)</code> that returns, sorted, the elements that appear in exactly one of three lists.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert exactly_one([1, 2, 3], [2, 4], [3, 4, 5]) == [1, 5]
+    assert exactly_one([], [], [7]) == [7]
+    assert exactly_one([1], [1], [1]) == []</textarea><textarea class="pc-src pc-solution" hidden>def exactly_one(a, b, c):
+    a, b, c = set(a), set(b), set(c)
+    return sorted((a - b - c) | (b - a - c) | (c - a - b))</textarea><template class="pc-src pc-hint"><code>a ^ b ^ c</code> keeps elements in an odd number of the sets, which includes those in all three. Count instead, or remove the ones in all three.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-two_sum" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A pair that adds up</div><div class="pc-prompt"><p>Write <code>pair_sum(numbers, target)</code> that returns <code>True</code> if two numbers at <strong>different</strong> positions in the list add up to <code>target</code>. Go through the list once, keeping a set of numbers seen so far: for each number, is <code>target - number</code> in the set?</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert pair_sum([3, 9, 4, 7], 11) is True
+    assert pair_sum([3, 9, 4, 7], 6) is False
+    assert pair_sum([3, 3], 6) is True
+    assert pair_sum([5], 10) is False
+    assert pair_sum([], 0) is False</textarea><textarea class="pc-src pc-solution" hidden>def pair_sum(numbers, target):
+    seen = set()
+    for n in numbers:
+        if target - n in seen:
+            return True
+        seen.add(n)
+    return False</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">An empty what?</div><div class="pc-prompt"><p>This should collect the different words and print <code>3</code>, but it crashes with <code>AttributeError: 'dict' object has no attribute 'add'</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>words = {}
+for w in &quot;to be or to be&quot;.split():
+    words.add(w)
+print(len(words))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three&quot;
+    expect_output(&quot;3&quot;)</textarea><textarea class="pc-src pc-solution" hidden>words = set()
+for w in &quot;to be or to be&quot;.split():
+    words.add(w)
+print(len(words))</textarea><template class="pc-src pc-hint"><code>{}</code> is an empty dictionary. Write the empty set the other way.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Out of order</div><div class="pc-prompt"><p>This should print the different names in the order they were first seen: <code>Ada Bo Cy</code>. With a set, the order isn&rsquo;t guaranteed. Fix it so the order is always right, keeping the check fast.</p></div><textarea class="pc-src pc-code" hidden>visitors = [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Ada&quot;, &quot;Cy&quot;, &quot;Bo&quot;]
+print(&quot; &quot;.join(set(visitors)))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;in order&quot;
+    expect_output(&quot;Ada Bo Cy&quot;)
+def test_set():
+    &quot;uses a set for the check&quot;
+    assert &quot;set(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>visitors = [&quot;Ada&quot;, &quot;Bo&quot;, &quot;Ada&quot;, &quot;Cy&quot;, &quot;Bo&quot;]
+seen = set()
+unique = []
+for v in visitors:
+    if v not in seen:
+        seen.add(v)
+        unique.append(v)
+print(&quot; &quot;.join(unique))</textarea><template class="pc-src pc-hint">Keep a <code>seen</code> set for the check and a list for the order.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d5-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Removing what isn&rsquo;t there</div><div class="pc-prompt"><p><code>unsubscribe</code> should remove an email from the mailing list, and do nothing if it isn&rsquo;t on it. It crashes for an email that isn&rsquo;t there. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def unsubscribe(mailing, email):
+    mailing.remove(email)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;safe removal&quot;
+    m = {&quot;a@x.com&quot;, &quot;b@x.com&quot;}
+    unsubscribe(m, &quot;a@x.com&quot;)
+    unsubscribe(m, &quot;z@x.com&quot;)
+    assert m == {&quot;b@x.com&quot;}</textarea><textarea class="pc-src pc-solution" hidden>def unsubscribe(mailing, email):
+    mailing.discard(email)</textarea></div>
+<div class="parsons" data-id="w010d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">New this week</div><div class="pc-prompt"><p>Arrange the lines to print the customers who bought this week but not last week, <code>['Di', 'Ed']</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["last_week = {\"Ada\", \"Bo\", \"Cy\"}", "this_week = {\"Bo\", \"Di\", \"Ed\"}", "new = this_week - last_week", "print(sorted(new))"], "distractors": ["new = last_week - this_week"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # len({1, 2, 2, 3, 3, 3})
+b = ___   # sorted({1, 2, 3} ^ {2, 3, 4})
+c = ___   # {1, 2} &lt;= {1, 2, 3}
+d = ___   # sorted(set(&quot;hello&quot;) - set(&quot;world&quot;))
+e = ___   # type({})                        (the type itself)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 3
+    assert b == [1, 4]
+    assert c is True
+    assert d == [&quot;e&quot;, &quot;h&quot;]
+    assert e is dict</textarea><textarea class="pc-src pc-solution" hidden>a = 3
+b = [1, 4]
+c = True
+d = [&quot;e&quot;, &quot;h&quot;]
+e = dict</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w010d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "text", "q": "What is <code>len({'a', 'b', 'a'})</code>?", "answer": ["2"], "explain": "Duplicates are dropped."}, {"type": "mc", "q": "How do you write an empty set?", "answer": 1, "explain": "<code>{}</code> is an empty dictionary.", "options": ["<code>{}</code>", "<code>set()</code>", "<code>[]</code>", "<code>()</code>"]}, {"type": "mc", "q": "Why does <code>{'a', 'b'}[0]</code> fail?", "answer": 1, "explain": "Use sorted() to get an ordered list.", "options": ["Sets are empty", "Sets have no order, so no indexes", "Strings can&rsquo;t be in sets", "It doesn&rsquo;t fail"]}, {"type": "mc", "q": "What&rsquo;s the difference between <code>remove</code> and <code>discard</code>?", "answer": 1, "explain": "discard is the safe one.", "options": ["None", "remove raises KeyError for a missing element; discard does nothing", "discard empties the set", "remove returns the element"]}, {"type": "mc", "q": "What is <code>{1, 2, 3} &amp; {2, 3, 4}</code>?", "answer": 1, "explain": "Intersection: in both.", "options": ["{1, 2, 3, 4}", "{2, 3}", "{1, 4}", "{1}"]}, {"type": "mc", "q": "What is <code>{1, 2, 3} - {2, 3, 4}</code>?", "answer": 0, "explain": "In the first but not the second.", "options": ["{1}", "{4}", "{1, 4}", "{2, 3}"]}, {"type": "output", "q": "What does this print?", "answer": "[1, 2, 3]", "explain": "Union, then sorted into a list.", "code": "print(sorted({3, 1} | {2, 3}))"}, {"type": "mc", "q": "What does <code>{'a'} &lt;= {'a', 'b'}</code> give?", "answer": 0, "explain": "Every element of the left is in the right: a subset.", "options": ["True", "False"]}, {"type": "mc", "q": "Why is <code>x in s</code> fast for a large set but slow for a large list?", "answer": 1, "explain": "Like dictionary keys.", "options": ["Sets are sorted", "A set finds x from its hash; a list is searched item by item", "Sets are smaller", "It&rsquo;s the same speed"]}, {"type": "mc", "q": "Which collection fits: &lsquo;the different tags used on a blog, to check quickly if a tag exists&rsquo;?", "answer": 2, "explain": "Membership and no duplicates.", "options": ["list", "tuple", "set", "dict"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: friend suggestions</div><div class="pc-prompt"><p>A social network stores friendships as a list of pairs, like <code>("Ada", "Bo")</code>. Friendship works both ways. Write:</p>
+<ul>
+<li><code>build(pairs)</code>: a dictionary from each person to the <strong>set</strong> of their friends.</li>
+<li><code>mutual(network, a, b)</code>: the sorted list of friends <code>a</code> and <code>b</code> have in common.</li>
+<li><code>suggest(network, person)</code>: people who aren&rsquo;t <code>person</code> and aren&rsquo;t already their friend, but are friends with at least one of their friends. Return them as a list of <code>(name, mutual_count)</code> tuples, most mutual friends first, then alphabetically.</li>
+</ul>
+<pre><code>pairs = [(&quot;Ada&quot;, &quot;Bo&quot;), (&quot;Ada&quot;, &quot;Cy&quot;), (&quot;Bo&quot;, &quot;Di&quot;), (&quot;Cy&quot;, &quot;Di&quot;), (&quot;Cy&quot;, &quot;Ed&quot;), (&quot;Di&quot;, &quot;Fe&quot;)]
+suggest(build(pairs), &quot;Ada&quot;)  -&gt;  [(&quot;Di&quot;, 2), (&quot;Ed&quot;, 1)]
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>PAIRS = [(&quot;Ada&quot;, &quot;Bo&quot;), (&quot;Ada&quot;, &quot;Cy&quot;), (&quot;Bo&quot;, &quot;Di&quot;), (&quot;Cy&quot;, &quot;Di&quot;), (&quot;Cy&quot;, &quot;Ed&quot;), (&quot;Di&quot;, &quot;Fe&quot;)]
+def test_build():
+    &quot;build&quot;
+    n = build(PAIRS)
+    assert n[&quot;Ada&quot;] == {&quot;Bo&quot;, &quot;Cy&quot;}
+    assert n[&quot;Di&quot;] == {&quot;Bo&quot;, &quot;Cy&quot;, &quot;Fe&quot;}
+    assert n[&quot;Fe&quot;] == {&quot;Di&quot;}
+    assert build([]) == {}
+def test_mutual():
+    &quot;mutual&quot;
+    n = build(PAIRS)
+    assert mutual(n, &quot;Ada&quot;, &quot;Di&quot;) == [&quot;Bo&quot;, &quot;Cy&quot;]
+    assert mutual(n, &quot;Ada&quot;, &quot;Fe&quot;) == []
+def test_suggest():
+    &quot;suggest&quot;
+    n = build(PAIRS)
+    assert suggest(n, &quot;Ada&quot;) == [(&quot;Di&quot;, 2), (&quot;Ed&quot;, 1)]
+    assert suggest(n, &quot;Fe&quot;) == [(&quot;Bo&quot;, 1), (&quot;Cy&quot;, 1)]
+    assert suggest(build([(&quot;A&quot;, &quot;B&quot;)]), &quot;A&quot;) == []</textarea><textarea class="pc-src pc-solution" hidden>def build(pairs):
+    network = {}
+    for a, b in pairs:
+        network.setdefault(a, set()).add(b)
+        network.setdefault(b, set()).add(a)
+    return network
+
+def mutual(network, a, b):
+    return sorted(network[a] &amp; network[b])
+
+def suggest(network, person):
+    friends = network[person]
+    candidates = set()
+    for f in friends:
+        candidates |= network[f]
+    candidates -= friends
+    candidates.discard(person)
+    scored = [(c, len(friends &amp; network[c])) for c in candidates]
+    return sorted(scored, key=lambda p: (-p[1], p[0]))</textarea><template class="pc-src pc-hint">In <code>build</code>, use <code>setdefault(name, set()).add(friend)</code> for both directions of each pair.</template><template class="pc-src pc-hint">For <code>suggest</code>, the candidates are the union of the friends&rsquo; friend sets, minus the person and minus their friends. For each candidate, the mutual count is <code>len(network[person] &amp; network[candidate])</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Make a list of the four collections and, for each, write one real situation where it&rsquo;s the right choice and one where it&rsquo;s the wrong one. Then explain why <code>len(set(items)) == len(items)</code> tells you whether a list has duplicates. Tomorrow is the Forge: a small library system built from dictionaries, lists and sets.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w010d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w010d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w010d5", "week": 10, "day": 5, "title": "Sets", "exercises": [{"id": "w010d5-distinct", "title": "How many different?", "points": 10}, {"id": "w010d5-common", "title": "Shared interests", "points": 10}, {"id": "w010d5-missing", "title": "Who's absent?", "points": 10}, {"id": "w010d5-pangram", "title": "Every letter", "points": 10}, {"id": "w010d5-first_dup", "title": "First repeat", "points": 10}, {"id": "w010d5-only_one", "title": "In exactly one", "points": 10}, {"id": "w010d5-two_sum", "title": "A pair that adds up", "points": 15}, {"id": "w010d5-bug1", "title": "An empty what?", "points": 10}, {"id": "w010d5-bug2", "title": "Out of order", "points": 10}, {"id": "w010d5-bug3", "title": "Removing what isn't there", "points": 10}, {"id": "w010d5-trace", "title": "Predict them", "points": 15}, {"id": "w010d5-challenge", "title": "Challenge: friend suggestions", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

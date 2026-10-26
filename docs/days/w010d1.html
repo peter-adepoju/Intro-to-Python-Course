@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="b70c1f84f5">
+<title>Week 10 Day 1: Dictionaries: keys and values | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=b70c1f84f5">
+<link rel="stylesheet" href="../assets/css/site.css?v=b70c1f84f5">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=b70c1f84f5"></script>
+<script src="../assets/vendor/codemirror.js?v=b70c1f84f5" defer></script>
+<meta name="description" content="Last week’s league table had to search through every team to find the one it wanted. A dictionary does that lookup in one step: you give it a key, such as a...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w010d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 10 Day 1: Dictionaries: keys and values">
+<meta property="og:description" content="Last week’s league table had to search through every team to find the one it wanted. A dictionary does that lookup in one step: you give it a key, such as a...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w010d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-10">Week 10: Dictionaries and sets</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#keys-and-values" data-sec="keys-and-values">Keys and values</a></li><li><a href="#changing-a-dictionary" data-sec="changing-a-dictionary">Changing a dictionary</a></li><li><a href="#safe-lookups-with-get" data-sec="safe-lookups-with-get">Safe lookups with get</a></li><li><a href="#looping" data-sec="looping">Looping</a></li><li><a href="#what-can-be-a-key" data-sec="what-can-be-a-key">What can be a key</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 10, Day 1</span></p>
+      <h1>Dictionaries: keys and values</h1>
+      <div class="day-intro"><p>Last week&rsquo;s league table had to search through every team to find the one it wanted. A dictionary does that lookup in one step: you give it a key, such as a team&rsquo;s name, and it gives back the value stored with it. Dictionaries are probably the most used data structure in Python, and today you&rsquo;ll learn how they work.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Make a dictionary, look up a value by its key, and explain a <code>KeyError</code></li><li>Add, change and remove entries, and check whether a key is present with <code>in</code></li><li>Look up a key safely with <code>get</code> and a default</li><li>Loop over keys, values and key-value pairs</li><li>Say which values can be keys, and why lookups are fast</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Keys and values: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Changing a dictionary: 25 min"></span><span class="plan-seg s1" style="flex:20" title="Safe lookups with get: 20 min"></span><span class="plan-seg s0" style="flex:25" title="Looping: 25 min"></span><span class="plan-seg s1" style="flex:15" title="What can be a key: 15 min"></span><span class="plan-seg s0" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Keys and values</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Changing a dictionary</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Safe lookups with get</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Looping</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">What can be a key</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w010d1.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d1-p1"><textarea class="pc-src pc-code" hidden>names = [&quot;Ada&quot;, &quot;Grace&quot;, &quot;Alan&quot;]
+marks = [93, 88, 97]
+i = names.index(&quot;Grace&quot;)
+print(marks[i])</textarea></div>
+<p>That works, but it&rsquo;s two lists that must stay in step, and <code>index</code> looks through the names one by one. What we really want is to say &ldquo;Grace&rdquo; and get 88 straight back. That&rsquo;s what a dictionary is for.</p>
+<h2 id="keys-and-values">Keys and values</h2>
+<p>A <strong>dictionary</strong> stores <strong>entries</strong>, each a <strong>key</strong> and the <strong>value</strong> that goes with it. Write it in curly brackets, with a colon between each key and its value:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e2"><textarea class="pc-src pc-code" hidden>marks = {&quot;Ada&quot;: 93, &quot;Grace&quot;: 88, &quot;Alan&quot;: 97}
+print(marks[&quot;Grace&quot;])
+print(marks)
+print(len(marks))</textarea></div>
+<p>You look a value up by putting its <strong>key</strong> in square brackets, just as you put an index in square brackets for a list. The difference is that the key can be a name, a word, or anything else suitable, not just a position.</p>
+<p>Think of a real dictionary: you look up a word (the key) and find its meaning (the value). Or a phone&rsquo;s contact list: a name and a number.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e3"><textarea class="pc-src pc-code" hidden>capital = {&quot;Nigeria&quot;: &quot;Abuja&quot;, &quot;Ghana&quot;: &quot;Accra&quot;, &quot;Kenya&quot;: &quot;Nairobi&quot;}
+country = &quot;Ghana&quot;
+print(f&quot;The capital of {country} is {capital[country]}.&quot;)</textarea></div>
+<h3 id="a-missing-key-is-an-error">A missing key is an error</h3>
+<p>If there&rsquo;s no entry with that key, Python raises a <code>KeyError</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e4"><textarea class="pc-src pc-code" hidden>marks = {&quot;Ada&quot;: 93, &quot;Grace&quot;: 88}
+print(marks[&quot;Bo&quot;])</textarea></div>
+<h3 id="keys-are-unique">Keys are unique</h3>
+<p>Each key appears <strong>once</strong>. Values may repeat, but if you write the same key twice, the second value replaces the first:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e5"><textarea class="pc-src pc-code" hidden>d = {&quot;a&quot;: 1, &quot;b&quot;: 1, &quot;a&quot;: 2}
+print(d)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>A dictionary maps <strong>keys</strong> to <strong>values</strong>: <code>d[key]</code> gives the value. Keys are unique; a missing key raises <code>KeyError</code>. A dictionary is the right tool whenever you find yourself searching a list for the item with a particular name.</p></aside>
+<h2 id="changing-a-dictionary">Changing a dictionary</h2>
+<p>Dictionaries are <strong>mutable</strong>, like lists. Assigning to a key <strong>adds</strong> an entry if the key is new, and <strong>replaces</strong> the value if it&rsquo;s already there:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e6"><textarea class="pc-src pc-code" hidden>stock = {&quot;rice&quot;: 12, &quot;beans&quot;: 5}
+stock[&quot;garri&quot;] = 20
+stock[&quot;rice&quot;] = 10
+stock[&quot;beans&quot;] += 3
+print(stock)</textarea></div>
+<p><code>del</code> removes an entry (and raises <code>KeyError</code> if it isn&rsquo;t there):</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e7"><textarea class="pc-src pc-code" hidden>stock = {&quot;rice&quot;: 12, &quot;beans&quot;: 5, &quot;garri&quot;: 20}
+del stock[&quot;beans&quot;]
+print(stock)</textarea></div>
+<p><code>in</code> checks whether a <strong>key</strong> is present. It looks only at the keys, never at the values:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e8"><textarea class="pc-src pc-code" hidden>stock = {&quot;rice&quot;: 12, &quot;beans&quot;: 5}
+print(&quot;rice&quot; in stock)
+print(12 in stock)
+print(&quot;yam&quot; not in stock)</textarea></div>
+<p>Try them all. Each operation runs in real Python, and the figure marks what was added, changed or removed:</p>
+<figure class="widget" data-widget="dictops"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Run the operations one after another (the result is kept for the next run). Try looking up a key that isn&rsquo;t there, and check whether 93 is in d.</figcaption></figure>
+<h3 id="building-one-up">Building one up</h3>
+<p>A very common pattern is to start with an empty dictionary, <code>{}</code>, and fill it in a loop:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e9"><textarea class="pc-src pc-code" hidden>squares = {}
+for n in range(1, 6):
+    squares[n] = n * n
+print(squares)
+print(squares[4])</textarea></div>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>{}</code> is an empty <strong>dictionary</strong>, not an empty set or list. You&rsquo;ll meet sets on Day 5; an empty set is written <code>set()</code>.</p></aside>
+<h2 id="safe-lookups-with-get">Safe lookups with get</h2>
+<p>Often a key might not be there, and you&rsquo;d rather have a sensible answer than an error. You could check with <code>in</code> first:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e10"><textarea class="pc-src pc-code" hidden>prices = {&quot;tea&quot;: 150, &quot;coffee&quot;: 900}
+item = &quot;juice&quot;
+if item in prices:
+    print(prices[item])
+else:
+    print(&quot;not on the menu&quot;)</textarea></div>
+<p>The method <code>get</code> does it in one step. <code>d.get(key)</code> gives the value, or <code>None</code> if the key isn&rsquo;t there. <code>d.get(key, default)</code> gives your default instead:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e11"><textarea class="pc-src pc-code" hidden>prices = {&quot;tea&quot;: 150, &quot;coffee&quot;: 900}
+print(prices.get(&quot;tea&quot;))
+print(prices.get(&quot;juice&quot;))
+print(prices.get(&quot;juice&quot;, 0))
+print(prices)</textarea></div>
+<p><code>get</code> never changes the dictionary: the missing key is still missing afterwards.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Use <code>d[key]</code> when the key <strong>must</strong> be there, so that a mistake shows up as a <code>KeyError</code> straight away. Use <code>d.get(key, default)</code> when a missing key is normal and you know what it should mean.</p></aside>
+<h2 id="looping">Looping</h2>
+<p>Looping over a dictionary gives you its <strong>keys</strong>, in the order they were added:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e12"><textarea class="pc-src pc-code" hidden>marks = {&quot;Ada&quot;: 93, &quot;Grace&quot;: 88, &quot;Alan&quot;: 97}
+for name in marks:
+    print(name, marks[name])</textarea></div>
+<p>Three methods give you views of the parts:</p>
+<ul>
+<li><code>d.keys()</code>: the keys;</li>
+<li><code>d.values()</code>: the values;</li>
+<li><code>d.items()</code>: the entries, as <code>(key, value)</code> tuples.</li>
+</ul>
+<p><code>items</code> with unpacking is the usual way to loop over both:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e13"><textarea class="pc-src pc-code" hidden>marks = {&quot;Ada&quot;: 93, &quot;Grace&quot;: 88, &quot;Alan&quot;: 97}
+for name, mark in marks.items():
+    print(f&quot;{name:&lt;6}{mark:&gt;4}&quot;)
+print(sum(marks.values()) / len(marks))
+print(max(marks.values()))
+print(sorted(marks))</textarea></div>
+<p><code>sorted(marks)</code> sorts the <strong>keys</strong>, because looping over a dictionary gives the keys.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Don&rsquo;t add or remove keys while you loop over a dictionary: Python raises <code>RuntimeError: dictionary changed size during iteration</code>. Changing the <strong>values</strong> of existing keys is fine. To remove entries, loop over <code>list(d)</code>, a copy of the keys.</p></aside>
+<h2 id="what-can-be-a-key">What can be a key</h2>
+<p>Values can be anything: numbers, strings, lists, even other dictionaries. Keys are stricter. A key must be <strong>immutable</strong>: strings, numbers, booleans and tuples (of immutable things) work; lists and dictionaries don&rsquo;t.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e14"><textarea class="pc-src pc-code" hidden>grid = {(0, 0): &quot;start&quot;, (2, 3): &quot;treasure&quot;}
+print(grid[(2, 3)])</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e15"><textarea class="pc-src pc-code" hidden>d = {}
+d[[1, 2]] = &quot;pair&quot;</textarea></div>
+<p><strong>Why?</strong> The reason is also why lookups are fast. Python doesn&rsquo;t search through the keys one by one. It turns the key into a number called its <strong>hash</strong>, and uses that number to go straight to the place where the entry is stored, like going straight to the right page in a paper dictionary. If a key could change after it was stored, its hash would change, and Python would look in the wrong place. So keys must be values that can&rsquo;t change: Python calls them <strong>hashable</strong>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d1-e16"><textarea class="pc-src pc-code" hidden>print(hash(&quot;Ada&quot;) == hash(&quot;Ada&quot;))
+print(hash((1, 2)) == hash((1, 2)))</textarea></div>
+<p>(The numbers themselves change each time Python starts, for security, so we only compare them.)</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Finding a key in a dictionary takes about the same time whether it has ten entries or ten million. Finding an item in a list means looking through it. That difference is why dictionaries are everywhere.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-lookup" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Look it up</div><div class="pc-prompt"><p><code>codes</code> maps country codes to names. Ask <code>Code:</code> and print the country&rsquo;s name, or <code>Unknown code</code> if it isn&rsquo;t there. Accept lower-case codes too.</p></div><textarea class="pc-src pc-code" hidden>codes = {&quot;NG&quot;: &quot;Nigeria&quot;, &quot;GH&quot;: &quot;Ghana&quot;, &quot;KE&quot;: &quot;Kenya&quot;, &quot;ZA&quot;: &quot;South Africa&quot;}</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several codes&quot;
+    expect_output(&quot;Code: GH\nGhana&quot;, inputs=[&quot;GH&quot;], echo=True)
+    expect_output(&quot;Code: za\nSouth Africa&quot;, inputs=[&quot;za&quot;], echo=True)
+    expect_output(&quot;Code: FR\nUnknown code&quot;, inputs=[&quot;FR&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>codes = {&quot;NG&quot;: &quot;Nigeria&quot;, &quot;GH&quot;: &quot;Ghana&quot;, &quot;KE&quot;: &quot;Kenya&quot;, &quot;ZA&quot;: &quot;South Africa&quot;}
+code = input(&quot;Code: &quot;).upper()
+print(codes.get(code, &quot;Unknown code&quot;))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-build" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">From two lists</div><div class="pc-prompt"><p>Write <code>pair_up(keys, values)</code> that returns a dictionary in which each key in <code>keys</code> maps to the value in the same position of <code>values</code>. Use <code>zip</code> and a loop.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert pair_up([&quot;a&quot;, &quot;b&quot;], [1, 2]) == {&quot;a&quot;: 1, &quot;b&quot;: 2}
+    assert pair_up([], []) == {}
+    assert pair_up([&quot;x&quot;, &quot;x&quot;], [1, 2]) == {&quot;x&quot;: 2}</textarea><textarea class="pc-src pc-solution" hidden>def pair_up(keys, values):
+    d = {}
+    for k, v in zip(keys, values):
+        d[k] = v
+    return d</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-restock" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Restock</div><div class="pc-prompt"><p>Write <code>restock(stock, item, amount)</code> that adds <code>amount</code> to the stock of <code>item</code>, adding the item if it isn&rsquo;t there yet. It changes the dictionary in place and returns nothing.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    s = {&quot;rice&quot;: 12}
+    assert restock(s, &quot;rice&quot;, 3) is None
+    assert s == {&quot;rice&quot;: 15}
+    restock(s, &quot;beans&quot;, 4)
+    assert s == {&quot;rice&quot;: 15, &quot;beans&quot;: 4}</textarea><textarea class="pc-src pc-solution" hidden>def restock(stock, item, amount):
+    stock[item] = stock.get(item, 0) + amount</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-bill" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The bill</div><div class="pc-prompt"><p><code>prices</code> maps items to prices in naira. Write <code>bill(order)</code> that takes a list of items and returns the total price. Items not on the menu are ignored.</p></div><textarea class="pc-src pc-code" hidden>prices = {&quot;tea&quot;: 150, &quot;coffee&quot;: 900, &quot;bread&quot;: 950, &quot;egg&quot;: 120}</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several orders&quot;
+    assert bill([&quot;tea&quot;, &quot;egg&quot;, &quot;egg&quot;]) == 390
+    assert bill([&quot;juice&quot;, &quot;coffee&quot;]) == 900
+    assert bill([]) == 0</textarea><textarea class="pc-src pc-solution" hidden>prices = {&quot;tea&quot;: 150, &quot;coffee&quot;: 900, &quot;bread&quot;: 950, &quot;egg&quot;: 120}
+
+def bill(order):
+    total = 0
+    for item in order:
+        total += prices.get(item, 0)
+    return total</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-best" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Top of the class</div><div class="pc-prompt"><p>Write <code>top(marks)</code> that takes a dictionary of names and marks and returns the name with the highest mark (the first one added, if there&rsquo;s a tie). Return <code>None</code> for an empty dictionary.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several classes&quot;
+    assert top({&quot;Ada&quot;: 93, &quot;Grace&quot;: 88, &quot;Alan&quot;: 97}) == &quot;Alan&quot;
+    assert top({&quot;A&quot;: 5, &quot;B&quot;: 5}) == &quot;A&quot;
+    assert top({}) is None</textarea><textarea class="pc-src pc-solution" hidden>def top(marks):
+    best = None
+    for name, mark in marks.items():
+        if best is None or mark &gt; marks[best]:
+            best = name
+    return best</textarea><template class="pc-src pc-hint">Loop over <code>marks.items()</code>, keeping the best name so far, or use <code>max(marks, key=marks.get)</code>: looping over the dictionary gives names, and the key looks up each name&rsquo;s mark.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-report" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sorted report</div><div class="pc-prompt"><p>Write <code>report(marks)</code> that returns the lines <code>name: mark</code>, in alphabetical order of name, joined with <code>"\n"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;a class&quot;
+    assert report({&quot;Grace&quot;: 88, &quot;Ada&quot;: 93, &quot;Alan&quot;: 97}) == &quot;Ada: 93\nAlan: 97\nGrace: 88&quot;
+    assert report({}) == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def report(marks):
+    lines = []
+    for name in sorted(marks):
+        lines.append(f&quot;{name}: {marks[name]}&quot;)
+    return &quot;\n&quot;.join(lines)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-passed" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Remove the failures</div><div class="pc-prompt"><p>Write <code>drop_below(marks, limit)</code> that removes, <strong>in place</strong>, every entry whose mark is below <code>limit</code>, and returns how many were removed.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several calls&quot;
+    m = {&quot;Ada&quot;: 93, &quot;Bo&quot;: 41, &quot;Cy&quot;: 50, &quot;Di&quot;: 12}
+    assert drop_below(m, 50) == 2
+    assert m == {&quot;Ada&quot;: 93, &quot;Cy&quot;: 50}
+    assert drop_below(m, 0) == 0</textarea><textarea class="pc-src pc-solution" hidden>def drop_below(marks, limit):
+    removed = 0
+    for name in list(marks):
+        if marks[name] &lt; limit:
+            del marks[name]
+            removed += 1
+    return removed</textarea><template class="pc-src pc-hint">You can&rsquo;t remove keys while looping over the dictionary itself. Loop over <code>list(marks)</code> instead.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A crash for new words</div><div class="pc-prompt"><p><code>count_words</code> should count how often each word appears, but it crashes with a <code>KeyError</code> on the very first word. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def count_words(text):
+    counts = {}
+    for word in text.split():
+        counts[word] += 1
+    return counts</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;counts&quot;
+    assert count_words(&quot;the cat the hat&quot;) == {&quot;the&quot;: 2, &quot;cat&quot;: 1, &quot;hat&quot;: 1}
+    assert count_words(&quot;&quot;) == {}</textarea><textarea class="pc-src pc-solution" hidden>def count_words(text):
+    counts = {}
+    for word in text.split():
+        counts[word] = counts.get(word, 0) + 1
+    return counts</textarea><template class="pc-src pc-hint">The first time a word appears, it has no entry to add 1 to. <code>get</code> with a default of 0 fixes that.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Looking in the wrong place</div><div class="pc-prompt"><p>This should say whether a score of 88 belongs to anyone. It always says no. Fix the check.</p></div><textarea class="pc-src pc-code" hidden>marks = {&quot;Ada&quot;: 93, &quot;Grace&quot;: 88, &quot;Alan&quot;: 97}
+if 88 in marks:
+    print(&quot;Someone scored 88&quot;)
+else:
+    print(&quot;Nobody scored 88&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;found&quot;
+    expect_output(&quot;Someone scored 88&quot;)</textarea><textarea class="pc-src pc-solution" hidden>marks = {&quot;Ada&quot;: 93, &quot;Grace&quot;: 88, &quot;Alan&quot;: 97}
+if 88 in marks.values():
+    print(&quot;Someone scored 88&quot;)
+else:
+    print(&quot;Nobody scored 88&quot;)</textarea><template class="pc-src pc-hint"><code>in</code> on a dictionary checks the keys. You want the values.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d1-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A list as a key</div><div class="pc-prompt"><p>This should store the name of the person sitting at each seat, but it fails with <code>TypeError: unhashable type: 'list'</code>. Fix it so the output is unchanged otherwise.</p></div><textarea class="pc-src pc-code" hidden>seats = {}
+seats[[1, 4]] = &quot;Ada&quot;
+seats[[2, 1]] = &quot;Grace&quot;
+print(seats[[2, 1]])</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;Grace&quot;
+    expect_output(&quot;Grace&quot;)</textarea><textarea class="pc-src pc-solution" hidden>seats = {}
+seats[(1, 4)] = &quot;Ada&quot;
+seats[(2, 1)] = &quot;Grace&quot;
+print(seats[(2, 1)])</textarea><template class="pc-src pc-hint">A key must be immutable. Which sequence can&rsquo;t be changed?</template></div>
+<div class="parsons" data-id="w010d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Biggest spender</div><div class="pc-prompt"><p>Arrange the lines to print the customer who spent the most in total, <code>Bo</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["orders = [(\"Ada\", 500), (\"Bo\", 300), (\"Ada\", 200), (\"Bo\", 600)]", "totals = {}", "for name, amount in orders:", "    totals[name] = totals.get(name, 0) + amount", "print(max(totals, key=totals.get))"], "distractors": ["    totals[name] = amount"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+d[&quot;c&quot;] = d[&quot;a&quot;] + d[&quot;b&quot;]
+d[&quot;a&quot;] = 10
+a = ___   # d
+b = ___   # d.get(&quot;z&quot;, &quot;none&quot;)
+c = ___   # list(d.items())[1]
+e = ___   # &quot;b&quot; in d and 2 in d
+f = ___   # len({1: &quot;x&quot;, 1.0: &quot;y&quot;, &quot;1&quot;: &quot;z&quot;})   (1 == 1.0 is True)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == {&quot;a&quot;: 10, &quot;b&quot;: 2, &quot;c&quot;: 3}
+    assert b == &quot;none&quot;
+    assert c == (&quot;b&quot;, 2)
+    assert e is False
+    assert f == 2</textarea><textarea class="pc-src pc-solution" hidden>d = {&quot;a&quot;: 1, &quot;b&quot;: 2}
+d[&quot;c&quot;] = d[&quot;a&quot;] + d[&quot;b&quot;]
+d[&quot;a&quot;] = 10
+a = {&quot;a&quot;: 10, &quot;b&quot;: 2, &quot;c&quot;: 3}
+b = &quot;none&quot;
+c = (&quot;b&quot;, 2)
+e = False
+f = 2</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w010d1-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does <code>{'x': 1, 'y': 2}['y']</code> give?", "answer": 1, "explain": "Square brackets with a key give its value.", "options": ["1", "2", "&lsquo;y&rsquo;", "An error"]}, {"type": "mc", "q": "What happens when you look up a key that isn&rsquo;t there with square brackets?", "answer": 2, "explain": "Use get if a missing key is normal.", "options": ["You get None", "You get 0", "A KeyError", "The key is added"]}, {"type": "output", "q": "What does this print?", "answer": "{'a': 5, 'b': 2}", "explain": "An existing key is replaced; a new key is added.", "code": "d = {\"a\": 1}\nd[\"a\"] = 5\nd[\"b\"] = 2\nprint(d)"}, {"type": "mc", "q": "What does <code>\"Ada\" in d</code> check?", "answer": 0, "explain": "in looks only at keys.", "options": ["Whether Ada is a key", "Whether Ada is a value", "Either", "Both"]}, {"type": "mc", "q": "What does <code>{'tea': 150}.get('juice', 0)</code> give?", "answer": 1, "explain": "The default is used for a missing key.", "options": ["None", "0", "150", "A KeyError"]}, {"type": "mc", "q": "What does looping over a dictionary give you?", "answer": 1, "explain": "Use items() for the pairs.", "options": ["The values", "The keys", "(key, value) pairs", "Positions"]}, {"type": "mc", "q": "Which of these can&rsquo;t be a dictionary key?", "answer": 3, "explain": "Lists are mutable, so they aren&rsquo;t hashable.", "options": ["<code>'name'</code>", "<code>42</code>", "<code>(1, 2)</code>", "<code>[1, 2]</code>"]}, {"type": "output", "q": "What does this print?", "answer": "b 2\na 1", "explain": "Dictionaries keep the order entries were added.", "code": "d = {\"b\": 2, \"a\": 1}\nfor k, v in d.items():\n    print(k, v)"}, {"type": "mc", "q": "Why is looking up a key in a large dictionary fast?", "answer": 1, "explain": "No searching is needed.", "options": ["Dictionaries are sorted", "Python uses the key&rsquo;s hash to go straight to its entry", "Dictionaries are small", "It isn&rsquo;t fast"]}, {"type": "text", "q": "What is <code>len({'a': 1, 'a': 2})</code>?", "answer": ["1"], "explain": "Keys are unique: the second replaces the first."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: Morse code</div><div class="pc-prompt"><p>Morse code turns each letter into dots and dashes. Using the table given, write:</p>
+<ul>
+<li><code>encode(text)</code>, which turns text into Morse: letters are separated by one space, and words by <code>/</code>. Upper and lower case are treated the same, and characters not in the table are left out.</li>
+<li><code>decode(morse)</code>, which turns Morse back into upper-case text. Build a reverse dictionary (from code to letter) with a loop, once, outside the function. A code it doesn&rsquo;t recognise becomes <code>?</code>.</li>
+</ul>
+<pre><code>encode(&quot;SOS help&quot;)     -&gt;  &quot;... --- ... / .... . .-.. .--.&quot;
+decode(&quot;... --- ...&quot;)  -&gt;  &quot;SOS&quot;
+</code></pre></div><textarea class="pc-src pc-code" hidden>MORSE = {
+    &quot;A&quot;: &quot;.-&quot;, &quot;B&quot;: &quot;-...&quot;, &quot;C&quot;: &quot;-.-.&quot;, &quot;D&quot;: &quot;-..&quot;, &quot;E&quot;: &quot;.&quot;, &quot;F&quot;: &quot;..-.&quot;, &quot;G&quot;: &quot;--.&quot;,
+    &quot;H&quot;: &quot;....&quot;, &quot;I&quot;: &quot;..&quot;, &quot;J&quot;: &quot;.---&quot;, &quot;K&quot;: &quot;-.-&quot;, &quot;L&quot;: &quot;.-..&quot;, &quot;M&quot;: &quot;--&quot;, &quot;N&quot;: &quot;-.&quot;,
+    &quot;O&quot;: &quot;---&quot;, &quot;P&quot;: &quot;.--.&quot;, &quot;Q&quot;: &quot;--.-&quot;, &quot;R&quot;: &quot;.-.&quot;, &quot;S&quot;: &quot;...&quot;, &quot;T&quot;: &quot;-&quot;, &quot;U&quot;: &quot;..-&quot;,
+    &quot;V&quot;: &quot;...-&quot;, &quot;W&quot;: &quot;.--&quot;, &quot;X&quot;: &quot;-..-&quot;, &quot;Y&quot;: &quot;-.--&quot;, &quot;Z&quot;: &quot;--..&quot;,
+    &quot;0&quot;: &quot;-----&quot;, &quot;1&quot;: &quot;.----&quot;, &quot;2&quot;: &quot;..---&quot;, &quot;3&quot;: &quot;...--&quot;, &quot;4&quot;: &quot;....-&quot;,
+    &quot;5&quot;: &quot;.....&quot;, &quot;6&quot;: &quot;-....&quot;, &quot;7&quot;: &quot;--...&quot;, &quot;8&quot;: &quot;---..&quot;, &quot;9&quot;: &quot;----.&quot;,
+}</textarea><textarea class="pc-src pc-tests" hidden>def test_encode():
+    &quot;encode&quot;
+    assert encode(&quot;SOS help&quot;) == &quot;... --- ... / .... . .-.. .--.&quot;
+    assert encode(&quot;a1&quot;) == &quot;.- .----&quot;
+    assert encode(&quot;hi!&quot;) == &quot;.... ..&quot;
+def test_decode():
+    &quot;decode&quot;
+    assert decode(&quot;... --- ...&quot;) == &quot;SOS&quot;
+    assert decode(&quot;.... .. / - .... . .-. .&quot;) == &quot;HI THERE&quot;
+    assert decode(&quot;.-.-.- .-&quot;) == &quot;?A&quot;
+def test_round_trip():
+    &quot;there and back&quot;
+    assert decode(encode(&quot;Python Atlas 2026&quot;)) == &quot;PYTHON ATLAS 2026&quot;</textarea><textarea class="pc-src pc-solution" hidden>MORSE = {
+    &quot;A&quot;: &quot;.-&quot;, &quot;B&quot;: &quot;-...&quot;, &quot;C&quot;: &quot;-.-.&quot;, &quot;D&quot;: &quot;-..&quot;, &quot;E&quot;: &quot;.&quot;, &quot;F&quot;: &quot;..-.&quot;, &quot;G&quot;: &quot;--.&quot;,
+    &quot;H&quot;: &quot;....&quot;, &quot;I&quot;: &quot;..&quot;, &quot;J&quot;: &quot;.---&quot;, &quot;K&quot;: &quot;-.-&quot;, &quot;L&quot;: &quot;.-..&quot;, &quot;M&quot;: &quot;--&quot;, &quot;N&quot;: &quot;-.&quot;,
+    &quot;O&quot;: &quot;---&quot;, &quot;P&quot;: &quot;.--.&quot;, &quot;Q&quot;: &quot;--.-&quot;, &quot;R&quot;: &quot;.-.&quot;, &quot;S&quot;: &quot;...&quot;, &quot;T&quot;: &quot;-&quot;, &quot;U&quot;: &quot;..-&quot;,
+    &quot;V&quot;: &quot;...-&quot;, &quot;W&quot;: &quot;.--&quot;, &quot;X&quot;: &quot;-..-&quot;, &quot;Y&quot;: &quot;-.--&quot;, &quot;Z&quot;: &quot;--..&quot;,
+    &quot;0&quot;: &quot;-----&quot;, &quot;1&quot;: &quot;.----&quot;, &quot;2&quot;: &quot;..---&quot;, &quot;3&quot;: &quot;...--&quot;, &quot;4&quot;: &quot;....-&quot;,
+    &quot;5&quot;: &quot;.....&quot;, &quot;6&quot;: &quot;-....&quot;, &quot;7&quot;: &quot;--...&quot;, &quot;8&quot;: &quot;---..&quot;, &quot;9&quot;: &quot;----.&quot;,
+}
+FROM_MORSE = {}
+for letter, code in MORSE.items():
+    FROM_MORSE[code] = letter
+
+def encode(text):
+    words = []
+    for word in text.upper().split():
+        codes = [MORSE[ch] for ch in word if ch in MORSE]
+        words.append(&quot; &quot;.join(codes))
+    return &quot; / &quot;.join(words)
+
+def decode(morse):
+    words = []
+    for word in morse.split(&quot; / &quot;):
+        words.append(&quot;&quot;.join(FROM_MORSE.get(code, &quot;?&quot;) for code in word.split()))
+    return &quot; &quot;.join(words)</textarea><template class="pc-src pc-hint">For <code>encode</code>, split the text into words. For each word, make a list of codes for the letters that are in <code>MORSE</code>, and join it with <code>" "</code>. Join the words with <code>" / "</code>.</template><template class="pc-src pc-hint">For the reverse dictionary: <code>FROM_MORSE = {}</code>, then for each letter and code in <code>MORSE.items()</code>, <code>FROM_MORSE[code] = letter</code>. In <code>decode</code>, split on <code>" / "</code> for words, then on spaces for letters.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Rewrite last week&rsquo;s league table <code>find</code> function in your head: what would <code>rows</code> be if it were a dictionary, and what would replace the whole function? Then explain to yourself why a list can&rsquo;t be a key. Tomorrow: the rest of the dictionary methods, dictionary comprehensions, and merging dictionaries.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w009d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w010d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w010d1", "week": 10, "day": 1, "title": "Dictionaries: keys and values", "exercises": [{"id": "w010d1-lookup", "title": "Look it up", "points": 10}, {"id": "w010d1-build", "title": "From two lists", "points": 10}, {"id": "w010d1-restock", "title": "Restock", "points": 10}, {"id": "w010d1-bill", "title": "The bill", "points": 10}, {"id": "w010d1-best", "title": "Top of the class", "points": 10}, {"id": "w010d1-report", "title": "Sorted report", "points": 10}, {"id": "w010d1-passed", "title": "Remove the failures", "points": 15}, {"id": "w010d1-bug1", "title": "A crash for new words", "points": 10}, {"id": "w010d1-bug2", "title": "Looking in the wrong place", "points": 10}, {"id": "w010d1-bug3", "title": "A list as a key", "points": 10}, {"id": "w010d1-trace", "title": "Predict them", "points": 15}, {"id": "w010d1-challenge", "title": "Challenge: Morse code", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

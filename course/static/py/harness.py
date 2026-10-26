@@ -973,5 +973,69 @@ def comp_steps(expr, var, src, cond):
     return {"error": None, "code": "result = " + code, "loop": "\n".join(loop), "rows": rows, "result": repr(result)}
 
 
+def dict_op(dict_src, op):
+    """Run one operation on a dictionary named d (for the dictionary figure)."""
+    try:
+        d = eval(dict_src, {"__builtins__": builtins})
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}"}
+    if not isinstance(d, dict):
+        return {"error": "That isn't a dictionary."}
+    pairs = lambda m: [[repr(k), repr(v)] for k, v in m.items()] if isinstance(m, dict) else None
+    before = pairs(d)
+    ns = {"d": d, "__builtins__": builtins}
+    try:
+        try:
+            result, is_expr = eval(op, ns), True
+        except SyntaxError:
+            exec(op, ns)
+            result, is_expr = None, False
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}", "before": before}
+    after = ns.get("d")
+    return {"error": None, "before": before, "after": pairs(after), "after_repr": repr(after),
+            "same": after is d, "result": repr(result), "is_expr": is_expr}
+
+
+def nest_tree(src):
+    """Describe nested lists and dictionaries as a tree (for the nested-data figure)."""
+    try:
+        data = eval(src, {"__builtins__": builtins})
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}"}
+    count = [0]
+    q = lambda k: json.dumps(k) if isinstance(k, str) else repr(k)
+    def walk(v, path):
+        count[0] += 1
+        if count[0] > 300:
+            return {"kind": "more", "path": path, "repr": "..."}
+        if isinstance(v, dict):
+            return {"kind": "dict", "path": path, "n": len(v),
+                    "kids": [[q(k), walk(x, f"{path}[{q(k)}]")] for k, x in v.items()]}
+        if isinstance(v, (list, tuple)):
+            return {"kind": type(v).__name__, "path": path, "n": len(v),
+                    "kids": [[str(i), walk(x, f"{path}[{i}]")] for i, x in enumerate(v)]}
+        r = repr(v)
+        return {"kind": type(v).__name__, "path": path, "repr": r if len(r) < 60 else r[:57] + "..."}
+    return {"error": None, "tree": walk(data, "data")}
+
+
+def set_venn(a_src, b_src):
+    """Split two sets into their three regions (for the Venn figure)."""
+    try:
+        a = eval(a_src, {"__builtins__": builtins})
+        b = eval(b_src, {"__builtins__": builtins})
+        a, b = set(a), set(b)
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}"}
+    def show(s):
+        try:
+            items = sorted(s)
+        except TypeError:
+            items = sorted(s, key=repr)
+        return [repr(x) for x in items]
+    return {"error": None, "a": show(a), "b": show(b), "only_a": show(a - b), "both": show(a & b), "only_b": show(b - a)}
+
+
 def call(fn, args_json):
     return globals()[fn](*json.loads(args_json))

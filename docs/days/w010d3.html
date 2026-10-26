@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="b70c1f84f5">
+<title>Week 10 Day 3: Counting and grouping patterns | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=b70c1f84f5">
+<link rel="stylesheet" href="../assets/css/site.css?v=b70c1f84f5">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=b70c1f84f5"></script>
+<script src="../assets/vendor/codemirror.js?v=b70c1f84f5" defer></script>
+<meta name="description" content="A handful of dictionary patterns turn up in program after program: counting how often things happen, grouping things that share a property, adding up totals...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w010d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 10 Day 3: Counting and grouping patterns">
+<meta property="og:description" content="A handful of dictionary patterns turn up in program after program: counting how often things happen, grouping things that share a property, adding up totals...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w010d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-10">Week 10: Dictionaries and sets</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#counting" data-sec="counting">Counting</a></li><li><a href="#grouping" data-sec="grouping">Grouping</a></li><li><a href="#totals-and-indexes" data-sec="totals-and-indexes">Totals and indexes</a></li><li><a href="#counter-and-defaultdict" data-sec="counter-and-defaultdict">Counter and defaultdict</a></li><li><a href="#choosing-a-pattern" data-sec="choosing-a-pattern">Choosing a pattern</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 10, Day 3</span></p>
+      <h1>Counting and grouping patterns</h1>
+      <div class="day-intro"><p>A handful of dictionary patterns turn up in program after program: counting how often things happen, grouping things that share a property, adding up totals for each group, and indexing records by a name so they can be found at once. Today you&rsquo;ll learn each pattern by hand, and then the two standard-library tools, <code>Counter</code> and <code>defaultdict</code>, that write them for you.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Count occurrences with a dictionary and <code>get</code>, and find the most common items</li><li>Group items into lists by a key with <code>setdefault</code></li><li>Total a value for each group, and index records by a unique key</li><li>Use <code>collections.Counter</code> and <code>collections.defaultdict</code>, and know what they do underneath</li><li>Choose the right pattern for a problem described in words</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Counting: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Grouping: 30 min"></span><span class="plan-seg s1" style="flex:20" title="Totals and indexes: 20 min"></span><span class="plan-seg s0" style="flex:25" title="Counter and defaultdict: 25 min"></span><span class="plan-seg s1" style="flex:5" title="Choosing a pattern: 5 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Counting</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Grouping</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Totals and indexes</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Counter and defaultdict</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Choosing a pattern</span><span class="plan-min">5 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w010d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w010d3.ipynb" download>download it</a>. Exercises today are worth 150 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w010d3-p1"><textarea class="pc-src pc-code" hidden>votes = [&quot;yes&quot;, &quot;no&quot;, &quot;yes&quot;, &quot;yes&quot;, &quot;no&quot;]
+counts = {}
+for v in votes:
+    counts[v] = counts.get(v, 0) + 1
+print(counts)</textarea></div>
+<p>You fixed this loop in yesterday&rsquo;s bug hunt. It&rsquo;s the most important dictionary pattern of all, so today starts by looking at it closely.</p>
+<h2 id="counting">Counting</h2>
+<p>The <strong>counting pattern</strong> keeps one entry per distinct item, holding how many times it has been seen:</p>
+<pre><code>counts = {}
+for item in items:
+    counts[item] = counts.get(item, 0) + 1
+</code></pre>
+<p><code>counts.get(item, 0)</code> is the count so far, or 0 for an item seen for the first time. Step through it and watch the dictionary grow:</p>
+<figure class="widget" data-widget="tracetable"><script type="application/json">{"code": "counts = {}\nfor ch in \"banana\":\n    counts[ch] = counts.get(ch, 0) + 1\nprint(counts)"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>One row per line run. Watch counts: a new key appears the first time a letter is seen, and its count goes up each time after.</figcaption></figure>
+<p>Anything hashable can be counted: words, letters, numbers, tuples.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e2"><div class="pc-title">Word frequencies</div><textarea class="pc-src pc-code" hidden>text = &quot;the cat sat on the mat the end&quot;
+counts = {}
+for word in text.split():
+    counts[word] = counts.get(word, 0) + 1
+print(counts)
+print(counts[&quot;the&quot;])</textarea></div>
+<h3 id="the-most-common">The most common</h3>
+<p>Sort the entries by count, highest first:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e3"><textarea class="pc-src pc-code" hidden>counts = {&quot;the&quot;: 3, &quot;cat&quot;: 1, &quot;sat&quot;: 1, &quot;mat&quot;: 2}
+ranked = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)
+print(ranked[:2])
+print(max(counts, key=counts.get))</textarea></div>
+<h3 id="a-text-histogram">A text histogram</h3>
+<p>Counts are easy to draw as bars:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e4"><textarea class="pc-src pc-code" hidden>rolls = [3, 6, 2, 6, 6, 1, 3, 5, 6, 2]
+counts = {}
+for r in rolls:
+    counts[r] = counts.get(r, 0) + 1
+for face in range(1, 7):
+    n = counts.get(face, 0)
+    print(face, &quot;#&quot; * n, n)</textarea></div>
+<p>Notice <code>range(1, 7)</code> and <code>get(face, 0)</code>: looping over every possible face, not just the ones that came up, so a face that never appeared still gets a line.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><strong>Counting:</strong> <code>counts[x] = counts.get(x, 0) + 1</code>. Use it whenever a problem says &ldquo;how many of each&rdquo;, &ldquo;how often&rdquo;, or &ldquo;the most common&rdquo;.</p></aside>
+<h2 id="grouping">Grouping</h2>
+<p>The <strong>grouping pattern</strong> collects items into lists, one list per key:</p>
+<pre><code>groups = {}
+for item in items:
+    key = the property to group by
+    groups.setdefault(key, []).append(item)
+</code></pre>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e5"><div class="pc-title">Words by first letter</div><textarea class="pc-src pc-code" hidden>words = [&quot;apple&quot;, &quot;bean&quot;, &quot;avocado&quot;, &quot;cherry&quot;, &quot;banana&quot;, &quot;apricot&quot;]
+groups = {}
+for w in words:
+    groups.setdefault(w[0], []).append(w)
+print(groups)
+print(groups[&quot;a&quot;])</textarea></div>
+<p>The key can be anything you can work out from the item: its length, its first letter, whether it passed, which band a number falls in.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e6"><div class="pc-title">Students by grade</div><textarea class="pc-src pc-code" hidden>marks = {&quot;Ada&quot;: 93, &quot;Bo&quot;: 41, &quot;Cy&quot;: 78, &quot;Di&quot;: 55, &quot;Ed&quot;: 71}
+by_grade = {}
+for name, m in marks.items():
+    grade = &quot;A&quot; if m &gt;= 70 else &quot;B&quot; if m &gt;= 50 else &quot;F&quot;
+    by_grade.setdefault(grade, []).append(name)
+print(by_grade)</textarea></div>
+<h3 id="anagrams">Anagrams</h3>
+<p>A classic use: two words are <strong>anagrams</strong> if they use the same letters, so <code>"".join(sorted(word))</code> is the same for both. Group by that:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e7"><textarea class="pc-src pc-code" hidden>words = [&quot;listen&quot;, &quot;silent&quot;, &quot;enlist&quot;, &quot;google&quot;, &quot;inlets&quot;, &quot;banana&quot;]
+groups = {}
+for w in words:
+    groups.setdefault(&quot;&quot;.join(sorted(w)), []).append(w)
+for key, group in groups.items():
+    if len(group) &gt; 1:
+        print(group)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><strong>Grouping:</strong> <code>groups.setdefault(key, []).append(item)</code>. Use it whenever a problem says &ldquo;for each X, list the Ys&rdquo; or &ldquo;group by&rdquo;.</p></aside>
+<h2 id="totals-and-indexes">Totals and indexes</h2>
+<h3 id="totals-per-group">Totals per group</h3>
+<p>The <strong>totals</strong> pattern is counting with an amount instead of 1:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e8"><textarea class="pc-src pc-code" hidden>sales = [(&quot;Lagos&quot;, 500), (&quot;Abuja&quot;, 300), (&quot;Lagos&quot;, 200), (&quot;Kano&quot;, 150), (&quot;Abuja&quot;, 50)]
+totals = {}
+for city, amount in sales:
+    totals[city] = totals.get(city, 0) + amount
+print(totals)</textarea></div>
+<p>To find an <strong>average</strong> per group, keep the totals and the counts (or group the amounts into lists and average each list).</p>
+<h3 id="indexing-records">Indexing records</h3>
+<p>When each record has a <strong>unique</strong> field, such as an ID or a username, a dictionary from that field to the record lets you find any record at once:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e9"><textarea class="pc-src pc-code" hidden>books = [
+    (&quot;978-0&quot;, &quot;Things Fall Apart&quot;, 1958),
+    (&quot;978-1&quot;, &quot;Half of a Yellow Sun&quot;, 2006),
+    (&quot;978-2&quot;, &quot;The Famished Road&quot;, 1991),
+]
+by_isbn = {}
+for book in books:
+    by_isbn[book[0]] = book
+print(by_isbn[&quot;978-2&quot;])
+print(by_isbn[&quot;978-1&quot;][1])</textarea></div>
+<p>This is exactly what last week&rsquo;s league table needed: a dictionary from team name to that team&rsquo;s row.</p>
+<h2 id="counter-and-defaultdict">Counter and defaultdict</h2>
+<p>These patterns are so common that Python&rsquo;s standard library has tools for them, in the <code>collections</code> module.</p>
+<h3 id="counter">Counter</h3>
+<p><code>Counter</code> counts everything in a sequence in one go. It&rsquo;s a dictionary, with extras:</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e10"><textarea class="pc-src pc-code" hidden>from collections import Counter
+counts = Counter(&quot;mississippi&quot;)
+print(counts)
+print(counts[&quot;s&quot;], counts[&quot;z&quot;])
+print(counts.most_common(2))</textarea></div>
+<p>Two things to notice. A missing key gives <strong>0</strong>, not a <code>KeyError</code>. And <code>most_common(n)</code> gives the top <code>n</code> as <code>(item, count)</code> pairs.</p>
+<p><code>from collections import Counter</code> brings in just the name <code>Counter</code>, so you can write <code>Counter(...)</code> instead of <code>collections.Counter(...)</code>. You&rsquo;ll learn more about imports in Phase 2.</p>
+<h3 id="defaultdict">defaultdict</h3>
+<p><code>defaultdict</code> is a dictionary that makes a value for a missing key automatically. You tell it <strong>how</strong> to make one by giving it a function to call: <code>list</code> makes <code>[]</code>, <code>int</code> makes <code>0</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w010d3-e11"><textarea class="pc-src pc-code" hidden>from collections import defaultdict
+groups = defaultdict(list)
+for w in [&quot;apple&quot;, &quot;bean&quot;, &quot;avocado&quot;, &quot;banana&quot;]:
+    groups[w[0]].append(w)
+print(dict(groups))
+totals = defaultdict(int)
+for city, amount in [(&quot;Lagos&quot;, 500), (&quot;Kano&quot;, 150), (&quot;Lagos&quot;, 200)]:
+    totals[city] += amount
+print(dict(totals))</textarea></div>
+<p><code>groups[w[0]].append(w)</code> works even the first time, because the missing key gets a fresh empty list. Note <code>list</code>, not <code>list()</code>: you hand over the function, and <code>defaultdict</code> calls it when it needs a new value.</p>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>With a <code>defaultdict</code>, even <strong>reading</strong> a missing key adds it. <code>if groups["z"]:</code> quietly creates <code>groups["z"] = []</code>. Use <code>in</code> to check whether a key is there.</p></aside>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Learn the hand-written patterns first; they work everywhere and show what&rsquo;s going on. Then use <code>Counter</code> and <code>defaultdict</code> in your own code: they&rsquo;re clearer, and other programmers expect them. In the exercises today, some ask for one and some for the other.</p></aside>
+<h2 id="choosing-a-pattern">Choosing a pattern</h2>
+<table>
+<thead>
+<tr>
+<th>The problem says…</th>
+<th>Pattern</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>how many of each, how often, most common</td>
+<td>counting</td>
+<td>key → count</td>
+</tr>
+<tr>
+<td>for each X, the list of Ys; group by</td>
+<td>grouping</td>
+<td>key → list</td>
+</tr>
+<tr>
+<td>total (or average) for each X</td>
+<td>totals</td>
+<td>key → number</td>
+</tr>
+<tr>
+<td>find the record for an ID or name</td>
+<td>index</td>
+<td>key → record</td>
+</tr>
+</tbody>
+</table>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-letters" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Letter frequencies</div><div class="pc-prompt"><p>Write <code>letter_counts(text)</code> that counts the letters in <code>text</code>, ignoring case and anything that isn&rsquo;t a letter, using the counting pattern by hand (no <code>Counter</code>).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    assert letter_counts(&quot;Aa b!&quot;) == {&quot;a&quot;: 2, &quot;b&quot;: 1}
+    assert letter_counts(&quot;&quot;) == {}
+    assert letter_counts(&quot;Hello, World&quot;) == {&quot;h&quot;: 1, &quot;e&quot;: 1, &quot;l&quot;: 3, &quot;o&quot;: 2, &quot;w&quot;: 1, &quot;r&quot;: 1, &quot;d&quot;: 1}
+    assert &quot;Counter&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def letter_counts(text):
+    counts = {}
+    for ch in text.lower():
+        if ch.isalpha():
+            counts[ch] = counts.get(ch, 0) + 1
+    return counts</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-mode" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The mode</div><div class="pc-prompt"><p>The <strong>mode</strong> of a list is its most common value. Write <code>mode(values)</code> that returns it; if several values are equally common, return the one that appears first in the list. Return <code>None</code> for an empty list.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    assert mode([3, 1, 3, 2, 1, 3]) == 3
+    assert mode([5, 7, 7, 5]) == 5
+    assert mode([&quot;x&quot;]) == &quot;x&quot;
+    assert mode([]) is None</textarea><textarea class="pc-src pc-solution" hidden>def mode(values):
+    if not values:
+        return None
+    counts = {}
+    for v in values:
+        counts[v] = counts.get(v, 0) + 1
+    best = max(counts.values())
+    for v in values:
+        if counts[v] == best:
+            return v</textarea><template class="pc-src pc-hint">Count first. Then go through the original list and return the first value whose count equals the largest count.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-by_length" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Words by length</div><div class="pc-prompt"><p>Write <code>by_length(text)</code> that groups the words of <code>text</code> by their length: a dictionary from length to the list of words of that length, in the order they appear. Use <code>setdefault</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    assert by_length(&quot;the cat ate a big fish&quot;) == {3: [&quot;the&quot;, &quot;cat&quot;, &quot;ate&quot;, &quot;big&quot;], 1: [&quot;a&quot;], 4: [&quot;fish&quot;]}
+    assert by_length(&quot;&quot;) == {}
+    assert &quot;setdefault&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def by_length(text):
+    groups = {}
+    for w in text.split():
+        groups.setdefault(len(w), []).append(w)
+    return groups</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-averages" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Average per class</div><div class="pc-prompt"><p>Each record is <code>(name, class_name, mark)</code>. Write <code>class_averages(records)</code> that returns a dictionary from class name to the average mark in that class, rounded to 1 place.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several records&quot;
+    r = [(&quot;Ada&quot;, &quot;3A&quot;, 90), (&quot;Bo&quot;, &quot;3B&quot;, 60), (&quot;Cy&quot;, &quot;3A&quot;, 75), (&quot;Di&quot;, &quot;3B&quot;, 71), (&quot;Ed&quot;, &quot;3A&quot;, 60)]
+    assert class_averages(r) == {&quot;3A&quot;: 75.0, &quot;3B&quot;: 65.5}
+    assert class_averages([]) == {}</textarea><textarea class="pc-src pc-solution" hidden>def class_averages(records):
+    marks = {}
+    for name, cls, mark in records:
+        marks.setdefault(cls, []).append(mark)
+    return {cls: round(sum(ms) / len(ms), 1) for cls, ms in marks.items()}</textarea><template class="pc-src pc-hint">Group the marks into lists by class, then build a new dictionary of averages.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-top_words" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Top words</div><div class="pc-prompt"><p>Write <code>top_words(text, n)</code> that returns the <code>n</code> most common words (lower case, split on spaces) as a list of <code>(word, count)</code> pairs, using <code>Counter</code>.</p></div><textarea class="pc-src pc-code" hidden>from collections import Counter</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    assert top_words(&quot;the cat the hat The end&quot;, 2) == [(&quot;the&quot;, 3), (&quot;cat&quot;, 1)]
+    assert top_words(&quot;&quot;, 3) == []
+    assert &quot;Counter(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+
+def top_words(text, n):
+    return Counter(text.lower().split()).most_common(n)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-index" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Find by username</div><div class="pc-prompt"><p>Each user is a tuple <code>(username, name, joined_year)</code>. Write <code>index_users(users)</code> that returns a dictionary from username to the whole tuple. Then write <code>joined(users_index, username)</code> that returns the year that user joined, or <code>None</code> if there&rsquo;s no such user.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;index and lookup&quot;
+    users = [(&quot;ada_l&quot;, &quot;Ada&quot;, 2021), (&quot;gh&quot;, &quot;Grace&quot;, 2019)]
+    idx = index_users(users)
+    assert idx == {&quot;ada_l&quot;: (&quot;ada_l&quot;, &quot;Ada&quot;, 2021), &quot;gh&quot;: (&quot;gh&quot;, &quot;Grace&quot;, 2019)}
+    assert joined(idx, &quot;gh&quot;) == 2019
+    assert joined(idx, &quot;nobody&quot;) is None</textarea><textarea class="pc-src pc-solution" hidden>def index_users(users):
+    return {u[0]: u for u in users}
+
+def joined(users_index, username):
+    user = users_index.get(username)
+    if user is None:
+        return None
+    return user[2]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-pairs" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">The busiest conversation</div><div class="pc-prompt"><p>Each message is <code>(sender, receiver)</code>. Write <code>busiest(messages)</code> that returns the pair of people (as a tuple in alphabetical order, so <code>("Ada", "Bo")</code> and <code>("Bo", "Ada")</code> count as the same conversation) who exchanged the most messages, with the count: <code>(("Ada", "Bo"), 3)</code>. If pairs tie, return the one that appeared first in the list, which is what <code>most_common</code> does. Return <code>None</code> if there are no messages.</p></div><textarea class="pc-src pc-code" hidden>from collections import Counter</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several logs&quot;
+    m = [(&quot;Ada&quot;, &quot;Bo&quot;), (&quot;Cy&quot;, &quot;Ada&quot;), (&quot;Bo&quot;, &quot;Ada&quot;), (&quot;Ada&quot;, &quot;Cy&quot;), (&quot;Ada&quot;, &quot;Bo&quot;)]
+    assert busiest(m) == ((&quot;Ada&quot;, &quot;Bo&quot;), 3)
+    assert busiest([]) is None</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+
+def busiest(messages):
+    counts = Counter(tuple(sorted(pair)) for pair in messages)
+    if not counts:
+        return None
+    return counts.most_common(1)[0]</textarea><template class="pc-src pc-hint">A tuple can be a key. <code>tuple(sorted((a, b)))</code> puts each pair in a standard order.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Only the last word</div><div class="pc-prompt"><p><code>group_by_first</code> should keep every word for each letter, but each list ends up holding only one word. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def group_by_first(words):
+    groups = {}
+    for w in words:
+        groups[w[0]] = [w]
+    return groups</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;every word kept&quot;
+    assert group_by_first([&quot;ant&quot;, &quot;bee&quot;, &quot;ape&quot;]) == {&quot;a&quot;: [&quot;ant&quot;, &quot;ape&quot;], &quot;b&quot;: [&quot;bee&quot;]}</textarea><textarea class="pc-src pc-solution" hidden>def group_by_first(words):
+    groups = {}
+    for w in words:
+        groups.setdefault(w[0], []).append(w)
+    return groups</textarea><template class="pc-src pc-hint">Each time, this replaces the list with a new one-word list. Append to the existing list instead.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A key out of nowhere</div><div class="pc-prompt"><p>This should print <code>False</code> and then the groups, <code>{'a': ['ant']}</code>. It prints <code>False</code>, but then the groups have an extra empty list for <code>z</code>. Fix the check.</p></div><textarea class="pc-src pc-code" hidden>from collections import defaultdict
+groups = defaultdict(list)
+groups[&quot;a&quot;].append(&quot;ant&quot;)
+print(len(groups[&quot;z&quot;]) &gt; 0)
+print(dict(groups))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;no extra key&quot;
+    expect_output(&quot;False\n{&#x27;a&#x27;: [&#x27;ant&#x27;]}&quot;)</textarea><textarea class="pc-src pc-solution" hidden>from collections import defaultdict
+groups = defaultdict(list)
+groups[&quot;a&quot;].append(&quot;ant&quot;)
+print(&quot;z&quot; in groups)
+print(dict(groups))</textarea><template class="pc-src pc-hint">Reading a missing key of a defaultdict creates it. Ask with <code>in</code> instead.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w010d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Called too soon</div><div class="pc-prompt"><p>This should group the numbers by whether they&rsquo;re even, but it crashes with <code>TypeError: first argument must be callable or None</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>from collections import defaultdict
+groups = defaultdict(list())
+for n in [1, 2, 3, 4]:
+    groups[n % 2 == 0].append(n)
+print(dict(groups))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;grouped&quot;
+    expect_output(&quot;{False: [1, 3], True: [2, 4]}&quot;)</textarea><textarea class="pc-src pc-solution" hidden>from collections import defaultdict
+groups = defaultdict(list)
+for n in [1, 2, 3, 4]:
+    groups[n % 2 == 0].append(n)
+print(dict(groups))</textarea><template class="pc-src pc-hint"><code>defaultdict</code> wants the function itself, so that it can call it later, not the empty list it returns.</template></div>
+<div class="parsons" data-id="w010d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Total spend per customer</div><div class="pc-prompt"><p>Arrange the lines to print each customer&rsquo;s total spend, <code>{'Ada': 700, 'Bo': 900}</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["from collections import defaultdict", "orders = [(\"Ada\", 500), (\"Bo\", 300), (\"Ada\", 200), (\"Bo\", 600)]", "totals = defaultdict(int)", "for name, amount in orders:", "    totals[name] += amount", "print(dict(totals))"], "distractors": ["totals = defaultdict(0)"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>from collections import Counter
+a = ___   # Counter(&quot;aab&quot;)[&quot;a&quot;] + Counter(&quot;aab&quot;)[&quot;c&quot;]
+b = ___   # Counter([1, 1, 2, 2, 2, 3]).most_common(1)
+c = ___   # sorted(Counter(&quot;hello&quot;).items())[:2]
+d = ___   # number of keys in the groups after grouping [&quot;ab&quot;, &quot;cd&quot;, &quot;ae&quot;] by first letter</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 2
+    assert b == [(2, 3)]
+    assert c == [(&quot;e&quot;, 1), (&quot;h&quot;, 1)]
+    assert d == 2</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+a = 2
+b = [(2, 3)]
+c = [(&quot;e&quot;, 1), (&quot;h&quot;, 1)]
+d = 2</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w010d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "Which line is the heart of the counting pattern?", "answer": 1, "explain": "<code>+= 1</code> alone fails the first time a key is seen.", "options": ["<code>counts[x] += 1</code>", "<code>counts[x] = counts.get(x, 0) + 1</code>", "<code>counts.append(x)</code>", "<code>counts[x] = 1</code>"]}, {"type": "mc", "q": "Which line is the heart of the grouping pattern?", "answer": 1, "explain": "<code>get(k, [])</code> returns a list that&rsquo;s never stored.", "options": ["<code>groups[k] = [x]</code>", "<code>groups.setdefault(k, []).append(x)</code>", "<code>groups.get(k, []).append(x)</code>", "<code>groups[k].append(x)</code> on a plain dictionary"]}, {"type": "output", "q": "What does this print?", "answer": "{'a': 3, 'b': 1, 'c': 1}", "explain": "Keys in the order first seen.", "code": "c = {}\nfor w in \"a b a c a\".split():\n    c[w] = c.get(w, 0) + 1\nprint(c)"}, {"type": "mc", "q": "What is <code>Counter('hello')['z']</code>?", "answer": 0, "explain": "A Counter gives 0 for missing keys.", "options": ["0", "None", "A KeyError", "An empty string"]}, {"type": "text", "q": "What does <code>Counter('aabbbc').most_common(1)</code> give?", "answer": ["[('b', 3)]"], "explain": "A list of (item, count) pairs."}, {"type": "mc", "q": "Why is it <code>defaultdict(list)</code> and not <code>defaultdict(list())</code>?", "answer": 1, "explain": "Each missing key gets its own fresh list.", "options": ["It doesn&rsquo;t matter", "defaultdict needs a function to call for each new key", "list() is a SyntaxError", "To save memory"]}, {"type": "mc", "q": "What happens when you read a missing key of a defaultdict?", "answer": 2, "explain": "Check with <code>in</code> if you don&rsquo;t want that.", "options": ["KeyError", "It returns None", "It creates the key with a default value", "It returns False"]}, {"type": "mc", "q": "Which pattern answers &ldquo;list the students in each class&rdquo;?", "answer": 1, "explain": "key \u2192 list.", "options": ["counting", "grouping", "totals", "index"]}, {"type": "mc", "q": "Which pattern answers &ldquo;find a customer&rsquo;s record from their account number&rdquo;?", "answer": 3, "explain": "key \u2192 record.", "options": ["counting", "grouping", "totals", "index"]}, {"type": "mc", "q": "How can you tell whether two words are anagrams?", "answer": 1, "explain": "Same letters, same counts.", "options": ["Compare their lengths", "Compare <code>sorted(a)</code> with <code>sorted(b)</code>", "Compare their first letters", "Compare <code>a[::-1]</code> with <code>b</code>"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w010d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a web server log</div><div class="pc-prompt"><p>A web server writes one line per request: <code>ip method path status</code>. Write <code>analyse(log)</code> that takes the whole log as text and returns a report string with:</p>
+<ol>
+<li><code>Requests: N</code></li>
+<li><code>Unique visitors: N</code> (different IPs)</li>
+<li><code>Errors: N</code> (status 400 or above)</li>
+<li><code>Top pages:</code> then the 3 most requested paths, one per line as <code>path  N</code>, with the path left-aligned in the width of the longest of those three paths. Ties keep the order the paths were first seen.</li>
+<li><code>Busiest visitor: ip (N requests)</code></li>
+</ol>
+<p>For example:</p>
+<pre><code>10.0.0.1 GET /home 200
+10.0.0.2 GET /about 200
+10.0.0.1 GET /home 200
+10.0.0.3 POST /login 401
+10.0.0.1 GET /shop 200
+10.0.0.2 GET /home 200
+</code></pre>
+<p>gives:</p>
+<pre><code>Requests: 6
+Unique visitors: 3
+Errors: 1
+Top pages:
+  /home   3
+  /about  1
+  /login  1
+Busiest visitor: 10.0.0.1 (3 requests)
+</code></pre>
+<p>Blank lines in the log should be ignored. You may assume there&rsquo;s at least one request.</p></div><textarea class="pc-src pc-code" hidden>from collections import Counter</textarea><textarea class="pc-src pc-tests" hidden>from collections import Counter as _C
+def ref(log):
+    rows = [l.split() for l in log.splitlines() if l.strip()]
+    ips = _C(r[0] for r in rows)
+    pages = _C(r[2] for r in rows).most_common(3)
+    w = max(len(p) for p, _ in pages)
+    out = [f&quot;Requests: {len(rows)}&quot;, f&quot;Unique visitors: {len(ips)}&quot;, f&quot;Errors: {sum(1 for r in rows if int(r[3]) &gt;= 400)}&quot;, &quot;Top pages:&quot;]
+    out += [f&quot;  {p:&lt;{w}}  {n}&quot; for p, n in pages]
+    ip, n = ips.most_common(1)[0]
+    out.append(f&quot;Busiest visitor: {ip} ({n} requests)&quot;)
+    return &quot;\n&quot;.join(out)
+LOG = &quot;10.0.0.1 GET /home 200\n10.0.0.2 GET /about 200\n10.0.0.1 GET /home 200\n10.0.0.3 POST /login 401\n10.0.0.1 GET /shop 200\n10.0.0.2 GET /home 200\n&quot;
+def test_example():
+    &quot;the example&quot;
+    assert analyse(LOG) == ref(LOG), &quot;Expected:\n&quot; + ref(LOG)
+def test_other():
+    &quot;another log&quot;
+    log = &quot;\n1.1.1.1 GET /a 500\n2.2.2.2 GET /products/list 404\n2.2.2.2 GET /a 200\n\n&quot;
+    assert analyse(log) == ref(log), &quot;Expected:\n&quot; + ref(log)</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+
+def analyse(log):
+    requests = []
+    for line in log.splitlines():
+        if line.strip():
+            requests.append(line.split())
+    ips = Counter(r[0] for r in requests)
+    pages = Counter(r[2] for r in requests).most_common(3)
+    errors = sum(1 for r in requests if int(r[3]) &gt;= 400)
+    width = max(len(path) for path, n in pages)
+    lines = [f&quot;Requests: {len(requests)}&quot;, f&quot;Unique visitors: {len(ips)}&quot;, f&quot;Errors: {errors}&quot;, &quot;Top pages:&quot;]
+    for path, n in pages:
+        lines.append(f&quot;  {path:&lt;{width}}  {n}&quot;)
+    ip, n = ips.most_common(1)[0]
+    lines.append(f&quot;Busiest visitor: {ip} ({n} requests)&quot;)
+    return &quot;\n&quot;.join(lines)</textarea><template class="pc-src pc-hint">Split the text into lines, skip blank ones, and split each line into its four parts. Make one <code>Counter</code> of IPs and one of paths.</template><template class="pc-src pc-hint"><code>len(ip_counts)</code> is the number of different visitors. For the error count, compare <code>int(status) &gt;= 400</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>For each of these, name the pattern and write its key line: the number of times each word appears in a book; the books by each author; the total minutes each person spent on calls; looking up a product by its barcode. Tomorrow: nested data, where dictionaries hold lists and other dictionaries, the shape of most real data.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w010d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w010d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w010d3", "week": 10, "day": 3, "title": "Counting and grouping patterns", "exercises": [{"id": "w010d3-letters", "title": "Letter frequencies", "points": 10}, {"id": "w010d3-mode", "title": "The mode", "points": 10}, {"id": "w010d3-by_length", "title": "Words by length", "points": 10}, {"id": "w010d3-averages", "title": "Average per class", "points": 15}, {"id": "w010d3-top_words", "title": "Top words", "points": 10}, {"id": "w010d3-index", "title": "Find by username", "points": 10}, {"id": "w010d3-pairs", "title": "The busiest conversation", "points": 15}, {"id": "w010d3-bug1", "title": "Only the last word", "points": 10}, {"id": "w010d3-bug2", "title": "A key out of nowhere", "points": 10}, {"id": "w010d3-bug3", "title": "Called too soon", "points": 10}, {"id": "w010d3-trace", "title": "Predict them", "points": 15}, {"id": "w010d3-challenge", "title": "Challenge: a web server log", "points": 25}], "points": 150}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
