@@ -413,6 +413,32 @@ def hero_trace():
     return {"code": HERO_CODE, "steps": steps}
 
 
+def guide_fill(body: str, cmap: dict) -> str:
+    """Fill the guide's numbers and phase list from the curriculum, so they always match the map."""
+    weeks = cmap["weeks"]
+    days = sum(len(w.get("days") or []) for w in weeks)
+    install = next((w["week"] for w in weeks for d in (w.get("days") or []) if d["title"] == "Installing Python"), None)
+    ribbon, phases = [], []
+    for p in cmap["phases"]:
+        pw = [w for w in weeks if w["phase"] == p["id"]]
+        lesson = [w for w in pw if not w["rest"]]
+        rest = len(pw) - len(lesson)
+        first, last = pw[0]["week"], pw[-1]["week"]
+        ribbon.append(f'<a href="#phase-{p["id"]}" style="flex:{len(pw)}" class="r{p["id"]}" title="{esc(p["title"])}"></a>')
+        sample = "".join(f"<li>{esc(w['title'])}</li>" for w in lesson[:4])
+        more = len(lesson) - 4
+        rest_txt = f", {rest} rest week{'s' if rest != 1 else ''}" if rest else ""
+        phases.append(
+            f'<li class="gd-phase" id="phase-{p["id"]}"><span class="gd-pn r{p["id"]}">{p["id"]}</span>'
+            f'<div class="gd-pbody"><div class="gd-ptop"><h3>{esc(p["title"])}</h3>'
+            f'<span class="gd-pweeks">Weeks {first} to {last}<span>{len(lesson)} lesson weeks{rest_txt}</span></span></div>'
+            f'<p>{esc(p["summary"])}</p>'
+            f'<ul class="gd-chips">{sample}' + (f'<li class="more"><a href="map.html">+{more} more</a></li>' if more > 0 else "") + "</ul></div></li>")
+    return (body.replace("{{g_weeks}}", str(len(weeks))).replace("{{g_days}}", str(days))
+            .replace("{{g_hours}}", f"{days * 3 // 100 * 100:,}+").replace("{{g_install_week}}", str(install))
+            .replace("{{g_ribbon}}", "".join(ribbon)).replace("{{g_phases}}", "".join(phases)))
+
+
 def build():
     course = curriculum.build()
     if OUT.exists():
@@ -502,6 +528,8 @@ def build():
                              ("privacy.html", "Privacy", "page-privacy"),
                              ("guide.html", "How this course works", "page-guide")]:
         body = template("pages/" + name).replace("{{hero_trace}}", json.dumps(hero_trace()) if name == "index.html" else "")
+        if name == "guide.html":
+            body = guide_fill(body, course)
         script = f'<script type="module" src="assets/js/pages/{name.replace(".html", ".js")}"></script>'
         if not (STATIC / "js" / "pages" / name.replace(".html", ".js")).exists():
             script = '<script type="module" src="assets/js/pages/common.js"></script>'
