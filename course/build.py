@@ -186,7 +186,8 @@ def render_block(kind, attrs, body, day: Day) -> str:
         sol = parts.get("solution", [""])[0]
         inputs = parts.get("inputs", [None])[0]
         own_files = parse_files(parts["files"][0]) if "files" in parts else {}
-        hints = "".join(f'<template class="pc-src pc-hint">{md_inline(t)}</template>' for t in parts.get("hint", []))
+        exam = kw.get("exam") == "yes"
+        hints = "" if exam else "".join(f'<template class="pc-src pc-hint">{md_inline(t)}</template>' for t in parts.get("hint", []))
         label = "Bug hunt" if kind == "bughunt" else "Exercise"
         day.exercises.append({"id": eid, "title": title, "points": int(pts)})
         day.checks.append({"id": eid, "starter": starter, "tests": tests, "solution": sol, "inputs": inputs, "files": own_files})
@@ -200,7 +201,7 @@ def render_block(kind, attrs, body, day: Day) -> str:
                 f'<div class="pc-label"><span>{label}</span><span class="pc-pts">{pts} points</span></div>{head}'
                 f'<div class="pc-prompt">{md(lead)}{files_view(own_files) if own_files else ""}</div>'
                 f'{src("pc-code", starter)}{src("pc-tests", tests) if tests else ""}{src("pc-files", json.dumps(own_files)) if own_files else ""}'
-                f'{src("pc-solution", sol) if sol else ""}{src("pc-inputs", inputs) if inputs else ""}{hints}</div>')
+                f'{src("pc-solution", sol) if sol and not exam else ""}{src("pc-inputs", inputs) if inputs else ""}{hints}</div>')
 
     if kind == "parsons":
         lead, parts = split_parts(body)

@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="c22a21f052">
+<title>Week 12 Day 6: Exam debrief | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=c22a21f052">
+<link rel="stylesheet" href="../assets/css/site.css?v=c22a21f052">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=c22a21f052"></script>
+<script src="../assets/vendor/codemirror.js?v=c22a21f052" defer></script>
+<meta name="description" content="Yesterday you took the Phase 1 exam. Today you’ll go through it properly: the answer to every quiz question, a model solution to every problem with the...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w012d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 12 Day 6: Exam debrief">
+<meta property="og:description" content="Yesterday you took the Phase 1 exam. Today you’ll go through it properly: the answer to every quiz question, a model solution to every problem with the...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w012d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-12">Week 12: Consolidation and Phase 1 exam</a>
+      <ol class="rail-toc"><li><a href="#your-score" data-sec="your-score">Your score</a></li><li><a href="#part-a" data-sec="part-a">Part A</a></li><li><a href="#part-b" data-sec="part-b">Part B</a></li><li><a href="#part-c" data-sec="part-c">Part C</a></li><li><a href="#second-chances" data-sec="second-chances">Second chances</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#what-s-next" data-sec="what-s-next">What’s next</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 12, Day 6</span></p>
+      <h1>Exam debrief</h1>
+      <div class="day-intro"><p>Yesterday you took the Phase 1 exam. Today you&rsquo;ll go through it properly: the answer to every quiz question, a model solution to every problem with the reasoning behind it, the mistakes that are easiest to make, and a second-chance exercise for each skill. Finish by deciding, honestly, what to revise before Phase 2.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Understand a model solution for every exam problem, and why it works</li><li>Recognise the mistakes you made, and the idea behind each one</li><li>Practise each skill again on a fresh problem</li><li>Make a short, specific revision plan before Phase 2</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Your score: 10 min"></span><span class="plan-seg s1" style="flex:20" title="Part A: 20 min"></span><span class="plan-seg s0" style="flex:70" title="Part B: 70 min"></span><span class="plan-seg s1" style="flex:30" title="Part C: 30 min"></span><span class="plan-seg s0" style="flex:40" title="Second chances: 40 min"></span><span class="plan-seg s1" style="flex:10" title="What&#x27;s next: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Your score</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Part A</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">Part B</span><span class="plan-min">70 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Part C</span><span class="plan-min">30 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Second chances</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">What&rsquo;s next</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w012d6.ipynb" download>download it</a>. Exercises today are worth 75 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="your-score">Your score</h2>
+<p>Write down your total before reading on. Then, as you go through each problem below, note <strong>why</strong> you lost any marks. There are only a few kinds of reason, and knowing which kind you make most is more useful than the score itself:</p>
+<ol>
+<li><strong>Didn&rsquo;t know it</strong>: a gap in what you&rsquo;ve learned. Revise the topic.</li>
+<li><strong>Misread the question</strong>: the code did something sensible but different. Slow down; underline every requirement.</li>
+<li><strong>Edge case</strong>: the main case worked, but empty input, a tie, or a boundary failed. Test small and extreme cases.</li>
+<li><strong>Ran out of time</strong>: the plan, not the knowledge, was the problem. Practise starting with the parts you&rsquo;re sure of.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Score</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>144 or more (80%)</td>
+<td>Distinction. You&rsquo;re well prepared for Phase 2.</td>
+</tr>
+<tr>
+<td>108 to 143 (60%)</td>
+<td>Pass. Revise the topics where you lost marks, then carry on.</td>
+</tr>
+<tr>
+<td>under 108</td>
+<td>Not yet. Spend this week&rsquo;s rest days and a few more on the topics below, then take the exam again. Many people need two attempts; what matters is the second.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="part-a">Part A</h2>
+<p>The quiz checks the ideas that cause most bugs. If you missed any, here&rsquo;s the idea behind each, and where it was taught:</p>
+<table>
+<thead>
+<tr>
+<th>Questions</th>
+<th>The idea</th>
+<th>Revise</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1, 2, 3</td>
+<td><code>//</code> and <code>%</code> round down; slices with steps; strings compare character by character</td>
+<td><a href="w001d4.html">Week 1</a>, <a href="w001d5.html">Week 1 Day 5</a></td>
+</tr>
+<tr>
+<td>4, 5</td>
+<td>tracing <code>while</code> loops and nested loops with <code>break</code></td>
+<td><a href="w003d4.html">Week 3</a>, <a href="w004d3.html">Week 4</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>strings are sequences, so <code>join</code> works on them directly</td>
+<td><a href="w005d2.html">Week 5</a></td>
+</tr>
+<tr>
+<td>7, 8</td>
+<td>default values, <code>*args</code>, local names</td>
+<td><a href="w006d4.html">Week 6</a>, <a href="w007d2.html">Week 7</a></td>
+</tr>
+<tr>
+<td>9, 10, 11</td>
+<td>rebinding versus mutating; list methods</td>
+<td><a href="w008d5.html">Week 8</a>, <a href="w008d3.html">Week 8 Day 3</a></td>
+</tr>
+<tr>
+<td>12, 13</td>
+<td>tuples holding mutable values; comprehensions</td>
+<td><a href="w009d3.html">Week 9</a>, <a href="w009d5.html">Week 9 Day 5</a></td>
+</tr>
+<tr>
+<td>14, 15, 16</td>
+<td><code>zip</code>, <code>setdefault</code>, and why 1, 1.0 and True are the same key</td>
+<td><a href="w010d2.html">Week 10</a>, <a href="w010d5.html">Week 10 Day 5</a></td>
+</tr>
+<tr>
+<td>17, 18, 19</td>
+<td>file modes, <code>finally</code>, raising instead of returning a special value</td>
+<td><a href="w011d2.html">Week 11</a>, <a href="w011d4.html">Week 11 Day 4</a>, <a href="w011d5.html">Week 11 Day 5</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td>hashing</td>
+<td><a href="w010d1.html">Week 10 Day 1</a></td>
+</tr>
+</tbody>
+</table>
+<p>Question 16 surprises almost everyone. <code>1 == 1.0 == True</code> is <code>True</code> in Python, and equal values must hash the same, so a set treats them as one element. It&rsquo;s a curiosity, but it&rsquo;s a real one: a dictionary with keys <code>1</code> and <code>True</code> has one entry.</p>
+<h2 id="part-b">Part B</h2>
+<p>Each model solution runs, so try it. The notes underneath each one explain the key decision and the most common mistakes.</p>
+<h3 id="b1-phone-numbers">B1: Phone numbers</h3>
+<div class="pc pc-example" data-kind="example" data-id="w012d6-e1"><textarea class="pc-src pc-code" hidden>def normalise(number):
+    digits = number.replace(&quot; &quot;, &quot;&quot;).replace(&quot;-&quot;, &quot;&quot;)
+    for prefix in (&quot;+234&quot;, &quot;234&quot;, &quot;0&quot;):
+        if digits.startswith(prefix):
+            rest = digits[len(prefix):]
+            if len(rest) == 10 and rest.isdigit() and rest[0] != &quot;0&quot;:
+                return &quot;+234&quot; + rest
+            break
+    raise ValueError(f&quot;invalid number: {number!r}&quot;)
+
+for t in [&quot;0803 123 4567&quot;, &quot;+234 803-123-4567&quot;, &quot;0803 123 456&quot;]:
+    try:
+        print(normalise(t))
+    except ValueError as e:
+        print(e)</textarea></div>
+<p><strong>The key idea:</strong> clean first, then check the <strong>structure</strong> (prefix, then exactly 10 digits not starting with 0) rather than trying to fix every possible input. Checking prefixes from longest to shortest matters: <code>"+234"</code> must be tried before <code>"234"</code>.</p>
+<p><strong>Common mistakes:</strong> forgetting <code>isdigit</code> (so <code>0803 abc 4567</code> slips through after removing spaces), checking the length of the whole string instead of the part after the prefix, and putting the cleaned text in the error message instead of the original.</p>
+<h3 id="b2-runs">B2: Runs</h3>
+<div class="pc pc-example" data-kind="example" data-id="w012d6-e2"><textarea class="pc-src pc-code" hidden>def runs(text):
+    result = []
+    for ch in text:
+        if result and result[-1][0] == ch:
+            result[-1] = (ch, result[-1][1] + 1)
+        else:
+            result.append((ch, 1))
+    return result
+
+def expand(pairs):
+    return &quot;&quot;.join(ch * n for ch, n in pairs)
+
+print(runs(&quot;aaabccdd&quot;))
+print(expand(runs(&quot;mississippi&quot;)))</textarea></div>
+<p><strong>The key idea:</strong> compare each character with the <strong>last run so far</strong>, not with the previous character in the text. That removes the usual fiddly index arithmetic. Because tuples can&rsquo;t be changed, the last run is replaced with a new tuple.</p>
+<p><strong>Common mistakes:</strong> losing the final run (a common bug when a run is only saved when the character changes), and crashing on the empty string. This idea, storing a list of (thing, count) pairs, is called <strong>run-length encoding</strong>, and it&rsquo;s used in image formats and fax machines.</p>
+<h3 id="b3-predict">B3: Predict</h3>
+<ul>
+<li><code>a</code>: <code>range(10, 0, -3)</code> is 10, 7, 4, 1, so the last is <strong>1</strong>.</li>
+<li><code>b</code>: <code>"mississippi".count("ss")</code> is 2 (counts don&rsquo;t overlap), and <code>"ab" * 3</code> has 6 characters: <strong>12</strong>.</li>
+<li><code>c</code>: sorting the <strong>keys</strong> by minus their value, so the biggest value first: <strong>[&ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;]</strong>.</li>
+<li><code>d</code>: the words containing <code>"o"</code> are <code>to</code>, <code>or</code> and <code>not</code>: 2 + 2 + 3 = <strong>7</strong>.</li>
+<li><code>e</code>: tuples compare item by item; <code>"b"</code> beats <code>"a"</code>, and then <code>2</code> beats <code>1</code>: <strong>(&ldquo;b&rdquo;, 2)</strong>.</li>
+</ul>
+<p>If you missed one, trace it in the console with small pieces: <code>list(range(10, 0, -3))</code> first, then the indexing.</p>
+<h3 id="b4-merge">B4: Merge</h3>
+<div class="pc pc-example" data-kind="example" data-id="w012d6-e3"><textarea class="pc-src pc-code" hidden>def merge(a, b):
+    i = j = 0
+    result = []
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            result.append(a[i])
+            i += 1
+        else:
+            result.append(b[j])
+            j += 1
+    return result + a[i:] + b[j:]
+
+print(merge([1, 4, 9], [2, 3, 10, 11]))</textarea></div>
+<p><strong>The key idea:</strong> two positions, <code>i</code> and <code>j</code>, one in each list. Take the smaller front item and move that position on. When one list runs out, everything left in the other is already sorted and bigger, so add it all at once with slices.</p>
+<p><strong>Common mistakes:</strong> removing items from the input lists with <code>pop(0)</code>, which changes the caller&rsquo;s lists (and is slow); forgetting the leftovers; and an <code>IndexError</code> from checking <code>a[i]</code> after <code>i</code> has reached the end. This merge is the heart of <strong>merge sort</strong>, which you&rsquo;ll write in Phase 2.</p>
+<h3 id="b5-spiral">B5: Spiral</h3>
+<div class="pc pc-example" data-kind="example" data-id="w012d6-e4"><textarea class="pc-src pc-code" hidden>def spiral(grid):
+    rows = [list(r) for r in grid]
+    result = []
+    while rows:
+        result += rows.pop(0)
+        rows = [list(col) for col in zip(*rows)][::-1]
+    return result
+
+print(spiral([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))</textarea></div>
+<p><strong>The key idea:</strong> take the top row, then <strong>rotate what&rsquo;s left</strong> a quarter turn anticlockwise, so that the next edge to read is again the top row. <code>zip(*rows)</code> gives the columns, and reversing their order completes the rotation. The copy at the start (<code>[list(r) for r in grid]</code>) protects the caller&rsquo;s grid.</p>
+<p>A version with four boundaries (<code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>) moving inwards is also correct, and closer to what you&rsquo;d write in many other languages. Its common mistakes are reading the middle row or column twice on non-square grids: that&rsquo;s what the 2 by 4 and 4 by 2 checks were for.</p>
+<h3 id="b6-attendance">B6: Attendance</h3>
+<div class="filebox"><div class="filebox-head">The file used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>register.txt</code></summary><pre class="pc-filetext">2026-10-05 Ada, Bo, Cy
+2026-10-06 Ada,Cy
+
+2026-10-07 Bo, Cy
+2026-10-08
+2026-10-09 Ada, Bo, Cy, Di
+</pre></details><script type="application/json" class="page-files">{"register.txt": "2026-10-05 Ada, Bo, Cy\n2026-10-06 Ada,Cy\n\n2026-10-07 Bo, Cy\n2026-10-08\n2026-10-09 Ada, Bo, Cy, Di\n"}</script></div>
+<div class="pc pc-example" data-kind="example" data-id="w012d6-e5"><textarea class="pc-src pc-code" hidden>def attendance(path):
+    days = 0
+    present = {}
+    with open(path) as f:
+        for line in f:
+            if not line.strip():
+                continue
+            days += 1
+            date, _, names = line.strip().partition(&quot; &quot;)
+            for name in names.split(&quot;,&quot;):
+                name = name.strip()
+                if name:
+                    present[name] = present.get(name, 0) + 1
+    return {name: round(100 * n / days, 1) for name, n in present.items()}
+
+print(attendance(&quot;register.txt&quot;))</textarea></div>
+<p><strong>The key idea:</strong> count <strong>days</strong> and <strong>appearances</strong> separately, then divide. <code>partition(" ")</code> splits off the date at the first space only, and gives an empty string for a day with nobody, which the <code>if name:</code> check skips.</p>
+<p><strong>Common mistakes:</strong> counting the blank line as a day, counting the empty &ldquo;name&rdquo; on 2026-10-08, and forgetting the spaces after commas (giving <code>" Bo"</code> and <code>"Bo"</code> as two different students).</p>
+<h3 id="b7-three-bugs">B7: Three bugs</h3>
+<p>The three bugs:</p>
+<ol>
+<li><code>len(word) &gt; 3</code> should be <code>&gt;= 3</code>: &ldquo;at least 3 letters&rdquo;.</li>
+<li>The sort key <code>(kv[1], kv[0])</code> puts the <strong>least</strong> common first. It needs <code>(-kv[1], kv[0])</code>: most common first, ties alphabetical. (<code>reverse=True</code> would also reverse the alphabetical order of ties, which is wrong.)</li>
+<li><code>pairs[:n - 1]</code> returns one too few: <code>pairs[:n]</code>.</li>
+</ol>
+<p><strong>The method:</strong> none of these crash, so the evidence is the difference between the expected and actual output. Run the smallest failing check, and compare: a missing three-letter word points to the length test; the wrong order points to the sort; one result too few points to the slice.</p>
+<h3 id="b8-valid-brackets">B8: Valid brackets</h3>
+<div class="pc pc-example" data-kind="example" data-id="w012d6-e6"><textarea class="pc-src pc-code" hidden>PAIRS = {&quot;)&quot;: &quot;(&quot;, &quot;]&quot;: &quot;[&quot;, &quot;}&quot;: &quot;{&quot;}
+CLOSER = {&quot;(&quot;: &quot;)&quot;, &quot;[&quot;: &quot;]&quot;, &quot;{&quot;: &quot;}&quot;}
+
+def check_brackets(text):
+    stack = []
+    for i, ch in enumerate(text):
+        if ch in CLOSER:
+            stack.append((ch, i))
+        elif ch in PAIRS:
+            if not stack:
+                return f&quot;unexpected {ch} at {i}&quot;
+            opener, _ = stack.pop()
+            if opener != PAIRS[ch]:
+                return f&quot;expected {CLOSER[opener]} but found {ch} at {i}&quot;
+    if stack:
+        opener, i = stack[-1]
+        return f&quot;{opener} at {i} never closed&quot;
+    return &quot;OK&quot;
+
+for t in [&quot;f(x[0], {1: (2)})&quot;, &quot;(a[b(c)) &quot;, &quot;a (b [c] d&quot;]:
+    print(repr(t), check_brackets(t))</textarea></div>
+<p><strong>The key idea:</strong> a <strong>stack</strong>. Every opening bracket is pushed (with its position); every closing bracket must match the one on top, which is the most recently opened. This is exactly how Python itself checks your brackets, and how your browser checks HTML.</p>
+<p><strong>Common mistakes:</strong> counting brackets instead of using a stack (counting can&rsquo;t tell <code>([)]</code> from <code>([])</code>), and reporting the <strong>first</strong> unclosed bracket instead of the last one opened.</p>
+<h2 id="part-c">Part C</h2>
+<div class="filebox"><div class="filebox-head">The file used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>parking.csv</code></summary><pre class="pc-filetext">plate,time,event
+LAG 123 AA,07:55,in
+abj 45 kd,08:10,in
+KJA 9 XY,08:12,in
+LAG123AA,08:20,out
+ABJ 45 KD,09:41,out
+EKY 7 BC,09:50,out
+KJA 9 XY,10:05,in
+OYO 1 ZZ,25:00,in
+KJA 9 XY,16:30,out
+LAG 123 AA,17:00,in
+LAG 123 AA,17:01,fly
+</pre></details><script type="application/json" class="page-files">{"parking.csv": "plate,time,event\nLAG 123 AA,07:55,in\nabj 45 kd,08:10,in\nKJA 9 XY,08:12,in\nLAG123AA,08:20,out\nABJ 45 KD,09:41,out\nEKY 7 BC,09:50,out\nKJA 9 XY,10:05,in\nOYO 1 ZZ,25:00,in\nKJA 9 XY,16:30,out\nLAG 123 AA,17:00,in\nLAG 123 AA,17:01,fly\n"}</script></div>
+<div class="pc pc-example" data-kind="example" data-id="w012d6-e7"><textarea class="pc-src pc-code" hidden>import csv
+
+def minutes(time):
+    parts = time.split(&quot;:&quot;)
+    if len(parts) != 2 or [len(p) for p in parts] != [2, 2] or not all(p.isdigit() for p in parts):
+        raise ValueError(f&quot;bad time {time!r}&quot;)
+    h, m = int(parts[0]), int(parts[1])
+    if h &gt; 23 or m &gt; 59:
+        raise ValueError(f&quot;bad time {time!r}&quot;)
+    return h * 60 + m
+
+def fee(stay):
+    if stay &lt;= 30:
+        return 0
+    hours = (stay + 59) // 60
+    return min(200 * hours, 1500)
+
+def process(path):
+    inside, charges, problems = {}, [], []
+    with open(path, newline=&quot;&quot;) as f:
+        for row_no, row in enumerate(csv.DictReader(f), start=2):
+            plate = row[&quot;plate&quot;].replace(&quot; &quot;, &quot;&quot;).upper()
+            event = row[&quot;event&quot;].strip()
+            try:
+                t = minutes(row[&quot;time&quot;].strip())
+            except ValueError:
+                problems.append(f&quot;row {row_no}: bad time {row[&#x27;time&#x27;].strip()!r}&quot;)
+                continue
+            if event == &quot;in&quot;:
+                if plate in inside:
+                    problems.append(f&quot;row {row_no}: {plate} entered twice&quot;)
+                else:
+                    inside[plate] = t
+            elif event == &quot;out&quot;:
+                if plate not in inside:
+                    problems.append(f&quot;row {row_no}: {plate} left without entering&quot;)
+                else:
+                    stay = t - inside.pop(plate)
+                    charges.append((plate, stay, fee(stay)))
+            else:
+                problems.append(f&quot;row {row_no}: unknown event {event!r}&quot;)
+    for plate in sorted(inside):
+        problems.append(f&quot;{plate} never left&quot;)
+    return charges, problems
+
+charges, problems = process(&quot;parking.csv&quot;)
+for plate, stay, cost in charges:
+    print(f&quot;{plate:&lt;10}{stay:&gt;6} min{cost:&gt;8}&quot;)
+print(f&quot;Total: {sum(c for _, _, c in charges)} naira&quot;)
+if problems:
+    print(&quot;Problems:&quot;)
+    for p in problems:
+        print(&quot; &quot;, p)
+else:
+    print(&quot;Problems: none&quot;)</textarea></div>
+<p><strong>The design.</strong> Three small functions, each with one job, then a short main program:</p>
+<ul>
+<li><code>minutes</code> validates and converts; it <strong>raises</strong> for a bad time, so <code>process</code> can turn that into a problem message.</li>
+<li><code>fee</code> is pure arithmetic: <code>(stay + 59) // 60</code> rounds <strong>up</strong> to whole hours without floats, and <code>min(..., 1500)</code> applies the cap.</li>
+<li><code>process</code> keeps a dictionary <code>inside</code> from plate to entry time: the <strong>index pattern</strong> again. An <code>in</code> adds a car, an <code>out</code> removes it and records the charge, and whatever is left at the end never left.</li>
+</ul>
+<p><strong>Common mistakes:</strong></p>
+<ul>
+<li>Not normalising plates, so <code>abj 45 kd</code> and <code>ABJ 45 KD</code> were treated as different cars.</li>
+<li>Rounding the hours with <code>round</code> or <code>int</code> (which round to nearest or down) instead of up.</li>
+<li>Charging the free 30 minutes back out of longer stays: the brief says the charge is counted from entry.</li>
+<li>Stopping at the first problem, or crashing on <code>25:00</code>.</li>
+<li>Forgetting the cars that never left, or not sorting them.</li>
+</ul>
+<p>If you finished Part C, you&rsquo;ve written a program that handles real-world messiness. That&rsquo;s the most important skill of Phase 1.</p>
+<h2 id="second-chances">Second chances</h2>
+<p>One fresh problem for each skill the exam tested. Do the ones for the problems where you lost marks first.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d6-sc_email" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Second chance: email addresses</div><div class="pc-prompt"><p>(Like B1.) Write <code>clean_email(text)</code> that strips spaces and lower-cases an email address, then checks it: exactly one <code>@</code>, at least one character before it, and after it a domain with at least one <code>.</code> that isn&rsquo;t the first or last character of the domain. Return the clean address, or raise a <code>ValueError</code> with the message <code>invalid email:</code> and the original text in quotes.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def bad(t):
+    try:
+        clean_email(t)
+    except ValueError as e:
+        assert str(e) == f&quot;invalid email: {t!r}&quot;
+        return
+    raise AssertionError(f&quot;{t!r} should be rejected&quot;)
+def test_values():
+    &quot;several addresses&quot;
+    assert clean_email(&quot;  Ada@Example.COM &quot;) == &quot;ada@example.com&quot;
+    assert clean_email(&quot;a.b@x.co.uk&quot;) == &quot;a.b@x.co.uk&quot;
+    for t in [&quot;ada.example.com&quot;, &quot;@x.com&quot;, &quot;a@b@c.com&quot;, &quot;a@com&quot;, &quot;a@.com&quot;, &quot;a@com.&quot;, &quot;&quot;]:
+        bad(t)</textarea><textarea class="pc-src pc-solution" hidden>def clean_email(text):
+    clean = text.strip().lower()
+    if clean.count(&quot;@&quot;) == 1:
+        local, domain = clean.split(&quot;@&quot;)
+        if local and &quot;.&quot; in domain[1:-1]:
+            return clean
+    raise ValueError(f&quot;invalid email: {text!r}&quot;)</textarea><template class="pc-src pc-hint"><code>text.strip().lower()</code>, then <code>count("@") == 1</code>, then <code>local, domain = clean.split("@")</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d6-sc_rle" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Second chance: compressed text</div><div class="pc-prompt"><p>(Like B2.) Write <code>compress(text)</code> that writes each run as the character followed by its count, but leaves out counts of 1: <code>compress("aaabccdd")</code> is <code>"a3bc2d2"</code>. Assume the text has no digits.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert compress(&quot;aaabccdd&quot;) == &quot;a3bc2d2&quot;
+    assert compress(&quot;&quot;) == &quot;&quot;
+    assert compress(&quot;abc&quot;) == &quot;abc&quot;
+    assert compress(&quot;zzzzzzzzzzzz&quot;) == &quot;z12&quot;</textarea><textarea class="pc-src pc-solution" hidden>def compress(text):
+    out = []
+    i = 0
+    while i &lt; len(text):
+        j = i
+        while j &lt; len(text) and text[j] == text[i]:
+            j += 1
+        n = j - i
+        out.append(text[i] + (str(n) if n &gt; 1 else &quot;&quot;))
+        i = j
+    return &quot;&quot;.join(out)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d6-sc_merge" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Second chance: merge many</div><div class="pc-prompt"><p>(Like B4.) Using the <code>merge</code> function given, write <code>merge_all(lists)</code> that merges any number of sorted lists into one sorted list, again without <code>sort</code> or <code>sorted</code>.</p></div><textarea class="pc-src pc-code" hidden>def merge(a, b):
+    i = j = 0
+    result = []
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            result.append(a[i])
+            i += 1
+        else:
+            result.append(b[j])
+            j += 1
+    return result + a[i:] + b[j:]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert merge_all([[1, 5], [2, 3], [0, 9]]) == [0, 1, 2, 3, 5, 9]
+    assert merge_all([]) == []
+    assert merge_all([[4]]) == [4]
+    assert &quot;sort&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def merge(a, b):
+    i = j = 0
+    result = []
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            result.append(a[i])
+            i += 1
+        else:
+            result.append(b[j])
+            j += 1
+    return result + a[i:] + b[j:]
+
+def merge_all(lists):
+    result = []
+    for items in lists:
+        result = merge(result, items)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d6-sc_diag" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Second chance: diagonals</div><div class="pc-prompt"><p>(Like B5.) Write <code>diagonals(grid)</code> that returns the anti-diagonals of a rectangular grid: lists of the items where row + column is 0, then 1, then 2, and so on, each from the top row down.</p>
+<pre><code>1 2 3
+4 5 6    -&gt;  [[1], [2, 4], [3, 5], [6]]
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert diagonals([[1, 2, 3], [4, 5, 6]]) == [[1], [2, 4], [3, 5], [6]]
+    assert diagonals([[1], [2], [3]]) == [[1], [2], [3]]
+    assert diagonals([]) == []</textarea><textarea class="pc-src pc-solution" hidden>def diagonals(grid):
+    if not grid:
+        return []
+    rows, cols = len(grid), len(grid[0])
+    return [[grid[r][s - r] for r in range(rows) if 0 &lt;= s - r &lt; cols] for s in range(rows + cols - 1)]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d6-sc_tags" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Second chance: matching tags</div><div class="pc-prompt"><p>(Like B8.) In a simplified HTML, tags look like <code>&lt;b&gt;</code> (opening) and <code>&lt;/b&gt;</code> (closing), with only letters between the brackets. Write <code>check_tags(text)</code> that returns <code>"OK"</code> if every tag is closed in the right order, otherwise <code>unexpected &lt;/i&gt;</code> (a closing tag that doesn&rsquo;t match the most recent open one, or with none open) or <code>&lt;b&gt; never closed</code> (the last tag still open at the end).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert check_tags(&quot;&lt;b&gt;bold &lt;i&gt;both&lt;/i&gt;&lt;/b&gt;&quot;) == &quot;OK&quot;
+    assert check_tags(&quot;plain text&quot;) == &quot;OK&quot;
+    assert check_tags(&quot;&lt;b&gt;&lt;i&gt;&lt;/b&gt;&lt;/i&gt;&quot;) == &quot;unexpected &lt;/b&gt;&quot;
+    assert check_tags(&quot;&lt;/p&gt;&quot;) == &quot;unexpected &lt;/p&gt;&quot;
+    assert check_tags(&quot;&lt;p&gt;&lt;b&gt;hi&lt;/b&gt;&quot;) == &quot;&lt;p&gt; never closed&quot;</textarea><textarea class="pc-src pc-solution" hidden>def check_tags(text):
+    stack = []
+    i = text.find(&quot;&lt;&quot;)
+    while i != -1:
+        end = text.find(&quot;&gt;&quot;, i)
+        tag = text[i + 1:end]
+        if tag.startswith(&quot;/&quot;):
+            if not stack or stack[-1] != tag[1:]:
+                return f&quot;unexpected &lt;{tag}&gt;&quot;
+            stack.pop()
+        else:
+            stack.append(tag)
+        i = text.find(&quot;&lt;&quot;, end)
+    if stack:
+        return f&quot;&lt;{stack[-1]}&gt; never closed&quot;
+    return &quot;OK&quot;</textarea><template class="pc-src pc-hint">Find each tag with <code>find("&lt;", i)</code> and <code>find("&gt;", start)</code>. The text between is the tag; if it starts with <code>/</code>, it&rsquo;s a closing tag.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d6-sc_rooms" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Second chance: meeting rooms</div><div class="pc-prompt"><p>(Like Part C.) Each booking is a tuple <code>(room, start, end)</code> with times as <code>HH:MM</code>. Using the <code>minutes</code> function given, write <code>clashes(bookings)</code> that returns a sorted list of <code>(room, i, j)</code> tuples for every pair of bookings <code>i &lt; j</code> (their positions in the list) for the same room whose times overlap. Two bookings overlap if each starts before the other ends: back to back (<code>09:00 to 10:00</code> and <code>10:00 to 11:00</code>) is fine.</p></div><textarea class="pc-src pc-code" hidden>import csv
+
+def minutes(time):
+    parts = time.split(&quot;:&quot;)
+    if len(parts) != 2 or [len(p) for p in parts] != [2, 2] or not all(p.isdigit() for p in parts):
+        raise ValueError(f&quot;bad time {time!r}&quot;)
+    h, m = int(parts[0]), int(parts[1])
+    if h &gt; 23 or m &gt; 59:
+        raise ValueError(f&quot;bad time {time!r}&quot;)
+    return h * 60 + m</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    b = [(&quot;A&quot;, &quot;09:00&quot;, &quot;10:00&quot;), (&quot;A&quot;, &quot;10:00&quot;, &quot;11:00&quot;), (&quot;B&quot;, &quot;09:30&quot;, &quot;10:30&quot;), (&quot;A&quot;, &quot;09:30&quot;, &quot;10:15&quot;), (&quot;B&quot;, &quot;10:29&quot;, &quot;12:00&quot;)]
+    assert clashes(b) == [(&quot;A&quot;, 0, 3), (&quot;A&quot;, 1, 3), (&quot;B&quot;, 2, 4)]
+    assert clashes([]) == []</textarea><textarea class="pc-src pc-solution" hidden>import csv
+
+def minutes(time):
+    parts = time.split(&quot;:&quot;)
+    if len(parts) != 2 or [len(p) for p in parts] != [2, 2] or not all(p.isdigit() for p in parts):
+        raise ValueError(f&quot;bad time {time!r}&quot;)
+    h, m = int(parts[0]), int(parts[1])
+    if h &gt; 23 or m &gt; 59:
+        raise ValueError(f&quot;bad time {time!r}&quot;)
+    return h * 60 + m
+
+def clashes(bookings):
+    found = []
+    for i in range(len(bookings)):
+        for j in range(i + 1, len(bookings)):
+            room1, s1, e1 = bookings[i]
+            room2, s2, e2 = bookings[j]
+            if room1 == room2 and minutes(s1) &lt; minutes(e2) and minutes(s2) &lt; minutes(e1):
+                found.append((room1, i, j))
+    return sorted(found)</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w012d6-quiz"><div class="pc-label"><span>Quiz</span><span>5 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why does <code>normalise</code> try the prefix <code>+234</code> before <code>234</code> and <code>0</code>?", "answer": 1, "explain": "<code>'+234...'</code> doesn&rsquo;t start with <code>'234'</code>, but checking long prefixes first is the safe habit.", "options": ["Alphabetical order", "Longer prefixes first, so a shorter one doesn&rsquo;t match part of a longer one", "It doesn&rsquo;t matter", "Speed"]}, {"type": "mc", "q": "What does <code>(stay + 59) // 60</code> do?", "answer": 1, "explain": "Adding 59 before floor division rounds up.", "options": ["Rounds to the nearest hour", "Rounds up to whole hours", "Rounds down", "Converts to seconds"]}, {"type": "mc", "q": "Why is a stack right for checking brackets?", "answer": 1, "explain": "Last in, first out.", "options": ["It&rsquo;s fast", "The bracket that must close next is always the most recently opened one", "Brackets are numbers", "To count them"]}, {"type": "mc", "q": "Which kind of mistake is &ldquo;the main case worked, but an empty list crashed&rdquo;?", "answer": 2, "explain": "Test small and extreme inputs.", "options": ["Didn&rsquo;t know it", "Misread the question", "Edge case", "Ran out of time"]}, {"type": "mc", "q": "Why does <code>merge</code> use slices for the leftovers?", "answer": 0, "explain": "Whatever is left is sorted and larger than everything taken.", "options": ["They&rsquo;re faster than a loop and the leftovers are already sorted", "To copy the input", "Slices sort lists", "No reason"]}]</script></div>
+<h2 id="what-s-next">What&rsquo;s next</h2>
+<p><strong>Your revision plan.</strong> For each problem where you lost marks, write one line: the problem, the kind of mistake (from the list at the top), and the day you&rsquo;ll revisit. Do those days during the rest week. If you&rsquo;re retaking the exam, do it after the rest week, without looking at this page again first.</p>
+<p><strong>Phase 2: Thinking like a programmer.</strong> After a week&rsquo;s rest, Phase 2 turns you from someone who can write Python into someone who can solve problems with it. You&rsquo;ll learn a method for attacking problems you&rsquo;ve never seen, recursion, how to measure how fast an algorithm is, the classic searching and sorting algorithms, and the everyday tools of real programming: modules, the command line, Git and automated tests.</p>
+<p>You&rsquo;ve finished Phase 1. Twelve weeks ago, <code>print("Hello")</code> was new. Take the rest week: you&rsquo;ve earned it.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w012d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w012d6", "week": 12, "day": 6, "title": "Exam debrief", "exercises": [{"id": "w012d6-sc_email", "title": "Second chance: email addresses", "points": 10}, {"id": "w012d6-sc_rle", "title": "Second chance: compressed text", "points": 10}, {"id": "w012d6-sc_merge", "title": "Second chance: merge many", "points": 10}, {"id": "w012d6-sc_diag", "title": "Second chance: diagonals", "points": 10}, {"id": "w012d6-sc_tags", "title": "Second chance: matching tags", "points": 15}, {"id": "w012d6-sc_rooms", "title": "Second chance: meeting rooms", "points": 20}], "points": 75}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

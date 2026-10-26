@@ -158,3 +158,7 @@ Bo,41
 The block shows the files on the page (click to open) and gives every program on that page a fresh copy before each run, check or X-ray, in an empty working folder. An exercise can add its own files with an `@@files` section in the same format; they are shown under its prompt. After a run, the console lists the files in the folder, marking new, changed and deleted ones. Notebooks get a cell that creates the files.
 
 Checks can use `read_file(name)` (the text, or `None`), `write_file(name, text)`, `files_now()` (the names, sorted) and `reset_files()` (back to the starting files). The learner's program has already run once when the checks start, so reset first if a check depends on the files being untouched; `run()` does not reset them.
+
+## Exams
+
+Add `exam=yes` to an exercise or bug hunt to leave its hints and solution off the page (the validator still checks the solution). The `examtimer` figure (params `minutes`, `key`) is a countdown that survives reloads; it never locks anything.

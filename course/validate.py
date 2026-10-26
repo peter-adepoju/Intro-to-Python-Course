@@ -23,6 +23,7 @@ class Slow(Exception):
 
 
 def _alarm(signum, frame):
+    signal.alarm(2)  # the harness catches everything, so keep firing until we're out
     raise Slow()
 
 

@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="c22a21f052">
+<title>Week 12 Day 4: Project: finish and test | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=c22a21f052">
+<link rel="stylesheet" href="../assets/css/site.css?v=c22a21f052">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=c22a21f052"></script>
+<script src="../assets/vendor/codemirror.js?v=c22a21f052" defer></script>
+<meta name="description" content="Yesterday’s gradebook loads, checks and summarises the data. Today you’ll finish it: a ranked report for each class, a report card for every student saved...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w012d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 12 Day 4: Project: finish and test">
+<meta property="og:description" content="Yesterday’s gradebook loads, checks and summarises the data. Today you’ll finish it: a ranked report for each class, a report card for every student saved...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w012d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-12">Week 12: Consolidation and Phase 1 exam</a>
+      <ol class="rail-toc"><li><a href="#where-we-are" data-sec="where-we-are">Where we are</a></li><li><a href="#step-6-class-reports" data-sec="step-6-class-reports">Step 6: class reports</a></li><li><a href="#step-7-report-cards" data-sec="step-7-report-cards">Step 7: report cards</a></li><li><a href="#step-8-top-scorers" data-sec="step-8-top-scorers">Step 8: top scorers</a></li><li><a href="#step-9-checking-your-work" data-sec="step-9-checking-your-work">Step 9: checking your work</a></li><li><a href="#step-10-the-program" data-sec="step-10-the-program">Step 10: the program</a></li><li><a href="#looking-back" data-sec="looking-back">Looking back</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 12, Day 4</span></p>
+      <h1>Project: finish and test</h1>
+      <div class="day-intro"><p>Yesterday&rsquo;s gradebook loads, checks and summarises the data. Today you&rsquo;ll finish it: a ranked report for each class, a report card for every student saved as a file, the top scorer in each subject, a set of checks that would catch the most likely mistakes, and a menu that brings it all together into one program.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Produce formatted reports from summarised data</li><li>Write one output file per record into a folder</li><li>Write checks that catch broken versions of your own functions</li><li>Drive a whole program from a simple command loop</li><li>Reflect on the design, and on what made the program easy or hard to change</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Where we are: 10 min"></span><span class="plan-seg s1" style="flex:30" title="Step 6: class reports: 30 min"></span><span class="plan-seg s0" style="flex:30" title="Step 7: report cards: 30 min"></span><span class="plan-seg s1" style="flex:20" title="Step 8: top scorers: 20 min"></span><span class="plan-seg s0" style="flex:35" title="Step 9: checking your work: 35 min"></span><span class="plan-seg s1" style="flex:40" title="Step 10: the program: 40 min"></span><span class="plan-seg s0" style="flex:15" title="Looking back: 15 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Where we are</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Step 6: class reports</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Step 7: report cards</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Step 8: top scorers</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Step 9: checking your work</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Step 10: the program</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:45</span><span class="plan-what">Looking back</span><span class="plan-min">15 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w012d4.ipynb" download>download it</a>. Exercises today are worth 110 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="where-we-are">Where we are</h2>
+<p>After yesterday, the gradebook has these working functions: <code>load_students</code>, <code>check_score</code>, <code>load_scores</code>, <code>average</code>, <code>grade</code> and <code>summarise</code>. <code>summarise</code> gives a list of rows like this, sorted by class and name:</p>
+<pre><code>{&quot;id&quot;: &quot;S05&quot;, &quot;name&quot;: &quot;Ed Okoro&quot;, &quot;class&quot;: &quot;3A&quot;, &quot;average&quot;: 58.0, &quot;grade&quot;: &quot;C&quot;, &quot;missing&quot;: [&quot;english&quot;]}
+</code></pre>
+<p>Everything today builds on that list. As yesterday, each step&rsquo;s starting code includes model versions of all the earlier functions.</p>
+<div class="filebox"><div class="filebox-head">The files used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>students.csv</code></summary><pre class="pc-filetext">id,name,class
+S01,Ada Obi,3A
+S02,Bo Musa,3A
+S03,Cy Bello,3B
+S04,Di Eze,3B
+S05,Ed Okoro,3A
+S06,Fe Ade,3B
+</pre></details><details class="pc-file"><summary><code>scores.csv</code></summary><pre class="pc-filetext">student,subject,score
+S01,maths,93
+S01,english,71
+S01,science,88
+S02,maths,41
+S02,english,88
+S02,science,57
+S03,maths,78
+S03,english,64
+S03,science,
+S04,maths,55
+S04,english,90
+S04,science,72
+S05,maths,67
+S05,english,abc
+S05,science,49
+S07,maths,80
+S02,maths,45
+S06,maths,101
+S06,english,58
+S06,science,61
+S06,art,70
+</pre></details><script type="application/json" class="page-files">{"students.csv": "id,name,class\nS01,Ada Obi,3A\nS02,Bo Musa,3A\nS03,Cy Bello,3B\nS04,Di Eze,3B\nS05,Ed Okoro,3A\nS06,Fe Ade,3B\n", "scores.csv": "student,subject,score\nS01,maths,93\nS01,english,71\nS01,science,88\nS02,maths,41\nS02,english,88\nS02,science,57\nS03,maths,78\nS03,english,64\nS03,science,\nS04,maths,55\nS04,english,90\nS04,science,72\nS05,maths,67\nS05,english,abc\nS05,science,49\nS07,maths,80\nS02,maths,45\nS06,maths,101\nS06,english,58\nS06,science,61\nS06,art,70\n"}</script></div>
+<h2 id="step-6-class-reports">Step 6: class reports</h2>
+<p>A teacher wants each class ranked, best average first:</p>
+<pre><code>Class 3B
+Pos  Name         Average  Grade
+  1  Di Eze          72.3  A
+  2  Cy Bello        71.0  A
+  3  Fe Ade          59.5  C
+Class average: 67.6
+</code></pre>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d4-step6" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Step 6: class report</div><div class="pc-prompt"><p>Write <code>class_report(summary, class_name)</code> that returns the report for one class as a string, lines joined with <code>"\n"</code>:</p>
+<ul>
+<li>a title line <code>Class 3B</code>;</li>
+<li>a header: <code>Pos</code> right-aligned in 3, two spaces, <code>Name</code> left-aligned in 12, <code>Average</code> right-aligned in 8, two spaces, <code>Grade</code>;</li>
+<li>one line per student in that class, ranked by average (highest first), equal averages by name, and students with no average last; positions count from 1; the average is shown with <code>show</code> (given), right-aligned in 8;</li>
+<li>a last line <code>Class average: 67.6</code>: the mean of the students&rsquo; averages that exist, rounded to 1 place and shown with <code>show</code>.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))
+
+def show(avg):
+    return &quot;-&quot; if avg is None else f&quot;{avg:.1f}&quot;</textarea><textarea class="pc-src pc-tests" hidden>def data():
+    s = load_students(&quot;students.csv&quot;)
+    sc, p = load_scores(&quot;scores.csv&quot;, s)
+    return summarise(s, sc)
+def test_3B():
+    &quot;class 3B&quot;
+    assert class_report(data(), &quot;3B&quot;) == &#x27;Class 3B\nPos  Name         Average  Grade\n  1  Di Eze          72.3  A\n  2  Cy Bello        71.0  A\n  3  Fe Ade          59.5  C\nClass average: 67.6&#x27;, &quot;Expected:\n&quot; + &#x27;Class 3B\nPos  Name         Average  Grade\n  1  Di Eze          72.3  A\n  2  Cy Bello        71.0  A\n  3  Fe Ade          59.5  C\nClass average: 67.6&#x27;
+def test_3A():
+    &quot;class 3A&quot;
+    assert class_report(data(), &quot;3A&quot;) == &#x27;Class 3A\nPos  Name         Average  Grade\n  1  Ada Obi         84.0  A\n  2  Bo Musa         62.0  B\n  3  Ed Okoro        58.0  C\nClass average: 68.0&#x27;, &quot;Expected:\n&quot; + &#x27;Class 3A\nPos  Name         Average  Grade\n  1  Ada Obi         84.0  A\n  2  Bo Musa         62.0  B\n  3  Ed Okoro        58.0  C\nClass average: 68.0&#x27;
+def test_none():
+    &quot;a student with no average&quot;
+    rows = [{&quot;id&quot;: &quot;X&quot;, &quot;name&quot;: &quot;Zed&quot;, &quot;class&quot;: &quot;9&quot;, &quot;average&quot;: None, &quot;grade&quot;: &quot;-&quot;, &quot;missing&quot;: []},
+            {&quot;id&quot;: &quot;Y&quot;, &quot;name&quot;: &quot;Amy&quot;, &quot;class&quot;: &quot;9&quot;, &quot;average&quot;: 50.0, &quot;grade&quot;: &quot;C&quot;, &quot;missing&quot;: []}]
+    assert class_report(rows, &quot;9&quot;).splitlines()[2:] == [&quot;  1  Amy             50.0  C&quot;, &quot;  2  Zed                -  -&quot;, &quot;Class average: 50.0&quot;]</textarea><textarea class="pc-src pc-solution" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))
+
+def show(avg):
+    return &quot;-&quot; if avg is None else f&quot;{avg:.1f}&quot;
+
+def class_report(summary, class_name):
+    rows = [r for r in summary if r[&quot;class&quot;] == class_name]
+    ranked = sorted(rows, key=lambda r: (r[&quot;average&quot;] is None, -(r[&quot;average&quot;] or 0), r[&quot;name&quot;]))
+    lines = [f&quot;Class {class_name}&quot;, f&quot;{&#x27;Pos&#x27;:&gt;3}  {&#x27;Name&#x27;:&lt;12}{&#x27;Average&#x27;:&gt;8}  Grade&quot;]
+    for pos, r in enumerate(ranked, start=1):
+        lines.append(f&quot;{pos:&gt;3}  {r[&#x27;name&#x27;]:&lt;12}{show(r[&#x27;average&#x27;]):&gt;8}  {r[&#x27;grade&#x27;]}&quot;)
+    known = [r[&quot;average&quot;] for r in rows if r[&quot;average&quot;] is not None]
+    lines.append(f&quot;Class average: {show(round(sum(known) / len(known), 1) if known else None)}&quot;)
+    return &quot;\n&quot;.join(lines)</textarea><template class="pc-src pc-hint">Filter the rows for the class first. For the sort key, <code>(r["average"] is None, -(r["average"] or 0), r["name"])</code> puts missing averages last (<code>False</code> sorts before <code>True</code>), then highest first, then by name.</template></div>
+<h2 id="step-7-report-cards">Step 7: report cards</h2>
+<p>Each student gets a report card, saved as a text file named by their id in a <code>reports</code> folder:</p>
+<pre><code>Report card: Ed Okoro (S05), class 3A
+
+Maths       67
+English      -
+Science     49
+
+Average: 58.0
+Grade: C
+</code></pre>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d4-step7" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Step 7: report cards</div><div class="pc-prompt"><p>Write <code>report_card(row, subject_scores)</code> that returns the card for one summary row and that student&rsquo;s scores, ending with a newline:</p>
+<ul>
+<li><code>Report card: NAME (ID), class CLASS</code>, then a blank line;</li>
+<li>one line per subject in <code>SUBJECTS</code> order: the subject with a capital first letter, left-aligned in 10, then the score right-aligned in 4, or <code>-</code> if there isn&rsquo;t one;</li>
+<li>a blank line, <code>Average:</code> and the average shown with <code>show</code>, and <code>Grade:</code> and the grade.</li>
+</ul>
+<p>Then write <code>write_cards(summary, scores, folder="reports")</code> that makes the folder if needed, writes <code>folder/ID.txt</code> for every row, and returns how many it wrote.</p></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))
+
+def show(avg):
+    return &quot;-&quot; if avg is None else f&quot;{avg:.1f}&quot;</textarea><textarea class="pc-src pc-tests" hidden>def data():
+    s = load_students(&quot;students.csv&quot;)
+    sc, p = load_scores(&quot;scores.csv&quot;, s)
+    return summarise(s, sc), sc
+def test_card():
+    &quot;report_card&quot;
+    rows, sc = data()
+    assert report_card(rows[0], sc[&quot;S01&quot;]) == &#x27;Report card: Ada Obi (S01), class 3A\n\nMaths       93\nEnglish     71\nScience     88\n\nAverage: 84.0\nGrade: A\n&#x27;, &quot;Expected:\n&quot; + &#x27;Report card: Ada Obi (S01), class 3A\n\nMaths       93\nEnglish     71\nScience     88\n\nAverage: 84.0\nGrade: A\n&#x27;
+    assert report_card(rows[2], sc[&quot;S05&quot;]) == &#x27;Report card: Ed Okoro (S05), class 3A\n\nMaths       67\nEnglish      -\nScience     49\n\nAverage: 58.0\nGrade: C\n&#x27;, &quot;Expected:\n&quot; + &#x27;Report card: Ed Okoro (S05), class 3A\n\nMaths       67\nEnglish      -\nScience     49\n\nAverage: 58.0\nGrade: C\n&#x27;
+def test_files():
+    &quot;write_cards&quot;
+    reset_files()
+    rows, sc = data()
+    assert write_cards(rows, sc) == 6
+    assert read_file(&quot;reports/S01.txt&quot;) == &#x27;Report card: Ada Obi (S01), class 3A\n\nMaths       93\nEnglish     71\nScience     88\n\nAverage: 84.0\nGrade: A\n&#x27;
+    assert [f for f in files_now() if f.startswith(&quot;reports/&quot;)] == [&quot;reports/S01.txt&quot;, &quot;reports/S02.txt&quot;, &quot;reports/S03.txt&quot;, &quot;reports/S04.txt&quot;, &quot;reports/S05.txt&quot;, &quot;reports/S06.txt&quot;]
+    write_cards(rows[:1], sc, folder=&quot;out/term1&quot;)
+    assert read_file(&quot;out/term1/S01.txt&quot;) == &#x27;Report card: Ada Obi (S01), class 3A\n\nMaths       93\nEnglish     71\nScience     88\n\nAverage: 84.0\nGrade: A\n&#x27;</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import Path
+import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))
+
+def show(avg):
+    return &quot;-&quot; if avg is None else f&quot;{avg:.1f}&quot;
+
+def report_card(row, subject_scores):
+    lines = [f&quot;Report card: {row[&#x27;name&#x27;]} ({row[&#x27;id&#x27;]}), class {row[&#x27;class&#x27;]}&quot;, &quot;&quot;]
+    for subject in SUBJECTS:
+        score = subject_scores.get(subject)
+        lines.append(f&quot;{subject.capitalize():&lt;10}{&#x27;-&#x27; if score is None else score:&gt;4}&quot;)
+    lines += [&quot;&quot;, f&quot;Average: {show(row[&#x27;average&#x27;])}&quot;, f&quot;Grade: {row[&#x27;grade&#x27;]}&quot;]
+    return &quot;\n&quot;.join(lines) + &quot;\n&quot;
+
+def write_cards(summary, scores, folder=&quot;reports&quot;):
+    out = Path(folder)
+    out.mkdir(parents=True, exist_ok=True)
+    for row in summary:
+        (out / f&quot;{row[&#x27;id&#x27;]}.txt&quot;).write_text(report_card(row, scores[row[&quot;id&quot;]]))
+    return len(summary)</textarea><template class="pc-src pc-hint"><code>f"{'-' if score is None else score:&gt;4}"</code> right-aligns either the score or the dash. In <code>write_cards</code>, <code>Path(folder).mkdir(parents=True, exist_ok=True)</code>, then <code>(Path(folder) / f"{row['id']}.txt").write_text(...)</code>.</template></div>
+<h2 id="step-8-top-scorers">Step 8: top scorers</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d4-step8" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Step 8: top scorers</div><div class="pc-prompt"><p>Write <code>top_scorers(students, scores)</code> that returns a dictionary from each subject (in <code>SUBJECTS</code> order, leaving out any subject nobody has a score for) to a tuple: the highest score, and the sorted list of names of everyone who got it.</p></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))</textarea><textarea class="pc-src pc-tests" hidden>def test_file():
+    &quot;the files&quot;
+    s = load_students(&quot;students.csv&quot;)
+    sc, p = load_scores(&quot;scores.csv&quot;, s)
+    assert top_scorers(s, sc) == {&#x27;maths&#x27;: (93, [&#x27;Ada Obi&#x27;]), &#x27;english&#x27;: (90, [&#x27;Di Eze&#x27;]), &#x27;science&#x27;: (88, [&#x27;Ada Obi&#x27;])}
+def test_ties():
+    &quot;ties and gaps&quot;
+    s = {&quot;A&quot;: {&quot;name&quot;: &quot;Zed&quot;, &quot;class&quot;: &quot;1&quot;}, &quot;B&quot;: {&quot;name&quot;: &quot;Amy&quot;, &quot;class&quot;: &quot;1&quot;}}
+    sc = {&quot;A&quot;: {&quot;maths&quot;: 80}, &quot;B&quot;: {&quot;maths&quot;: 80, &quot;english&quot;: 50}}
+    assert top_scorers(s, sc) == {&quot;maths&quot;: (80, [&quot;Amy&quot;, &quot;Zed&quot;]), &quot;english&quot;: (50, [&quot;Amy&quot;])}</textarea><textarea class="pc-src pc-solution" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))
+
+def top_scorers(students, scores):
+    tops = {}
+    for subject in SUBJECTS:
+        marks = [(s[subject], students[sid][&quot;name&quot;]) for sid, s in scores.items() if subject in s]
+        if marks:
+            best = max(m for m, _ in marks)
+            tops[subject] = (best, sorted(n for m, n in marks if m == best))
+    return tops</textarea></div>
+<h2 id="step-9-checking-your-work">Step 9: checking your work</h2>
+<p>The functions most likely to hide a mistake are the ones full of boundaries: <code>grade</code> (is 70 an A or a B?) and <code>check_score</code> (is 100 allowed? is 0?). In Week 7 you checked functions with <code>assert</code>. Now write checks that would <strong>catch</strong> the mistakes someone is most likely to make in these two.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d4-step9" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Step 9: checks that catch mistakes</div><div class="pc-prompt"><p>Write <code>run_checks()</code>, a function that uses <code>assert</code> to check <code>grade</code> and <code>check_score</code>. It must pass with the correct versions given in the starter, and fail (raise an <code>AssertionError</code>, or any other error) for each of six broken versions the checker will swap in, one at a time. You don&rsquo;t see the broken versions: think about what could go wrong. For example:</p>
+<ul>
+<li>a boundary written with <code>&gt;</code> instead of <code>&gt;=</code>;</li>
+<li>a grade missing, or <code>None</code> handled wrongly;</li>
+<li><code>check_score</code> accepting a score over 100, or rejecting 0 or 100;</li>
+<li><code>check_score</code> raising the wrong message, or not raising at all.</li>
+</ul>
+<p>To check that something raises, use <code>try</code>, <code>except ValueError as e</code> (checking <code>str(e)</code>), and <code>else: raise AssertionError(...)</code>.</p></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def run_checks():
+    ___
+
+run_checks()
+print(&quot;All checks passed&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def raise_on(text, message):
+    def broken(t):
+        raise ValueError(message)
+    return broken
+BROKEN_GRADE = {
+    &quot;70 graded B (&gt; instead of &gt;=)&quot;: lambda a: &quot;-&quot; if a is None else (&quot;A&quot; if a &gt; 70 else &quot;B&quot; if a &gt;= 60 else &quot;C&quot; if a &gt;= 50 else &quot;D&quot; if a &gt;= 45 else &quot;E&quot; if a &gt;= 40 else &quot;F&quot;),
+    &quot;no E grade&quot;: lambda a: &quot;-&quot; if a is None else (&quot;A&quot; if a &gt;= 70 else &quot;B&quot; if a &gt;= 60 else &quot;C&quot; if a &gt;= 50 else &quot;D&quot; if a &gt;= 45 else &quot;F&quot;),
+    &quot;None gives F&quot;: lambda a: &quot;F&quot; if a is None else (&quot;A&quot; if a &gt;= 70 else &quot;B&quot; if a &gt;= 60 else &quot;C&quot; if a &gt;= 50 else &quot;D&quot; if a &gt;= 45 else &quot;E&quot; if a &gt;= 40 else &quot;F&quot;),
+}
+def _ok_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    if int(text) &gt; 100:
+        raise ValueError(f&quot;out of range: {int(text)}&quot;)
+    return int(text)
+def _accepts_101(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    if int(text) &gt; 101:
+        raise ValueError(f&quot;out of range: {int(text)}&quot;)
+    return int(text)
+def _rejects_0(text):
+    if text.strip() == &quot;0&quot;:
+        raise ValueError(&quot;out of range: 0&quot;)
+    return _ok_score(text)
+def _no_missing(text):
+    return int(text)
+BROKEN_SCORE = {&quot;accepts 101&quot;: _accepts_101, &quot;rejects 0&quot;: _rejects_0, &quot;empty text gives Python&#x27;s own error&quot;: _no_missing}
+def test_passes():
+    &quot;passes with the correct functions&quot;
+    run_checks()
+def caught(name, fn, which):
+    g = run_checks.__globals__
+    old = g[which]
+    g[which] = fn
+    try:
+        run_checks()
+    except Exception:
+        return True
+    finally:
+        g[which] = old
+    return False
+def test_catches():
+    &quot;catches the broken versions&quot;
+    missed = [n for n, f in BROKEN_GRADE.items() if not caught(n, f, &quot;grade&quot;)]
+    missed += [n for n, f in BROKEN_SCORE.items() if not caught(n, f, &quot;check_score&quot;)]
+    assert not missed, &quot;These broken versions got past your checks: &quot; + &quot;; &quot;.join(missed)</textarea><textarea class="pc-src pc-solution" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def expect_error(text, message):
+    try:
+        check_score(text)
+    except ValueError as e:
+        assert str(e) == message, f&quot;check_score({text!r}) said {e}&quot;
+    except Exception as e:
+        raise AssertionError(f&quot;check_score({text!r}) raised {type(e).__name__}&quot;)
+    else:
+        raise AssertionError(f&quot;check_score({text!r}) should raise&quot;)
+
+def run_checks():
+    cases = [(100, &quot;A&quot;), (70, &quot;A&quot;), (69.9, &quot;B&quot;), (60, &quot;B&quot;), (59.9, &quot;C&quot;), (50, &quot;C&quot;), (49.9, &quot;D&quot;),
+             (45, &quot;D&quot;), (44.9, &quot;E&quot;), (40, &quot;E&quot;), (39.9, &quot;F&quot;), (0, &quot;F&quot;), (None, &quot;-&quot;)]
+    for avg, letter in cases:
+        assert grade(avg) == letter, f&quot;grade({avg}) should be {letter}&quot;
+    assert check_score(&quot;0&quot;) == 0 and check_score(&quot;100&quot;) == 100 and check_score(&quot; 7 &quot;) == 7
+    expect_error(&quot;101&quot;, &quot;out of range: 101&quot;)
+    expect_error(&quot;&quot;, &quot;missing score&quot;)
+    expect_error(&quot;x&quot;, &quot;not a whole number: &#x27;x&#x27;&quot;)
+
+run_checks()
+print(&quot;All checks passed&quot;)</textarea><template class="pc-src pc-hint">For <code>grade</code>, check every boundary from both sides: <code>grade(70)</code>, <code>grade(69.9)</code>, <code>grade(60)</code>, &hellip; down to <code>grade(39.9)</code>, plus <code>grade(None)</code>.</template><template class="pc-src pc-hint">For <code>check_score</code>, check <code>"0"</code> and <code>"100"</code> are accepted, <code>"101"</code> is rejected with the message <code>out of range: 101</code>, and <code>""</code> with <code>missing score</code>. A small helper <code>expect_error(text, message)</code> keeps these short: call <code>check_score(text)</code> in a <code>try</code>, check <code>str(e)</code> in <code>except ValueError as e</code>, and raise an <code>AssertionError</code> in <code>else</code>.</template></div>
+<aside class="callout c-think"><div class="callout-t">Checks are worth writing</div><p>Your checks just caught six realistic bugs that a quick test by hand would probably miss. In Phase 2 you&rsquo;ll meet <strong>pytest</strong>, which turns functions like <code>run_checks</code> into a proper test suite that runs every check, reports every failure, and runs in a second whenever you change your code.</p></aside>
+<h2 id="step-10-the-program">Step 10: the program</h2>
+<p>The last step is the part a teacher actually uses: a command loop. Here&rsquo;s a session:</p>
+<pre><code>Gradebook: 6 students, 15 scores, 6 problems
+Commands: classes, report CLASS, student ID, problems, cards, top, quit
+&gt; classes
+3A (3 students), 3B (3 students)
+&gt; report 3B
+Class 3B
+Pos  Name         Average  Grade
+  1  Di Eze          72.3  A
+  2  Cy Bello        71.0  A
+  3  Fe Ade          59.5  C
+Class average: 67.6
+&gt; student s05
+Report card: Ed Okoro (S05), class 3A
+
+Maths       67
+English      -
+Science     49
+
+Average: 58.0
+Grade: C
+&gt; top
+maths: 93 Ada Obi
+english: 90 Di Eze
+science: 88 Ada Obi
+&gt; report 9Z
+No class 9Z
+&gt; student S99
+No student S99
+&gt; problems
+line 10: missing score
+line 15: not a whole number: 'abc'
+line 17: unknown student 'S07'
+line 18: duplicate maths score for S02
+line 19: out of range: 101
+line 22: unknown subject 'art'
+&gt; dance
+Unknown command. Commands: classes, report CLASS, student ID, problems, cards, top, quit
+&gt; quit
+</code></pre>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d4-step10" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Step 10: the gradebook program</div><div class="pc-prompt"><p>Write <code>respond(command, students, scores, problems)</code>, which returns the text for one command:</p>
+<ul>
+<li><code>classes</code>: each class with its number of students, sorted, like <code>3A (3 students), 3B (3 students)</code> (<code>1 student</code> for one);</li>
+<li><code>report CLASS</code>: the class report, or <code>No class CLASS</code>;</li>
+<li><code>student ID</code>: that student&rsquo;s report card without its final newline, accepting the id in any case, or <code>No student ID</code> (as typed);</li>
+<li><code>problems</code>: the problems, one per line, or <code>No problems</code>;</li>
+<li><code>cards</code>: writes the report cards to <code>reports</code> and returns <code>Wrote 6 report cards to reports/</code>;</li>
+<li><code>top</code>: one line per subject, like <code>maths: 93 Ada Obi</code> (several names joined with <code>", "</code>);</li>
+<li>anything else: <code>Unknown command.</code> followed by <code>HELP</code>.</li>
+</ul>
+<p>Then write <code>main()</code>, which loads the files, prints <code>Gradebook: 6 students, 15 scores, 6 problems</code> (with the real counts) and <code>HELP</code>, then reads commands with the prompt <code>&gt;</code> (stripped) until <code>quit</code>, printing each response. The last line of the program calls <code>main()</code>.</p></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))
+
+def show(avg):
+    return &quot;-&quot; if avg is None else f&quot;{avg:.1f}&quot;
+
+def class_report(summary, class_name):
+    rows = [r for r in summary if r[&quot;class&quot;] == class_name]
+    ranked = sorted(rows, key=lambda r: (r[&quot;average&quot;] is None, -(r[&quot;average&quot;] or 0), r[&quot;name&quot;]))
+    lines = [f&quot;Class {class_name}&quot;, f&quot;{&#x27;Pos&#x27;:&gt;3}  {&#x27;Name&#x27;:&lt;12}{&#x27;Average&#x27;:&gt;8}  Grade&quot;]
+    for pos, r in enumerate(ranked, start=1):
+        lines.append(f&quot;{pos:&gt;3}  {r[&#x27;name&#x27;]:&lt;12}{show(r[&#x27;average&#x27;]):&gt;8}  {r[&#x27;grade&#x27;]}&quot;)
+    known = [r[&quot;average&quot;] for r in rows if r[&quot;average&quot;] is not None]
+    lines.append(f&quot;Class average: {show(round(sum(known) / len(known), 1) if known else None)}&quot;)
+    return &quot;\n&quot;.join(lines)
+
+def report_card(row, subject_scores):
+    lines = [f&quot;Report card: {row[&#x27;name&#x27;]} ({row[&#x27;id&#x27;]}), class {row[&#x27;class&#x27;]}&quot;, &quot;&quot;]
+    for subject in SUBJECTS:
+        score = subject_scores.get(subject)
+        lines.append(f&quot;{subject.capitalize():&lt;10}{&#x27;-&#x27; if score is None else score:&gt;4}&quot;)
+    lines += [&quot;&quot;, f&quot;Average: {show(row[&#x27;average&#x27;])}&quot;, f&quot;Grade: {row[&#x27;grade&#x27;]}&quot;]
+    return &quot;\n&quot;.join(lines) + &quot;\n&quot;
+
+def top_scorers(students, scores):
+    tops = {}
+    for subject in SUBJECTS:
+        marks = [(s[subject], students[sid][&quot;name&quot;]) for sid, s in scores.items() if subject in s]
+        if marks:
+            best = max(m for m, _ in marks)
+            tops[subject] = (best, sorted(n for m, n in marks if m == best))
+    return tops
+
+HELP = &quot;Commands: classes, report CLASS, student ID, problems, cards, top, quit&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_session():
+    &quot;a whole session&quot;
+    expect_output(&quot;Gradebook: 6 students, 15 scores, 6 problems\nCommands: classes, report CLASS, student ID, problems, cards, top, quit\n&gt; classes\n3A (3 students), 3B (3 students)\n&gt; report 3B\nClass 3B\nPos  Name         Average  Grade\n  1  Di Eze          72.3  A\n  2  Cy Bello        71.0  A\n  3  Fe Ade          59.5  C\nClass average: 67.6\n&gt; student s05\nReport card: Ed Okoro (S05), class 3A\n\nMaths       67\nEnglish      -\nScience     49\n\nAverage: 58.0\nGrade: C\n&gt; top\nmaths: 93 Ada Obi\nenglish: 90 Di Eze\nscience: 88 Ada Obi\n&gt; report 9Z\nNo class 9Z\n&gt; student S99\nNo student S99\n&gt; problems\nline 10: missing score\nline 15: not a whole number: &#x27;abc&#x27;\nline 17: unknown student &#x27;S07&#x27;\nline 18: duplicate maths score for S02\nline 19: out of range: 101\nline 22: unknown subject &#x27;art&#x27;\n&gt; dance\nUnknown command. Commands: classes, report CLASS, student ID, problems, cards, top, quit\n&gt; quit&quot;, inputs=[&#x27;classes&#x27;, &#x27;report 3B&#x27;, &#x27;student s05&#x27;, &#x27;top&#x27;, &#x27;report 9Z&#x27;, &#x27;student S99&#x27;, &#x27;problems&#x27;, &#x27;dance&#x27;, &#x27;quit&#x27;], echo=True)
+def test_cards():
+    &quot;cards&quot;
+    reset_files()
+    s = load_students(&quot;students.csv&quot;)
+    sc, p = load_scores(&quot;scores.csv&quot;, s)
+    assert respond(&quot;cards&quot;, s, sc, p) == &quot;Wrote 6 report cards to reports/&quot;
+    assert read_file(&quot;reports/S04.txt&quot;) is not None
+def test_no_problems():
+    &quot;no problems&quot;
+    s = {&quot;A&quot;: {&quot;name&quot;: &quot;Zed&quot;, &quot;class&quot;: &quot;1&quot;}}
+    assert respond(&quot;problems&quot;, s, {&quot;A&quot;: {}}, []) == &quot;No problems&quot;
+    assert respond(&quot;classes&quot;, s, {&quot;A&quot;: {}}, []) == &quot;1 (1 student)&quot;</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import Path
+import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))
+
+def show(avg):
+    return &quot;-&quot; if avg is None else f&quot;{avg:.1f}&quot;
+
+def class_report(summary, class_name):
+    rows = [r for r in summary if r[&quot;class&quot;] == class_name]
+    ranked = sorted(rows, key=lambda r: (r[&quot;average&quot;] is None, -(r[&quot;average&quot;] or 0), r[&quot;name&quot;]))
+    lines = [f&quot;Class {class_name}&quot;, f&quot;{&#x27;Pos&#x27;:&gt;3}  {&#x27;Name&#x27;:&lt;12}{&#x27;Average&#x27;:&gt;8}  Grade&quot;]
+    for pos, r in enumerate(ranked, start=1):
+        lines.append(f&quot;{pos:&gt;3}  {r[&#x27;name&#x27;]:&lt;12}{show(r[&#x27;average&#x27;]):&gt;8}  {r[&#x27;grade&#x27;]}&quot;)
+    known = [r[&quot;average&quot;] for r in rows if r[&quot;average&quot;] is not None]
+    lines.append(f&quot;Class average: {show(round(sum(known) / len(known), 1) if known else None)}&quot;)
+    return &quot;\n&quot;.join(lines)
+
+def report_card(row, subject_scores):
+    lines = [f&quot;Report card: {row[&#x27;name&#x27;]} ({row[&#x27;id&#x27;]}), class {row[&#x27;class&#x27;]}&quot;, &quot;&quot;]
+    for subject in SUBJECTS:
+        score = subject_scores.get(subject)
+        lines.append(f&quot;{subject.capitalize():&lt;10}{&#x27;-&#x27; if score is None else score:&gt;4}&quot;)
+    lines += [&quot;&quot;, f&quot;Average: {show(row[&#x27;average&#x27;])}&quot;, f&quot;Grade: {row[&#x27;grade&#x27;]}&quot;]
+    return &quot;\n&quot;.join(lines) + &quot;\n&quot;
+
+def write_cards(summary, scores, folder=&quot;reports&quot;):
+    out = Path(folder)
+    out.mkdir(parents=True, exist_ok=True)
+    for row in summary:
+        (out / f&quot;{row[&#x27;id&#x27;]}.txt&quot;).write_text(report_card(row, scores[row[&quot;id&quot;]]))
+    return len(summary)
+
+def top_scorers(students, scores):
+    tops = {}
+    for subject in SUBJECTS:
+        marks = [(s[subject], students[sid][&quot;name&quot;]) for sid, s in scores.items() if subject in s]
+        if marks:
+            best = max(m for m, _ in marks)
+            tops[subject] = (best, sorted(n for m, n in marks if m == best))
+    return tops
+
+HELP = &quot;Commands: classes, report CLASS, student ID, problems, cards, top, quit&quot;
+
+def respond(command, students, scores, problems):
+    summary = summarise(students, scores)
+    parts = command.split()
+    if parts == [&quot;classes&quot;]:
+        counts = {}
+        for r in summary:
+            counts[r[&quot;class&quot;]] = counts.get(r[&quot;class&quot;], 0) + 1
+        return &quot;, &quot;.join(f&quot;{c} ({n} student{&#x27;s&#x27; if n != 1 else &#x27;&#x27;})&quot; for c, n in sorted(counts.items()))
+    if len(parts) == 2 and parts[0] == &quot;report&quot;:
+        if parts[1] not in {r[&quot;class&quot;] for r in summary}:
+            return f&quot;No class {parts[1]}&quot;
+        return class_report(summary, parts[1])
+    if len(parts) == 2 and parts[0] == &quot;student&quot;:
+        for r in summary:
+            if r[&quot;id&quot;] == parts[1].upper():
+                return report_card(r, scores[r[&quot;id&quot;]]).rstrip(&quot;\n&quot;)
+        return f&quot;No student {parts[1]}&quot;
+    if parts == [&quot;problems&quot;]:
+        return &quot;\n&quot;.join(problems) if problems else &quot;No problems&quot;
+    if parts == [&quot;cards&quot;]:
+        n = write_cards(summary, scores)
+        return f&quot;Wrote {n} report cards to reports/&quot;
+    if parts == [&quot;top&quot;]:
+        return &quot;\n&quot;.join(f&quot;{subj}: {best} {&#x27;, &#x27;.join(names)}&quot; for subj, (best, names) in top_scorers(students, scores).items())
+    return &quot;Unknown command. &quot; + HELP
+
+def main():
+    students = load_students(&quot;students.csv&quot;)
+    scores, problems = load_scores(&quot;scores.csv&quot;, students)
+    n_scores = sum(len(s) for s in scores.values())
+    print(f&quot;Gradebook: {len(students)} students, {n_scores} scores, {len(problems)} problems&quot;)
+    print(HELP)
+    command = input(&quot;&gt; &quot;).strip()
+    while command != &quot;quit&quot;:
+        print(respond(command, students, scores, problems))
+        command = input(&quot;&gt; &quot;).strip()
+
+main()</textarea><template class="pc-src pc-hint">Split the command into parts and compare <code>parts</code> with each form: <code>parts == ["classes"]</code>, or <code>len(parts) == 2 and parts[0] == "report"</code>. Work out <code>summary = summarise(students, scores)</code> once at the top.</template><template class="pc-src pc-hint">For <code>cards</code>, you can write the files with a small loop here, using <code>report_card</code>, <code>Path(...).mkdir(exist_ok=True)</code> and <code>write_text</code>.</template></div>
+<h2 id="looking-back">Looking back</h2>
+<p>You&rsquo;ve built a complete program of about 150 lines. Before moving on, look at how it&rsquo;s put together:</p>
+<ul>
+<li><strong>Every function does one thing</strong>, and most are under 15 lines. When a teacher asks for a new command, you add one function and one branch in <code>respond</code>; nothing else changes.</li>
+<li><strong>Reading, calculating and presenting are separate.</strong> <code>load_scores</code> knows nothing about reports; <code>class_report</code> knows nothing about files. You could replace the CSV files with a database, or the text reports with a web page, and the middle would stay the same.</li>
+<li><strong>Bad data is expected, reported and never fatal.</strong> Every problem has a line number and a reason.</li>
+<li><strong>The risky parts are checked.</strong> Your checks would tell you at once if someone &ldquo;tidied up&rdquo; <code>grade</code> and broke a boundary.</li>
+</ul>
+<aside class="callout c-think"><div class="callout-t">What would you change?</div><p>Write down two things you&rsquo;d do differently if you built it again, and one feature a teacher might ask for next (a fourth subject? weighted averages? a &ldquo;most improved&rdquo; list?). For each feature, which functions would have to change? If the answer is &ldquo;only one or two&rdquo;, the design is doing its job.</p></aside>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w012d4-quiz"><div class="pc-label"><span>Quiz</span><span>5 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why does <code>class_report</code> take the summary rows rather than reading the files itself?", "answer": 1, "explain": "Separation makes change cheap.", "options": ["Files can&rsquo;t be read twice", "Calculating and presenting stay separate, so each can change without the other", "It&rsquo;s faster", "No reason"]}, {"type": "mc", "q": "What does the sort key <code>(r['average'] is None, -(r['average'] or 0), r['name'])</code> do with a missing average?", "answer": 2, "explain": "False sorts before True.", "options": ["Crashes", "Puts it first", "Puts it last", "Treats it as 0 and sorts it with the others"]}, {"type": "mc", "q": "Why check <code>grade(69.9)</code> as well as <code>grade(70)</code>?", "answer": 1, "explain": "Test both sides of every boundary.", "options": ["To be thorough for no reason", "Boundary bugs show up just either side of the boundary", "69.9 is a common mark", "It&rsquo;s required"]}, {"type": "mc", "q": "What does <code>Path(\"reports\").mkdir(parents=True, exist_ok=True)</code> do if the folder already exists?", "answer": 1, "explain": "exist_ok.", "options": ["Raises an error", "Nothing", "Empties it", "Makes reports/reports"]}, {"type": "mc", "q": "Why does <code>respond</code> return text instead of printing it?", "answer": 1, "explain": "Return, don&rsquo;t print.", "options": ["print is slow", "The caller decides what to do with it, and it&rsquo;s easy to check", "Functions can&rsquo;t print", "To save memory"]}]</script></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Run your finished program, try every command, and try a few things a careless user might type. Fix anything that crashes. Tomorrow is the Phase 1 exam: get a good night&rsquo;s sleep, and have a glance at your revision list in the morning.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w012d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w012d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w012d4", "week": 12, "day": 4, "title": "Project: finish and test", "exercises": [{"id": "w012d4-step6", "title": "Step 6: class report", "points": 20}, {"id": "w012d4-step7", "title": "Step 7: report cards", "points": 20}, {"id": "w012d4-step8", "title": "Step 8: top scorers", "points": 15}, {"id": "w012d4-step9", "title": "Step 9: checks that catch mistakes", "points": 25}, {"id": "w012d4-step10", "title": "Step 10: the gradebook program", "points": 30}], "points": 110}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

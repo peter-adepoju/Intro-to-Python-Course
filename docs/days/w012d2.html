@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="c22a21f052">
+<title>Week 12 Day 2: Review: Weeks 5 to 11 | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=c22a21f052">
+<link rel="stylesheet" href="../assets/css/site.css?v=c22a21f052">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=c22a21f052"></script>
+<script src="../assets/vendor/codemirror.js?v=c22a21f052" defer></script>
+<meta name="description" content="Yesterday covered the first month. Today covers the rest of Phase 1: string methods, functions, lists, tuples, dictionaries, sets, files and exceptions....">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w012d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 12 Day 2: Review: Weeks 5 to 11">
+<meta property="og:description" content="Yesterday covered the first month. Today covers the rest of Phase 1: string methods, functions, lists, tuples, dictionaries, sets, files and exceptions....">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w012d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-12">Week 12: Consolidation and Phase 1 exam</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#strings" data-sec="strings">Strings</a></li><li><a href="#functions" data-sec="functions">Functions</a></li><li><a href="#lists-tuples-and-comprehensions" data-sec="lists-tuples-and-comprehensions">Lists, tuples and comprehensions</a></li><li><a href="#dictionaries-and-sets" data-sec="dictionaries-and-sets">Dictionaries and sets</a></li><li><a href="#files-and-errors" data-sec="files-and-errors">Files and errors</a></li><li><a href="#the-classic-mistakes-part-two" data-sec="the-classic-mistakes-part-two">The classic mistakes, part two</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 12, Day 2</span></p>
+      <h1>Review: Weeks 5 to 11</h1>
+      <div class="day-intro"><p>Yesterday covered the first month. Today covers the rest of Phase 1: string methods, functions, lists, tuples, dictionaries, sets, files and exceptions. These are the tools almost every Python program is built from. As yesterday, you&rsquo;ll predict before you run, recall before you look, and solve problems that mix everything together.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Recall the core ideas of Weeks 5 to 11 without looking them up</li><li>Predict programs that use functions, mutation, aliasing, comprehensions, dictionaries and exceptions</li><li>Choose the right collection and the right pattern for a problem</li><li>Combine functions, collections, files and error handling in one program</li><li>Update your revision list for the exam</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:15" title="Strings: 15 min"></span><span class="plan-seg s0" style="flex:20" title="Functions: 20 min"></span><span class="plan-seg s1" style="flex:25" title="Lists, tuples and comprehensions: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Dictionaries and sets: 20 min"></span><span class="plan-seg s1" style="flex:15" title="Files and errors: 15 min"></span><span class="plan-seg s0" style="flex:60" title="Practice: 60 min"></span><span class="plan-seg s1" style="flex:15" title="Quiz and daily challenge: 15 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Strings</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:25</span><span class="plan-what">Functions</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Lists, tuples and comprehensions</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Dictionaries and sets</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Files and errors</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Practice</span><span class="plan-min">60 min</span></li><li><span class="plan-at">2:45</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">15 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w012d2.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p1"><textarea class="pc-src pc-code" hidden>def f(items):
+    items.append(1)
+    items = [9]
+    return items
+
+a = [0]
+b = f(a)
+print(a, b)</textarea></div>
+<p>If you got that right first time, you understand the most important idea of Weeks 8 to 10: a function receives the <strong>same</strong> list, so changing it in place is visible outside, but rebinding the parameter to a new list isn&rsquo;t. If not, keep this one on your list.</p>
+<h2 id="strings">Strings</h2>
+<p>Strings are immutable, so every method returns a <strong>new</strong> string. <code>split</code> and <code>join</code> move between text and lists. f-strings format values.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p2"><textarea class="pc-src pc-code" hidden>s = &quot;  Hello, World  &quot;
+t = s.strip().lower().replace(&quot;world&quot;, &quot;there&quot;)
+print(repr(s), repr(t))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p3"><textarea class="pc-src pc-code" hidden>print(&quot;a-b-c&quot;.split(&quot;-&quot;), &quot;-&quot;.join([&quot;x&quot;, &quot;y&quot;]), &quot;a b  c&quot;.split())</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p4"><textarea class="pc-src pc-code" hidden>word = &quot;level&quot;
+print(word == word[::-1], word.count(&quot;l&quot;), word.find(&quot;z&quot;), &quot;ve&quot; in word)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>s.upper()</code> doesn&rsquo;t change <code>s</code>; you must keep the result. <code>split()</code> with no argument splits on any run of whitespace and ignores the ends; <code>split(" ")</code> splits on every single space.</p></aside>
+<h2 id="functions">Functions</h2>
+<p>A function packages steps behind a name. Parameters receive arguments; <code>return</code> sends a value back (and a function without it returns <code>None</code>); names assigned inside are <strong>local</strong>.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p5"><textarea class="pc-src pc-code" hidden>def greet(name, greeting=&quot;Hello&quot;, *, punct=&quot;!&quot;):
+    return f&quot;{greeting}, {name}{punct}&quot;
+
+print(greet(&quot;Ada&quot;), greet(&quot;Bo&quot;, &quot;Hi&quot;), greet(&quot;Cy&quot;, punct=&quot;?&quot;))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p6"><textarea class="pc-src pc-code" hidden>def total(*nums, **opts):
+    t = sum(nums)
+    return round(t, opts.get(&quot;places&quot;, 0))
+
+print(total(1.25, 2.5), total(1.25, 2.5, places=1))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p7"><textarea class="pc-src pc-code" hidden>count = 0
+def bump():
+    count = 1
+    return count
+
+print(bump(), count)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p8"><textarea class="pc-src pc-code" hidden>def apply(f, values):
+    return [f(v) for v in values]
+
+print(apply(len, [&quot;a&quot;, &quot;bcd&quot;]), apply(lambda x: x * 2, [1, 2]))</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Return values, don&rsquo;t print them, so the caller can use the result. Default values are worked out <strong>once</strong>, when the function is defined: never use a mutable default like <code>[]</code>; use <code>None</code> and create the list inside.</p></aside>
+<h2 id="lists-tuples-and-comprehensions">Lists, tuples and comprehensions</h2>
+<p>Lists are mutable sequences; methods like <code>append</code>, <code>sort</code> and <code>reverse</code> change the list and return <code>None</code>. Assignment makes <strong>aliases</strong>, not copies. Tuples are immutable, and unpacking pulls values out. Comprehensions build lists in one line.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p9"><textarea class="pc-src pc-code" hidden>x = [3, 1, 2]
+y = x
+z = sorted(x)
+x.sort()
+print(x, y, z, y is x, z is x)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p10"><textarea class="pc-src pc-code" hidden>grid = [[0] * 2] * 2
+grid[0][0] = 1
+print(grid)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p11"><textarea class="pc-src pc-code" hidden>first, *rest = &quot;abcd&quot;
+pairs = list(zip(&quot;ab&quot;, [1, 2, 3]))
+print(first, rest, pairs)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p12"><textarea class="pc-src pc-code" hidden>nums = [4, -1, 7, 0, -3]
+print([n * 2 for n in nums if n &gt; 0], [n if n &gt; 0 else 0 for n in nums])</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p13"><textarea class="pc-src pc-code" hidden>words = [&quot;pear&quot;, &quot;Fig&quot;, &quot;apple&quot;]
+print(sorted(words), sorted(words, key=str.lower), sorted(words, key=len, reverse=True))</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>items.sort()</code> returns <code>None</code>; <code>sorted(items)</code> returns a new list. <code>[[0] * 2] * 2</code> repeats <strong>one</strong> inner list; use <code>[[0] * 2 for _ in range(2)]</code>. A filter <code>if</code> goes at the <strong>end</strong> of a comprehension; a choice <code>a if c else b</code> goes at the <strong>start</strong>.</p></aside>
+<h2 id="dictionaries-and-sets">Dictionaries and sets</h2>
+<p>Dictionaries map keys to values, with fast lookup; keys must be hashable. Sets hold unique items, with fast membership and set operations.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p14"><textarea class="pc-src pc-code" hidden>d = {&quot;a&quot;: 1}
+d[&quot;b&quot;] = d.get(&quot;b&quot;, 0) + 2
+d[&quot;a&quot;] += 10
+print(d, &quot;a&quot; in d, 11 in d)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p15"><textarea class="pc-src pc-code" hidden>from collections import Counter
+c = Counter(&quot;hello world&quot;)
+print(c[&quot;l&quot;], c.most_common(1), c[&quot;z&quot;])</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p16"><textarea class="pc-src pc-code" hidden>groups = {}
+for w in [&quot;ant&quot;, &quot;bee&quot;, &quot;ape&quot;, &quot;cat&quot;, &quot;bat&quot;]:
+    groups.setdefault(w[0], []).append(w)
+print(groups)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p17"><textarea class="pc-src pc-code" hidden>a = {1, 2, 3, 4}
+b = {3, 4, 5}
+print(sorted(a &amp; b), sorted(a | b), sorted(a - b), sorted(a ^ b))</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>The four patterns: <strong>counting</strong> (<code>d[k] = d.get(k, 0) + 1</code>), <strong>grouping</strong> (<code>d.setdefault(k, []).append(x)</code>), <strong>totals</strong>, and <strong>index</strong> (key to record). A set answers &ldquo;is it in here?&rdquo; in one step; a list has to search.</p></aside>
+<h2 id="files-and-errors">Files and errors</h2>
+<p>Open files with <code>with</code>; read with <code>read</code>, <code>readline</code>, <code>readlines</code> or a <code>for</code> loop; write with mode <code>"w"</code> (replaces) or <code>"a"</code> (adds). Catch specific exceptions; raise your own with clear messages.</p>
+<div class="filebox"><div class="filebox-head">The file used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>data.txt</code></summary><pre class="pc-filetext">Ada 93
+Bo x
+Cy 78
+</pre></details><script type="application/json" class="page-files">{"data.txt": "Ada 93\nBo x\nCy 78\n"}</script></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p18"><textarea class="pc-src pc-code" hidden>total = 0
+bad = []
+with open(&quot;data.txt&quot;) as f:
+    for line in f:
+        name, mark = line.split()
+        try:
+            total += int(mark)
+        except ValueError:
+            bad.append(name)
+print(total, bad)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d2-p19"><textarea class="pc-src pc-code" hidden>def check(n):
+    if n &lt; 0:
+        raise ValueError(&quot;negative&quot;)
+    return n
+
+results = []
+for n in [2, -1, 3]:
+    try:
+        results.append(check(n))
+    except ValueError as e:
+        results.append(str(e))
+print(results)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Keep <code>try</code> blocks small, catch the exception you expect, and never hide errors with <code>except Exception</code>. A function that can&rsquo;t do its job should <code>raise</code>, not return a special value.</p></aside>
+<h2 id="the-classic-mistakes-part-two">The classic mistakes, part two</h2>
+<table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>What happens</th>
+<th>The fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>items = items.sort()</code></td>
+<td><code>items</code> becomes <code>None</code></td>
+<td><code>items.sort()</code> alone, or <code>items = sorted(items)</code></td>
+</tr>
+<tr>
+<td><code>def f(x, seen=[]):</code></td>
+<td>the list is shared between calls</td>
+<td><code>seen=None</code>, then <code>if seen is None: seen = []</code></td>
+</tr>
+<tr>
+<td><code>copy = original</code></td>
+<td>an alias, not a copy</td>
+<td><code>original.copy()</code>, or <code>copy.deepcopy</code> for nested data</td>
+</tr>
+<tr>
+<td>removing from a list while looping over it</td>
+<td>items are skipped</td>
+<td>loop over a copy, or build a new list</td>
+</tr>
+<tr>
+<td><code>counts[word] += 1</code> on a new word</td>
+<td><code>KeyError</code></td>
+<td><code>counts.get(word, 0) + 1</code>, or <code>Counter</code></td>
+</tr>
+<tr>
+<td><code>{}</code> for an empty set</td>
+<td>it&rsquo;s a dictionary</td>
+<td><code>set()</code></td>
+</tr>
+<tr>
+<td>opening a file with <code>"w"</code> to update it</td>
+<td>it&rsquo;s emptied before you read it</td>
+<td>read everything first, then write</td>
+</tr>
+<tr>
+<td><code>except:</code> around everything</td>
+<td>real bugs are hidden</td>
+<td>catch the specific exception</td>
+</tr>
+</tbody>
+</table>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-initials" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Initials</div><div class="pc-prompt"><p>Write <code>initials(name)</code> that returns the initials of a full name in capitals with dots, ignoring extra spaces: <code>"  ada  lovelace "</code> gives <code>"A.L."</code>. Hyphenated parts count separately: <code>"Jean-Luc Picard"</code> gives <code>"J.L.P."</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert initials(&quot;  ada  lovelace &quot;) == &quot;A.L.&quot;
+    assert initials(&quot;Jean-Luc Picard&quot;) == &quot;J.L.P.&quot;
+    assert initials(&quot;Plato&quot;) == &quot;P.&quot;
+    assert initials(&quot;&quot;) == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def initials(name):
+    parts = name.replace(&quot;-&quot;, &quot; &quot;).split()
+    return &quot;&quot;.join(p[0].upper() + &quot;.&quot; for p in parts)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-stats" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Several results</div><div class="pc-prompt"><p>Write <code>stats(values)</code> that returns a tuple <code>(smallest, largest, mean, median)</code>, the mean rounded to 2 places. The median is the middle value of the sorted list, or the mean of the two middle values. Don&rsquo;t change the list you&rsquo;re given. Raise a <code>ValueError</code> for an empty list.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several lists&quot;
+    v = [7, 1, 4, 10]
+    assert stats(v) == (1, 10, 5.5, 5.5)
+    assert v == [7, 1, 4, 10], &quot;stats changed the list&quot;
+    assert stats([3, 9, 1]) == (1, 9, 4.33, 3)
+    try:
+        stats([])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError(&quot;an empty list should raise a ValueError&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def stats(values):
+    if not values:
+        raise ValueError(&quot;no values&quot;)
+    s = sorted(values)
+    n = len(s)
+    mid = n // 2
+    median = s[mid] if n % 2 else (s[mid - 1] + s[mid]) / 2
+    return s[0], s[-1], round(sum(s) / n, 2), median</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-dedupe" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Unique, in order</div><div class="pc-prompt"><p>Write <code>unique(items)</code> that returns a new list of the items with repeats removed, keeping the first appearance of each, using a set for the check.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert unique([3, 1, 3, 2, 1]) == [3, 1, 2]
+    assert unique(&quot;banana&quot;) == [&quot;b&quot;, &quot;a&quot;, &quot;n&quot;]
+    assert unique([]) == []
+    assert &quot;set(&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def unique(items):
+    seen = set()
+    result = []
+    for x in items:
+        if x not in seen:
+            seen.add(x)
+            result.append(x)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-transpose" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Rows to columns</div><div class="pc-prompt"><p>Write <code>columns(rows)</code> that takes a list of equal-length rows and returns a dictionary from each value in the first row (the header) to the list of values below it in that column.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;a table&quot;
+    rows = [[&quot;name&quot;, &quot;mark&quot;], [&quot;Ada&quot;, 93], [&quot;Bo&quot;, 41]]
+    assert columns(rows) == {&quot;name&quot;: [&quot;Ada&quot;, &quot;Bo&quot;], &quot;mark&quot;: [93, 41]}
+    assert columns([[&quot;a&quot;, &quot;b&quot;]]) == {&quot;a&quot;: [], &quot;b&quot;: []}</textarea><textarea class="pc-src pc-solution" hidden>def columns(rows):
+    header, *data = rows
+    return {h: [row[i] for row in data] for i, h in enumerate(header)}</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-vowel_rank" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Most vowels</div><div class="pc-prompt"><p>Write <code>by_vowels(words)</code> that returns the words sorted by how many vowels they have, most first, then alphabetically.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert by_vowels([&quot;sky&quot;, &quot;audio&quot;, &quot;tree&quot;, &quot;bee&quot;, &quot;queue&quot;]) == [&quot;audio&quot;, &quot;queue&quot;, &quot;bee&quot;, &quot;tree&quot;, &quot;sky&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def vowels(word):
+    return sum(1 for ch in word.lower() if ch in &quot;aeiou&quot;)
+
+def by_vowels(words):
+    return sorted(words, key=lambda w: (-vowels(w), w))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-inventory" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Stock from a file</div><div class="pc-prompt"><p><code>stock.txt</code> has lines like <code>rice 12</code>, possibly with blank lines and bad lines. Write <code>load_stock(name)</code> that returns a dictionary from item to total quantity (an item can appear on several lines) and a list of the line numbers that couldn&rsquo;t be read, as a tuple. If the file doesn&rsquo;t exist, return <code>({}, [])</code>.</p><details class="pc-file"><summary><code>stock.txt</code></summary><pre class="pc-filetext">rice 12
+beans 5
+
+rice three
+garri 20
+beans 2
+oil
+</pre></details></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;the file&quot;
+    assert load_stock(&quot;stock.txt&quot;) == ({&quot;rice&quot;: 12, &quot;beans&quot;: 7, &quot;garri&quot;: 20}, [4, 7])
+    assert load_stock(&quot;none.txt&quot;) == ({}, [])</textarea><textarea class="pc-src pc-files" hidden>{&quot;stock.txt&quot;: &quot;rice 12\nbeans 5\n\nrice three\ngarri 20\nbeans 2\noil\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>def load_stock(name):
+    stock, bad = {}, []
+    try:
+        with open(name) as f:
+            lines = f.read().splitlines()
+    except FileNotFoundError:
+        return {}, []
+    for n, line in enumerate(lines, start=1):
+        if not line.strip():
+            continue
+        parts = line.split()
+        try:
+            item, qty = parts
+            qty = int(qty)
+        except ValueError:
+            bad.append(n)
+            continue
+        stock[item] = stock.get(item, 0) + qty
+    return stock, bad</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-compose" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Functions as values</div><div class="pc-prompt"><p>Write <code>pipeline(*funcs)</code> that returns a new function which passes its argument through each of <code>funcs</code> in order. <code>pipeline(str.strip, str.lower, len)("  Hi ")</code> is <code>2</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pipelines&quot;
+    assert pipeline(str.strip, str.lower, len)(&quot;  Hi &quot;) == 2
+    assert pipeline()(5) == 5
+    double = lambda x: x * 2
+    assert pipeline(double, double, str)(3) == &quot;12&quot;</textarea><textarea class="pc-src pc-solution" hidden>def pipeline(*funcs):
+    def run(value):
+        for f in funcs:
+            value = f(value)
+        return value
+    return run</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w012d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The list that remembers</div><div class="pc-prompt"><p><code>add_tag</code> should return a new list holding just the new tag when no list is given. But each call without a list remembers the tags from earlier calls. Fix it.</p></div><textarea class="pc-src pc-code" hidden>def add_tag(tag, tags=[]):
+    tags.append(tag)
+    return tags</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;fresh lists&quot;
+    assert add_tag(&quot;a&quot;) == [&quot;a&quot;]
+    assert add_tag(&quot;b&quot;) == [&quot;b&quot;]
+    mine = [&quot;x&quot;]
+    assert add_tag(&quot;y&quot;, mine) == [&quot;x&quot;, &quot;y&quot;] and mine == [&quot;x&quot;, &quot;y&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def add_tag(tag, tags=None):
+    if tags is None:
+        tags = []
+    tags.append(tag)
+    return tags</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w012d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Skipped while removing</div><div class="pc-prompt"><p>This should remove every negative number, leaving <code>[3, 5]</code>, but it leaves <code>[3, -2, 5]</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>nums = [3, -1, -2, 5]
+for n in nums:
+    if n &lt; 0:
+        nums.remove(n)
+print(nums)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;positives&quot;
+    expect_output(&quot;[3, 5]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>nums = [3, -1, -2, 5]
+nums = [n for n in nums if n &gt;= 0]
+print(nums)</textarea><template class="pc-src pc-hint">Removing an item shifts the rest left, so the loop skips the next one. Build a new list instead.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w012d2-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sorted into nothing</div><div class="pc-prompt"><p>This should print the names in order, but it crashes with <code>TypeError: 'NoneType' object is not iterable</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>names = [&quot;Cy&quot;, &quot;Ada&quot;, &quot;Bo&quot;]
+names = names.sort()
+for name in names:
+    print(name)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;in order&quot;
+    expect_output(&quot;Ada\nBo\nCy&quot;)</textarea><textarea class="pc-src pc-solution" hidden>names = [&quot;Cy&quot;, &quot;Ada&quot;, &quot;Bo&quot;]
+names.sort()
+for name in names:
+    print(name)</textarea></div>
+<div class="parsons" data-id="w012d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Word lengths, grouped</div><div class="pc-prompt"><p>Arrange the lines to print the words grouped by length, <code>{3: ['the', 'cat', 'sat'], 2: ['on']}</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["from collections import defaultdict", "groups = defaultdict(list)", "for w in \"the cat sat on\".split():", "    groups[len(w)].append(w)", "print(dict(groups))"], "distractors": ["    groups[len(w)] = w"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # [x * y for x, y in zip([1, 2, 3], [4, 5])]
+b = ___   # {k: v for k, v in [(&quot;a&quot;, 1), (&quot;b&quot;, 2), (&quot;a&quot;, 3)]}
+c = ___   # sorted({&quot;b&quot;: 2, &quot;a&quot;: 3}.items(), key=lambda kv: kv[1])
+d = ___   # (lambda *xs: len(xs))(1, [2, 3], &quot;45&quot;)
+e = ___   # len({frozenset(&quot;ab&quot;), frozenset(&quot;ba&quot;), frozenset(&quot;abc&quot;)})</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == [4, 10]
+    assert b == {&quot;a&quot;: 3, &quot;b&quot;: 2}
+    assert c == [(&quot;b&quot;, 2), (&quot;a&quot;, 3)]
+    assert d == 3
+    assert e == 2</textarea><textarea class="pc-src pc-solution" hidden>a = [4, 10]
+b = {&quot;a&quot;: 3, &quot;b&quot;: 2}
+c = [(&quot;b&quot;, 2), (&quot;a&quot;, 3)]
+d = 3
+e = 2</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w012d2-quiz"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "text", "q": "What does <code>'Hi there'.split()</code> give?", "answer": ["['Hi', 'there']"], "explain": "A list of the words."}, {"type": "mc", "q": "What does a function with no <code>return</code> statement return?", "answer": 1, "explain": "None.", "options": ["0", "None", "An empty string", "Nothing at all"]}, {"type": "output", "q": "What does this print?", "answer": "[0]", "explain": "<code>x + [1]</code> makes a new list; <code>a</code> is untouched.", "code": "def f(x):\n    x = x + [1]\na = [0]\nf(a)\nprint(a)"}, {"type": "mc", "q": "Why is <code>def f(items=[]):</code> a trap?", "answer": 1, "explain": "Defaults are made once.", "options": ["It&rsquo;s a SyntaxError", "The same list is shared by every call", "Defaults can&rsquo;t be lists", "It&rsquo;s slow"]}, {"type": "text", "q": "What is <code>[n for n in range(6) if n % 2]</code>?", "answer": ["[1, 3, 5]"], "explain": "Odd numbers are truthy remainders."}, {"type": "mc", "q": "How do you make a 3 by 3 grid of zeros with separate rows?", "answer": 1, "explain": "A new row each time.", "options": ["<code>[[0] * 3] * 3</code>", "<code>[[0] * 3 for _ in range(3)]</code>", "<code>[0] * 9</code>", "<code>[[0, 0, 0]] * 3</code>"]}, {"type": "mc", "q": "What does <code>a, b = b, a</code> do?", "answer": 1, "explain": "Tuple packing and unpacking.", "options": ["Error", "Swaps them", "Makes both equal to b", "Nothing"]}, {"type": "mc", "q": "What does <code>d.get(\"x\", 0)</code> return when &ldquo;x&rdquo; isn&rsquo;t a key?", "answer": 1, "explain": "The default.", "options": ["None", "0", "KeyError", "&lsquo;x&rsquo;"]}, {"type": "mc", "q": "Which collection fits &ldquo;unique tags, checked often&rdquo;?", "answer": 2, "explain": "Fast membership, no duplicates.", "options": ["list", "tuple", "set", "string"]}, {"type": "output", "q": "What does this print?", "answer": "{'a': 2, 'b': 1, 'c': 1}", "explain": "Counting.", "code": "d = {}\nfor c in \"abca\":\n    d[c] = d.get(c, 0) + 1\nprint(d)"}, {"type": "mc", "q": "What happens to a file opened with <code>\"w\"</code>?", "answer": 1, "explain": "Replaced from the start.", "options": ["It&rsquo;s appended to", "It&rsquo;s emptied straight away", "It&rsquo;s read", "Nothing until you write"]}, {"type": "mc", "q": "Which is the safest way to read a whole file?", "answer": 1, "explain": "with closes it.", "options": ["<code>text = open(n).read()</code>", "<code>with open(n) as f: text = f.read()</code>", "<code>text = read(n)</code>", "<code>f = open(n); text = f.read()</code>"]}, {"type": "output", "q": "What does this print?", "answer": "bad", "explain": "else runs only on success.", "code": "try:\n    int(\"x\")\nexcept ValueError as e:\n    print(\"bad\")\nelse:\n    print(\"good\")"}, {"type": "mc", "q": "When should a function raise an exception?", "answer": 1, "explain": "Let the caller decide what to do.", "options": ["Never", "When it can&rsquo;t do its job with the input it was given", "Whenever it prints", "At the end"]}, {"type": "mc", "q": "What is <code>sorted('bca')</code>?", "answer": 1, "explain": "sorted always returns a list.", "options": ["&lsquo;abc&rsquo;", "[&lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;]", "(&lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;)", "An error"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a tiny search engine</div><div class="pc-prompt"><p>Build a small search index over some documents. Write:</p>
+<ul>
+<li><code>tokens(text)</code>: the words of <code>text</code> in lower case, where a word is a run of letters or digits (everything else separates words).</li>
+<li><code>build_index(docs)</code>: takes a dictionary from document name to text, and returns a dictionary from each word to the <strong>set</strong> of document names containing it.</li>
+<li><code>search(index, query)</code>: returns the sorted list of documents containing <strong>every</strong> word of the query. An empty query gives <code>[]</code>.</li>
+<li><code>rank(docs, query)</code>: returns the matching documents (as <code>search</code> finds them) sorted by how many times the query words appear in them in total, most first, then by name.</li>
+</ul></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>DOCS = {
+    &quot;a.txt&quot;: &quot;Python is fun. Python is popular!&quot;,
+    &quot;b.txt&quot;: &quot;Snakes: the python is a large snake.&quot;,
+    &quot;c.txt&quot;: &quot;Fun with numbers, and more fun.&quot;,
+}
+def test_tokens():
+    &quot;tokens&quot;
+    assert tokens(&quot;Snakes: the python, 2 large!&quot;) == [&quot;snakes&quot;, &quot;the&quot;, &quot;python&quot;, &quot;2&quot;, &quot;large&quot;]
+    assert tokens(&quot;&quot;) == []
+def test_index():
+    &quot;build_index&quot;
+    idx = build_index(DOCS)
+    assert idx[&quot;python&quot;] == {&quot;a.txt&quot;, &quot;b.txt&quot;}
+    assert idx[&quot;fun&quot;] == {&quot;a.txt&quot;, &quot;c.txt&quot;}
+    assert idx[&quot;snake&quot;] == {&quot;b.txt&quot;}
+def test_search():
+    &quot;search&quot;
+    idx = build_index(DOCS)
+    assert search(idx, &quot;Python IS&quot;) == [&quot;a.txt&quot;, &quot;b.txt&quot;]
+    assert search(idx, &quot;fun python&quot;) == [&quot;a.txt&quot;]
+    assert search(idx, &quot;missing&quot;) == []
+    assert search(idx, &quot;&quot;) == []
+def test_rank():
+    &quot;rank&quot;
+    assert rank(DOCS, &quot;python&quot;) == [&quot;a.txt&quot;, &quot;b.txt&quot;]
+    assert rank(DOCS, &quot;fun&quot;) == [&quot;c.txt&quot;, &quot;a.txt&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def tokens(text):
+    cleaned = &quot;&quot;.join(ch.lower() if ch.isalnum() else &quot; &quot; for ch in text)
+    return cleaned.split()
+
+def build_index(docs):
+    index = {}
+    for name, text in docs.items():
+        for word in tokens(text):
+            index.setdefault(word, set()).add(name)
+    return index
+
+def search(index, query):
+    words = tokens(query)
+    if not words:
+        return []
+    found = set(index.get(words[0], set()))
+    for w in words[1:]:
+        found &amp;= index.get(w, set())
+    return sorted(found)
+
+def rank(docs, query):
+    words = tokens(query)
+    matches = search(build_index(docs), query)
+    def score(name):
+        doc_words = tokens(docs[name])
+        return sum(doc_words.count(w) for w in words)
+    return sorted(matches, key=lambda name: (-score(name), name))</textarea><template class="pc-src pc-hint">For <code>tokens</code>, build words character by character: add a letter or digit (<code>ch.isalnum()</code>) to the current word; anything else ends it. Or replace every non-alphanumeric character with a space and split.</template><template class="pc-src pc-hint">For <code>search</code>, start with the set for the first word (or an empty set if it&rsquo;s not in the index) and intersect it with the set for each other word.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Add today&rsquo;s surprises to your list. Then rate yourself from 1 to 5 on each week from 1 to 11, and spend 20 minutes on the lowest. The next two days are a project: a complete gradebook program, built step by step, using nearly everything from Phase 1.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w012d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w012d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w012d2", "week": 12, "day": 2, "title": "Review: Weeks 5 to 11", "exercises": [{"id": "w012d2-initials", "title": "Initials", "points": 10}, {"id": "w012d2-stats", "title": "Several results", "points": 10}, {"id": "w012d2-dedupe", "title": "Unique, in order", "points": 10}, {"id": "w012d2-transpose", "title": "Rows to columns", "points": 10}, {"id": "w012d2-vowel_rank", "title": "Most vowels", "points": 10}, {"id": "w012d2-inventory", "title": "Stock from a file", "points": 15}, {"id": "w012d2-compose", "title": "Functions as values", "points": 10}, {"id": "w012d2-bug1", "title": "The list that remembers", "points": 10}, {"id": "w012d2-bug2", "title": "Skipped while removing", "points": 10}, {"id": "w012d2-bug3", "title": "Sorted into nothing", "points": 10}, {"id": "w012d2-trace", "title": "Predict them", "points": 15}, {"id": "w012d2-challenge", "title": "Challenge: a tiny search engine", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

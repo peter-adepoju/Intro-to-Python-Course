@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="c22a21f052">
+<title>Week 12 Day 3: Project: a gradebook | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=c22a21f052">
+<link rel="stylesheet" href="../assets/css/site.css?v=c22a21f052">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=c22a21f052"></script>
+<script src="../assets/vendor/codemirror.js?v=c22a21f052" defer></script>
+<meta name="description" content="For the next two days you’ll build one complete program: a gradebook that reads a class’s students and marks from CSV files, checks every mark, works out...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w012d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 12 Day 3: Project: a gradebook">
+<meta property="og:description" content="For the next two days you’ll build one complete program: a gradebook that reads a class’s students and marks from CSV files, checks every mark, works out...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w012d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-12">Week 12: Consolidation and Phase 1 exam</a>
+      <ol class="rail-toc"><li><a href="#the-brief" data-sec="the-brief">The brief</a></li><li><a href="#a-plan" data-sec="a-plan">A plan</a></li><li><a href="#step-1-students" data-sec="step-1-students">Step 1: students</a></li><li><a href="#step-2-checking-a-score" data-sec="step-2-checking-a-score">Step 2: checking a score</a></li><li><a href="#step-3-scores-and-problems" data-sec="step-3-scores-and-problems">Step 3: scores and problems</a></li><li><a href="#step-4-averages-and-grades" data-sec="step-4-averages-and-grades">Step 4: averages and grades</a></li><li><a href="#step-5-the-summary" data-sec="step-5-the-summary">Step 5: the summary</a></li><li><a href="#checkpoint" data-sec="checkpoint">Checkpoint</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 12, Day 3</span></p>
+      <h1>Project: a gradebook</h1>
+      <div class="day-intro"><p>For the next two days you&rsquo;ll build one complete program: a gradebook that reads a class&rsquo;s students and marks from CSV files, checks every mark, works out averages and grades, writes report cards and class reports, and is tested. It&rsquo;s the size of program you&rsquo;ll write in real work, and it uses nearly everything from Phase 1. Today: the plan, loading and checking the data, and the calculations.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Turn a written brief into a plan of functions before writing any code</li><li>Load CSV data into the collections that suit it</li><li>Validate every value, collecting problems instead of crashing</li><li>Build each function separately and check it before moving on</li><li>Combine the functions into a working first version</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:20" title="The brief: 20 min"></span><span class="plan-seg s1" style="flex:20" title="A plan: 20 min"></span><span class="plan-seg s0" style="flex:25" title="Step 1: students: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Step 2: checking a score: 25 min"></span><span class="plan-seg s0" style="flex:40" title="Step 3: scores and problems: 40 min"></span><span class="plan-seg s1" style="flex:20" title="Step 4: averages and grades: 20 min"></span><span class="plan-seg s0" style="flex:20" title="Step 5: the summary: 20 min"></span><span class="plan-seg s1" style="flex:10" title="Checkpoint: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">The brief</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:20</span><span class="plan-what">A plan</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Step 1: students</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Step 2: checking a score</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Step 3: scores and problems</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Step 4: averages and grades</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:30</span><span class="plan-what">Step 5: the summary</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Checkpoint</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w012d3.ipynb" download>download it</a>. Exercises today are worth 90 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="the-brief">The brief</h2>
+<p>A school wants a small program to process each term&rsquo;s marks. Two files come from its records system every term:</p>
+<ul>
+<li><code>students.csv</code>: one row per student, with an <code>id</code>, a <code>name</code> and a <code>class</code>;</li>
+<li><code>scores.csv</code>: one row per mark, with the <code>student</code> id, the <code>subject</code> (<code>maths</code>, <code>english</code> or <code>science</code>) and the <code>score</code>, a whole number from 0 to 100.</li>
+</ul>
+<p>The records system isn&rsquo;t perfect. Marks are sometimes missing, mistyped, out of range, entered twice, entered for students who don&rsquo;t exist, or entered for subjects the school doesn&rsquo;t teach. The program must <strong>never crash</strong> on bad data, and must <strong>never silently drop</strong> a mark: every problem is reported with its line number, and everything else is used.</p>
+<p>For each student, the program works out the average of the marks they have (rounded to 1 place) and a grade from that average, using the boundaries from Week 12, Day 1: A from 70, B from 60, C from 50, D from 45, E from 40, otherwise F. A student with no valid marks has no average and the grade <code>-</code>. Tomorrow you&rsquo;ll add class reports, report cards saved as files, tests, and a menu.</p>
+<div class="filebox"><div class="filebox-head">The files used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>students.csv</code></summary><pre class="pc-filetext">id,name,class
+S01,Ada Obi,3A
+S02,Bo Musa,3A
+S03,Cy Bello,3B
+S04,Di Eze,3B
+S05,Ed Okoro,3A
+S06,Fe Ade,3B
+</pre></details><details class="pc-file"><summary><code>scores.csv</code></summary><pre class="pc-filetext">student,subject,score
+S01,maths,93
+S01,english,71
+S01,science,88
+S02,maths,41
+S02,english,88
+S02,science,57
+S03,maths,78
+S03,english,64
+S03,science,
+S04,maths,55
+S04,english,90
+S04,science,72
+S05,maths,67
+S05,english,abc
+S05,science,49
+S07,maths,80
+S02,maths,45
+S06,maths,101
+S06,english,58
+S06,science,61
+S06,art,70
+</pre></details><script type="application/json" class="page-files">{"students.csv": "id,name,class\nS01,Ada Obi,3A\nS02,Bo Musa,3A\nS03,Cy Bello,3B\nS04,Di Eze,3B\nS05,Ed Okoro,3A\nS06,Fe Ade,3B\n", "scores.csv": "student,subject,score\nS01,maths,93\nS01,english,71\nS01,science,88\nS02,maths,41\nS02,english,88\nS02,science,57\nS03,maths,78\nS03,english,64\nS03,science,\nS04,maths,55\nS04,english,90\nS04,science,72\nS05,maths,67\nS05,english,abc\nS05,science,49\nS07,maths,80\nS02,maths,45\nS06,maths,101\nS06,english,58\nS06,science,61\nS06,art,70\n"}</script></div>
+<p>Open both files and look through <code>scores.csv</code> now. Before reading on, try to spot every problem in it. (There are six.)</p>
+<h2 id="a-plan">A plan</h2>
+<p>Don&rsquo;t start by writing code. Start by deciding <strong>what pieces</strong> the program needs, what each one takes and gives back, and how they fit together. This is <strong>top-down design</strong> from Week 7: the top level reads like the brief, and each function does one job.</p>
+<p>The data first. What shape suits each part?</p>
+<ul>
+<li><strong>Students</strong>: we&rsquo;ll look students up by id all the time, so a dictionary from id to that student&rsquo;s details: <code>{"S01": {"name": "Ada Obi", "class": "3A"}, ...}</code>.</li>
+<li><strong>Scores</strong>: for each student, a mark per subject, so a dictionary of dictionaries: <code>{"S01": {"maths": 93, "english": 71, ...}, ...}</code>.</li>
+<li><strong>Problems</strong>: a list of messages, in file order.</li>
+</ul>
+<p>Then the functions. Here&rsquo;s the plan as a structure chart. The yellow boxes are stubs, the functions you&rsquo;ll write today:</p>
+<figure class="widget" data-widget="callgraph"><script type="application/json">{"code": "def main():\n    \"\"\"Load the data, report problems, and print every student's summary.\"\"\"\n    students = load_students(\"students.csv\")\n    scores, problems = load_scores(\"scores.csv\", students)\n    for p in problems:\n        print(p)\n    for row in summarise(students, scores):\n        print(row)\n\ndef load_students(path):\n    \"\"\"Return a dictionary from student id to {\"name\": ..., \"class\": ...}.\"\"\"\n    pass\n\ndef load_scores(path, students):\n    \"\"\"Return (scores, problems): each student's scores by subject, and what was wrong.\"\"\"\n    for row in []:\n        check_score(row)\n    return {}, []\n\ndef check_score(text):\n    \"\"\"Return the score as an int from 0 to 100, or raise ValueError.\"\"\"\n    pass\n\ndef summarise(students, scores):\n    \"\"\"Return one summary row per student, sorted by class then name.\"\"\"\n    for sid in students:\n        grade(average(scores[sid]))\n    return []\n\ndef average(subject_scores):\n    \"\"\"Return the mean of a student's scores, or None if there are none.\"\"\"\n    pass\n\ndef grade(avg):\n    \"\"\"Return the letter grade for an average.\"\"\"\n    pass\n\nmain()"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The gradebook&rsquo;s plan. Each box is a function; arrows show which function calls which. Yellow boxes are stubs, not written yet.</figcaption></figure>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Plan the data and the functions before the code. Write each function on its own, check it on small examples, and only then join them up. When something goes wrong, you&rsquo;ll know which piece to look at.</p></aside>
+<p>Each step below is one function. Each step&rsquo;s starting code includes <strong>model versions</strong> of the functions from earlier steps, so you can do the steps in any order, and a mistake in one step doesn&rsquo;t block the next.</p>
+<h2 id="step-1-students">Step 1: students</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d3-step1" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Step 1: load the students</div><div class="pc-prompt"><p>Write <code>load_students(path)</code> that reads a students file with <code>csv.DictReader</code> and returns a dictionary from each <code>id</code> to a dictionary with the student&rsquo;s <code>name</code> and <code>class</code>. Strip spaces from every value.</p></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]</textarea><textarea class="pc-src pc-tests" hidden>def test_file():
+    &quot;students.csv&quot;
+    s = load_students(&quot;students.csv&quot;)
+    assert s[&quot;S01&quot;] == {&quot;name&quot;: &quot;Ada Obi&quot;, &quot;class&quot;: &quot;3A&quot;}
+    assert list(s) == [&quot;S01&quot;, &quot;S02&quot;, &quot;S03&quot;, &quot;S04&quot;, &quot;S05&quot;, &quot;S06&quot;]
+def test_spaces():
+    &quot;spaces are stripped&quot;
+    write_file(&quot;s2.csv&quot;, &quot;id,name,class\n S9 , Zed Ola ,3C \n&quot;)
+    assert load_students(&quot;s2.csv&quot;) == {&quot;S9&quot;: {&quot;name&quot;: &quot;Zed Ola&quot;, &quot;class&quot;: &quot;3C&quot;}}</textarea><textarea class="pc-src pc-solution" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students</textarea></div>
+<h2 id="step-2-checking-a-score">Step 2: checking a score</h2>
+<p>Checking a single score is a job of its own, so it gets its own function. It follows the advice from Day 5 of last week: return the good value, or <strong>raise</strong> a <code>ValueError</code> saying exactly what&rsquo;s wrong, and let the caller decide what to do about it.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d3-step2" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Step 2: check one score</div><div class="pc-prompt"><p>Write <code>check_score(text)</code> that takes the score field as text and returns it as an int, raising a <code>ValueError</code> with one of these messages otherwise:</p>
+<ul>
+<li><code>missing score</code> if it&rsquo;s empty or only spaces;</li>
+<li><code>not a whole number: '12.5'</code> (the stripped text, with quotes, as <code>{text!r}</code> gives) if it isn&rsquo;t all digits;</li>
+<li><code>out of range: 101</code> if it&rsquo;s over 100.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]</textarea><textarea class="pc-src pc-tests" hidden>def message(text):
+    try:
+        check_score(text)
+    except ValueError as e:
+        return str(e)
+    raise AssertionError(f&quot;check_score({text!r}) should raise a ValueError&quot;)
+def test_good():
+    &quot;good scores&quot;
+    assert check_score(&quot;93&quot;) == 93 and check_score(&quot; 0 &quot;) == 0 and check_score(&quot;100&quot;) == 100
+def test_bad():
+    &quot;bad scores&quot;
+    assert message(&quot;&quot;) == &quot;missing score&quot;
+    assert message(&quot;   &quot;) == &quot;missing score&quot;
+    assert message(&quot;abc&quot;) == &quot;not a whole number: &#x27;abc&#x27;&quot;
+    assert message(&quot; 12.5 &quot;) == &quot;not a whole number: &#x27;12.5&#x27;&quot;
+    assert message(&quot;-4&quot;) == &quot;not a whole number: &#x27;-4&#x27;&quot;
+    assert message(&quot;101&quot;) == &quot;out of range: 101&quot;</textarea><textarea class="pc-src pc-solution" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score</textarea></div>
+<h2 id="step-3-scores-and-problems">Step 3: scores and problems</h2>
+<p>Now the heart of the loading: read every row of <code>scores.csv</code>, check it, and either store the score or record the problem. The order of the checks matters, because each row gets <strong>one</strong> message, for the first problem found.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d3-step3" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Step 3: load the scores</div><div class="pc-prompt"><p>Write <code>load_scores(path, students)</code> that returns a tuple <code>(scores, problems)</code>:</p>
+<ul>
+<li><code>scores</code> is a dictionary from <strong>every</strong> student id in <code>students</code> to a dictionary from subject to score (empty if they have none);</li>
+<li><code>problems</code> is a list of messages like <code>line 10: missing score</code>, where the line number counts the header as line 1.</li>
+</ul>
+<p>For each row, strip the student id, and strip and lower-case the subject, then check in this order:</p>
+<ol>
+<li>the student isn&rsquo;t in <code>students</code>: <code>unknown student 'S07'</code>;</li>
+<li>the subject isn&rsquo;t in <code>SUBJECTS</code>: <code>unknown subject 'art'</code>;</li>
+<li>the student already has a score for that subject: <code>duplicate maths score for S02</code> (the first one is kept);</li>
+<li>the score itself, with <code>check_score</code>.</li>
+</ol></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score</textarea><textarea class="pc-src pc-tests" hidden>def test_scores():
+    &quot;scores&quot;
+    students = load_students(&quot;students.csv&quot;)
+    scores, problems = load_scores(&quot;scores.csv&quot;, students)
+    assert scores[&quot;S01&quot;] == {&quot;maths&quot;: 93, &quot;english&quot;: 71, &quot;science&quot;: 88}
+    assert scores[&quot;S02&quot;][&quot;maths&quot;] == 41, &quot;the first of two duplicate marks should be kept&quot;
+    assert scores[&quot;S06&quot;] == {&quot;english&quot;: 58, &quot;science&quot;: 61}
+    assert list(scores) == [&quot;S01&quot;, &quot;S02&quot;, &quot;S03&quot;, &quot;S04&quot;, &quot;S05&quot;, &quot;S06&quot;], &quot;every student needs an entry, even with no scores&quot;
+def test_problems():
+    &quot;problems&quot;
+    students = load_students(&quot;students.csv&quot;)
+    scores, problems = load_scores(&quot;scores.csv&quot;, students)
+    assert problems == [&quot;line 10: missing score&quot;, &quot;line 15: not a whole number: &#x27;abc&#x27;&quot;, &quot;line 17: unknown student &#x27;S07&#x27;&quot;,
+                        &quot;line 18: duplicate maths score for S02&quot;, &quot;line 19: out of range: 101&quot;, &quot;line 22: unknown subject &#x27;art&#x27;&quot;], &quot;Got:\n&quot; + &quot;\n&quot;.join(problems)
+def test_empty():
+    &quot;a student with no scores&quot;
+    write_file(&quot;sc.csv&quot;, &quot;student,subject,score\n&quot;)
+    scores, problems = load_scores(&quot;sc.csv&quot;, {&quot;S1&quot;: {&quot;name&quot;: &quot;A&quot;, &quot;class&quot;: &quot;1&quot;}})
+    assert scores == {&quot;S1&quot;: {}} and problems == []</textarea><textarea class="pc-src pc-solution" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems</textarea><template class="pc-src pc-hint">Start with <code>scores = {sid: {} for sid in students}</code>. Loop with <code>for line, row in enumerate(reader, start=2):</code>. Put all four checks inside one <code>try</code>, raising a <code>ValueError</code> for each of the first three, so a single <code>except ValueError as e:</code> records whichever one happened.</template></div>
+<aside class="callout c-think"><div class="callout-t">Why raise inside the loop?</div><p>The three checks in <code>load_scores</code> raise their own <code>ValueError</code>s, and <code>check_score</code> raises its own. All four arrive at the same <code>except</code>, which turns them into a problem message. One handler, one format for every message, and adding a fifth check later is one more <code>if</code> and <code>raise</code>.</p></aside>
+<h2 id="step-4-averages-and-grades">Step 4: averages and grades</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d3-step4" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Step 4: average and grade</div><div class="pc-prompt"><p>Write <code>average(subject_scores)</code>, which takes one student&rsquo;s dictionary of scores and returns their mean rounded to 1 place, or <code>None</code> if it&rsquo;s empty; and <code>grade(avg)</code>, which returns the letter for an average using <code>BOUNDARIES</code>, or <code>"-"</code> for <code>None</code>.</p></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]</textarea><textarea class="pc-src pc-tests" hidden>def test_average():
+    &quot;average&quot;
+    assert average({&quot;maths&quot;: 93, &quot;english&quot;: 71, &quot;science&quot;: 88}) == 84.0
+    assert average({&quot;maths&quot;: 55, &quot;english&quot;: 90, &quot;science&quot;: 72}) == 72.3
+    assert average({}) is None
+def test_grade():
+    &quot;grade&quot;
+    assert [grade(a) for a in (84.0, 70, 69.9, 60, 50, 49.9, 45, 40, 39.9, 0)] == [&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;F&quot;]
+    assert grade(None) == &quot;-&quot;</textarea><textarea class="pc-src pc-solution" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;</textarea></div>
+<h2 id="step-5-the-summary">Step 5: the summary</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d3-step5" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Step 5: summarise</div><div class="pc-prompt"><p>Write <code>summarise(students, scores)</code> that returns a list with one dictionary per student, with the keys <code>id</code>, <code>name</code>, <code>class</code>, <code>average</code>, <code>grade</code> and <code>missing</code> (the list of subjects in <code>SUBJECTS</code> order that the student has no score for), sorted by class and then by name.</p></div><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_summary():
+    &quot;the summary&quot;
+    students = load_students(&quot;students.csv&quot;)
+    scores, problems = load_scores(&quot;scores.csv&quot;, students)
+    rows = summarise(students, scores)
+    assert [r[&quot;name&quot;] for r in rows] == [&quot;Ada Obi&quot;, &quot;Bo Musa&quot;, &quot;Ed Okoro&quot;, &quot;Cy Bello&quot;, &quot;Di Eze&quot;, &quot;Fe Ade&quot;]
+    assert rows[2] == {&quot;id&quot;: &quot;S05&quot;, &quot;name&quot;: &quot;Ed Okoro&quot;, &quot;class&quot;: &quot;3A&quot;, &quot;average&quot;: 58.0, &quot;grade&quot;: &quot;C&quot;, &quot;missing&quot;: [&quot;english&quot;]}
+    assert rows[5][&quot;missing&quot;] == [&quot;maths&quot;] and rows[5][&quot;average&quot;] == 59.5
+def test_nobody():
+    &quot;a student with no marks&quot;
+    rows = summarise({&quot;S9&quot;: {&quot;name&quot;: &quot;Zed&quot;, &quot;class&quot;: &quot;1&quot;}}, {&quot;S9&quot;: {}})
+    assert rows == [{&quot;id&quot;: &quot;S9&quot;, &quot;name&quot;: &quot;Zed&quot;, &quot;class&quot;: &quot;1&quot;, &quot;average&quot;: None, &quot;grade&quot;: &quot;-&quot;, &quot;missing&quot;: [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]}]</textarea><textarea class="pc-src pc-solution" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))</textarea></div>
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Put it together. Here is the whole first version, using the model functions. Run it, and compare what it prints with the problems you spotted in <code>scores.csv</code> at the start.</p>
+<div class="pc pc-example" data-kind="example" data-id="w012d3-e1"><textarea class="pc-src pc-code" hidden>import csv
+SUBJECTS = [&quot;maths&quot;, &quot;english&quot;, &quot;science&quot;]
+BOUNDARIES = [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]
+
+def load_students(path):
+    students = {}
+    with open(path, newline=&quot;&quot;) as f:
+        for row in csv.DictReader(f):
+            students[row[&quot;id&quot;].strip()] = {&quot;name&quot;: row[&quot;name&quot;].strip(), &quot;class&quot;: row[&quot;class&quot;].strip()}
+    return students
+
+def check_score(text):
+    text = text.strip()
+    if not text:
+        raise ValueError(&quot;missing score&quot;)
+    if not text.isdigit():
+        raise ValueError(f&quot;not a whole number: {text!r}&quot;)
+    score = int(text)
+    if score &gt; 100:
+        raise ValueError(f&quot;out of range: {score}&quot;)
+    return score
+
+def load_scores(path, students):
+    scores = {sid: {} for sid in students}
+    problems = []
+    with open(path, newline=&quot;&quot;) as f:
+        reader = csv.DictReader(f)
+        for line, row in enumerate(reader, start=2):
+            sid, subject = row[&quot;student&quot;].strip(), row[&quot;subject&quot;].strip().lower()
+            try:
+                if sid not in students:
+                    raise ValueError(f&quot;unknown student {sid!r}&quot;)
+                if subject not in SUBJECTS:
+                    raise ValueError(f&quot;unknown subject {subject!r}&quot;)
+                if subject in scores[sid]:
+                    raise ValueError(f&quot;duplicate {subject} score for {sid}&quot;)
+                scores[sid][subject] = check_score(row[&quot;score&quot;])
+            except ValueError as e:
+                problems.append(f&quot;line {line}: {e}&quot;)
+    return scores, problems
+
+def average(subject_scores):
+    if not subject_scores:
+        return None
+    return round(sum(subject_scores.values()) / len(subject_scores), 1)
+
+def grade(avg):
+    if avg is None:
+        return &quot;-&quot;
+    for lowest, letter in BOUNDARIES:
+        if avg &gt;= lowest:
+            return letter
+    return &quot;F&quot;
+
+def summarise(students, scores):
+    rows = []
+    for sid, info in students.items():
+        avg = average(scores[sid])
+        rows.append({&quot;id&quot;: sid, &quot;name&quot;: info[&quot;name&quot;], &quot;class&quot;: info[&quot;class&quot;], &quot;average&quot;: avg,
+                     &quot;grade&quot;: grade(avg), &quot;missing&quot;: [s for s in SUBJECTS if s not in scores[sid]]})
+    return sorted(rows, key=lambda r: (r[&quot;class&quot;], r[&quot;name&quot;]))
+
+students = load_students(&quot;students.csv&quot;)
+scores, problems = load_scores(&quot;scores.csv&quot;, students)
+print(f&quot;{len(problems)} problem(s):&quot;)
+for p in problems:
+    print(&quot; &quot;, p)
+print()
+for r in summarise(students, scores):
+    avg = &quot;-&quot; if r[&quot;average&quot;] is None else r[&quot;average&quot;]
+    note = f&quot;  (no {&#x27;, &#x27;.join(r[&#x27;missing&#x27;])})&quot; if r[&quot;missing&quot;] else &quot;&quot;
+    print(f&quot;{r[&#x27;class&#x27;]}  {r[&#x27;name&#x27;]:&lt;10}{avg:&gt;6}  {r[&#x27;grade&#x27;]}{note}&quot;)</textarea></div>
+<p>It already does the job the school asked for, and every number in it came from a function you&rsquo;ve checked on its own.</p>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w012d3-quiz"><div class="pc-label"><span>Quiz</span><span>6 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why plan the functions before writing code?", "answer": 1, "explain": "Small, checked pieces are much easier to get right.", "options": ["It&rsquo;s faster to type", "Each piece has one clear job, and can be built and checked on its own", "Python requires it", "To use fewer variables"]}, {"type": "mc", "q": "Why is students stored as a dictionary keyed by id?", "answer": 1, "explain": "Choose the structure for how you&rsquo;ll use it.", "options": ["Dictionaries are sorted", "We look students up by id constantly, and a dictionary does that in one step", "CSV files are dictionaries", "To save memory"]}, {"type": "mc", "q": "Why does <code>check_score</code> raise instead of returning <code>None</code> for a bad score?", "answer": 1, "explain": "load_scores turns each exception into a problem message.", "options": ["None isn&rsquo;t allowed", "The caller decides what to do, and a raise can&rsquo;t be ignored by accident", "It&rsquo;s shorter", "To stop the program"]}, {"type": "mc", "q": "What line number is the first data row of a CSV file with a header?", "answer": 2, "explain": "The header is line 1; hence <code>enumerate(reader, start=2)</code>.", "options": ["0", "1", "2"]}, {"type": "mc", "q": "Why does every student get an entry in <code>scores</code>, even with no marks?", "answer": 1, "explain": "One fact, one place, and no special cases later.", "options": ["It&rsquo;s required by csv", "So later code can use scores[sid] for any student without a KeyError", "To sort them", "No reason"]}, {"type": "mc", "q": "What&rsquo;s the average of a student with no valid marks?", "answer": 1, "explain": "No marks means no average, not an average of 0.", "options": ["0", "None, shown as -", "An error", "50"]}]</script></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Look at your own Step 3. Could someone else read it and see each check clearly? If a function is longer than about 20 lines, see whether part of it could be its own function. Tomorrow: class reports, report cards saved to files, tests, and a menu to drive it all.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w012d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w012d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w012d3", "week": 12, "day": 3, "title": "Project: a gradebook", "exercises": [{"id": "w012d3-step1", "title": "Step 1: load the students", "points": 15}, {"id": "w012d3-step2", "title": "Step 2: check one score", "points": 15}, {"id": "w012d3-step3", "title": "Step 3: load the scores", "points": 25}, {"id": "w012d3-step4", "title": "Step 4: average and grade", "points": 15}, {"id": "w012d3-step5", "title": "Step 5: summarise", "points": 20}], "points": 90}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

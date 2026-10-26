@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="c22a21f052">
+<title>Week 12 Day 1: Review: Weeks 1 to 4 | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=c22a21f052">
+<link rel="stylesheet" href="../assets/css/site.css?v=c22a21f052">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=c22a21f052"></script>
+<script src="../assets/vendor/codemirror.js?v=c22a21f052" defer></script>
+<meta name="description" content="This is the last week of Phase 1, and it starts by going back to the beginning. Today you’ll revisit values, variables, strings, decisions and loops: not by...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w012d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 12 Day 1: Review: Weeks 1 to 4">
+<meta property="og:description" content="This is the last week of Phase 1, and it starts by going back to the beginning. Today you’ll revisit values, variables, strings, decisions and loops: not by...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w012d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-12">Week 12: Consolidation and Phase 1 exam</a>
+      <ol class="rail-toc"><li><a href="#how-to-review" data-sec="how-to-review">How to review</a></li><li><a href="#values-types-and-strings" data-sec="values-types-and-strings">Values, types and strings</a></li><li><a href="#decisions" data-sec="decisions">Decisions</a></li><li><a href="#loops" data-sec="loops">Loops</a></li><li><a href="#the-classic-mistakes" data-sec="the-classic-mistakes">The classic mistakes</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 12, Day 1</span></p>
+      <h1>Review: Weeks 1 to 4</h1>
+      <div class="day-intro"><p>This is the last week of Phase 1, and it starts by going back to the beginning. Today you&rsquo;ll revisit values, variables, strings, decisions and loops: not by rereading, but by predicting, recalling and solving, which is what makes knowledge stick. You&rsquo;ll be surprised how much easier Week 2&rsquo;s problems look now, and you may find one or two gaps worth closing before the exam.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Recall the core ideas of Weeks 1 to 4 without looking them up</li><li>Predict the output of short programs with types, operators, strings, conditions and loops</li><li>Recognise the classic beginner mistakes, and why each one happens</li><li>Solve mixed problems using any of the tools you now know</li><li>Find your own weak spots, and plan how to fix them before the exam</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="How to review: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Values, types and strings: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Decisions: 20 min"></span><span class="plan-seg s1" style="flex:25" title="Loops: 25 min"></span><span class="plan-seg s0" style="flex:15" title="The classic mistakes: 15 min"></span><span class="plan-seg s1" style="flex:70" title="Practice: 70 min"></span><span class="plan-seg s0" style="flex:15" title="Quiz and daily challenge: 15 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">How to review</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Values, types and strings</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Decisions</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">Loops</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">The classic mistakes</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Practice</span><span class="plan-min">70 min</span></li><li><span class="plan-at">2:45</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">15 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w012d1.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="how-to-review">How to review</h2>
+<p>Rereading your notes feels productive, but it mostly creates a feeling of familiarity, not the ability to use what you read. What actually works is <strong>retrieval practice</strong>: trying to recall or use something <strong>before</strong> you look at it. Getting it wrong and then checking is part of how it works.</p>
+<p>So today, for every section:</p>
+<ol>
+<li>Try each prediction <strong>before</strong> running it, and write your guess down.</li>
+<li>If you get one wrong, work out exactly why before moving on.</li>
+<li>Keep a list of anything that surprised you. That list is your revision plan for the exam.</li>
+</ol>
+<h2 id="values-types-and-strings">Values, types and strings</h2>
+<p>Week 1&rsquo;s ideas in brief: every value has a <strong>type</strong> (<code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>); operators behave differently for different types; a variable is a <strong>name</strong> for a value, and assignment moves the name; strings are sequences you can index and slice; <code>input</code> always gives a string.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p1"><textarea class="pc-src pc-code" hidden>print(7 / 2, 7 // 2, 7 % 2, -7 // 2)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p2"><textarea class="pc-src pc-code" hidden>print(2 ** 3 ** 2, (2 ** 3) ** 2)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p3"><textarea class="pc-src pc-code" hidden>print(0.1 + 0.2 == 0.3, round(0.1 + 0.2, 2) == 0.3)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p4"><textarea class="pc-src pc-code" hidden>x = 5
+y = x
+x = x + 1
+print(x, y)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p5"><textarea class="pc-src pc-code" hidden>s = &quot;Python&quot;
+print(s[0], s[-1], s[1:4], s[::-1], s[10:])</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p6"><textarea class="pc-src pc-code" hidden>print(&quot;3&quot; + &quot;4&quot;, 3 + 4, &quot;3&quot; * 4, int(&quot;3&quot;) * 4)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p7"><textarea class="pc-src pc-code" hidden>price = 1234.5
+print(f&quot;{price:,.2f}|{price:&gt;10.1f}|{&#x27;hi&#x27;:^6}|&quot;)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>/</code> always gives a float; <code>//</code> rounds <strong>down</strong> (towards minus infinity, so <code>-7 // 2</code> is <code>-4</code>). Floats are approximate, so compare them with <code>round</code> or a tolerance. Assignment never links two names: <code>y = x</code> copies the <strong>reference</strong>, and rebinding <code>x</code> later doesn&rsquo;t touch <code>y</code>.</p></aside>
+<h2 id="decisions">Decisions</h2>
+<p>Week 2: comparisons give booleans; <code>and</code>, <code>or</code> and <code>not</code> combine them; <code>if</code>, <code>elif</code> and <code>else</code> choose <strong>one</strong> branch, checked from the top.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p8"><textarea class="pc-src pc-code" hidden>age = 17
+print(age &gt;= 18 or age &gt; 16 and False)
+print(not age == 17)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p9"><textarea class="pc-src pc-code" hidden>mark = 75
+if mark &gt;= 50:
+    print(&quot;pass&quot;)
+elif mark &gt;= 70:
+    print(&quot;merit&quot;)
+else:
+    print(&quot;fail&quot;)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p10"><textarea class="pc-src pc-code" hidden>x = 0
+print(x == 0 or 1 / x &gt; 2)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p11"><textarea class="pc-src pc-code" hidden>print(bool(&quot;&quot;), bool(&quot;0&quot;), bool(0), bool([]), bool(&quot; &quot;))</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>and</code> binds tighter than <code>or</code>. In an <code>elif</code> chain only the <strong>first</strong> true branch runs, so put the most specific test first. <code>and</code> and <code>or</code> <strong>short-circuit</strong>: the right side isn&rsquo;t evaluated if the left side already decides the answer, which is why <code>x == 0 or 1 / x &gt; 2</code> doesn&rsquo;t crash. Empty things and zero are false; everything else is true, including <code>"0"</code>.</p></aside>
+<h2 id="loops">Loops</h2>
+<p>Weeks 3 and 4: <code>while</code> repeats while a condition is true; <code>for</code> goes through a sequence; <code>range(start, stop, step)</code> stops <strong>before</strong> <code>stop</code>; <code>break</code> leaves a loop, <code>continue</code> skips to the next round; nested loops run the inner loop completely for each round of the outer one.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p12"><textarea class="pc-src pc-code" hidden>n = 10
+steps = 0
+while n != 1:
+    n = n // 2 if n % 2 == 0 else 3 * n + 1
+    steps += 1
+print(steps)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p13"><textarea class="pc-src pc-code" hidden>print(list(range(5)), list(range(2, 10, 3)), list(range(5, 0, -2)))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p14"><textarea class="pc-src pc-code" hidden>for i in range(1, 4):
+    for j in range(i):
+        print(i, end=&quot;&quot;)
+    print()</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w012d1-p15"><textarea class="pc-src pc-code" hidden>total = 0
+for n in range(10):
+    if n % 3 == 0:
+        continue
+    if n &gt; 7:
+        break
+    total += n
+print(total)</textarea></div>
+<figure class="widget" data-widget="tracetable"><script type="application/json">{"code": "total = 0\nfor n in range(10):\n    if n % 3 == 0:\n        continue\n    if n > 7:\n        break\n    total += n\nprint(total)"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Trace the last prediction one line at a time, if you got it wrong. Watch n, total and the conditions.</figcaption></figure>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Every loop needs a reason to stop. With <code>while</code>, something in the body must change the condition. Off-by-one errors live in <code>range</code>&rsquo;s stop value and in <code>&lt;</code> versus <code>&lt;=</code>: test the smallest cases (0, 1 and 2 items) by hand.</p></aside>
+<h2 id="the-classic-mistakes">The classic mistakes</h2>
+<p>These are the mistakes that every beginner makes, and that still trip up experienced programmers when they&rsquo;re tired. For each, can you say <strong>why</strong> it goes wrong?</p>
+<table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>What happens</th>
+<th>The fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>age = input("Age: ")</code> then <code>age + 1</code></td>
+<td><code>TypeError</code>: input gives a string</td>
+<td><code>int(input(...))</code></td>
+</tr>
+<tr>
+<td><code>if x = 5:</code></td>
+<td><code>SyntaxError</code>: <code>=</code> assigns</td>
+<td><code>==</code> compares</td>
+</tr>
+<tr>
+<td><code>if answer == "yes" or "y":</code></td>
+<td>always true: <code>"y"</code> on its own is truthy</td>
+<td><code>answer in ("yes", "y")</code></td>
+</tr>
+<tr>
+<td><code>while n &gt; 0:</code> with no change to <code>n</code></td>
+<td>runs for ever</td>
+<td>change <code>n</code> in the body</td>
+</tr>
+<tr>
+<td><code>for i in range(1, 10)</code> to mean 1 to 10</td>
+<td>stops at 9</td>
+<td><code>range(1, 11)</code></td>
+</tr>
+<tr>
+<td><code>total = 0</code> inside the loop</td>
+<td>resets every time</td>
+<td>set it once, before the loop</td>
+</tr>
+<tr>
+<td><code>print</code> in a function instead of <code>return</code></td>
+<td>the caller gets <code>None</code></td>
+<td><code>return</code> the value</td>
+</tr>
+<tr>
+<td><code>0.1 * 3 == 0.3</code></td>
+<td><code>False</code>: floats are approximate</td>
+<td><code>round</code> or <code>abs(a - b) &lt; 1e-9</code></td>
+</tr>
+</tbody>
+</table>
+<div class="pc pc-example" data-kind="example" data-id="w012d1-e16"><textarea class="pc-src pc-code" hidden>answer = &quot;no&quot;
+if answer == &quot;yes&quot; or &quot;y&quot;:
+    print(&quot;This always runs!&quot;)
+if answer in (&quot;yes&quot;, &quot;y&quot;):
+    print(&quot;This doesn&#x27;t.&quot;)</textarea></div>
+<h2 id="practice">Practice</h2>
+<p>Use anything you know: functions, lists, dictionaries. The skills from Weeks 1 to 4 are what&rsquo;s being practised, but you don&rsquo;t have to solve these the way you would have in Week 2.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-change" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Change from a note</div><div class="pc-prompt"><p>Write <code>change(paid, cost)</code> that returns the change in the fewest notes and coins, as a dictionary from denomination to how many, using naira denominations 1000, 500, 200, 100, 50, 20, 10, 5 and 1. Leave out denominations not used. Raise a <code>ValueError</code> if <code>paid</code> is less than <code>cost</code>.</p></div><textarea class="pc-src pc-code" hidden>DENOMS = [1000, 500, 200, 100, 50, 20, 10, 5, 1]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert change(5000, 3215) == {1000: 1, 500: 1, 200: 1, 50: 1, 20: 1, 10: 1, 5: 1}
+    assert change(100, 100) == {}
+    assert change(2000, 1) == {1000: 1, 500: 1, 200: 2, 50: 1, 20: 2, 5: 1, 1: 4}
+    try:
+        change(10, 20)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError(&quot;paying too little should raise a ValueError&quot;)</textarea><textarea class="pc-src pc-solution" hidden>DENOMS = [1000, 500, 200, 100, 50, 20, 10, 5, 1]
+
+def change(paid, cost):
+    if paid &lt; cost:
+        raise ValueError(&quot;not enough paid&quot;)
+    left = paid - cost
+    result = {}
+    for d in DENOMS:
+        count, left = divmod(left, d)
+        if count:
+            result[d] = count
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-leap" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Leap years</div><div class="pc-prompt"><p>Write <code>is_leap(year)</code>: divisible by 4, except years divisible by 100, which are leap years only if they&rsquo;re divisible by 400. Then print the leap years from 1896 to 1912 (inclusive) on one line, separated by spaces.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several years&quot;
+    assert [y for y in (1900, 2000, 2024, 2026, 2100, 2400) if is_leap(y)] == [2000, 2024, 2400]
+def test_output():
+    &quot;the line&quot;
+    expect_output(&quot;1896 1904 1908 1912&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def is_leap(year):
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+print(&quot; &quot;.join(str(y) for y in range(1896, 1913) if is_leap(y)))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-grade" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Grade boundaries</div><div class="pc-prompt"><p>Write <code>grade(mark)</code> returning <code>"A"</code> for 70 to 100, <code>"B"</code> for 60 to 69, <code>"C"</code> for 50 to 59, <code>"D"</code> for 45 to 49, <code>"E"</code> for 40 to 44 and <code>"F"</code> below 40. Raise a <code>ValueError</code> for a mark outside 0 to 100.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;boundaries&quot;
+    got = [grade(m) for m in (100, 70, 69, 60, 59, 50, 49, 45, 44, 40, 39, 0)]
+    assert got == [&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;C&quot;, &quot;C&quot;, &quot;D&quot;, &quot;D&quot;, &quot;E&quot;, &quot;E&quot;, &quot;F&quot;, &quot;F&quot;]
+    for bad in (-1, 101):
+        try:
+            grade(bad)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f&quot;grade({bad}) should raise a ValueError&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def grade(mark):
+    if not 0 &lt;= mark &lt;= 100:
+        raise ValueError(f&quot;mark must be 0 to 100, got {mark}&quot;)
+    for lowest, letter in [(70, &quot;A&quot;), (60, &quot;B&quot;), (50, &quot;C&quot;), (45, &quot;D&quot;), (40, &quot;E&quot;)]:
+        if mark &gt;= lowest:
+            return letter
+    return &quot;F&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-digits" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Digit sum, the long way</div><div class="pc-prompt"><p>Without turning the number into a string, write <code>digit_sum(n)</code> that adds up the digits of a whole number, using <code>%</code> and <code>//</code> in a <code>while</code> loop. Negative numbers use their digits too.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert digit_sum(2026) == 10
+    assert digit_sum(0) == 0
+    assert digit_sum(-405) == 9
+    assert &quot;str(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def digit_sum(n):
+    n = abs(n)
+    total = 0
+    while n &gt; 0:
+        total += n % 10
+        n //= 10
+    return total</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-triangle" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A number triangle</div><div class="pc-prompt"><p>Write <code>triangle(n)</code> that returns, as one string with lines joined by <code>"\n"</code>, a triangle of <code>n</code> rows where row <code>r</code> (from 1) holds the numbers 1 to <code>r</code> separated by spaces, centred in the width of the last row.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several sizes&quot;
+    assert triangle(3) == &quot;  1\n 1 2\n1 2 3&quot;
+    assert triangle(1) == &quot;1&quot;
+    assert triangle(0) == &quot;&quot;</textarea><textarea class="pc-src pc-solution" hidden>def triangle(n):
+    rows = [&quot; &quot;.join(str(i) for i in range(1, r + 1)) for r in range(1, n + 1)]
+    if not rows:
+        return &quot;&quot;
+    width = len(rows[-1])
+    return &quot;\n&quot;.join(row.center(width).rstrip() for row in rows)</textarea><template class="pc-src pc-hint">The last row is <code>" ".join(str(i) for i in range(1, n + 1))</code>; its length is the width. <code>row.center(width)</code> centres, then <code>rstrip()</code> removes the spaces on the right.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-guess" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Guess the number</div><div class="pc-prompt"><p>Write a guessing game. The secret number is <code>random.randint(1, 100)</code>. Ask <code>Guess:</code> until the guess is right, replying <code>Too low</code>, <code>Too high</code>, or, for something that isn&rsquo;t a whole number, <code>Whole numbers only</code> (which doesn&rsquo;t count as a guess). At the end print <code>Got it in N guesses</code> (or <code>1 guess</code>).</p></div><textarea class="pc-src pc-code" hidden>import random
+secret = random.randint(1, 100)</textarea><textarea class="pc-src pc-tests" hidden>def test_game():
+    &quot;a game&quot;
+    out = run_with({&quot;secret = random.randint(1, 100)&quot;: &quot;secret = 42&quot;}, inputs=[&quot;50&quot;, &quot;x&quot;, &quot;25&quot;, &quot;42&quot;], echo=True)
+    assert norm(out) == &quot;Guess: 50\nToo high\nGuess: x\nWhole numbers only\nGuess: 25\nToo low\nGuess: 42\nGot it in 3 guesses&quot;, &quot;Got:\n&quot; + out
+def test_one():
+    &quot;first time&quot;
+    out = run_with({&quot;secret = random.randint(1, 100)&quot;: &quot;secret = 7&quot;}, inputs=[&quot;7&quot;], echo=True)
+    assert norm(out) == &quot;Guess: 7\nGot it in 1 guess&quot;</textarea><textarea class="pc-src pc-solution" hidden>import random
+secret = random.randint(1, 100)
+guesses = 0
+while True:
+    try:
+        guess = int(input(&quot;Guess: &quot;))
+    except ValueError:
+        print(&quot;Whole numbers only&quot;)
+        continue
+    guesses += 1
+    if guess &lt; secret:
+        print(&quot;Too low&quot;)
+    elif guess &gt; secret:
+        print(&quot;Too high&quot;)
+    else:
+        break
+print(f&quot;Got it in {guesses} {&#x27;guess&#x27; if guesses == 1 else &#x27;guesses&#x27;}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-primes" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Primes below n</div><div class="pc-prompt"><p>Write <code>primes_below(n)</code> that returns a list of the primes less than <code>n</code>, testing each number with trial division up to its square root.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert primes_below(20) == [2, 3, 5, 7, 11, 13, 17, 19]
+    assert primes_below(2) == []
+    assert len(primes_below(1000)) == 168</textarea><textarea class="pc-src pc-solution" hidden>def is_prime(n):
+    if n &lt; 2:
+        return False
+    d = 2
+    while d * d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+
+def primes_below(n):
+    return [k for k in range(n) if is_prime(k)]</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w012d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Always yes</div><div class="pc-prompt"><p>This should print <code>Not sure</code> for the answer <code>maybe</code>. It prints <code>Yes!</code>. Fix the condition.</p></div><textarea class="pc-src pc-code" hidden>answer = &quot;maybe&quot;
+if answer == &quot;yes&quot; or &quot;y&quot;:
+    print(&quot;Yes!&quot;)
+else:
+    print(&quot;Not sure&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;maybe&quot;
+    expect_output(&quot;Not sure&quot;)
+def test_yes():
+    &quot;y still works&quot;
+    assert norm(run_with({&#x27;answer = &quot;maybe&quot;&#x27;: &#x27;answer = &quot;y&quot;&#x27;})) == &quot;Yes!&quot;</textarea><textarea class="pc-src pc-solution" hidden>answer = &quot;maybe&quot;
+if answer in (&quot;yes&quot;, &quot;y&quot;):
+    print(&quot;Yes!&quot;)
+else:
+    print(&quot;Not sure&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w012d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The average of nothing much</div><div class="pc-prompt"><p>This should print the average of the numbers 1 to 10, <code>5.5</code>. It prints <code>1.0</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>for n in range(1, 11):
+    total = 0
+    count = 0
+    total += n
+    count += 1
+print(total / count)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;5.5&quot;
+    expect_output(&quot;5.5&quot;)</textarea><textarea class="pc-src pc-solution" hidden>total = 0
+count = 0
+for n in range(1, 11):
+    total += n
+    count += 1
+print(total / count)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w012d1-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Lift off too late</div><div class="pc-prompt"><p>This should count down from 5 to 1 and then print <code>Lift off!</code>, but it prints a 0 first. Fix the condition.</p></div><textarea class="pc-src pc-code" hidden>n = 5
+while n &gt;= 0:
+    print(n)
+    n -= 1
+print(&quot;Lift off!&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;countdown&quot;
+    expect_output(&quot;5\n4\n3\n2\n1\nLift off!&quot;)</textarea><textarea class="pc-src pc-solution" hidden>n = 5
+while n &gt; 0:
+    print(n)
+    n -= 1
+print(&quot;Lift off!&quot;)</textarea></div>
+<div class="parsons" data-id="w012d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">FizzBuzz</div><div class="pc-prompt"><p>Arrange the lines for the classic FizzBuzz from 1 to 15: <code>Fizz</code> for multiples of 3, <code>Buzz</code> for multiples of 5, <code>FizzBuzz</code> for both, otherwise the number. One line is a trap.</p></div><script type="application/json">{"lines": ["for n in range(1, 16):", "    if n % 15 == 0:", "        print(\"FizzBuzz\")", "    elif n % 3 == 0:", "        print(\"Fizz\")", "    elif n % 5 == 0:", "        print(\"Buzz\")", "    else:", "        print(n)"], "distractors": ["    if n % 3 == 0:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # 17 // 5 * 5 + 17 % 5
+b = ___   # &quot;banana&quot;.count(&quot;an&quot;) + &quot;banana&quot;.find(&quot;n&quot;)
+c = ___   # len(range(3, 20, 4))
+d = ___   # not (3 &gt; 2 and 2 &gt; 3) or 1 / 0 &gt; 0
+e = ___   # &quot;abcdef&quot;[-2:0:-2]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each value&quot;
+    assert a == 17
+    assert b == 4
+    assert c == 5
+    assert d is True
+    assert e == &quot;eca&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = 17
+b = 4
+c = 5
+d = True
+e = &quot;eca&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w012d1-quiz"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is <code>-7 // 2</code>?", "answer": 1, "explain": "Floor division rounds down, towards minus infinity.", "options": ["-3", "-4", "-3.5", "3"]}, {"type": "mc", "q": "What type does <code>input()</code> always return?", "answer": 1, "explain": "Convert it yourself.", "options": ["int", "str", "It depends what&rsquo;s typed", "float"]}, {"type": "output", "q": "What does this print?", "answer": "3333", "explain": "A string times an int repeats it.", "code": "a = \"3\"\nb = 4\nprint(a * b)"}, {"type": "text", "q": "What is <code>'Python'[1:4]</code>?", "answer": ["yth", "'yth'"], "explain": "Index 1 up to, but not including, 4."}, {"type": "mc", "q": "Which is true?", "answer": 1, "explain": "Only empty strings are false.", "options": ["<code>bool('0')</code> is False", "<code>bool('')</code> is False", "<code>bool(' ')</code> is False", "<code>bool([0])</code> is False"]}, {"type": "mc", "q": "What does <code>if answer == \"a\" or \"b\":</code> check?", "answer": 1, "explain": "<code>\"b\"</code> on its own is truthy.", "options": ["Whether answer is a or b", "It&rsquo;s always true", "It&rsquo;s always false", "A syntax error"]}, {"type": "mc", "q": "In an <code>if</code>/<code>elif</code> chain, how many branches can run?", "answer": 1, "explain": "At most one, and exactly one if there&rsquo;s an else.", "options": ["All the true ones", "At most one", "Exactly one", "None"]}, {"type": "text", "q": "What is <code>list(range(10, 0, -3))</code>?", "answer": ["[10, 7, 4, 1]"], "explain": "Stops before 0."}, {"type": "mc", "q": "What does <code>continue</code> do?", "answer": 1, "explain": "break leaves; continue skips.", "options": ["Leaves the loop", "Skips to the next round of the loop", "Restarts the program", "Nothing"]}, {"type": "output", "q": "What does this print?", "answer": "2", "explain": "The loop variable keeps its last value.", "code": "for i in range(3):\n    pass\nprint(i)"}, {"type": "mc", "q": "Why is <code>0.1 + 0.2 == 0.3</code> False?", "answer": 1, "explain": "Compare with a tolerance.", "options": ["A bug in Python", "Floats are stored in binary, so most decimals are approximate", "== doesn&rsquo;t work on floats", "0.3 is an int"]}, {"type": "text", "q": "How many times does the inner <code>print</code> run?", "answer": ["10"], "explain": "4 + 3 + 2 + 1.", "code": "for i in range(4):\n    for j in range(i, 4):\n        print(i, j)"}, {"type": "mc", "q": "What does <code>x == 0 or 10 / x &gt; 1</code> do when x is 0?", "answer": 1, "explain": "Short-circuiting: the left side decided.", "options": ["Raises ZeroDivisionError", "True, without dividing", "False", "None"]}, {"type": "text", "q": "What is <code>f'{3.14159:.2f}'</code>?", "answer": ["3.14"], "explain": "Two decimal places."}, {"type": "mc", "q": "What&rsquo;s the best first step when a loop gives the wrong answer?", "answer": 1, "explain": "See what actually happens, step by step.", "options": ["Rewrite it", "Trace it by hand, or with X-ray, on a tiny input", "Add more loops", "Use a different variable name"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: Roman numerals</div><div class="pc-prompt"><p>Write <code>to_roman(n)</code> for 1 to 3999 (raise a <code>ValueError</code> otherwise), and <code>from_roman(text)</code> that converts back, raising a <code>ValueError</code> for anything that isn&rsquo;t the standard way of writing a number (so <code>"IIII"</code>, <code>"VX"</code> and <code>"ABC"</code> are rejected). The standard form uses <code>M D C L X V I</code> with subtractive pairs <code>CM CD XC XL IX IV</code>.</p>
+<pre><code>to_roman(2026)       -&gt;  &quot;MMXXVI&quot;
+from_roman(&quot;XLII&quot;)   -&gt;  42
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def bad(fn, arg):
+    try:
+        fn(arg)
+    except ValueError:
+        return
+    raise AssertionError(f&quot;{fn.__name__}({arg!r}) should raise a ValueError&quot;)
+def test_to():
+    &quot;to_roman&quot;
+    assert to_roman(2026) == &quot;MMXXVI&quot;
+    assert to_roman(1994) == &quot;MCMXCIV&quot;
+    assert to_roman(3999) == &quot;MMMCMXCIX&quot;
+    assert to_roman(4) == &quot;IV&quot;
+    bad(to_roman, 0)
+    bad(to_roman, 4000)
+def test_from():
+    &quot;from_roman&quot;
+    assert from_roman(&quot;XLII&quot;) == 42
+    assert from_roman(&quot;MCMXCIV&quot;) == 1994
+    assert all(from_roman(to_roman(n)) == n for n in range(1, 4000))
+    for t in [&quot;IIII&quot;, &quot;VX&quot;, &quot;ABC&quot;, &quot;&quot;, &quot;IC&quot;, &quot;MMMM&quot;]:
+        bad(from_roman, t)</textarea><textarea class="pc-src pc-solution" hidden>PAIRS = [(1000, &quot;M&quot;), (900, &quot;CM&quot;), (500, &quot;D&quot;), (400, &quot;CD&quot;), (100, &quot;C&quot;), (90, &quot;XC&quot;),
+         (50, &quot;L&quot;), (40, &quot;XL&quot;), (10, &quot;X&quot;), (9, &quot;IX&quot;), (5, &quot;V&quot;), (4, &quot;IV&quot;), (1, &quot;I&quot;)]
+
+def to_roman(n):
+    if not 1 &lt;= n &lt;= 3999:
+        raise ValueError(f&quot;can&#x27;t write {n} in Roman numerals&quot;)
+    out = &quot;&quot;
+    for value, symbol in PAIRS:
+        while n &gt;= value:
+            out += symbol
+            n -= value
+    return out
+
+def from_roman(text):
+    total, i = 0, 0
+    while i &lt; len(text):
+        found = False
+        for value, symbol in PAIRS:
+            if text.startswith(symbol, i):
+                total += value
+                i += len(symbol)
+                found = True
+                break
+        if not found:
+            raise ValueError(f&quot;not a Roman numeral: {text!r}&quot;)
+    if not 1 &lt;= total &lt;= 3999 or to_roman(total) != text:
+        raise ValueError(f&quot;not a Roman numeral: {text!r}&quot;)
+    return total</textarea><template class="pc-src pc-hint">List the values with their symbols from largest to smallest, including the pairs: <code>[(1000, "M"), (900, "CM"), (500, "D"), ...]</code>. To convert, take as many of each as fit.</template><template class="pc-src pc-hint">For <code>from_roman</code>, the easiest strict check: work out the number however you like, then check that <code>to_roman</code> of it gives back exactly the same text.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Look at your list of surprises from today. For each one, find the day it was taught (the <a href="../map.html">course map</a> lists them) and redo two exercises from that day. Tomorrow: the same kind of review for Weeks 5 to 11, from string methods to exceptions.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w011d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w012d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w012d1", "week": 12, "day": 1, "title": "Review: Weeks 1 to 4", "exercises": [{"id": "w012d1-change", "title": "Change from a note", "points": 10}, {"id": "w012d1-leap", "title": "Leap years", "points": 10}, {"id": "w012d1-grade", "title": "Grade boundaries", "points": 10}, {"id": "w012d1-digits", "title": "Digit sum, the long way", "points": 10}, {"id": "w012d1-triangle", "title": "A number triangle", "points": 10}, {"id": "w012d1-guess", "title": "Guess the number", "points": 15}, {"id": "w012d1-primes", "title": "Primes below n", "points": 10}, {"id": "w012d1-bug1", "title": "Always yes", "points": 10}, {"id": "w012d1-bug2", "title": "The average of nothing much", "points": 10}, {"id": "w012d1-bug3", "title": "Lift off too late", "points": 10}, {"id": "w012d1-trace", "title": "Predict them", "points": 15}, {"id": "w012d1-challenge", "title": "Challenge: Roman numerals", "points": 25}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="c22a21f052">
+<title>Week 12 Day 5: Phase 1 exam | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=c22a21f052">
+<link rel="stylesheet" href="../assets/css/site.css?v=c22a21f052">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=c22a21f052"></script>
+<script src="../assets/vendor/codemirror.js?v=c22a21f052" defer></script>
+<meta name="description" content="This is the end of Phase 1. The exam checks that you can use everything from Weeks 1 to 11 on your own: a quiz on the ideas, eight programming problems, and...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w012d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 12 Day 5: Phase 1 exam">
+<meta property="og:description" content="This is the end of Phase 1. The exam checks that you can use everything from Weeks 1 to 11 on your own: a quiz on the ideas, eight programming problems, and...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w012d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-12">Week 12: Consolidation and Phase 1 exam</a>
+      <ol class="rail-toc"><li><a href="#before-you-start" data-sec="before-you-start">Before you start</a></li><li><a href="#part-a-quiz" data-sec="part-a-quiz">Part A: quiz</a></li><li><a href="#part-b-eight-problems" data-sec="part-b-eight-problems">Part B: eight problems</a></li><li><a href="#part-c-a-larger-program" data-sec="part-c-a-larger-program">Part C: a larger program</a></li><li><a href="#when-you-finish" data-sec="when-you-finish">When you finish</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 12, Day 5</span></p>
+      <h1>Phase 1 exam</h1>
+      <div class="day-intro"><p>This is the end of Phase 1. The exam checks that you can use everything from Weeks 1 to 11 on your own: a quiz on the ideas, eight programming problems, and one larger program. It&rsquo;s marked by the same checks as every exercise, but there are no hints and no solutions until tomorrow&rsquo;s debrief. Take it seriously, and take it honestly: it&rsquo;s for you.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Show you can solve unseen problems with Phase 1 tools, without hints</li><li>Manage your time across problems of different sizes</li><li>Find out exactly which topics need more work before Phase 2</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Before you start: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Part A: quiz: 25 min"></span><span class="plan-seg s0" style="flex:95" title="Part B: eight problems: 95 min"></span><span class="plan-seg s1" style="flex:40" title="Part C: a larger program: 40 min"></span><span class="plan-seg s0" style="flex:10" title="When you finish: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Before you start</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Part A: quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Part B: eight problems</span><span class="plan-min">95 min</span></li><li><span class="plan-at">2:10</span><span class="plan-what">Part C: a larger program</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">When you finish</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w012d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w012d5.ipynb" download>download it</a>. Exercises today are worth 160 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="before-you-start">Before you start</h2>
+<p><strong>The rules.</strong> You have <strong>2 hours and 50 minutes</strong> in total, the length of a normal day. Work alone. Close your notes, don&rsquo;t use the tutor, and don&rsquo;t search the web: the point is to find out what <strong>you</strong> can do, and the debrief can only help with gaps it can see. You may run your code as often as you like and use <strong>Check my answer</strong> as often as you like.</p>
+<p><strong>The marks.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What</th>
+<th>Marks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>20 quiz questions</td>
+<td>20 (1 each)</td>
+</tr>
+<tr>
+<td>B</td>
+<td>8 problems</td>
+<td>110</td>
+</tr>
+<tr>
+<td>C</td>
+<td>one larger program</td>
+<td>50</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Total</strong></td>
+<td><strong>180</strong></td>
+</tr>
+</tbody>
+</table>
+<p>For a problem, count its full marks only when every check passes. A score of <strong>108 (60%)</strong> passes Phase 1; <strong>144 (80%)</strong> is a distinction. If you pass, you&rsquo;re ready for Phase 2. If you don&rsquo;t, tomorrow&rsquo;s debrief tells you what to revise, and you can take the exam again after a few days.</p>
+<p><strong>Strategy.</strong> Read every problem first. Do the ones you&rsquo;re sure of first, and don&rsquo;t spend more than 20 minutes stuck on one: move on and come back. Partial programs earn nothing here, but they might in your notes for the debrief, so keep your attempts.</p>
+<p>Start the timer when you&rsquo;re ready.</p>
+<figure class="widget" data-widget="examtimer"><script type="application/json">{"minutes": 170, "key": "phase1"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The timer keeps running if you reload or close the page. It doesn&rsquo;t stop you working when time is up: that&rsquo;s on your honour.</figcaption></figure>
+<h2 id="part-a-quiz">Part A: quiz</h2>
+<div class="quiz" data-id="w012d5-partA"><div class="pc-label"><span>Quiz</span><span>20 questions</span></div><script type="application/json">[{"type": "output", "q": "What does <code>print(17 // 5, 17 % 5, -17 // 5)</code> print?", "answer": "3 2 -4", "explain": "Floor division rounds down.", "code": "print(17 // 5, 17 % 5, -17 // 5)"}, {"type": "text", "q": "What is <code>'abcdefg'[1:6:2]</code>?", "answer": ["bdf", "'bdf'"], "explain": "Indexes 1, 3, 5."}, {"type": "mc", "q": "Which expression is True?", "answer": 0, "explain": "Strings compare character by character: &lsquo;1&rsquo; comes before &lsquo;9&rsquo;.", "options": ["<code>'10' &lt; '9'</code>", "<code>10 &lt; 9</code>", "<code>'apple' &gt; 'banana'</code>", "<code>'Z' &gt; 'a'</code>"]}, {"type": "output", "q": "What does this print?", "answer": "1", "explain": "10, 3, 1.", "code": "x = 10\nwhile x > 1:\n    x = x // 3\nprint(x)"}, {"type": "text", "q": "How many lines does this print?", "answer": ["10"], "explain": "1 + 2 + 3 + 4.", "code": "for i in range(4):\n    for j in range(4):\n        if j > i:\n            break\n        print(i, j)"}, {"type": "text", "q": "What is <code>'-'.join('abc')</code>?", "answer": ["a-b-c", "'a-b-c'"], "explain": "A string is a sequence of characters."}, {"type": "output", "q": "What does this print?", "answer": "3 4", "explain": "rest holds the two extra arguments.", "code": "def f(a, b=2, *rest):\n    return a + b + len(rest)\nprint(f(1), f(1, 1, 1, 1))"}, {"type": "output", "q": "What does this print?", "answer": "2 5", "explain": "total inside the function is local.", "code": "total = 5\ndef add(n):\n    total = n + 1\n    return total\nprint(add(1), total)"}, {"type": "output", "q": "What does this print?", "answer": "[1, 2, 3] [1, 2, 4]", "explain": "<code>a + [3]</code> makes a new list; b still points at the old one.", "code": "a = [1, 2]\nb = a\na = a + [3]\nb.append(4)\nprint(a, b)"}, {"type": "mc", "q": "Which removes and returns the last item of a list?", "answer": 1, "explain": "del removes but returns nothing.", "options": ["<code>items.remove()</code>", "<code>items.pop()</code>", "<code>del items[-1]</code>", "<code>items[-1]</code>"]}, {"type": "text", "q": "What is <code>sorted([3, 1, 2], reverse=True)[1:]</code>?", "answer": ["[2, 1]"], "explain": "[3, 2, 1] without its first item."}, {"type": "output", "q": "What does this print?", "answer": "(1, [2, 3])", "explain": "The list inside the tuple can change.", "code": "p = (1, [2])\np[1].append(3)\nprint(p)"}, {"type": "text", "q": "What is <code>[x * x for x in range(5) if x % 2 == 0]</code>?", "answer": ["[0, 4, 16]"], "explain": "0, 2 and 4, squared."}, {"type": "text", "q": "What is <code>dict(zip('ab', [1, 2, 3]))</code>?", "answer": ["{'a': 1, 'b': 2}"], "explain": "zip stops at the shortest."}, {"type": "output", "q": "What does this print?", "answer": "{'x': 1, 'y': 5}", "explain": "setdefault only adds a missing key.", "code": "d = {\"x\": 1}\nd.setdefault(\"x\", 5)\nd.setdefault(\"y\", 5)\nprint(d)"}, {"type": "mc", "q": "What is <code>len({1, 1.0, True, '1'})</code>?", "answer": 1, "explain": "1, 1.0 and True are equal, so they count once; &lsquo;1&rsquo; is different.", "options": ["1", "2", "3", "4"]}, {"type": "mc", "q": "What does opening an existing file with mode <code>\"a\"</code> do?", "answer": 1, "explain": "Append.", "options": ["Empties it", "Writing adds to the end", "Raises an error", "Opens it for reading"]}, {"type": "output", "q": "What does this print?", "answer": "A\nD\nE", "explain": "C is skipped; finally always runs.", "code": "try:\n    print(\"A\")\n    int(\"B\")\n    print(\"C\")\nexcept ValueError:\n    print(\"D\")\nfinally:\n    print(\"E\")"}, {"type": "mc", "q": "Which is the best response when a function is asked to average an empty list?", "answer": 2, "explain": "An average of nothing doesn&rsquo;t exist.", "options": ["Return 0", "Return -1", "Raise a ValueError with a clear message", "Print an error and return None"]}, {"type": "mc", "q": "Why must dictionary keys be hashable?", "answer": 1, "explain": "A changing key would be looked for in the wrong place.", "options": ["So they can be sorted", "Their hash decides where the entry is stored, so it must never change", "So they can be printed", "They don&rsquo;t need to be"]}]</script></div>
+<h2 id="part-b-eight-problems">Part B: eight problems</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d5-b1" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">B1: Phone numbers</div><div class="pc-prompt"><p>Nigerian mobile numbers are written in several ways: <code>0803 123 4567</code>, <code>0803-123-4567</code>, <code>+234 803 123 4567</code> or <code>2348031234567</code>. Write <code>normalise(number)</code> that returns the number in the form <code>+2348031234567</code>. Ignore spaces and dashes. After them, a valid number is either <code>0</code> followed by 10 digits, <code>234</code> followed by 10 digits, or <code>+234</code> followed by 10 digits, where the 10 digits don&rsquo;t start with <code>0</code>. Raise a <code>ValueError</code> with the message <code>invalid number:</code> and the original text (with quotes, as <code>{number!r}</code> gives) for anything else.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def bad(t):
+    try:
+        normalise(t)
+    except ValueError as e:
+        assert str(e) == f&quot;invalid number: {t!r}&quot;, f&quot;message for {t!r}: {e}&quot;
+        return
+    raise AssertionError(f&quot;{t!r} should raise a ValueError&quot;)
+def test_good():
+    &quot;valid numbers&quot;
+    for t in [&quot;0803 123 4567&quot;, &quot;0803-123-4567&quot;, &quot;+234 803 123 4567&quot;, &quot;2348031234567&quot;, &quot;+2348031234567&quot;]:
+        assert normalise(t) == &quot;+2348031234567&quot;, f&quot;{t!r}&quot;
+def test_bad():
+    &quot;invalid numbers&quot;
+    for t in [&quot;0803 123 456&quot;, &quot;08031234567 8&quot;, &quot;+2340803123456&quot;, &quot;1803 123 4567&quot;, &quot;0803 abc 4567&quot;, &quot;&quot;, &quot;+44 7911 123456&quot;]:
+        bad(t)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d5-b2" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">B2: Runs</div><div class="pc-prompt"><p>Write <code>runs(text)</code> that returns a list of <code>(character, count)</code> tuples for each run of the same character: <code>runs("aaabccdd")</code> is <code>[("a", 3), ("b", 1), ("c", 2), ("d", 2)]</code>. Then write <code>expand(pairs)</code> that turns such a list back into the text.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_runs():
+    &quot;runs&quot;
+    assert runs(&quot;aaabccdd&quot;) == [(&quot;a&quot;, 3), (&quot;b&quot;, 1), (&quot;c&quot;, 2), (&quot;d&quot;, 2)]
+    assert runs(&quot;&quot;) == []
+    assert runs(&quot;xyx&quot;) == [(&quot;x&quot;, 1), (&quot;y&quot;, 1), (&quot;x&quot;, 1)]
+def test_expand():
+    &quot;expand&quot;
+    assert expand([(&quot;a&quot;, 3), (&quot;b&quot;, 1)]) == &quot;aaab&quot;
+    assert expand([]) == &quot;&quot;
+    for t in [&quot;mississippi&quot;, &quot;zzzzz&quot;, &quot;abc&quot;, &quot;  hi  &quot;]:
+        assert expand(runs(t)) == t</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d5-b3" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">B3: Predict</div><div class="pc-prompt"><p>Work out each value without running anything. Each one is worth getting right; all five are needed for the marks.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # [i for i in range(10, 0, -3)][-1]
+b = ___   # &quot;Mississippi&quot;.lower().count(&quot;ss&quot;) * len(&quot;ab&quot; * 3)
+c = ___   # sorted({&quot;b&quot;: 1, &quot;a&quot;: 2, &quot;c&quot;: 0}, key=lambda k: -{&quot;b&quot;: 1, &quot;a&quot;: 2, &quot;c&quot;: 0}[k])
+d = ___   # sum(len(w) for w in &quot;to be or not&quot;.split() if &quot;o&quot; in w)
+e = ___   # max([(&quot;b&quot;, 2), (&quot;a&quot;, 9), (&quot;b&quot;, 1)])</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;all five&quot;
+    assert a == 1
+    assert b == 12
+    assert c == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+    assert d == 7
+    assert e == (&quot;b&quot;, 2)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d5-b4" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">B4: Merge</div><div class="pc-prompt"><p>Write <code>merge(a, b)</code> that takes two lists already sorted from smallest to largest and returns one sorted list of all their items, <strong>without</strong> using <code>sort</code>, <code>sorted</code>, <code>min</code> or <code>max</code>. Work through both lists once, always taking the smaller front item.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several pairs&quot;
+    assert merge([1, 4, 9], [2, 3, 10, 11]) == [1, 2, 3, 4, 9, 10, 11]
+    assert merge([], [1, 2]) == [1, 2]
+    assert merge([5], []) == [5]
+    assert merge([1, 1, 2], [1, 3]) == [1, 1, 1, 2, 3]
+    a, b = [1, 3], [2]
+    merge(a, b)
+    assert a == [1, 3] and b == [2], &quot;merge changed its arguments&quot;
+    for word in (&quot;sort&quot;, &quot;sorted&quot;, &quot;min(&quot;, &quot;max(&quot;):
+        assert word not in source, f&quot;don&#x27;t use {word}&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d5-b5" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">B5: Spiral</div><div class="pc-prompt"><p>Write <code>spiral(grid)</code> that returns the items of a rectangular grid in spiral order: along the top row left to right, down the right column, along the bottom row right to left, up the left column, and so on inwards. Don&rsquo;t change the grid.</p>
+<pre><code>1 2 3
+4 5 6    -&gt;  [1, 2, 3, 6, 9, 8, 7, 4, 5]
+7 8 9
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several grids&quot;
+    g = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    assert spiral(g) == [1, 2, 3, 6, 9, 8, 7, 4, 5]
+    assert g == [[1, 2, 3], [4, 5, 6], [7, 8, 9]], &quot;spiral changed the grid&quot;
+    assert spiral([[1, 2, 3, 4], [5, 6, 7, 8]]) == [1, 2, 3, 4, 8, 7, 6, 5]
+    assert spiral([[1], [2], [3]]) == [1, 2, 3]
+    assert spiral([[1, 2], [3, 4], [5, 6], [7, 8]]) == [1, 2, 4, 6, 8, 7, 5, 3]
+    assert spiral([]) == []</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d5-b6" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">B6: Attendance</div><div class="pc-prompt"><p>Each line of <code>register.txt</code> holds a date, a space, and the names of the students present that day separated by commas (possibly with spaces after the commas, possibly with nobody). Write <code>attendance(path)</code> that returns a dictionary from each student who appears at least once to the percentage of days they were present, rounded to 1 place. Blank lines are ignored and don&rsquo;t count as days.</p><details class="pc-file"><summary><code>register.txt</code></summary><pre class="pc-filetext">2026-10-05 Ada, Bo, Cy
+2026-10-06 Ada,Cy
+
+2026-10-07 Bo, Cy
+2026-10-08
+2026-10-09 Ada, Bo, Cy, Di
+</pre></details></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_file():
+    &quot;the register&quot;
+    assert attendance(&quot;register.txt&quot;) == {&quot;Ada&quot;: 60.0, &quot;Bo&quot;: 60.0, &quot;Cy&quot;: 80.0, &quot;Di&quot;: 20.0}
+def test_other():
+    &quot;another&quot;
+    write_file(&quot;r2.txt&quot;, &quot;d1 X\nd2 X, Y\nd3 Y\n&quot;)
+    assert attendance(&quot;r2.txt&quot;) == {&quot;X&quot;: 66.7, &quot;Y&quot;: 66.7}</textarea><textarea class="pc-src pc-files" hidden>{&quot;register.txt&quot;: &quot;2026-10-05 Ada, Bo, Cy\n2026-10-06 Ada,Cy\n\n2026-10-07 Bo, Cy\n2026-10-08\n2026-10-09 Ada, Bo, Cy, Di\n&quot;}</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w012d5-b7" data-points="15"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">15 points</span></div><div class="pc-title">B7: Three bugs</div><div class="pc-prompt"><p><code>top_words(text, n)</code> should return the <code>n</code> most common words of at least 3 letters (ignoring case and the punctuation <code>.,!?</code>), as a list of <code>(word, count)</code> pairs, most common first, ties in alphabetical order. It has three bugs. Find and fix them.</p></div><textarea class="pc-src pc-code" hidden>def top_words(text, n):
+    counts = {}
+    for word in text.lower().split():
+        word = word.strip(&quot;.,!?&quot;)
+        if len(word) &gt; 3:
+            counts[word] = counts.get(word, 0) + 1
+    pairs = sorted(counts.items(), key=lambda kv: (kv[1], kv[0]))
+    return pairs[:n - 1]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several texts&quot;
+    t = &quot;The cat saw the dog. The dog saw a cat! Cats, dogs and the end.&quot;
+    assert top_words(t, 3) == [(&quot;the&quot;, 4), (&quot;cat&quot;, 2), (&quot;dog&quot;, 2)]
+    assert top_words(&quot;Hi hi hi!&quot;, 2) == []
+    assert top_words(&quot;one two three two&quot;, 5) == [(&quot;two&quot;, 2), (&quot;one&quot;, 1), (&quot;three&quot;, 1)]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d5-b8" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">B8: Valid brackets</div><div class="pc-prompt"><p>Write <code>check_brackets(text)</code> that checks the brackets <code>()</code>, <code>[]</code> and <code>{}</code> in a piece of text. Other characters are ignored. Return <code>"OK"</code> if every bracket is closed by the matching kind in the right order. Otherwise return the problem found first, reading from left to right, with the position (counting from 0):</p>
+<ul>
+<li><code>unexpected ) at 4</code> for a closing bracket with nothing open;</li>
+<li><code>expected ] but found ) at 7</code> for a closing bracket of the wrong kind;</li>
+<li><code>( at 2 never closed</code> at the end, for the <strong>last</strong> bracket opened that was never closed.</li>
+</ul></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_ok():
+    &quot;balanced&quot;
+    for t in [&quot;&quot;, &quot;abc&quot;, &quot;(a[b]{c})&quot;, &quot;f(x[0], {1: (2)})&quot;, &quot;()[]{}&quot;]:
+        assert check_brackets(t) == &quot;OK&quot;, repr(t)
+def test_problems():
+    &quot;problems&quot;
+    assert check_brackets(&quot;abc )&quot;) == &quot;unexpected ) at 4&quot;
+    assert check_brackets(&quot;(a[b(c)) &quot;) == &quot;expected ] but found ) at 7&quot;
+    assert check_brackets(&quot;a (b [c] d&quot;) == &quot;( at 2 never closed&quot;
+    assert check_brackets(&quot;{(&quot;) == &quot;( at 1 never closed&quot;
+    assert check_brackets(&quot;]&quot;) == &quot;unexpected ] at 0&quot;</textarea></div>
+<h2 id="part-c-a-larger-program">Part C: a larger program</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w012d5-c1" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">C: The car park</div><div class="pc-prompt"><p>A car park records every car entering and leaving in <code>parking.csv</code>, in time order. Each row has a <code>plate</code>, a <code>time</code> (<code>HH:MM</code>, all on one day) and an <code>event</code> (<code>in</code> or <code>out</code>).</p>
+<p>Charges: the first <strong>30 minutes are free</strong>. After that, the charge is <strong>200 naira for every hour or part of an hour</strong>, counted from the moment the car entered, up to a maximum of <strong>1500 naira</strong>. So a stay of 30 minutes is free, 31 minutes costs 200, 60 minutes costs 200, 61 minutes costs 400, and anything over 7 hours costs 1500.</p>
+<p>Write:</p>
+<ul>
+<li><code>minutes(time)</code>: <code>"09:05"</code> gives 545 (minutes after midnight). Raise a <code>ValueError</code> for anything that isn&rsquo;t a valid <code>HH:MM</code> time.</li>
+<li><code>fee(stay)</code>: the charge for a stay of <code>stay</code> minutes.</li>
+<li><code>process(path)</code>: reads the file and returns a tuple <code>(charges, problems)</code>:</li>
+<li><code>charges</code> is a list of <code>(plate, minutes_stayed, fee)</code> tuples, in the order the cars <strong>left</strong>;</li>
+<li><code>problems</code> is a list of messages, in file order: <code>row N: bad time 'TEXT'</code> for an invalid time, <code>row N: PLATE left without entering</code> for an <code>out</code> with no matching <code>in</code>, <code>row N: PLATE entered twice</code> for an <code>in</code> when that car is already inside (the first entry time is kept), <code>row N: unknown event 'TEXT'</code>; and, after all the rows, <code>PLATE never left</code> for each car still inside, sorted by plate. Rows are numbered from 2 (the header is row 1). Plates are compared in capitals without spaces, and reported that way.</li>
+<li>The main program processes <code>parking.csv</code> and prints one line per charge: the plate left-aligned in 10, the minutes right-aligned in 6, the text <code>min</code>, and the fee right-aligned in 8 (as in <code>LAG123AA      25 min       0</code>); then <code>Total: N naira</code>; then <code>Problems:</code> and each problem indented by two spaces (or <code>Problems: none</code>).</li>
+</ul><details class="pc-file"><summary><code>parking.csv</code></summary><pre class="pc-filetext">plate,time,event
+LAG 123 AA,07:55,in
+abj 45 kd,08:10,in
+KJA 9 XY,08:12,in
+LAG123AA,08:20,out
+ABJ 45 KD,09:41,out
+EKY 7 BC,09:50,out
+KJA 9 XY,10:05,in
+OYO 1 ZZ,25:00,in
+KJA 9 XY,16:30,out
+LAG 123 AA,17:00,in
+LAG 123 AA,17:01,fly
+</pre></details></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_minutes():
+    &quot;minutes&quot;
+    assert minutes(&quot;09:05&quot;) == 545 and minutes(&quot;00:00&quot;) == 0 and minutes(&quot;23:59&quot;) == 1439
+    for t in [&quot;24:00&quot;, &quot;9:5&quot;, &quot;09:60&quot;, &quot;ab:cd&quot;, &quot;0905&quot;, &quot;&quot;]:
+        try:
+            minutes(t)
+        except ValueError:
+            continue
+        raise AssertionError(f&quot;minutes({t!r}) should raise a ValueError&quot;)
+def test_fee():
+    &quot;fee&quot;
+    assert [fee(m) for m in (0, 30, 31, 60, 61, 120, 121, 420, 421, 600)] == [0, 0, 200, 200, 400, 400, 600, 1400, 1500, 1500]
+def test_process():
+    &quot;process&quot;
+    charges, problems = process(&quot;parking.csv&quot;)
+    assert charges == [(&quot;LAG123AA&quot;, 25, 0), (&quot;ABJ45KD&quot;, 91, 400), (&quot;KJA9XY&quot;, 498, 1500)], &quot;Got &quot; + repr(charges)
+    assert problems == [&quot;row 7: EKY7BC left without entering&quot;, &quot;row 8: KJA9XY entered twice&quot;, &quot;row 9: bad time &#x27;25:00&#x27;&quot;,
+                        &quot;row 12: unknown event &#x27;fly&#x27;&quot;, &quot;LAG123AA never left&quot;], &quot;Got:\n&quot; + &quot;\n&quot;.join(problems)
+def test_program():
+    &quot;the program&quot;
+    expect_output(&quot;LAG123AA      25 min       0\nABJ45KD       91 min     400\nKJA9XY       498 min    1500\nTotal: 1900 naira\nProblems:\n  row 7: EKY7BC left without entering\n  row 8: KJA9XY entered twice\n  row 9: bad time &#x27;25:00&#x27;\n  row 12: unknown event &#x27;fly&#x27;\n  LAG123AA never left&quot;)
+def test_clean():
+    &quot;a clean file&quot;
+    write_file(&quot;parking.csv&quot;, &quot;plate,time,event\nA 1,10:00,in\nA 1,10:30,out\n&quot;)
+    expect_output(&quot;A1            30 min       0\nTotal: 0 naira\nProblems: none&quot;)</textarea><textarea class="pc-src pc-files" hidden>{&quot;parking.csv&quot;: &quot;plate,time,event\nLAG 123 AA,07:55,in\nabj 45 kd,08:10,in\nKJA 9 XY,08:12,in\nLAG123AA,08:20,out\nABJ 45 KD,09:41,out\nEKY 7 BC,09:50,out\nKJA 9 XY,10:05,in\nOYO 1 ZZ,25:00,in\nKJA 9 XY,16:30,out\nLAG 123 AA,17:00,in\nLAG 123 AA,17:01,fly\n&quot;}</textarea></div>
+<h2 id="when-you-finish">When you finish</h2>
+<p>Add up your marks: 1 for each quiz question you got right first time, and the full marks for each problem whose checks all pass. Write your total down, with the time you took, and a note of every problem you didn&rsquo;t finish or found hard. Don&rsquo;t look anything up yet.</p>
+<p>Tomorrow&rsquo;s debrief goes through every question and problem: a model solution, why it works, the mistakes people most often make, and what to revise for each one.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w012d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w012d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w012d5", "week": 12, "day": 5, "title": "Phase 1 exam", "exercises": [{"id": "w012d5-b1", "title": "B1: Phone numbers", "points": 10}, {"id": "w012d5-b2", "title": "B2: Runs", "points": 10}, {"id": "w012d5-b3", "title": "B3: Predict", "points": 10}, {"id": "w012d5-b4", "title": "B4: Merge", "points": 15}, {"id": "w012d5-b5", "title": "B5: Spiral", "points": 15}, {"id": "w012d5-b6", "title": "B6: Attendance", "points": 15}, {"id": "w012d5-b7", "title": "B7: Three bugs", "points": 15}, {"id": "w012d5-b8", "title": "B8: Valid brackets", "points": 20}, {"id": "w012d5-c1", "title": "C: The car park", "points": 50}], "points": 160}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
