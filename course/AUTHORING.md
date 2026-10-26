@@ -120,7 +120,7 @@ Wrap a question in single quotes if it contains `: ` or starts with a backtick a
 :::
 ```
 
-Figures live in `course/static/js/widgets/NAME.js` and export `default function (element, params)`. Week 1 figures: `machine`, `bits`, `pipeline`, `anatomy`, `traceback`, `typesorter`, `typeinspect`, `operators`, `stepper`, `labels`, `namecheck`, `divmod`, `floatlab`, `roundlab`, `convert`, `strruler`, `escapes`, `printlab`, `fstringlab`, `inputflow`.
+Figures live in `course/static/js/widgets/NAME.js` and export `default function (element, params)`. Week 1 figures: `machine`, `bits`, `pipeline`, `anatomy`, `traceback`, `typesorter`, `typeinspect`, `operators`, `stepper`, `labels`, `namecheck`, `divmod`, `floatlab`, `roundlab`, `convert`, `strruler`, `escapes`, `printlab`, `fstringlab`, `inputflow`. Week 2 adds `compare`, `truthtable` and `branch` (an if/elif/else chain with a slider; set `"chain": false` for separate ifs).
 
 ### Expression stepper (shortcut)
 

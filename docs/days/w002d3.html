@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="0500404132">
+<title>Week 2 Day 3: if and else | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=0500404132">
+<link rel="stylesheet" href="../assets/css/site.css?v=0500404132">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=0500404132"></script>
+<script src="../assets/vendor/codemirror.js?v=0500404132" defer></script>
+<meta name="description" content="Until today, every line of every program ran, top to bottom, every time. Today that changes. With if and else your program asks a question and runs...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w002d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 2 Day 3: if and else">
+<meta property="og:description" content="Until today, every line of every program ran, top to bottom, every time. Today that changes. With if and else your program asks a question and runs...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w002d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-2">Week 2: Making decisions</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#making-a-choice-if" data-sec="making-a-choice-if">Making a choice: if</a></li><li><a href="#blocks-can-hold-many-lines" data-sec="blocks-can-hold-many-lines">Blocks can hold many lines</a></li><li><a href="#else-one-or-the-other" data-sec="else-one-or-the-other">else: one or the other</a></li><li><a href="#indentation-is-part-of-the-language" data-sec="indentation-is-part-of-the-language">Indentation is part of the language</a></li><li><a href="#any-condition-will-do" data-sec="any-condition-will-do">Any condition will do</a></li><li><a href="#giving-a-variable-a-value-in-every-branch" data-sec="giving-a-variable-a-value-in-every-branch">Giving a variable a value in every branch</a></li><li><a href="#some-classic-patterns" data-sec="some-classic-patterns">Some classic patterns</a></li><li><a href="#conditional-expressions" data-sec="conditional-expressions">Conditional expressions</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 2, Day 3</span></p>
+      <h1>if and else</h1>
+      <div class="day-intro"><p>Until today, every line of every program ran, top to bottom, every time. Today that changes. With <code>if</code> and <code>else</code> your program asks a question and runs different lines depending on the answer. You&rsquo;ll also meet indentation, the way Python knows which lines belong to which choice.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write <code>if</code> and <code>if</code>/<code>else</code> statements with the colon and indented block</li><li>Explain how indentation groups lines into a block, and fix <code>IndentationError</code></li><li>Predict which lines run for a given input, and confirm it with X-ray</li><li>Make sure a variable gets a value whichever branch runs</li><li>Write short choices as a conditional expression, <code>a if condition else b</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="The if statement and blocks: 35 min"></span><span class="plan-seg s0" style="flex:25" title="else: one or the other: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Indentation and its errors: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Variables across branches, and conditional expressions: 20 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The if statement and blocks</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">else: one or the other</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Indentation and its errors</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">Variables across branches, and conditional expressions</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w002d3.ipynb" download>download it</a>. Exercises today are worth 135 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d3-p1"><textarea class="pc-src pc-code" hidden>a, b = 4, 0
+print(a &gt; 2 and b &gt; 2)
+print(a &gt; 2 or b &gt; 2)
+print(b != 0 and a / b &gt; 1)
+print(not a)</textarea></div>
+<p>The third line is the guard from yesterday: <code>b != 0</code> is <code>False</code>, so Python never divides by zero. Today you&rsquo;ll use questions like these to decide which lines run at all.</p>
+<h2 id="making-a-choice-if">Making a choice: if</h2>
+<p>Here is your first program that doesn&rsquo;t always do the same thing:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e2"><div class="pc-title">Run it twice: with 25, then with 15</div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;Age: &quot;))
+if age &gt;= 18:
+    print(&quot;You can vote.&quot;)
+print(&quot;Thanks for checking.&quot;)</textarea></div>
+<p>Run it with <code>25</code>, then again with <code>15</code>. With 15, the middle message never appears. Now press <strong>X-ray</strong> and step through both times. Watch the yellow line: with 15, it jumps straight from the <code>if</code> line to the last line.</p>
+<p>The parts of an <code>if</code> statement:</p>
+<pre><code class="language-python">if age &gt;= 18:
+    print(&quot;You can vote.&quot;)
+</code></pre>
+<ol>
+<li>The word <code>if</code>.</li>
+<li>A <strong>condition</strong>: any expression Python can treat as true or false. Everything you learned this week fits here.</li>
+<li>A <strong>colon</strong> <code>:</code>. It means &ldquo;here comes the part that depends on this&rdquo;.</li>
+<li>An <strong>indented block</strong>: one or more lines, each pushed in by 4 spaces. These run only when the condition is true.</li>
+</ol>
+<p>The line after the block, <code>print("Thanks for checking.")</code>, is back at the left edge. That&rsquo;s how Python knows the block has ended, so it runs whatever the answer was.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Python runs an <code>if</code> block only when its condition is true. Otherwise it skips the whole block and carries on with the first line after it.</p></aside>
+<h2 id="blocks-can-hold-many-lines">Blocks can hold many lines</h2>
+<p>Every line indented under the <code>if</code> belongs to it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e3"><div class="pc-title">A block of three lines</div><textarea class="pc-src pc-code" hidden>total = int(input(&quot;Order total: &quot;))
+if total &gt;= 10000:
+    discount = total // 10
+    total = total - discount
+    print(&quot;You saved&quot;, discount)
+print(&quot;Pay:&quot;, total)</textarea></div>
+<p>Try <code>12000</code>, then <code>5000</code>. With 5000, all three indented lines are skipped together.</p>
+<h2 id="else-one-or-the-other">else: one or the other</h2>
+<p>Often you want one thing when the answer is yes and something else when it&rsquo;s no. That&rsquo;s <code>else</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e4"><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+if n % 2 == 0:
+    print(n, &quot;is even&quot;)
+else:
+    print(n, &quot;is odd&quot;)
+print(&quot;Done&quot;)</textarea></div>
+<p><code>else</code> has no condition of its own: it means &ldquo;if the condition above was false&rdquo;. It lines up with its <code>if</code>, ends with a colon, and has its own indented block. Exactly <strong>one</strong> of the two blocks runs, every time.</p>
+<p>Here&rsquo;s the same idea as a picture. Move the slider and watch which way Python goes:</p>
+<figure class="widget" data-widget="branch"><script type="application/json">{"name": "mark", "value": 62, "min": 0, "max": 100, "branches": [["mark >= 50", "print('Pass')"], [null, "print('Fail')"]]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>One if and one else. Exactly one of the two blocks runs, whatever the value is. The strip shows every value from 0 to 100 and which branch it takes.</figcaption></figure>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d3-p5"><textarea class="pc-src pc-code" hidden>temp = 30
+if temp &gt; 25:
+    print(&quot;Hot&quot;)
+else:
+    print(&quot;Not hot&quot;)
+if temp &gt; 35:
+    print(&quot;Very hot&quot;)
+print(&quot;End&quot;)</textarea></div>
+<h2 id="indentation-is-part-of-the-language">Indentation is part of the language</h2>
+<p>In most languages, indentation is just for looks. In Python it&rsquo;s how you say which lines belong to which block. The standard is <strong>4 spaces</strong> per level; the editors on this site insert them for you when you press Tab or Enter after a colon.</p>
+<p>Compare these two programs. The only difference is one indent:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e6"><div class="pc-title">Version A</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+if n &gt; 5:
+    print(&quot;Big&quot;)
+    print(&quot;Really big&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e7"><div class="pc-title">Version B</div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+if n &gt; 5:
+    print(&quot;Big&quot;)
+print(&quot;Really big&quot;)</textarea></div>
+<p>With <code>3</code>, Version A prints nothing and Version B prints <code>Really big</code>. In B the last line isn&rsquo;t part of the block, so it always runs.</p>
+<h3 id="when-indentation-goes-wrong">When indentation goes wrong</h3>
+<p>Python is strict about it, and these are the errors you&rsquo;ll see:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e8"><div class="pc-title">No block at all</div><textarea class="pc-src pc-code" hidden>x = 5
+if x &gt; 3:
+print(&quot;yes&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e9"><div class="pc-title">An indent where none belongs</div><textarea class="pc-src pc-code" hidden>x = 5
+    print(x)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e10"><div class="pc-title">Forgot the colon</div><textarea class="pc-src pc-code" hidden>x = 5
+if x &gt; 3
+    print(&quot;yes&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e11"><div class="pc-title">Indents that don&rsquo;t line up</div><textarea class="pc-src pc-code" hidden>x = 5
+if x &gt; 3:
+    print(&quot;yes&quot;)
+  print(&quot;still yes?&quot;)</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Every line in a block must start at exactly the same column. If an error mentions indentation, look at the <strong>left edge</strong> of the reported line and the line above it.</p></aside>
+<h2 id="any-condition-will-do">Any condition will do</h2>
+<p>The condition can be anything from the last two days: a comparison, a combination with <code>and</code> and <code>or</code>, a <code>bool</code> variable, or any value at all, which Python treats by its truthiness.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e12"><div class="pc-title">A bool variable as the condition</div><textarea class="pc-src pc-code" hidden>has_coupon = input(&quot;Coupon? (y/n) &quot;) == &quot;y&quot;
+price = 2000
+if has_coupon:
+    price = price - 500
+print(&quot;Price:&quot;, price)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e13"><div class="pc-title">Truthiness: an empty string is false</div><textarea class="pc-src pc-code" hidden>name = input(&quot;Name: &quot;)
+if name:
+    print(&quot;Hello,&quot;, name)
+else:
+    print(&quot;You didn&#x27;t type a name.&quot;)</textarea></div>
+<p><code>if name:</code> reads as &ldquo;if there is a name&rdquo;. Python treats the empty string as false.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>if x = 5:</code> is a <code>SyntaxError</code>. A condition asks a question, so it needs <code>==</code>.</p></aside>
+<h2 id="giving-a-variable-a-value-in-every-branch">Giving a variable a value in every branch</h2>
+<p>If a variable is created inside a block, it only exists if that block ran:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e14"><div class="pc-title">Works for some inputs only</div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;Age: &quot;))
+if age &gt;= 18:
+    message = &quot;Welcome&quot;
+print(message)</textarea></div>
+<p>Run it with 30 and it works. Run it with 12 and the block is skipped, <code>message</code> is never created, and the last line raises a <code>NameError</code>. The fix is to make sure <strong>every path</strong> gives it a value:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e15"><div class="pc-title">Fixed</div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;Age: &quot;))
+if age &gt;= 18:
+    message = &quot;Welcome&quot;
+else:
+    message = &quot;Sorry, adults only&quot;
+print(message)</textarea></div>
+<p>Another common fix is to give a default first, and change it only when needed:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e16"><div class="pc-title">Also fixed</div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;Age: &quot;))
+message = &quot;Sorry, adults only&quot;
+if age &gt;= 18:
+    message = &quot;Welcome&quot;
+print(message)</textarea></div>
+<h2 id="some-classic-patterns">Some classic patterns</h2>
+<h3 id="the-larger-of-two-numbers">The larger of two numbers</h3>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e17"><textarea class="pc-src pc-code" hidden>a, b = 17, 42
+if a &gt; b:
+    largest = a
+else:
+    largest = b
+print(largest)</textarea></div>
+<p>Python has <code>max()</code> for this, but writing it yourself is how you learn to think in branches.</p>
+<h3 id="absolute-value">Absolute value</h3>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e18"><textarea class="pc-src pc-code" hidden>n = -8
+if n &lt; 0:
+    n = -n
+print(n)</textarea></div>
+<h3 id="checking-input-before-using-it">Checking input before using it</h3>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e19"><textarea class="pc-src pc-code" hidden>d = int(input(&quot;Divide 100 by: &quot;))
+if d == 0:
+    print(&quot;You can&#x27;t divide by zero.&quot;)
+else:
+    print(100 / d)</textarea></div>
+<p>This is the same guard as yesterday, now written as a decision.</p>
+<h2 id="conditional-expressions">Conditional expressions</h2>
+<p>When both branches only choose between two <strong>values</strong>, Python has a one-line form:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e20"><textarea class="pc-src pc-code" hidden>n = 7
+kind = &quot;even&quot; if n % 2 == 0 else &quot;odd&quot;
+print(kind)</textarea></div>
+<p>Read it as: &ldquo;<code>kind</code> is <code>"even"</code> if <code>n</code> is even, else <code>"odd"</code>.&rdquo; It&rsquo;s an expression, so it can go anywhere a value can, even inside an f-string:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d3-e21"><textarea class="pc-src pc-code" hidden>items = 1
+print(f&quot;You have {items} {&#x27;item&#x27; if items == 1 else &#x27;items&#x27;}.&quot;)
+items = 3
+print(f&quot;You have {items} {&#x27;item&#x27; if items == 1 else &#x27;items&#x27;}.&quot;)</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Use the one-line form only for choosing between two simple values. If either branch needs to <em>do</em> something, or the line gets long, write a normal <code>if</code>/<code>else</code>.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-pass_fail" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Pass or fail</div><div class="pc-prompt"><p>Ask for a mark with the prompt <code>Mark:</code>. Print <code>Pass</code> if it is 50 or more, otherwise <code>Fail</code>.</p></div><textarea class="pc-src pc-code" hidden>mark = int(input(&quot;Mark: &quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_pass():
+    &quot;75 passes&quot;
+    expect_output(&quot;Mark: 75\nPass&quot;, inputs=[&quot;75&quot;], echo=True)
+def test_edge():
+    &quot;exactly 50 passes&quot;
+    expect_output(&quot;Mark: 50\nPass&quot;, inputs=[&quot;50&quot;], echo=True)
+def test_fail():
+    &quot;49 fails&quot;
+    expect_output(&quot;Mark: 49\nFail&quot;, inputs=[&quot;49&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>mark = int(input(&quot;Mark: &quot;))
+if mark &gt;= 50:
+    print(&quot;Pass&quot;)
+else:
+    print(&quot;Fail&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-larger" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The larger one</div><div class="pc-prompt"><p>Ask for two whole numbers with the prompts <code>First:</code> and <code>Second:</code> and print <code>Larger:</code> followed by the larger of the two. If they&rsquo;re equal, print that number. Don&rsquo;t use <code>max()</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_first():
+    &quot;first is larger&quot;
+    expect_output(&quot;First: 9\nSecond: 4\nLarger: 9&quot;, inputs=[&quot;9&quot;, &quot;4&quot;], echo=True)
+def test_second():
+    &quot;second is larger&quot;
+    expect_output(&quot;First: -3\nSecond: 2\nLarger: 2&quot;, inputs=[&quot;-3&quot;, &quot;2&quot;], echo=True)
+def test_equal():
+    &quot;equal&quot;
+    expect_output(&quot;First: 5\nSecond: 5\nLarger: 5&quot;, inputs=[&quot;5&quot;, &quot;5&quot;], echo=True)
+def test_no_max():
+    &quot;doesn&#x27;t use max&quot;
+    assert &quot;max(&quot; not in source, &quot;Do it with if and else this time.&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = int(input(&quot;First: &quot;))
+b = int(input(&quot;Second: &quot;))
+if a &gt; b:
+    larger = a
+else:
+    larger = b
+print(&quot;Larger:&quot;, larger)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-absolute" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Distance from zero</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>Number:</code> and print its distance from zero, without using <code>abs()</code>. So <code>-7</code> prints <code>7</code> and <code>4</code> prints <code>4</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_neg():
+    &quot;-7&quot;
+    expect_output(&quot;Number: -7\n7&quot;, inputs=[&quot;-7&quot;], echo=True)
+def test_pos():
+    &quot;4&quot;
+    expect_output(&quot;Number: 4\n4&quot;, inputs=[&quot;4&quot;], echo=True)
+def test_zero():
+    &quot;0&quot;
+    expect_output(&quot;Number: 0\n0&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_no_abs():
+    &quot;doesn&#x27;t use abs&quot;
+    assert &quot;abs(&quot; not in source, &quot;Use an if instead of abs().&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+if n &lt; 0:
+    n = -n
+print(n)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-discount" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Bulk discount</div><div class="pc-prompt"><p>Ask for an order total (a whole number) with the prompt <code>Total:</code>. Orders of 10,000 or more get 10% off. Print <code>To pay:</code> and the amount to pay, which is always a float.</p>
+<pre><code>Total: 12000
+To pay: 10800.0
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_big():
+    &quot;12000 gets the discount&quot;
+    expect_output(&quot;Total: 12000\nTo pay: 10800.0&quot;, inputs=[&quot;12000&quot;], echo=True)
+def test_small():
+    &quot;5000 doesn&#x27;t&quot;
+    expect_output(&quot;Total: 5000\nTo pay: 5000.0&quot;, inputs=[&quot;5000&quot;], echo=True)
+def test_edge():
+    &quot;exactly 10000 does&quot;
+    expect_output(&quot;Total: 10000\nTo pay: 9000.0&quot;, inputs=[&quot;10000&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>total = int(input(&quot;Total: &quot;))
+to_pay = float(total)
+if total &gt;= 10000:
+    to_pay = total * 0.9
+print(&quot;To pay:&quot;, to_pay)</textarea><template class="pc-src pc-hint">Start with <code>to_pay = float(total)</code>, then change it inside an <code>if</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-guess" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Guess the number</div><div class="pc-prompt"><p>The secret number is 7. Ask for a guess with the prompt <code>Guess:</code>. Print <code>Correct!</code> if it&rsquo;s right. Otherwise print <code>Wrong, it was 7</code>.</p></div><textarea class="pc-src pc-code" hidden>SECRET = 7</textarea><textarea class="pc-src pc-tests" hidden>def test_right():
+    &quot;right guess&quot;
+    expect_output(&quot;Guess: 7\nCorrect!&quot;, inputs=[&quot;7&quot;], echo=True)
+def test_wrong():
+    &quot;wrong guess&quot;
+    expect_output(&quot;Guess: 3\nWrong, it was 7&quot;, inputs=[&quot;3&quot;], echo=True)
+def test_secret_used():
+    &quot;uses SECRET, not a typed 7, in the comparison and message&quot;
+    got = norm(run_with({&quot;SECRET = 7&quot;: &quot;SECRET = 4&quot;}, inputs=[&quot;4&quot;]))
+    assert got.endswith(&quot;Correct!&quot;), &quot;Compare with SECRET, so changing it changes the game.&quot;
+    got = norm(run_with({&quot;SECRET = 7&quot;: &quot;SECRET = 4&quot;}, inputs=[&quot;1&quot;]))
+    assert got.endswith(&quot;Wrong, it was 4&quot;), &quot;Print SECRET in the message, not the number 7.&quot;</textarea><textarea class="pc-src pc-solution" hidden>SECRET = 7
+guess = int(input(&quot;Guess: &quot;))
+if guess == SECRET:
+    print(&quot;Correct!&quot;)
+else:
+    print(f&quot;Wrong, it was {SECRET}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-plural" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">One apple, two apples</div><div class="pc-prompt"><p>Ask for a number of apples with the prompt <code>Apples:</code> and print <code>You have 1 apple</code> or <code>You have 3 apples</code>, using a conditional expression for the word.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_one():
+    &quot;1 apple&quot;
+    expect_output(&quot;Apples: 1\nYou have 1 apple&quot;, inputs=[&quot;1&quot;], echo=True)
+def test_many():
+    &quot;3 apples&quot;
+    expect_output(&quot;Apples: 3\nYou have 3 apples&quot;, inputs=[&quot;3&quot;], echo=True)
+def test_zero():
+    &quot;0 apples&quot;
+    expect_output(&quot;Apples: 0\nYou have 0 apples&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_expr():
+    &quot;uses a conditional expression&quot;
+    assert &quot; if &quot; in source and &quot; else &quot; in source and &quot;else:&quot; not in source, &quot;Use the one-line form: &#x27;apple&#x27; if n == 1 else &#x27;apples&#x27;&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Apples: &quot;))
+word = &quot;apple&quot; if n == 1 else &quot;apples&quot;
+print(f&quot;You have {n} {word}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-bmi_flag" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Speed check</div><div class="pc-prompt"><p>The speed limit is 50. Ask for a speed with the prompt <code>Speed:</code>. If the driver is over the limit, print <code>Over by</code> and how much (for example <code>Over by 12</code>). Otherwise print <code>Within the limit</code>. Then, in every case, print <code>Drive safely</code>.</p></div><textarea class="pc-src pc-code" hidden>LIMIT = 50</textarea><textarea class="pc-src pc-tests" hidden>def test_over():
+    &quot;62 is over by 12&quot;
+    expect_output(&quot;Speed: 62\nOver by 12\nDrive safely&quot;, inputs=[&quot;62&quot;], echo=True)
+def test_under():
+    &quot;40 is fine&quot;
+    expect_output(&quot;Speed: 40\nWithin the limit\nDrive safely&quot;, inputs=[&quot;40&quot;], echo=True)
+def test_edge():
+    &quot;exactly 50 is fine&quot;
+    expect_output(&quot;Speed: 50\nWithin the limit\nDrive safely&quot;, inputs=[&quot;50&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>LIMIT = 50
+speed = int(input(&quot;Speed: &quot;))
+if speed &gt; LIMIT:
+    print(&quot;Over by&quot;, speed - LIMIT)
+else:
+    print(&quot;Within the limit&quot;)
+print(&quot;Drive safely&quot;)</textarea><template class="pc-src pc-hint">The last <code>print</code> goes after the <code>if</code>/<code>else</code>, back at the left edge.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Too much is skipped</div><div class="pc-prompt"><p>Orders under 5000 pay 1500 for delivery. Every order should print a <code>Delivery:</code> line and a <code>Total:</code> line, but for an order of 8000 this prints nothing at all. Fix the indentation only.</p></div><textarea class="pc-src pc-code" hidden>total = int(input(&quot;Order: &quot;))
+delivery = 0
+if total &lt; 5000:
+    delivery = 1500
+    print(&quot;Delivery:&quot;, delivery)
+    print(&quot;Total:&quot;, total + delivery)</textarea><textarea class="pc-src pc-tests" hidden>def test_small():
+    &quot;small order pays delivery&quot;
+    expect_output(&quot;Order: 3000\nDelivery: 1500\nTotal: 4500&quot;, inputs=[&quot;3000&quot;], echo=True)
+def test_big():
+    &quot;big order: free delivery, but still shows both lines&quot;
+    expect_output(&quot;Order: 8000\nDelivery: 0\nTotal: 8000&quot;, inputs=[&quot;8000&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>total = int(input(&quot;Order: &quot;))
+delivery = 0
+if total &lt; 5000:
+    delivery = 1500
+print(&quot;Delivery:&quot;, delivery)
+print(&quot;Total:&quot;, total + delivery)</textarea><template class="pc-src pc-hint">Which lines should run for every order, whatever the total?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Three mistakes</div><div class="pc-prompt"><p>This program has three small mistakes that stop it running. Find them all.</p></div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+if n = 0
+print(&quot;zero&quot;)
+else:
+    print(&quot;not zero&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_zero():
+    &quot;0&quot;
+    expect_output(&quot;Number: 0\nzero&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_other():
+    &quot;5&quot;
+    expect_output(&quot;Number: 5\nnot zero&quot;, inputs=[&quot;5&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+if n == 0:
+    print(&quot;zero&quot;)
+else:
+    print(&quot;not zero&quot;)</textarea><template class="pc-src pc-hint">Look at the comparison operator, the end of the <code>if</code> line, and the left edge of the line after it.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d3-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sometimes it crashes</div><div class="pc-prompt"><p>This works for some inputs and crashes for others. Make it always print a message: <code>Big</code> for numbers over 100 and <code>Small</code> otherwise.</p></div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+if n &gt; 100:
+    size = &quot;Big&quot;
+print(size)</textarea><textarea class="pc-src pc-tests" hidden>def test_big():
+    &quot;500&quot;
+    expect_output(&quot;Number: 500\nBig&quot;, inputs=[&quot;500&quot;], echo=True)
+def test_small():
+    &quot;7&quot;
+    expect_output(&quot;Number: 7\nSmall&quot;, inputs=[&quot;7&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+if n &gt; 100:
+    size = &quot;Big&quot;
+else:
+    size = &quot;Small&quot;
+print(size)</textarea></div>
+<div class="parsons" data-id="w002d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Ticket price</div><div class="pc-prompt"><p>Arrange the lines: children under 12 pay 500 and everyone else pays 1200. The program prints the price. Watch the indentation; one line is a trap.</p></div><script type="application/json">{"lines": ["age = int(input(\"Age: \"))", "if age < 12:", "    price = 500", "else:", "    price = 1200", "print(\"Price:\", price)"], "distractors": ["else age >= 12:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Which lines run?</div><div class="pc-prompt"><p>For each input, work out what this program prints, without running it. Put each answer in a string, with <code>\n</code> between lines.</p>
+<pre><code class="language-python">x = int(input())
+if x &gt; 10:
+    print(&quot;A&quot;)
+    x = x - 10
+if x &gt; 5:
+    print(&quot;B&quot;)
+else:
+    print(&quot;C&quot;)
+print(x)
+</code></pre></div><textarea class="pc-src pc-code" hidden>for_15 = &quot;___&quot;
+for_3 = &quot;___&quot;
+for_25 = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_15():
+    &quot;input 15&quot;
+    assert for_15.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;A\nC\n5&quot;, &quot;Trace 15 again. After the first block, x has changed.&quot;
+def test_3():
+    &quot;input 3&quot;
+    assert for_3.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;C\n3&quot;, &quot;Trace 3 again.&quot;
+def test_25():
+    &quot;input 25&quot;
+    assert for_25.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;A\nB\n15&quot;, &quot;Trace 25 again.&quot;</textarea><textarea class="pc-src pc-solution" hidden>for_15 = &quot;A\nC\n5&quot;
+for_3 = &quot;C\n3&quot;
+for_25 = &quot;A\nB\n15&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w002d3-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What ends the line <code>if x &gt; 3</code>?", "answer": 1, "explain": "if, else and every line that introduces a block end with a colon.", "options": ["A semicolon", "A colon", "Nothing", "A full stop"]}, {"type": "mc", "q": "How does Python know which lines are inside an if block?", "answer": 1, "explain": "Indentation is how Python groups lines into blocks.", "options": ["They are in curly brackets", "They are indented under it", "They end with a colon", "They come straight after it"]}, {"type": "output", "q": "What does this print?", "answer": "done", "explain": "The condition is False, so only the line after the block runs.", "code": "x = 2\nif x > 5:\n    print(\"big\")\nprint(\"done\")"}, {"type": "output", "q": "What does this print?", "answer": "big", "explain": "Exactly one branch runs: the condition is True.", "code": "x = 8\nif x > 5:\n    print(\"big\")\nelse:\n    print(\"small\")"}, {"type": "text", "q": "Which error does <code>if x == 3</code> (no colon) give?", "answer": ["SyntaxError", "syntax error"], "explain": "Python can&rsquo;t read the line, so it&rsquo;s a SyntaxError."}, {"type": "output", "q": "What does this print?", "answer": "no", "explain": "0 is falsy.", "code": "n = 0\nif n:\n    print(\"yes\")\nelse:\n    print(\"no\")"}, {"type": "text", "q": "What does <code>\"odd\" if 4 % 2 else \"even\"</code> give?", "answer": ["even", "'even'", "\"even\""], "explain": "4 % 2 is 0, which is falsy, so the else value is chosen."}, {"type": "mc", "q": "Why might this crash?", "answer": 1, "explain": "Every path to print(result) must give result a value.", "options": ["result is a reserved word", "If score is 50 or less, result is never created", "print can&rsquo;t take a variable", "It never crashes"], "code": "if score > 50:\n    result = \"good\"\nprint(result)"}, {"type": "text", "q": "How many spaces is one level of indentation by convention?", "answer": ["4", "four"], "explain": "PEP 8, Python&rsquo;s style guide, says 4 spaces."}, {"type": "output", "q": "What does this print?", "answer": "11", "explain": "Both ifs are checked separately: a becomes 10, then 11.", "code": "a = 5\nif a > 3:\n    a = a * 2\nif a > 8:\n    a = a + 1\nprint(a)"}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d3-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: the 12-hour clock</div><div class="pc-prompt"><p>Ask for an hour on the 24-hour clock (0 to 23) with the prompt <code>Hour:</code>, and print it on the 12-hour clock, like <code>3 PM</code>. Remember: hour 0 is <code>12 AM</code> (midnight), and hour 12 is <code>12 PM</code> (noon).</p>
+<pre><code>Hour: 15
+3 PM
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_15():
+    &quot;15 is 3 PM&quot;
+    expect_output(&quot;Hour: 15\n3 PM&quot;, inputs=[&quot;15&quot;], echo=True)
+def test_0():
+    &quot;0 is 12 AM&quot;
+    expect_output(&quot;Hour: 0\n12 AM&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_12():
+    &quot;12 is 12 PM&quot;
+    expect_output(&quot;Hour: 12\n12 PM&quot;, inputs=[&quot;12&quot;], echo=True)
+def test_9():
+    &quot;9 is 9 AM&quot;
+    expect_output(&quot;Hour: 9\n9 AM&quot;, inputs=[&quot;9&quot;], echo=True)
+def test_23():
+    &quot;23 is 11 PM&quot;
+    expect_output(&quot;Hour: 23\n11 PM&quot;, inputs=[&quot;23&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>hour = int(input(&quot;Hour: &quot;))
+suffix = &quot;AM&quot; if hour &lt; 12 else &quot;PM&quot;
+shown = hour % 12 or 12
+print(shown, suffix)</textarea><template class="pc-src pc-hint">The AM or PM part depends only on whether the hour is before 12.</template><template class="pc-src pc-hint"><code>hour % 12</code> is almost the 12-hour number. When it&rsquo;s 0, you want 12 instead. Remember yesterday&rsquo;s trick with <code>or</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Take the last example from the trace exercise and draw it as a flowchart: a diamond for each question and a box for each action, with arrows labelled True and False. Then explain to yourself why the two <code>if</code> statements are both checked. Tomorrow: what to do when there are more than two possibilities, with <code>elif</code>, and decisions inside decisions.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w002d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w002d4.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w002d3", "week": 2, "day": 3, "title": "if and else", "exercises": [{"id": "w002d3-pass_fail", "title": "Pass or fail", "points": 10}, {"id": "w002d3-larger", "title": "The larger one", "points": 10}, {"id": "w002d3-absolute", "title": "Distance from zero", "points": 10}, {"id": "w002d3-discount", "title": "Bulk discount", "points": 10}, {"id": "w002d3-guess", "title": "Guess the number", "points": 10}, {"id": "w002d3-plural", "title": "One apple, two apples", "points": 10}, {"id": "w002d3-bmi_flag", "title": "Speed check", "points": 10}, {"id": "w002d3-bug1", "title": "Too much is skipped", "points": 10}, {"id": "w002d3-bug2", "title": "Three mistakes", "points": 10}, {"id": "w002d3-bug3", "title": "Sometimes it crashes", "points": 10}, {"id": "w002d3-trace", "title": "Which lines run?", "points": 15}, {"id": "w002d3-challenge", "title": "Challenge: the 12-hour clock", "points": 20}], "points": 135}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

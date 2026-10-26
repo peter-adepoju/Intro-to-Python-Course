@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="0500404132">
+<title>Week 2 Day 2: and, or, not | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=0500404132">
+<link rel="stylesheet" href="../assets/css/site.css?v=0500404132">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=0500404132"></script>
+<script src="../assets/vendor/codemirror.js?v=0500404132" defer></script>
+<meta name="description" content="Real questions are rarely single comparisons. Is the user over 18 and holding a ticket? Is it the weekend or a holiday? Today you’ll combine questions with...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w002d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 2 Day 2: and, or, not">
+<meta property="og:description" content="Real questions are rarely single comparisons. Is the user over 18 and holding a ticket? Is it the weekend or a holiday? Today you’ll combine questions with...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w002d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-2">Week 2: Making decisions</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#and-both-must-be-true" data-sec="and-both-must-be-true">and: both must be true</a></li><li><a href="#or-at-least-one-must-be-true" data-sec="or-at-least-one-must-be-true">or: at least one must be true</a></li><li><a href="#not-flip-it" data-sec="not-flip-it">not: flip it</a></li><li><a href="#truth-tables" data-sec="truth-tables">Truth tables</a></li><li><a href="#order-of-evaluation" data-sec="order-of-evaluation">Order of evaluation</a></li><li><a href="#the-classic-mistake-x-1-or-2" data-sec="the-classic-mistake-x-1-or-2">The classic mistake: x == 1 or 2</a></li><li><a href="#short-circuit-evaluation" data-sec="short-circuit-evaluation">Short-circuit evaluation</a></li><li><a href="#and-and-or-return-one-of-their-sides" data-sec="and-and-or-return-one-of-their-sides">and and or return one of their sides</a></li><li><a href="#de-morgan-s-laws" data-sec="de-morgan-s-laws">De Morgan’s laws</a></li><li><a href="#readable-conditions" data-sec="readable-conditions">Readable conditions</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 2, Day 2</span></p>
+      <h1>and, or, not</h1>
+      <div class="day-intro"><p>Real questions are rarely single comparisons. Is the user over 18 and holding a ticket? Is it the weekend or a holiday? Today you&rsquo;ll combine questions with <code>and</code>, <code>or</code> and <code>not</code>, read and build truth tables, and learn the shortcut Python takes when it already knows the answer.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Combine conditions with <code>and</code>, <code>or</code> and <code>not</code>, and predict the result from a truth table</li><li>Work out the value of a mixed condition in Python&rsquo;s order, and use brackets to make it clear</li><li>Spot and fix the <code>x == 1 or 2</code> mistake</li><li>Explain short-circuit evaluation and use it to guard against errors</li><li>Rewrite a condition with De Morgan&rsquo;s laws, and use <code>or</code> to supply a default value</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="and, or, not and truth tables: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Order of evaluation and the classic mistake: 25 min"></span><span class="plan-seg s1" style="flex:30" title="Short-circuit evaluation: 30 min"></span><span class="plan-seg s0" style="flex:20" title="De Morgan&#x27;s laws and readable conditions: 20 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">and, or, not and truth tables</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Order of evaluation and the classic mistake</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Short-circuit evaluation</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">De Morgan&rsquo;s laws and readable conditions</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w002d2.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d2-p1"><textarea class="pc-src pc-code" hidden>x = 15
+print(x &gt; 10)
+print(x &lt; 12)
+print(10 &lt; x &lt; 20)
+print(&quot;a&quot; &lt; &quot;B&quot;)</textarea></div>
+<p>The last one is <code>False</code>: capital <code>B</code> (66) comes before lower-case <code>a</code> (97). The chained comparison in the third line already combined two questions. Today you&rsquo;ll learn to combine any questions you like.</p>
+<h2 id="and-both-must-be-true">and: both must be true</h2>
+<p><code>and</code> puts two conditions together. The whole thing is <code>True</code> only when <strong>both</strong> sides are <code>True</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e2"><textarea class="pc-src pc-code" hidden>age = 25
+has_ticket = True
+print(age &gt;= 18 and has_ticket)</textarea></div>
+<p>A cinema lets you in only if you&rsquo;re old enough <em>and</em> you have a ticket. If either part fails, you&rsquo;re not getting in.</p>
+<h2 id="or-at-least-one-must-be-true">or: at least one must be true</h2>
+<p><code>or</code> is <code>True</code> when <strong>at least one</strong> side is <code>True</code>. It&rsquo;s only <code>False</code> when both sides are <code>False</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e3"><textarea class="pc-src pc-code" hidden>day = &quot;Sunday&quot;
+print(day == &quot;Saturday&quot; or day == &quot;Sunday&quot;)</textarea></div>
+<aside class="callout c-note"><div class="callout-t">Note</div><p>In everyday English, &ldquo;tea or coffee?&rdquo; usually means one or the other, not both. Python&rsquo;s <code>or</code> is <strong>inclusive</strong>: if both sides are true, <code>or</code> is true too. &ldquo;Is it raining or cold?&rdquo; is true on a cold, rainy day.</p></aside>
+<h2 id="not-flip-it">not: flip it</h2>
+<p><code>not</code> takes one condition and turns <code>True</code> into <code>False</code> and <code>False</code> into <code>True</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e4"><textarea class="pc-src pc-code" hidden>is_raining = False
+print(not is_raining)
+print(not 5 &gt; 3)</textarea></div>
+<h2 id="truth-tables">Truth tables</h2>
+<p>A <strong>truth table</strong> lists every combination of inputs and the answer for each. With two conditions there are only four combinations, so you can know the full behaviour of <code>and</code> and <code>or</code> by heart:</p>
+<table>
+<thead>
+<tr>
+<th><code>a</code></th>
+<th><code>b</code></th>
+<th><code>a and b</code></th>
+<th><code>a or b</code></th>
+<th><code>not a</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>True</td>
+<td>True</td>
+<td><strong>True</strong></td>
+<td><strong>True</strong></td>
+<td>False</td>
+</tr>
+<tr>
+<td>True</td>
+<td>False</td>
+<td>False</td>
+<td><strong>True</strong></td>
+<td>False</td>
+</tr>
+<tr>
+<td>False</td>
+<td>True</td>
+<td>False</td>
+<td><strong>True</strong></td>
+<td><strong>True</strong></td>
+</tr>
+<tr>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td><strong>True</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Read the <code>and</code> column as &ldquo;only the top row&rdquo;, and the <code>or</code> column as &ldquo;all but the bottom row&rdquo;.</p>
+<p>Now build your own. Type any condition using <code>a</code>, <code>b</code> and <code>c</code>, and the figure lists every combination:</p>
+<figure class="widget" data-widget="truthtable"><script type="application/json">{"expr": "a and b"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Every combination of True and False, and the value of your condition for each. Rows where it&rsquo;s True are green. Try the examples, then invent your own with c.</figcaption></figure>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d2-p5"><textarea class="pc-src pc-code" hidden>a = True
+b = False
+print(a and b)
+print(a or b)
+print(not a or b)
+print(not (a or b))</textarea></div>
+<h2 id="order-of-evaluation">Order of evaluation</h2>
+<p>When a condition mixes several operators, Python works in this order:</p>
+<ol>
+<li>Arithmetic (<code>*</code>, <code>+</code> and the rest)</li>
+<li>Comparisons (<code>==</code>, <code>&lt;</code>, <code>in</code> and the rest)</li>
+<li><code>not</code></li>
+<li><code>and</code></li>
+<li><code>or</code></li>
+</ol>
+<p>So <code>not</code> binds tightest of the three, and <code>or</code> happens last. Step through this one:</p>
+<figure class="widget" data-widget="stepper"><script type="application/json">{"exprs": ["x + 1 > 5 and not x == 9 or x == 0"], "vars": {"x": 7}}</script><div class="widget-body"></div><figcaption>Arithmetic, then comparisons, then not, then and, then or.</figcaption></figure>
+<p><code>a or b and c</code> means <code>a or (b and c)</code>, because <code>and</code> goes first. If you have to stop and think about the order, so will anyone reading your code. Add brackets:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e6"><textarea class="pc-src pc-code" hidden>x = 7
+print(x &gt; 5 and x &lt; 10 or x == 100)
+print((x &gt; 5 and x &lt; 10) or x == 100)</textarea></div>
+<p>Both lines mean the same thing, but the second says so out loud.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Brackets cost nothing and remove all doubt. Use them whenever a condition mixes <code>and</code> with <code>or</code>.</p></aside>
+<h2 id="the-classic-mistake-x-1-or-2">The classic mistake: x == 1 or 2</h2>
+<p>You want to know whether <code>x</code> is 1 or 2. In English you&rsquo;d say &ldquo;is x equal to 1 or 2?&rdquo;, so it&rsquo;s tempting to write this:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e7"><div class="pc-title">Looks right. Isn&rsquo;t.</div><textarea class="pc-src pc-code" hidden>x = 7
+print(x == 1 or 2)</textarea></div>
+<p>It prints <code>2</code>, not <code>False</code>. Python reads it as <code>(x == 1) or (2)</code>: the left side is <code>False</code>, so the answer is whatever the right side is, and the right side is just the number 2. Worse, <code>2</code> is truthy, so when you use this condition to make a decision next lesson, it will <strong>always</strong> count as true, whatever <code>x</code> is.</p>
+<figure class="widget" data-widget="stepper"><script type="application/json">{"exprs": ["x == 1 or 2"], "vars": {"x": 7}}</script><div class="widget-body"></div><figcaption>The or doesn&rsquo;t share the x == part. Each side stands alone.</figcaption></figure>
+<p>The fix is to write each comparison in full:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e8"><textarea class="pc-src pc-code" hidden>x = 7
+print(x == 1 or x == 2)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Each side of <code>and</code> and <code>or</code> is a complete condition on its own. <code>x == 1 or 2</code> is not &ldquo;x is 1 or 2&rdquo;; write <code>x == 1 or x == 2</code>.</p></aside>
+<h2 id="short-circuit-evaluation">Short-circuit evaluation</h2>
+<p>Python is lazy in a useful way. It works from left to right and stops as soon as it knows the answer:</p>
+<ul>
+<li><code>False and anything</code> is always <code>False</code>, so Python never looks at <code>anything</code>.</li>
+<li><code>True or anything</code> is always <code>True</code>, so again Python skips the right side.</li>
+</ul>
+<p>This is called <strong>short-circuit evaluation</strong>. You can see it happen. In both lines below, the right side would crash if Python ever ran it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e9"><textarea class="pc-src pc-code" hidden>print(False and 1 / 0 &gt; 1)
+print(True or 1 / 0 &gt; 1)</textarea></div>
+<p>No <code>ZeroDivisionError</code>, because the division never runs. Swap the sides and it does:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e10"><textarea class="pc-src pc-code" hidden>print(1 / 0 &gt; 1 and False)</textarea></div>
+<p>This isn&rsquo;t just a curiosity. It lets you write a <strong>guard</strong>: a check on the left that protects the code on the right.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e11"><div class="pc-title">A guard</div><textarea class="pc-src pc-code" hidden>count = int(input(&quot;Number of items: &quot;))
+total = 120
+print(&quot;Big average:&quot;, count != 0 and total / count &gt; 50)</textarea></div>
+<p>Run it with <code>0</code>. If <code>count</code> is 0, <code>count != 0</code> is <code>False</code>, and Python never attempts the division. Run it again with <code>2</code>. Press X-ray in both cases and watch what Python evaluates.</p>
+<aside class="callout c-think"><div class="callout-t">Think about it</div><p>In <code>count != 0 and total / count &gt; 50</code>, would swapping the two sides around still be safe? Why does the order of a guard matter?</p></aside>
+<h2 id="and-and-or-return-one-of-their-sides">and and or return one of their sides</h2>
+<p>So far <code>and</code> and <code>or</code> have given <code>True</code> or <code>False</code>, because both sides were bools. Strictly, they give back <strong>one of the two values</strong>:</p>
+<ul>
+<li><code>a or b</code> gives <code>a</code> if <code>a</code> is truthy, otherwise <code>b</code>.</li>
+<li><code>a and b</code> gives <code>a</code> if <code>a</code> is falsy, otherwise <code>b</code>.</li>
+</ul>
+<p>That explains why <code>x == 1 or 2</code> printed <code>2</code>. It also gives a neat way to supply a <strong>default</strong> when the user types nothing:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e12"><div class="pc-title">Press Enter without typing</div><textarea class="pc-src pc-code" hidden>name = input(&quot;Name: &quot;) or &quot;friend&quot;
+print(f&quot;Hello, {name}!&quot;)</textarea></div>
+<p>If the user types nothing, <code>input()</code> returns <code>""</code>, which is falsy, so <code>or</code> gives back <code>"friend"</code>.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d2-p13"><textarea class="pc-src pc-code" hidden>print(&quot;&quot; or &quot;default&quot;)
+print(&quot;Ada&quot; or &quot;default&quot;)
+print(0 or 5)
+print(3 and 4)
+print(0 and 4)</textarea></div>
+<h2 id="de-morgan-s-laws">De Morgan&rsquo;s laws</h2>
+<p>Sometimes you need the opposite of a combined condition. Augustus De Morgan, another nineteenth-century mathematician, noticed two rules:</p>
+<ul>
+<li><code>not (a and b)</code> is the same as <code>not a or not b</code></li>
+<li><code>not (a or b)</code> is the same as <code>not a and not b</code></li>
+</ul>
+<p>In words: when you push a <code>not</code> inside brackets, it flips each part, and <code>and</code> and <code>or</code> swap places. Check it yourself. The figure compares two conditions row by row:</p>
+<figure class="widget" data-widget="truthtable"><script type="application/json">{"expr": "not (a and b)", "compare": "not a or not b", "tries": ["not (a and b)", "not (a or b)", "not a and not b"]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The left column is your condition; the right is not a or not b. If every row matches, the two are the same condition. Change the left one to not (a or b) and see them disagree.</figcaption></figure>
+<p>An everyday example: &ldquo;not (rainy and cold)&rdquo; means &ldquo;not rainy, or not cold&rdquo;: at least one of the two is fine.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e14"><div class="pc-title">Two ways to say &lsquo;outside the range&rsquo;</div><textarea class="pc-src pc-code" hidden>t = 30
+print(not (18 &lt;= t &lt;= 24))
+print(t &lt; 18 or t &gt; 24)</textarea></div>
+<p>Both are correct. The second, with no <code>not</code>, is usually easier to read.</p>
+<h2 id="readable-conditions">Readable conditions</h2>
+<p>Long conditions are hard to check. Give the parts names:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e15"><div class="pc-title">Hard to read</div><textarea class="pc-src pc-code" hidden>age, has_id, with_adult = 15, False, True
+print((age &gt;= 18 and has_id) or (age &gt;= 12 and with_adult))</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w002d2-e16"><div class="pc-title">Easier</div><textarea class="pc-src pc-code" hidden>age, has_id, with_adult = 15, False, True
+adult_with_id = age &gt;= 18 and has_id
+older_child_with_adult = age &gt;= 12 and with_adult
+print(adult_with_id or older_child_with_adult)</textarea></div>
+<p>Same answer, but each line can be checked on its own, and the last line reads like the rule it implements.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-teen" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Teenager</div><div class="pc-prompt"><p>Ask for an age with the prompt <code>Age:</code> and print <code>Teenager: True</code> for ages 13 to 19 (both included), otherwise <code>Teenager: False</code>. Use <code>and</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_13():
+    &quot;13 is a teenager&quot;
+    expect_output(&quot;Age: 13\nTeenager: True&quot;, inputs=[&quot;13&quot;], echo=True)
+def test_19():
+    &quot;19 is a teenager&quot;
+    expect_output(&quot;Age: 19\nTeenager: True&quot;, inputs=[&quot;19&quot;], echo=True)
+def test_12():
+    &quot;12 is not&quot;
+    expect_output(&quot;Age: 12\nTeenager: False&quot;, inputs=[&quot;12&quot;], echo=True)
+def test_20():
+    &quot;20 is not&quot;
+    expect_output(&quot;Age: 20\nTeenager: False&quot;, inputs=[&quot;20&quot;], echo=True)
+def test_and():
+    &quot;uses and&quot;
+    assert &quot; and &quot; in source, &quot;Use and to join the two comparisons.&quot;</textarea><textarea class="pc-src pc-solution" hidden>age = int(input(&quot;Age: &quot;))
+print(&quot;Teenager:&quot;, age &gt;= 13 and age &lt;= 19)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-weekend" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Weekend</div><div class="pc-prompt"><p>Ask for a day with the prompt <code>Day:</code> and print <code>Weekend: True</code> if it&rsquo;s <code>Saturday</code> or <code>Sunday</code>. Capitals shouldn&rsquo;t matter.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_sat():
+    &quot;Saturday&quot;
+    expect_output(&quot;Day: Saturday\nWeekend: True&quot;, inputs=[&quot;Saturday&quot;], echo=True)
+def test_sun():
+    &quot;sunday in lower case&quot;
+    expect_output(&quot;Day: sunday\nWeekend: True&quot;, inputs=[&quot;sunday&quot;], echo=True)
+def test_mon():
+    &quot;Monday&quot;
+    expect_output(&quot;Day: Monday\nWeekend: False&quot;, inputs=[&quot;Monday&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>day = input(&quot;Day: &quot;).lower()
+print(&quot;Weekend:&quot;, day == &quot;saturday&quot; or day == &quot;sunday&quot;)</textarea><template class="pc-src pc-hint">Turn the day into lower case once, at the start, then compare it with <code>"saturday"</code> and <code>"sunday"</code> separately.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-login" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Log in</div><div class="pc-prompt"><p>The correct username is <code>ada</code> and the correct PIN is <code>1815</code>. Ask for both, with the prompts <code>Username:</code> and <code>PIN:</code>, and print <code>Access: True</code> only if both are right.</p></div><textarea class="pc-src pc-code" hidden>USER = &quot;ada&quot;
+PIN = &quot;1815&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_ok():
+    &quot;both right&quot;
+    expect_output(&quot;Username: ada\nPIN: 1815\nAccess: True&quot;, inputs=[&quot;ada&quot;, &quot;1815&quot;], echo=True)
+def test_wrong_pin():
+    &quot;wrong PIN&quot;
+    expect_output(&quot;Username: ada\nPIN: 1234\nAccess: False&quot;, inputs=[&quot;ada&quot;, &quot;1234&quot;], echo=True)
+def test_wrong_user():
+    &quot;wrong user&quot;
+    expect_output(&quot;Username: bob\nPIN: 1815\nAccess: False&quot;, inputs=[&quot;bob&quot;, &quot;1815&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>USER = &quot;ada&quot;
+PIN = &quot;1815&quot;
+user = input(&quot;Username: &quot;)
+pin = input(&quot;PIN: &quot;)
+print(&quot;Access:&quot;, user == USER and pin == PIN)</textarea><template class="pc-src pc-hint">Keep the PIN as a string: compare <code>input()</code> with <code>PIN</code> directly, no <code>int()</code> needed.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-free" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Free entry</div><div class="pc-prompt"><p>A museum is free for children under 5 and for people aged 65 or over. Ask for an age with the prompt <code>Age:</code> and print <code>Free: True</code> or <code>Free: False</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_child():
+    &quot;age 3&quot;
+    expect_output(&quot;Age: 3\nFree: True&quot;, inputs=[&quot;3&quot;], echo=True)
+def test_senior():
+    &quot;age 65&quot;
+    expect_output(&quot;Age: 65\nFree: True&quot;, inputs=[&quot;65&quot;], echo=True)
+def test_adult():
+    &quot;age 30&quot;
+    expect_output(&quot;Age: 30\nFree: False&quot;, inputs=[&quot;30&quot;], echo=True)
+def test_five():
+    &quot;age 5 pays&quot;
+    expect_output(&quot;Age: 5\nFree: False&quot;, inputs=[&quot;5&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>age = int(input(&quot;Age: &quot;))
+print(&quot;Free:&quot;, age &lt; 5 or age &gt;= 65)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-leap" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Leap years</div><div class="pc-prompt"><p>A year is a <strong>leap year</strong> if it divides by 4, except that years dividing by 100 are not, except that years dividing by 400 are. So 2024 and 2000 are leap years, but 1900 and 2023 are not.</p>
+<p>Ask for a year with the prompt <code>Year:</code> and print <code>Leap: True</code> or <code>Leap: False</code>, using one condition.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_2024():
+    &quot;2024 is a leap year&quot;
+    expect_output(&quot;Year: 2024\nLeap: True&quot;, inputs=[&quot;2024&quot;], echo=True)
+def test_2023():
+    &quot;2023 is not&quot;
+    expect_output(&quot;Year: 2023\nLeap: False&quot;, inputs=[&quot;2023&quot;], echo=True)
+def test_1900():
+    &quot;1900 is not&quot;
+    expect_output(&quot;Year: 1900\nLeap: False&quot;, inputs=[&quot;1900&quot;], echo=True)
+def test_2000():
+    &quot;2000 is&quot;
+    expect_output(&quot;Year: 2000\nLeap: True&quot;, inputs=[&quot;2000&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>year = int(input(&quot;Year: &quot;))
+print(&quot;Leap:&quot;, (year % 4 == 0 and year % 100 != 0) or year % 400 == 0)</textarea><template class="pc-src pc-hint">Split the rule into two cases that make a leap year: &ldquo;divides by 4 but not by 100&rdquo;, or &ldquo;divides by 400&rdquo;.</template><template class="pc-src pc-hint"><code>(year % 4 == 0 and year % 100 != 0) or year % 400 == 0</code></template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-exactly_one" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Exactly one</div><div class="pc-prompt"><p>Two friends each say whether they&rsquo;re coming: ask with the prompts <code>Ama coming?</code> and <code>Ben coming?</code>, where the answer is <code>y</code> or <code>n</code>. Print <code>Exactly one: True</code> when exactly one of them is coming.</p></div><textarea class="pc-src pc-code" hidden>ama = input(&quot;Ama coming? &quot;) == &quot;y&quot;
+ben = input(&quot;Ben coming? &quot;) == &quot;y&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_yy():
+    &quot;both coming&quot;
+    expect_output(&quot;Ama coming? y\nBen coming? y\nExactly one: False&quot;, inputs=[&quot;y&quot;, &quot;y&quot;], echo=True)
+def test_yn():
+    &quot;only Ama&quot;
+    expect_output(&quot;Ama coming? y\nBen coming? n\nExactly one: True&quot;, inputs=[&quot;y&quot;, &quot;n&quot;], echo=True)
+def test_ny():
+    &quot;only Ben&quot;
+    expect_output(&quot;Ama coming? n\nBen coming? y\nExactly one: True&quot;, inputs=[&quot;n&quot;, &quot;y&quot;], echo=True)
+def test_nn():
+    &quot;neither&quot;
+    expect_output(&quot;Ama coming? n\nBen coming? n\nExactly one: False&quot;, inputs=[&quot;n&quot;, &quot;n&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>ama = input(&quot;Ama coming? &quot;) == &quot;y&quot;
+ben = input(&quot;Ben coming? &quot;) == &quot;y&quot;
+print(&quot;Exactly one:&quot;, ama != ben)</textarea><template class="pc-src pc-hint">Exactly one means &ldquo;Ama and not Ben, or Ben and not Ama&rdquo;.</template><template class="pc-src pc-hint">There&rsquo;s also a shorter way: two bools are different exactly when <code>ama != ben</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-default_name" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">A default name</div><div class="pc-prompt"><p>Ask for a name with the prompt <code>Name:</code>. If the user just presses Enter, use <code>stranger</code>. Print <code>Welcome,</code> followed by the name. Do it with <code>or</code>, in one line for the input.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_name():
+    &quot;with a name&quot;
+    expect_output(&quot;Name: Kemi\nWelcome, Kemi&quot;, inputs=[&quot;Kemi&quot;], echo=True)
+def test_empty():
+    &quot;with nothing typed&quot;
+    expect_output(&quot;Name: \nWelcome, stranger&quot;, inputs=[&quot;&quot;], echo=True)
+def test_or():
+    &quot;uses or&quot;
+    assert &quot; or &quot; in source, &quot;Use or to give the default.&quot;</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;Name: &quot;) or &quot;stranger&quot;
+print(f&quot;Welcome, {name}&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-guard" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Guard the division</div><div class="pc-prompt"><p>This program crashes when the number of people is 0. Change only the last line so that it prints <code>Generous: False</code> for 0 people instead of crashing, by putting a guard on the left of <code>and</code>.</p></div><textarea class="pc-src pc-code" hidden>people = int(input(&quot;People: &quot;))
+cake = 12
+print(&quot;Generous:&quot;, cake / people &gt;= 3)</textarea><textarea class="pc-src pc-tests" hidden>def test_zero():
+    &quot;0 people does not crash&quot;
+    expect_output(&quot;People: 0\nGenerous: False&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_two():
+    &quot;2 people&quot;
+    expect_output(&quot;People: 2\nGenerous: True&quot;, inputs=[&quot;2&quot;], echo=True)
+def test_five():
+    &quot;5 people&quot;
+    expect_output(&quot;People: 5\nGenerous: False&quot;, inputs=[&quot;5&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>people = int(input(&quot;People: &quot;))
+cake = 12
+print(&quot;Generous:&quot;, people != 0 and cake / people &gt;= 3)</textarea><template class="pc-src pc-hint"><code>people != 0 and ...</code>: if the left side is False, the right side never runs.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Always true</div><div class="pc-prompt"><p>This should print <code>Primary colour: True</code> only for red, yellow or blue, but it says True for everything. Fix the condition.</p></div><textarea class="pc-src pc-code" hidden>colour = input(&quot;Colour: &quot;)
+print(&quot;Primary colour:&quot;, bool(colour == &quot;red&quot; or &quot;yellow&quot; or &quot;blue&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_red():
+    &quot;red&quot;
+    expect_output(&quot;Colour: red\nPrimary colour: True&quot;, inputs=[&quot;red&quot;], echo=True)
+def test_blue():
+    &quot;blue&quot;
+    expect_output(&quot;Colour: blue\nPrimary colour: True&quot;, inputs=[&quot;blue&quot;], echo=True)
+def test_green():
+    &quot;green is not&quot;
+    expect_output(&quot;Colour: green\nPrimary colour: False&quot;, inputs=[&quot;green&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>colour = input(&quot;Colour: &quot;)
+print(&quot;Primary colour:&quot;, colour == &quot;red&quot; or colour == &quot;yellow&quot; or colour == &quot;blue&quot;)</textarea><template class="pc-src pc-hint"><code>"yellow"</code> on its own is a non-empty string, so it&rsquo;s truthy. Each part of an <code>or</code> must be a full comparison.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The wrong opposite</div><div class="pc-prompt"><p><code>is_valid</code> should be the exact opposite of <code>is_outside</code>, but for 50 the program prints <code>Valid: False</code>. Fix the line that sets <code>is_valid</code> without using <code>not</code>.</p></div><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Number: &quot;))
+is_outside = n &lt; 1 or n &gt; 100
+is_valid = n &gt;= 1 or n &lt;= 100
+print(&quot;Outside:&quot;, is_outside)
+print(&quot;Valid:&quot;, is_valid)</textarea><textarea class="pc-src pc-tests" hidden>def test_50():
+    &quot;50 is valid&quot;
+    expect_output(&quot;Number: 50\nOutside: False\nValid: True&quot;, inputs=[&quot;50&quot;], echo=True)
+def test_0():
+    &quot;0 is not&quot;
+    expect_output(&quot;Number: 0\nOutside: True\nValid: False&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_101():
+    &quot;101 is not&quot;
+    expect_output(&quot;Number: 101\nOutside: True\nValid: False&quot;, inputs=[&quot;101&quot;], echo=True)
+def test_no_not():
+    &quot;the fixed line doesn&#x27;t use not&quot;
+    line = [l for l in source.splitlines() if l.strip().startswith(&quot;is_valid&quot;)][0]
+    assert &quot;not&quot; not in line, &quot;Use De Morgan: flip each comparison, and swap or for and.&quot;</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+is_outside = n &lt; 1 or n &gt; 100
+is_valid = n &gt;= 1 and n &lt;= 100
+print(&quot;Outside:&quot;, is_outside)
+print(&quot;Valid:&quot;, is_valid)</textarea><template class="pc-src pc-hint">De Morgan: the opposite of <code>a or b</code> is <code>not a and not b</code>. The opposite of <code>n &lt; 1</code> is <code>n &gt;= 1</code>.</template></div>
+<div class="parsons" data-id="w002d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Ride the roller coaster</div><div class="pc-prompt"><p>Arrange the lines: you may ride if you are at least 140 cm tall, and either at least 12 years old or with an adult. One line is a trap.</p></div><script type="application/json">{"lines": ["height = int(input(\"Height: \"))", "age = int(input(\"Age: \"))", "with_adult = input(\"With adult? \") == \"y\"", "tall_enough = height >= 140", "old_enough = age >= 12 or with_adult", "print(\"May ride:\", tall_enough and old_enough)"], "distractors": ["old_enough = age >= 12 or \"y\""]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the conditions</div><div class="pc-prompt"><p>Work out each value on paper, then fill in the answers. Careful: <code>and</code> and <code>or</code> don&rsquo;t always give a bool.</p>
+<pre><code class="language-python">x = 4
+r1 = x &gt; 2 and x &lt; 4
+r2 = not x == 4 or x &gt; 3
+r3 = x == 1 or x == 4 and x &gt; 10
+r4 = 0 or &quot;zero&quot;
+r5 = x and &quot;four&quot;
+</code></pre></div><textarea class="pc-src pc-code" hidden>r1 = ___
+r2 = ___
+r3 = ___
+r4 = ___
+r5 = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_r1():
+    &quot;r1&quot;
+    assert r1 is False, &quot;r1: is 4 &lt; 4?&quot;
+def test_r2():
+    &quot;r2&quot;
+    assert r2 is True, &quot;r2: not comes first, then or. Is x &gt; 3?&quot;
+def test_r3():
+    &quot;r3&quot;
+    assert r3 is False, &quot;r3: and goes before or, so it&#x27;s x == 1 or (x == 4 and x &gt; 10).&quot;
+def test_r4():
+    &quot;r4&quot;
+    assert r4 == &quot;zero&quot;, &quot;r4: 0 is falsy, so or gives back the right side, the string itself.&quot;
+def test_r5():
+    &quot;r5&quot;
+    assert r5 == &quot;four&quot;, &quot;r5: 4 is truthy, so and gives back the right side.&quot;</textarea><textarea class="pc-src pc-solution" hidden>r1 = False
+r2 = True
+r3 = False
+r4 = &quot;zero&quot;
+r5 = &quot;four&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w002d2-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "When is <code>a and b</code> True?", "answer": 1, "explain": "and needs both sides.", "options": ["When either is True", "Only when both are True", "When exactly one is True", "When both are False"]}, {"type": "mc", "q": "When is <code>a or b</code> False?", "answer": 1, "explain": "or is True if at least one side is.", "options": ["When either is False", "Only when both are False", "When both are True", "Never"]}, {"type": "output", "q": "What does this print?", "answer": "True", "explain": "not goes first: False or True.", "code": "print(not True or True)"}, {"type": "output", "q": "What does this print?", "answer": "True", "explain": "and goes first: True or (False and False), which is True or False.", "code": "print(True or False and False)"}, {"type": "output", "q": "What does this print?", "answer": "2", "explain": "(x == 1) is False, so or gives back the right side: 2.", "code": "x = 3\nprint(x == 1 or 2)"}, {"type": "mc", "q": "Which line could crash with a ZeroDivisionError when d is 0?", "answer": 1, "explain": "In the others, the guard on the left stops Python before the division.", "options": ["<code>d != 0 and 10 / d &gt; 1</code>", "<code>10 / d &gt; 1 and d != 0</code>", "<code>d == 0 or 10 / d &gt; 1</code>"]}, {"type": "mc", "q": "Which is the same as <code>not (a or b)</code>?", "answer": 1, "explain": "De Morgan: push not inside, and or becomes and.", "options": ["<code>not a or not b</code>", "<code>not a and not b</code>", "<code>a and b</code>", "<code>not a and b</code>"]}, {"type": "text", "q": "What does <code>\"\" or \"guest\"</code> give?", "answer": ["guest", "'guest'", "\"guest\""], "explain": "The empty string is falsy, so or gives back the right side."}, {"type": "output", "q": "What does this print?", "answer": "True", "explain": "15 divides by both.", "code": "n = 15\nprint(n % 3 == 0 and n % 5 == 0)"}, {"type": "mc", "q": "Which is the clearest way to write &ldquo;x is not between 1 and 10&rdquo;?", "answer": 1, "explain": "The first is correct but needs a moment&rsquo;s thought; the third is never True.", "options": ["<code>not 1 &lt;= x &lt;= 10</code>", "<code>x &lt; 1 or x &gt; 10</code>", "<code>x &lt; 1 and x &gt; 10</code>"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d2-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: is it a triangle?</div><div class="pc-prompt"><p>Three lengths can make a triangle only if each one is shorter than the other two added together. Ask for three whole-number lengths with the prompts <code>a:</code>, <code>b:</code> and <code>c:</code>. Then print two lines:</p>
+<ol>
+<li><code>Triangle:</code> and whether they make a triangle.</li>
+<li><code>Equilateral:</code> and whether they make an <strong>equilateral</strong> triangle (all three sides equal). Lengths of 0 never make a triangle.</li>
+</ol>
+<pre><code>a: 3
+b: 4
+c: 5
+Triangle: True
+Equilateral: False
+</code></pre></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_345():
+    &quot;3, 4, 5&quot;
+    expect_output(&quot;a: 3\nb: 4\nc: 5\nTriangle: True\nEquilateral: False&quot;, inputs=[&quot;3&quot;, &quot;4&quot;, &quot;5&quot;], echo=True)
+def test_flat():
+    &quot;1, 2, 3 is flat, not a triangle&quot;
+    expect_output(&quot;a: 1\nb: 2\nc: 3\nTriangle: False\nEquilateral: False&quot;, inputs=[&quot;1&quot;, &quot;2&quot;, &quot;3&quot;], echo=True)
+def test_equal():
+    &quot;6, 6, 6&quot;
+    expect_output(&quot;a: 6\nb: 6\nc: 6\nTriangle: True\nEquilateral: True&quot;, inputs=[&quot;6&quot;, &quot;6&quot;, &quot;6&quot;], echo=True)
+def test_zero():
+    &quot;0, 0, 0&quot;
+    expect_output(&quot;a: 0\nb: 0\nc: 0\nTriangle: False\nEquilateral: False&quot;, inputs=[&quot;0&quot;, &quot;0&quot;, &quot;0&quot;], echo=True)
+def test_long():
+    &quot;one side too long&quot;
+    expect_output(&quot;a: 2\nb: 10\nc: 3\nTriangle: False\nEquilateral: False&quot;, inputs=[&quot;2&quot;, &quot;10&quot;, &quot;3&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>a = int(input(&quot;a: &quot;))
+b = int(input(&quot;b: &quot;))
+c = int(input(&quot;c: &quot;))
+is_triangle = a &lt; b + c and b &lt; a + c and c &lt; a + b
+print(&quot;Triangle:&quot;, is_triangle)
+print(&quot;Equilateral:&quot;, is_triangle and a == b == c)</textarea><template class="pc-src pc-hint">Three checks joined with <code>and</code>: <code>a &lt; b + c</code>, <code>b &lt; a + c</code> and <code>c &lt; a + b</code>.</template><template class="pc-src pc-hint">Equilateral means it&rsquo;s a triangle <strong>and</strong> <code>a == b == c</code>. Reuse your first answer.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Without looking: write the four-row truth tables for <code>and</code> and <code>or</code>. Then explain what short-circuit evaluation is, and why <code>count != 0 and total / count &gt; 5</code> is safe while the same two parts the other way round are not. Tomorrow your programs finally start choosing what to do: <code>if</code> and <code>else</code>.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w002d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w002d3.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w002d2", "week": 2, "day": 2, "title": "and, or, not", "exercises": [{"id": "w002d2-teen", "title": "Teenager", "points": 10}, {"id": "w002d2-weekend", "title": "Weekend", "points": 10}, {"id": "w002d2-login", "title": "Log in", "points": 10}, {"id": "w002d2-free", "title": "Free entry", "points": 10}, {"id": "w002d2-leap", "title": "Leap years", "points": 15}, {"id": "w002d2-exactly_one", "title": "Exactly one", "points": 15}, {"id": "w002d2-default_name", "title": "A default name", "points": 10}, {"id": "w002d2-guard", "title": "Guard the division", "points": 10}, {"id": "w002d2-bug1", "title": "Always true", "points": 10}, {"id": "w002d2-bug2", "title": "The wrong opposite", "points": 10}, {"id": "w002d2-trace", "title": "Trace the conditions", "points": 15}, {"id": "w002d2-challenge", "title": "Challenge: is it a triangle?", "points": 20}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

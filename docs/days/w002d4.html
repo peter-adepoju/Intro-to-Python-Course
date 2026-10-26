@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="0500404132">
+<title>Week 2 Day 4: elif and nested decisions | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=0500404132">
+<link rel="stylesheet" href="../assets/css/site.css?v=0500404132">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=0500404132"></script>
+<script src="../assets/vendor/codemirror.js?v=0500404132" defer></script>
+<meta name="description" content="Life has more than two options. A mark becomes a grade A to F; a temperature is cold, mild, warm or hot. Today you’ll write chains of choices with elif, see...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w002d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 2 Day 4: elif and nested decisions">
+<meta property="og:description" content="Life has more than two options. A mark becomes a grade A to F; a temperature is cold, mild, warm or hot. Today you’ll write chains of choices with elif, see...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w002d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-2">Week 2: Making decisions</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#more-than-two-choices-elif" data-sec="more-than-two-choices-elif">More than two choices: elif</a></li><li><a href="#the-order-matters" data-sec="the-order-matters">The order matters</a></li><li><a href="#elif-or-separate-ifs" data-sec="elif-or-separate-ifs">elif or separate ifs?</a></li><li><a href="#decisions-inside-decisions" data-sec="decisions-inside-decisions">Decisions inside decisions</a></li><li><a href="#flattening" data-sec="flattening">Flattening</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 2, Day 4</span></p>
+      <h1>elif and nested decisions</h1>
+      <div class="day-intro"><p>Life has more than two options. A mark becomes a grade A to F; a temperature is cold, mild, warm or hot. Today you&rsquo;ll write chains of choices with <code>elif</code>, see why their order matters, and put decisions inside other decisions.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write <code>if</code>/<code>elif</code>/<code>else</code> chains and predict which single branch runs</li><li>Order the conditions in a chain correctly, and explain what goes wrong when they&rsquo;re out of order</li><li>Choose between an <code>elif</code> chain and separate <code>if</code> statements</li><li>Nest an <code>if</code> inside another, and decide when <code>and</code> would be clearer</li><li>Find the largest of three values and similar classic problems with branches</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:35" title="elif chains: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Order matters; elif versus separate ifs: 25 min"></span><span class="plan-seg s1" style="flex:30" title="Nested decisions: 30 min"></span><span class="plan-seg s0" style="flex:15" title="Flattening and choosing a structure: 15 min"></span><span class="plan-seg s1" style="flex:55" title="Practice: 55 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">elif chains</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Order matters; elif versus separate ifs</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Nested decisions</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Flattening and choosing a structure</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">55 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w002d4.ipynb" download>download it</a>. Exercises today are worth 155 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d4-p1"><textarea class="pc-src pc-code" hidden>x = 12
+if x &gt; 10:
+    print(&quot;A&quot;)
+else:
+    print(&quot;B&quot;)
+if x &gt; 20:
+    print(&quot;C&quot;)
+print(&quot;D&quot;)</textarea></div>
+<p>Two separate decisions, so Python checks both. Today you&rsquo;ll learn to join decisions into one chain where only one answer can win.</p>
+<h2 id="more-than-two-choices-elif">More than two choices: elif</h2>
+<p>Suppose a mark of 70 or more is an A, 60 or more a B, 50 or more a C, and anything lower an F. With only <code>if</code> and <code>else</code> you could nest them, but Python has a neater way, <code>elif</code> (short for &ldquo;else if&rdquo;):</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d4-e2"><div class="pc-title">Grades</div><textarea class="pc-src pc-code" hidden>mark = int(input(&quot;Mark: &quot;))
+if mark &gt;= 70:
+    grade = &quot;A&quot;
+elif mark &gt;= 60:
+    grade = &quot;B&quot;
+elif mark &gt;= 50:
+    grade = &quot;C&quot;
+else:
+    grade = &quot;F&quot;
+print(&quot;Grade:&quot;, grade)</textarea></div>
+<p>How Python runs a chain:</p>
+<ol>
+<li>Check the <code>if</code> condition. If it&rsquo;s true, run its block and <strong>skip the rest of the chain</strong>.</li>
+<li>Otherwise check the first <code>elif</code>. If it&rsquo;s true, run its block and skip the rest.</li>
+<li>And so on down the chain.</li>
+<li>If nothing was true, run the <code>else</code> block.</li>
+</ol>
+<p>So <strong>exactly one</strong> block runs, and it&rsquo;s the <strong>first</strong> one whose condition is true. Move the slider and watch Python work down the chain:</p>
+<figure class="widget" data-widget="branch"><script type="application/json">{"name": "mark", "value": 64, "min": 0, "max": 100, "branches": [["mark >= 70", "grade = 'A'"], ["mark >= 60", "grade = 'B'"], ["mark >= 50", "grade = 'C'"], [null, "grade = 'F'"]]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Python checks each condition from the top and stops at the first True one. Conditions below it are never checked, even if they would also be True. The strip shows which grade every mark gets.</figcaption></figure>
+<p>With 64, <code>mark &gt;= 60</code> is true, so the grade is B. <code>mark &gt;= 50</code> is also true, but Python never even looks at it.</p>
+<aside class="callout c-note"><div class="callout-t">Note</div><p>The <code>else</code> at the end is optional. Without it, if no condition is true, no block runs at all.</p></aside>
+<h2 id="the-order-matters">The order matters</h2>
+<p>Because the first true condition wins, the order of the conditions is part of the logic. Here is the same chain with the order mixed up:</p>
+<figure class="widget" data-widget="branch"><script type="application/json">{"name": "mark", "value": 95, "min": 0, "max": 100, "branches": [["mark >= 50", "grade = 'C'"], ["mark >= 60", "grade = 'B'"], ["mark >= 70", "grade = 'A'"], [null, "grade = 'F'"]]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The same four conditions in a different order. Try marks of 95 and 65. Every passing mark lands in the first branch.</figcaption></figure>
+<p>Everyone with 50 or more gets a C, because <code>mark &gt;= 50</code> is checked first and is true for all of them. The B and A branches can never run. Python doesn&rsquo;t warn you: the code is legal, just wrong.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>In an <code>elif</code> chain with <code>&gt;=</code>, put the <strong>largest</strong> threshold first. With <code>&lt;</code>, put the <strong>smallest</strong> first. Then each test only has to rule out what the earlier ones haven&rsquo;t.</p></aside>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d4-p3"><textarea class="pc-src pc-code" hidden>t = 28
+if t &lt; 10:
+    print(&quot;cold&quot;)
+elif t &lt; 20:
+    print(&quot;mild&quot;)
+elif t &lt; 30:
+    print(&quot;warm&quot;)
+else:
+    print(&quot;hot&quot;)</textarea></div>
+<h2 id="elif-or-separate-ifs">elif or separate ifs?</h2>
+<p>An <code>elif</code> chain picks <strong>one</strong> branch. Separate <code>if</code> statements are separate questions: each is checked, and any number of them can run.</p>
+<figure class="widget" data-widget="branch"><script type="application/json">{"name": "mark", "value": 75, "min": 0, "max": 100, "branches": [["mark >= 70", "print('A')"], ["mark >= 60", "print('B')"], ["mark >= 50", "print('C')"]], "chain": false, "strip": false}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>The same conditions as separate ifs. Now every true condition runs its block. Try a mark of 75.</figcaption></figure>
+<p>With 75, all three blocks run and the program prints A, B and C. That&rsquo;s wrong for grades, which are one answer. But separate <code>if</code>s are right when the questions are independent:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d4-e4"><div class="pc-title">Independent checks, so separate ifs</div><textarea class="pc-src pc-code" hidden>password = input(&quot;Password: &quot;)
+if len(password) &lt; 8:
+    print(&quot;Too short&quot;)
+if password == password.lower():
+    print(&quot;Needs a capital letter&quot;)
+if password.isalpha():
+    print(&quot;Needs a digit or symbol&quot;)</textarea></div>
+<p>(<code>.isalpha()</code> is <code>True</code> when every character is a letter. More methods like it in Week 5.) A weak password can fail all three tests, and the user should hear about all of them.</p>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Ask: &ldquo;Can more than one of these be true and <em>should</em> they all happen?&rdquo; If yes, separate <code>if</code>s. If only one answer makes sense, an <code>elif</code> chain.</p></aside>
+<h2 id="decisions-inside-decisions">Decisions inside decisions</h2>
+<p>A block can hold any statements, including another <code>if</code>. This is a <strong>nested</strong> decision:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d4-e5"><div class="pc-title">Nested</div><textarea class="pc-src pc-code" hidden>member = input(&quot;Member? (y/n) &quot;) == &quot;y&quot;
+age = int(input(&quot;Age: &quot;))
+if member:
+    if age &lt; 18:
+        print(&quot;Junior member: free&quot;)
+    else:
+        print(&quot;Member: 500&quot;)
+else:
+    print(&quot;Visitor: 1500&quot;)</textarea></div>
+<p>The inner <code>if</code> is indented one more level (8 spaces). It only gets checked when <code>member</code> is true. Press X-ray and step through with a few different answers: you can see Python go down into the outer block before it even looks at the age.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d4-p6"><textarea class="pc-src pc-code" hidden>a = 5
+b = 3
+if a &gt; 4:
+    if b &gt; 4:
+        print(&quot;both&quot;)
+    else:
+        print(&quot;only a&quot;)
+else:
+    print(&quot;not a&quot;)</textarea></div>
+<h3 id="the-largest-of-three">The largest of three</h3>
+<p>A classic. One way is to nest:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d4-e7"><textarea class="pc-src pc-code" hidden>a, b, c = 4, 9, 7
+if a &gt;= b:
+    if a &gt;= c:
+        largest = a
+    else:
+        largest = c
+else:
+    if b &gt;= c:
+        largest = b
+    else:
+        largest = c
+print(largest)</textarea></div>
+<p>Another is an <code>elif</code> chain with <code>and</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d4-e8"><textarea class="pc-src pc-code" hidden>a, b, c = 4, 9, 7
+if a &gt;= b and a &gt;= c:
+    largest = a
+elif b &gt;= c:
+    largest = b
+else:
+    largest = c
+print(largest)</textarea></div>
+<p>The second is shorter. It also uses a fact the chain gives you for free: when Python reaches <code>elif b &gt;= c</code>, it already knows <code>a</code> isn&rsquo;t the largest.</p>
+<h2 id="flattening">Flattening</h2>
+<p>Deep nesting is hard to read, because you have to keep every outer condition in your head. Often <code>and</code> lets you flatten it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d4-e9"><div class="pc-title">Nested</div><textarea class="pc-src pc-code" hidden>age, has_licence = 20, True
+if age &gt;= 18:
+    if has_licence:
+        print(&quot;You may drive&quot;)</textarea></div>
+<div class="pc pc-example" data-kind="example" data-id="w002d4-e10"><div class="pc-title">Flat, same meaning</div><textarea class="pc-src pc-code" hidden>age, has_licence = 20, True
+if age &gt;= 18 and has_licence:
+    print(&quot;You may drive&quot;)</textarea></div>
+<p>Nesting is the better choice when the outer branch has its own work to do, or its own <code>else</code>, as in the member example above. If the outer <code>if</code> exists only to hold the inner one, flatten it.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-sign" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Positive, negative or zero</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>Number:</code> and print <code>positive</code>, <code>negative</code> or <code>zero</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_pos():
+    &quot;5&quot;
+    expect_output(&quot;Number: 5\npositive&quot;, inputs=[&quot;5&quot;], echo=True)
+def test_neg():
+    &quot;-2&quot;
+    expect_output(&quot;Number: -2\nnegative&quot;, inputs=[&quot;-2&quot;], echo=True)
+def test_zero():
+    &quot;0&quot;
+    expect_output(&quot;Number: 0\nzero&quot;, inputs=[&quot;0&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+if n &gt; 0:
+    print(&quot;positive&quot;)
+elif n &lt; 0:
+    print(&quot;negative&quot;)
+else:
+    print(&quot;zero&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-weather" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">What to wear</div><div class="pc-prompt"><p>Ask for a temperature in degrees with the prompt <code>Temperature:</code> (a whole number) and print advice:</p>
+<ul>
+<li>below 10: <code>Coat</code></li>
+<li>10 to 19: <code>Jumper</code></li>
+<li>20 to 27: <code>T-shirt</code></li>
+<li>28 or more: <code>Shade and water</code></li>
+</ul></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_all():
+    &quot;every band, and the edges&quot;
+    for t, want in [(-3, &quot;Coat&quot;), (9, &quot;Coat&quot;), (10, &quot;Jumper&quot;), (19, &quot;Jumper&quot;), (20, &quot;T-shirt&quot;), (27, &quot;T-shirt&quot;), (28, &quot;Shade and water&quot;), (40, &quot;Shade and water&quot;)]:
+        expect_output(f&quot;Temperature: {t}\n{want}&quot;, inputs=[str(t)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>t = int(input(&quot;Temperature: &quot;))
+if t &lt; 10:
+    print(&quot;Coat&quot;)
+elif t &lt; 20:
+    print(&quot;Jumper&quot;)
+elif t &lt; 28:
+    print(&quot;T-shirt&quot;)
+else:
+    print(&quot;Shade and water&quot;)</textarea><template class="pc-src pc-hint">With <code>&lt;</code>, start with the smallest threshold: <code>if t &lt; 10</code>, then <code>elif t &lt; 20</code>, then <code>elif t &lt; 28</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-fares" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Bus fares</div><div class="pc-prompt"><p>Ask for an age with the prompt <code>Age:</code> and print <code>Fare:</code> and the price:</p>
+<ul>
+<li>under 5: free, <code>0</code></li>
+<li>5 to 17: <code>150</code></li>
+<li>18 to 64: <code>300</code></li>
+<li>65 and over: <code>100</code></li>
+</ul></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_bands():
+    &quot;every band&quot;
+    for age, fare in [(2, 0), (5, 150), (17, 150), (18, 300), (64, 300), (65, 100), (90, 100)]:
+        expect_output(f&quot;Age: {age}\nFare: {fare}&quot;, inputs=[str(age)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>age = int(input(&quot;Age: &quot;))
+if age &lt; 5:
+    fare = 0
+elif age &lt; 18:
+    fare = 150
+elif age &lt; 65:
+    fare = 300
+else:
+    fare = 100
+print(&quot;Fare:&quot;, fare)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-largest3" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Largest of three</div><div class="pc-prompt"><p>Ask for three whole numbers with the prompts <code>a:</code>, <code>b:</code> and <code>c:</code> and print <code>Largest:</code> and the largest. Don&rsquo;t use <code>max()</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_orders():
+    &quot;the largest in every position, and ties&quot;
+    for a, b, c in [(9, 4, 7), (4, 9, 7), (4, 7, 9), (5, 5, 2), (3, 8, 8), (6, 6, 6), (-1, -5, -3)]:
+        expect_output(f&quot;a: {a}\nb: {b}\nc: {c}\nLargest: {max(a, b, c)}&quot;, inputs=[str(a), str(b), str(c)], echo=True)
+def test_no_max():
+    &quot;doesn&#x27;t use max&quot;
+    assert &quot;max(&quot; not in source, &quot;Use if, elif and else.&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = int(input(&quot;a: &quot;))
+b = int(input(&quot;b: &quot;))
+c = int(input(&quot;c: &quot;))
+if a &gt;= b and a &gt;= c:
+    largest = a
+elif b &gt;= c:
+    largest = b
+else:
+    largest = c
+print(&quot;Largest:&quot;, largest)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-rps" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Rock, paper, scissors</div><div class="pc-prompt"><p>Ask two players for their choice, with the prompts <code>Player 1:</code> and <code>Player 2:</code>. Each types <code>rock</code>, <code>paper</code> or <code>scissors</code>. Print <code>Draw</code>, <code>Player 1 wins</code> or <code>Player 2 wins</code>. Rock beats scissors, scissors beat paper, and paper beats rock.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_draw():
+    &quot;same choice is a draw&quot;
+    expect_output(&quot;Player 1: rock\nPlayer 2: rock\nDraw&quot;, inputs=[&quot;rock&quot;, &quot;rock&quot;], echo=True)
+def test_all():
+    &quot;every other pair&quot;
+    wins = {(&quot;rock&quot;, &quot;scissors&quot;), (&quot;scissors&quot;, &quot;paper&quot;), (&quot;paper&quot;, &quot;rock&quot;)}
+    for p1 in [&quot;rock&quot;, &quot;paper&quot;, &quot;scissors&quot;]:
+        for p2 in [&quot;rock&quot;, &quot;paper&quot;, &quot;scissors&quot;]:
+            if p1 == p2:
+                continue
+            want = &quot;Player 1 wins&quot; if (p1, p2) in wins else &quot;Player 2 wins&quot;
+            expect_output(f&quot;Player 1: {p1}\nPlayer 2: {p2}\n{want}&quot;, inputs=[p1, p2], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>p1 = input(&quot;Player 1: &quot;)
+p2 = input(&quot;Player 2: &quot;)
+if p1 == p2:
+    print(&quot;Draw&quot;)
+elif (p1 == &quot;rock&quot; and p2 == &quot;scissors&quot;) or (p1 == &quot;scissors&quot; and p2 == &quot;paper&quot;) or (p1 == &quot;paper&quot; and p2 == &quot;rock&quot;):
+    print(&quot;Player 1 wins&quot;)
+else:
+    print(&quot;Player 2 wins&quot;)</textarea><template class="pc-src pc-hint">Handle the draw first. Then there are exactly three ways for player 1 to win; join them with <code>or</code>. Everything else is a win for player 2.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-cinema" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Cinema rules</div><div class="pc-prompt"><p>A film is rated 15. Ask for an age with the prompt <code>Age:</code>. If the person is 15 or older, print <code>Enjoy the film</code>. Otherwise ask <code>With a parent? (y/n)</code>: if the answer is <code>y</code> and the person is at least 12, print <code>Enjoy the film with your parent</code>, and otherwise print <code>Sorry, not this one</code>. Use a nested <code>if</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_adult():
+    &quot;an adult isn&#x27;t asked about a parent&quot;
+    expect_output(&quot;Age: 30\nEnjoy the film&quot;, inputs=[&quot;30&quot;], echo=True)
+def test_child_with():
+    &quot;13 with a parent&quot;
+    expect_output(&quot;Age: 13\nWith a parent? (y/n) y\nEnjoy the film with your parent&quot;, inputs=[&quot;13&quot;, &quot;y&quot;], echo=True)
+def test_child_without():
+    &quot;13 alone&quot;
+    expect_output(&quot;Age: 13\nWith a parent? (y/n) n\nSorry, not this one&quot;, inputs=[&quot;13&quot;, &quot;n&quot;], echo=True)
+def test_young():
+    &quot;8 with a parent is still too young&quot;
+    expect_output(&quot;Age: 8\nWith a parent? (y/n) y\nSorry, not this one&quot;, inputs=[&quot;8&quot;, &quot;y&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>age = int(input(&quot;Age: &quot;))
+if age &gt;= 15:
+    print(&quot;Enjoy the film&quot;)
+else:
+    parent = input(&quot;With a parent? (y/n) &quot;)
+    if parent == &quot;y&quot; and age &gt;= 12:
+        print(&quot;Enjoy the film with your parent&quot;)
+    else:
+        print(&quot;Sorry, not this one&quot;)</textarea><template class="pc-src pc-hint">The question about a parent is asked only inside the <code>else</code> of the first <code>if</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-quadrant" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Which quadrant?</div><div class="pc-prompt"><p>Ask for the coordinates of a point with the prompts <code>x:</code> and <code>y:</code> (whole numbers, neither of them 0). Print which quadrant it&rsquo;s in: <code>1</code> for top right (both positive), <code>2</code> for top left, <code>3</code> for bottom left and <code>4</code> for bottom right.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_q():
+    &quot;all four quadrants&quot;
+    for x, y, q in [(3, 4, 1), (-3, 4, 2), (-3, -4, 3), (3, -4, 4)]:
+        expect_output(f&quot;x: {x}\ny: {y}\n{q}&quot;, inputs=[str(x), str(y)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>x = int(input(&quot;x: &quot;))
+y = int(input(&quot;y: &quot;))
+if x &gt; 0 and y &gt; 0:
+    print(1)
+elif x &lt; 0 and y &gt; 0:
+    print(2)
+elif x &lt; 0:
+    print(3)
+else:
+    print(4)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Everyone gets a bronze</div><div class="pc-prompt"><p>Scores of 90 and over win gold, 75 and over silver, and 50 and over bronze. Below 50 there&rsquo;s no medal. But everyone who passes gets bronze. Fix the program by reordering, without changing any condition.</p></div><textarea class="pc-src pc-code" hidden>score = int(input(&quot;Score: &quot;))
+if score &gt;= 50:
+    print(&quot;Bronze&quot;)
+elif score &gt;= 75:
+    print(&quot;Silver&quot;)
+elif score &gt;= 90:
+    print(&quot;Gold&quot;)
+else:
+    print(&quot;No medal&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_all():
+    &quot;every medal&quot;
+    for s, want in [(95, &quot;Gold&quot;), (90, &quot;Gold&quot;), (80, &quot;Silver&quot;), (75, &quot;Silver&quot;), (60, &quot;Bronze&quot;), (50, &quot;Bronze&quot;), (49, &quot;No medal&quot;)]:
+        expect_output(f&quot;Score: {s}\n{want}&quot;, inputs=[str(s)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>score = int(input(&quot;Score: &quot;))
+if score &gt;= 90:
+    print(&quot;Gold&quot;)
+elif score &gt;= 75:
+    print(&quot;Silver&quot;)
+elif score &gt;= 50:
+    print(&quot;Bronze&quot;)
+else:
+    print(&quot;No medal&quot;)</textarea><template class="pc-src pc-hint">The first true condition wins. Which test should come first?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Two answers</div><div class="pc-prompt"><p>For a temperature of 5 this prints both <code>Freezing</code> and <code>Cold</code>. It should print one word only. Fix it.</p></div><textarea class="pc-src pc-code" hidden>t = int(input(&quot;Temperature: &quot;))
+if t &lt; 0:
+    print(&quot;Freezing&quot;)
+if t &lt; 15:
+    print(&quot;Cold&quot;)
+else:
+    print(&quot;Warm&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_all():
+    &quot;one word each time&quot;
+    for t, want in [(-5, &quot;Freezing&quot;), (5, &quot;Cold&quot;), (14, &quot;Cold&quot;), (15, &quot;Warm&quot;), (30, &quot;Warm&quot;)]:
+        expect_output(f&quot;Temperature: {t}\n{want}&quot;, inputs=[str(t)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>t = int(input(&quot;Temperature: &quot;))
+if t &lt; 0:
+    print(&quot;Freezing&quot;)
+elif t &lt; 15:
+    print(&quot;Cold&quot;)
+else:
+    print(&quot;Warm&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d4-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The lost else</div><div class="pc-prompt"><p>With a non-member this prints nothing, but it should print <code>Full price</code>. The <code>else</code> is attached to the wrong <code>if</code>. Fix the indentation.</p></div><textarea class="pc-src pc-code" hidden>member = input(&quot;Member? (y/n) &quot;) == &quot;y&quot;
+total = int(input(&quot;Total: &quot;))
+if member:
+    if total &gt; 5000:
+        print(&quot;Member discount&quot;)
+    else:
+        print(&quot;Full price&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_visitor():
+    &quot;a visitor pays full price&quot;
+    expect_output(&quot;Member? (y/n) n\nTotal: 9000\nFull price&quot;, inputs=[&quot;n&quot;, &quot;9000&quot;], echo=True)
+def test_member_big():
+    &quot;a member with a big order&quot;
+    expect_output(&quot;Member? (y/n) y\nTotal: 9000\nMember discount&quot;, inputs=[&quot;y&quot;, &quot;9000&quot;], echo=True)
+def test_member_small():
+    &quot;a member with a small order gets nothing printed&quot;
+    expect_output(&quot;Member? (y/n) y\nTotal: 100&quot;, inputs=[&quot;y&quot;, &quot;100&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>member = input(&quot;Member? (y/n) &quot;) == &quot;y&quot;
+total = int(input(&quot;Total: &quot;))
+if member:
+    if total &gt; 5000:
+        print(&quot;Member discount&quot;)
+else:
+    print(&quot;Full price&quot;)</textarea><template class="pc-src pc-hint">An <code>else</code> belongs to the <code>if</code> it lines up with.</template></div>
+<div class="parsons" data-id="w002d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Grade with a merit</div><div class="pc-prompt"><p>Arrange the lines: marks of 50 or more pass, and a pass of 80 or more also earns a merit. Below 50 is a fail. Get the indentation right; one line is a trap.</p></div><script type="application/json">{"lines": ["mark = int(input(\"Mark: \"))", "if mark >= 50:", "    print(\"Pass\")", "    if mark >= 80:", "        print(\"with merit\")", "else:", "    print(\"Fail\")"], "distractors": ["elif mark >= 80:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Chain or not?</div><div class="pc-prompt"><p>Work out what each program prints for <code>n = 12</code>, without running them. Write each answer as a string with <code>\n</code> between lines.</p>
+<pre><code class="language-python"># Program 1
+if n &gt; 5:
+    print(&quot;big&quot;)
+elif n &gt; 10:
+    print(&quot;huge&quot;)
+else:
+    print(&quot;small&quot;)
+
+# Program 2
+if n &gt; 5:
+    print(&quot;big&quot;)
+if n &gt; 10:
+    print(&quot;huge&quot;)
+else:
+    print(&quot;small&quot;)
+</code></pre></div><textarea class="pc-src pc-code" hidden>program_1 = &quot;___&quot;
+program_2 = &quot;___&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_1():
+    &quot;program 1&quot;
+    assert program_1.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;big&quot;, &quot;In a chain, only the first true branch runs.&quot;
+def test_2():
+    &quot;program 2&quot;
+    assert program_2.replace(&quot;\\n&quot;, &quot;\n&quot;) == &quot;big\nhuge&quot;, &quot;Two separate decisions: both are checked.&quot;</textarea><textarea class="pc-src pc-solution" hidden>program_1 = &quot;big&quot;
+program_2 = &quot;big\nhuge&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w002d4-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "In an if/elif/else chain, how many blocks run?", "answer": 1, "explain": "The first true condition&rsquo;s block runs; if none is true, the else runs. Without an else, it could be zero.", "options": ["All whose conditions are True", "Exactly one", "At most one, but only if there&rsquo;s an else", "The last True one"]}, {"type": "output", "q": "What does this print?", "answer": "A", "explain": "x &gt; 10 is True, so the rest of the chain is skipped.", "code": "x = 15\nif x > 10:\n    print(\"A\")\nelif x > 5:\n    print(\"B\")\nelse:\n    print(\"C\")"}, {"type": "output", "q": "What does this print?", "answer": "A\nB", "explain": "Two separate ifs, both true.", "code": "x = 15\nif x > 10:\n    print(\"A\")\nif x > 5:\n    print(\"B\")"}, {"type": "mc", "q": "Which order is right for a chain of <code>&gt;=</code> tests?", "answer": 1, "explain": "Otherwise the smaller threshold catches everything above it.", "options": ["Smallest threshold first", "Largest threshold first", "Any order", "Alphabetical"]}, {"type": "mc", "q": "Can a chain have an elif without an else?", "answer": 0, "explain": "else is optional.", "options": ["Yes", "No"]}, {"type": "mc", "q": "Can you write <code>elif</code> without an <code>if</code> before it?", "answer": 1, "explain": "elif continues a chain that starts with if.", "options": ["Yes", "No"]}, {"type": "output", "q": "What does this print?", "answer": "not a", "explain": "The else lines up with the outer if.", "code": "a, b = 2, 9\nif a > 5:\n    if b > 5:\n        print(\"both\")\nelse:\n    print(\"not a\")"}, {"type": "mc", "q": "Which is the same as this nested code?", "answer": 1, "explain": "Both conditions must hold for the inner print to run.", "options": ["<code>if x &gt; 0 or y &gt; 0:</code>", "<code>if x &gt; 0 and y &gt; 0:</code>", "<code>if x &gt; 0: print('ok')</code>"], "code": "if x > 0:\n    if y > 0:\n        print(\"ok\")"}, {"type": "mc", "q": "For a password checker that should report every problem it finds, which is right?", "answer": 1, "explain": "The checks are independent and more than one can apply.", "options": ["One if/elif chain", "Separate if statements", "Nested ifs"]}, {"type": "output", "q": "What does this print?", "answer": "warm", "explain": "20 &lt; 20 is False; 20 &lt; 30 is True.", "code": "t = 20\nif t < 10:\n    print(\"cold\")\nelif t < 20:\n    print(\"mild\")\nelif t < 30:\n    print(\"warm\")"}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: days in a month</div><div class="pc-prompt"><p>Ask for a month number (1 to 12) with the prompt <code>Month:</code> and a year with the prompt <code>Year:</code>, and print <code>Days:</code> and the number of days in that month.</p>
+<ul>
+<li>April, June, September and November (4, 6, 9, 11) have 30 days.</li>
+<li>February has 29 days in a leap year and 28 otherwise (use the leap-year rule from yesterday).</li>
+<li>All the others have 31.</li>
+</ul>
+<p>If the month isn&rsquo;t from 1 to 12, print <code>No such month</code> instead.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_31():
+    &quot;January&quot;
+    expect_output(&quot;Month: 1\nYear: 2023\nDays: 31&quot;, inputs=[&quot;1&quot;, &quot;2023&quot;], echo=True)
+def test_30():
+    &quot;September&quot;
+    expect_output(&quot;Month: 9\nYear: 2023\nDays: 30&quot;, inputs=[&quot;9&quot;, &quot;2023&quot;], echo=True)
+def test_feb():
+    &quot;February in different years&quot;
+    expect_output(&quot;Month: 2\nYear: 2023\nDays: 28&quot;, inputs=[&quot;2&quot;, &quot;2023&quot;], echo=True)
+    expect_output(&quot;Month: 2\nYear: 2024\nDays: 29&quot;, inputs=[&quot;2&quot;, &quot;2024&quot;], echo=True)
+    expect_output(&quot;Month: 2\nYear: 1900\nDays: 28&quot;, inputs=[&quot;2&quot;, &quot;1900&quot;], echo=True)
+    expect_output(&quot;Month: 2\nYear: 2000\nDays: 29&quot;, inputs=[&quot;2&quot;, &quot;2000&quot;], echo=True)
+def test_bad():
+    &quot;month 13&quot;
+    expect_output(&quot;Month: 13\nYear: 2023\nNo such month&quot;, inputs=[&quot;13&quot;, &quot;2023&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>month = int(input(&quot;Month: &quot;))
+year = int(input(&quot;Year: &quot;))
+if month &lt; 1 or month &gt; 12:
+    print(&quot;No such month&quot;)
+else:
+    if month == 2:
+        leap = (year % 4 == 0 and year % 100 != 0) or year % 400 == 0
+        days = 29 if leap else 28
+    elif month == 4 or month == 6 or month == 9 or month == 11:
+        days = 30
+    else:
+        days = 31
+    print(&quot;Days:&quot;, days)</textarea><template class="pc-src pc-hint">Check for an impossible month first. Then February, then the four 30-day months, then <code>else</code> for 31.</template><template class="pc-src pc-hint">Inside the February branch, nest an <code>if</code> (or a conditional expression) on the leap-year condition.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain in a sentence each: why does the order of an <code>elif</code> chain matter? When are separate <code>if</code> statements the right choice? When is nesting better than <code>and</code>? Tomorrow you&rsquo;ll learn to design decisions before you write them, and to test them properly, including the edges where most bugs hide.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w002d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w002d5.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w002d4", "week": 2, "day": 4, "title": "elif and nested decisions", "exercises": [{"id": "w002d4-sign", "title": "Positive, negative or zero", "points": 10}, {"id": "w002d4-weather", "title": "What to wear", "points": 10}, {"id": "w002d4-fares", "title": "Bus fares", "points": 10}, {"id": "w002d4-largest3", "title": "Largest of three", "points": 15}, {"id": "w002d4-rps", "title": "Rock, paper, scissors", "points": 15}, {"id": "w002d4-cinema", "title": "Cinema rules", "points": 15}, {"id": "w002d4-quadrant", "title": "Which quadrant?", "points": 10}, {"id": "w002d4-bug1", "title": "Everyone gets a bronze", "points": 10}, {"id": "w002d4-bug2", "title": "Two answers", "points": 10}, {"id": "w002d4-bug3", "title": "The lost else", "points": 10}, {"id": "w002d4-trace", "title": "Chain or not?", "points": 15}, {"id": "w002d4-challenge", "title": "Challenge: days in a month", "points": 25}], "points": 155}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

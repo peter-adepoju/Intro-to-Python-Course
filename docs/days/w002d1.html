@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="0500404132">
+<title>Week 2 Day 1: Booleans and comparisons | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=0500404132">
+<link rel="stylesheet" href="../assets/css/site.css?v=0500404132">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=0500404132"></script>
+<script src="../assets/vendor/codemirror.js?v=0500404132" defer></script>
+<meta name="description" content="Every decision a program makes comes down to a question with a yes or no answer. Today you’ll meet the type Python uses for those answers, bool, and the six...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w002d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 2 Day 1: Booleans and comparisons">
+<meta property="og:description" content="Every decision a program makes comes down to a question with a yes or no answer. Today you’ll meet the type Python uses for those answers, bool, and the six...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w002d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-2">Week 2: Making decisions</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#questions-with-yes-or-no-answers" data-sec="questions-with-yes-or-no-answers">Questions with yes or no answers</a></li><li><a href="#asking-questions-comparison-operators" data-sec="asking-questions-comparison-operators">Asking questions: comparison operators</a></li><li><a href="#comparing-strings" data-sec="comparing-strings">Comparing strings</a></li><li><a href="#comparing-values-of-different-types" data-sec="comparing-values-of-different-types">Comparing values of different types</a></li><li><a href="#floats-and" data-sec="floats-and">Floats and ==</a></li><li><a href="#storing-answers-in-variables" data-sec="storing-answers-in-variables">Storing answers in variables</a></li><li><a href="#bool-is-secretly-a-number" data-sec="bool-is-secretly-a-number">bool is secretly a number</a></li><li><a href="#truthiness-turning-values-into-bools" data-sec="truthiness-turning-values-into-bools">Truthiness: turning values into bools</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 2, Day 1</span></p>
+      <h1>Booleans and comparisons</h1>
+      <div class="day-intro"><p>Every decision a program makes comes down to a question with a yes or no answer. Today you&rsquo;ll meet the type Python uses for those answers, <code>bool</code>, and the six operators that ask questions about values: is this equal to that, bigger, smaller?</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Use the values <code>True</code> and <code>False</code> and explain what type they are</li><li>Compare numbers and strings with <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code> and <code>&gt;=</code>, and chain comparisons like <code>0 &lt;= x &lt;= 100</code></li><li>Predict how Python orders strings, using each character&rsquo;s code number</li><li>Avoid the classic traps, <code>=</code> versus <code>==</code>, comparing text with numbers, and <code>==</code> on floats</li><li>Store the answer to a question in a well-named variable, and check whether one string is inside another with <code>in</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="True, False and the bool type: 25 min"></span><span class="plan-seg s0" style="flex:35" title="The six comparison operators: 35 min"></span><span class="plan-seg s1" style="flex:35" title="Comparing strings, and comparing different types: 35 min"></span><span class="plan-seg s0" style="flex:20" title="Floats, bool as a number, and truthiness: 20 min"></span><span class="plan-seg s1" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">True, False and the bool type</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">The six comparison operators</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">Comparing strings, and comparing different types</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Floats, bool as a number, and truthiness</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w002d1.ipynb" download>download it</a>. Exercises today are worth 145 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<p>Last week ended with input and f-strings. Make sure they&rsquo;re still there.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d1-p1"><textarea class="pc-src pc-code" hidden>age = &quot;17&quot;
+print(age + &quot;1&quot;)
+print(int(age) + 1)
+print(f&quot;{int(age) + 1:03}&quot;)</textarea></div>
+<p><code>input()</code> always gives you a string, so you needed <code>int()</code> before doing sums. Today that matters again: before you can ask &ldquo;is this person over 18?&rdquo;, the age has to be a number.</p>
+<h2 id="questions-with-yes-or-no-answers">Questions with yes or no answers</h2>
+<p>So far every program you&rsquo;ve written does the same thing every time it runs. Real programs react: a cash machine checks your PIN, a game checks whether you&rsquo;ve run out of lives, a form checks whether a password is long enough. Each check is a question whose answer is <em>yes</em> or <em>no</em>.</p>
+<p>Python&rsquo;s word for yes is <code>True</code> and its word for no is <code>False</code>. They are values, like <code>7</code> or <code>"hi"</code>, and they have their own type:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e2"><textarea class="pc-src pc-code" hidden>print(True)
+print(type(True))
+print(type(False))</textarea></div>
+<p>The type is called <code>bool</code>, short for <strong>Boolean</strong>, after George Boole, a nineteenth-century mathematician who worked out the algebra of true and false. There are exactly two <code>bool</code> values, and nothing else is a <code>bool</code>.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Capitals matter. <code>True</code> and <code>False</code> start with a capital letter. <code>true</code> is just an ordinary name, and since you haven&rsquo;t created it, Python raises a <code>NameError</code>.</p></aside>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e3"><textarea class="pc-src pc-code" hidden>print(true)</textarea></div>
+<h2 id="asking-questions-comparison-operators">Asking questions: comparison operators</h2>
+<p>You rarely type <code>True</code> or <code>False</code> yourself. Usually you get them by <strong>comparing</strong> two values:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e4"><textarea class="pc-src pc-code" hidden>print(5 &gt; 3)
+print(5 &lt; 3)
+print(5 == 5)</textarea></div>
+<p>Each comparison is an expression, just like <code>5 + 3</code>. The difference is that its value is a <code>bool</code>. There are six comparison operators:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Asks</th>
+<th><code>5 ? 3</code></th>
+<th><code>3 ? 3</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>==</code></td>
+<td>equal to?</td>
+<td><code>False</code></td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>not equal to?</td>
+<td><code>True</code></td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>less than?</td>
+<td><code>False</code></td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td>less than or equal to?</td>
+<td><code>False</code></td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>greater than?</td>
+<td><code>True</code></td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td>greater than or equal to?</td>
+<td><code>True</code></td>
+<td><code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p>Play with them. Type any two values, or press one of the examples underneath:</p>
+<figure class="widget" data-widget="compare"><script type="application/json">{"a": "7", "b": "10"}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>All six comparisons at once. Green means True. Try the string examples to see how Python compares text letter by letter.</figcaption></figure>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d1-p5"><textarea class="pc-src pc-code" hidden>x = 12
+print(x &gt; 10)
+print(x != 12)
+print(x &lt;= 11)
+print(x &gt;= 12)</textarea></div>
+<h3 id="and-are-different">= and == are different</h3>
+<p>This is the most common slip in all of programming, so meet it now:</p>
+<ul>
+<li><code>=</code> <strong>assigns</strong>: &ldquo;make this name point at that value&rdquo;. It&rsquo;s an instruction.</li>
+<li><code>==</code> <strong>compares</strong>: &ldquo;are these two values equal?&rdquo;. It&rsquo;s a question, and its answer is <code>True</code> or <code>False</code>.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e6"><div class="pc-title">One of each</div><textarea class="pc-src pc-code" hidden>x = 4
+print(x == 4)
+print(x == 5)</textarea></div>
+<p>Reading them aloud helps: say <code>x = 4</code> as &ldquo;x <em>is now</em> 4&rdquo; and <code>x == 4</code> as &ldquo;is x <em>equal to</em> 4?&rdquo;.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e7"><textarea class="pc-src pc-code" hidden>x = 4
+print(x = 4)</textarea></div>
+<p><code>print(x = 4)</code> looks like a question but uses <code>=</code>, so Python reads it as an instruction it doesn&rsquo;t understand there, and raises a <code>TypeError</code>.</p>
+<h3 id="comparisons-come-after-arithmetic">Comparisons come after arithmetic</h3>
+<p>In an expression with both, Python does all the arithmetic first and compares at the end. So <code>2 + 3 == 5</code> means <code>(2 + 3) == 5</code>. Step through it:</p>
+<figure class="widget" data-widget="stepper"><script type="application/json">{"exprs": ["2 + 3 == 1 + 4", "price * qty > 100"], "vars": {"price": 25, "qty": 5}}</script><div class="widget-body"></div><figcaption>Arithmetic happens first; the comparison is the last step.</figcaption></figure>
+<h3 id="chaining-comparisons">Chaining comparisons</h3>
+<p>To ask &ldquo;is <code>x</code> between 0 and 100?&rdquo;, maths writes <code>0 ≤ x ≤ 100</code>. Python lets you write the same thing:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e8"><textarea class="pc-src pc-code" hidden>x = 42
+print(0 &lt;= x &lt;= 100)
+x = 150
+print(0 &lt;= x &lt;= 100)</textarea></div>
+<p><code>0 &lt;= x &lt;= 100</code> means &ldquo;<code>0 &lt;= x</code> <strong>and</strong> <code>x &lt;= 100</code>&rdquo;: both must be true. Most languages don&rsquo;t allow this, but Python does, and it reads beautifully.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d1-p9"><textarea class="pc-src pc-code" hidden>n = 7
+print(1 &lt; n &lt; 10)
+print(1 &lt; n &lt; 5)
+print(10 &gt; n &gt; 7)</textarea></div>
+<h2 id="comparing-strings">Comparing strings</h2>
+<p><code>==</code> works on strings too, and it&rsquo;s exact: every character must match, including capitals and spaces.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e10"><textarea class="pc-src pc-code" hidden>print(&quot;cat&quot; == &quot;cat&quot;)
+print(&quot;cat&quot; == &quot;Cat&quot;)
+print(&quot;cat&quot; == &quot;cat &quot;)</textarea></div>
+<p>But what does it mean for one string to be <strong>less than</strong> another? Python compares them the way a dictionary orders words: character by character, from the left. The first pair of characters that differ decides the answer.</p>
+<p>To compare two characters, Python uses their <strong>code numbers</strong>. Every character has one, and <code>ord()</code> tells you what it is:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e11"><textarea class="pc-src pc-code" hidden>print(ord(&quot;a&quot;), ord(&quot;b&quot;), ord(&quot;z&quot;))
+print(ord(&quot;A&quot;), ord(&quot;Z&quot;))
+print(ord(&quot;0&quot;), ord(&quot;9&quot;))
+print(ord(&quot; &quot;))</textarea></div>
+<p>So <code>"a" &lt; "b"</code> because 97 &lt; 98. And because every capital letter (65 to 90) has a smaller number than every lower-case letter (97 to 122), <code>"Zebra" &lt; "apple"</code> is <code>True</code>. Try these in the comparison lab above: <code>'apple'</code> and <code>'apricot'</code>, then <code>'Zebra'</code> and <code>'apple'</code>.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d1-p12"><textarea class="pc-src pc-code" hidden>print(&quot;apple&quot; &lt; &quot;banana&quot;)
+print(&quot;apple&quot; &lt; &quot;apricot&quot;)
+print(&quot;Zebra&quot; &lt; &quot;apple&quot;)
+print(&quot;app&quot; &lt; &quot;apple&quot;)</textarea></div>
+<p>The last one: when one string runs out and everything so far matched, the shorter one counts as smaller. That&rsquo;s also how dictionaries order &ldquo;app&rdquo; before &ldquo;apple&rdquo;.</p>
+<aside class="callout c-warn"><div class="callout-t">Numbers inside strings</div><p><code>"10" &lt; "9"</code> is <code>True</code>. Python compares the first characters, <code>"1"</code> (49) and <code>"9"</code> (57), and stops there. It never looks at the numbers the digits stand for. If you mean numbers, convert with <code>int()</code> first.</p></aside>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e13"><textarea class="pc-src pc-code" hidden>print(&quot;10&quot; &lt; &quot;9&quot;)
+print(int(&quot;10&quot;) &lt; int(&quot;9&quot;))</textarea></div>
+<h3 id="ignoring-capitals">Ignoring capitals</h3>
+<p>To compare two strings without caring about capitals, turn both into lower case first. <code>"Hello".lower()</code> gives <code>"hello"</code>. The dot means <code>lower</code> belongs to the string; you&rsquo;ll meet many of these <strong>methods</strong> in Week 5.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e14"><textarea class="pc-src pc-code" hidden>answer = &quot;YES&quot;
+print(answer == &quot;yes&quot;)
+print(answer.lower() == &quot;yes&quot;)</textarea></div>
+<h3 id="is-one-string-inside-another">Is one string inside another?</h3>
+<p><code>in</code> asks whether one string appears somewhere inside another. Its answer is a <code>bool</code> too.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e15"><textarea class="pc-src pc-code" hidden>print(&quot;ana&quot; in &quot;banana&quot;)
+print(&quot;x&quot; in &quot;banana&quot;)
+print(&quot;e&quot; in &quot;aeiou&quot;)
+print(&quot;&quot; in &quot;anything&quot;)</textarea></div>
+<p><code>not in</code> asks the opposite: <code>"x" not in "banana"</code> is <code>True</code>.</p>
+<h2 id="comparing-values-of-different-types">Comparing values of different types</h2>
+<p>Numbers of different types compare by their value, so an <code>int</code> can equal a <code>float</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e16"><textarea class="pc-src pc-code" hidden>print(3 == 3.0)
+print(1 &lt; 1.5)</textarea></div>
+<p>But a string is never equal to a number, even when it looks like one. This bites when you forget that <code>input()</code> returns a string:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e17"><textarea class="pc-src pc-code" hidden>print(&quot;7&quot; == 7)
+print(int(&quot;7&quot;) == 7)</textarea></div>
+<p><code>==</code> simply answers <code>False</code>. Ordering is stricter: Python refuses to say whether text is bigger than a number, because there&rsquo;s no sensible answer.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e18"><textarea class="pc-src pc-code" hidden>age = &quot;17&quot;
+print(age &gt;= 18)</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>==</code> and <code>!=</code> work between any two values. <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code> and <code>&gt;=</code> need two values that have an order: two numbers, or two strings. If you get <code>TypeError: '&gt;=' not supported between instances of 'str' and 'int'</code>, you almost certainly forgot <code>int()</code> around an <code>input()</code>.</p></aside>
+<h2 id="floats-and">Floats and ==</h2>
+<p>Remember from Week 1 that floats are stored in binary and are often a tiny bit off. That makes <code>==</code> on floats unreliable:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e19"><textarea class="pc-src pc-code" hidden>print(0.1 + 0.2 == 0.3)
+print(0.1 + 0.2)</textarea></div>
+<p>The safe way is to ask whether two floats are <em>close enough</em>. <code>math.isclose</code> does exactly that:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e20"><textarea class="pc-src pc-code" hidden>import math
+print(math.isclose(0.1 + 0.2, 0.3))
+print(math.isclose(1.0, 1.001))</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Use <code>==</code> freely with ints and strings. With floats that came out of a calculation, use <code>math.isclose</code>, or compare with <code>&lt;</code> and <code>&gt;</code> instead.</p></aside>
+<h2 id="storing-answers-in-variables">Storing answers in variables</h2>
+<p>A comparison is an expression, so you can store its answer in a variable like any other value. Name it so that it reads as a yes or no question: <code>is_adult</code>, <code>has_ticket</code>, <code>can_vote</code>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e21"><div class="pc-title">X-ray me</div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;Age: &quot;))
+is_adult = age &gt;= 18
+print(&quot;Adult:&quot;, is_adult)</textarea></div>
+<p>Press X-ray and watch <code>is_adult</code> appear in the names panel pointing at a <code>bool</code> object. Tomorrow you&rsquo;ll combine several of these with <code>and</code>, <code>or</code> and <code>not</code>. On Day 3 you&rsquo;ll make the program actually <em>do</em> something different depending on them.</p>
+<h2 id="bool-is-secretly-a-number">bool is secretly a number</h2>
+<p>Under the hood, <code>True</code> behaves like the number 1 and <code>False</code> like 0. You can even do sums with them:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e22"><textarea class="pc-src pc-code" hidden>print(True + True)
+print(True * 10)
+print(False + 5)</textarea></div>
+<p>This is occasionally handy, for counting how many things are true:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e23"><div class="pc-title">How many are over 18?</div><textarea class="pc-src pc-code" hidden>a, b, c = 25, 12, 40
+print((a &gt;= 18) + (b &gt;= 18) + (c &gt;= 18))</textarea></div>
+<h2 id="truthiness-turning-values-into-bools">Truthiness: turning values into bools</h2>
+<p><code>bool()</code> converts any value to <code>True</code> or <code>False</code>, the same way <code>int()</code> converts to a whole number. The rule is short. These count as <strong>false</strong>:</p>
+<ul>
+<li><code>0</code> and <code>0.0</code></li>
+<li>the empty string <code>""</code></li>
+<li><code>False</code> itself</li>
+</ul>
+<p>So far, everything else counts as <strong>true</strong>. (You&rsquo;ll meet a few more false values later, like empty lists.)</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e24"><textarea class="pc-src pc-code" hidden>print(bool(0), bool(7), bool(-3))
+print(bool(0.0), bool(0.5))
+print(bool(&quot;&quot;), bool(&quot;hello&quot;), bool(&quot; &quot;))</textarea></div>
+<aside class="callout c-mistake"><div class="callout-t">bool(input()) is a trap</div><p><code>bool("False")</code> is <code>True</code>, because <code>"False"</code> is a non-empty string. Converting the user&rsquo;s typed answer with <code>bool()</code> never does what you hope. Compare the text instead: <code>answer == "yes"</code>.</p></aside>
+<div class="pc pc-example" data-kind="example" data-id="w002d1-e25"><textarea class="pc-src pc-code" hidden>print(bool(&quot;False&quot;))
+print(bool(&quot;0&quot;))</textarea></div>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-adult" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Old enough?</div><div class="pc-prompt"><p>Ask for an age with the prompt <code>Age:</code>, then print <code>Adult:</code> followed by <code>True</code> or <code>False</code>: <code>True</code> when the age is 18 or more.</p>
+<pre><code>Age: 20
+Adult: True
+</code></pre></div><textarea class="pc-src pc-code" hidden>age = input(&quot;Age: &quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_20():
+    &quot;an adult&quot;
+    expect_output(&quot;Age: 20\nAdult: True&quot;, inputs=[&quot;20&quot;], echo=True)
+def test_18():
+    &quot;exactly 18 counts as an adult&quot;
+    expect_output(&quot;Age: 18\nAdult: True&quot;, inputs=[&quot;18&quot;], echo=True)
+def test_17():
+    &quot;not yet&quot;
+    expect_output(&quot;Age: 17\nAdult: False&quot;, inputs=[&quot;17&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>age = int(input(&quot;Age: &quot;))
+print(&quot;Adult:&quot;, age &gt;= 18)</textarea><template class="pc-src pc-hint"><code>input()</code> gives a string. Wrap it in <code>int()</code> before you compare.</template><template class="pc-src pc-hint">&ldquo;18 or more&rdquo; is <code>&gt;=</code>, not <code>&gt;</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-even" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Even or not</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>Number:</code> and print <code>Even: True</code> or <code>Even: False</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_even():
+    &quot;an even number&quot;
+    expect_output(&quot;Number: 8\nEven: True&quot;, inputs=[&quot;8&quot;], echo=True)
+def test_odd():
+    &quot;an odd number&quot;
+    expect_output(&quot;Number: 13\nEven: False&quot;, inputs=[&quot;13&quot;], echo=True)
+def test_zero():
+    &quot;zero is even&quot;
+    expect_output(&quot;Number: 0\nEven: True&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_negative():
+    &quot;negative numbers too&quot;
+    expect_output(&quot;Number: -4\nEven: True&quot;, inputs=[&quot;-4&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+print(&quot;Even:&quot;, n % 2 == 0)</textarea><template class="pc-src pc-hint">A number is even when dividing it by 2 leaves nothing over. Which operator gives the remainder?</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-comfy" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Comfortable temperature</div><div class="pc-prompt"><p>A room is comfortable when its temperature is from 18 to 24 degrees, including both ends. Ask for a temperature (it may have decimals) with the prompt <code>Temperature:</code> and print <code>Comfortable: True</code> or <code>Comfortable: False</code>. Use one chained comparison.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_inside():
+    &quot;21.5 is comfortable&quot;
+    expect_output(&quot;Temperature: 21.5\nComfortable: True&quot;, inputs=[&quot;21.5&quot;], echo=True)
+def test_ends():
+    &quot;both ends count&quot;
+    expect_output(&quot;Temperature: 18\nComfortable: True&quot;, inputs=[&quot;18&quot;], echo=True)
+    expect_output(&quot;Temperature: 24\nComfortable: True&quot;, inputs=[&quot;24&quot;], echo=True)
+def test_outside():
+    &quot;too cold and too hot&quot;
+    expect_output(&quot;Temperature: 17.9\nComfortable: False&quot;, inputs=[&quot;17.9&quot;], echo=True)
+    expect_output(&quot;Temperature: 30\nComfortable: False&quot;, inputs=[&quot;30&quot;], echo=True)
+def test_chained():
+    &quot;uses a chained comparison&quot;
+    import re
+    assert re.search(r&quot;18\s*&lt;=\s*\w+\s*&lt;=\s*24&quot;, source), &quot;Write it as one chain: 18 &lt;= t &lt;= 24&quot;</textarea><textarea class="pc-src pc-solution" hidden>t = float(input(&quot;Temperature: &quot;))
+print(&quot;Comfortable:&quot;, 18 &lt;= t &lt;= 24)</textarea><template class="pc-src pc-hint">Decimals mean <code>float()</code>, not <code>int()</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-first_alpha" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Alphabetical order</div><div class="pc-prompt"><p>Ask for two words with the prompts <code>First:</code> and <code>Second:</code>. Print <code>In order: True</code> if the first word comes before the second in Python&rsquo;s order (or they&rsquo;re the same), and <code>In order: False</code> otherwise.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_yes():
+    &quot;apple, banana&quot;
+    expect_output(&quot;First: apple\nSecond: banana\nIn order: True&quot;, inputs=[&quot;apple&quot;, &quot;banana&quot;], echo=True)
+def test_no():
+    &quot;pear, fig&quot;
+    expect_output(&quot;First: pear\nSecond: fig\nIn order: False&quot;, inputs=[&quot;pear&quot;, &quot;fig&quot;], echo=True)
+def test_same():
+    &quot;the same word&quot;
+    expect_output(&quot;First: kiwi\nSecond: kiwi\nIn order: True&quot;, inputs=[&quot;kiwi&quot;, &quot;kiwi&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>a = input(&quot;First: &quot;)
+b = input(&quot;Second: &quot;)
+print(&quot;In order:&quot;, a &lt;= b)</textarea><template class="pc-src pc-hint">&ldquo;Comes before, or the same&rdquo; is <code>&lt;=</code>. Strings compare letter by letter.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-vowel" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Is it a vowel?</div><div class="pc-prompt"><p>Ask for a single letter with the prompt <code>Letter:</code> and print <code>Vowel: True</code> if it is one of a, e, i, o, u, in either upper or lower case.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_lower():
+    &quot;e is a vowel&quot;
+    expect_output(&quot;Letter: e\nVowel: True&quot;, inputs=[&quot;e&quot;], echo=True)
+def test_upper():
+    &quot;capital O is a vowel&quot;
+    expect_output(&quot;Letter: O\nVowel: True&quot;, inputs=[&quot;O&quot;], echo=True)
+def test_consonant():
+    &quot;k is not&quot;
+    expect_output(&quot;Letter: k\nVowel: False&quot;, inputs=[&quot;k&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>letter = input(&quot;Letter: &quot;)
+print(&quot;Vowel:&quot;, letter.lower() in &quot;aeiou&quot;)</textarea><template class="pc-src pc-hint"><code>in</code> checks whether a string appears inside another, and <code>"aeiou"</code> holds all five vowels.</template><template class="pc-src pc-hint">Use <code>.lower()</code> on the letter so capitals work too.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-password" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Long enough password</div><div class="pc-prompt"><p>A password must have at least 8 characters. Ask for one with the prompt <code>Password:</code> and print <code>Accepted: True</code> or <code>Accepted: False</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_short():
+    &quot;7 characters is too short&quot;
+    expect_output(&quot;Password: abc1234\nAccepted: False&quot;, inputs=[&quot;abc1234&quot;], echo=True)
+def test_exact():
+    &quot;exactly 8 is fine&quot;
+    expect_output(&quot;Password: abcd1234\nAccepted: True&quot;, inputs=[&quot;abcd1234&quot;], echo=True)
+def test_long():
+    &quot;a long one&quot;
+    expect_output(&quot;Password: correct horse battery\nAccepted: True&quot;, inputs=[&quot;correct horse battery&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>password = input(&quot;Password: &quot;)
+print(&quot;Accepted:&quot;, len(password) &gt;= 8)</textarea><template class="pc-src pc-hint"><code>len()</code> counts the characters in a string.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-multiple" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Divisible by 15</div><div class="pc-prompt"><p>Ask for a whole number with the prompt <code>Number:</code> and print <code>FizzBuzz: True</code> if it divides exactly by 15, otherwise <code>FizzBuzz: False</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_45():
+    &quot;45 divides by 15&quot;
+    expect_output(&quot;Number: 45\nFizzBuzz: True&quot;, inputs=[&quot;45&quot;], echo=True)
+def test_20():
+    &quot;20 does not&quot;
+    expect_output(&quot;Number: 20\nFizzBuzz: False&quot;, inputs=[&quot;20&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>n = int(input(&quot;Number: &quot;))
+print(&quot;FizzBuzz:&quot;, n % 15 == 0)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-close" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Close enough</div><div class="pc-prompt"><p>This program adds up three prices and checks the total. It prints <code>False</code> even though the total is right. Change only the last line so it prints <code>True</code>, using <code>math.isclose</code>.</p></div><textarea class="pc-src pc-code" hidden>import math
+total = 0.1 + 0.7 + 0.2
+print(total == 1.0)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints True&quot;
+    expect_output(&quot;True&quot;)
+def test_isclose():
+    &quot;uses math.isclose&quot;
+    assert &quot;isclose&quot; in source, &quot;Use math.isclose(total, 1.0).&quot;</textarea><textarea class="pc-src pc-solution" hidden>import math
+total = 0.1 + 0.7 + 0.2
+print(math.isclose(total, 1.0))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A question that crashes</div><div class="pc-prompt"><p>This should print <code>True</code> or <code>False</code>, but it crashes with a <code>TypeError</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>age = input(&quot;Age: &quot;)
+print(&quot;Can vote:&quot;, age &gt;= 18)</textarea><textarea class="pc-src pc-tests" hidden>def test_adult():
+    &quot;works for 30&quot;
+    expect_output(&quot;Age: 30\nCan vote: True&quot;, inputs=[&quot;30&quot;], echo=True)
+def test_child():
+    &quot;works for 9&quot;
+    expect_output(&quot;Age: 9\nCan vote: False&quot;, inputs=[&quot;9&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>age = int(input(&quot;Age: &quot;))
+print(&quot;Can vote:&quot;, age &gt;= 18)</textarea><template class="pc-src pc-hint">What type does <code>input()</code> return? Can you ask whether text is greater than a number?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Assigning instead of asking</div><div class="pc-prompt"><p>This should print whether <code>guess</code> matches <code>secret</code>. Find the bug.</p></div><textarea class="pc-src pc-code" hidden>secret = 7
+guess = 7
+print(&quot;Correct:&quot;, guess = secret)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;prints Correct: True&quot;
+    expect_output(&quot;Correct: True&quot;)
+def test_other():
+    &quot;prints False for a wrong guess&quot;
+    got = norm(run_with({&quot;guess = 7&quot;: &quot;guess = 3&quot;}))
+    assert got == &quot;Correct: False&quot;, &quot;With guess = 3 your program printed:\n&quot; + got</textarea><textarea class="pc-src pc-solution" hidden>secret = 7
+guess = 7
+print(&quot;Correct:&quot;, guess == secret)</textarea><template class="pc-src pc-hint">One <code>=</code> gives an order. What do you write to ask a question?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d1-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Yes means yes</div><div class="pc-prompt"><p>The user types <code>Yes</code> and the program says <code>False</code>. Make it accept <code>yes</code> in any mix of capitals.</p></div><textarea class="pc-src pc-code" hidden>answer = input(&quot;Continue? &quot;)
+print(&quot;Continuing:&quot;, answer == &quot;yes&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_capital():
+    &quot;Yes is accepted&quot;
+    expect_output(&quot;Continue? Yes\nContinuing: True&quot;, inputs=[&quot;Yes&quot;], echo=True)
+def test_shout():
+    &quot;YES is accepted&quot;
+    expect_output(&quot;Continue? YES\nContinuing: True&quot;, inputs=[&quot;YES&quot;], echo=True)
+def test_no():
+    &quot;no is not&quot;
+    expect_output(&quot;Continue? no\nContinuing: False&quot;, inputs=[&quot;no&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>answer = input(&quot;Continue? &quot;)
+print(&quot;Continuing:&quot;, answer.lower() == &quot;yes&quot;)</textarea></div>
+<div class="parsons" data-id="w002d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Ticket check</div><div class="pc-prompt"><p>Arrange the lines into a program that asks for an age and prints whether the person gets the child price (under 12). One line is a trap.</p></div><script type="application/json">{"lines": ["age = int(input(\"Age: \"))", "is_child = age < 12", "print(\"Child price:\", is_child)"], "distractors": ["is_child = age =< 12"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Trace the bools</div><div class="pc-prompt"><p>Work out each value on paper, then fill in <code>True</code> or <code>False</code> for each <code>___</code>. Don&rsquo;t run the expressions; the checks compare your answers with Python&rsquo;s.</p>
+<pre><code class="language-python">a = 5
+b = &quot;5&quot;
+q1 = a == 5.0
+q2 = b == 5
+q3 = &quot;Apple&quot; &lt; &quot;apple&quot;
+q4 = &quot;9&quot; &gt; &quot;10&quot;
+q5 = 3 &lt; a &lt;= 5
+q6 = bool(&quot;0&quot;)
+</code></pre></div><textarea class="pc-src pc-code" hidden>q1 = ___
+q2 = ___
+q3 = ___
+q4 = ___
+q5 = ___
+q6 = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_q1():
+    &quot;q1&quot;
+    assert q1 is True, &quot;q1: an int and a float compare by value.&quot;
+def test_q2():
+    &quot;q2&quot;
+    assert q2 is False, &quot;q2: a string never equals a number.&quot;
+def test_q3():
+    &quot;q3&quot;
+    assert q3 is True, &quot;q3: compare the code numbers of &#x27;A&#x27; and &#x27;a&#x27;.&quot;
+def test_q4():
+    &quot;q4&quot;
+    assert q4 is True, &quot;q4: strings compare their first characters, &#x27;9&#x27; and &#x27;1&#x27;.&quot;
+def test_q5():
+    &quot;q5&quot;
+    assert q5 is True, &quot;q5: both 3 &lt; 5 and 5 &lt;= 5 hold.&quot;
+def test_q6():
+    &quot;q6&quot;
+    assert q6 is True, &quot;q6: &#x27;0&#x27; is a non-empty string.&quot;</textarea><textarea class="pc-src pc-solution" hidden>q1 = True
+q2 = False
+q3 = True
+q4 = True
+q5 = True
+q6 = True</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w002d1-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is the type of <code>3 &gt; 2</code>?", "answer": 2, "explain": "Every comparison gives a bool: True or False.", "options": ["int", "str", "bool", "float"]}, {"type": "output", "q": "What does this print?", "answer": "False", "explain": "x is equal to 10, so &lsquo;not equal&rsquo; is False.", "code": "x = 10\nprint(x != 10)"}, {"type": "output", "q": "What does this print?", "answer": "True", "explain": "Arithmetic first: 6 == 6.", "code": "print(2 * 3 == 6)"}, {"type": "mc", "q": "Which is True?", "answer": 0, "explain": "Capital letters have smaller code numbers than lower-case ones.", "options": ["<code>\"Zoo\" &lt; \"apple\"</code>", "<code>\"apple\" &lt; \"Zoo\"</code>", "<code>\"apple\" == \"Apple\"</code>"]}, {"type": "mc", "q": "What does <code>\"10\" &lt; \"9\"</code> give?", "answer": 0, "explain": "Strings compare character by character: &lsquo;1&rsquo; comes before &lsquo;9&rsquo;.", "options": ["True", "False", "TypeError"]}, {"type": "mc", "q": "What does <code>\"5\" == 5</code> give?", "answer": 1, "explain": "== never crashes; a string simply never equals a number.", "options": ["True", "False", "TypeError"]}, {"type": "mc", "q": "What happens with <code>\"5\" &lt; 5</code>?", "answer": 2, "explain": "Python won&rsquo;t order text against a number.", "options": ["True", "False", "TypeError"]}, {"type": "output", "q": "What does this print?", "answer": "False", "explain": "It means 1 &lt; n and n &lt; 4. The second part fails.", "code": "n = 4\nprint(1 < n < 4)"}, {"type": "output", "q": "What does this print?", "answer": "2", "explain": "True counts as 1 and False as 0.", "code": "print(True + True + False)"}, {"type": "mc", "q": "Which of these is False?", "answer": 2, "explain": "Zero is false. Every non-empty string, even &lsquo;False&rsquo; and a space, is true.", "options": ["<code>bool(\"False\")</code>", "<code>bool(\" \")</code>", "<code>bool(0.0)</code>", "<code>bool(-1)</code>"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d1-challenge" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Challenge: palindromes</div><div class="pc-prompt"><p>A <strong>palindrome</strong> reads the same forwards and backwards, like <code>level</code> or <code>racecar</code>. Ask for a word with the prompt <code>Word:</code> and print <code>Palindrome: True</code> or <code>Palindrome: False</code>. Capitals shouldn&rsquo;t matter, so <code>Anna</code> is a palindrome.</p>
+<p>Stretch goal, in your head: why would <code>"never odd or even"</code> fail your check, and what would you need to remove first?</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_level():
+    &quot;level&quot;
+    expect_output(&quot;Word: level\nPalindrome: True&quot;, inputs=[&quot;level&quot;], echo=True)
+def test_anna():
+    &quot;Anna, with a capital&quot;
+    expect_output(&quot;Word: Anna\nPalindrome: True&quot;, inputs=[&quot;Anna&quot;], echo=True)
+def test_python():
+    &quot;python is not&quot;
+    expect_output(&quot;Word: python\nPalindrome: False&quot;, inputs=[&quot;python&quot;], echo=True)
+def test_single():
+    &quot;a single letter is&quot;
+    expect_output(&quot;Word: x\nPalindrome: True&quot;, inputs=[&quot;x&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>word = input(&quot;Word: &quot;).lower()
+print(&quot;Palindrome:&quot;, word == word[::-1])</textarea><template class="pc-src pc-hint">From Week 1: <code>word[::-1]</code> is the word backwards.</template><template class="pc-src pc-hint">Make it lower case first, then compare it with its reverse.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Explain out loud, without looking: what&rsquo;s the difference between <code>=</code> and <code>==</code>? Why is <code>"10" &lt; "9"</code> true? Why is <code>0.1 + 0.2 == 0.3</code> false, and what should you write instead? Tomorrow you&rsquo;ll combine questions with <code>and</code>, <code>or</code> and <code>not</code>, and learn the shortcut Python takes when it already knows the answer.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w001d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w002d2.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w002d1", "week": 2, "day": 1, "title": "Booleans and comparisons", "exercises": [{"id": "w002d1-adult", "title": "Old enough?", "points": 10}, {"id": "w002d1-even", "title": "Even or not", "points": 10}, {"id": "w002d1-comfy", "title": "Comfortable temperature", "points": 10}, {"id": "w002d1-first_alpha", "title": "Alphabetical order", "points": 10}, {"id": "w002d1-vowel", "title": "Is it a vowel?", "points": 10}, {"id": "w002d1-password", "title": "Long enough password", "points": 10}, {"id": "w002d1-multiple", "title": "Divisible by 15", "points": 10}, {"id": "w002d1-close", "title": "Close enough", "points": 10}, {"id": "w002d1-bug1", "title": "A question that crashes", "points": 10}, {"id": "w002d1-bug2", "title": "Assigning instead of asking", "points": 10}, {"id": "w002d1-bug3", "title": "Yes means yes", "points": 10}, {"id": "w002d1-trace", "title": "Trace the bools", "points": 15}, {"id": "w002d1-challenge", "title": "Challenge: palindromes", "points": 20}], "points": 145}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

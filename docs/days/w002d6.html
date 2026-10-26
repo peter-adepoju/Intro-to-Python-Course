@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="0500404132">
+<title>Week 2 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=0500404132">
+<link rel="stylesheet" href="../assets/css/site.css?v=0500404132">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=0500404132"></script>
+<script src="../assets/vendor/codemirror.js?v=0500404132" defer></script>
+<meta name="description" content="The Forge is where the week comes together. You’ll warm up with a mixed review that reaches back to Week 1, build a ticket machine that uses every idea from...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w002d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 2 Day 6: Forge">
+<meta property="og:description" content="The Forge is where the week comes together. You’ll warm up with a mixed review that reaches back to Week 1, build a ticket machine that uses every idea from...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w002d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-2">Week 2: Making decisions</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-the-ticket-machine" data-sec="forge-the-ticket-machine">Forge: the ticket machine</a></li><li><a href="#forge-bonus-the-triangle-classifier" data-sec="forge-bonus-the-triangle-classifier">Forge bonus: the triangle classifier</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-2-review" data-sec="week-2-review">Week 2 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 2, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>The Forge is where the week comes together. You&rsquo;ll warm up with a mixed review that reaches back to Week 1, build a ticket machine that uses every idea from this week, try a bonus classifier, then finish with the weekly quiz and a look back at what you&rsquo;ve learned.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Recall Week 1 and Week 2 ideas mixed together, without being told which to use</li><li>Design, build and test a complete program with several decisions, from a written specification</li><li>Validate input, choose between branches, and print a neat formatted result in one program</li><li>Find the gaps in your understanding with the weekly quiz</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:35" title="Mixed review practice: 35 min"></span><span class="plan-seg s0" style="flex:60" title="Forge: the ticket machine: 60 min"></span><span class="plan-seg s1" style="flex:35" title="Forge bonus: the triangle classifier: 35 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 2 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">35 min</span></li><li><span class="plan-at">0:50</span><span class="plan-what">Forge: the ticket machine</span><span class="plan-min">60 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Forge bonus: the triangle classifier</span><span class="plan-min">35 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 2 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w002d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<p>Five quick predictions, mixing this week and last. Write your answer before you run each one.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d6-p1"><textarea class="pc-src pc-code" hidden>x = 7
+print(x % 2 == 1 and x &gt; 5)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d6-p2"><textarea class="pc-src pc-code" hidden>word = &quot;Python&quot;
+print(word[0] == &quot;p&quot; or len(word) &gt; 5)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d6-p3"><textarea class="pc-src pc-code" hidden>n = 0
+print(n != 0 and 10 / n &gt; 1)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d6-p4"><textarea class="pc-src pc-code" hidden>t = 15
+if t &gt; 20:
+    print(&quot;warm&quot;)
+elif t &gt; 10:
+    print(&quot;mild&quot;)
+if t &gt; 12:
+    print(&quot;pleasant&quot;)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d6-p5"><textarea class="pc-src pc-code" hidden>price = 1999
+label = &quot;cheap&quot; if price &lt; 2000 else &quot;dear&quot;
+print(f&quot;{label:&gt;6}|{price:,}&quot;)</textarea></div>
+<p>If any of these surprised you, look back at the day it comes from before you start the Forge: <a href="w002d1.html">comparisons</a>, <a href="w002d2.html">and, or, not</a>, <a href="w002d3.html">if and else</a>, <a href="w002d4.html">elif</a>, and <a href="w001d6.html">f-strings</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<p>These exercises don&rsquo;t say which tool to use. Deciding is part of the practice.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d6-mix_change" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Change</div><div class="pc-prompt"><p>A customer pays for something. Ask for the price and the amount paid, both whole numbers, with the prompts <code>Price:</code> and <code>Paid:</code>. If they paid enough, print <code>Change:</code> and the change. Otherwise print <code>Short by</code> and how much more they need.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_change():
+    &quot;paid too much&quot;
+    expect_output(&quot;Price: 750\nPaid: 1000\nChange: 250&quot;, inputs=[&quot;750&quot;, &quot;1000&quot;], echo=True)
+def test_exact():
+    &quot;exact money&quot;
+    expect_output(&quot;Price: 750\nPaid: 750\nChange: 0&quot;, inputs=[&quot;750&quot;, &quot;750&quot;], echo=True)
+def test_short():
+    &quot;not enough&quot;
+    expect_output(&quot;Price: 750\nPaid: 500\nShort by 250&quot;, inputs=[&quot;750&quot;, &quot;500&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>price = int(input(&quot;Price: &quot;))
+paid = int(input(&quot;Paid: &quot;))
+if paid &gt;= price:
+    print(&quot;Change:&quot;, paid - price)
+else:
+    print(&quot;Short by&quot;, price - paid)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d6-mix_time" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Minutes to hours</div><div class="pc-prompt"><p>Ask for a number of minutes with the prompt <code>Minutes:</code> and print it as hours and minutes, like <code>2 h 05 min</code>. If it&rsquo;s under an hour, print just the minutes, like <code>45 min</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_long():
+    &quot;125 minutes&quot;
+    expect_output(&quot;Minutes: 125\n2 h 05 min&quot;, inputs=[&quot;125&quot;], echo=True)
+def test_short():
+    &quot;45 minutes&quot;
+    expect_output(&quot;Minutes: 45\n45 min&quot;, inputs=[&quot;45&quot;], echo=True)
+def test_exact():
+    &quot;exactly an hour&quot;
+    expect_output(&quot;Minutes: 60\n1 h 00 min&quot;, inputs=[&quot;60&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>total = int(input(&quot;Minutes: &quot;))
+if total &lt; 60:
+    print(f&quot;{total} min&quot;)
+else:
+    print(f&quot;{total // 60} h {total % 60:02} min&quot;)</textarea><template class="pc-src pc-hint"><code>//</code> and <code>%</code> from Week 1 split the minutes. <code>:02</code> in an f-string pads to two digits.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d6-mix_initial" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Initial check</div><div class="pc-prompt"><p>Ask for a name with the prompt <code>Name:</code>. Print <code>Early in the alphabet</code> if its first letter is from A to M (in either case), and <code>Late in the alphabet</code> otherwise.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_early():
+    &quot;Ada and mike&quot;
+    expect_output(&quot;Name: Ada\nEarly in the alphabet&quot;, inputs=[&quot;Ada&quot;], echo=True)
+    expect_output(&quot;Name: mike\nEarly in the alphabet&quot;, inputs=[&quot;mike&quot;], echo=True)
+def test_late():
+    &quot;Ngozi and zara&quot;
+    expect_output(&quot;Name: Ngozi\nLate in the alphabet&quot;, inputs=[&quot;Ngozi&quot;], echo=True)
+    expect_output(&quot;Name: zara\nLate in the alphabet&quot;, inputs=[&quot;zara&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>name = input(&quot;Name: &quot;)
+first = name[0].lower()
+if &quot;a&quot; &lt;= first &lt;= &quot;m&quot;:
+    print(&quot;Early in the alphabet&quot;)
+else:
+    print(&quot;Late in the alphabet&quot;)</textarea><template class="pc-src pc-hint"><code>name[0].lower()</code> gives the first letter in lower case. Then a chained comparison with <code>"a"</code> and <code>"m"</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d6-mix_round" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Round to the nearest 50</div><div class="pc-prompt"><p>Prices are rounded to the nearest 50. Ask for a price (a whole number) with the prompt <code>Price:</code> and print <code>Rounded:</code> and the rounded price. Exactly half way (25 over) rounds <strong>up</strong>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;several prices&quot;
+    for p, r in [(1210, 1200), (1225, 1250), (1240, 1250), (1250, 1250), (1274, 1250), (1275, 1300), (10, 0)]:
+        expect_output(f&quot;Price: {p}\nRounded: {r}&quot;, inputs=[str(p)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>price = int(input(&quot;Price: &quot;))
+extra = price % 50
+if extra &gt;= 25:
+    rounded = price - extra + 50
+else:
+    rounded = price - extra
+print(&quot;Rounded:&quot;, rounded)</textarea><template class="pc-src pc-hint"><code>price % 50</code> is how far you are past the last multiple of 50. If it&rsquo;s 25 or more, go up to the next one.</template></div>
+<h2 id="forge-the-ticket-machine">Forge: the ticket machine</h2>
+<p>Give yourself about an hour. Before you write code, do what you learned on Day 5: read the whole specification, write the decision table for the price, and write a short test plan. Then build the program <strong>one piece at a time</strong>, running it after each piece.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: the ticket machine</div><div class="pc-prompt"><p>A cinema&rsquo;s ticket machine works like this.</p>
+<p><strong>1. Choose a film.</strong> Print this menu, then ask <code>Choice:</code>.</p>
+<pre><code>1. The Long Night (15)
+2. Robot Garden (U)
+3. Deep Water (12)
+</code></pre>
+<p>If the choice isn&rsquo;t <code>1</code>, <code>2</code> or <code>3</code>, print <code>Invalid choice</code> and stop. (No other lines are printed after that.)</p>
+<p><strong>2. Age.</strong> Ask <code>Age:</code>. If it isn&rsquo;t a whole number, print <code>Invalid age</code> and stop.</p>
+<p><strong>3. Age rating.</strong> A film rated 15 needs the customer to be at least 15, and a film rated 12 needs at least 12. A film rated U has no limit. If they&rsquo;re too young, print <code>Sorry, this film is rated 15</code> (or 12) and stop.</p>
+<p><strong>4. Price.</strong> Ask <code>Student? (y/n)</code>. The price is:</p>
+<ul>
+<li>1,000 for children under 12;</li>
+<li>1,500 for students (any age, as long as they&rsquo;re 12 or over);</li>
+<li>1,200 for ages 65 and over who aren&rsquo;t students;</li>
+<li>2,500 for everyone else.</li>
+</ul>
+<p><strong>5. Ticket.</strong> Print a blank line, then the ticket. Lines are 28 characters wide, with the labels left-aligned in 10 and the values right-aligned in 18:</p>
+<pre><code>
+============================
+Film            Robot Garden
+Age                       70
+Price                  1,200
+============================
+</code></pre>
+<p>The whole conversation for that example was: choice <code>2</code>, age <code>70</code>, student <code>n</code>.</p></div><textarea class="pc-src pc-code" hidden>print(&quot;1. The Long Night (15)&quot;)
+print(&quot;2. Robot Garden (U)&quot;)
+print(&quot;3. Deep Water (12)&quot;)
+choice = input(&quot;Choice: &quot;)</textarea><textarea class="pc-src pc-tests" hidden>MENU = &quot;1. The Long Night (15)\n2. Robot Garden (U)\n3. Deep Water (12)\n&quot;
+def ticket(film, age, price):
+    return f&quot;\n\n{&#x27;=&#x27; * 28}\n{&#x27;Film&#x27;:&lt;10}{film:&gt;18}\n{&#x27;Age&#x27;:&lt;10}{age:&gt;18}\n{&#x27;Price&#x27;:&lt;10}{price:&gt;18,}\n{&#x27;=&#x27; * 28}&quot;
+def test_example():
+    &quot;the example in the task&quot;
+    expect_output(MENU + &quot;Choice: 2\nAge: 70\nStudent? (y/n) n&quot; + ticket(&quot;Robot Garden&quot;, 70, 1200), inputs=[&quot;2&quot;, &quot;70&quot;, &quot;n&quot;], echo=True)
+def test_bad_choice():
+    &quot;an invalid film choice stops the program&quot;
+    expect_output(MENU + &quot;Choice: 4\nInvalid choice&quot;, inputs=[&quot;4&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: two\nInvalid choice&quot;, inputs=[&quot;two&quot;], echo=True)
+def test_bad_age():
+    &quot;an invalid age stops the program&quot;
+    expect_output(MENU + &quot;Choice: 2\nAge: old\nInvalid age&quot;, inputs=[&quot;2&quot;, &quot;old&quot;], echo=True)
+def test_rating():
+    &quot;too young for the rating&quot;
+    expect_output(MENU + &quot;Choice: 1\nAge: 14\nSorry, this film is rated 15&quot;, inputs=[&quot;1&quot;, &quot;14&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: 3\nAge: 11\nSorry, this film is rated 12&quot;, inputs=[&quot;3&quot;, &quot;11&quot;], echo=True)
+def test_rating_edges():
+    &quot;exactly old enough&quot;
+    expect_output(MENU + &quot;Choice: 1\nAge: 15\nStudent? (y/n) n&quot; + ticket(&quot;The Long Night&quot;, 15, 2500), inputs=[&quot;1&quot;, &quot;15&quot;, &quot;n&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: 3\nAge: 12\nStudent? (y/n) n&quot; + ticket(&quot;Deep Water&quot;, 12, 2500), inputs=[&quot;3&quot;, &quot;12&quot;, &quot;n&quot;], echo=True)
+def test_prices():
+    &quot;every price band&quot;
+    expect_output(MENU + &quot;Choice: 2\nAge: 8\nStudent? (y/n) n&quot; + ticket(&quot;Robot Garden&quot;, 8, 1000), inputs=[&quot;2&quot;, &quot;8&quot;, &quot;n&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: 2\nAge: 8\nStudent? (y/n) y&quot; + ticket(&quot;Robot Garden&quot;, 8, 1000), inputs=[&quot;2&quot;, &quot;8&quot;, &quot;y&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: 3\nAge: 20\nStudent? (y/n) y&quot; + ticket(&quot;Deep Water&quot;, 20, 1500), inputs=[&quot;3&quot;, &quot;20&quot;, &quot;y&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: 1\nAge: 40\nStudent? (y/n) n&quot; + ticket(&quot;The Long Night&quot;, 40, 2500), inputs=[&quot;1&quot;, &quot;40&quot;, &quot;n&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: 1\nAge: 70\nStudent? (y/n) y&quot; + ticket(&quot;The Long Night&quot;, 70, 1500), inputs=[&quot;1&quot;, &quot;70&quot;, &quot;y&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: 1\nAge: 64\nStudent? (y/n) n&quot; + ticket(&quot;The Long Night&quot;, 64, 2500), inputs=[&quot;1&quot;, &quot;64&quot;, &quot;n&quot;], echo=True)
+    expect_output(MENU + &quot;Choice: 1\nAge: 65\nStudent? (y/n) n&quot; + ticket(&quot;The Long Night&quot;, 65, 1200), inputs=[&quot;1&quot;, &quot;65&quot;, &quot;n&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>print(&quot;1. The Long Night (15)&quot;)
+print(&quot;2. Robot Garden (U)&quot;)
+print(&quot;3. Deep Water (12)&quot;)
+choice = input(&quot;Choice: &quot;)
+if choice == &quot;1&quot;:
+    film, min_age = &quot;The Long Night&quot;, 15
+elif choice == &quot;2&quot;:
+    film, min_age = &quot;Robot Garden&quot;, 0
+elif choice == &quot;3&quot;:
+    film, min_age = &quot;Deep Water&quot;, 12
+else:
+    film = &quot;&quot;
+
+if film == &quot;&quot;:
+    print(&quot;Invalid choice&quot;)
+else:
+    text = input(&quot;Age: &quot;)
+    if not text.isdigit():
+        print(&quot;Invalid age&quot;)
+    else:
+        age = int(text)
+        if age &lt; min_age:
+            print(f&quot;Sorry, this film is rated {min_age}&quot;)
+        else:
+            student = input(&quot;Student? (y/n) &quot;) == &quot;y&quot;
+            if age &lt; 12:
+                price = 1000
+            elif student:
+                price = 1500
+            elif age &gt;= 65:
+                price = 1200
+            else:
+                price = 2500
+            print()
+            print(&quot;=&quot; * 28)
+            print(f&quot;{&#x27;Film&#x27;:&lt;10}{film:&gt;18}&quot;)
+            print(f&quot;{&#x27;Age&#x27;:&lt;10}{age:&gt;18}&quot;)
+            print(f&quot;{&#x27;Price&#x27;:&lt;10}{price:&gt;18,}&quot;)
+            print(&quot;=&quot; * 28)</textarea><template class="pc-src pc-hint">Work step by step. First get the film name and its minimum age into two variables with an <code>if</code>/<code>elif</code>/<code>elif</code>/<code>else</code> on the choice (<code>film = "Robot Garden"</code>, <code>min_age = 0</code>). The <code>else</code> prints <code>Invalid choice</code>.</template><template class="pc-src pc-hint">&ldquo;Stop&rdquo; means the rest of the program is inside an <code>else</code>. A shape that works: <code>if choice is bad: print... else: ask age; if age is bad: print... else: ...</code>. Each check nests one level deeper.</template><template class="pc-src pc-hint">The price is its own chain. Check the under-12s first, then students, then 65 and over, then everyone else.</template><template class="pc-src pc-hint"><code>f"{'Price':&lt;10}{price:&gt;18,}"</code> prints a price with a thousands comma.</template></div>
+<aside class="callout c-think"><div class="callout-t">Look back at your Forge</div><p>How deeply nested did your program get? Each &ldquo;stop&rdquo; added a level. Next week you&rsquo;ll meet <code>while</code> loops, and in Week 6 functions, and both give you cleaner ways to stop early. For now, deep nesting is the honest price of doing it with only <code>if</code>.</p></aside>
+<h2 id="forge-bonus-the-triangle-classifier">Forge bonus: the triangle classifier</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: the triangle classifier</div><div class="pc-prompt"><p>Ask for three whole-number side lengths with the prompts <code>a:</code>, <code>b:</code> and <code>c:</code>. Print exactly one line:</p>
+<ul>
+<li><code>Not a triangle</code> if the lengths can&rsquo;t make a triangle (each side must be shorter than the other two added together);</li>
+<li><code>Equilateral</code> if all three sides are equal;</li>
+<li><code>Right-angled</code> if the square of the longest side equals the sum of the squares of the other two;</li>
+<li><code>Isosceles</code> if exactly two sides are equal;</li>
+<li><code>Scalene</code> otherwise.</li>
+</ul>
+<p>Check them in that order. For example <code>3, 4, 5</code> is <code>Right-angled</code>, and <code>5, 5, 8</code> is <code>Isosceles</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def run3(a, b, c):
+    return run(inputs=[str(a), str(b), str(c)], echo=True).strip().splitlines()[-1]
+def test_not():
+    &quot;not a triangle&quot;
+    for sides in [(1, 2, 3), (1, 10, 2), (0, 0, 0)]:
+        assert run3(*sides) == &quot;Not a triangle&quot;, f&quot;{sides} can&#x27;t make a triangle.&quot;
+def test_equilateral():
+    &quot;equilateral&quot;
+    assert run3(4, 4, 4) == &quot;Equilateral&quot;
+def test_right():
+    &quot;right-angled, with the longest side anywhere&quot;
+    for sides in [(3, 4, 5), (5, 3, 4), (13, 5, 12), (6, 10, 8)]:
+        assert run3(*sides) == &quot;Right-angled&quot;, f&quot;{sides} is right-angled; the longest side can be in any position.&quot;
+def test_isosceles():
+    &quot;isosceles&quot;
+    for sides in [(5, 5, 8), (8, 5, 5), (5, 8, 5)]:
+        assert run3(*sides) == &quot;Isosceles&quot;, f&quot;{sides} has exactly two equal sides.&quot;
+def test_scalene():
+    &quot;scalene&quot;
+    assert run3(4, 5, 6) == &quot;Scalene&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = int(input(&quot;a: &quot;))
+b = int(input(&quot;b: &quot;))
+c = int(input(&quot;c: &quot;))
+if not (a &lt; b + c and b &lt; a + c and c &lt; a + b):
+    print(&quot;Not a triangle&quot;)
+elif a == b == c:
+    print(&quot;Equilateral&quot;)
+elif a * a + b * b == c * c or a * a + c * c == b * b or b * b + c * c == a * a:
+    print(&quot;Right-angled&quot;)
+elif a == b or b == c or a == c:
+    print(&quot;Isosceles&quot;)
+else:
+    print(&quot;Scalene&quot;)</textarea><template class="pc-src pc-hint">Any of the three sides could be the longest, so check all three possibilities: <code>a*a + b*b == c*c or a*a + c*c == b*b or b*b + c*c == a*a</code>.</template><template class="pc-src pc-hint">&ldquo;Exactly two equal&rdquo; is <code>a == b or b == c or a == c</code>, once you already know they aren&rsquo;t all equal.</template></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<p>This quiz covers the whole week. Questions you miss come back in your <strong>daily review</strong>.</p>
+<div class="quiz" data-id="w002d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "text", "q": "What is the type of <code>False</code>?", "answer": ["bool", "<class 'bool'>"], "explain": "There are exactly two bool values, True and False."}, {"type": "output", "q": "What does this print?", "answer": "True False", "explain": "int and float compare by value; a string never equals a number.", "code": "print(3 == 3.0, \"3\" == 3)"}, {"type": "mc", "q": "Which is True?", "answer": 1, "explain": "Capital B (66) comes before lower-case a (97).", "options": ["<code>\"apple\" &lt; \"Banana\"</code>", "<code>\"Banana\" &lt; \"apple\"</code>", "<code>\"apple\" == \"APPLE\"</code>"]}, {"type": "output", "q": "What does this print?", "answer": "True", "explain": "Both 1 &lt; 5 and 5 &lt;= 5 hold.", "code": "x = 5\nprint(1 < x <= 5)"}, {"type": "output", "q": "What does this print?", "answer": "False", "explain": "not first: False or (False and True), which is False or False.", "code": "print(not True or False and True)"}, {"type": "mc", "q": "What does <code>x == \"a\" or \"b\"</code> give when x is &ldquo;z&rdquo;?", "answer": 2, "explain": "It&rsquo;s (x == &lsquo;a&rsquo;) or &lsquo;b&rsquo;, and the left side is False, so you get &lsquo;b&rsquo;.", "options": ["False", "True", "&ldquo;b&rdquo;", "an error"]}, {"type": "mc", "q": "Which line is safe when d is 0?", "answer": 1, "explain": "Short-circuit: the guard must come first.", "options": ["<code>10 / d &gt; 2 and d != 0</code>", "<code>d != 0 and 10 / d &gt; 2</code>", "both", "neither"]}, {"type": "text", "q": "What does <code>\"\" or \"none\"</code> give?", "answer": ["none", "'none'", "\"none\""], "explain": "The empty string is falsy."}, {"type": "output", "q": "What does this print?", "answer": "A", "explain": "The first true condition wins.", "code": "n = 10\nif n > 5:\n    print(\"A\")\nelif n > 8:\n    print(\"B\")\nelse:\n    print(\"C\")"}, {"type": "output", "q": "What does this print?", "answer": "A\nB", "explain": "Separate ifs are separate decisions.", "code": "n = 10\nif n > 5:\n    print(\"A\")\nif n > 8:\n    print(\"B\")"}, {"type": "text", "q": "What error do you get from a missing colon after <code>if x &gt; 3</code>?", "answer": ["SyntaxError", "syntax error"], "explain": "Python can&rsquo;t read the line."}, {"type": "mc", "q": "A rule says &ldquo;under 18&rdquo;. Which three ages are the boundary tests?", "answer": 0, "explain": "Just below, exactly on, and just above.", "options": ["17, 18, 19", "0, 18, 100", "16, 17, 18, 19, 20", "18 only"]}, {"type": "text", "q": "What does <code>\"7a\".isdigit()</code> give?", "answer": "False", "explain": "Every character must be a digit."}, {"type": "text", "q": "What does this give?", "answer": ["odd", "'odd'", "\"odd\""], "explain": "7 % 2 is 1, so the condition is False.", "code": "\"even\" if 7 % 2 == 0 else \"odd\""}, {"type": "mc", "q": "Which is the simplest correct way to write this?", "answer": 0, "explain": "The comparison already is True or False.", "options": ["<code>passed = score &gt;= 50</code>", "<code>passed = True if score else False</code>", "<code>passed = bool(score)</code>"], "code": "if score >= 50:\n    passed = True\nelse:\n    passed = False"}]</script></div>
+<h2 id="week-2-review">Week 2 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I know the six comparison operators, can chain them, and can predict how strings compare. (<a href="w002d1.html">Day 1</a>)</li>
+<li>I can combine conditions with <code>and</code>, <code>or</code> and <code>not</code>, read a truth table, and use short-circuiting as a guard. (<a href="w002d2.html">Day 2</a>)</li>
+<li>I can write <code>if</code> and <code>else</code> with correct indentation, and make sure every path gives my variables a value. (<a href="w002d3.html">Day 3</a>)</li>
+<li>I can write <code>elif</code> chains in the right order, and choose between a chain, separate <code>if</code>s and nesting. (<a href="w002d4.html">Day 4</a>)</li>
+<li>I can turn a rule into a decision table, write a boundary test plan, and check input before converting it. (<a href="w002d5.html">Day 5</a>)</li>
+<li>I built a complete program with several decisions from a written specification. (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week your programs learn to repeat themselves, with <code>while</code> loops, and many of today&rsquo;s deep &ldquo;stop&rdquo; branches become simple.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w002d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w002d6", "week": 2, "day": 6, "title": "Forge", "exercises": [{"id": "w002d6-mix_change", "title": "Change", "points": 10}, {"id": "w002d6-mix_time", "title": "Minutes to hours", "points": 10}, {"id": "w002d6-mix_initial", "title": "Initial check", "points": 10}, {"id": "w002d6-mix_round", "title": "Round to the nearest 50", "points": 10}, {"id": "w002d6-forge", "title": "Forge: the ticket machine", "points": 50}, {"id": "w002d6-forge2", "title": "Forge bonus: the triangle classifier", "points": 30}], "points": 120}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>

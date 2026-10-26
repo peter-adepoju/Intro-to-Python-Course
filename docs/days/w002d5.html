@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="0500404132">
+<title>Week 2 Day 5: Designing and testing decisions | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=0500404132">
+<link rel="stylesheet" href="../assets/css/site.css?v=0500404132">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=0500404132"></script>
+<script src="../assets/vendor/codemirror.js?v=0500404132" defer></script>
+<meta name="description" content="Most bugs in decision code hide in the same places: exactly on a boundary, in a case nobody thought of, or in input nobody expected. Today you’ll learn to...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w002d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 2 Day 5: Designing and testing decisions">
+<meta property="og:description" content="Most bugs in decision code hide in the same places: exactly on a boundary, in a case nobody thought of, or in input nobody expected. Today you’ll learn to...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w002d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-2">Week 2: Making decisions</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#design-first-then-code" data-sec="design-first-then-code">Design first, then code</a></li><li><a href="#testing-which-inputs-should-you-try" data-sec="testing-which-inputs-should-you-try">Testing: which inputs should you try?</a></li><li><a href="#checking-input-before-you-trust-it" data-sec="checking-input-before-you-trust-it">Checking input before you trust it</a></li><li><a href="#simplifying-conditions" data-sec="simplifying-conditions">Simplifying conditions</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 1: Foundations <span>Week 2, Day 5</span></p>
+      <h1>Designing and testing decisions</h1>
+      <div class="day-intro"><p>Most bugs in decision code hide in the same places: exactly on a boundary, in a case nobody thought of, or in input nobody expected. Today you&rsquo;ll learn to design a decision before writing it, to choose test cases that find those bugs, and to keep your conditions as simple as they can be.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Turn a written rule into a decision table before writing any code</li><li>Choose test cases that cover every branch and every boundary</li><li>Find and fix off-by-one mistakes such as <code>&lt;</code> written for <code>&lt;=</code></li><li>Check typed input before converting it, with <code>.isdigit()</code></li><li>Remove redundant conditions, and set a bool straight from its condition instead of with <code>if</code> and <code>else</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="From a rule to a decision table: 30 min"></span><span class="plan-seg s0" style="flex:35" title="Choosing test cases: branches and boundaries: 35 min"></span><span class="plan-seg s1" style="flex:25" title="Checking input before you trust it: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Simplifying conditions: 25 min"></span><span class="plan-seg s1" style="flex:45" title="Practice: 45 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">From a rule to a decision table</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Choosing test cases: branches and boundaries</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:15</span><span class="plan-what">Checking input before you trust it</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Simplifying conditions</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">45 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w002d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w002d5.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w002d5-p1"><textarea class="pc-src pc-code" hidden>n = 50
+if n &gt; 50:
+    print(&quot;over&quot;)
+elif n &lt; 50:
+    print(&quot;under&quot;)
+else:
+    print(&quot;exactly&quot;)</textarea></div>
+<p>A single number can sit exactly on the line between two branches. Today is about those lines.</p>
+<h2 id="design-first-then-code">Design first, then code</h2>
+<p>So far the rules have been handed to you, neatly. Real rules arrive as sentences, often vague ones. Here&rsquo;s one, from a shop:</p>
+<blockquote>
+<p>Delivery is free on orders of 20,000 or more. Smaller orders pay 2,500, except that members pay half that. Orders below 1,000 can&rsquo;t be delivered.</p>
+</blockquote>
+<p>Before writing a single <code>if</code>, answer three questions:</p>
+<ol>
+<li><strong>What are the inputs?</strong> The order total, and whether the customer is a member.</li>
+<li><strong>What are the possible outcomes?</strong> Free, 2,500, 1,250, or &ldquo;can&rsquo;t deliver&rdquo;.</li>
+<li><strong>Which inputs lead to which outcome?</strong> Write it as a table.</li>
+</ol>
+<p>A <strong>decision table</strong> lists the conditions and what happens in each case:</p>
+<table>
+<thead>
+<tr>
+<th>Order total</th>
+<th>Member?</th>
+<th>Delivery</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>below 1,000</td>
+<td>either</td>
+<td>can&rsquo;t deliver</td>
+</tr>
+<tr>
+<td>1,000 to 19,999</td>
+<td>no</td>
+<td>2,500</td>
+</tr>
+<tr>
+<td>1,000 to 19,999</td>
+<td>yes</td>
+<td>1,250</td>
+</tr>
+<tr>
+<td>20,000 or more</td>
+<td>either</td>
+<td>free</td>
+</tr>
+</tbody>
+</table>
+<p>Writing the table forces you to settle the questions the sentence left open. Is 20,000 itself free? (&ldquo;or more&rdquo; says yes.) Is 1,000 deliverable? (&ldquo;below 1,000 can&rsquo;t&rdquo; says yes.) Is the member discount on free delivery, half of nothing? (It doesn&rsquo;t matter.) When the rule is unclear, ask whoever wrote it. When you can&rsquo;t ask, write your decision down.</p>
+<p>Now the code almost writes itself, one row at a time:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d5-e2"><div class="pc-title">Straight from the table</div><textarea class="pc-src pc-code" hidden>total = int(input(&quot;Order total: &quot;))
+member = input(&quot;Member? (y/n) &quot;) == &quot;y&quot;
+if total &lt; 1000:
+    print(&quot;Can&#x27;t deliver&quot;)
+elif total &gt;= 20000:
+    print(&quot;Delivery: free&quot;)
+elif member:
+    print(&quot;Delivery: 1250&quot;)
+else:
+    print(&quot;Delivery: 2500&quot;)</textarea></div>
+<aside class="callout c-tip"><div class="callout-t">Tip</div><p>Before you write a decision, write its <strong>plan in plain words</strong>, one line per branch, in the order you&rsquo;ll check them. This is called <strong>pseudocode</strong>, and you&rsquo;ll do much more of it in Week 14.</p></aside>
+<h2 id="testing-which-inputs-should-you-try">Testing: which inputs should you try?</h2>
+<p>You can&rsquo;t try every possible input. You <em>can</em> choose a small set that&rsquo;s likely to catch mistakes. Three kinds matter.</p>
+<p><strong>1. One typical value for every branch.</strong> If a branch never runs during your testing, you have no idea whether it works. For the delivery rule: 500 (can&rsquo;t deliver), 12,000 as a non-member, 12,000 as a member, 30,000.</p>
+<p><strong>2. The boundaries.</strong> Most decision bugs are at the edges: <code>&lt;</code> written where <code>&lt;=</code> was meant, or 2000 typed for 20000. For every threshold, test <strong>just below, exactly on, and just above</strong> it. For 20,000: 19,999, 20,000 and 20,001.</p>
+<p><strong>3. The strange cases.</strong> Zero. Negative numbers. Empty input. Text where a number was expected. The largest value that makes sense.</p>
+<p>Here is a buggy version of the grading chain from yesterday. Somewhere one boundary is wrong. Drag the slider to the edges of each band, or watch the strip for a band that&rsquo;s one mark too wide:</p>
+<figure class="widget" data-widget="branch"><script type="application/json">{"name": "mark", "value": 70, "min": 40, "max": 80, "branches": [["mark > 70", "grade = 'A'"], ["mark >= 60", "grade = 'B'"], ["mark >= 50", "grade = 'C'"], [null, "grade = 'F'"]]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>One of these conditions is wrong by one mark. Try exactly 70, 60 and 50. Which mark gets the wrong grade?</figcaption></figure>
+<p>A mark of exactly 70 should be an A, but <code>mark &gt; 70</code> sends it to B. Tests at 71 and 65 would never find this; only a test <em>at</em> 70 does. That&rsquo;s why boundaries come first.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>For every threshold, test just below it, exactly on it, and just above it. <strong>Off-by-one</strong> mistakes are the most common bug in all of programming, and boundary tests are how you catch them.</p></aside>
+<h3 id="writing-a-test-plan">Writing a test plan</h3>
+<p>A <strong>test plan</strong> is a list of inputs, each with the output you <em>expect</em>, written before you run anything. Then you run the program with each input and compare. For the delivery program:</p>
+<table>
+<thead>
+<tr>
+<th>Order</th>
+<th>Member</th>
+<th>Expected</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>500</td>
+<td>n</td>
+<td>Can&rsquo;t deliver</td>
+<td>first branch</td>
+</tr>
+<tr>
+<td>999</td>
+<td>n</td>
+<td>Can&rsquo;t deliver</td>
+<td>just below 1,000</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>n</td>
+<td>2500</td>
+<td>exactly on 1,000</td>
+</tr>
+<tr>
+<td>12000</td>
+<td>y</td>
+<td>1250</td>
+<td>member branch</td>
+</tr>
+<tr>
+<td>19999</td>
+<td>n</td>
+<td>2500</td>
+<td>just below 20,000</td>
+</tr>
+<tr>
+<td>20000</td>
+<td>y</td>
+<td>free</td>
+<td>exactly on 20,000</td>
+</tr>
+<tr>
+<td>0</td>
+<td>n</td>
+<td>Can&rsquo;t deliver</td>
+<td>strange: zero</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>Check my answer</strong> button on every exercise does exactly this, automatically. Each test is one row of a plan someone wrote for that exercise. From today, you&rsquo;ll start writing plans yourself.</p>
+<h2 id="checking-input-before-you-trust-it">Checking input before you trust it</h2>
+<p>What happens if the user types <code>ten</code> where you expect a number?</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d5-e3"><textarea class="pc-src pc-code" hidden>n = int(input(&quot;Quantity: &quot;))
+print(n * 2)</textarea></div>
+<p>The program crashes with a <code>ValueError</code> before your decision code even runs. You&rsquo;ll learn the full way to handle this, <code>try</code> and <code>except</code>, in Week 11. Until then, there&rsquo;s a simple check: a string&rsquo;s <code>.isdigit()</code> is <code>True</code> when the string is not empty and <strong>every</strong> character is a digit from 0 to 9.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d5-e4"><textarea class="pc-src pc-code" hidden>print(&quot;42&quot;.isdigit())
+print(&quot;4x2&quot;.isdigit())
+print(&quot;&quot;.isdigit())
+print(&quot;-5&quot;.isdigit())
+print(&quot;3.5&quot;.isdigit())</textarea></div>
+<p>Notice the last two: a minus sign and a decimal point aren&rsquo;t digits, so <code>.isdigit()</code> only accepts whole numbers of zero or more. That&rsquo;s often exactly what you want for quantities and ages.</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d5-e5"><div class="pc-title">Check, then convert</div><textarea class="pc-src pc-code" hidden>text = input(&quot;Quantity: &quot;)
+if text.isdigit():
+    n = int(text)
+    print(&quot;Double:&quot;, n * 2)
+else:
+    print(&quot;Please type a whole number.&quot;)</textarea></div>
+<aside class="callout c-warn"><div class="callout-t">Careful</div><p>A valid number isn&rsquo;t always a sensible one. An age of 500 passes <code>.isdigit()</code>. After converting, check the <strong>range</strong> too: <code>if 0 &lt;= age &lt;= 130</code>.</p></aside>
+<h2 id="simplifying-conditions">Simplifying conditions</h2>
+<p>Clear conditions are easier to test, and they hide fewer bugs. Here are three things to tidy.</p>
+<h3 id="repeating-what-the-chain-already-knows">Repeating what the chain already knows</h3>
+<div class="pc pc-example" data-kind="example" data-id="w002d5-e6"><div class="pc-title">Redundant</div><textarea class="pc-src pc-code" hidden>mark = 65
+if mark &gt;= 70:
+    grade = &quot;A&quot;
+elif mark &gt;= 60 and mark &lt; 70:
+    grade = &quot;B&quot;
+elif mark &gt;= 50 and mark &lt; 60:
+    grade = &quot;C&quot;
+else:
+    grade = &quot;F&quot;
+print(grade)</textarea></div>
+<p>When Python reaches the first <code>elif</code>, it already knows <code>mark &gt;= 70</code> was false, so <code>mark &lt; 70</code> is always true there. The extra checks do nothing, except give you more places to make a mistake. Write just <code>elif mark &gt;= 60:</code>.</p>
+<h3 id="setting-a-bool-with-if-and-else">Setting a bool with if and else</h3>
+<div class="pc pc-example" data-kind="example" data-id="w002d5-e7"><div class="pc-title">Long-winded</div><textarea class="pc-src pc-code" hidden>age = 20
+if age &gt;= 18:
+    is_adult = True
+else:
+    is_adult = False
+print(is_adult)</textarea></div>
+<p>The condition <code>age &gt;= 18</code> already <em>is</em> <code>True</code> or <code>False</code>. Store it directly:</p>
+<div class="pc pc-example" data-kind="example" data-id="w002d5-e8"><div class="pc-title">Direct</div><textarea class="pc-src pc-code" hidden>age = 20
+is_adult = age &gt;= 18
+print(is_adult)</textarea></div>
+<h3 id="comparing-a-bool-with-true">Comparing a bool with True</h3>
+<p><code>if is_adult == True:</code> works, but <code>is_adult</code> is already a bool. Write <code>if is_adult:</code>, and <code>if not is_adult:</code> for the opposite.</p>
+<h3 id="branches-that-do-the-same-thing">Branches that do the same thing</h3>
+<p>If two branches contain identical code, the conditions can usually be joined with <code>or</code>, or the shared lines moved out of the decision entirely.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d5-delivery" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">The delivery rule</div><div class="pc-prompt"><p>Implement the delivery rule from the start of the lesson. Ask for the order total with the prompt <code>Order total:</code> and membership with <code>Member? (y/n)</code>. Print exactly one of <code>Can't deliver</code>, <code>Delivery: free</code>, <code>Delivery: 1250</code> or <code>Delivery: 2500</code>.</p>
+<p>The tests are the test plan from the lesson, plus a few more.</p></div><textarea class="pc-src pc-code" hidden>total = int(input(&quot;Order total: &quot;))
+member = input(&quot;Member? (y/n) &quot;) == &quot;y&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_plan():
+    &quot;every row of the test plan&quot;
+    plan = [(&quot;500&quot;, &quot;n&quot;, &quot;Can&#x27;t deliver&quot;), (&quot;999&quot;, &quot;n&quot;, &quot;Can&#x27;t deliver&quot;), (&quot;1000&quot;, &quot;n&quot;, &quot;Delivery: 2500&quot;),
+            (&quot;12000&quot;, &quot;y&quot;, &quot;Delivery: 1250&quot;), (&quot;19999&quot;, &quot;n&quot;, &quot;Delivery: 2500&quot;), (&quot;20000&quot;, &quot;y&quot;, &quot;Delivery: free&quot;),
+            (&quot;0&quot;, &quot;n&quot;, &quot;Can&#x27;t deliver&quot;), (&quot;1000&quot;, &quot;y&quot;, &quot;Delivery: 1250&quot;), (&quot;20001&quot;, &quot;n&quot;, &quot;Delivery: free&quot;), (&quot;19999&quot;, &quot;y&quot;, &quot;Delivery: 1250&quot;)]
+    for t, m, want in plan:
+        expect_output(f&quot;Order total: {t}\nMember? (y/n) {m}\n{want}&quot;, inputs=[t, m], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>total = int(input(&quot;Order total: &quot;))
+member = input(&quot;Member? (y/n) &quot;) == &quot;y&quot;
+if total &lt; 1000:
+    print(&quot;Can&#x27;t deliver&quot;)
+elif total &gt;= 20000:
+    print(&quot;Delivery: free&quot;)
+elif member:
+    print(&quot;Delivery: 1250&quot;)
+else:
+    print(&quot;Delivery: 2500&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d5-plan" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Write the test plan</div><div class="pc-prompt"><p>A car park charges by the number of whole hours stayed:</p>
+<ul>
+<li>up to 1 hour: free (<code>0</code>)</li>
+<li>more than 1 and up to 4 hours: <code>500</code></li>
+<li>more than 4 hours: <code>1500</code></li>
+</ul>
+<p>Fill in the <strong>expected charge</strong> for each number of hours, without writing the program. These are the boundary tests for this rule.</p></div><textarea class="pc-src pc-code" hidden>hours_0 = ___
+hours_1 = ___
+hours_2 = ___
+hours_4 = ___
+hours_5 = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_plan():
+    &quot;every expected charge&quot;
+    assert (hours_0, hours_1) == (0, 0), &quot;Up to 1 hour, including exactly 1, is free.&quot;
+    assert hours_2 == 500, &quot;2 hours is more than 1 and up to 4.&quot;
+    assert hours_4 == 500, &quot;&#x27;Up to 4&#x27; includes 4.&quot;
+    assert hours_5 == 1500, &quot;5 is more than 4.&quot;</textarea><textarea class="pc-src pc-solution" hidden>hours_0 = 0
+hours_1 = 0
+hours_2 = 500
+hours_4 = 500
+hours_5 = 1500</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d5-parking" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Now write the car park</div><div class="pc-prompt"><p>Write the car park program. Ask with the prompt <code>Hours:</code> and print <code>Charge:</code> and the charge. Your test plan from the last exercise is exactly what the checks use.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_plan():
+    &quot;the test plan&quot;
+    for hrs, want in [(0, 0), (1, 0), (2, 500), (4, 500), (5, 1500), (24, 1500)]:
+        expect_output(f&quot;Hours: {hrs}\nCharge: {want}&quot;, inputs=[str(hrs)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>hours = int(input(&quot;Hours: &quot;))
+if hours &lt;= 1:
+    charge = 0
+elif hours &lt;= 4:
+    charge = 500
+else:
+    charge = 1500
+print(&quot;Charge:&quot;, charge)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d5-safe_age" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A safe age question</div><div class="pc-prompt"><p>Ask for an age with the prompt <code>Age:</code>. If the answer isn&rsquo;t a whole number, print <code>Not a number</code>. If it is a number but over 130, print <code>Not a real age</code>. Otherwise print <code>Next year you'll be</code> and the age plus one. The program must never crash.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_ok():
+    &quot;a normal age&quot;
+    expect_output(&quot;Age: 30\nNext year you&#x27;ll be 31&quot;, inputs=[&quot;30&quot;], echo=True)
+def test_zero():
+    &quot;a baby&quot;
+    expect_output(&quot;Age: 0\nNext year you&#x27;ll be 1&quot;, inputs=[&quot;0&quot;], echo=True)
+def test_text():
+    &quot;text&quot;
+    expect_output(&quot;Age: thirty\nNot a number&quot;, inputs=[&quot;thirty&quot;], echo=True)
+def test_empty():
+    &quot;nothing typed&quot;
+    expect_output(&quot;Age: \nNot a number&quot;, inputs=[&quot;&quot;], echo=True)
+def test_huge():
+    &quot;too old&quot;
+    expect_output(&quot;Age: 200\nNot a real age&quot;, inputs=[&quot;200&quot;], echo=True)
+def test_edge():
+    &quot;130 is allowed&quot;
+    expect_output(&quot;Age: 130\nNext year you&#x27;ll be 131&quot;, inputs=[&quot;130&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Age: &quot;)
+if not text.isdigit():
+    print(&quot;Not a number&quot;)
+else:
+    age = int(text)
+    if age &gt; 130:
+        print(&quot;Not a real age&quot;)
+    else:
+        print(f&quot;Next year you&#x27;ll be {age + 1}&quot;)</textarea><template class="pc-src pc-hint">Check <code>.isdigit()</code> on the text first. Only convert with <code>int()</code> inside the branch where you know it&rsquo;s safe.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d5-simplify" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Tidy it up</div><div class="pc-prompt"><p>This program is correct but long-winded. Rewrite it so that <code>can_rent</code> is set in <strong>one line with no <code>if</code></strong>, and the printed output stays the same. A person can rent a car if they&rsquo;re 21 or over and have held a licence for at least 2 years.</p></div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;Age: &quot;))
+years = int(input(&quot;Years with licence: &quot;))
+if age &gt;= 21:
+    if years &gt;= 2:
+        can_rent = True
+    else:
+        can_rent = False
+else:
+    can_rent = False
+print(&quot;Can rent:&quot;, can_rent)</textarea><textarea class="pc-src pc-tests" hidden>def test_cases():
+    &quot;same answers as before&quot;
+    for a, y, want in [(&quot;25&quot;, &quot;3&quot;, &quot;True&quot;), (&quot;25&quot;, &quot;1&quot;, &quot;False&quot;), (&quot;20&quot;, &quot;5&quot;, &quot;False&quot;), (&quot;21&quot;, &quot;2&quot;, &quot;True&quot;)]:
+        expect_output(f&quot;Age: {a}\nYears with licence: {y}\nCan rent: {want}&quot;, inputs=[a, y], echo=True)
+def test_no_if():
+    &quot;no if statement&quot;
+    assert &quot;if &quot; not in source, &quot;Set can_rent directly from the condition, with and.&quot;</textarea><textarea class="pc-src pc-solution" hidden>age = int(input(&quot;Age: &quot;))
+years = int(input(&quot;Years with licence: &quot;))
+can_rent = age &gt;= 21 and years &gt;= 2
+print(&quot;Can rent:&quot;, can_rent)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d5-redundant" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Drop the extra checks</div><div class="pc-prompt"><p>Remove every comparison that the chain already knows, so that each <code>elif</code> has just <strong>one</strong> comparison. The output must not change.</p></div><textarea class="pc-src pc-code" hidden>speed = int(input(&quot;Speed: &quot;))
+if speed &gt; 120:
+    print(&quot;Ban&quot;)
+elif speed &gt; 90 and speed &lt;= 120:
+    print(&quot;Big fine&quot;)
+elif speed &gt; 70 and speed &lt;= 90:
+    print(&quot;Fine&quot;)
+else:
+    print(&quot;OK&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_same():
+    &quot;same answers&quot;
+    for s, want in [(130, &quot;Ban&quot;), (121, &quot;Ban&quot;), (120, &quot;Big fine&quot;), (91, &quot;Big fine&quot;), (90, &quot;Fine&quot;), (71, &quot;Fine&quot;), (70, &quot;OK&quot;), (30, &quot;OK&quot;)]:
+        expect_output(f&quot;Speed: {s}\n{want}&quot;, inputs=[str(s)], echo=True)
+def test_simple():
+    &quot;no and in the conditions&quot;
+    assert &quot; and &quot; not in source, &quot;Each elif needs only one comparison.&quot;</textarea><textarea class="pc-src pc-solution" hidden>speed = int(input(&quot;Speed: &quot;))
+if speed &gt; 120:
+    print(&quot;Ban&quot;)
+elif speed &gt; 90:
+    print(&quot;Big fine&quot;)
+elif speed &gt; 70:
+    print(&quot;Fine&quot;)
+else:
+    print(&quot;OK&quot;)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The boundary bug</div><div class="pc-prompt"><p>A cinema charges 800 for under-12s, 1500 for ages 12 to 64, and 1000 for 65 and over. The program gives the wrong price for exactly one age. Use boundary tests to find which, then fix it.</p></div><textarea class="pc-src pc-code" hidden>age = int(input(&quot;Age: &quot;))
+if age &lt;= 12:
+    price = 800
+elif age &lt; 65:
+    price = 1500
+else:
+    price = 1000
+print(&quot;Price:&quot;, price)</textarea><textarea class="pc-src pc-tests" hidden>def test_plan():
+    &quot;boundary test plan&quot;
+    for a, p in [(5, 800), (11, 800), (12, 1500), (13, 1500), (64, 1500), (65, 1000), (80, 1000)]:
+        expect_output(f&quot;Age: {a}\nPrice: {p}&quot;, inputs=[str(a)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>age = int(input(&quot;Age: &quot;))
+if age &lt; 12:
+    price = 800
+elif age &lt; 65:
+    price = 1500
+else:
+    price = 1000
+print(&quot;Price:&quot;, price)</textarea><template class="pc-src pc-hint">&ldquo;Under 12&rdquo; means 11 and younger. What does the program charge a 12-year-old?</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Crashes on a typo</div><div class="pc-prompt"><p>This should print <code>Please type a whole number</code> for anything that isn&rsquo;t one, but it crashes when you type <code>abc</code>. Fix it without changing the messages.</p></div><textarea class="pc-src pc-code" hidden>text = input(&quot;Number: &quot;)
+n = int(text)
+if text.isdigit():
+    print(&quot;Square:&quot;, n * n)
+else:
+    print(&quot;Please type a whole number&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_ok():
+    &quot;7&quot;
+    expect_output(&quot;Number: 7\nSquare: 49&quot;, inputs=[&quot;7&quot;], echo=True)
+def test_text():
+    &quot;abc&quot;
+    expect_output(&quot;Number: abc\nPlease type a whole number&quot;, inputs=[&quot;abc&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>text = input(&quot;Number: &quot;)
+if text.isdigit():
+    n = int(text)
+    print(&quot;Square:&quot;, n * n)
+else:
+    print(&quot;Please type a whole number&quot;)</textarea><template class="pc-src pc-hint">The check is there, but the conversion happens before it.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w002d5-bug3" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A branch that never runs</div><div class="pc-prompt"><p>Someone tried this with 30, 80 and 100, saw a message each time, and called it done. But one message can never be printed, whatever the input. Find the branch, and fix the condition so that 60 to 89 prints <code>Good</code>.</p></div><textarea class="pc-src pc-code" hidden>score = int(input(&quot;Score: &quot;))
+if score &gt;= 90:
+    print(&quot;Excellent&quot;)
+elif score &gt;= 50:
+    print(&quot;Pass&quot;)
+elif score &gt;= 60:
+    print(&quot;Good&quot;)
+else:
+    print(&quot;Try again&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_all():
+    &quot;every branch runs for some input&quot;
+    for s, want in [(95, &quot;Excellent&quot;), (90, &quot;Excellent&quot;), (89, &quot;Good&quot;), (60, &quot;Good&quot;), (59, &quot;Pass&quot;), (50, &quot;Pass&quot;), (49, &quot;Try again&quot;)]:
+        expect_output(f&quot;Score: {s}\n{want}&quot;, inputs=[str(s)], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>score = int(input(&quot;Score: &quot;))
+if score &gt;= 90:
+    print(&quot;Excellent&quot;)
+elif score &gt;= 60:
+    print(&quot;Good&quot;)
+elif score &gt;= 50:
+    print(&quot;Pass&quot;)
+else:
+    print(&quot;Try again&quot;)</textarea><template class="pc-src pc-hint">Can a score reach the <code>&gt;= 60</code> test without having passed <code>&gt;= 50</code> first?</template></div>
+<div class="parsons" data-id="w002d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Check, convert, decide</div><div class="pc-prompt"><p>Arrange the lines into a program that asks for a number of tickets, refuses anything that isn&rsquo;t a whole number, and otherwise refuses more than 6. One line is a trap.</p></div><script type="application/json">{"lines": ["text = input(\"Tickets: \")", "if not text.isdigit():", "    print(\"Whole numbers only\")", "else:", "    n = int(text)", "    if n > 6:", "        print(\"At most 6 per order\")", "    else:", "        print(\"Booked\", n)"], "distractors": ["n = int(input(\"Tickets: \"))"]}</script></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w002d5-quiz"><div class="pc-label"><span>Quiz</span><span>10 questions</span></div><script type="application/json">[{"type": "mc", "q": "A rule says &ldquo;orders of 50 or more get a gift&rdquo;. Which three orders are the boundary tests?", "answer": 1, "explain": "Just below, exactly on, and just above the threshold.", "options": ["10, 50, 100", "49, 50, 51", "0, 25, 50", "50, 60, 70"]}, {"type": "text", "q": "What does <code>\"12\".isdigit()</code> give?", "answer": "True", "explain": "Every character is a digit."}, {"type": "text", "q": "What does <code>\"-3\".isdigit()</code> give?", "answer": "False", "explain": "The minus sign isn&rsquo;t a digit."}, {"type": "text", "q": "What does <code>\"\".isdigit()</code> give?", "answer": "False", "explain": "An empty string has no digits."}, {"type": "mc", "q": "In this chain, what does <code>and x &lt; 10</code> add on the second line?", "answer": 1, "explain": "Reaching the elif means x &gt;= 10 was false.", "options": ["It&rsquo;s needed so 12 isn&rsquo;t medium", "Nothing: the chain already knows x &lt; 10 there", "It makes the code faster"], "code": "if x >= 10:\n    print(\"big\")\nelif x >= 5 and x < 10:\n    print(\"medium\")"}, {"type": "mc", "q": "Which line is the simplest correct replacement for this?", "answer": 1, "explain": "The comparison is already a bool. bool(n) would be True for negative numbers too.", "options": ["<code>positive = True if n &gt; 0</code>", "<code>positive = n &gt; 0</code>", "<code>positive = bool(n)</code>"], "code": "if n > 0:\n    positive = True\nelse:\n    positive = False"}, {"type": "mc", "q": "What is an off-by-one error?", "answer": 1, "explain": "The program is wrong for exactly one value at the edge of a range.", "options": ["Using 1 instead of True", "A mistake at an edge, such as &lt; where &lt;= was meant", "Counting from 1 instead of 0 in an f-string", "A typo in a variable name"]}, {"type": "mc", "q": "Why should tests include a value for every branch?", "answer": 1, "explain": "Untested branches are where bugs live longest.", "options": ["So the program runs faster", "A branch that never runs in testing hasn&rsquo;t been tested at all", "Python requires it"]}, {"type": "mc", "q": "What should a test plan contain for each test?", "answer": 1, "explain": "Expected output is written before running, so you can compare.", "options": ["Just the input", "The input and the output you expect", "The output you got"]}, {"type": "mc", "q": "Why is <code>if is_member == True:</code> worse than <code>if is_member:</code>?", "answer": 1, "explain": "is_member is already True or False.", "options": ["It&rsquo;s a SyntaxError", "It&rsquo;s longer and says nothing extra", "It&rsquo;s always False"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w002d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: income tax</div><div class="pc-prompt"><p>A country taxes income in <strong>bands</strong>:</p>
+<ul>
+<li>the first 300,000 is not taxed;</li>
+<li>income from 300,000 up to 1,000,000 is taxed at 10%;</li>
+<li>income above 1,000,000 is taxed at 20%.</li>
+</ul>
+<p>Only the part of the income inside each band is taxed at that band&rsquo;s rate. So on 1,500,000 the tax is 0 on the first 300,000, then 10% of 700,000 (70,000), then 20% of 500,000 (100,000): 170,000 in all.</p>
+<p>Ask for an income with the prompt <code>Income:</code> and print <code>Tax:</code> and the tax as a whole number. Write your own test plan first: the boundaries are 300,000 and 1,000,000.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_none():
+    &quot;below the first band&quot;
+    expect_output(&quot;Income: 250000\nTax: 0&quot;, inputs=[&quot;250000&quot;], echo=True)
+def test_boundaries():
+    &quot;exactly on each boundary&quot;
+    expect_output(&quot;Income: 300000\nTax: 0&quot;, inputs=[&quot;300000&quot;], echo=True)
+    expect_output(&quot;Income: 1000000\nTax: 70000&quot;, inputs=[&quot;1000000&quot;], echo=True)
+def test_middle():
+    &quot;inside the middle band&quot;
+    expect_output(&quot;Income: 500000\nTax: 20000&quot;, inputs=[&quot;500000&quot;], echo=True)
+def test_top():
+    &quot;in the top band&quot;
+    expect_output(&quot;Income: 1500000\nTax: 170000&quot;, inputs=[&quot;1500000&quot;], echo=True)
+def test_just_over():
+    &quot;just over each boundary&quot;
+    expect_output(&quot;Income: 300010\nTax: 1&quot;, inputs=[&quot;300010&quot;], echo=True)
+    expect_output(&quot;Income: 1000010\nTax: 70002&quot;, inputs=[&quot;1000010&quot;], echo=True)</textarea><textarea class="pc-src pc-solution" hidden>income = int(input(&quot;Income: &quot;))
+if income &lt;= 300000:
+    tax = 0
+elif income &lt;= 1000000:
+    tax = (income - 300000) * 10 // 100
+else:
+    tax = 70000 + (income - 1000000) * 20 // 100
+print(&quot;Tax:&quot;, tax)</textarea><template class="pc-src pc-hint">In the middle band, tax is <code>(income - 300000) * 10 // 100</code>. In the top band it&rsquo;s the whole middle band (70,000) plus 20% of the part above 1,000,000.</template><template class="pc-src pc-hint">Use whole-number arithmetic (<code>* 10 // 100</code>) rather than <code>* 0.1</code>, so the answer stays an exact whole number.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Pick any exercise from the last three days and write a test plan for it on paper: every branch, every boundary, and one strange input. Then run the plan. Tomorrow is the Forge: a bigger program that uses everything from this week, a 15-question quiz and a review.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w002d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button><a class="btn btn-step" href="w002d6.html">Next day</a></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w002d5", "week": 2, "day": 5, "title": "Designing and testing decisions", "exercises": [{"id": "w002d5-delivery", "title": "The delivery rule", "points": 15}, {"id": "w002d5-plan", "title": "Write the test plan", "points": 15}, {"id": "w002d5-parking", "title": "Now write the car park", "points": 10}, {"id": "w002d5-safe_age", "title": "A safe age question", "points": 15}, {"id": "w002d5-simplify", "title": "Tidy it up", "points": 10}, {"id": "w002d5-redundant", "title": "Drop the extra checks", "points": 10}, {"id": "w002d5-bug1", "title": "The boundary bug", "points": 10}, {"id": "w002d5-bug2", "title": "Crashes on a typo", "points": 10}, {"id": "w002d5-bug3", "title": "A branch that never runs", "points": 10}, {"id": "w002d5-challenge", "title": "Challenge: income tax", "points": 25}], "points": 130}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
