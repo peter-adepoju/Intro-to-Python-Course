@@ -20,4 +20,4 @@ Every lesson day has an interactive web page and a companion Google Colab notebo
 
 ## Licence
 
-Copyright © 2026 Peter Oluwafemi Adepoju. **All rights reserved.** The source is public so learners can read it, but it is not open source: you may use the course for your own learning, and you may not copy, republish, rebrand, sell or build courses from it without written permission. See [LICENSE](LICENSE) for the full terms and the third-party components (CodeMirror, Pyodide, Supabase client) that keep their own licences.
+Copyright © 2026 Peter Adepoju. **All rights reserved.** The source is public so learners can read it, but it is not open source: you may use the course for your own learning, and you may not copy, republish, rebrand, sell or build courses from it without written permission. See [LICENSE](LICENSE) for the full terms and the third-party components (CodeMirror, Pyodide, Supabase client) that keep their own licences.
