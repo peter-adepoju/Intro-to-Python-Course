@@ -705,3 +705,13 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
 .acct-data h2 { margin-top: 0; }
 .gd-sec h2 + .gd-tools, .gd-sec h2 + .gd-habits, .gd-sec h2 + .faq { margin-top: 1.1rem; }
 .nowrap { white-space: nowrap; }
+
+/* account: progress sync status */
+.sync-row { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin: 1rem 0 0; font-size: .95rem; color: var(--ink-2); }
+.sync-dot { width: .7rem; height: .7rem; border-radius: 50%; background: var(--ink-3); flex: none; }
+.sync-dot.is-synced { background: var(--green); }
+.sync-dot.is-pending { background: var(--yellow); }
+.sync-dot.is-error, .sync-dot.is-offline { background: var(--red); }
+.um-head .um-sync { display: block; margin-top: .3rem; font-size: .78rem; color: var(--ink-3); }
+.um-head .um-sync.is-synced { color: var(--green); }
+.um-head .um-sync.is-error, .um-head .um-sync.is-offline { color: var(--red); }

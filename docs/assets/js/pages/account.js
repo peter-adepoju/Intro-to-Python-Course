@@ -1,6 +1,6 @@
 import "./common.js";
 import { $, h, SITE } from "../site.js";
-import { progress, getClient, onAuth } from "../progress.js";
+import { progress, getClient, onAuth, onSync, syncNow } from "../progress.js";
 import { displayName, avatar } from "../user.js";
 
 const client = await getClient().catch(() => null);
@@ -49,6 +49,22 @@ if (!client) {
     stats();
   });
   progress.subscribe(() => { if (progress.user()) stats(); });
+
+  // Show whether this device's progress is saved to the account, so nothing is ever a mystery.
+  onSync((s) => {
+    const dot = $("#sync-dot"), text = $("#sync-text");
+    if (!dot) return;
+    dot.className = "sync-dot is-" + s.status;
+    const when = s.last ? new Date(s.last).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
+    text.textContent = {
+      synced: `Progress saved to your account${when ? " at " + when : ""}. It appears on every device where you sign in with this email.`,
+      pending: "Saving your progress to your account…",
+      offline: `You're offline. ${s.pending} change${s.pending === 1 ? "" : "s"} will be saved to your account when you're back online.`,
+      error: `Couldn't reach your account (${s.error}). Your progress is safe on this device and will be sent when the connection works.`,
+      off: "Checking your saved progress…",
+    }[s.status] || "";
+  });
+  $("#sync-now").onclick = async () => { $("#sync-now").disabled = true; await syncNow(); $("#sync-now").disabled = false; };
 
   // Hide Google until it has been switched on in Supabase, so it never leads to an error page.
   if (!SITE.google) { $("#google").hidden = true; document.querySelector(".auth-or").hidden = true; }

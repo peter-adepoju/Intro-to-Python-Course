@@ -1,7 +1,7 @@
 // Runs on every page: account link, streak, review badge and the tutor.
 import { SITE, $, h } from "../site.js";
 import { displayName, firstName, avatar } from "../user.js";
-import { progress, getClient, onAuth } from "../progress.js";
+import { progress, getClient, onAuth, onSync } from "../progress.js";
 import { mountTutor } from "../tutor.js";
 import "../settings.js";
 
@@ -34,8 +34,13 @@ export function initCommon() {
       slot.replaceChildren(h("a", { class: "btn btn-quiet", href: SITE.root + "account.html" }, "Sign in"));
       return;
     }
+    const syncLine = h("span", { class: "um-sync" });
+    onSync((st) => {
+      syncLine.className = "um-sync is-" + st.status;
+      syncLine.textContent = { synced: "Progress saved to your account", pending: "Saving progress…", offline: "Offline: progress saved on this device", error: "Couldn't save to your account yet", off: "" }[st.status] || "";
+    });
     const menu = h("div", { class: "user-menu", role: "menu", hidden: true },
-      h("div", { class: "um-head" }, h("strong", {}, displayName(user)), h("span", {}, user.email || "")),
+      h("div", { class: "um-head" }, h("strong", {}, displayName(user)), h("span", {}, user.email || ""), syncLine),
       h("a", { role: "menuitem", href: SITE.root + "account.html" }, "Your profile"),
       h("a", { role: "menuitem", href: SITE.root + "settings.html" }, "Settings"),
       h("button", { type: "button", role: "menuitem", onclick: async () => { const c = await getClient(); c && c.auth.signOut(); } }, "Sign out"));
