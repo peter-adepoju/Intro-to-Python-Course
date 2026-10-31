@@ -1,10 +1,10 @@
-import "./common.js";
-import { $, $$, pageData, toast } from "../site.js";
-import { mountConsoles } from "../console.js";
-import { mountQuizzes, mountParsons } from "../quiz.js";
-import { mountWidgets } from "../widgets/index.js";
-import { progress } from "../progress.js";
-import { ensure } from "../runtime.js";
+import "./common.js?v=b170519faa";
+import { $, $$, pageData, toast } from "../site.js?v=b170519faa";
+import { mountConsoles } from "../console.js?v=b170519faa";
+import { mountQuizzes, mountParsons } from "../quiz.js?v=b170519faa";
+import { mountWidgets } from "../widgets/index.js?v=b170519faa";
+import { progress } from "../progress.js?v=b170519faa";
+import { ensure } from "../runtime.js?v=b170519faa";
 
 const data = pageData("day-data");
 

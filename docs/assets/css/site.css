@@ -423,11 +423,14 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
 .toast.out { opacity: 0; }
 
 /* ---------- tutor */
-.tutor-fab { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 60; width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer;
-  display: grid; place-items: center; color: #1d1a0a; background: var(--yellow); box-shadow: 0 10px 28px -10px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.06); transition: transform .15s; }
+.tutor-fab { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 60; display: inline-flex; align-items: center; gap: .55rem; height: 52px; padding: 0 1.25rem 0 .45rem;
+  border: 0; border-radius: 99px; cursor: pointer; font: 700 1rem var(--f-body); white-space: nowrap; color: var(--paper); background: var(--ink);
+  box-shadow: 0 12px 30px -12px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06); transition: transform .15s; }
 .tutor-fab:hover { transform: translateY(-2px); }
-.tutor-fab svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.tf-ico { width: 40px; height: 40px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--yellow); color: #1d1a0a; }
+.tf-ico svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .tutor-fab[aria-expanded="true"] { display: none; }
+@media (max-width: 640px) { .tutor-fab { padding: 0 .45rem; height: 50px; } .tf-text { display: none; } }
 .tutor { position: fixed; right: 1.25rem; bottom: 1.25rem; width: min(420px, calc(100vw - 2rem)); height: min(620px, calc(100vh - 6rem)); z-index: 70; display: flex; flex-direction: column;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 30px 70px -25px rgba(0,0,0,.6); overflow: hidden; }
 .tutor[hidden] { display: none; }

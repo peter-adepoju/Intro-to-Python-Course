@@ -68,7 +68,8 @@ export function openTutor(prefill, attach) {
 
 export function mountTutor() {
   const ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20.5l1.4-4.6A7.5 7.5 0 1 1 20 12.5z"/><path d="M10 10.5l-2 2 2 2M14 10.5l2 2-2 2"/></svg>';
-  const fab = h("button", { type: "button", class: "tutor-fab", title: "Ask the tutor", "aria-label": "Ask the tutor", "aria-expanded": "false", html: ICON, onclick: () => openTutor() });
+  const fab = h("button", { type: "button", class: "tutor-fab", "aria-label": "Ask the tutor", "aria-expanded": "false", onclick: () => openTutor() },
+    h("span", { class: "tf-ico", html: ICON }), h("span", { class: "tf-text" }, "Ask the tutor"));
   log = h("div", { class: "tutor-log", "aria-live": "polite" });
   field = h("textarea", { rows: 2, placeholder: "Ask about today's lesson or your code…", "aria-label": "Your question" });
   const form = h("form", { class: "tutor-form", onsubmit: (e) => { e.preventDefault(); const t = field.value; field.value = ""; send(t, pending); pending = null; } },

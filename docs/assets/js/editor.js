@@ -1,5 +1,5 @@
 // A thin wrapper around CodeMirror 5 (loaded as a global from assets/vendor).
-import { settings, onSettings } from "./settings.js";
+import { settings, onSettings } from "./settings.js?v=b170519faa";
 export function makeEditor(parent, code, { readOnly = false, minLines = 3, onChange, onRun } = {}) {
   const cm = window.CodeMirror(parent, {
     value: code,

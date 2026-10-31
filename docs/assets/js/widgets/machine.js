@@ -1,5 +1,5 @@
 // A toy computer: memory, a processor and the fetch–decode–execute cycle.
-import { h, svg, reducedMotion } from "../site.js";
+import { h, svg, reducedMotion } from "../site.js?v=b170519faa";
 
 const PROGRAMS = {
   add: {

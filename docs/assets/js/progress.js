@@ -1,5 +1,5 @@
 // Progress is stored on this device first and copied to your account when signed in.
-import { SITE, today } from "./site.js";
+import { SITE, today } from "./site.js?v=b170519faa";
 
 const KEY = "atlas.progress.v1";
 const subs = new Set();

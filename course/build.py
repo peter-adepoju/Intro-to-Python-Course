@@ -538,6 +538,10 @@ def build():
     OUT.mkdir(exist_ok=True)
     (OUT / ".nojekyll").write_text("")
     shutil.copytree(STATIC, OUT / "assets", ignore=shutil.ignore_patterns("__pycache__"))
+    # Version every module import, so a browser never mixes old and new scripts after an update.
+    for js in (OUT / "assets" / "js").rglob("*.js"):
+        text = js.read_text()
+        js.write_text(re.sub(r"""(["'`])(\.{1,2}/[^"'`\n]*?\.js)\1""", lambda m: f"{m[1]}{m[2]}?v={VERSION}{m[1]}", text))
     (OUT / "days").mkdir()
     (OUT / "notebooks").mkdir()
 
@@ -611,7 +615,7 @@ def build():
         (OUT / "days" / f"{d['id']}.html").write_text(
             page(f"Week {w['week']} Day {d['day']}: {dm['title']}", html_body, depth=1,
                  path=f"days/{d['id']}.html", desc=plain(meta.get("intro", "")),
-                 scripts='<script type="module" src="../assets/js/pages/day.js"></script>', page_class="page-day"))
+                 scripts=f'<script type="module" src="../assets/js/pages/day.js?v={VERSION}"></script>', page_class="page-day"))
 
     (OUT / "assets" / "data" / "course.json").write_text(json.dumps(index))
     (OUT / "assets" / "data" / "cards.json").write_text(json.dumps(cards))
@@ -632,9 +636,9 @@ def build():
         body = template("pages/" + name).replace("{{hero_trace}}", json.dumps(hero_trace()) if name == "index.html" else "")
         if name == "guide.html":
             body = guide_fill(body, course)
-        script = f'<script type="module" src="assets/js/pages/{name.replace(".html", ".js")}"></script>'
+        script = f'<script type="module" src="assets/js/pages/{name.replace(".html", ".js")}?v={VERSION}"></script>'
         if not (STATIC / "js" / "pages" / name.replace(".html", ".js")).exists():
-            script = '<script type="module" src="assets/js/pages/common.js"></script>'
+            script = f'<script type="module" src="assets/js/pages/common.js?v={VERSION}"></script>'
         extra = ""
         if name == "index.html":
             extra = '<meta name="google-site-verification" content="SZzBTVkij9A9uLGTWAsfoe5_hCZ6Qm94xRuqL3BL9yU">\n<script type="application/ld+json">' + json.dumps({
@@ -647,7 +651,7 @@ def build():
                                      path=name, desc=PAGE_DESC.get(name, ""),
                                      index=name not in ("account.html", "settings.html", "review.html")))
     (OUT / "404.html").write_text(page("Page not found", template("pages/404.html"), depth=0, path="404.html", index=False,
-                                       scripts='<script type="module" src="assets/js/pages/common.js"></script>'))
+                                       scripts=f'<script type="module" src="assets/js/pages/common.js?v={VERSION}"></script>'))
     today = __import__("datetime").date.today().isoformat()
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + "".join(f"  <url><loc>{u}</loc></url>\n" for u in SITEMAP) + "</urlset>\n")
