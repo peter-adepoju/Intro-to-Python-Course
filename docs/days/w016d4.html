@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="16f4a90763">
+<title>Week 16 Day 4: Permutations and subsets | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=16f4a90763">
+<link rel="stylesheet" href="../assets/css/site.css?v=16f4a90763">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=16f4a90763"></script>
+<script src="../assets/vendor/codemirror.js?v=16f4a90763" defer></script>
+<meta name="description" content="Some problems need every possibility: every way to order a playlist, every team of three from a class, every combination of toppings. Recursion is the...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w016d4.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 16 Day 4: Permutations and subsets">
+<meta property="og:description" content="Some problems need every possibility: every way to order a playlist, every team of three from a class, every combination of toppings. Recursion is the...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w016d4.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x=".5" y=".5" width="31" height="31" rx="7.5"/><rect class="bm-frame" x="6.1" y="7.6" width="19.8" height="16.8" rx="3"/><path class="bm-prompt" d="M10.6 13.9l2.6 2.1-2.6 2.1"/><path class="bm-line" d="M15.4 18.4h6"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-16">Week 16: Recursion II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#every-subset" data-sec="every-subset">Every subset</a></li><li><a href="#every-ordering" data-sec="every-ordering">Every ordering</a></li><li><a href="#choosing-k" data-sec="choosing-k">Choosing k</a></li><li><a href="#backtracking" data-sec="backtracking">Backtracking</a></li><li><a href="#itertools" data-sec="itertools">itertools</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w016d4.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-16">Week 16: Recursion II</a></li><li aria-current="page">Day 4 of 6</li></ol>
+      <p class="day-where"><span>Week 16, Day 4</span></p>
+      <h1>Permutations and subsets</h1>
+      <div class="day-intro"><p>Some problems need every possibility: every way to order a playlist, every team of three from a class, every combination of toppings. Recursion is the natural way to list them, because each choice leaves a smaller version of the same problem. Today you&rsquo;ll generate subsets, permutations and combinations by hand, learn backtracking (giving up on a choice early when it can&rsquo;t work), and meet the <code>itertools</code> functions that do the common cases for you.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Generate every subset of a list with the include-or-skip recursion</li><li>Generate every permutation by choosing each remaining item in turn</li><li>Generate combinations of a fixed size, and say how many there are</li><li>Use backtracking to stop exploring choices that can&rsquo;t lead to an answer</li><li>Use <code>itertools.permutations</code>, <code>combinations</code> and <code>product</code>, and explain why these counts grow so fast</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">2 h 55 min</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Every subset: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Every ordering: 25 min"></span><span class="plan-seg s1" style="flex:15" title="Choosing k: 15 min"></span><span class="plan-seg s0" style="flex:25" title="Backtracking: 25 min"></span><span class="plan-seg s1" style="flex:15" title="itertools: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Every subset</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Every ordering</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Choosing k</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:15</span><span class="plan-what">Backtracking</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">itertools</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:45</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w016d4.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w016d4.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w016d4-p1"><textarea class="pc-src pc-code" hidden>toppings = [&quot;cheese&quot;, &quot;ham&quot;, &quot;olives&quot;]
+count = 0
+for a in (False, True):
+    for b in (False, True):
+        for c in (False, True):
+            count += 1
+print(count)</textarea></div>
+<p>Each topping is either on the pizza or not: 2 choices, three times, so 2 × 2 × 2 = 8 pizzas (one of them plain). With ten toppings you&rsquo;d need ten nested loops, and with a list whose length you don&rsquo;t know in advance, nested loops can&rsquo;t do it at all. Recursion can.</p>
+<h2 id="every-subset">Every subset</h2>
+<p>A <strong>subset</strong> of a list is any selection of its items, keeping their order: <code>["a", "c"]</code> is a subset of <code>["a", "b", "c"]</code>, and so are <code>[]</code> and the whole list. To list them all, look at the <strong>first</strong> item. Every subset either leaves it out or includes it, and in both cases the rest is any subset of the remaining items:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e2"><textarea class="pc-src pc-code" hidden>def subsets(items):
+    if not items:
+        return [[]]
+    rest = subsets(items[1:])
+    return rest + [[items[0]] + s for s in rest]
+
+for s in subsets([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]):
+    print(s)</textarea></div>
+<p>The base case is the one that surprises people: the empty list has exactly <strong>one</strong> subset, the empty one. Return <code>[[]]</code>, not <code>[]</code>. Returning <code>[]</code> would mean &ldquo;no subsets at all&rdquo;, and every larger answer built from it would be empty too.</p>
+<figure class="widget" data-widget="calltree"><script type="application/json">{"code": "def subsets(items):\n    if not items:\n        return [[]]\n    rest = subsets(items[1:])\n    return rest + [[items[0]] + s for s in rest]", "call": "subsets(['a', 'b', 'c'])", "calls": ["subsets(['a', 'b', 'c'])", "subsets([1, 2])"]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each call splits on the first item. The tree has one leaf per subset.</figcaption></figure>
+<p>There&rsquo;s a second way to write it that matters more for the rest of today. Walk along the list keeping the choices made so far in <code>chosen</code>; at each item, try both ways:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e3"><textarea class="pc-src pc-code" hidden>def subsets(items):
+    found = []
+    def go(i, chosen):
+        if i == len(items):
+            found.append(chosen)
+            return
+        go(i + 1, chosen)                  # leave items[i] out
+        go(i + 1, chosen + [items[i]])     # put items[i] in
+    go(0, [])
+    return found
+
+print(subsets([1, 2, 3]))
+print(len(subsets(list(range(10)))))</textarea></div>
+<p>A list of n items has <strong>2ⁿ</strong> subsets: each item doubles the count. Ten items give 1,024; thirty give over a billion.</p>
+<h2 id="every-ordering">Every ordering</h2>
+<p>A <strong>permutation</strong> is an ordering of all the items. Three people can stand in a queue in 6 ways. To list them: choose who goes <strong>first</strong> (any of them), then put the others in every possible order behind:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e4"><textarea class="pc-src pc-code" hidden>def permutations(items):
+    if len(items) &lt;= 1:
+        return [items[:]]
+    result = []
+    for i in range(len(items)):
+        first = items[i]
+        others = items[:i] + items[i + 1:]
+        for p in permutations(others):
+            result.append([first] + p)
+    return result
+
+for p in permutations([&quot;Ada&quot;, &quot;Ben&quot;, &quot;Cy&quot;]):
+    print(p)</textarea></div>
+<p>n items have <strong>n!</strong> (&ldquo;n factorial&rdquo;, n × (n−1) × &hellip; × 1) permutations: n choices for first place, n−1 for second, and so on. That grows even faster than 2ⁿ:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e5"><textarea class="pc-src pc-code" hidden>from math import factorial
+
+for n in (3, 5, 10, 15, 20):
+    print(n, 2 ** n, factorial(n))</textarea></div>
+<p>Twenty items have about 2.4 × 10¹⁸ orderings. Listing them all at a billion a second would take 77 years. So &ldquo;try every ordering&rdquo; only works for small n, a lesson that comes back in Week 17 when we measure how fast programs are.</p>
+<p>The same choose-and-continue pattern can build permutations one place at a time with a <code>chosen</code> list and a set of what&rsquo;s used:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e6"><textarea class="pc-src pc-code" hidden>def orderings(items):
+    found = []
+    def go(chosen, used):
+        if len(chosen) == len(items):
+            found.append(chosen)
+            return
+        for i, item in enumerate(items):
+            if i not in used:
+                go(chosen + [item], used | {i})
+    go([], set())
+    return found
+
+print(orderings(&quot;xyz&quot;))</textarea></div>
+<h2 id="choosing-k">Choosing k</h2>
+<p>A <strong>combination</strong> is a choice of k items where order doesn&rsquo;t matter: picking a team of 2 from Ada, Ben and Cy gives 3 teams, not 6. It&rsquo;s a subset of a fixed size, so use the include-or-skip recursion and stop when you have enough:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e7"><textarea class="pc-src pc-code" hidden>def choose(items, k):
+    if k == 0:
+        return [[]]
+    if len(items) &lt; k:
+        return []
+    first, rest = items[0], items[1:]
+    with_first = [[first] + c for c in choose(rest, k - 1)]
+    without_first = choose(rest, k)
+    return with_first + without_first
+
+print(choose([&quot;Ada&quot;, &quot;Ben&quot;, &quot;Cy&quot;, &quot;Dee&quot;], 2))</textarea></div>
+<p>The number of ways to choose k from n is written C(n, k), or &ldquo;n choose k&rdquo;, and Python has it as <code>math.comb(n, k)</code>: a lottery choosing 6 balls from 49 has <code>comb(49, 6)</code> = 13,983,816 possible tickets.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Order matters?</th>
+<th>All items?</th>
+<th>How many for n items</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Subsets</td>
+<td>no</td>
+<td>any number</td>
+<td>2ⁿ</td>
+</tr>
+<tr>
+<td>Combinations</td>
+<td>no</td>
+<td>exactly k</td>
+<td>comb(n, k)</td>
+</tr>
+<tr>
+<td>Permutations</td>
+<td>yes</td>
+<td>all of them</td>
+<td>n!</td>
+</tr>
+</tbody>
+</table>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>To generate every possibility: make one choice, recurse on what&rsquo;s left, and collect the results. The base case is &ldquo;no more choices&rdquo;, which gives one answer (the choices made), not zero.</p></aside>
+<h2 id="backtracking">Backtracking</h2>
+<p>Often you don&rsquo;t want <strong>every</strong> possibility, only those that pass a test: subsets that add up to a target, orderings that fit some rule. Generating everything and filtering works, but it wastes time on choices that were doomed early. <strong>Backtracking</strong> checks as it goes, and abandons a path (&ldquo;backs up&rdquo;) the moment it can&rsquo;t succeed.</p>
+<p>Find every set of coins from a purse that adds up to exactly a target:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e8"><textarea class="pc-src pc-code" hidden>def exact_sums(coins, target):
+    found = []
+    def go(i, chosen, total):
+        if total == target:
+            found.append(chosen)
+            return
+        if total &gt; target or i == len(coins):
+            return                 # dead end: give up on this path
+        go(i + 1, chosen + [coins[i]], total + coins[i])
+        go(i + 1, chosen, total)
+    go(0, [], 0)
+    return found
+
+print(exact_sums([5, 10, 2, 3, 8], 13))</textarea></div>
+<p>The line <code>if total &gt; target</code> is the backtracking: once the coins chosen are already too much, adding more can only make it worse (the coins are all positive), so the whole subtree below is skipped. On big inputs this can turn hours into seconds.</p>
+<p>The classic backtracking puzzle is placing <strong>queens</strong> on a chessboard so that no two attack each other (no two share a row, column or diagonal). Place one queen per row, and try each column, skipping any column that&rsquo;s already attacked:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e9"><textarea class="pc-src pc-code" hidden>def queens(n):
+    solutions = []
+    def go(row, cols):
+        if row == n:
+            solutions.append(cols)
+            return
+        for c in range(n):
+            safe = all(c != c2 and abs(c - c2) != row - r2 for r2, c2 in enumerate(cols))
+            if safe:
+                go(row + 1, cols + [c])
+    go(0, [])
+    return solutions
+
+answers = queens(6)
+print(len(answers), &quot;solutions; the first:&quot;, answers[0])
+for c in answers[0]:
+    print(&quot; &quot;.join(&quot;Q&quot; if i == c else &quot;.&quot; for i in range(6)))</textarea></div>
+<p><code>cols[r]</code> is the column of the queen in row r. Two queens are on the same diagonal when their row distance equals their column distance. The famous 8-queens puzzle has 92 solutions; backtracking finds them all in a fraction of a second, while trying every placement of 8 queens on 64 squares (4 billion) would not.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>When you build <code>chosen</code> by appending to one shared list, every answer you save is the <strong>same</strong> list, which keeps changing. Either pass a new list down (<code>chosen + [x]</code>, as here) or save a copy (<code>found.append(chosen[:])</code>). Bug 1 below is this mistake.</p></aside>
+<h2 id="itertools">itertools</h2>
+<p>For the standard cases, the <code>itertools</code> module has fast, tested versions. They give <strong>tuples</strong>, and produce them one at a time (wrap them in <code>list()</code> to see them all):</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e10"><textarea class="pc-src pc-code" hidden>from itertools import permutations, combinations, product
+
+print(list(permutations(&quot;abc&quot;)))
+print(list(permutations(&quot;abcd&quot;, 2)))      # ordered pairs
+print(list(combinations([1, 2, 3, 4], 2)))
+print(list(product(&quot;HT&quot;, repeat=3)))       # every outcome of 3 coin tosses
+print(list(product([1, 2], &quot;xy&quot;)))         # every pair, one from each</textarea></div>
+<ul>
+<li><code>permutations(items, r)</code>: ordered arrangements of r items (all of them if r is left out).</li>
+<li><code>combinations(items, r)</code>: unordered choices of exactly r.</li>
+<li><code>product(a, b, ...)</code> or <code>product(a, repeat=k)</code>: one item from each, like nested loops.</li>
+</ul>
+<p>For subsets there&rsquo;s no single function, but <code>combinations</code> for every size gives them all:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d4-e11"><textarea class="pc-src pc-code" hidden>from itertools import combinations
+
+items = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]
+everything = [c for k in range(len(items) + 1) for c in combinations(items, k)]
+print(everything)</textarea></div>
+<p>Use <code>itertools</code> when it fits; write your own recursion when you need backtracking or a rule the standard functions don&rsquo;t have.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d4-binary" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Every bit string</div><div class="pc-prompt"><p>Write <code>bit_strings(n)</code> that returns every string of n characters made of <code>"0"</code> and <code>"1"</code>, in increasing order (<code>"00"</code>, <code>"01"</code>, <code>"10"</code>, <code>"11"</code> for n = 2). Use recursion, not <code>itertools</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert bit_strings(0) == [&quot;&quot;]
+    assert bit_strings(1) == [&quot;0&quot;, &quot;1&quot;]
+    assert bit_strings(3) == [&quot;000&quot;, &quot;001&quot;, &quot;010&quot;, &quot;011&quot;, &quot;100&quot;, &quot;101&quot;, &quot;110&quot;, &quot;111&quot;]
+    assert len(bit_strings(10)) == 1024
+    assert &quot;itertools&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def bit_strings(n):
+    if n == 0:
+        return [&quot;&quot;]
+    shorter = bit_strings(n - 1)
+    return [&quot;0&quot; + s for s in shorter] + [&quot;1&quot; + s for s in shorter]</textarea><template class="pc-src pc-hint">The strings of length n are <code>"0"</code> followed by each string of length n − 1, then <code>"1"</code> followed by each. The base case is length 0: one empty string.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d4-subs" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Subsets with a size</div><div class="pc-prompt"><p>Write <code>subsets_of_size(items, k)</code> returning every subset of exactly k items, keeping the original order within each, in the order that the include-first recursion produces (so <code>subsets_of_size([1, 2, 3], 2)</code> is <code>[[1, 2], [1, 3], [2, 3]]</code>). Don&rsquo;t use <code>itertools</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert subsets_of_size([1, 2, 3], 2) == [[1, 2], [1, 3], [2, 3]]
+    assert subsets_of_size([1, 2, 3], 0) == [[]]
+    assert subsets_of_size([1, 2], 3) == []
+    assert len(subsets_of_size(list(range(10)), 4)) == 210
+    assert &quot;itertools&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def subsets_of_size(items, k):
+    if k == 0:
+        return [[]]
+    if len(items) &lt; k:
+        return []
+    first, rest = items[0], items[1:]
+    return [[first] + s for s in subsets_of_size(rest, k - 1)] + subsets_of_size(rest, k)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d4-anagrams" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Anagrams</div><div class="pc-prompt"><p>Write <code>anagrams(word)</code> returning a <strong>sorted</strong> list of every different rearrangement of the letters of <code>word</code>. Words with repeated letters have fewer: <code>"aab"</code> gives <code>["aab", "aba", "baa"]</code>. You may use <code>itertools.permutations</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert anagrams(&quot;ab&quot;) == [&quot;ab&quot;, &quot;ba&quot;]
+    assert anagrams(&quot;aab&quot;) == [&quot;aab&quot;, &quot;aba&quot;, &quot;baa&quot;]
+    assert anagrams(&quot;x&quot;) == [&quot;x&quot;]
+    assert len(anagrams(&quot;listen&quot;)) == 720
+    assert len(anagrams(&quot;banana&quot;)) == 60</textarea><textarea class="pc-src pc-solution" hidden>from itertools import permutations
+
+def anagrams(word):
+    return sorted({&quot;&quot;.join(p) for p in permutations(word)})</textarea><template class="pc-src pc-hint">Join each permutation tuple into a string, and put them in a set to remove repeats.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d4-perm_own" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Permutations by hand</div><div class="pc-prompt"><p>Write <code>perms(s)</code> that returns every ordering of the characters of the string <code>s</code>, as strings, <strong>without</strong> <code>itertools</code>. Choose each character in turn to go first, followed by every ordering of the others. For <code>"abc"</code> the order is <code>["abc", "acb", "bac", "bca", "cab", "cba"]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert perms(&quot;abc&quot;) == [&quot;abc&quot;, &quot;acb&quot;, &quot;bac&quot;, &quot;bca&quot;, &quot;cab&quot;, &quot;cba&quot;]
+    assert perms(&quot;&quot;) == [&quot;&quot;]
+    assert len(perms(&quot;abcdef&quot;)) == 720
+    assert &quot;itertools&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def perms(s):
+    if len(s) &lt;= 1:
+        return [s]
+    result = []
+    for i in range(len(s)):
+        for p in perms(s[:i] + s[i + 1:]):
+            result.append(s[i] + p)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d4-target" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Hitting a target</div><div class="pc-prompt"><p>A shop sells items at the given prices. Write <code>baskets(prices, budget)</code> that returns every way to choose <strong>different</strong> items (each at most once) whose prices add up to exactly <code>budget</code>, each basket as a list of prices in the original order, with baskets listed in the order the include-first recursion finds them. Prices are all positive, so stop exploring as soon as the total goes over.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert baskets([2, 3, 5, 7], 10) == [[2, 3, 5], [3, 7]]
+    assert baskets([4, 6], 5) == []
+    assert baskets([1, 1, 2], 2) == [[1, 1], [2]]
+    assert baskets([], 0) == [[]]
+    assert len(baskets(list(range(1, 21)), 30)) == 263</textarea><textarea class="pc-src pc-solution" hidden>def baskets(prices, budget):
+    found = []
+    def go(i, chosen, total):
+        if total == budget:
+            found.append(chosen)
+            return
+        if total &gt; budget or i == len(prices):
+            return
+        go(i + 1, chosen + [prices[i]], total + prices[i])
+        go(i + 1, chosen, total)
+    go(0, [], 0)
+    return found</textarea><template class="pc-src pc-hint"><code>go(i, chosen, total)</code>: if the total equals the budget, save <code>chosen</code> and stop. If it&rsquo;s over, or <code>i</code> has reached the end, stop. Otherwise try including <code>prices[i]</code> first, then skipping it.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d4-menus" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Every meal</div><div class="pc-prompt"><p>A café offers the starters, mains and puddings given as three lists. Write <code>meals(starters, mains, puddings)</code> that returns every possible meal as a string like <code>"soup, curry, cake"</code>, in the order nested loops would give (all meals with the first starter first). Use <code>itertools.product</code>.</p></div><textarea class="pc-src pc-code" hidden>from itertools import product</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    m = meals([&quot;soup&quot;, &quot;salad&quot;], [&quot;curry&quot;], [&quot;cake&quot;, &quot;fruit&quot;])
+    assert m == [&quot;soup, curry, cake&quot;, &quot;soup, curry, fruit&quot;, &quot;salad, curry, cake&quot;, &quot;salad, curry, fruit&quot;]
+    assert meals([], [&quot;x&quot;], [&quot;y&quot;]) == []
+    assert &quot;product&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>from itertools import product
+
+def meals(starters, mains, puddings):
+    return [&quot;, &quot;.join(m) for m in product(starters, mains, puddings)]</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w016d4-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">All the same</div><div class="pc-prompt"><p>This should print all four subsets of <code>[1, 2]</code>, but prints <code>[[], [], [], []]</code>. Fix it while keeping the shared <code>chosen</code> list.</p></div><textarea class="pc-src pc-code" hidden>def subsets(items):
+    found = []
+    chosen = []
+    def go(i):
+        if i == len(items):
+            found.append(chosen)
+            return
+        go(i + 1)
+        chosen.append(items[i])
+        go(i + 1)
+        chosen.pop()
+    go(0)
+    return found
+
+print(subsets([1, 2]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;four different subsets&quot;
+    expect_output(&quot;[[], [2], [1], [1, 2]]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def subsets(items):
+    found = []
+    chosen = []
+    def go(i):
+        if i == len(items):
+            found.append(chosen[:])
+            return
+        go(i + 1)
+        chosen.append(items[i])
+        go(i + 1)
+        chosen.pop()
+    go(0)
+    return found
+
+print(subsets([1, 2]))</textarea><template class="pc-src pc-hint">Every saved answer is the very same list object, which ends up empty. Save a copy.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w016d4-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Nothing at all</div><div class="pc-prompt"><p>This returns <code>[]</code> for every input instead of the subsets. Find the one wrong line.</p></div><textarea class="pc-src pc-code" hidden>def subsets(items):
+    if not items:
+        return []
+    rest = subsets(items[1:])
+    return rest + [[items[0]] + s for s in rest]
+
+print(subsets([&quot;a&quot;, &quot;b&quot;]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;four&quot;
+    expect_output(&quot;[[], [&#x27;b&#x27;], [&#x27;a&#x27;], [&#x27;a&#x27;, &#x27;b&#x27;]]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def subsets(items):
+    if not items:
+        return [[]]
+    rest = subsets(items[1:])
+    return rest + [[items[0]] + s for s in rest]
+
+print(subsets([&quot;a&quot;, &quot;b&quot;]))</textarea><template class="pc-src pc-hint">How many subsets does the empty list have?</template></div>
+<div class="parsons" data-id="w016d4-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Every ordering</div><div class="pc-prompt"><p>Arrange the lines for <code>perms(items)</code>, which returns every ordering of a list. One line is a trap.</p></div><script type="application/json">{"lines": ["def perms(items):", "    if len(items) <= 1:", "        return [items]", "    result = []", "    for i in range(len(items)):", "        for p in perms(items[:i] + items[i + 1:]):", "            result.append([items[i]] + p)", "    return result"], "distractors": ["        for p in perms(items[1:]):"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d4-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Count them</div><div class="pc-prompt"><p>Work these out without running them, and write the numbers.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # how many subsets does a list of 6 items have?
+b = ___   # how many orderings of 5 different books on a shelf?
+c = ___   # how many teams of 2 can be chosen from 5 people?
+d = ___   # how many outcomes from tossing a coin 4 times (len(list(product(&quot;HT&quot;, repeat=4))))?</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 64 and b == 120 and c == 10 and d == 16</textarea><textarea class="pc-src pc-solution" hidden>a = 64
+b = 120
+c = 10
+d = 16</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w016d4-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "How many subsets does a list of n items have?", "answer": 2, "explain": "Each item is in or out, doubling the count.", "options": ["n", "n squared", "2 to the power n", "n factorial"]}, {"type": "mc", "q": "What should a subsets function return for the empty list?", "answer": 1, "explain": "One subset: the empty one.", "options": ["[]", "[[]]", "None", "0"]}, {"type": "mc", "q": "How many orderings do 4 different items have?", "answer": 3, "explain": "4 \u00d7 3 \u00d7 2 \u00d7 1.", "options": ["4", "8", "16", "24"]}, {"type": "mc", "q": "What&rsquo;s the difference between a combination and a permutation?", "answer": 1, "explain": "Teams versus queues.", "options": ["None", "In a combination order doesn&rsquo;t matter", "Permutations allow repeats", "Combinations use all the items"]}, {"type": "mc", "q": "What is backtracking?", "answer": 1, "explain": "It skips whole subtrees.", "options": ["Running code backwards", "Abandoning a path of choices as soon as it can&rsquo;t succeed", "Undoing a git commit", "Sorting in reverse"]}, {"type": "mc", "q": "What does <code>list(product('ab', repeat=2))</code> give?", "answer": 1, "explain": "Like two nested loops.", "options": ["[(&lsquo;a&rsquo;, &lsquo;b&rsquo;)]", "[(&lsquo;a&rsquo;, &lsquo;a&rsquo;), (&lsquo;a&rsquo;, &lsquo;b&rsquo;), (&lsquo;b&rsquo;, &lsquo;a&rsquo;), (&lsquo;b&rsquo;, &lsquo;b&rsquo;)]", "[&lsquo;ab&rsquo;, &lsquo;ba&rsquo;]", "[(&lsquo;a&rsquo;, &lsquo;b&rsquo;), (&lsquo;b&rsquo;, &lsquo;a&rsquo;)]"]}, {"type": "mc", "q": "Why does saving <code>chosen</code> (one shared list) give identical answers?", "answer": 1, "explain": "Save a copy, or build a new list each time.", "options": ["Lists can&rsquo;t be saved", "Every saved item is the same list object, which keeps changing", "append is broken", "It doesn&rsquo;t"]}, {"type": "text", "q": "Which function gives unordered choices of exactly r items?", "answer": ["combinations", "itertools.combinations"], "explain": "From itertools."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d4-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a word puzzle</div><div class="pc-prompt"><p>In a &ldquo;make a word&rdquo; puzzle you&rsquo;re given some letter tiles and must find every dictionary word you can spell using <strong>some or all</strong> of them (each tile at most once). Write <code>words_from(tiles, dictionary)</code> returning a sorted list of the dictionary words that can be made.</p>
+<p>Do it with backtracking: build words one letter at a time from the tiles left, and use a set of every <strong>prefix</strong> of the dictionary words to abandon any partial word that no dictionary word starts with. (A brute-force check of every arrangement of every size would work for small inputs, but with 9 tiles there are almost a million arrangements.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_small():
+    &quot;small&quot;
+    d = [&quot;at&quot;, &quot;tea&quot;, &quot;eat&quot;, &quot;ate&quot;, &quot;tee&quot;, &quot;cat&quot;, &quot;a&quot;]
+    assert words_from(&quot;tea&quot;, d) == [&quot;a&quot;, &quot;at&quot;, &quot;ate&quot;, &quot;eat&quot;, &quot;tea&quot;]
+    assert words_from(&quot;&quot;, d) == []
+    assert words_from(&quot;eet&quot;, d) == [&quot;tee&quot;]
+def test_big():
+    &quot;nine tiles&quot;
+    d = [&quot;paint&quot;, &quot;pint&quot;, &quot;tin&quot;, &quot;nap&quot;, &quot;pat&quot;, &quot;inapt&quot;, &quot;patina&quot;, &quot;tapir&quot;, &quot;pain&quot;, &quot;ant&quot;, &quot;tan&quot;, &quot;apt&quot;, &quot;pan&quot;, &quot;nip&quot;, &quot;pit&quot;, &quot;tip&quot;, &quot;aaa&quot;, &quot;zip&quot;]
+    assert words_from(&quot;patinaxyz&quot;, d) == [&quot;ant&quot;, &quot;apt&quot;, &quot;inapt&quot;, &quot;nap&quot;, &quot;nip&quot;, &quot;pain&quot;, &quot;paint&quot;, &quot;pan&quot;, &quot;pat&quot;, &quot;patina&quot;, &quot;pint&quot;, &quot;pit&quot;, &quot;tan&quot;, &quot;tin&quot;, &quot;tip&quot;, &quot;zip&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def words_from(tiles, dictionary):
+    words = set(dictionary)
+    prefixes = {w[:i] for w in dictionary for i in range(len(w) + 1)}
+    found = set()
+    def go(sofar, left):
+        if sofar not in prefixes:
+            return
+        if sofar in words:
+            found.add(sofar)
+        for i in range(len(left)):
+            go(sofar + left[i], left[:i] + left[i + 1:])
+    go(&quot;&quot;, tiles)
+    return sorted(found)</textarea><template class="pc-src pc-hint">Make <code>prefixes = {w[:i] for w in dictionary for i in range(len(w) + 1)}</code> and <code>words = set(dictionary)</code>. Then <code>go(sofar, left)</code>: if <code>sofar</code> isn&rsquo;t in <code>prefixes</code>, return; if it&rsquo;s in <code>words</code>, record it; then for each position in <code>left</code>, recurse with that tile added and removed from <code>left</code>. Collect into a set, since the same word may be made from different tiles.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>List every subset of your own three favourite foods by hand, then check with your function. Count the orderings of the people in your household, and work out how many 4-digit PINs exist (<code>product(range(10), repeat=4)</code>). Tomorrow: two classic recursions that move things around, the Towers of Hanoi and flood fill.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w016d3.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w016d4", "week": 16, "day": 4, "title": "Permutations and subsets", "exercises": [{"id": "w016d4-binary", "title": "Every bit string", "points": 10}, {"id": "w016d4-subs", "title": "Subsets with a size", "points": 10}, {"id": "w016d4-anagrams", "title": "Anagrams", "points": 15}, {"id": "w016d4-perm_own", "title": "Permutations by hand", "points": 15}, {"id": "w016d4-target", "title": "Hitting a target", "points": 20}, {"id": "w016d4-menus", "title": "Every meal", "points": 10}, {"id": "w016d4-bug1", "title": "All the same", "points": 10}, {"id": "w016d4-bug2", "title": "Nothing at all", "points": 10}, {"id": "w016d4-trace", "title": "Count them", "points": 15}, {"id": "w016d4-challenge", "title": "Challenge: a word puzzle", "points": 25}], "points": 140}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=16f4a90763"></script>
+</body>
+</html>
