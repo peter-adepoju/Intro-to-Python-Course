@@ -1,5 +1,8 @@
 // A thin wrapper around CodeMirror 5 (loaded as a global from assets/vendor).
-import { settings, onSettings } from "./settings.js?v=b170519faa";
+import { settings, onSettings } from "./settings.js?v=fa43378258";
+// On a phone, long lines wrap, so nobody has to scroll sideways inside a small box.
+const narrow = () => matchMedia("(max-width: 640px)").matches;
+const wrapOn = (s) => s.wrap || narrow();
 export function makeEditor(parent, code, { readOnly = false, minLines = 3, onChange, onRun } = {}) {
   const cm = window.CodeMirror(parent, {
     value: code,
@@ -13,7 +16,7 @@ export function makeEditor(parent, code, { readOnly = false, minLines = 3, onCha
     styleActiveLine: !readOnly,
     readOnly,
     viewportMargin: Infinity,
-    lineWrapping: settings().wrap,
+    lineWrapping: wrapOn(settings()),
     extraKeys: {
       Tab: (c) => (c.somethingSelected() ? c.indentSelection("add") : c.replaceSelection("    ", "end")),
       "Shift-Tab": (c) => c.indentSelection("subtract"),
@@ -23,7 +26,7 @@ export function makeEditor(parent, code, { readOnly = false, minLines = 3, onCha
       "Cmd-/": "toggleComment",
     },
   });
-  onSettings((s) => { cm.setOption("lineWrapping", s.wrap); cm.refresh(); });
+  onSettings((s) => { cm.setOption("lineWrapping", wrapOn(s)); cm.refresh(); });
   cm.getWrapperElement().style.minHeight = (minLines * 1.5 + 0.8) + "em";
   if (onChange) cm.on("change", () => onChange(cm.getValue()));
 

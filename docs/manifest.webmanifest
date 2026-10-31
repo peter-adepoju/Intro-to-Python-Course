@@ -1,0 +1,66 @@
+{
+ "name": "Python Atlas",
+ "short_name": "Python Atlas",
+ "id": "./",
+ "description": "Learn Python free, from your first line to mastery. Lessons, exercises and Python that runs on your phone.",
+ "start_url": "./index.html?source=app",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#16213a",
+ "theme_color": "#16213a",
+ "lang": "en-GB",
+ "categories": [
+  "education"
+ ],
+ "icons": [
+  {
+   "src": "assets/img/app-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "assets/img/app-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "assets/img/app-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "shortcuts": [
+  {
+   "name": "Course map",
+   "url": "./map.html",
+   "icons": [
+    {
+     "src": "assets/img/app-192.png",
+     "sizes": "192x192"
+    }
+   ]
+  },
+  {
+   "name": "Daily review",
+   "url": "./review.html",
+   "icons": [
+    {
+     "src": "assets/img/app-192.png",
+     "sizes": "192x192"
+    }
+   ]
+  },
+  {
+   "name": "Playground",
+   "url": "./playground.html",
+   "icons": [
+    {
+     "src": "assets/img/app-192.png",
+     "sizes": "192x192"
+    }
+   ]
+  }
+ ]
+}

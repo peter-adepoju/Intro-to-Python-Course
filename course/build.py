@@ -650,6 +650,25 @@ def build():
         (OUT / name).write_text(page(title, body, depth=0, scripts=script, page_class=cls, extra_head=extra,
                                      path=name, desc=PAGE_DESC.get(name, ""),
                                      index=name not in ("account.html", "settings.html", "review.html")))
+    (OUT / "offline.html").write_text(page("Offline", template("pages/offline.html"), depth=0, path="offline.html", index=False,
+                                           scripts=f'<script type="module" src="assets/js/pages/common.js?v={VERSION}"></script>'))
+    (OUT / "sw.js").write_text(template("sw.js").replace("{{version}}", VERSION))
+    (OUT / "manifest.webmanifest").write_text(json.dumps({
+        "name": "Python Atlas", "short_name": "Python Atlas", "id": "./",
+        "description": "Learn Python free, from your first line to mastery. Lessons, exercises and Python that runs on your phone.",
+        "start_url": "./index.html?source=app", "scope": "./", "display": "standalone", "orientation": "any",
+        "background_color": "#16213a", "theme_color": "#16213a", "lang": "en-GB", "categories": ["education"],
+        "icons": [
+            {"src": "assets/img/app-192.png", "sizes": "192x192", "type": "image/png"},
+            {"src": "assets/img/app-512.png", "sizes": "512x512", "type": "image/png"},
+            {"src": "assets/img/app-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+        ],
+        "shortcuts": [
+            {"name": "Course map", "url": "./map.html", "icons": [{"src": "assets/img/app-192.png", "sizes": "192x192"}]},
+            {"name": "Daily review", "url": "./review.html", "icons": [{"src": "assets/img/app-192.png", "sizes": "192x192"}]},
+            {"name": "Playground", "url": "./playground.html", "icons": [{"src": "assets/img/app-192.png", "sizes": "192x192"}]},
+        ],
+    }, indent=1))
     (OUT / "404.html").write_text(page("Page not found", template("pages/404.html"), depth=0, path="404.html", index=False,
                                        scripts=f'<script type="module" src="assets/js/pages/common.js?v={VERSION}"></script>'))
     today = __import__("datetime").date.today().isoformat()

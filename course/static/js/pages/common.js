@@ -5,6 +5,7 @@ import { progress, getClient, onAuth, onSync } from "../progress.js";
 import { mountTutor } from "../tutor.js";
 import { settings, update as updateSettings, onSettings } from "../settings.js";
 import { initSearch } from "../search.js";
+import { initInstall, install, onInstallable } from "../install.js";
 
 let closeMenu = () => {};
 document.addEventListener("click", (e) => { const slot = document.getElementById("account-slot"); if (slot && !slot.contains(e.target)) closeMenu(); });
@@ -61,14 +62,19 @@ export function initCommon() {
     tbtn.onclick = () => { const order = ["auto", "light", "dark"]; updateSettings({ theme: order[(order.indexOf(settings().theme) + 1) % 3] }); };
   }
   initSearch();
+  initInstall();
+
+  // Bottom tab bar (phones): mark the current tab.
+  const tabOf = { "index.html": "home", "map.html": "learn", "review.html": "review", "playground.html": "play", "account.html": "me", "settings.html": "me" };
+  const tab = inDay ? "learn" : tabOf[here];
+  document.querySelectorAll(".tab").forEach((t) => { if (t.dataset.tab === tab) t.setAttribute("aria-current", "page"); });
 
   const refresh = () => {
     const s = progress.streak();
     const st = $("#streak");
     if (st) { st.hidden = s < 1; st.textContent = `${s}-day streak`; }
     const due = progress.all("srs:").filter(([, v]) => v.due <= Date.now()).length;
-    const b = $("#due-badge");
-    if (b) { b.hidden = !due; b.textContent = due; }
+    for (const b of [$("#due-badge"), $("#tab-due")]) if (b) { b.hidden = !due; b.textContent = due > 99 ? "99+" : due; }
   };
   refresh();
   progress.subscribe(() => { refresh(); setContinue(); });
@@ -82,6 +88,8 @@ export function initCommon() {
       return;
     }
     const syncLine = h("span", { class: "um-sync" });
+    const installItem = h("button", { type: "button", role: "menuitem", onclick: () => { closeMenu(); install(); } }, "Install the app");
+    onInstallable((ok) => { installItem.hidden = !ok; });
     onSync((st) => {
       syncLine.className = "um-sync is-" + st.status;
       syncLine.textContent = { synced: "Progress saved to your account", pending: "Saving progress…", offline: "Offline: progress saved on this device", error: "Couldn't save to your account yet", off: "" }[st.status] || "";
@@ -90,6 +98,7 @@ export function initCommon() {
       h("div", { class: "um-head" }, h("strong", {}, displayName(user)), h("span", {}, user.email || ""), syncLine),
       h("a", { role: "menuitem", href: SITE.root + "account.html" }, "Your profile"),
       h("a", { role: "menuitem", href: SITE.root + "settings.html" }, "Settings"),
+      installItem,
       h("button", { type: "button", role: "menuitem", onclick: async () => { const c = await getClient(); c && c.auth.signOut(); } }, "Sign out"));
     const btn = h("button", { type: "button", class: "user-btn", "aria-haspopup": "menu", "aria-expanded": "false" },
       avatar(user), h("span", { class: "user-first" }, firstName(user)),
