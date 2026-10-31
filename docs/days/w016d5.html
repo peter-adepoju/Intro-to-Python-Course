@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="906520f9ee">
+<title>Week 16 Day 5: Towers of Hanoi and flood fill | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=906520f9ee">
+<link rel="stylesheet" href="../assets/css/site.css?v=906520f9ee">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=906520f9ee"></script>
+<script src="../assets/vendor/codemirror.js?v=906520f9ee" defer></script>
+<meta name="description" content="Two classic recursions finish the week. The Towers of Hanoi is a puzzle whose solution seems impossible to plan until you think recursively, and then takes...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w016d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 16 Day 5: Towers of Hanoi and flood fill">
+<meta property="og:description" content="Two classic recursions finish the week. The Towers of Hanoi is a puzzle whose solution seems impossible to plan until you think recursively, and then takes...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w016d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x=".5" y=".5" width="31" height="31" rx="7.5"/><rect class="bm-frame" x="6.1" y="7.6" width="19.8" height="16.8" rx="3"/><path class="bm-prompt" d="M10.6 13.9l2.6 2.1-2.6 2.1"/><path class="bm-line" d="M15.4 18.4h6"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-16">Week 16: Recursion II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#the-towers-of-hanoi" data-sec="the-towers-of-hanoi">The Towers of Hanoi</a></li><li><a href="#grids-and-neighbours" data-sec="grids-and-neighbours">Grids and neighbours</a></li><li><a href="#flood-fill" data-sec="flood-fill">Flood fill</a></li><li><a href="#counting-regions" data-sec="counting-regions">Counting regions</a></li><li><a href="#mazes" data-sec="mazes">Mazes</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w016d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-16">Week 16: Recursion II</a></li><li aria-current="page">Day 5 of 6</li></ol>
+      <p class="day-where"><span>Week 16, Day 5</span></p>
+      <h1>Towers of Hanoi and flood fill</h1>
+      <div class="day-intro"><p>Two classic recursions finish the week. The Towers of Hanoi is a puzzle whose solution seems impossible to plan until you think recursively, and then takes three lines. Flood fill is the paint bucket in every drawing program: colour one square and spread to every connected square of the same colour. It&rsquo;s also how games find connected regions, how maze solvers explore, and how map tools count islands. Both show recursion handling problems that would be hard to write with loops alone.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Solve the Towers of Hanoi recursively, and explain why it takes 2ⁿ − 1 moves</li><li>Represent a grid as a list of lists, and find a square&rsquo;s neighbours safely</li><li>Write a recursive flood fill that marks squares it has visited so it always stops</li><li>Use flood fill to count regions and measure their sizes</li><li>Find a path through a maze with backtracking, and know when to switch to a loop with a stack</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h 5 min</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:30" title="The Towers of Hanoi: 30 min"></span><span class="plan-seg s0" style="flex:15" title="Grids and neighbours: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Flood fill: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Counting regions: 20 min"></span><span class="plan-seg s1" style="flex:20" title="Mazes: 20 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The Towers of Hanoi</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:40</span><span class="plan-what">Grids and neighbours</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">Flood fill</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Counting regions</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Mazes</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:05</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:55</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w016d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w016d5.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w016d5-p1"><textarea class="pc-src pc-code" hidden>def countdown(n):
+    if n == 0:
+        return
+    countdown(n - 1)
+    print(n, end=&quot; &quot;)
+    countdown(n - 1)
+
+countdown(3)</textarea></div>
+<p>Two recursive calls with work in the middle: the pattern <code>1 2 1 3 1 2 1</code> has the 3 once, the 2 twice, the 1 four times. It&rsquo;s exactly the shape of today&rsquo;s first puzzle.</p>
+<h2 id="the-towers-of-hanoi">The Towers of Hanoi</h2>
+<p>Three pegs, A, B and C. On peg A is a tower of discs, largest at the bottom. Move the whole tower to peg C, following two rules:</p>
+<ol>
+<li>Move one disc at a time, taking the top disc from one peg and putting it on another.</li>
+<li>Never put a disc on top of a smaller one.</li>
+</ol>
+<p>Try planning it for four discs and you&rsquo;ll soon lose track. Now think recursively. To move a tower of n discs from A to C, the biggest disc must at some point move from A to C, and at that moment the other n − 1 discs must all be on B, out of the way. So:</p>
+<ol>
+<li>Move the top n − 1 discs from A to B (using C as the spare).</li>
+<li>Move the biggest disc from A to C.</li>
+<li>Move the n − 1 discs from B to C (using A as the spare).</li>
+</ol>
+<p>Steps 1 and 3 are smaller towers: the same problem, one disc fewer. A tower of 0 discs needs no moves at all.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d5-e2"><textarea class="pc-src pc-code" hidden>def hanoi(n, source, target, spare):
+    if n == 0:
+        return
+    hanoi(n - 1, source, spare, target)
+    print(f&quot;move disc {n} from {source} to {target}&quot;)
+    hanoi(n - 1, spare, target, source)
+
+hanoi(3, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;)</textarea></div>
+<p>Watch the moves on the pegs, and which call each belongs to:</p>
+<figure class="widget" data-widget="hanoi"><script type="application/json">{"n": 3, "max": 6}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Step through the solution. Change the number of discs: each extra disc doubles the moves, plus one.</figcaption></figure>
+<p>How many moves for n discs? Moving n discs takes two moves of n − 1 discs, plus one: M(n) = 2 × M(n − 1) + 1, with M(0) = 0. That gives 1, 3, 7, 15, 31, &hellip; which is <strong>2ⁿ − 1</strong>. Each extra disc doubles the work.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d5-e3"><textarea class="pc-src pc-code" hidden>def moves(n):
+    return 0 if n == 0 else 2 * moves(n - 1) + 1
+
+for n in (1, 2, 3, 10, 20, 64):
+    print(n, moves(n))</textarea></div>
+<p>The puzzle was published in 1883 by the French mathematician Édouard Lucas, with a story of priests moving 64 golden discs, and the world ending when they finished. At one move a second, 2⁶⁴ − 1 moves take about 585 billion years. It&rsquo;s safe.</p>
+<p>Returning the moves as a list, instead of printing them, makes the solution easy to test:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d5-e4"><textarea class="pc-src pc-code" hidden>def hanoi_moves(n, source=&quot;A&quot;, target=&quot;C&quot;, spare=&quot;B&quot;):
+    if n == 0:
+        return []
+    return (hanoi_moves(n - 1, source, spare, target)
+            + [(source, target)]
+            + hanoi_moves(n - 1, spare, target, source))
+
+print(hanoi_moves(2))
+print(len(hanoi_moves(10)))</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Hanoi: to move n discs, move n − 1 out of the way, move the biggest, then move the n − 1 back on top. Trust the recursion to handle the smaller towers. It takes 2ⁿ − 1 moves.</p></aside>
+<h2 id="grids-and-neighbours">Grids and neighbours</h2>
+<p>You met grids in Week 9: a list of rows, each a list (or string) of squares. <code>grid[r][c]</code> is the square in row <code>r</code>, column <code>c</code>. Its four <strong>neighbours</strong> (up, down, left, right) are one row or column away, but squares on the edges have fewer, so check the position is inside the grid before using it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d5-e5"><textarea class="pc-src pc-code" hidden>grid = [&quot;..#&quot;,
+        &quot;.##&quot;,
+        &quot;...&quot;]
+
+def neighbours(grid, r, c):
+    found = []
+    for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+        nr, nc = r + dr, c + dc
+        if 0 &lt;= nr &lt; len(grid) and 0 &lt;= nc &lt; len(grid[0]):
+            found.append((nr, nc))
+    return found
+
+print(neighbours(grid, 0, 0))
+print(neighbours(grid, 1, 1))</textarea></div>
+<p>The list <code>[(-1, 0), (1, 0), (0, -1), (0, 1)]</code> is the standard way to write &ldquo;the four directions&rdquo;. Adding the four diagonals gives eight neighbours, which some problems want.</p>
+<h2 id="flood-fill">Flood fill</h2>
+<p><strong>Flood fill</strong> starts at one square and spreads to every square connected to it by a path of squares of the same kind. Recursively: fill this square, then flood fill from each neighbour. The base cases are what make it stop:</p>
+<ul>
+<li>the position is outside the grid;</li>
+<li>the square is a wall (or a different colour);</li>
+<li>the square has <strong>already been filled</strong>.</li>
+</ul>
+<p>The last one is essential. Without it, a square fills its neighbour, the neighbour fills the first square again, and so on for ever (until Python gives up with <code>RecursionError</code>).</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d5-e6"><textarea class="pc-src pc-code" hidden>def fill(grid, r, c):
+    if r &lt; 0 or r &gt;= len(grid) or c &lt; 0 or c &gt;= len(grid[0]):
+        return
+    if grid[r][c] != &quot;.&quot;:
+        return              # a wall, or filled already
+    grid[r][c] = &quot;~&quot;
+    fill(grid, r - 1, c)
+    fill(grid, r + 1, c)
+    fill(grid, r, c - 1)
+    fill(grid, r, c + 1)
+
+picture = [list(row) for row in [&quot;....#...&quot;,
+                                 &quot;.##.#...&quot;,
+                                 &quot;.#..####&quot;,
+                                 &quot;.#......&quot;]]
+fill(picture, 0, 0)
+for row in picture:
+    print(&quot;&quot;.join(row))</textarea></div>
+<p>Changing each filled square from <code>"."</code> to <code>"~"</code> does double duty: it&rsquo;s the result, <strong>and</strong> the mark that says &ldquo;already done&rdquo;. The grid is a list of lists so the squares can be changed (strings can&rsquo;t be changed in place).</p>
+<p>Click squares to see the order a recursive fill visits them in, and the calls still waiting:</p>
+<figure class="widget" data-widget="floodfill"><script type="application/json">{"start": [0, 0]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each number is the order that square was filled. The fill goes as far as it can in one direction before trying the next, and the open calls show the path back.</figcaption></figure>
+<p>When you don&rsquo;t want to change the grid, keep a <code>seen</code> set of positions instead:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d5-e7"><textarea class="pc-src pc-code" hidden>def region(grid, r, c):
+    seen = set()
+    kind = grid[r][c]
+    def go(r, c):
+        if not (0 &lt;= r &lt; len(grid) and 0 &lt;= c &lt; len(grid[0])):
+            return
+        if grid[r][c] != kind or (r, c) in seen:
+            return
+        seen.add((r, c))
+        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            go(r + dr, c + dc)
+    go(r, c)
+    return seen
+
+grid = [&quot;aab&quot;,
+        &quot;abb&quot;,
+        &quot;ccb&quot;]
+print(sorted(region(grid, 0, 0)))
+print(len(region(grid, 0, 2)))</textarea></div>
+<h2 id="counting-regions">Counting regions</h2>
+<p>Count the separate regions (islands on a map, blobs in an image, groups of the same colour): look at every square, and each time you find one that isn&rsquo;t part of any region seen so far, that&rsquo;s a new region; flood fill it so its squares are counted as seen.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d5-e8"><textarea class="pc-src pc-code" hidden>def count_islands(grid):
+    rows, cols = len(grid), len(grid[0])
+    seen = set()
+    def sink(r, c):
+        if not (0 &lt;= r &lt; rows and 0 &lt;= c &lt; cols) or grid[r][c] != &quot;#&quot; or (r, c) in seen:
+            return 0
+        seen.add((r, c))
+        return 1 + sink(r - 1, c) + sink(r + 1, c) + sink(r, c - 1) + sink(r, c + 1)
+    sizes = []
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == &quot;#&quot; and (r, c) not in seen:
+                sizes.append(sink(r, c))
+    return sizes
+
+world = [&quot;##....#&quot;,
+         &quot;#...###&quot;,
+         &quot;...#...&quot;,
+         &quot;#..##..&quot;,
+         &quot;##....#&quot;]
+sizes = count_islands(world)
+print(len(sizes), &quot;islands, sizes&quot;, sizes)</textarea></div>
+<p><code>sink</code> returns how many squares it filled: 1 for this square plus whatever each neighbour&rsquo;s fill finds. A filled-already or water square adds 0.</p>
+<h2 id="mazes">Mazes</h2>
+<p>A maze is a grid with walls. Is there a way from the start to the exit? Flood fill from the start, and see whether the exit got filled. To get the actual <strong>path</strong>, use backtracking: step onto a square, try to finish from there, and if every direction fails, step back off it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d5-e9"><textarea class="pc-src pc-code" hidden>def solve(maze, r, c, path, seen):
+    if not (0 &lt;= r &lt; len(maze) and 0 &lt;= c &lt; len(maze[0])):
+        return False
+    if maze[r][c] == &quot;#&quot; or (r, c) in seen:
+        return False
+    path.append((r, c))
+    seen.add((r, c))
+    if maze[r][c] == &quot;E&quot;:
+        return True
+    for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+        if solve(maze, r + dr, c + dc, path, seen):
+            return True
+    path.pop()               # dead end: step back
+    return False
+
+maze = [&quot;S.#.....&quot;,
+        &quot;.##.###.&quot;,
+        &quot;....#...&quot;,
+        &quot;###.#.#.&quot;,
+        &quot;....#.#E&quot;]
+path = []
+solve(maze, 0, 0, path, set())
+print(len(path), &quot;squares:&quot;, path)
+for r, row in enumerate(maze):
+    print(&quot;&quot;.join(&quot;*&quot; if (r, c) in path and ch == &quot;.&quot; else ch for c, ch in enumerate(row)))</textarea></div>
+<p>The path found isn&rsquo;t necessarily the <strong>shortest</strong>: it&rsquo;s the first one found by trying up, down, left, right in that order. Finding the shortest path needs a different search (breadth-first search), which comes in Phase 3 with graphs.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Recursive flood fill makes one nested call per square in a long winding region, so on a big grid (say 200 by 200) it can hit Python&rsquo;s recursion limit. The fix is the same idea with a loop and your own stack: keep a list of squares still to visit, pop one, and push its neighbours. The challenge in Phase 3 will use this. For the grids today, recursion is fine.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d5-hanoi_list" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Hanoi as a list</div><div class="pc-prompt"><p>Write <code>hanoi(n, source, target, spare)</code> that <strong>returns</strong> the list of moves as <code>(from, to)</code> tuples, using recursion. <code>hanoi(2, "A", "C", "B")</code> is <code>[("A", "B"), ("A", "C"), ("B", "C")]</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert hanoi(0, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;) == []
+    assert hanoi(1, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;) == [(&quot;A&quot;, &quot;C&quot;)]
+    assert hanoi(2, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;) == [(&quot;A&quot;, &quot;B&quot;), (&quot;A&quot;, &quot;C&quot;), (&quot;B&quot;, &quot;C&quot;)]
+    assert len(hanoi(10, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;)) == 1023
+    assert hanoi(3, &quot;L&quot;, &quot;R&quot;, &quot;M&quot;)[3] == (&quot;L&quot;, &quot;R&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def hanoi(n, source, target, spare):
+    if n == 0:
+        return []
+    return hanoi(n - 1, source, spare, target) + [(source, target)] + hanoi(n - 1, spare, target, source)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d5-check_moves" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Check a solution</div><div class="pc-prompt"><p>Write <code>valid(n, moves)</code> that plays a list of <code>(from, to)</code> moves on pegs <code>"A"</code>, <code>"B"</code>, <code>"C"</code> starting with discs <code>n</code> (bottom) down to <code>1</code> (top) on <code>"A"</code>, and returns <code>True</code> only if every move is legal (the peg moved from isn&rsquo;t empty, and the disc never lands on a smaller one) and every disc ends on <code>"C"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert valid(2, [(&quot;A&quot;, &quot;B&quot;), (&quot;A&quot;, &quot;C&quot;), (&quot;B&quot;, &quot;C&quot;)]) is True
+    assert valid(2, [(&quot;A&quot;, &quot;C&quot;), (&quot;A&quot;, &quot;C&quot;)]) is False
+    assert valid(1, [(&quot;B&quot;, &quot;C&quot;)]) is False
+    assert valid(2, [(&quot;A&quot;, &quot;B&quot;), (&quot;A&quot;, &quot;C&quot;)]) is False
+    assert valid(0, []) is True
+    solution = [(&quot;A&quot;, &quot;C&quot;), (&quot;A&quot;, &quot;B&quot;), (&quot;C&quot;, &quot;B&quot;), (&quot;A&quot;, &quot;C&quot;), (&quot;B&quot;, &quot;A&quot;), (&quot;B&quot;, &quot;C&quot;), (&quot;A&quot;, &quot;C&quot;)]
+    assert valid(3, solution) is True</textarea><textarea class="pc-src pc-solution" hidden>def valid(n, moves):
+    pegs = {&quot;A&quot;: list(range(n, 0, -1)), &quot;B&quot;: [], &quot;C&quot;: []}
+    for source, target in moves:
+        if not pegs[source]:
+            return False
+        disc = pegs[source][-1]
+        if pegs[target] and pegs[target][-1] &lt; disc:
+            return False
+        pegs[target].append(pegs[source].pop())
+    return pegs[&quot;C&quot;] == list(range(n, 0, -1))</textarea><template class="pc-src pc-hint">Keep <code>pegs = {"A": list(range(n, 0, -1)), "B": [], "C": []}</code>. Each list&rsquo;s last item is the top disc.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d5-paint" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Paint bucket</div><div class="pc-prompt"><p>Write <code>paint(picture, r, c, colour)</code> that takes a picture as a list of strings, and returns a <strong>new</strong> list of strings in which the square at <code>(r, c)</code> and every square connected to it (up, down, left, right) of the <strong>same</strong> character as it has been changed to <code>colour</code>. If that square is already <code>colour</code>, return the picture unchanged.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    pic = [&quot;aab&quot;,
+           &quot;abb&quot;,
+           &quot;bba&quot;]
+    assert paint(pic, 0, 0, &quot;x&quot;) == [&quot;xxb&quot;, &quot;xbb&quot;, &quot;bba&quot;]
+    assert paint(pic, 0, 2, &quot;z&quot;) == [&quot;aaz&quot;, &quot;azz&quot;, &quot;zza&quot;]
+    assert paint(pic, 2, 2, &quot;q&quot;) == [&quot;aab&quot;, &quot;abb&quot;, &quot;bbq&quot;]
+    assert paint(pic, 0, 0, &quot;a&quot;) == pic
+    assert pic == [&quot;aab&quot;, &quot;abb&quot;, &quot;bba&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def paint(picture, r, c, colour):
+    grid = [list(row) for row in picture]
+    old = grid[r][c]
+    if old == colour:
+        return list(picture)
+    def fill(r, c):
+        if not (0 &lt;= r &lt; len(grid) and 0 &lt;= c &lt; len(grid[0])) or grid[r][c] != old:
+            return
+        grid[r][c] = colour
+        fill(r - 1, c)
+        fill(r + 1, c)
+        fill(r, c - 1)
+        fill(r, c + 1)
+    fill(r, c)
+    return [&quot;&quot;.join(row) for row in grid]</textarea><template class="pc-src pc-hint">Copy into a list of lists: <code>grid = [list(row) for row in picture]</code>. Remember the old character before you start, since the fill changes it.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d5-lakes" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Lakes</div><div class="pc-prompt"><p>On a map, <code>"~"</code> is water and <code>"."</code> is land. Write <code>lakes(grid)</code> that returns a list of the sizes of the separate bodies of water (connected up, down, left and right), largest first.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    m = [&quot;~~..~&quot;,
+         &quot;~...~&quot;,
+         &quot;..~..&quot;,
+         &quot;~~~.~&quot;]
+    assert lakes(m) == [4, 3, 2, 1]
+    assert lakes([&quot;..&quot;, &quot;..&quot;]) == []
+    assert lakes([&quot;~~&quot;, &quot;~~&quot;]) == [4]</textarea><textarea class="pc-src pc-solution" hidden>def lakes(grid):
+    seen = set()
+    def size(r, c):
+        if not (0 &lt;= r &lt; len(grid) and 0 &lt;= c &lt; len(grid[0])):
+            return 0
+        if grid[r][c] != &quot;~&quot; or (r, c) in seen:
+            return 0
+        seen.add((r, c))
+        return 1 + size(r - 1, c) + size(r + 1, c) + size(r, c - 1) + size(r, c + 1)
+    found = []
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            if grid[r][c] == &quot;~&quot; and (r, c) not in seen:
+                found.append(size(r, c))
+    return sorted(found, reverse=True)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d5-reach" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Can I get there?</div><div class="pc-prompt"><p>Write <code>reachable(maze)</code> that returns <code>True</code> if there is a way through the maze (a list of strings) from the square <code>"S"</code> to the square <code>"E"</code>, moving up, down, left or right through anything except walls <code>"#"</code>. Find <code>"S"</code> yourself.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert reachable([&quot;S.#&quot;,
+                      &quot;..#&quot;,
+                      &quot;#.E&quot;]) is True
+    assert reachable([&quot;S#E&quot;]) is False
+    assert reachable([&quot;S...&quot;,
+                      &quot;###.&quot;,
+                      &quot;E#..&quot;,
+                      &quot;.#.#&quot;]) is False
+    assert reachable([&quot;E.S&quot;]) is True</textarea><textarea class="pc-src pc-solution" hidden>def reachable(maze):
+    for r, row in enumerate(maze):
+        if &quot;S&quot; in row:
+            start = (r, row.index(&quot;S&quot;))
+    seen = set()
+    def go(r, c):
+        if not (0 &lt;= r &lt; len(maze) and 0 &lt;= c &lt; len(maze[0])):
+            return False
+        if maze[r][c] == &quot;#&quot; or (r, c) in seen:
+            return False
+        if maze[r][c] == &quot;E&quot;:
+            return True
+        seen.add((r, c))
+        return go(r - 1, c) or go(r + 1, c) or go(r, c - 1) or go(r, c + 1)
+    return go(*start)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w016d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">It never stops</div><div class="pc-prompt"><p>This flood fill should count the open squares connected to the top corner (there are 6), but crashes with <code>RecursionError</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>grid = [&quot;..#&quot;,
+        &quot;.##&quot;,
+        &quot;...&quot;]
+
+def count(r, c):
+    if not (0 &lt;= r &lt; len(grid) and 0 &lt;= c &lt; len(grid[0])):
+        return 0
+    if grid[r][c] == &quot;#&quot;:
+        return 0
+    return 1 + count(r - 1, c) + count(r + 1, c) + count(r, c - 1) + count(r, c + 1)
+
+print(count(0, 0))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;six&quot;
+    expect_output(&quot;6&quot;)</textarea><textarea class="pc-src pc-solution" hidden>grid = [&quot;..#&quot;,
+        &quot;.##&quot;,
+        &quot;...&quot;]
+seen = set()
+
+def count(r, c):
+    if not (0 &lt;= r &lt; len(grid) and 0 &lt;= c &lt; len(grid[0])):
+        return 0
+    if grid[r][c] == &quot;#&quot; or (r, c) in seen:
+        return 0
+    seen.add((r, c))
+    return 1 + count(r - 1, c) + count(r + 1, c) + count(r, c - 1) + count(r, c + 1)
+
+print(count(0, 0))</textarea><template class="pc-src pc-hint">Nothing remembers which squares have been counted, so two neighbours count each other for ever. Keep a set.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w016d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Wrong way round</div><div class="pc-prompt"><p>This Hanoi solution prints 3 moves for 2 discs, but they break the rules: the second move puts disc 2 on top of disc 1. Fix the one wrong line.</p></div><textarea class="pc-src pc-code" hidden>def hanoi(n, source, target, spare):
+    if n == 0:
+        return
+    hanoi(n - 1, source, target, spare)
+    print(source, &quot;-&gt;&quot;, target)
+    hanoi(n - 1, spare, target, source)
+
+hanoi(2, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;legal moves&quot;
+    expect_output(&quot;A -&gt; B\nA -&gt; C\nB -&gt; C&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def hanoi(n, source, target, spare):
+    if n == 0:
+        return
+    hanoi(n - 1, source, spare, target)
+    print(source, &quot;-&gt;&quot;, target)
+    hanoi(n - 1, spare, target, source)
+
+hanoi(2, &quot;A&quot;, &quot;C&quot;, &quot;B&quot;)</textarea><template class="pc-src pc-hint">The smaller tower must first go to the <strong>spare</strong> peg, out of the way.</template></div>
+<div class="parsons" data-id="w016d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Region size</div><div class="pc-prompt"><p>Arrange the lines for <code>size(grid, r, c, seen)</code>, which returns the number of <code>"#"</code> squares connected to <code>(r, c)</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["def size(grid, r, c, seen):", "    if not (0 <= r < len(grid) and 0 <= c < len(grid[0])):", "        return 0", "    if grid[r][c] != \"#\" or (r, c) in seen:", "        return 0", "    seen.add((r, c))", "    total = 1", "    for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:", "        total += size(grid, r + dr, c + dc, seen)", "    return total"], "distractors": ["    if grid[r][c] != \"#\":"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # how many moves to solve Hanoi with 5 discs?
+b = ___   # in the 3-disc solution from A to C, what is the 4th move, as a tuple?
+c = ___   # how many neighbours (4 directions) does the corner square of a grid have?
+d = ___   # how many separate &quot;#&quot; regions in [&quot;#.#&quot;, &quot;.#.&quot;, &quot;#.#&quot;], counting up, down, left and right only?</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 31 and b == (&quot;A&quot;, &quot;C&quot;) and c == 2 and d == 5</textarea><textarea class="pc-src pc-solution" hidden>a = 31
+b = (&quot;A&quot;, &quot;C&quot;)
+c = 2
+d = 5</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w016d5-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "To move n discs from A to C, what happens first?", "answer": 1, "explain": "Get them out of the way of the biggest disc.", "options": ["Move the biggest disc to C", "Move the top n \u2212 1 discs to B", "Move one disc to B", "Move all discs to B"]}, {"type": "mc", "q": "How many moves does Hanoi take with n discs?", "answer": 3, "explain": "M(n) = 2 M(n \u2212 1) + 1.", "options": ["n", "2n", "n squared", "2\u207f \u2212 1"]}, {"type": "mc", "q": "Which base case stops a flood fill going round in circles?", "answer": 2, "explain": "Without it, neighbours fill each other for ever.", "options": ["Outside the grid", "A wall", "Already filled", "Row 0"]}, {"type": "mc", "q": "Why is a grid stored as a list of lists for a fill that changes it?", "answer": 1, "explain": "Squares are reassigned.", "options": ["It&rsquo;s faster", "Strings can&rsquo;t be changed in place", "Lists sort better", "It isn&rsquo;t"]}, {"type": "mc", "q": "How do you count separate regions?", "answer": 1, "explain": "One fill per region.", "options": ["Count the squares", "Scan every square; each unseen one starts a new region, which you then flood fill", "Fill from the corner", "Use sorted"]}, {"type": "mc", "q": "Does the backtracking maze solver find the shortest path?", "answer": 1, "explain": "Shortest paths need breadth-first search.", "options": ["Always", "Not necessarily: it finds the first path it tries", "Only in square mazes", "Never"]}, {"type": "mc", "q": "What can go wrong with recursive flood fill on a huge grid?", "answer": 1, "explain": "Use a loop and a stack instead.", "options": ["Nothing", "It can hit the recursion limit", "It fills walls", "It runs backwards"]}, {"type": "text", "q": "Who published the Towers of Hanoi in 1883? (surname)", "answer": ["Lucas", "\u00c9douard Lucas", "Edouard Lucas"], "explain": "\u00c9douard Lucas."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: draw the path</div><div class="pc-prompt"><p>Write <code>draw_path(maze)</code> that finds a path from <code>"S"</code> to <code>"E"</code> by backtracking, trying directions in the order up, down, left, right, and returns the maze as a list of strings with every <code>"."</code> on the path changed to <code>"*"</code> (<code>"S"</code> and <code>"E"</code> stay as they are). If there is no path, return the maze unchanged. Then write <code>count_paths(maze)</code> that returns how many different paths there are from <code>"S"</code> to <code>"E"</code> that never visit a square twice.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_draw():
+    &quot;draw&quot;
+    m = [&quot;S.#&quot;,
+         &quot;.##&quot;,
+         &quot;..E&quot;]
+    assert draw_path(m) == [&quot;S.#&quot;, &quot;*##&quot;, &quot;**E&quot;]
+    assert draw_path([&quot;S#E&quot;]) == [&quot;S#E&quot;]
+    big = [&quot;S...#&quot;,
+           &quot;##.#.&quot;,
+           &quot;...#.&quot;,
+           &quot;.#...&quot;,
+           &quot;...#E&quot;]
+    assert draw_path(big) == [&quot;S**.#&quot;, &quot;##*#.&quot;, &quot;..*#.&quot;, &quot;.#***&quot;, &quot;...#E&quot;]
+def test_count():
+    &quot;count&quot;
+    assert count_paths([&quot;S.&quot;, &quot;.E&quot;]) == 2
+    assert count_paths([&quot;S#E&quot;]) == 0
+    assert count_paths([&quot;S..&quot;, &quot;...&quot;, &quot;..E&quot;]) == 12</textarea><textarea class="pc-src pc-solution" hidden>DIRS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+def find(maze, ch):
+    for r, row in enumerate(maze):
+        if ch in row:
+            return r, row.index(ch)
+
+def inside(maze, r, c):
+    return 0 &lt;= r &lt; len(maze) and 0 &lt;= c &lt; len(maze[0]) and maze[r][c] != &quot;#&quot;
+
+def draw_path(maze):
+    path, seen = [], set()
+    def go(r, c):
+        if not inside(maze, r, c) or (r, c) in seen:
+            return False
+        seen.add((r, c))
+        path.append((r, c))
+        if maze[r][c] == &quot;E&quot;:
+            return True
+        for dr, dc in DIRS:
+            if go(r + dr, c + dc):
+                return True
+        path.pop()
+        return False
+    go(*find(maze, &quot;S&quot;))
+    grid = [list(row) for row in maze]
+    for r, c in path:
+        if grid[r][c] == &quot;.&quot;:
+            grid[r][c] = &quot;*&quot;
+    return [&quot;&quot;.join(row) for row in grid]
+
+def count_paths(maze):
+    seen = set()
+    def go(r, c):
+        if not inside(maze, r, c) or (r, c) in seen:
+            return 0
+        if maze[r][c] == &quot;E&quot;:
+            return 1
+        seen.add((r, c))
+        total = sum(go(r + dr, c + dc) for dr, dc in DIRS)
+        seen.remove((r, c))
+        return total
+    return go(*find(maze, &quot;S&quot;))</textarea><template class="pc-src pc-hint">For <code>count_paths</code>, add a square to <code>seen</code> before trying its neighbours and <strong>remove</strong> it afterwards, so other paths may use it. Reaching <code>"E"</code> counts 1.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Solve Hanoi with 4 discs on paper (or with coins of different sizes) by following the recursive plan, and check you used 15 moves. Draw a small maze of your own and run your solver on it. Tomorrow is the Forge: a project that puts the whole week&rsquo;s recursion to work.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w016d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w016d5", "week": 16, "day": 5, "title": "Towers of Hanoi and flood fill", "exercises": [{"id": "w016d5-hanoi_list", "title": "Hanoi as a list", "points": 10}, {"id": "w016d5-check_moves", "title": "Check a solution", "points": 15}, {"id": "w016d5-paint", "title": "Paint bucket", "points": 15}, {"id": "w016d5-lakes", "title": "Lakes", "points": 15}, {"id": "w016d5-reach", "title": "Can I get there?", "points": 15}, {"id": "w016d5-bug1", "title": "It never stops", "points": 10}, {"id": "w016d5-bug2", "title": "Wrong way round", "points": 10}, {"id": "w016d5-trace", "title": "Predict them", "points": 15}, {"id": "w016d5-challenge", "title": "Challenge: draw the path", "points": 25}], "points": 130}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=906520f9ee"></script>
+</body>
+</html>
