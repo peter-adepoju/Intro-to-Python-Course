@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="2cd5801d38">
+<title>Week 19 Day 2: Quicksort | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=2cd5801d38">
+<link rel="stylesheet" href="../assets/css/site.css?v=2cd5801d38">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=2cd5801d38"></script>
+<script src="../assets/vendor/codemirror.js?v=2cd5801d38" defer></script>
+<meta name="description" content="Quicksort, invented by Tony Hoare in 1959, is one of the most used algorithms ever written. Like merge sort it splits the problem in two, but it does the...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w019d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 19 Day 2: Quicksort">
+<meta property="og:description" content="Quicksort, invented by Tony Hoare in 1959, is one of the most used algorithms ever written. Like merge sort it splits the problem in two, but it does the...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w019d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-19">Week 19: Sorting II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#the-idea" data-sec="the-idea">The idea</a></li><li><a href="#partitioning-in-place" data-sec="partitioning-in-place">Partitioning in place</a></li><li><a href="#good-and-bad-pivots" data-sec="good-and-bad-pivots">Good and bad pivots</a></li><li><a href="#repeated-values" data-sec="repeated-values">Repeated values</a></li><li><a href="#quickselect" data-sec="quickselect">Quickselect</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w019d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-19">Week 19: Sorting II</a></li><li aria-current="page">Day 2 of 6</li></ol>
+      <p class="day-where"><span>Week 19, Day 2</span></p>
+      <h1>Quicksort</h1>
+      <div class="day-intro"><p>Quicksort, invented by Tony Hoare in 1959, is one of the most used algorithms ever written. Like merge sort it splits the problem in two, but it does the hard work first: it picks one item, the pivot, and moves everything smaller to its left and everything bigger to its right. Then each side is sorted the same way, and there&rsquo;s nothing to combine. Today you&rsquo;ll write it, see why it&rsquo;s usually very fast and occasionally terrible, and fix the terrible case.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain quicksort&rsquo;s partition step, and write a simple version with list comprehensions</li><li>Write in-place quicksort with the Lomuto partition scheme</li><li>Explain why quicksort is O(n log n) on average but O(n²) in the worst case, and which inputs cause it</li><li>Avoid the worst case with a random pivot, and handle many repeated values with three-way partitioning</li><li>Use the partition step to find the kth smallest item in O(n) on average (quickselect)</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="The idea: 20 min"></span><span class="plan-seg s0" style="flex:30" title="Partitioning in place: 30 min"></span><span class="plan-seg s1" style="flex:25" title="Good and bad pivots: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Repeated values: 20 min"></span><span class="plan-seg s1" style="flex:15" title="Quickselect: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">The idea</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">Partitioning in place</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Good and bad pivots</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Repeated values</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Quickselect</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w019d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w019d2.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w019d2-p1"><textarea class="pc-src pc-code" hidden>items = [33, 10, 55, 71, 29, 3, 18, 42]
+pivot = items[-1]
+smaller = [x for x in items[:-1] if x &lt; pivot]
+bigger = [x for x in items[:-1] if x &gt;= pivot]
+print(smaller, pivot, bigger)</textarea></div>
+<p>Whatever order the two sides are in, the pivot 42 is now in exactly the place it will be when the whole list is sorted: everything smaller is to its left, everything bigger to its right. Sort the two sides, and you&rsquo;re done.</p>
+<h2 id="the-idea">The idea</h2>
+<p><strong>Quicksort:</strong></p>
+<ol>
+<li>If the list has 0 or 1 items, it&rsquo;s sorted.</li>
+<li><strong>Partition:</strong> pick a pivot; put the items smaller than it on one side and the rest on the other.</li>
+<li>Sort each side recursively. The answer is the sorted smaller side, then the pivot, then the sorted bigger side.</li>
+</ol>
+<div class="pc pc-example" data-kind="example" data-id="w019d2-e2"><textarea class="pc-src pc-code" hidden>def quicksort(items):
+    if len(items) &lt;= 1:
+        return items[:]
+    pivot = items[-1]
+    rest = items[:-1]
+    smaller = [x for x in rest if x &lt; pivot]
+    bigger = [x for x in rest if x &gt;= pivot]
+    return quicksort(smaller) + [pivot] + quicksort(bigger)
+
+print(quicksort([33, 10, 55, 71, 29, 3, 18, 42]))</textarea></div>
+<p>Compare with merge sort. Merge sort splits <strong>blindly</strong> in the middle and does its work <strong>after</strong> the recursion, in the merge. Quicksort does its work <strong>before</strong> the recursion, in the partition, and the split point depends on the pivot. After the recursive calls there&rsquo;s nothing left to do.</p>
+<p>This version is clear but builds new lists at every step. Real quicksort works <strong>in place</strong>, which is where its speed comes from.</p>
+<h2 id="partitioning-in-place">Partitioning in place</h2>
+<p>The <strong>Lomuto partition</strong> sorts positions <code>lo</code> to <code>hi</code> of one list, using the last item as the pivot. It keeps a boundary <code>i</code>: everything before position <code>i</code> is smaller than the pivot. It walks <code>j</code> across the range; each time it finds a smaller item, it swaps it to position <code>i</code> and moves the boundary along. Finally it swaps the pivot into position <code>i</code>, between the two sides.</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d2-e3"><textarea class="pc-src pc-code" hidden>def partition(items, lo, hi):
+    pivot = items[hi]
+    i = lo                                  # items[lo:i] are all &lt; pivot
+    for j in range(lo, hi):
+        if items[j] &lt; pivot:
+            items[i], items[j] = items[j], items[i]
+            i += 1
+    items[i], items[hi] = items[hi], items[i]   # the pivot goes between the sides
+    return i                                # its final position
+
+def quicksort(items, lo=0, hi=None):
+    if hi is None:
+        hi = len(items) - 1
+    if lo &lt; hi:
+        p = partition(items, lo, hi)
+        quicksort(items, lo, p - 1)
+        quicksort(items, p + 1, hi)
+
+data = [33, 10, 55, 71, 29, 3, 18, 42]
+quicksort(data)
+print(data)</textarea></div>
+<p>Watch it. The red bar is the pivot, and each green bar is a pivot that has reached its final place:</p>
+<figure class="widget" data-widget="sortviz"><script type="application/json">{"algos": ["quick", "merge"], "values": [5, 2, 9, 1, 7, 3, 8, 6]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Quicksort: after each partition, the pivot is in its final place and the two sides are sorted separately. Try sorted data and count the comparisons.</figcaption></figure>
+<p>In place, quicksort needs no buffer: only the call stack, O(log n) deep when the splits are even. It&rsquo;s <strong>not stable</strong>: the long-distance swaps in the partition can reorder equal items.</p>
+<h2 id="good-and-bad-pivots">Good and bad pivots</h2>
+<p>How fast quicksort is depends entirely on how evenly the pivots split.</p>
+<ul>
+<li><strong>Good splits:</strong> if each pivot lands near the middle, the sizes halve each level: about log₂ n levels with n work each, <strong>O(n log n)</strong>. On random data the splits are usually good enough, and the average is about 1.39 n log₂ n comparisons.</li>
+<li><strong>Bad splits:</strong> if each pivot is the smallest or largest item, one side is empty and the other has everything but the pivot: n levels with n, n − 1, n − 2, &hellip; work: n(n − 1)/2 comparisons, <strong>O(n²)</strong>, and n levels of recursion.</li>
+</ul>
+<p>With the last item as the pivot, the worst case happens on data that&rsquo;s <strong>already sorted</strong> (or reversed), which is very common in practice:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d2-e4"><textarea class="pc-src pc-code" hidden>import random
+
+def quicksort_count(items):
+    comparisons = 0
+    def sort(lo, hi):
+        nonlocal comparisons
+        while lo &lt; hi:                      # loop on one side to save stack depth
+            pivot, i = items[hi], lo
+            for j in range(lo, hi):
+                comparisons += 1
+                if items[j] &lt; pivot:
+                    items[i], items[j] = items[j], items[i]
+                    i += 1
+            items[i], items[hi] = items[hi], items[i]
+            sort(lo, i - 1)
+            lo = i + 1
+    sort(0, len(items) - 1)
+    return comparisons
+
+n = 800
+print(&quot;random:&quot;, quicksort_count(random.Random(1).sample(range(n), n)))
+print(&quot;reversed:&quot;, quicksort_count(list(range(n, 0, -1))))
+print(&quot;n(n-1)/2:&quot;, n * (n - 1) // 2)</textarea></div>
+<p>The fix is to choose the pivot so that no particular input is reliably bad. The simplest: a <strong>random pivot</strong>. Swap a randomly chosen item into the last place before partitioning:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d2-e5"><textarea class="pc-src pc-code" hidden>import random
+
+def partition(items, lo, hi):
+    r = random.randint(lo, hi)
+    items[r], items[hi] = items[hi], items[r]    # a random item becomes the pivot
+    pivot = items[hi]
+    i = lo
+    for j in range(lo, hi):
+        if items[j] &lt; pivot:
+            items[i], items[j] = items[j], items[i]
+            i += 1
+    items[i], items[hi] = items[hi], items[i]
+    return i
+
+def quicksort(items, lo=0, hi=None):
+    if hi is None:
+        hi = len(items) - 1
+    if lo &lt; hi:
+        p = partition(items, lo, hi)
+        quicksort(items, lo, p - 1)
+        quicksort(items, p + 1, hi)
+
+data = list(range(3000))          # sorted input: deadly for a last-item pivot
+quicksort(data)
+print(data[:5], data[-5:])</textarea></div>
+<p>Now <strong>no input</strong> is reliably bad: the worst case can still happen, but only by extreme bad luck, with a chance smaller than winning the lottery many times in a row. Another common choice is the <strong>median of three</strong>: the middle value of the first, middle and last items.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Merge sort</th>
+<th>Quicksort (random pivot)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average</td>
+<td>O(n log n)</td>
+<td>O(n log n), usually faster in practice</td>
+</tr>
+<tr>
+<td>Worst</td>
+<td>O(n log n)</td>
+<td>O(n²), but vanishingly unlikely</td>
+</tr>
+<tr>
+<td>Extra space</td>
+<td>O(n)</td>
+<td>O(log n) stack, on average</td>
+</tr>
+<tr>
+<td>Stable</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Work done</td>
+<td>after the recursion (merge)</td>
+<td>before the recursion (partition)</td>
+</tr>
+</tbody>
+</table>
+<p>In languages like C, quicksort is usually the fastest general sort, because it works in place and moves through memory in order, which modern processors love. Many standard libraries use a quicksort variant for numbers.</p>
+<h2 id="repeated-values">Repeated values</h2>
+<p>What if the list is full of equal values, say a million exam marks out of 100? With the partition above, every item equal to the pivot goes to the &ldquo;bigger&rdquo; side, and a list of all-equal values becomes the worst case again.</p>
+<p><strong>Three-way partitioning</strong> splits into three parts: smaller than the pivot, <strong>equal</strong> to it, and bigger. The equal part is already in place and never touched again. This is Edsger Dijkstra&rsquo;s &ldquo;Dutch national flag&rdquo; problem (three colours, like the flag&rsquo;s three stripes):</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d2-e6"><textarea class="pc-src pc-code" hidden>def partition3(items, lo, hi):
+    pivot = items[lo]
+    lt, i, gt = lo, lo, hi
+    # items[lo:lt] &lt; pivot, items[lt:i] == pivot, items[gt+1:hi+1] &gt; pivot
+    while i &lt;= gt:
+        if items[i] &lt; pivot:
+            items[lt], items[i] = items[i], items[lt]
+            lt += 1
+            i += 1
+        elif items[i] &gt; pivot:
+            items[i], items[gt] = items[gt], items[i]
+            gt -= 1
+        else:
+            i += 1
+    return lt, gt
+
+def quicksort3(items, lo=0, hi=None):
+    if hi is None:
+        hi = len(items) - 1
+    if lo &lt; hi:
+        lt, gt = partition3(items, lo, hi)
+        quicksort3(items, lo, lt - 1)
+        quicksort3(items, gt + 1, hi)
+
+marks = [3, 1, 2, 3, 3, 1, 2, 2, 3, 1]
+quicksort3(marks)
+print(marks)</textarea></div>
+<p>Notice that when an item goes to the &ldquo;bigger&rdquo; end, <code>i</code> does <strong>not</strong> move on: the item swapped in from position <code>gt</code> hasn&rsquo;t been looked at yet.</p>
+<h2 id="quickselect">Quickselect</h2>
+<p>Often you don&rsquo;t need the whole list sorted, only one item: the median, or the 10th smallest. Partition once, and you know the pivot&rsquo;s final position <code>p</code>. If that&rsquo;s the position you want, you&rsquo;re done; if not, the answer is on <strong>one</strong> side only, so recurse into that side and ignore the other.</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d2-e7"><textarea class="pc-src pc-code" hidden>import random
+
+def quickselect(items, k):
+    &quot;&quot;&quot;The kth smallest item (k = 0 is the smallest). Changes the order of items.&quot;&quot;&quot;
+    lo, hi = 0, len(items) - 1
+    while True:
+        if lo == hi:
+            return items[lo]
+        r = random.randint(lo, hi)
+        items[r], items[hi] = items[hi], items[r]
+        pivot, i = items[hi], lo
+        for j in range(lo, hi):
+            if items[j] &lt; pivot:
+                items[i], items[j] = items[j], items[i]
+                i += 1
+        items[i], items[hi] = items[hi], items[i]
+        if k == i:
+            return items[i]
+        if k &lt; i:
+            hi = i - 1
+        else:
+            lo = i + 1
+
+data = [33, 10, 55, 71, 29, 3, 18, 42]
+print(quickselect(data[:], 0), quickselect(data[:], 3), quickselect(data[:], 7))</textarea></div>
+<p>Each round keeps about half of what&rsquo;s left, on average: n + n/2 + n/4 + &hellip; is about 2n, so quickselect is <strong>O(n) on average</strong>, faster than sorting. It&rsquo;s how you&rsquo;d find a median in one pass over a huge list.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Quicksort: partition around a pivot, then sort each side. O(n log n) on average, O(n²) when pivots split badly; a random pivot makes bad splits vanishingly unlikely. In place, not stable. Quickselect uses one partition per round to find the kth smallest in O(n) on average.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d2-simple" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Quicksort with comprehensions</div><div class="pc-prompt"><p>Write <code>quicksort(items)</code> returning a new sorted list using the comprehension version: pivot on the <strong>first</strong> item, and split the rest into smaller-than and not-smaller-than. Don&rsquo;t use <code>sort</code> or <code>sorted</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_values():
+    &quot;several&quot;
+    for data in ([33, 10, 55, 71, 29, 3, 18, 42], [], [1], [2, 1], [4, 4, 4], [&quot;kiwi&quot;, &quot;fig&quot;, &quot;apple&quot;]):
+        before = list(data)
+        assert quicksort(data) == sorted(data) and data == before
+    rng = random.Random(3)
+    data = [rng.randint(0, 10_000) for _ in range(5000)]
+    assert quicksort(data) == sorted(data)
+    import re
+    assert not re.search(r&quot;\bsorted\(|\.sort\(&quot;, source)</textarea><textarea class="pc-src pc-solution" hidden>def quicksort(items):
+    if len(items) &lt;= 1:
+        return items[:]
+    pivot, rest = items[0], items[1:]
+    smaller = [x for x in rest if x &lt; pivot]
+    bigger = [x for x in rest if x &gt;= pivot]
+    return quicksort(smaller) + [pivot] + quicksort(bigger)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d2-lomuto" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Partition in place</div><div class="pc-prompt"><p>Write <code>partition(items, lo, hi)</code> using the Lomuto scheme with <code>items[hi]</code> as the pivot. It rearranges <code>items[lo]</code> to <code>items[hi]</code> in place and returns the pivot&rsquo;s final position. Then <code>quicksort_in_place(items)</code> that sorts a list in place using it.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_partition():
+    &quot;partition&quot;
+    xs = [33, 10, 55, 71, 29, 3, 18, 42]
+    p = partition(xs, 0, 7)
+    assert p == 5 and xs[p] == 42
+    assert all(x &lt; 42 for x in xs[:p]) and all(x &gt;= 42 for x in xs[p + 1:])
+    ys = [9, 1, 8, 2, 5]
+    p = partition(ys, 1, 3)
+    assert ys[0] == 9 and ys[4] == 5 and ys[p] == 2 and p == 2
+def test_sort():
+    &quot;sort&quot;
+    rng = random.Random(1)
+    for _ in range(50):
+        data = [rng.randint(0, 50) for _ in range(rng.randint(0, 60))]
+        copy = data[:]
+        quicksort_in_place(copy)
+        assert copy == sorted(data)</textarea><textarea class="pc-src pc-solution" hidden>def partition(items, lo, hi):
+    pivot = items[hi]
+    i = lo
+    for j in range(lo, hi):
+        if items[j] &lt; pivot:
+            items[i], items[j] = items[j], items[i]
+            i += 1
+    items[i], items[hi] = items[hi], items[i]
+    return i
+
+def quicksort_in_place(items):
+    def sort(lo, hi):
+        if lo &lt; hi:
+            p = partition(items, lo, hi)
+            sort(lo, p - 1)
+            sort(p + 1, hi)
+    sort(0, len(items) - 1)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d2-depth" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">How deep?</div><div class="pc-prompt"><p>Write <code>max_depth(items)</code> that runs in-place quicksort (last-item pivot) on a copy and returns the deepest level of recursion reached (the first call is depth 1; a call with fewer than 2 items doesn&rsquo;t count). Then set <code>sorted_100</code> to the depth for <code>list(range(100))</code> and say whether random data of 100 items goes deeper (<code>random_deeper</code>, <code>True</code> or <code>False</code>).</p></div><textarea class="pc-src pc-code" hidden>sorted_100 = ___
+random_deeper = ___</textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_values():
+    &quot;several&quot;
+    assert max_depth([]) == 0 and max_depth([1]) == 0 and max_depth([2, 1]) == 1
+    assert max_depth(list(range(100))) == 99 == sorted_100
+    d = max_depth(random.Random(5).sample(range(100), 100))
+    assert d &lt; 30 and random_deeper is False</textarea><textarea class="pc-src pc-solution" hidden>def max_depth(items):
+    items = items[:]
+    deepest = 0
+    def sort(lo, hi, depth):
+        nonlocal deepest
+        if lo &gt;= hi:
+            return
+        deepest = max(deepest, depth)
+        pivot, i = items[hi], lo
+        for j in range(lo, hi):
+            if items[j] &lt; pivot:
+                items[i], items[j] = items[j], items[i]
+                i += 1
+        items[i], items[hi] = items[hi], items[i]
+        sort(lo, i - 1, depth + 1)
+        sort(i + 1, hi, depth + 1)
+    sort(0, len(items) - 1, 1)
+    return deepest
+
+sorted_100 = 99
+random_deeper = False</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d2-three" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Three colours</div><div class="pc-prompt"><p>A list holds only the strings <code>"red"</code>, <code>"white"</code> and <code>"blue"</code>. Write <code>flag(items)</code> that rearranges it in place into all reds, then whites, then blues, in <strong>one pass</strong> with O(1) extra space, using three-way partitioning with <code>"white"</code> playing the pivot. Don&rsquo;t count, sort, or build new lists.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_values():
+    &quot;several&quot;
+    xs = [&quot;blue&quot;, &quot;white&quot;, &quot;red&quot;, &quot;white&quot;, &quot;red&quot;, &quot;blue&quot;, &quot;red&quot;]
+    assert flag(xs) is None and xs == [&quot;red&quot;] * 3 + [&quot;white&quot;] * 2 + [&quot;blue&quot;] * 2
+    ys = []
+    flag(ys)
+    assert ys == []
+    rng = random.Random(2)
+    zs = [rng.choice([&quot;red&quot;, &quot;white&quot;, &quot;blue&quot;]) for _ in range(100_000)]
+    want = [&quot;red&quot;] * zs.count(&quot;red&quot;) + [&quot;white&quot;] * zs.count(&quot;white&quot;) + [&quot;blue&quot;] * zs.count(&quot;blue&quot;)
+    flag(zs)
+    assert zs == want
+    assert &quot;count(&quot; not in source and &quot;sort&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def flag(items):
+    lt, i, gt = 0, 0, len(items) - 1
+    while i &lt;= gt:
+        if items[i] == &quot;red&quot;:
+            items[lt], items[i] = items[i], items[lt]
+            lt += 1
+            i += 1
+        elif items[i] == &quot;blue&quot;:
+            items[i], items[gt] = items[gt], items[i]
+            gt -= 1
+        else:
+            i += 1</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d2-select" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">The median in O(n)</div><div class="pc-prompt"><p>Write <code>median(items)</code> for a non-empty list of numbers with an odd length, using quickselect (random pivot) on a <strong>copy</strong>, without sorting. It must handle 200,001 numbers quickly.</p></div><textarea class="pc-src pc-code" hidden>import random</textarea><textarea class="pc-src pc-tests" hidden>import random as rnd
+def test_values():
+    &quot;several&quot;
+    assert median([5]) == 5 and median([3, 1, 2]) == 2 and median([9, 1, 8, 2, 7]) == 7
+    data = [4, 4, 1, 4, 9]
+    assert median(data) == 4 and data == [4, 4, 1, 4, 9]
+    r = rnd.Random(9)
+    big = [r.randint(0, 10 ** 9) for _ in range(200_001)]
+    assert median(big) == sorted(big)[100_000]
+    import re
+    assert not re.search(r&quot;\bsorted\(|\.sort\(&quot;, source)</textarea><textarea class="pc-src pc-solution" hidden>import random
+
+def median(items):
+    items = items[:]
+    k = len(items) // 2
+    lo, hi = 0, len(items) - 1
+    while True:
+        if lo == hi:
+            return items[lo]
+        r = random.randint(lo, hi)
+        items[r], items[hi] = items[hi], items[r]
+        pivot, i = items[hi], lo
+        for j in range(lo, hi):
+            if items[j] &lt; pivot:
+                items[i], items[j] = items[j], items[i]
+                i += 1
+        items[i], items[hi] = items[hi], items[i]
+        if k == i:
+            return items[i]
+        if k &lt; i:
+            hi = i - 1
+        else:
+            lo = i + 1</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w019d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sorted is too much</div><div class="pc-prompt"><p>This quicksort crashes with <code>RecursionError</code> on a sorted list of 3,000 numbers, because the last-item pivot splits it as badly as possible. Fix it with a random pivot, so it prints <code>True</code>.</p></div><textarea class="pc-src pc-code" hidden>import random
+
+def quicksort(items, lo, hi):
+    if lo &lt; hi:
+        pivot, i = items[hi], lo
+        for j in range(lo, hi):
+            if items[j] &lt; pivot:
+                items[i], items[j] = items[j], items[i]
+                i += 1
+        items[i], items[hi] = items[hi], items[i]
+        quicksort(items, lo, i - 1)
+        quicksort(items, i + 1, hi)
+
+data = list(range(3000))
+quicksort(data, 0, len(data) - 1)
+print(data == list(range(3000)))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;True&quot;
+    expect_output(&quot;True&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import random
+
+def quicksort(items, lo, hi):
+    if lo &lt; hi:
+        r = random.randint(lo, hi)
+        items[r], items[hi] = items[hi], items[r]
+        pivot, i = items[hi], lo
+        for j in range(lo, hi):
+            if items[j] &lt; pivot:
+                items[i], items[j] = items[j], items[i]
+                i += 1
+        items[i], items[hi] = items[hi], items[i]
+        quicksort(items, lo, i - 1)
+        quicksort(items, i + 1, hi)
+
+data = list(range(3000))
+quicksort(data, 0, len(data) - 1)
+print(data == list(range(3000)))</textarea><template class="pc-src pc-hint">Before choosing <code>pivot</code>, swap <code>items[random.randint(lo, hi)]</code> with <code>items[hi]</code>.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w019d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The pivot vanishes</div><div class="pc-prompt"><p>This comprehension quicksort loses items: <code>[3, 1, 3, 2]</code> comes back as <code>[1, 2, 3]</code>. Fix it so it prints <code>[1, 2, 3, 3]</code>.</p></div><textarea class="pc-src pc-code" hidden>def quicksort(items):
+    if len(items) &lt;= 1:
+        return items[:]
+    pivot = items[0]
+    smaller = [x for x in items if x &lt; pivot]
+    bigger = [x for x in items if x &gt; pivot]
+    return quicksort(smaller) + [pivot] + quicksort(bigger)
+
+print(quicksort([3, 1, 3, 2]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;all items&quot;
+    expect_output(&quot;[1, 2, 3, 3]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def quicksort(items):
+    if len(items) &lt;= 1:
+        return items[:]
+    pivot = items[0]
+    smaller = [x for x in items if x &lt; pivot]
+    equal = [x for x in items if x == pivot]
+    bigger = [x for x in items if x &gt; pivot]
+    return quicksort(smaller) + equal + quicksort(bigger)
+
+print(quicksort([3, 1, 3, 2]))</textarea><template class="pc-src pc-hint">Items <strong>equal</strong> to the pivot (other than the pivot itself) fall into neither list. Either collect an <code>equal</code> list, or split <code>items[1:]</code> with <code>&lt;</code> and <code>&gt;=</code>.</template></div>
+<div class="parsons" data-id="w019d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Lomuto partition</div><div class="pc-prompt"><p>Arrange the lines for <code>partition</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["def partition(items, lo, hi):", "    pivot = items[hi]", "    i = lo", "    for j in range(lo, hi):", "        if items[j] < pivot:", "            items[i], items[j] = items[j], items[i]", "            i += 1", "    items[i], items[hi] = items[hi], items[i]", "    return i"], "distractors": ["    for j in range(lo, hi + 1):"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # the list after partition([4, 7, 1, 6, 3], 0, 4) (Lomuto, pivot is the last item)
+b = ___   # the position partition returns for that call
+c = ___   # comparisons quicksort (last-item pivot) makes on [1, 2, 3, 4, 5]
+d = ___   # True or False: quicksort is stable</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == [1, 3, 4, 6, 7], &quot;a&quot;
+    assert b == 1 and c == 10 and d is False</textarea><textarea class="pc-src pc-solution" hidden>a = [1, 3, 4, 6, 7]
+b = 1
+c = 10
+d = False</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w019d2-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does the partition step guarantee?", "answer": 1, "explain": "Then each side is sorted separately.", "options": ["The list is sorted", "The pivot is in its final place, smaller items to its left and the rest to its right", "The halves are equal", "Nothing"]}, {"type": "mc", "q": "Where does quicksort do its main work?", "answer": 1, "explain": "The opposite of merge sort.", "options": ["After the recursion, merging", "Before the recursion, partitioning", "In a buffer", "In binary search"]}, {"type": "mc", "q": "What is quicksort&rsquo;s average case?", "answer": 1, "explain": "About 1.39 n log\u2082 n comparisons.", "options": ["O(n)", "O(n log n)", "O(n\u00b2)", "O(log n)"]}, {"type": "mc", "q": "With the last item as pivot, which input is the worst case?", "answer": 1, "explain": "Every split is as uneven as possible.", "options": ["Random data", "Already sorted data", "All different numbers", "Short lists"]}, {"type": "mc", "q": "How does a random pivot help?", "answer": 1, "explain": "The worst case needs extreme bad luck.", "options": ["It makes quicksort stable", "No particular input is reliably bad any more", "It removes recursion", "It uses less memory"]}, {"type": "mc", "q": "Why use three-way partitioning?", "answer": 1, "explain": "Equal items are set aside in one go.", "options": ["For speed on random data", "Lists with many equal values stop being a worst case", "To make it stable", "To use less memory"]}, {"type": "mc", "q": "What does quickselect find, and how fast?", "answer": 1, "explain": "Only one side is searched each round.", "options": ["The sorted list, O(n log n)", "The kth smallest item, O(n) on average", "The maximum, O(1)", "Duplicates, O(n\u00b2)"]}, {"type": "text", "q": "Who invented quicksort? (surname)", "answer": ["Hoare", "Tony Hoare", "C. A. R. Hoare"], "explain": "In 1959."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a hybrid sort</div><div class="pc-prompt"><p>Real sorting libraries mix algorithms. Write <code>hybrid_sort(items, cutoff=16)</code> that sorts a list in place with quicksort (random pivot), but switches to <strong>insertion sort</strong> on any part with fewer than <code>cutoff</code> items, since insertion sort is faster on tiny lists. Also, to keep the stack shallow even with bad luck, recurse only into the <strong>smaller</strong> side and loop on the larger side, so the recursion is at most about log₂ n deep. Return the deepest recursion depth reached (the first call is depth 1).</p>
+<p>It must sort 100,000 numbers, and sorted, reversed and all-equal lists of 20,000, without hitting the recursion limit.</p></div><textarea class="pc-src pc-code" hidden>import random</textarea><textarea class="pc-src pc-tests" hidden>import random as rnd
+def test_values():
+    &quot;sorts&quot;
+    r = rnd.Random(4)
+    for n in (0, 1, 2, 15, 16, 17, 100, 1000):
+        data = [r.randint(0, 50) for _ in range(n)]
+        copy = data[:]
+        hybrid_sort(copy)
+        assert copy == sorted(data), n
+def test_big():
+    &quot;big and awkward&quot;
+    r = rnd.Random(5)
+    data = [r.randint(0, 10 ** 9) for _ in range(100_000)]
+    copy = data[:]
+    depth = hybrid_sort(copy)
+    assert copy == sorted(data) and depth &lt;= 18
+    for data in (list(range(20_000)), list(range(20_000, 0, -1))):
+        copy = data[:]
+        hybrid_sort(copy)
+        assert copy == sorted(data)
+    same = [7] * 20_000
+    hybrid_sort(same)
+    assert same == [7] * 20_000</textarea><textarea class="pc-src pc-solution" hidden>import random
+
+def hybrid_sort(items, cutoff=16):
+    deepest = 0
+
+    def insertion(lo, hi):
+        for i in range(lo + 1, hi + 1):
+            current = items[i]
+            j = i - 1
+            while j &gt;= lo and items[j] &gt; current:
+                items[j + 1] = items[j]
+                j -= 1
+            items[j + 1] = current
+
+    def partition3(lo, hi):
+        r = random.randint(lo, hi)
+        items[lo], items[r] = items[r], items[lo]
+        pivot = items[lo]
+        lt, i, gt = lo, lo, hi
+        while i &lt;= gt:
+            if items[i] &lt; pivot:
+                items[lt], items[i] = items[i], items[lt]
+                lt += 1
+                i += 1
+            elif items[i] &gt; pivot:
+                items[i], items[gt] = items[gt], items[i]
+                gt -= 1
+            else:
+                i += 1
+        return lt, gt
+
+    def sort(lo, hi, depth):
+        nonlocal deepest
+        deepest = max(deepest, depth)
+        while hi - lo + 1 &gt;= cutoff:
+            lt, gt = partition3(lo, hi)
+            if lt - lo &lt; hi - gt:
+                sort(lo, lt - 1, depth + 1)
+                lo = gt + 1
+            else:
+                sort(gt + 1, hi, depth + 1)
+                hi = lt - 1
+        insertion(lo, hi)
+
+    if items:
+        sort(0, len(items) - 1, 1)
+    return deepest</textarea><template class="pc-src pc-hint">Use a three-way partition (so all-equal lists are fast), with a random pivot. In <code>sort(lo, hi, depth)</code>: <code>while hi - lo + 1 &gt;= cutoff:</code> partition into <code>lt, gt</code>; recurse into whichever of <code>[lo, lt - 1]</code> and <code>[gt + 1, hi]</code> is smaller, with <code>depth + 1</code>; then set <code>lo</code>, <code>hi</code> to the other one and loop. After the loop, insertion sort <code>items[lo:hi + 1]</code> in place.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Sort a shuffled deck by quicksort: pick the top card as the pivot, deal the rest into a &ldquo;lower&rdquo; pile and a &ldquo;higher&rdquo; pile, and repeat on each pile. Then try it again on a deck that&rsquo;s already in order, and feel why the first card is a terrible pivot. Tomorrow: counting sort, which sorts without comparing anything at all.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w019d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w019d2", "week": 19, "day": 2, "title": "Quicksort", "exercises": [{"id": "w019d2-simple", "title": "Quicksort with comprehensions", "points": 10}, {"id": "w019d2-lomuto", "title": "Partition in place", "points": 15}, {"id": "w019d2-depth", "title": "How deep?", "points": 15}, {"id": "w019d2-three", "title": "Three colours", "points": 15}, {"id": "w019d2-select", "title": "The median in O(n)", "points": 15}, {"id": "w019d2-bug1", "title": "Sorted is too much", "points": 10}, {"id": "w019d2-bug2", "title": "The pivot vanishes", "points": 10}, {"id": "w019d2-trace", "title": "Predict them", "points": 15}, {"id": "w019d2-challenge", "title": "Challenge: a hybrid sort", "points": 25}], "points": 130}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=2cd5801d38"></script>
+</body>
+</html>
