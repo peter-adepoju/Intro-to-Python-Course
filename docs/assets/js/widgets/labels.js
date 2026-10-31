@@ -1,5 +1,5 @@
 // Two mental models side by side: "variables are boxes" versus "names are labels on objects".
-import { h, svg, reducedMotion } from "../site.js?v=906520f9ee";
+import { h, svg, reducedMotion } from "../site.js?v=d6acdb8fde";
 
 const SCENARIOS = {
   copy: { label: "x = 5, then y = x, then x = 7", lines: ["x = 5", "y = x", "x = 7"] },

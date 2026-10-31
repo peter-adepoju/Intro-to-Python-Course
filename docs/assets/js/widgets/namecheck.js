@@ -1,6 +1,6 @@
 // Is this a good variable name? Python's own rules decide, live.
-import { h } from "../site.js?v=906520f9ee";
-import { py } from "../runtime.js?v=906520f9ee";
+import { h } from "../site.js?v=d6acdb8fde";
+import { py } from "../runtime.js?v=d6acdb8fde";
 
 export default function namecheck(el, { tries = ["total_price", "2nd_place", "first name", "high-score", "class", "list", "userName", "_hidden", "café", "π"] }) {
   const input = h("input", { class: "w-input", value: tries[0], spellcheck: "false", "aria-label": "A variable name", style: "flex:1 1 200px;font-size:1.1rem" });

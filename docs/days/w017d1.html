@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="d6acdb8fde">
+<title>Week 17 Day 1: Counting steps | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=d6acdb8fde">
+<link rel="stylesheet" href="../assets/css/site.css?v=d6acdb8fde">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=d6acdb8fde"></script>
+<script src="../assets/vendor/codemirror.js?v=d6acdb8fde" defer></script>
+<meta name="description" content="Last week you saw a cache turn a program that would run for years into one that answers instantly. This week you’ll learn to predict that kind of difference...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w017d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 17 Day 1: Counting steps">
+<meta property="og:description" content="Last week you saw a cache turn a program that would run for years into one that answers instantly. This week you’ll learn to predict that kind of difference...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w017d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x=".5" y=".5" width="31" height="31" rx="7.5"/><rect class="bm-frame" x="6.1" y="7.6" width="19.8" height="16.8" rx="3"/><path class="bm-prompt" d="M10.6 13.9l2.6 2.1-2.6 2.1"/><path class="bm-line" d="M15.4 18.4h6"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-17">Week 17: How fast is my program?</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#timing-code" data-sec="timing-code">Timing code</a></li><li><a href="#why-seconds-mislead" data-sec="why-seconds-mislead">Why seconds mislead</a></li><li><a href="#counting-steps" data-sec="counting-steps">Counting steps</a></li><li><a href="#what-happens-when-n-doubles" data-sec="what-happens-when-n-doubles">What happens when n doubles</a></li><li><a href="#comparing-algorithms" data-sec="comparing-algorithms">Comparing algorithms</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w017d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-17">Week 17: How fast is my program?</a></li><li aria-current="page">Day 1 of 6</li></ol>
+      <p class="day-where"><span>Week 17, Day 1</span></p>
+      <h1>Counting steps</h1>
+      <div class="day-intro"><p>Last week you saw a cache turn a program that would run for years into one that answers instantly. This week you&rsquo;ll learn to predict that kind of difference before running anything. The trick is to stop asking &ldquo;how many seconds?&rdquo;, which depends on the computer, and ask &ldquo;how many steps, for an input of size n?&rdquo;, which depends only on the algorithm. Today you&rsquo;ll time code, see why timings mislead, and count steps instead.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Time a piece of code with <code>time.perf_counter</code>, and explain why timings vary</li><li>Say what the input size n is for a problem</li><li>Count the basic steps a function takes, by hand and with a counter variable</li><li>Predict how a step count changes when n doubles</li><li>Compare two algorithms for the same task by their step counts</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="Timing code: 20 min"></span><span class="plan-seg s0" style="flex:20" title="Why seconds mislead: 20 min"></span><span class="plan-seg s1" style="flex:30" title="Counting steps: 30 min"></span><span class="plan-seg s0" style="flex:25" title="What happens when n doubles: 25 min"></span><span class="plan-seg s1" style="flex:15" title="Comparing algorithms: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Timing code</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">Why seconds mislead</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:50</span><span class="plan-what">Counting steps</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">What happens when n doubles</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Comparing algorithms</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w017d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w017d1.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w017d1-p1"><textarea class="pc-src pc-code" hidden>count = 0
+for i in range(4):
+    for j in range(4):
+        count += 1
+print(count)
+
+count = 0
+n = 64
+while n &gt; 1:
+    n //= 2
+    count += 1
+print(count)</textarea></div>
+<p>The first loop runs its body 4 × 4 = 16 times. The second halves 64 until it reaches 1: 64, 32, 16, 8, 4, 2, 1 is 6 halvings. Make the 4 into 1,000 and the first becomes a million; make the 64 into a million and the second only becomes 20. That gap is what this week is about.</p>
+<h2 id="timing-code">Timing code</h2>
+<p>The simplest way to find out how fast code is: run it and time it. <code>time.perf_counter()</code> gives a time in seconds from a precise clock; the difference between two readings is how long the code between them took.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d1-e2"><textarea class="pc-src pc-code" hidden>import time
+
+def total(n):
+    s = 0
+    for i in range(n):
+        s += i
+    return s
+
+for n in (100_000, 200_000, 400_000):
+    start = time.perf_counter()
+    total(n)
+    took = time.perf_counter() - start
+    print(f&quot;n = {n:&gt;7}: {took * 1000:.2f} ms&quot;)</textarea></div>
+<p>Run it a few times. The times change from run to run, but the pattern holds: double <code>n</code>, and the time roughly doubles.</p>
+<p>For small, quick pieces of code a single timing is too noisy. The <code>timeit</code> module runs the code many times and gives the total:</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d1-e3"><textarea class="pc-src pc-code" hidden>import timeit
+
+print(timeit.timeit(&quot;sorted(data)&quot;, setup=&quot;data = list(range(1000, 0, -1))&quot;, number=1000))</textarea></div>
+<h2 id="why-seconds-mislead">Why seconds mislead</h2>
+<p>Timings are real, and you&rsquo;ll use them all your life. But as a way to <strong>compare algorithms</strong> they have problems:</p>
+<ul>
+<li><strong>The computer matters.</strong> A laptop from ten years ago, a phone, and a server give very different numbers for the same code.</li>
+<li><strong>Everything else matters.</strong> Other programs running, the battery saver, whether the data is already in memory: run the same code twice and you get two times.</li>
+<li><strong>The language and details matter.</strong> The same idea is quicker in one language than another, and quicker with one Python trick than another.</li>
+<li><strong>The size you tried matters most.</strong> Code that wins on 100 items can lose badly on a million.</li>
+</ul>
+<p>What we want is a measure that belongs to the <strong>algorithm</strong>, not to the computer. That&rsquo;s the number of <strong>steps</strong> it takes, as a formula in the size of its input.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>The <strong>input size</strong>, n, is the measure of how big the problem is: the length of a list or a string, the number of rows in a file, the number itself for something like <code>fib(n)</code>. Step counts are always &ldquo;for an input of size n&rdquo;.</p></aside>
+<h2 id="counting-steps">Counting steps</h2>
+<p>A <strong>step</strong> is any basic operation that takes a fixed, small amount of time whatever n is: an assignment, a comparison, an arithmetic operation, indexing a list, calling <code>len</code>. We don&rsquo;t fuss over exactly which count as one step and which as two; what matters is how the <strong>total</strong> grows with n.</p>
+<p>Count the steps in this search, for a list of n items, when the target isn&rsquo;t there:</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d1-e4"><textarea class="pc-src pc-code" hidden>def find(items, target):
+    for i in range(len(items)):      # the loop runs n times
+        if items[i] == target:       # 1 comparison each time
+            return i
+    return -1                        # 1 step at the end
+
+print(find([4, 8, 15, 16, 23, 42], 99))</textarea></div>
+<p>About n comparisons, plus a handful of extra steps. With 10 items, about 10; with a million, about a million.</p>
+<p>To check a count, add a <strong>counter</strong> to the code: a variable that goes up by 1 each time the step you&rsquo;re counting happens. Return it alongside the answer, or print it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d1-e5"><textarea class="pc-src pc-code" hidden>def find_counting(items, target):
+    comparisons = 0
+    for i in range(len(items)):
+        comparisons += 1
+        if items[i] == target:
+            return i, comparisons
+    return -1, comparisons
+
+data = list(range(0, 2000, 2))      # 1000 even numbers
+print(find_counting(data, 0))       # found at once
+print(find_counting(data, 998))     # found halfway
+print(find_counting(data, 7))       # not there: checks them all</textarea></div>
+<p>The count depends on the input, not just its size: finding the first item takes 1 comparison, a missing item takes n. Day 5 is about these best and worst cases; for now, count the <strong>worst</strong> case, which is the guarantee.</p>
+<p>Nested loops multiply. Here&rsquo;s a function that checks whether any two items in a list are the same, by comparing every pair:</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d1-e6"><textarea class="pc-src pc-code" hidden>def has_duplicate(items):
+    comparisons = 0
+    n = len(items)
+    for i in range(n):
+        for j in range(i + 1, n):
+            comparisons += 1
+            if items[i] == items[j]:
+                return True, comparisons
+    return False, comparisons
+
+for n in (10, 20, 40, 80):
+    print(n, has_duplicate(list(range(n))))</textarea></div>
+<p>For n items, item 0 is compared with n − 1 others, item 1 with n − 2, and so on down to 0, which adds up to <strong>n(n − 1)/2</strong>. For 80 items that&rsquo;s 3,160.</p>
+<h2 id="what-happens-when-n-doubles">What happens when n doubles</h2>
+<p>The single most useful question to ask of any step count: <strong>what happens when n doubles?</strong></p>
+<table>
+<thead>
+<tr>
+<th>Steps for size n</th>
+<th>Steps for size 2n</th>
+<th>Doubling n&hellip;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5 (a fixed number)</td>
+<td>5</td>
+<td>&hellip;changes nothing</td>
+</tr>
+<tr>
+<td>about log₂ n (halving)</td>
+<td>one more</td>
+<td>&hellip;adds one step</td>
+</tr>
+<tr>
+<td>about n</td>
+<td>about 2n</td>
+<td>&hellip;doubles the steps</td>
+</tr>
+<tr>
+<td>about n²</td>
+<td>about 4n²</td>
+<td>&hellip;multiplies the steps by 4</td>
+</tr>
+<tr>
+<td>about 2ⁿ</td>
+<td>about 2ⁿ × 2ⁿ</td>
+<td>&hellip;squares the steps</td>
+</tr>
+</tbody>
+</table>
+<p>Step through the sizes and press <strong>Double n</strong> to see each pattern:</p>
+<figure class="widget" data-widget="growth"><script type="application/json">{"curves": ["1", "log", "n", "n2", "2n"], "n": 8, "bigO": false}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each kind of algorithm reacts to doubling n in its own way. Watch the ratios after pressing Double n, then slide n up to a million.</figcaption></figure>
+<p>That&rsquo;s why, in the doubling table from the timing example, <code>total</code> took twice as long for twice the input: its steps are about n. If you double the input and the time goes up by four, suspect a nested loop.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d1-e7"><textarea class="pc-src pc-code" hidden>def pairs_count(n):
+    count = 0
+    for i in range(n):
+        for j in range(n):
+            count += 1
+    return count
+
+for n in (100, 200, 400):
+    print(n, pairs_count(n), pairs_count(2 * n) / pairs_count(n))</textarea></div>
+<h2 id="comparing-algorithms">Comparing algorithms</h2>
+<p>Here are two ways to check a list for duplicates. The first compares every pair (about n²/2 comparisons). The second remembers what it has seen in a set (Week 10), so each item is looked at once (about n set operations):</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d1-e8"><textarea class="pc-src pc-code" hidden>def has_dup_set(items):
+    seen = set()
+    steps = 0
+    for x in items:
+        steps += 1
+        if x in seen:
+            return True, steps
+        seen.add(x)
+    return False, steps
+
+def has_dup_pairs(items):
+    steps = 0
+    for i in range(len(items)):
+        for j in range(i + 1, len(items)):
+            steps += 1
+            if items[i] == items[j]:
+                return True, steps
+    return False, steps
+
+for n in (100, 1000, 3000):
+    data = list(range(n))
+    print(n, has_dup_pairs(data)[1], has_dup_set(data)[1])</textarea></div>
+<p>At 3,000 items it&rsquo;s 4.5 million comparisons against 3,000 steps. Both are correct; one is about 1,500 times less work, and the gap keeps growing with n. Choosing the right algorithm matters far more than a faster computer.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Don&rsquo;t count steps for one small input and conclude one version &ldquo;is faster&rdquo;. For tiny inputs, the n² version may even win because each of its steps is simpler. Algorithms are compared by how their counts <strong>grow</strong>.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d1-count_max" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count the comparisons</div><div class="pc-prompt"><p>Write <code>max_counting(items)</code> that finds the largest item of a non-empty list with a loop, counting every comparison <code>x &gt; best</code> it makes, and returns <code>(largest, comparisons)</code>. Start <code>best</code> at the first item, and compare it with each of the others.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert max_counting([3, 9, 2]) == (9, 2)
+    assert max_counting([5]) == (5, 0)
+    assert max_counting(list(range(1000))) == (999, 999)</textarea><textarea class="pc-src pc-solution" hidden>def max_counting(items):
+    best = items[0]
+    comparisons = 0
+    for x in items[1:]:
+        comparisons += 1
+        if x &gt; best:
+            best = x
+    return best, comparisons</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d1-formula" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count by formula</div><div class="pc-prompt"><p>Each function below gives the number of times the line <code>count += 1</code> runs in a loop, for a size <code>n</code>. Write them <strong>without loops</strong>, as formulas, so they&rsquo;re instant for any n.</p>
+<ul>
+<li><code>a(n)</code>: <code>for i in range(n): for j in range(n): count += 1</code></li>
+<li><code>b(n)</code>: <code>for i in range(n): for j in range(i): count += 1</code></li>
+<li><code>c(n)</code>: <code>for i in range(n): count += 1</code> followed by <code>for j in range(n): count += 1</code></li>
+<li><code>d(n)</code>: <code>for i in range(n): for j in range(5): count += 1</code></li>
+</ul></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    for n in (0, 1, 7, 100):
+        assert a(n) == n * n and b(n) == n * (n - 1) // 2 and c(n) == 2 * n and d(n) == 5 * n
+    assert &quot;for &quot; not in source and &quot;while &quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def a(n):
+    return n * n
+
+def b(n):
+    return n * (n - 1) // 2
+
+def c(n):
+    return 2 * n
+
+def d(n):
+    return 5 * n</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d1-halvings" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Halving</div><div class="pc-prompt"><p>Write <code>halvings(n)</code> returning how many times you can do <code>n = n // 2</code> before <code>n</code> reaches 1 (for <code>n</code> of 1 or more), using a loop. Then answer: how many halvings for a million? Store your answer in <code>million</code>.</p></div><textarea class="pc-src pc-code" hidden>million = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert halvings(1) == 0 and halvings(2) == 1 and halvings(64) == 6 and halvings(100) == 6
+    assert million == 19 and halvings(1_000_000) == 19</textarea><textarea class="pc-src pc-solution" hidden>def halvings(n):
+    count = 0
+    while n &gt; 1:
+        n //= 2
+        count += 1
+    return count
+
+million = 19</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d1-ratio" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">The doubling test</div><div class="pc-prompt"><p>Write <code>doubling_ratio(steps, n)</code> that takes a function <code>steps</code> (which returns a step count for a size) and returns <code>steps(2 * n) / steps(n)</code>. Then write <code>guess(steps)</code> that uses the ratio at n = 1000 to name the growth: <code>"constant"</code> if the ratio is below 1.05, <code>"log"</code> if below 1.5, <code>"linear"</code> if below 3, <code>"quadratic"</code> if below 6, and <code>"faster"</code> otherwise.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import math
+def test_values():
+    &quot;several&quot;
+    assert doubling_ratio(lambda n: n * n, 10) == 4
+    assert guess(lambda n: 7) == &quot;constant&quot;
+    assert guess(lambda n: math.log2(n)) == &quot;log&quot;
+    assert guess(lambda n: 3 * n + 20) == &quot;linear&quot;
+    assert guess(lambda n: n * (n - 1) // 2) == &quot;quadratic&quot;
+    assert guess(lambda n: n ** 3) == &quot;faster&quot;</textarea><textarea class="pc-src pc-solution" hidden>def doubling_ratio(steps, n):
+    return steps(2 * n) / steps(n)
+
+def guess(steps):
+    r = doubling_ratio(steps, 1000)
+    if r &lt; 1.05:
+        return &quot;constant&quot;
+    if r &lt; 1.5:
+        return &quot;log&quot;
+    if r &lt; 3:
+        return &quot;linear&quot;
+    if r &lt; 6:
+        return &quot;quadratic&quot;
+    return &quot;faster&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d1-common" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Items in common</div><div class="pc-prompt"><p>Write <code>common_slow(a, b)</code> and <code>common_fast(a, b)</code>. Both return <code>(count, steps)</code>: how many items of list <code>a</code> are also in list <code>b</code> (count each item of <code>a</code> once, even if repeated in <code>a</code>; items in each list are all different in the checks), and how many steps were taken. <code>common_slow</code> compares each item of <code>a</code> with each item of <code>b</code>, counting one step per comparison and stopping the inner loop when it finds a match. <code>common_fast</code> first makes a set of <code>b</code> (count <code>len(b)</code> steps for that), then counts one step per item of <code>a</code> checked.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert common_slow([1, 2, 3], [3, 4]) == (1, 2 + 2 + 1)
+    assert common_fast([1, 2, 3], [3, 4]) == (1, 2 + 3)
+    a, b = list(range(0, 2000, 2)), list(range(0, 2000, 3))
+    assert common_slow(a, b)[0] == common_fast(a, b)[0] == 334
+    assert common_fast(a, b)[1] == 1667
+    assert common_slow(a, b)[1] &gt; 400_000</textarea><textarea class="pc-src pc-solution" hidden>def common_slow(a, b):
+    count = steps = 0
+    for x in a:
+        for y in b:
+            steps += 1
+            if x == y:
+                count += 1
+                break
+    return count, steps
+
+def common_fast(a, b):
+    seen = set(b)
+    steps = len(b)
+    count = 0
+    for x in a:
+        steps += 1
+        if x in seen:
+            count += 1
+    return count, steps</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w017d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A counter that doesn&rsquo;t count</div><div class="pc-prompt"><p>This should print <code>100</code> (the inner line runs 10 × 10 times), but prints <code>10</code>. Fix it.</p></div><textarea class="pc-src pc-code" hidden>count = 0
+for i in range(10):
+    for j in range(10):
+        pass
+    count += 1
+print(count)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;100&quot;
+    expect_output(&quot;100&quot;)</textarea><textarea class="pc-src pc-solution" hidden>count = 0
+for i in range(10):
+    for j in range(10):
+        count += 1
+print(count)</textarea><template class="pc-src pc-hint">The counter has to be inside the loop whose runs you&rsquo;re counting.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w017d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Timing the wrong thing</div><div class="pc-prompt"><p>This tries to time <code>sorted(data)</code> but the printed time includes building the list of a million numbers. Move the lines so only the sort is timed. The program should still print <code>sorted</code> and then a time.</p></div><textarea class="pc-src pc-code" hidden>import time
+
+start = time.perf_counter()
+data = list(range(1_000_000, 0, -1))
+result = sorted(data)
+took = time.perf_counter() - start
+print(&quot;sorted&quot;)
+print(f&quot;{took:.4f} s&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_order():
+    &quot;only the sort is timed&quot;
+    lines = [l.strip() for l in source.splitlines() if l.strip()]
+    i_data = next(i for i, l in enumerate(lines) if l.startswith(&quot;data =&quot;))
+    i_start = next(i for i, l in enumerate(lines) if l.startswith(&quot;start =&quot;))
+    i_sort = next(i for i, l in enumerate(lines) if l.startswith(&quot;result =&quot;))
+    i_took = next(i for i, l in enumerate(lines) if l.startswith(&quot;took =&quot;))
+    assert i_data &lt; i_start &lt; i_sort &lt; i_took
+    assert output.startswith(&quot;sorted&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import time
+
+data = list(range(1_000_000, 0, -1))
+start = time.perf_counter()
+result = sorted(data)
+took = time.perf_counter() - start
+print(&quot;sorted&quot;)
+print(f&quot;{took:.4f} s&quot;)</textarea></div>
+<div class="parsons" data-id="w017d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Counting pairs</div><div class="pc-prompt"><p>Arrange the lines so the function returns the number of pairs <code>(i, j)</code> with <code>i &lt; j</code> it looks at, along with whether any pair adds up to <code>target</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["def pair_sum(items, target):", "    steps = 0", "    for i in range(len(items)):", "        for j in range(i + 1, len(items)):", "            steps += 1", "            if items[i] + items[j] == target:", "                return True, steps", "    return False, steps"], "distractors": ["        steps += 1"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # comparisons has_duplicate makes on a list of 10 different items
+b = ___   # if an algorithm takes about n² steps and n goes from 1,000 to 3,000, by what factor do the steps grow?
+c = ___   # how many halvings to get from 1024 down to 1?
+d = ___   # steps in &quot;for i in range(n): for j in range(3): ...&quot; when n = 50 (count the inner body)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 45 and b == 9 and c == 10 and d == 150</textarea><textarea class="pc-src pc-solution" hidden>a = 45
+b = 9
+c = 10
+d = 150</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w017d1-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why are timings in seconds a poor way to compare algorithms?", "answer": 1, "explain": "Steps belong to the algorithm.", "options": ["Clocks are inaccurate", "They depend on the computer, the load and the input size tried", "Python can&rsquo;t time code", "They&rsquo;re always zero"]}, {"type": "mc", "q": "What is the input size n for a function that searches a list?", "answer": 1, "explain": "How big the problem is.", "options": ["The target", "The length of the list", "The number of searches", "The biggest item"]}, {"type": "mc", "q": "About how many comparisons does searching a list of n items take when the target is missing?", "answer": 2, "explain": "It checks them all.", "options": ["1", "log n", "n", "n\u00b2"]}, {"type": "mc", "q": "How many comparisons does comparing every pair of n items make?", "answer": 2, "explain": "(n \u2212 1) + (n \u2212 2) + &hellip; + 0.", "options": ["n", "2n", "n(n \u2212 1)/2", "2\u207f"]}, {"type": "mc", "q": "Doubling n quadruples the steps. What growth is that?", "answer": 1, "explain": "(2n)\u00b2 = 4n\u00b2.", "options": ["Linear", "Quadratic (n\u00b2)", "Logarithmic", "Constant"]}, {"type": "mc", "q": "Doubling n adds just one step. What growth is that?", "answer": 0, "explain": "Halving takes one more step.", "options": ["Logarithmic", "Linear", "Constant", "Exponential"]}, {"type": "mc", "q": "Which function gives precise timings in Python?", "answer": 1, "explain": "Take the difference of two readings.", "options": ["time.sleep", "time.perf_counter", "print", "len"]}, {"type": "text", "q": "What module runs a snippet many times to time it?", "answer": ["timeit"], "explain": "It reduces noise."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: pair sums three ways</div><div class="pc-prompt"><p>Given a list of different whole numbers and a target, is there a pair of different items that adds up to the target? Write three versions, each returning <code>(answer, steps)</code>:</p>
+<ul>
+<li><code>pairs_all(items, target)</code>: compare every pair <code>i &lt; j</code>, one step per pair looked at, stopping when one is found.</li>
+<li><code>pairs_set(items, target)</code>: go through the items once with a set of the items seen so far; for each item <code>x</code>, one step, and check whether <code>target - x</code> is in the set before adding <code>x</code>.</li>
+<li><code>pairs_sorted(items, target)</code>: sort a copy (count no steps for sorting), then use two positions, <code>lo</code> at the start and <code>hi</code> at the end: while <code>lo &lt; hi</code>, take one step; if the two items add to the target, stop; if the sum is too small, move <code>lo</code> up; otherwise move <code>hi</code> down.</li>
+</ul>
+<p>Then set <code>slowest</code> to the name of the function (a string) that takes by far the most steps on a list of 2,000 numbers where no pair works. (<code>pairs_sorted</code> looks cheapest here only because the sort isn&rsquo;t counted; tomorrow you&rsquo;ll see that sorting costs about n log n steps, more than <code>pairs_set</code> needs in total.)</p></div><textarea class="pc-src pc-code" hidden>slowest = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_small():
+    &quot;small&quot;
+    assert pairs_all([1, 4, 6, 9], 10) == (True, 3)
+    assert pairs_set([1, 4, 6, 9], 10) == (True, 3)
+    assert pairs_sorted([9, 1, 6, 4], 10) == (True, 1)
+    assert pairs_all([1, 2], 10)[0] is False and pairs_set([], 3) == (False, 0)
+def test_big():
+    &quot;big&quot;
+    data = list(range(0, 4000, 2))
+    assert pairs_all(data, 1)[1] == 2000 * 1999 // 2
+    assert pairs_set(data, 1) == (False, 2000)
+    r = pairs_sorted(data, 1)
+    assert r[0] is False and r[1] == 1999
+    assert slowest == &quot;pairs_all&quot;</textarea><textarea class="pc-src pc-solution" hidden>def pairs_all(items, target):
+    steps = 0
+    for i in range(len(items)):
+        for j in range(i + 1, len(items)):
+            steps += 1
+            if items[i] + items[j] == target:
+                return True, steps
+    return False, steps
+
+def pairs_set(items, target):
+    seen = set()
+    steps = 0
+    for x in items:
+        steps += 1
+        if target - x in seen:
+            return True, steps
+        seen.add(x)
+    return False, steps
+
+def pairs_sorted(items, target):
+    data = sorted(items)
+    lo, hi = 0, len(data) - 1
+    steps = 0
+    while lo &lt; hi:
+        steps += 1
+        s = data[lo] + data[hi]
+        if s == target:
+            return True, steps
+        if s &lt; target:
+            lo += 1
+        else:
+            hi -= 1
+    return False, steps
+
+slowest = &quot;pairs_all&quot;</textarea><template class="pc-src pc-hint">For <code>pairs_sorted</code>, every step moves <code>lo</code> or <code>hi</code> one place closer, so at most n − 1 steps.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Take three functions you&rsquo;ve written in earlier weeks and add a step counter to each. Run them on inputs of size 100, 200 and 400, and write down what happens to the counts each time the size doubles. Tomorrow: Big-O notation, the shorthand for exactly that pattern.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w016d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w017d1", "week": 17, "day": 1, "title": "Counting steps", "exercises": [{"id": "w017d1-count_max", "title": "Count the comparisons", "points": 10}, {"id": "w017d1-formula", "title": "Count by formula", "points": 10}, {"id": "w017d1-halvings", "title": "Halving", "points": 10}, {"id": "w017d1-ratio", "title": "The doubling test", "points": 15}, {"id": "w017d1-common", "title": "Items in common", "points": 15}, {"id": "w017d1-bug1", "title": "A counter that doesn't count", "points": 10}, {"id": "w017d1-bug2", "title": "Timing the wrong thing", "points": 10}, {"id": "w017d1-trace", "title": "Predict them", "points": 15}, {"id": "w017d1-challenge", "title": "Challenge: pair sums three ways", "points": 25}], "points": 120}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=d6acdb8fde"></script>
+</body>
+</html>

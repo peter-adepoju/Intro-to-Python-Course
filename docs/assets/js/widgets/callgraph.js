@@ -1,7 +1,7 @@
 // Structure chart: which of a program's functions call which, drawn as a tree from the main program.
 // Stubs (functions with no real body yet) are marked, so a top-down plan shows what's left to write.
-import { h } from "../site.js?v=906520f9ee";
-import { py } from "../runtime.js?v=906520f9ee";
+import { h } from "../site.js?v=d6acdb8fde";
+import { py } from "../runtime.js?v=d6acdb8fde";
 
 export default function callgraph(el, { code = "" } = {}) {
   const area = h("textarea", { class: "w-input", spellcheck: "false", rows: Math.min(18, Math.max(6, code.split("\n").length)), style: "width:100%;font-family:var(--f-code);line-height:1.5;resize:vertical", "aria-label": "Program" });

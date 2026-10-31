@@ -1,6 +1,6 @@
 // How a call's arguments are matched to a function's parameters.
-import { h } from "../site.js?v=906520f9ee";
-import { py } from "../runtime.js?v=906520f9ee";
+import { h } from "../site.js?v=d6acdb8fde";
+import { py } from "../runtime.js?v=d6acdb8fde";
 
 export default function callbind(el, { params = 'name, greeting="Hello"', args = '"Ada"', tries = [] } = {}) {
   const ip = h("input", { class: "w-input", value: params, spellcheck: "false", style: "flex:1 1 220px", "aria-label": "Parameters" });
