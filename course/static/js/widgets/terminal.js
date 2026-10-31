@@ -1,6 +1,7 @@
 // A practice terminal: a pretend shell with its own small set of folders and files, so commands
 // can be tried safely. Nothing here touches the real computer.
 import { h } from "../site.js";
+import { makeGit } from "./minigit.js";
 
 const START = {
   "notes.txt": "Buy eggs\nCall Ada\n",
@@ -11,7 +12,7 @@ const START = {
 function clone(x) { return JSON.parse(JSON.stringify(x)); }
 
 export default function terminal(el, { files = START, home = "/home/you", tasks = [] } = {}) {
-  let root, cwd, history = [], hpos = 0, doneTasks = new Set();
+  let root, cwd, history = [], hpos = 0, doneTasks = new Set(), git = null;
   const screen = h("div", { class: "w-out", style: "height:15rem;overflow:auto;white-space:pre-wrap;font-size:.86rem;line-height:1.45", "aria-live": "polite" });
   const prompt = h("span", { style: "font:600 .86rem var(--f-code);white-space:nowrap" });
   const input = h("input", { class: "w-input", style: "flex:1;min-width:6rem", spellcheck: "false", autocapitalize: "off", autocomplete: "off", "aria-label": "Type a command" });
@@ -36,11 +37,17 @@ export default function terminal(el, { files = START, home = "/home/you", tasks 
     return cur;
   }
   const parentOf = (path) => { const i = path.lastIndexOf("/"); return [path.slice(0, i) || "/", path.slice(i + 1)]; };
+  const fsApi = {
+    node: (p) => node(p), resolve: (p) => resolve(p), cwd: () => cwd,
+    setFile(path, text) { const [par, name] = parentOf(path); const parts = par.split("/").filter(Boolean); let d = root; for (const seg of parts) { if (typeof d[seg] !== "object") d[seg] = {}; d = d[seg]; } d[name] = text; },
+    removeFile(path) { const [par, name] = parentOf(path); const d = node(par); if (d && typeof d === "object") delete d[name]; },
+    listFiles(rootPath) { const out = {}; (function walk(d, pre) { for (const [k, v] of Object.entries(d)) { if (typeof v === "object") walk(v, pre + k + "/"); else out[pre + k] = v; } })(node(rootPath) || {}, ""); return out; },
+  };
   function start() {
     root = {}; let cur = root;
     for (const seg of home.split("/").filter(Boolean)) { cur[seg] = {}; cur = cur[seg]; }
     Object.assign(cur, clone(files));
-    cwd = home; screen.replaceChildren(); doneTasks = new Set();
+    cwd = home; screen.replaceChildren(); doneTasks = new Set(); git = makeGit(fsApi);
     print("A practice terminal. Nothing you do here touches your real computer. Type help to see the commands.");
     prompt.textContent = show() + " $"; drawTasks();
   }
@@ -59,7 +66,7 @@ export default function terminal(el, { files = START, home = "/home/you", tasks 
     return out;
   }
   const C = {
-    help: () => "Commands: pwd  ls [-l] [folder]  cd [folder]  mkdir name  touch name  cat file  echo text [> file | >> file]\n          cp from to  mv from to  rm file  rm -r folder  head -n N file  wc -l file  clear  history\nPaths: / (the top), ~ (home), . (here), .. (up one). Wildcards: *.txt",
+    help: () => "Commands: pwd  ls [-l] [folder]  cd [folder]  mkdir name  touch name  cat file  echo text [> file | >> file]\n          cp from to  mv from to  rm file  rm -r folder  head -n N file  wc -l file  clear  history\n          git init | status | add | commit -m | log [--oneline] | diff [--staged] | restore | branch | switch [-c] | merge\nPaths: / (the top), ~ (home), . (here), .. (up one). Wildcards: *.txt",
     pwd: () => cwd,
     ls: (a) => {
       const long = a[0] === "-l"; if (long) a = a.slice(1);
@@ -95,6 +102,8 @@ export default function terminal(el, { files = START, home = "/home/you", tasks 
     head: (a) => { let n = 10; if (a[0] === "-n") { n = +a[1]; a = a.slice(2); } return C.cat(a).split("\n").slice(0, n).join("\n"); },
     wc: (a) => { if (a[0] === "-l") a = a.slice(1); return a.map((x) => `${C.cat([x]).split("\n").filter((l, i, arr) => l || i < arr.length - 1).length} ${x}`).join("\n"); },
     clear: () => { screen.replaceChildren(); return ""; },
+    git: (a) => git.run(a),
+    nano: (a) => { throw "There's no editor here: use echo text > file, or echo text >> file to add a line"; },
     history: () => history.map((c, i) => `${String(i + 1).padStart(4)}  ${c}`).join("\n"),
   };
   function run(line) {
@@ -121,7 +130,7 @@ export default function terminal(el, { files = START, home = "/home/you", tasks 
   function drawTasks() {
     if (!tasks.length) return;
     taskBox.replaceChildren(h("div", { class: "w-label" }, "Try these"), ...tasks.map((t, i) => {
-      try { if (new Function("node", "cwd", "home", "return " + t.check)(node, cwd, home)) doneTasks.add(i); } catch { /* not yet */ }
+      try { if (new Function("node", "cwd", "home", "git", "return " + t.check)(node, cwd, home, git && git.state())) doneTasks.add(i); } catch { /* not yet */ }
       const done = doneTasks.has(i);
       return h("div", { style: `font-size:.88rem;${done ? "color:var(--green)" : ""}` }, (done ? "✓ " : "○ ") + t.text);
     }));

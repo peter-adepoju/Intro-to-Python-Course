@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="b5658a22af">
+<title>Week 21 Day 3: Git: commits and history | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=b5658a22af">
+<link rel="stylesheet" href="../assets/css/site.css?v=b5658a22af">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=b5658a22af"></script>
+<script src="../assets/vendor/codemirror.js?v=b5658a22af" defer></script>
+<meta name="description" content="Have you ever saved files called essay_final.docx, essay_final2.docx and essay_REALLY_final.docx? Git solves that problem properly. It records snapshots of...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w021d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 21 Day 3: Git: commits and history">
+<meta property="og:description" content="Have you ever saved files called essay_final.docx, essay_final2.docx and essay_REALLY_final.docx? Git solves that problem properly. It records snapshots of...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w021d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-21">Week 21: The command line and Git</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#snapshots" data-sec="snapshots">Snapshots</a></li><li><a href="#the-everyday-cycle" data-sec="the-everyday-cycle">The everyday cycle</a></li><li><a href="#looking-back-and-undoing" data-sec="looking-back-and-undoing">Looking back and undoing</a></li><li><a href="#good-commits" data-sec="good-commits">Good commits</a></li><li><a href="#on-your-own-computer" data-sec="on-your-own-computer">On your own computer</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w021d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-21">Week 21: The command line and Git</a></li><li aria-current="page">Day 3 of 6</li></ol>
+      <p class="day-where"><span>Week 21, Day 3</span></p>
+      <h1>Git: commits and history</h1>
+      <div class="day-intro"><p>Have you ever saved files called essay_final.docx, essay_final2.docx and essay_REALLY_final.docx? Git solves that problem properly. It records snapshots of your project, each with a message saying what changed and why, so you can see every version you&rsquo;ve ever saved, compare any two, and go back when something breaks. Almost every software team in the world uses it. Today you&rsquo;ll learn the everyday cycle: change, stage, commit, and look back.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain what a repository, a commit and the staging area are</li><li>Use the everyday cycle of <code>git status</code>, <code>git add</code>, <code>git commit -m</code> and <code>git log</code></li><li>Compare versions with <code>git diff</code> and undo changes with <code>git restore</code></li><li>Write clear commit messages, and choose what goes in one commit</li><li>Set Git up on your own computer and make your first real commits</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">2 h 55 min</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="Snapshots: 20 min"></span><span class="plan-seg s0" style="flex:30" title="The everyday cycle: 30 min"></span><span class="plan-seg s1" style="flex:20" title="Looking back and undoing: 20 min"></span><span class="plan-seg s0" style="flex:15" title="Good commits: 15 min"></span><span class="plan-seg s1" style="flex:20" title="On your own computer: 20 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Snapshots</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">The everyday cycle</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Looking back and undoing</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">Good commits</span><span class="plan-min">15 min</span></li><li><span class="plan-at">1:35</span><span class="plan-what">On your own computer</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:55</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:45</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w021d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w021d3.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w021d3-p1"><textarea class="pc-src pc-code" hidden>versions = []
+essay = &quot;Intro&quot;
+versions.append((&quot;first draft&quot;, essay))
+essay += &quot;\nMain point&quot;
+versions.append((&quot;add main point&quot;, essay))
+essay += &quot;\nConclusion&quot;
+versions.append((&quot;add conclusion&quot;, essay))
+
+for message, text in versions:
+    print(message, &quot;-&gt;&quot;, text.count(&quot;\n&quot;) + 1, &quot;lines&quot;)
+print(versions[0][1])</textarea></div>
+<p>That&rsquo;s the idea of Git in eight lines: every time you&rsquo;re happy with your work, save a <strong>snapshot</strong> with a <strong>message</strong>, and keep them all. Later you can see every version, and get any of them back.</p>
+<h2 id="snapshots">Snapshots</h2>
+<ul>
+<li>A <strong>repository</strong> (or &ldquo;repo&rdquo;) is a project folder that Git is tracking. Git keeps its records in a hidden folder inside it called <code>.git</code>.</li>
+<li>A <strong>commit</strong> is a snapshot of the tracked files at one moment, with a message, the author, the time, and a link to the commit before it (its <strong>parent</strong>). Commits form a history going back to the first.</li>
+<li>Each commit has an ID, a long hexadecimal <strong>hash</strong> like <code>3f9a2c1e...</code> worked out from its contents. People usually use the first 7 characters.</li>
+</ul>
+<p>Between your files and the history sits the <strong>staging area</strong> (also called the index): the set of changes you&rsquo;ve chosen to go into the <strong>next</strong> commit. That lets you commit some changes and not others.</p>
+<pre><code>working folder  --git add--&gt;  staging area  --git commit--&gt;  history
+  (your files)                (next snapshot)                (all snapshots)
+</code></pre>
+<h2 id="the-everyday-cycle">The everyday cycle</h2>
+<ol>
+<li><code>git init</code> once, to start tracking a folder.</li>
+<li>Make changes to your files.</li>
+<li><code>git status</code> to see what&rsquo;s changed.</li>
+<li><code>git add file</code> (or <code>git add .</code> for everything) to stage changes.</li>
+<li><code>git commit -m "message"</code> to save the snapshot.</li>
+<li>Repeat from 2.</li>
+</ol>
+<p>Try it in this practice terminal, which has a small Git built in (it does the common commands; the real Git does far more). The tasks below it walk you through the cycle.</p>
+<figure class="widget" data-widget="terminal"><script type="application/json">{"files": {"essay": {"draft.txt": "Intro\n"}}, "tasks": [{"text": "cd essay, then git init", "check": "git && git.root === home + '/essay'"}, {"text": "git status, then git add draft.txt", "check": "git && git.index['draft.txt'] !== undefined"}, {"text": "git commit -m \"Start the essay\"", "check": "git && Object.keys(git.commits).length >= 1"}, {"text": "Add a line: echo \"Main point\" >> draft.txt, then git diff to see it", "check": "node(home + '/essay/draft.txt') && node(home + '/essay/draft.txt').includes('Main point')"}, {"text": "Stage and commit it with a message of your own", "check": "git && Object.keys(git.commits).length >= 2"}, {"text": "Make a third commit that adds a new file, notes.txt", "check": "git && Object.values(git.commits).some(c => 'notes.txt' in c.tree)"}, {"text": "git log --oneline to see your history", "check": "git && Object.keys(git.commits).length >= 3"}]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>A practice terminal with Git. Work through the tasks: each turns green when it&rsquo;s done. Use git status often: it always says what to do next.</figcaption></figure>
+<p><code>git status</code> is the command to type whenever you&rsquo;re unsure: it says which branch you&rsquo;re on, what&rsquo;s staged, what&rsquo;s changed but not staged, and which files Git isn&rsquo;t tracking yet. It even suggests what to do next.</p>
+<h2 id="looking-back-and-undoing">Looking back and undoing</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Shows or does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git log</code></td>
+<td>the history, newest first</td>
+</tr>
+<tr>
+<td><code>git log --oneline</code></td>
+<td>one line per commit</td>
+</tr>
+<tr>
+<td><code>git diff</code></td>
+<td>changes not yet staged (working folder vs staging area)</td>
+</tr>
+<tr>
+<td><code>git diff --staged</code></td>
+<td>changes staged for the next commit (vs the last commit)</td>
+</tr>
+<tr>
+<td><code>git show &lt;id&gt;</code></td>
+<td>one commit and its changes</td>
+</tr>
+<tr>
+<td><code>git restore file</code></td>
+<td>throw away unstaged changes to a file (careful: they&rsquo;re gone)</td>
+</tr>
+<tr>
+<td><code>git restore --staged file</code></td>
+<td>unstage a file, keeping your changes</td>
+</tr>
+</tbody>
+</table>
+<p><code>git diff</code> shows changes <strong>line by line</strong>: lines starting with <code>-</code> were removed and lines starting with <code>+</code> were added. A changed line shows as one of each.</p>
+<p>Going back to an old version of a file: <code>git restore --source &lt;id&gt; file</code> brings back that file as it was in commit <code>&lt;id&gt;</code>. Undoing a whole commit that&rsquo;s already shared: <code>git revert &lt;id&gt;</code> makes a <strong>new</strong> commit that reverses it, so the history stays honest. (You&rsquo;ll meet more ways of undoing as you need them; the important thing is that once work is committed, it&rsquo;s very hard to lose.)</p>
+<h2 id="good-commits">Good commits</h2>
+<p>A commit should be <strong>one logical change</strong>: &ldquo;Add search box&rdquo;, &ldquo;Fix crash on empty file&rdquo;. Small, focused commits make the history easy to read, and make it easy to find (and undo) the change that broke something.</p>
+<p>A good commit message:</p>
+<ul>
+<li>has a short first line (under about 50 characters) saying <strong>what</strong> the commit does, written as a command: &ldquo;Add&rdquo;, &ldquo;Fix&rdquo;, &ldquo;Remove&rdquo;, &ldquo;Rename&rdquo;, not &ldquo;Added stuff&rdquo;;</li>
+<li>if needed, after a blank line, says <strong>why</strong>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Poor</th>
+<th>Better</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stuff</code></td>
+<td><code>Add a word count to the report</code></td>
+</tr>
+<tr>
+<td><code>fixed it</code></td>
+<td><code>Fix crash when the marks file is empty</code></td>
+</tr>
+<tr>
+<td><code>changes</code></td>
+<td><code>Rename total() to total_price()</code></td>
+</tr>
+<tr>
+<td><code>WIP final final</code></td>
+<td><code>Split parsing into its own module</code></td>
+</tr>
+</tbody>
+</table>
+<p>Some files should <strong>never</strong> be committed: passwords and API keys, large data files, and files your tools generate (<code>__pycache__/</code>, <code>.venv/</code>). List them in a file called <code>.gitignore</code> in the project folder, one pattern per line, and Git will leave them alone:</p>
+<pre><code>__pycache__/
+.venv/
+*.log
+.env
+</code></pre>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Git records snapshots called commits. The cycle is: change files, <code>git status</code>, <code>git add</code>, <code>git commit -m "message"</code>. <code>git log</code> shows the history and <code>git diff</code> shows changes. Make each commit one logical change with a clear message, and keep secrets and generated files out with <code>.gitignore</code>.</p></aside>
+<h2 id="on-your-own-computer">On your own computer</h2>
+<ol>
+<li><strong>Install Git.</strong> macOS: type <code>git --version</code> in Terminal and accept the offer to install the developer tools. Windows: download it from git-scm.com (this also gives you Git Bash). Linux: it&rsquo;s usually there already, or use your package manager.</li>
+<li><strong>Tell Git who you are</strong> (once per computer; this goes in every commit):
+   <code>git config --global user.name "Your Name"
+   git config --global user.email "you@example.com"
+   git config --global init.defaultBranch main</code></li>
+<li><strong>Make your first repository:</strong>
+   <code>cd ~/atlas
+   git init
+   git status
+   git add .
+   git commit -m "Start my Python Atlas work"
+   git log --oneline</code></li>
+<li>From now on, commit your course work at the end of every day.</li>
+</ol>
+<h2 id="practice">Practice</h2>
+<p>These exercises build the ideas behind Git in Python: snapshots, staging, history, hashes and diffs.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d3-snap" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Snapshots</div><div class="pc-prompt"><p>A tiny version store keeps a list of commits, each a dictionary <code>{"message": ..., "files": {...}}</code> holding a <strong>copy</strong> of the files at that moment. Write <code>commit(history, files, message)</code> that appends a new commit with a copy of <code>files</code> and returns its number (0 for the first), and <code>checkout(history, number)</code> that returns a <strong>copy</strong> of the files from that commit. Changing the working files later must not change any commit.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    history = []
+    files = {&quot;a.txt&quot;: &quot;one&quot;}
+    assert commit(history, files, &quot;first&quot;) == 0
+    files[&quot;a.txt&quot;] = &quot;two&quot;
+    files[&quot;b.txt&quot;] = &quot;new&quot;
+    assert commit(history, files, &quot;second&quot;) == 1
+    assert checkout(history, 0) == {&quot;a.txt&quot;: &quot;one&quot;}
+    old = checkout(history, 0)
+    old[&quot;a.txt&quot;] = &quot;changed&quot;
+    assert checkout(history, 0) == {&quot;a.txt&quot;: &quot;one&quot;} and history[1][&quot;message&quot;] == &quot;second&quot;</textarea><textarea class="pc-src pc-solution" hidden>def commit(history, files, message):
+    history.append({&quot;message&quot;: message, &quot;files&quot;: dict(files)})
+    return len(history) - 1
+
+def checkout(history, number):
+    return dict(history[number][&quot;files&quot;])</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d3-status" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">git status</div><div class="pc-prompt"><p>Write <code>status(head, index, working)</code> where each argument is a dictionary from file name to contents (the last commit, the staging area, and the working folder). Return a dictionary with three sorted lists: <code>"staged"</code> (files whose content differs between <code>head</code> and <code>index</code>, including new and deleted), <code>"unstaged"</code> (files in <code>index</code> whose working content differs, or that are missing from working) and <code>"untracked"</code> (files in working but not in index).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    head = {&quot;a.py&quot;: &quot;1&quot;, &quot;b.py&quot;: &quot;1&quot;, &quot;c.py&quot;: &quot;1&quot;}
+    index = {&quot;a.py&quot;: &quot;2&quot;, &quot;b.py&quot;: &quot;1&quot;, &quot;c.py&quot;: &quot;1&quot;, &quot;new.py&quot;: &quot;x&quot;}
+    working = {&quot;a.py&quot;: &quot;2&quot;, &quot;b.py&quot;: &quot;9&quot;, &quot;new.py&quot;: &quot;x&quot;, &quot;notes.txt&quot;: &quot;hi&quot;}
+    assert status(head, index, working) == {&quot;staged&quot;: [&quot;a.py&quot;, &quot;new.py&quot;], &quot;unstaged&quot;: [&quot;b.py&quot;, &quot;c.py&quot;], &quot;untracked&quot;: [&quot;notes.txt&quot;]}
+    same = {&quot;a&quot;: &quot;1&quot;}
+    assert status(same, same, same) == {&quot;staged&quot;: [], &quot;unstaged&quot;: [], &quot;untracked&quot;: []}
+    assert status({&quot;a&quot;: &quot;1&quot;}, {}, {&quot;a&quot;: &quot;1&quot;})[&quot;staged&quot;] == [&quot;a&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def status(head, index, working):
+    names = set(head) | set(index)
+    staged = sorted(n for n in names if head.get(n) != index.get(n))
+    unstaged = sorted(n for n in index if working.get(n) != index[n])
+    untracked = sorted(n for n in working if n not in index)
+    return {&quot;staged&quot;: staged, &quot;unstaged&quot;: unstaged, &quot;untracked&quot;: untracked}</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d3-hashing" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Commit IDs</div><div class="pc-prompt"><p>Git names each commit by a hash of its contents, so the same contents always give the same ID and any change gives a different one. Write <code>commit_id(files, message, parent)</code> returning the first 7 hexadecimal characters of the SHA-1 hash (<code>hashlib.sha1(text.encode()).hexdigest()</code>) of a text made from the parent&rsquo;s ID (or <code>"none"</code>), the message, and each file&rsquo;s name and contents, <strong>in name order</strong> so that the order of the dictionary doesn&rsquo;t matter. Use exactly this text: the lines <code>parent &lt;id&gt;</code>, <code>message &lt;msg&gt;</code>, then <code>file &lt;name&gt; &lt;contents&gt;</code> for each file, joined with newlines.</p></div><textarea class="pc-src pc-code" hidden>import hashlib</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    a = commit_id({&quot;a.txt&quot;: &quot;hi&quot;, &quot;b.txt&quot;: &quot;yo&quot;}, &quot;first&quot;, None)
+    b = commit_id({&quot;b.txt&quot;: &quot;yo&quot;, &quot;a.txt&quot;: &quot;hi&quot;}, &quot;first&quot;, None)
+    assert a == b and len(a) == 7 and all(ch in &quot;0123456789abcdef&quot; for ch in a)
+    assert commit_id({&quot;a.txt&quot;: &quot;hi!&quot;, &quot;b.txt&quot;: &quot;yo&quot;}, &quot;first&quot;, None) != a
+    assert commit_id({&quot;a.txt&quot;: &quot;hi&quot;, &quot;b.txt&quot;: &quot;yo&quot;}, &quot;first&quot;, a) != a
+    import hashlib
+    assert a == hashlib.sha1(&quot;parent none\nmessage first\nfile a.txt hi\nfile b.txt yo&quot;.encode()).hexdigest()[:7]</textarea><textarea class="pc-src pc-solution" hidden>import hashlib
+
+def commit_id(files, message, parent):
+    lines = [f&quot;parent {parent or &#x27;none&#x27;}&quot;, f&quot;message {message}&quot;]
+    for name in sorted(files):
+        lines.append(f&quot;file {name} {files[name]}&quot;)
+    return hashlib.sha1(&quot;\n&quot;.join(lines).encode()).hexdigest()[:7]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d3-diff" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">git diff</div><div class="pc-prompt"><p>Write <code>diff(old, new)</code> comparing two texts line by line and returning the changed lines as a list: <code>"- line"</code> for a removed line and <code>"+ line"</code> for an added one, in order, leaving out unchanged lines. Use <code>difflib.ndiff(old.splitlines(), new.splitlines())</code>, which produces lines starting with <code>"- "</code>, <code>"+ "</code>, <code>"  "</code> (unchanged) or <code>"? "</code> (hints, to skip).</p></div><textarea class="pc-src pc-code" hidden>import difflib</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    old = &quot;Intro\nMain point\nEnd\n&quot;
+    new = &quot;Intro\nMain argument\nEnd\nThanks\n&quot;
+    assert diff(old, new) == [&quot;- Main point&quot;, &quot;+ Main argument&quot;, &quot;+ Thanks&quot;]
+    assert diff(&quot;a\nb\n&quot;, &quot;a\nb\n&quot;) == [] and diff(&quot;&quot;, &quot;x\n&quot;) == [&quot;+ x&quot;]</textarea><textarea class="pc-src pc-solution" hidden>import difflib
+
+def diff(old, new):
+    return [line for line in difflib.ndiff(old.splitlines(), new.splitlines()) if line[:2] in (&quot;- &quot;, &quot;+ &quot;)]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d3-messages" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Good messages</div><div class="pc-prompt"><p>Write <code>good_message(msg)</code> that returns <code>True</code> for a commit message whose first line is between 8 and 50 characters, starts with a capital letter, doesn&rsquo;t end with a full stop, and isn&rsquo;t one of the lazy messages <code>"update"</code>, <code>"changes"</code>, <code>"fix"</code>, <code>"stuff"</code>, <code>"wip"</code> (ignoring case).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert good_message(&quot;Add a word count to the report&quot;)
+    assert good_message(&quot;Fix crash on empty file\n\nThe parser assumed one line at least.&quot;)
+    assert not good_message(&quot;stuff&quot;) and not good_message(&quot;Fixed it.&quot;) and not good_message(&quot;add search&quot;)
+    assert not good_message(&quot;Update&quot;) and not good_message(&quot;X&quot; * 51) and not good_message(&quot;Fix bug&quot;)</textarea><textarea class="pc-src pc-solution" hidden>LAZY = {&quot;update&quot;, &quot;changes&quot;, &quot;fix&quot;, &quot;stuff&quot;, &quot;wip&quot;}
+
+def good_message(msg):
+    first = msg.splitlines()[0] if msg else &quot;&quot;
+    return (8 &lt;= len(first) &lt;= 50 and first[0].isupper() and not first.endswith(&quot;.&quot;)
+            and first.lower() not in LAZY)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w021d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Commits that change by themselves</div><div class="pc-prompt"><p>This version store saves the <strong>same</strong> dictionary in every commit, so when the files change, every old commit changes too. It should print <code>one</code> and then <code>two</code>. Fix <code>commit</code>.</p></div><textarea class="pc-src pc-code" hidden>history = []
+
+def commit(files, message):
+    history.append({&quot;message&quot;: message, &quot;files&quot;: files})
+
+files = {&quot;a.txt&quot;: &quot;one&quot;}
+commit(files, &quot;first&quot;)
+files[&quot;a.txt&quot;] = &quot;two&quot;
+commit(files, &quot;second&quot;)
+print(history[0][&quot;files&quot;][&quot;a.txt&quot;])
+print(history[1][&quot;files&quot;][&quot;a.txt&quot;])</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;snapshots&quot;
+    expect_output(&quot;one\ntwo&quot;)</textarea><textarea class="pc-src pc-solution" hidden>history = []
+
+def commit(files, message):
+    history.append({&quot;message&quot;: message, &quot;files&quot;: dict(files)})
+
+files = {&quot;a.txt&quot;: &quot;one&quot;}
+commit(files, &quot;first&quot;)
+files[&quot;a.txt&quot;] = &quot;two&quot;
+commit(files, &quot;second&quot;)
+print(history[0][&quot;files&quot;][&quot;a.txt&quot;])
+print(history[1][&quot;files&quot;][&quot;a.txt&quot;])</textarea><template class="pc-src pc-hint">Store a copy: <code>dict(files)</code>.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w021d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">What not to commit</div><div class="pc-prompt"><p>This <code>.gitignore</code> text is meant to keep out Python&rsquo;s cache folders, the virtual environment folder <code>.venv</code>, log files and the secrets file <code>.env</code>, but two lines are wrong, so <code>ignored(".env")</code> and <code>ignored("app.log")</code> are <code>False</code>. Fix the two lines in <code>GITIGNORE</code>.</p></div><textarea class="pc-src pc-code" hidden>import fnmatch
+
+GITIGNORE = &quot;&quot;&quot;__pycache__/
+.venv/
+log
+env
+&quot;&quot;&quot;
+
+def ignored(name):
+    for pattern in GITIGNORE.split():
+        if pattern.endswith(&quot;/&quot;):
+            if name.startswith(pattern):
+                return True
+        elif fnmatch.fnmatch(name, pattern):
+            return True
+    return False
+
+print([ignored(n) for n in [&quot;.env&quot;, &quot;app.log&quot;, &quot;__pycache__/x.pyc&quot;, &quot;.venv/bin/python&quot;, &quot;main.py&quot;]])</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;fixed&quot;
+    expect_output(&quot;[True, True, True, True, False]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import fnmatch
+
+GITIGNORE = &quot;&quot;&quot;__pycache__/
+.venv/
+*.log
+.env
+&quot;&quot;&quot;
+
+def ignored(name):
+    for pattern in GITIGNORE.split():
+        if pattern.endswith(&quot;/&quot;):
+            if name.startswith(pattern):
+                return True
+        elif fnmatch.fnmatch(name, pattern):
+            return True
+    return False
+
+print([ignored(n) for n in [&quot;.env&quot;, &quot;app.log&quot;, &quot;__pycache__/x.pyc&quot;, &quot;.venv/bin/python&quot;, &quot;main.py&quot;]])</textarea><template class="pc-src pc-hint">A pattern matches whole names: <code>*.log</code> for every log file, and <code>.env</code> (with its dot) for the secrets file.</template></div>
+<div class="parsons" data-id="w021d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">The everyday cycle</div><div class="pc-prompt"><p>Arrange the Git commands in the order you&rsquo;d use them to start tracking a folder and make two commits. One line is a trap.</p></div><script type="application/json">{"lines": ["git init", "git status", "git add .", "git commit -m \"Start the project\"", "git add report.py", "git commit -m \"Add the weekly report\"", "git log --oneline"], "distractors": ["git commit"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Answer from what you know about Git.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # the command that shows what has changed and what&#x27;s staged
+b = ___   # the area between your files and the history (two words, lower case)
+c = ___   # True or False: git add saves a commit
+d = ___   # the file that lists things Git should ignore (its name)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;git status&quot; and b == &quot;staging area&quot; and c is False and d == &quot;.gitignore&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;git status&quot;
+b = &quot;staging area&quot;
+c = False
+d = &quot;.gitignore&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w021d3-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is a commit?", "answer": 1, "explain": "The history is a chain of them.", "options": ["A file", "A saved snapshot of the tracked files, with a message and a link to the previous commit", "A folder", "A backup on the internet"]}, {"type": "mc", "q": "What does git add do?", "answer": 1, "explain": "git commit saves the snapshot.", "options": ["Saves a commit", "Stages changes for the next commit", "Uploads files", "Creates a file"]}, {"type": "mc", "q": "Which command should you type when unsure what&rsquo;s going on?", "answer": 1, "explain": "It even suggests what to do next.", "options": ["git log", "git status", "git init", "git reset"]}, {"type": "mc", "q": "What does git diff show by default?", "answer": 1, "explain": "&ndash;staged shows what&rsquo;s staged.", "options": ["All history", "Changes in your files that aren&rsquo;t staged yet", "Staged changes", "Branches"]}, {"type": "mc", "q": "What makes a good commit?", "answer": 1, "explain": "Easy to read, easy to undo.", "options": ["As many changes as possible", "One logical change with a clear message", "A day&rsquo;s work, whatever it is", "Only one file"]}, {"type": "mc", "q": "Which message is best?", "answer": 2, "explain": "Short, specific, a command.", "options": ["stuff", "Fixed it.", "Fix crash when the marks file is empty", "changes"]}, {"type": "mc", "q": "What belongs in .gitignore?", "answer": 1, "explain": ".env, <strong>pycache</strong>/, .venv/.", "options": ["Your code", "Secrets, generated files and big data files", "The README", "Nothing"]}, {"type": "text", "q": "What is the name of the hidden folder where Git keeps its records?", "answer": [".git"], "explain": "Inside the project folder."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a tiny Git</div><div class="pc-prompt"><p>Write a small version-control store as a set of functions over a dictionary <code>repo</code> made by <code>init()</code>: <code>{"commits": {}, "head": None, "index": {}}</code>.</p>
+<ul>
+<li><code>add(repo, working, names)</code>: copy the named files from the <code>working</code> dictionary into the index (a name missing from <code>working</code> is removed from the index).</li>
+<li><code>commit(repo, message)</code>: if the index equals the head commit&rsquo;s files, return <code>None</code> (&ldquo;nothing to commit&rdquo;); otherwise make a commit <code>{"files": copy of index, "message": ..., "parent": head id}</code>, with an ID from <code>commit_id</code> (as in the hashing exercise, given in the starter), store it under that ID, move <code>head</code> to it, and return the ID.</li>
+<li><code>log(repo)</code>: a list of <code>"id message"</code> strings from the head back to the first commit.</li>
+<li><code>show(repo, cid, name)</code>: the contents of file <code>name</code> as it was in commit <code>cid</code>, or <code>None</code>.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>import hashlib
+
+def commit_id(files, message, parent):
+    lines = [f&quot;parent {parent or &#x27;none&#x27;}&quot;, f&quot;message {message}&quot;]
+    for name in sorted(files):
+        lines.append(f&quot;file {name} {files[name]}&quot;)
+    return hashlib.sha1(&quot;\n&quot;.join(lines).encode()).hexdigest()[:7]
+
+def init():
+    return {&quot;commits&quot;: {}, &quot;head&quot;: None, &quot;index&quot;: {}}</textarea><textarea class="pc-src pc-tests" hidden>def test_flow():
+    &quot;a session&quot;
+    repo = init()
+    work = {&quot;essay.txt&quot;: &quot;Intro\n&quot;, &quot;notes.txt&quot;: &quot;ideas&quot;}
+    add(repo, work, [&quot;essay.txt&quot;])
+    c1 = commit(repo, &quot;Start the essay&quot;)
+    assert c1 and repo[&quot;head&quot;] == c1 and commit(repo, &quot;again&quot;) is None
+    work[&quot;essay.txt&quot;] += &quot;Main point\n&quot;
+    add(repo, work, [&quot;essay.txt&quot;, &quot;notes.txt&quot;])
+    c2 = commit(repo, &quot;Add main point and notes&quot;)
+    assert log(repo) == [f&quot;{c2} Add main point and notes&quot;, f&quot;{c1} Start the essay&quot;]
+    assert show(repo, c1, &quot;essay.txt&quot;) == &quot;Intro\n&quot; and show(repo, c1, &quot;notes.txt&quot;) is None
+    assert show(repo, c2, &quot;notes.txt&quot;) == &quot;ideas&quot;
+    del work[&quot;notes.txt&quot;]
+    add(repo, work, [&quot;notes.txt&quot;])
+    c3 = commit(repo, &quot;Remove notes&quot;)
+    assert show(repo, c3, &quot;notes.txt&quot;) is None and len(log(repo)) == 3
+    work[&quot;essay.txt&quot;] = &quot;changed&quot;
+    assert show(repo, c2, &quot;essay.txt&quot;) == &quot;Intro\nMain point\n&quot;</textarea><textarea class="pc-src pc-solution" hidden>import hashlib
+
+def commit_id(files, message, parent):
+    lines = [f&quot;parent {parent or &#x27;none&#x27;}&quot;, f&quot;message {message}&quot;]
+    for name in sorted(files):
+        lines.append(f&quot;file {name} {files[name]}&quot;)
+    return hashlib.sha1(&quot;\n&quot;.join(lines).encode()).hexdigest()[:7]
+
+def init():
+    return {&quot;commits&quot;: {}, &quot;head&quot;: None, &quot;index&quot;: {}}
+
+def head_files(repo):
+    return repo[&quot;commits&quot;][repo[&quot;head&quot;]][&quot;files&quot;] if repo[&quot;head&quot;] else {}
+
+def add(repo, working, names):
+    for n in names:
+        if n in working:
+            repo[&quot;index&quot;][n] = working[n]
+        else:
+            repo[&quot;index&quot;].pop(n, None)
+
+def commit(repo, message):
+    if repo[&quot;index&quot;] == head_files(repo):
+        return None
+    files = dict(repo[&quot;index&quot;])
+    cid = commit_id(files, message, repo[&quot;head&quot;])
+    repo[&quot;commits&quot;][cid] = {&quot;files&quot;: files, &quot;message&quot;: message, &quot;parent&quot;: repo[&quot;head&quot;]}
+    repo[&quot;head&quot;] = cid
+    return cid
+
+def log(repo):
+    out = []
+    cid = repo[&quot;head&quot;]
+    while cid:
+        c = repo[&quot;commits&quot;][cid]
+        out.append(f&quot;{cid} {c[&#x27;message&#x27;]}&quot;)
+        cid = c[&quot;parent&quot;]
+    return out
+
+def show(repo, cid, name):
+    return repo[&quot;commits&quot;][cid][&quot;files&quot;].get(name)</textarea></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Make a habit of it: at the end of each day&rsquo;s work, <code>git status</code>, <code>git add .</code>, and <code>git commit -m</code> with a message saying what you did. Look at <code>git log --oneline</code> at the end of the week to see your progress. Tomorrow: branches, which let you try an idea without disturbing work that&rsquo;s already going well.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w021d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w021d3", "week": 21, "day": 3, "title": "Git: commits and history", "exercises": [{"id": "w021d3-snap", "title": "Snapshots", "points": 10}, {"id": "w021d3-status", "title": "git status", "points": 15}, {"id": "w021d3-hashing", "title": "Commit IDs", "points": 15}, {"id": "w021d3-diff", "title": "git diff", "points": 20}, {"id": "w021d3-messages", "title": "Good messages", "points": 10}, {"id": "w021d3-bug1", "title": "Commits that change by themselves", "points": 10}, {"id": "w021d3-bug2", "title": "What not to commit", "points": 10}, {"id": "w021d3-trace", "title": "Predict them", "points": 15}, {"id": "w021d3-challenge", "title": "Challenge: a tiny Git", "points": 25}], "points": 130}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=b5658a22af"></script>
+</body>
+</html>

@@ -1,9 +1,9 @@
 // Code consoles: editable Python with Run, X-ray, Check and a real-feeling terminal.
-import { h, $, $$, toast } from "./site.js?v=8c61ea13ed";
-import { py, onStatus, stop } from "./runtime.js?v=8c61ea13ed";
-import { makeEditor } from "./editor.js?v=8c61ea13ed";
-import { XRay } from "./xray.js?v=8c61ea13ed";
-import { progress } from "./progress.js?v=8c61ea13ed";
+import { h, $, $$, toast } from "./site.js?v=b5658a22af";
+import { py, onStatus, stop } from "./runtime.js?v=b5658a22af";
+import { makeEditor } from "./editor.js?v=b5658a22af";
+import { XRay } from "./xray.js?v=b5658a22af";
+import { progress } from "./progress.js?v=b5658a22af";
 
 const norm = (s) => String(s).split("\n").map((l) => l.replace(/\s+$/, "")).join("\n").replace(/\n+$/, "");
 

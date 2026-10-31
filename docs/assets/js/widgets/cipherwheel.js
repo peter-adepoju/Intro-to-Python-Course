@@ -1,5 +1,5 @@
 // Caesar cipher: the alphabet and its shifted copy, letter by letter, plus a live encryption.
-import { h } from "../site.js?v=8c61ea13ed";
+import { h } from "../site.js?v=b5658a22af";
 
 const A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

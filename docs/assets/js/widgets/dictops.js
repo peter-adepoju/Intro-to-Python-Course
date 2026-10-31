@@ -1,7 +1,7 @@
 // Dictionary lab: a dictionary drawn as key -> value rows. Run an operation and see which
 // entries were added, changed or removed, and what the operation returned.
-import { h } from "../site.js?v=8c61ea13ed";
-import { py } from "../runtime.js?v=8c61ea13ed";
+import { h } from "../site.js?v=b5658a22af";
+import { py } from "../runtime.js?v=b5658a22af";
 
 const DEFAULT_OPS = ['d["Ada"]', 'd["Bo"] = 55', 'd["Ada"] = 95', 'del d["Cy"]', '"Ada" in d', '93 in d', 'd["Zed"]',
   'd.get("Zed")', 'd.get("Zed", 0)', "len(d)", "list(d)", "d.keys()", "d.values()", "d.items()", 'd.pop("Ada")',
