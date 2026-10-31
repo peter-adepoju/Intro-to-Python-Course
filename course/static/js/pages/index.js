@@ -1,6 +1,7 @@
 import "./common.js";
 import { $, h, pageData, reducedMotion, SITE } from "../site.js";
 import { progress } from "../progress.js";
+import { loadCourse, nextDay } from "../resume.js";
 
 // ---------- hero: a recorded trace replayed with the yellow pointer
 const trace = pageData("hero-trace");
@@ -26,7 +27,7 @@ if (!reducedMotion()) {
 }
 
 // ---------- road
-fetch(SITE.root + "assets/data/course.json").then((r) => r.json()).then((course) => {
+loadCourse().then((course) => {
   const road = $("#road");
   for (const p of course.phases) {
     const weeks = course.weeks.filter((w) => w.phase === p.id);
@@ -37,10 +38,9 @@ fetch(SITE.root + "assets/data/course.json").then((r) => r.json()).then((course)
   const flat = course.weeks.flatMap((w) => w.days.map((d) => ({ ...d, week: w.week })));
   const done = flat.filter((d) => progress.get("day:" + d.id));
   const last = progress.get("last:day");
-  const next = flat.find((d) => !progress.get("day:" + d.id) && course.built.includes(d.id));
   const go = $("#continue");
   if (done.length || last) {
-    const target = next || flat.find((d) => d.id === (last && last.id));
+    const target = nextDay(course);
     if (target) { go.textContent = `Continue: Week ${target.week}, Day ${target.day}`; go.href = `days/${target.id}.html`; }
     $("#today").hidden = false;
     const hours = done.length * 3;

@@ -1,13 +1,22 @@
 // Progress is stored on this device first and copied to your account when signed in.
 //
-// Each account has its own space on the device, separate from the space used when nobody is
-// signed in. Signing out removes the account's copy from the device (after saving anything
-// unsent), so the next person sees nothing of it. Progress made before signing in is added to
-// the account you sign in to, then cleared from the signed-out space.
+// Each account has its own space on the device. Signing out removes the account's copy from the
+// device (after saving anything unsent), so the next person sees nothing of it.
+//
+// When nobody is signed in, progress is kept only for this browser session (sessionStorage): it's
+// gone once the browser or tab is closed, so a shared or borrowed device shows nothing of anyone's
+// work. Progress made before signing in is added to the account you sign in to. (If accounts aren't
+// switched on for this copy of the course, the device is the only place to keep progress, so it
+// stays in localStorage.)
 import { SITE, today } from "./site.js";
 
-const GUEST = "atlas.progress.v1";
+const GUEST = "atlas.progress.guest";
+const LEGACY = "atlas.progress.v1";   // the old signed-out space, kept on the device until sign-in
+const ACCOUNTS = !!(SITE.supabaseUrl && SITE.supabaseKey);
 const userKey = (id) => "atlas.progress.u." + id;
+function store(key) {
+  return key.startsWith(GUEST) && ACCOUNTS ? sessionStorage : localStorage;
+}
 const subs = new Set();
 let KEY = GUEST;
 let client = null;
@@ -30,10 +39,16 @@ const dirty = new Set();
 let state = load();
 
 function load(key = KEY) {
-  try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; }
+  try {
+    const found = JSON.parse(store(key).getItem(key));
+    if (found) return found;
+    // Without accounts, the old signed-out space is still the place progress lives.
+    if (key === GUEST && !ACCOUNTS) return JSON.parse(localStorage.getItem(LEGACY)) || {};
+    return {};
+  } catch { return {}; }
 }
 function save() {
-  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* storage full or blocked */ }
+  try { store(KEY).setItem(KEY, JSON.stringify(state)); } catch { /* storage full or blocked */ }
 }
 function emit(key) { subs.forEach((f) => f(key)); }
 
@@ -93,10 +108,10 @@ const sync = { status: "off", last: 0, error: "" };
 const syncSubs = new Set();
 
 (function loadDirty() {
-  try { (JSON.parse(localStorage.getItem(dirtyKey())) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ }
+  try { (JSON.parse(store(dirtyKey()).getItem(dirtyKey())) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ }
 })();
 function saveDirty() {
-  try { localStorage.setItem(dirtyKey(), JSON.stringify([...dirty])); } catch { /* ignore */ }
+  try { store(dirtyKey()).setItem(dirtyKey(), JSON.stringify([...dirty])); } catch { /* ignore */ }
 }
 function setSync(status, error = "") {
   sync.status = status;
@@ -209,17 +224,21 @@ function switchTo(newUser) {
     KEY = key;
     state = load();
     dirty.clear();
-    try { (JSON.parse(localStorage.getItem(dirtyKey())) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ }
+    try { (JSON.parse(store(dirtyKey()).getItem(dirtyKey())) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ }
   }
   if (newUser) {
-    // Progress made while signed out joins the account, and leaves the signed-out space.
-    const guest = load(GUEST);
-    const keys = Object.keys(guest);
-    if (keys.length) {
-      for (const k of keys) if (!state[k] || state[k].t < guest[k].t) { state[k] = guest[k]; dirty.add(k); }
-      try { localStorage.removeItem(GUEST); localStorage.removeItem(GUEST + ".dirty"); localStorage.removeItem("atlas.progress.dirty"); } catch { /* ignore */ }
-      saveDirty();
+    // Progress made while signed out (this session, or saved on the device by older versions of
+    // the site) joins the account, and leaves the signed-out space.
+    let legacy = {};
+    try { legacy = JSON.parse(localStorage.getItem(LEGACY)) || {}; } catch { /* ignore */ }
+    for (const guest of [legacy, load(GUEST)]) {
+      for (const k of Object.keys(guest)) if (!state[k] || state[k].t < guest[k].t) { state[k] = guest[k]; dirty.add(k); }
     }
+    try {
+      for (const k of [LEGACY, LEGACY + ".dirty", "atlas.progress.dirty"]) localStorage.removeItem(k);
+      for (const k of [GUEST, GUEST + ".dirty"]) store(k).removeItem(k);
+    } catch { /* ignore */ }
+    saveDirty();
     save();
   }
   emit("*");

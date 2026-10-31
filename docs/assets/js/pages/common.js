@@ -1,11 +1,12 @@
 // Runs on every page: account link, streak, review badge and the tutor.
-import { SITE, $, h } from "../site.js?v=9f904ce4cd";
-import { displayName, firstName, avatar } from "../user.js?v=9f904ce4cd";
-import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=9f904ce4cd";
-import { mountTutor } from "../tutor.js?v=9f904ce4cd";
-import { settings, update as updateSettings, onSettings } from "../settings.js?v=9f904ce4cd";
-import { initSearch } from "../search.js?v=9f904ce4cd";
-import { initInstall, install, onInstallable } from "../install.js?v=9f904ce4cd";
+import { SITE, $, h } from "../site.js?v=ebb833fa95";
+import { displayName, firstName, avatar } from "../user.js?v=ebb833fa95";
+import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=ebb833fa95";
+import { mountTutor } from "../tutor.js?v=ebb833fa95";
+import { settings, update as updateSettings, onSettings } from "../settings.js?v=ebb833fa95";
+import { initSearch } from "../search.js?v=ebb833fa95";
+import { initInstall, install, onInstallable } from "../install.js?v=ebb833fa95";
+import { loadCourse, nextDay } from "../resume.js?v=ebb833fa95";
 
 let closeMenu = () => {};
 document.addEventListener("click", (e) => { const slot = document.getElementById("account-slot"); if (slot && !slot.contains(e.target)) closeMenu(); });
@@ -40,15 +41,16 @@ export function initCommon() {
   document.addEventListener("click", (e) => { if (!e.target.closest(".nav-dd")) closeDds(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDds(); });
 
-  // "Continue learning" goes to the last lesson opened.
+  // "Continue learning" goes to the first lesson not yet complete, the same one as on the home page.
   const cont = document.getElementById("dd-continue");
   const setContinue = () => {
-    const last = progress.get("last:day");
-    if (cont && last && last.id) {
-      cont.href = SITE.root + "days/" + last.id + ".html";
-      const m = /^w0*(\d+)d(\d+)$/.exec(last.id);
-      cont.querySelector("span").textContent = m ? `Back to Week ${m[1]}, Day ${m[2]}` : "Pick up where you left off";
-    }
+    if (!cont) return;
+    loadCourse().then((course) => {
+      const d = nextDay(course);
+      if (!d) return;
+      cont.href = SITE.root + "days/" + d.id + ".html";
+      cont.querySelector("span").textContent = `Week ${d.week}, Day ${d.day}: ${d.title}`;
+    }).catch(() => { /* offline and not saved yet: keep the course map link */ });
   };
   setContinue();
 
@@ -74,7 +76,7 @@ export function initCommon() {
     const st = $("#streak");
     if (st) { st.hidden = s < 1; st.textContent = `${s}-day streak`; }
     const due = progress.all("srs:").filter(([, v]) => v.due <= Date.now()).length;
-    for (const b of [$("#due-badge"), $("#tab-due")]) if (b) { b.hidden = !due; b.textContent = due > 99 ? "99+" : due; }
+    for (const b of [$("#tab-due"), $("#dd-due")]) if (b) { b.hidden = !due; b.textContent = due > 99 ? "99+" : due; }
   };
   refresh();
   progress.subscribe(() => { refresh(); setContinue(); });
