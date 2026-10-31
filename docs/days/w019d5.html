@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="e25f86ac0b">
+<title>Week 19 Day 5: Sorting by keys | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=e25f86ac0b">
+<link rel="stylesheet" href="../assets/css/site.css?v=e25f86ac0b">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=e25f86ac0b"></script>
+<script src="../assets/vendor/codemirror.js?v=e25f86ac0b" defer></script>
+<meta name="description" content="In real programs you almost never write a sorting algorithm. You call sorted and tell it what to sort by. That second part is where the skill is: file names...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w019d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 19 Day 5: Sorting by keys">
+<meta property="og:description" content="In real programs you almost never write a sorting algorithm. You call sorted and tell it what to sort by. That second part is where the skill is: file names...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w019d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-19">Week 19: Sorting II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#key-functions" data-sec="key-functions">Key functions</a></li><li><a href="#custom-orders" data-sec="custom-orders">Custom orders</a></li><li><a href="#sorting-text-the-way-people-expect" data-sec="sorting-text-the-way-people-expect">Sorting text the way people expect</a></li><li><a href="#missing-values-and-many-levels" data-sec="missing-values-and-many-levels">Missing values and many levels</a></li><li><a href="#beyond-sorted" data-sec="beyond-sorted">Beyond sorted</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w019d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-19">Week 19: Sorting II</a></li><li aria-current="page">Day 5 of 6</li></ol>
+      <p class="day-where"><span>Week 19, Day 5</span></p>
+      <h1>Sorting by keys</h1>
+      <div class="day-intro"><p>In real programs you almost never write a sorting algorithm. You call <code>sorted</code> and tell it what to sort by. That second part is where the skill is: file names that sort the way people expect, T-shirt sizes in size order, names that ignore capitals and accents, a league table with five tie-breakers. Today brings together everything about key functions, so that you can sort anything the way your users expect.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write key functions with lambdas, built-in functions and <code>operator.itemgetter</code></li><li>Sort in a custom order (sizes, days, priorities) with a ranking dictionary</li><li>Sort text the way people expect, ignoring case and putting numbers inside names in numeric order</li><li>Handle missing values, mixed directions and many tie-breakers in one key</li><li>Use keys with <code>min</code>, <code>max</code> and <code>heapq.nlargest</code>, and use <code>cmp_to_key</code> when no key will do</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Key functions: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Custom orders: 20 min"></span><span class="plan-seg s1" style="flex:25" title="Sorting text the way people expect: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Missing values and many levels: 20 min"></span><span class="plan-seg s1" style="flex:20" title="Beyond sorted: 20 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Key functions</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Custom orders</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">Sorting text the way people expect</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">Missing values and many levels</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Beyond sorted</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w019d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w019d5.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w019d5-p1"><textarea class="pc-src pc-code" hidden>files = [&quot;file10.txt&quot;, &quot;file2.txt&quot;, &quot;File1.txt&quot;, &quot;file1.txt&quot;]
+print(sorted(files))</textarea></div>
+<p>Python sorts strings by the numbers behind their characters: every capital letter comes before every lower-case letter, and digits are compared one character at a time, so <code>"10"</code> comes before <code>"2"</code>. Correct by the rules, and not what anyone wants. By the end of today you&rsquo;ll be able to sort these as <code>File1.txt, file1.txt, file2.txt, file10.txt</code>.</p>
+<h2 id="key-functions">Key functions</h2>
+<p><code>sorted(items, key=f)</code> works out <code>f(item)</code> <strong>once</strong> for each item, sorts by those keys, and gives back the items themselves. You met this in Week 9; here&rsquo;s the full toolkit.</p>
+<figure class="widget" data-widget="sortkey"><script type="application/json">{"items": "[\"file10.txt\", \"file2.txt\", \"File1.txt\", \"file1.txt\"]", "key": "x.lower()", "keys": ["x", "x.lower()", "len(x)", "(len(x), x.lower())", "x[-5]", "-len(x)"]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Write any key (x is each item) and see the key Python works out for each item before sorting.</figcaption></figure>
+<p><strong>Built-in functions as keys:</strong> <code>len</code>, <code>abs</code>, <code>str.lower</code>, <code>str.casefold</code>, and any function you write. Pass the function itself, without brackets:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e2"><textarea class="pc-src pc-code" hidden>words = [&quot;banana&quot;, &quot;Fig&quot;, &quot;apple&quot;, &quot;Cherry&quot;]
+print(sorted(words, key=str.lower))
+print(sorted([-7, 3, -1, 5], key=abs))
+print(sorted(words, key=len))</textarea></div>
+<p><strong>Records:</strong> <code>operator.itemgetter(i)</code> makes a function that returns item <code>i</code> (or key <code>i</code> of a dictionary). With several arguments it returns a tuple, which gives several levels at once:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e3"><textarea class="pc-src pc-code" hidden>from operator import itemgetter
+
+orders = [(&quot;A17&quot;, &quot;Leeds&quot;, 42.5), (&quot;B03&quot;, &quot;Bath&quot;, 18.0), (&quot;C22&quot;, &quot;Leeds&quot;, 18.0)]
+print(sorted(orders, key=itemgetter(2)))          # by price
+print(sorted(orders, key=itemgetter(1, 2)))       # by town, then price
+
+people = [{&quot;name&quot;: &quot;Ola&quot;, &quot;age&quot;: 31}, {&quot;name&quot;: &quot;Bo&quot;, &quot;age&quot;: 25}]
+print(sorted(people, key=itemgetter(&quot;age&quot;)))</textarea></div>
+<p><code>itemgetter(2)</code> does the same job as <code>lambda r: r[2]</code>, a little faster, and reads well. Use whichever is clearer.</p>
+<p><strong>Sorting a dictionary:</strong> a dictionary has no order to sort in place, but its items can be sorted into a list:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e4"><textarea class="pc-src pc-code" hidden>from operator import itemgetter
+
+stock = {&quot;tea&quot;: 12, &quot;jam&quot;: 3, &quot;bread&quot;: 30, &quot;eggs&quot;: 3}
+print(sorted(stock.items(), key=itemgetter(1), reverse=True))    # most first
+print(sorted(stock, key=stock.get))                               # names, by quantity
+print(dict(sorted(stock.items())))                                # a new dict in key order</textarea></div>
+<p><code>key=stock.get</code> works because <code>stock.get</code> is a function from a name to its quantity.</p>
+<h2 id="custom-orders">Custom orders</h2>
+<p>Some things have an order that isn&rsquo;t alphabetical or numeric: clothing sizes, days of the week, priority levels. Write the order down once, as a dictionary from each value to its <strong>rank</strong>, and use the rank as the key:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e5"><textarea class="pc-src pc-code" hidden>SIZES = {&quot;XS&quot;: 0, &quot;S&quot;: 1, &quot;M&quot;: 2, &quot;L&quot;: 3, &quot;XL&quot;: 4, &quot;XXL&quot;: 5}
+stock = [&quot;L&quot;, &quot;S&quot;, &quot;XXL&quot;, &quot;M&quot;, &quot;S&quot;, &quot;XS&quot;, &quot;XL&quot;]
+print(sorted(stock, key=SIZES.get))
+
+DAYS = [&quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;, &quot;Sun&quot;]
+RANK = {day: i for i, day in enumerate(DAYS)}
+shifts = [(&quot;Fri&quot;, &quot;Ada&quot;), (&quot;Mon&quot;, &quot;Ben&quot;), (&quot;Sun&quot;, &quot;Cy&quot;), (&quot;Mon&quot;, &quot;Dee&quot;)]
+print(sorted(shifts, key=lambda s: RANK[s[0]]))</textarea></div>
+<p>Build the rank dictionary from a list with <code>enumerate</code>, so the order lives in one place. Values missing from the dictionary need a decision: <code>SIZES.get</code> returns <code>None</code> for an unknown size, which can&rsquo;t be compared with numbers and crashes. A default such as <code>lambda s: SIZES.get(s, 99)</code> puts unknown values last.</p>
+<h2 id="sorting-text-the-way-people-expect">Sorting text the way people expect</h2>
+<p><strong>Case:</strong> <code>key=str.lower</code> ignores capitals. <code>str.casefold</code> is a stronger version for other languages: the German &ldquo;ß&rdquo; casefolds to &ldquo;ss&rdquo;, so &ldquo;Straße&rdquo; and &ldquo;STRASSE&rdquo; compare equal.</p>
+<p><strong>Accents:</strong> <code>"é"</code> has a much higher character number than <code>"z"</code>, so <code>"émile"</code> sorts after <code>"zoe"</code>. For proper language-aware sorting, the <code>locale</code> module or the <code>PyICU</code> library is the real answer; a simple version strips accents with <code>unicodedata</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e6"><textarea class="pc-src pc-code" hidden>import unicodedata
+
+def plain(text):
+    &quot;&quot;&quot;Lower case, with accents removed: &#x27;Émile&#x27; becomes &#x27;emile&#x27;.&quot;&quot;&quot;
+    decomposed = unicodedata.normalize(&quot;NFD&quot;, text.casefold())
+    return &quot;&quot;.join(ch for ch in decomposed if not unicodedata.combining(ch))
+
+names = [&quot;Zoë&quot;, &quot;émile&quot;, &quot;Adebayo&quot;, &quot;Ëkpo&quot;, &quot;chidi&quot;]
+print(sorted(names))
+print(sorted(names, key=plain))</textarea></div>
+<p><strong>Numbers inside text (&ldquo;natural sort&rdquo;):</strong> split the text into runs of digits and non-digits, and turn the digit runs into numbers. Then <code>"file10"</code> becomes <code>["file", 10]</code> and <code>"file2"</code> becomes <code>["file", 2]</code>, and lists compare item by item:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e7"><textarea class="pc-src pc-code" hidden>import re
+
+def natural_key(text):
+    parts = re.split(r&quot;(\d+)&quot;, text.casefold())
+    return [int(p) if p.isdigit() else p for p in parts]
+
+files = [&quot;file10.txt&quot;, &quot;file2.txt&quot;, &quot;File1.txt&quot;, &quot;file1.txt&quot;, &quot;chapter 3&quot;, &quot;chapter 12&quot;]
+print(natural_key(&quot;file10.txt&quot;))
+print(sorted(files, key=natural_key))</textarea></div>
+<p><code>re.split</code> with the pattern in brackets keeps the digit runs in the result (you&rsquo;ll learn regular expressions properly in Week 23). Because the split always alternates text, number, text, the parts at matching positions are always the same type, so they compare safely.</p>
+<h2 id="missing-values-and-many-levels">Missing values and many levels</h2>
+<p><strong>Missing values:</strong> <code>None</code> can&rsquo;t be compared with numbers or strings, so a list with gaps crashes <code>sorted</code>. Put a flag first in the key that says whether the value is missing: <code>False</code> sorts before <code>True</code>, so present values come first.</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e8"><textarea class="pc-src pc-code" hidden>scores = [(&quot;Ada&quot;, 71), (&quot;Ben&quot;, None), (&quot;Cy&quot;, 85), (&quot;Dee&quot;, None), (&quot;Eve&quot;, 64)]
+print(sorted(scores, key=lambda s: (s[1] is None, s[1] or 0)))</textarea></div>
+<p><strong>Many levels in mixed directions:</strong> negate numbers to reverse them inside one tuple key. For strings, which can&rsquo;t be negated, use repeated stable sorts (Week 18), least important level first:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e9"><textarea class="pc-src pc-code" hidden>runners = [(&quot;Ola&quot;, &quot;F&quot;, 31.2), (&quot;Ben&quot;, &quot;M&quot;, 29.8), (&quot;Ada&quot;, &quot;F&quot;, 29.8), (&quot;Cy&quot;, &quot;M&quot;, 31.2), (&quot;Zara&quot;, &quot;F&quot;, 29.8)]
+# fastest first; ties by name Z to A (strings can&#x27;t be negated, so two passes)
+step1 = sorted(runners, key=lambda r: r[0], reverse=True)
+step2 = sorted(step1, key=lambda r: r[2])
+print([r[0] for r in step2])</textarea></div>
+<p><strong>Dates as text:</strong> a date written <code>"2026-10-31"</code> (year, month, day, with leading zeros) sorts correctly as plain text, which is one reason that format is the international standard (ISO 8601). <code>"31/10/2026"</code> doesn&rsquo;t: turn it into a tuple <code>(year, month, day)</code> or a <code>date</code> object for the key.</p>
+<h2 id="beyond-sorted">Beyond sorted</h2>
+<p><strong><code>min</code>, <code>max</code> take a key too</strong>, and they&rsquo;re O(n) where sorting is O(n log n):</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e10"><textarea class="pc-src pc-code" hidden>words = [&quot;kiwi&quot;, &quot;banana&quot;, &quot;fig&quot;, &quot;cherry&quot;]
+print(max(words, key=len), min(words, key=len))
+stock = {&quot;tea&quot;: 12, &quot;jam&quot;: 3, &quot;bread&quot;: 30}
+print(max(stock, key=stock.get))</textarea></div>
+<p><strong>The top k:</strong> <code>heapq.nlargest(k, items, key=...)</code> and <code>heapq.nsmallest</code> find the k biggest or smallest in about O(n log k), better than sorting everything when k is small:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e11"><textarea class="pc-src pc-code" hidden>import heapq
+
+scores = {&quot;Ada&quot;: 91, &quot;Ben&quot;: 78, &quot;Cy&quot;: 85, &quot;Dee&quot;: 99, &quot;Eve&quot;: 70, &quot;Fin&quot;: 88}
+print(heapq.nlargest(3, scores, key=scores.get))</textarea></div>
+<p><strong>When no key works:</strong> occasionally the order depends on comparing two items <strong>together</strong>. The classic example: arrange numbers to make the biggest possible number when written side by side. Is <code>9</code> before <code>34</code>? Compare <code>"934"</code> with <code>"349"</code>. That&rsquo;s a comparison, not a key, so use <code>cmp_to_key</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d5-e12"><textarea class="pc-src pc-code" hidden>from functools import cmp_to_key
+
+def compare(a, b):
+    ab, ba = a + b, b + a
+    return (ab &lt; ba) - (ab &gt; ba)       # put a first if ab is the bigger number
+
+nums = [3, 30, 34, 5, 9]
+print(&quot;&quot;.join(sorted(map(str, nums), key=cmp_to_key(compare))))</textarea></div>
+<p>Prefer a key when you can: it&rsquo;s called n times, while a comparison function is called about n log n times.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>key=</code> is worked out once per item. Use built-ins (<code>len</code>, <code>str.casefold</code>), <code>itemgetter</code>, rank dictionaries for custom orders, natural-sort keys for numbers inside text, and tuples for several levels, with <code>(value is None, value)</code> for missing values. Use <code>min</code>, <code>max</code> and <code>heapq.nlargest</code> when you don&rsquo;t need everything sorted.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d5-records" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">itemgetter</div><div class="pc-prompt"><p><code>BOOKS</code> holds <code>(title, author, year, pages)</code>. Using <code>itemgetter</code> (not lambda), set <code>by_year</code> to the books sorted by year, <code>by_author_year</code> to the books sorted by author then year, and <code>longest</code> to the title of the book with the most pages (use <code>max</code>).</p></div><textarea class="pc-src pc-code" hidden>from operator import itemgetter
+
+BOOKS = [(&quot;Arrow of God&quot;, &quot;Achebe&quot;, 1964, 230), (&quot;Kindred&quot;, &quot;Butler&quot;, 1979, 264), (&quot;Things Fall Apart&quot;, &quot;Achebe&quot;, 1958, 209), (&quot;Dawn&quot;, &quot;Butler&quot;, 1987, 248)]
+
+by_year = ___
+by_author_year = ___
+longest = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert [b[0] for b in by_year] == [&quot;Things Fall Apart&quot;, &quot;Arrow of God&quot;, &quot;Kindred&quot;, &quot;Dawn&quot;]
+    assert [b[0] for b in by_author_year] == [&quot;Things Fall Apart&quot;, &quot;Arrow of God&quot;, &quot;Kindred&quot;, &quot;Dawn&quot;]
+    assert longest == &quot;Kindred&quot;
+    assert &quot;lambda&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>from operator import itemgetter
+
+BOOKS = [(&quot;Arrow of God&quot;, &quot;Achebe&quot;, 1964, 230), (&quot;Kindred&quot;, &quot;Butler&quot;, 1979, 264), (&quot;Things Fall Apart&quot;, &quot;Achebe&quot;, 1958, 209), (&quot;Dawn&quot;, &quot;Butler&quot;, 1987, 248)]
+
+by_year = sorted(BOOKS, key=itemgetter(2))
+by_author_year = sorted(BOOKS, key=itemgetter(1, 2))
+longest = max(BOOKS, key=itemgetter(3))[0]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d5-priority" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Priorities</div><div class="pc-prompt"><p>Tickets are <code>(id, priority)</code>, with priority one of <code>"urgent"</code>, <code>"high"</code>, <code>"normal"</code>, <code>"low"</code>. Write <code>triage(tickets)</code> returning the ids, most urgent first, keeping the original order within a priority. Any unknown priority goes last.</p></div><textarea class="pc-src pc-code" hidden>ORDER = [&quot;urgent&quot;, &quot;high&quot;, &quot;normal&quot;, &quot;low&quot;]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    t = [(1, &quot;low&quot;), (2, &quot;urgent&quot;), (3, &quot;normal&quot;), (4, &quot;high&quot;), (5, &quot;urgent&quot;), (6, &quot;someday&quot;), (7, &quot;low&quot;)]
+    assert triage(t) == [2, 5, 4, 3, 1, 7, 6]
+    assert triage([]) == []</textarea><textarea class="pc-src pc-solution" hidden>ORDER = [&quot;urgent&quot;, &quot;high&quot;, &quot;normal&quot;, &quot;low&quot;]
+RANK = {p: i for i, p in enumerate(ORDER)}
+
+def triage(tickets):
+    return [t[0] for t in sorted(tickets, key=lambda t: RANK.get(t[1], len(ORDER)))]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d5-natural" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Natural sort</div><div class="pc-prompt"><p>Write <code>natural_key(text)</code> that turns text into a list alternating lower-case text and whole numbers, so that <code>sorted(files, key=natural_key)</code> puts <code>"img2.png"</code> before <code>"img10.png"</code>. Use <code>re.split(r"(\d+)", ...)</code>.</p></div><textarea class="pc-src pc-code" hidden>import re</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    files = [&quot;img10.png&quot;, &quot;img2.png&quot;, &quot;IMG1.png&quot;, &quot;img1.png&quot;, &quot;img2a.png&quot;, &quot;notes.txt&quot;, &quot;img&quot;]
+    assert sorted(files, key=natural_key) == [&quot;img&quot;, &quot;IMG1.png&quot;, &quot;img1.png&quot;, &quot;img2.png&quot;, &quot;img2a.png&quot;, &quot;img10.png&quot;, &quot;notes.txt&quot;]
+    assert sorted([&quot;v1.10&quot;, &quot;v1.9&quot;, &quot;v1.2&quot;], key=natural_key) == [&quot;v1.2&quot;, &quot;v1.9&quot;, &quot;v1.10&quot;]
+    assert sorted([&quot;track 3&quot;, &quot;Track 12&quot;, &quot;track 1&quot;], key=natural_key) == [&quot;track 1&quot;, &quot;track 3&quot;, &quot;Track 12&quot;]</textarea><textarea class="pc-src pc-solution" hidden>import re
+
+def natural_key(text):
+    parts = re.split(r&quot;(\d+)&quot;, text.lower())
+    return [int(p) if p.isdigit() else p for p in parts]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d5-missing" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Gaps in the data</div><div class="pc-prompt"><p><code>READINGS</code> holds <code>(station, temperature)</code> where a temperature may be <code>None</code> (the sensor failed). Write <code>warmest_first(readings)</code> returning the stations sorted from warmest to coolest, with failed stations last in their original order. Then <code>coolest(readings)</code>: the station with the lowest real temperature, or <code>None</code> if every reading failed.</p></div><textarea class="pc-src pc-code" hidden>READINGS = [(&quot;Jos&quot;, 18.5), (&quot;Kano&quot;, None), (&quot;Lagos&quot;, 29.1), (&quot;Enugu&quot;, 24.0), (&quot;Bauchi&quot;, None), (&quot;Ibadan&quot;, 27.3)]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert warmest_first(READINGS) == [&quot;Lagos&quot;, &quot;Ibadan&quot;, &quot;Enugu&quot;, &quot;Jos&quot;, &quot;Kano&quot;, &quot;Bauchi&quot;]
+    assert coolest(READINGS) == &quot;Jos&quot;
+    assert coolest([(&quot;A&quot;, None)]) is None and warmest_first([]) == []</textarea><textarea class="pc-src pc-solution" hidden>READINGS = [(&quot;Jos&quot;, 18.5), (&quot;Kano&quot;, None), (&quot;Lagos&quot;, 29.1), (&quot;Enugu&quot;, 24.0), (&quot;Bauchi&quot;, None), (&quot;Ibadan&quot;, 27.3)]
+
+def warmest_first(readings):
+    return [r[0] for r in sorted(readings, key=lambda r: (r[1] is None, -(r[1] or 0)))]
+
+def coolest(readings):
+    real = [r for r in readings if r[1] is not None]
+    if not real:
+        return None
+    return min(real, key=lambda r: r[1])[0]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d5-dates" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Dates written the British way</div><div class="pc-prompt"><p>Events have dates written as <code>"31/10/2026"</code> (day/month/year). Write <code>date_key(text)</code> returning a tuple <code>(year, month, day)</code> of whole numbers, and <code>in_date_order(events)</code> returning the event names (from <code>(name, date_text)</code> pairs) in date order, oldest first; events on the same day keep their order.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert date_key(&quot;31/10/2026&quot;) == (2026, 10, 31) and date_key(&quot;5/1/2027&quot;) == (2027, 1, 5)
+    ev = [(&quot;Exam&quot;, &quot;12/06/2027&quot;), (&quot;Launch&quot;, &quot;31/10/2026&quot;), (&quot;Party&quot;, &quot;05/01/2027&quot;), (&quot;Talk&quot;, &quot;31/10/2026&quot;)]
+    assert in_date_order(ev) == [&quot;Launch&quot;, &quot;Talk&quot;, &quot;Party&quot;, &quot;Exam&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def date_key(text):
+    day, month, year = (int(p) for p in text.split(&quot;/&quot;))
+    return (year, month, day)
+
+def in_date_order(events):
+    return [e[0] for e in sorted(events, key=lambda e: date_key(e[1]))]</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w019d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Calling instead of passing</div><div class="pc-prompt"><p>This crashes with <code>TypeError</code>. The key should be the function itself, not the result of calling it. Fix it so it prints <code>['apple', 'Banana', 'cherry']</code>.</p></div><textarea class="pc-src pc-code" hidden>words = [&quot;cherry&quot;, &quot;Banana&quot;, &quot;apple&quot;]
+print(sorted(words, key=str.lower()))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;sorted&quot;
+    expect_output(&quot;[&#x27;apple&#x27;, &#x27;Banana&#x27;, &#x27;cherry&#x27;]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>words = [&quot;cherry&quot;, &quot;Banana&quot;, &quot;apple&quot;]
+print(sorted(words, key=str.lower))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w019d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Unknown size</div><div class="pc-prompt"><p>This crashes with <code>TypeError: '&lt;' not supported between instances of 'NoneType' and 'int'</code> because <code>"XXXL"</code> isn&rsquo;t in the size table. Make unknown sizes sort last, so it prints <code>['S', 'M', 'L', 'XXXL']</code>.</p></div><textarea class="pc-src pc-code" hidden>SIZES = {&quot;S&quot;: 0, &quot;M&quot;: 1, &quot;L&quot;: 2}
+print(sorted([&quot;L&quot;, &quot;XXXL&quot;, &quot;S&quot;, &quot;M&quot;], key=SIZES.get))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;unknown last&quot;
+    expect_output(&quot;[&#x27;S&#x27;, &#x27;M&#x27;, &#x27;L&#x27;, &#x27;XXXL&#x27;]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>SIZES = {&quot;S&quot;: 0, &quot;M&quot;: 1, &quot;L&quot;: 2}
+print(sorted([&quot;L&quot;, &quot;XXXL&quot;, &quot;S&quot;, &quot;M&quot;], key=lambda s: SIZES.get(s, 99)))</textarea><template class="pc-src pc-hint"><code>SIZES.get(size, 99)</code> gives 99 for anything missing.</template></div>
+<div class="parsons" data-id="w019d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Top three by value</div><div class="pc-prompt"><p>Arrange the lines so the program prints the three products with the most sales, most first. One line is a trap.</p></div><script type="application/json">{"lines": ["import heapq", "sales = {\"tea\": 40, \"jam\": 12, \"bread\": 55, \"eggs\": 31, \"milk\": 48}", "top = heapq.nlargest(3, sales, key=sales.get)", "print(top)"], "distractors": ["top = heapq.nlargest(3, sales)"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # sorted([&quot;b&quot;, &quot;A&quot;, &quot;c&quot;, &quot;B&quot;])
+b = ___   # sorted([&quot;b&quot;, &quot;A&quot;, &quot;c&quot;, &quot;B&quot;], key=str.lower)
+c = ___   # sorted([-4, 2, -1, 3], key=abs)
+d = ___   # max({&quot;x&quot;: 3, &quot;y&quot;: 9, &quot;z&quot;: 1}, key=lambda k: -{&quot;x&quot;: 3, &quot;y&quot;: 9, &quot;z&quot;: 1}[k])</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == [&quot;A&quot;, &quot;B&quot;, &quot;b&quot;, &quot;c&quot;] and b == [&quot;A&quot;, &quot;b&quot;, &quot;B&quot;, &quot;c&quot;] and c == [-1, 2, 3, -4] and d == &quot;z&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = [&quot;A&quot;, &quot;B&quot;, &quot;b&quot;, &quot;c&quot;]
+b = [&quot;A&quot;, &quot;b&quot;, &quot;B&quot;, &quot;c&quot;]
+c = [-1, 2, 3, -4]
+d = &quot;z&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w019d5-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "How many times is the key function called when sorting n items?", "answer": 0, "explain": "Once per item; the keys are then compared.", "options": ["n", "n log n", "n\u00b2", "Once"]}, {"type": "mc", "q": "What does <code>itemgetter(1, 2)</code> return for a record?", "answer": 1, "explain": "Two levels at once.", "options": ["Item 1", "A tuple of items 1 and 2", "Item 2", "A function"]}, {"type": "mc", "q": "How do you sort in a custom order such as clothing sizes?", "answer": 1, "explain": "Write the order down once.", "options": ["Alphabetically", "With a dictionary from each value to its rank, used as the key", "With reverse=True", "You can&rsquo;t"]}, {"type": "mc", "q": "Why does &ldquo;file10&rdquo; sort before &ldquo;file2&rdquo; by default?", "answer": 1, "explain": "Natural sort fixes it.", "options": ["A bug", "Strings compare character by character, and &lsquo;1&rsquo; comes before &lsquo;2&rsquo;", "Numbers sort first", "Length"]}, {"type": "mc", "q": "How do you put None values last?", "answer": 1, "explain": "False sorts before True.", "options": ["reverse=True", "A key like (x is None, x or 0)", "Remove them", "key=None"]}, {"type": "mc", "q": "Which is O(n), finding the single largest with max(key=&hellip;) or sorting first?", "answer": 1, "explain": "Sorting is O(n log n).", "options": ["Sorting", "max", "Both O(n)", "Neither"]}, {"type": "mc", "q": "When do you need cmp_to_key?", "answer": 1, "explain": "Like the biggest-number puzzle.", "options": ["Always", "When the order depends on comparing two items together and no single key works", "For numbers", "For stability"]}, {"type": "text", "q": "Which date format sorts correctly as plain text: 2026-10-31 or 31/10/2026?", "answer": ["2026-10-31"], "explain": "Year, month, day: ISO 8601."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a music library</div><div class="pc-prompt"><p>Songs are dictionaries with keys <code>"title"</code>, <code>"artist"</code>, <code>"album"</code>, <code>"track"</code> (a whole number or <code>None</code>) and <code>"plays"</code>. Write:</p>
+<ul>
+<li><code>library_order(songs)</code>: sorted by artist ignoring case and a leading <code>"The "</code> (so &ldquo;The Beatles&rdquo; files under B), then album (ignoring case), then track number, with songs that have no track number last within their album, then title. Return the titles.</li>
+<li><code>top_artists(songs, k)</code>: the k artists (written as in the data, ignoring case when grouping; use the first spelling seen) with the most total plays, most first, ties alphabetically ignoring case. Use a dictionary and <code>heapq.nsmallest</code> or <code>sorted</code> with a tuple key.</li>
+</ul></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>SONGS = [
+    {&quot;title&quot;: &quot;Yellow Sun&quot;, &quot;artist&quot;: &quot;Asa&quot;, &quot;album&quot;: &quot;Asa&quot;, &quot;track&quot;: 2, &quot;plays&quot;: 40},
+    {&quot;title&quot;: &quot;Jailer&quot;, &quot;artist&quot;: &quot;asa&quot;, &quot;album&quot;: &quot;Asa&quot;, &quot;track&quot;: 1, &quot;plays&quot;: 90},
+    {&quot;title&quot;: &quot;Help!&quot;, &quot;artist&quot;: &quot;The Beatles&quot;, &quot;album&quot;: &quot;Help!&quot;, &quot;track&quot;: 1, &quot;plays&quot;: 50},
+    {&quot;title&quot;: &quot;Bonus&quot;, &quot;artist&quot;: &quot;The Beatles&quot;, &quot;album&quot;: &quot;Help!&quot;, &quot;track&quot;: None, &quot;plays&quot;: 5},
+    {&quot;title&quot;: &quot;Yesterday&quot;, &quot;artist&quot;: &quot;The Beatles&quot;, &quot;album&quot;: &quot;Help!&quot;, &quot;track&quot;: 13, &quot;plays&quot;: 70},
+    {&quot;title&quot;: &quot;Water No Get Enemy&quot;, &quot;artist&quot;: &quot;Fela Kuti&quot;, &quot;album&quot;: &quot;Expensive Shit&quot;, &quot;track&quot;: 1, &quot;plays&quot;: 120},
+    {&quot;title&quot;: &quot;Ojuelegba&quot;, &quot;artist&quot;: &quot;Wizkid&quot;, &quot;album&quot;: &quot;Ayo&quot;, &quot;track&quot;: 7, &quot;plays&quot;: 130},
+    {&quot;title&quot;: &quot;Final&quot;, &quot;artist&quot;: &quot;Wizkid&quot;, &quot;album&quot;: &quot;Ayo&quot;, &quot;track&quot;: None, &quot;plays&quot;: 10},
+]
+def test_order():
+    &quot;library_order&quot;
+    assert library_order(SONGS) == [&quot;Jailer&quot;, &quot;Yellow Sun&quot;, &quot;Help!&quot;, &quot;Yesterday&quot;, &quot;Bonus&quot;, &quot;Water No Get Enemy&quot;, &quot;Ojuelegba&quot;, &quot;Final&quot;]
+    assert library_order([]) == []
+def test_top():
+    &quot;top_artists&quot;
+    assert top_artists(SONGS, 2) == [&quot;Wizkid&quot;, &quot;Asa&quot;]
+    assert top_artists(SONGS, 4) == [&quot;Wizkid&quot;, &quot;Asa&quot;, &quot;The Beatles&quot;, &quot;Fela Kuti&quot;]
+    assert top_artists([], 3) == []</textarea><textarea class="pc-src pc-solution" hidden>def artist_key(name):
+    a = name.lower()
+    return a[4:] if a.startswith(&quot;the &quot;) else a
+
+def library_order(songs):
+    ordered = sorted(songs, key=lambda s: (artist_key(s[&quot;artist&quot;]), s[&quot;album&quot;].lower(),
+                                           s[&quot;track&quot;] is None, s[&quot;track&quot;] or 0, s[&quot;title&quot;].lower()))
+    return [s[&quot;title&quot;] for s in ordered]
+
+def top_artists(songs, k):
+    plays, name = {}, {}
+    for s in songs:
+        a = s[&quot;artist&quot;].lower()
+        plays[a] = plays.get(a, 0) + s[&quot;plays&quot;]
+        name.setdefault(a, s[&quot;artist&quot;])
+    ranked = sorted(plays, key=lambda a: (-plays[a], a))
+    return [name[a] for a in ranked[:k]]</textarea><template class="pc-src pc-hint">Artist key: <code>a = song["artist"].lower()</code>, then <code>a[4:] if a.startswith("the ") else a</code>. Track part of the key: <code>(song["track"] is None, song["track"] or 0)</code>.</template><template class="pc-src pc-hint">For <code>top_artists</code>, group by <code>artist.lower()</code>: keep a <code>plays</code> dictionary and a <code>name</code> dictionary (first spelling seen). Sort the lower-case names by <code>(-plays[a], a)</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Look at a list your phone sorts for you (contacts, files, photos) and work out its key: is it case-insensitive? Does it sort numbers in names naturally? Where do empty names go? Tomorrow is the Forge: you&rsquo;ll race your sorts against each other and against Python&rsquo;s, and build a sorting tool that picks the right one for the data.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w019d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w019d5", "week": 19, "day": 5, "title": "Sorting by keys", "exercises": [{"id": "w019d5-records", "title": "itemgetter", "points": 10}, {"id": "w019d5-priority", "title": "Priorities", "points": 10}, {"id": "w019d5-natural", "title": "Natural sort", "points": 15}, {"id": "w019d5-missing", "title": "Gaps in the data", "points": 15}, {"id": "w019d5-dates", "title": "Dates written the British way", "points": 15}, {"id": "w019d5-bug1", "title": "Calling instead of passing", "points": 10}, {"id": "w019d5-bug2", "title": "Unknown size", "points": 10}, {"id": "w019d5-trace", "title": "Predict them", "points": 15}, {"id": "w019d5-challenge", "title": "Challenge: a music library", "points": 25}], "points": 125}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=e25f86ac0b"></script>
+</body>
+</html>
