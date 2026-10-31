@@ -9,6 +9,8 @@ create table if not exists public.progress (
   primary key (user_id, key)
 );
 alter table public.progress enable row level security;
+-- Let signed-in learners use the table at all (the policies below then limit them to their own rows).
+grant select, insert, update, delete on table public.progress to authenticated;
 
 drop policy if exists "Learners read their own progress" on public.progress;
 create policy "Learners read their own progress" on public.progress

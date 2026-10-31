@@ -57,23 +57,33 @@ async function send(text, attach) {
   say("bot", data.reply);
 }
 
+let tutorFab = null;
+
 export function openTutor(prefill, attach) {
   panel.hidden = false;
+  if (tutorFab) tutorFab.setAttribute("aria-expanded", "true");
   if (prefill) { pending = attach || null; field.value = prefill; }
   field.focus();
 }
 
 export function mountTutor() {
-  const fab = h("button", { type: "button", class: "btn btn-run tutor-fab", onclick: () => openTutor() }, "Ask the tutor");
+  const ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20.5l1.4-4.6A7.5 7.5 0 1 1 20 12.5z"/><path d="M10 10.5l-2 2 2 2M14 10.5l2 2-2 2"/></svg>';
+  const fab = h("button", { type: "button", class: "tutor-fab", title: "Ask the tutor", "aria-label": "Ask the tutor", "aria-expanded": "false", html: ICON, onclick: () => openTutor() });
   log = h("div", { class: "tutor-log", "aria-live": "polite" });
   field = h("textarea", { rows: 2, placeholder: "Ask about today's lesson or your code…", "aria-label": "Your question" });
   const form = h("form", { class: "tutor-form", onsubmit: (e) => { e.preventDefault(); const t = field.value; field.value = ""; send(t, pending); pending = null; } },
     field, h("button", { type: "submit", class: "btn btn-check" }, "Send"));
   field.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } });
+  const close = () => { panel.hidden = true; fab.setAttribute("aria-expanded", "false"); fab.focus(); };
   panel = h("section", { class: "tutor", hidden: true, "aria-label": "Tutor" },
-    h("div", { class: "tutor-head" }, h("strong", {}, "Tutor"),
-      h("button", { type: "button", class: "btn btn-quiet btn-tiny", onclick: () => { panel.hidden = true; fab.focus(); } }, "Close")),
+    h("div", { class: "tutor-head" },
+      h("div", { class: "th-who" }, h("span", { class: "th-ico", html: ICON }),
+        h("div", {}, h("strong", {}, "Your tutor"), h("small", {}, "Hints first, answers only if you ask"))),
+      h("button", { type: "button", class: "tutor-x", "aria-label": "Close the tutor", onclick: close,
+        html: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>' })),
     log, form);
+  panel.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  tutorFab = fab;
   document.body.append(fab, panel);
   fab.hidden = !settings().tutorButton;
   onSettings((s) => { fab.hidden = !s.tutorButton; });

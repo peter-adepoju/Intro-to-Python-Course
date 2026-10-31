@@ -3,7 +3,8 @@ import { SITE, $, h } from "../site.js";
 import { displayName, firstName, avatar } from "../user.js";
 import { progress, getClient, onAuth, onSync } from "../progress.js";
 import { mountTutor } from "../tutor.js";
-import "../settings.js";
+import { settings, update as updateSettings, onSettings } from "../settings.js";
+import { initSearch } from "../search.js";
 
 let closeMenu = () => {};
 document.addEventListener("click", (e) => { const slot = document.getElementById("account-slot"); if (slot && !slot.contains(e.target)) closeMenu(); });
@@ -11,9 +12,55 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMenu(
 
 export function initCommon() {
   const here = location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".top-nav a").forEach((a) => {
-    if (a.getAttribute("href").endsWith(here)) a.setAttribute("aria-current", "page");
+  const inDay = location.pathname.includes("/days/");
+
+  // Header dropdowns: one open at a time; close on outside click or Escape.
+  const dds = [...document.querySelectorAll(".nav-dd")];
+  const closeDds = (except) => dds.forEach((dd) => {
+    if (dd === except) return;
+    dd.querySelector(".dd-menu").hidden = true;
+    dd.querySelector(".nav-btn").setAttribute("aria-expanded", "false");
   });
+  dds.forEach((dd) => {
+    const btn = dd.querySelector(".nav-btn"), menu = dd.querySelector(".dd-menu");
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = menu.hidden;
+      closeDds(dd);
+      menu.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+      if (open) menu.querySelector("a")?.focus({ preventScroll: true });
+    });
+    menu.querySelectorAll("a").forEach((a) => {
+      if (a.getAttribute("href").split("#")[0].endsWith(here) && !a.classList.contains("dd-continue")) { a.setAttribute("aria-current", "page"); btn.classList.add("is-here"); }
+    });
+    if (inDay && dd === dds[0]) btn.classList.add("is-here");
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest(".nav-dd")) closeDds(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDds(); });
+
+  // "Continue learning" goes to the last lesson opened.
+  const cont = document.getElementById("dd-continue");
+  const setContinue = () => {
+    const last = progress.get("last:day");
+    if (cont && last && last.id) {
+      cont.href = SITE.root + "days/" + last.id + ".html";
+      const m = /^w0*(\d+)d(\d+)$/.exec(last.id);
+      cont.querySelector("span").textContent = m ? `Back to Week ${m[1]}, Day ${m[2]}` : "Pick up where you left off";
+    }
+  };
+  setContinue();
+
+  // Theme button in the footer: Auto, Light, Dark in turn.
+  const tbtn = document.getElementById("theme-btn"), tlab = document.getElementById("theme-label");
+  const NAMES = { auto: "Auto", light: "Light", dark: "Dark" };
+  const showTheme = (s) => { if (tlab) { tlab.textContent = NAMES[s.theme] || "Auto"; tbtn.title = `Colour theme: ${tlab.textContent}. Click to change.`; } };
+  if (tbtn) {
+    showTheme(settings());
+    onSettings(showTheme);
+    tbtn.onclick = () => { const order = ["auto", "light", "dark"]; updateSettings({ theme: order[(order.indexOf(settings().theme) + 1) % 3] }); };
+  }
+  initSearch();
 
   const refresh = () => {
     const s = progress.streak();
@@ -24,7 +71,7 @@ export function initCommon() {
     if (b) { b.hidden = !due; b.textContent = due; }
   };
   refresh();
-  progress.subscribe(refresh);
+  progress.subscribe(() => { refresh(); setContinue(); });
 
   getClient().catch((e) => console.warn("Accounts unavailable:", e));
   onAuth((user) => {

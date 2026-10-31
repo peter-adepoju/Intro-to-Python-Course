@@ -542,6 +542,7 @@ def build():
     (OUT / "notebooks").mkdir()
 
     flat = [(w, d) for w in course["weeks"] for d in w["days"]]
+    search = []
     built = {}
     cards = []
     for w, d in flat:
@@ -591,6 +592,10 @@ def build():
                 "exercises": day.exercises, "points": pts}
         tpl = template("day.html")
         html_body = (tpl.replace("{{week}}", str(w["week"])).replace("{{day}}", str(d["day"]))
+                     .replace("{{crumbs}}", f'<ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li>'
+                              f'<li><a href="../map.html#phase-{phase["id"]}">Phase {phase["id"]}: {esc(phase["title"])}</a></li>'
+                              f'<li><a href="../map.html#week-{w["week"]}">Week {w["week"]}: {esc(w["title"])}</a></li>'
+                              f'<li aria-current="page">Day {d["day"]} of {len(w["days"])}</li></ol>')
                      .replace("{{phase}}", esc(f"Phase {phase['id']}: {phase['title']}"))
                      .replace("{{week_title}}", esc(w["title"]))
                      .replace("{{title}}", esc(dm["title"]))
@@ -601,6 +606,8 @@ def build():
                      .replace("{{colab}}", colab).replace("{{notebook}}", f"../notebooks/{d['id']}.ipynb")
                      .replace("{{nav}}", "".join(nav)).replace("{{points}}", str(pts))
                      .replace("{{data}}", json.dumps(data)))
+        search.append({"k": "day", "u": f"days/{d['id']}.html", "id": d["id"], "t": dm["title"], "w": w["week"], "d": d["day"],
+                       "p": phase["id"], "wt": w["title"], "s": [t for _, t in toc], "g": [plain(g) for g in meta.get("goals", [])]})
         (OUT / "days" / f"{d['id']}.html").write_text(
             page(f"Week {w['week']} Day {d['day']}: {dm['title']}", html_body, depth=1,
                  path=f"days/{d['id']}.html", desc=plain(meta.get("intro", "")),
@@ -608,6 +615,11 @@ def build():
 
     (OUT / "assets" / "data" / "course.json").write_text(json.dumps(index))
     (OUT / "assets" / "data" / "cards.json").write_text(json.dumps(cards))
+    for w in course["weeks"]:
+        if not w["rest"]:
+            search.append({"k": "week", "u": f"map.html#week-{w['week']}", "t": w["title"], "w": w["week"], "p": w["phase"],
+                           "s": [x["title"] for x in w["days"]]})
+    (OUT / "assets" / "data" / "search.json").write_text(json.dumps(search, separators=(",", ":")))
 
     for name, title, cls in [("index.html", "Learn Python free, from your first line to mastery", "page-home"),
                              ("map.html", "Course map", "page-map"),

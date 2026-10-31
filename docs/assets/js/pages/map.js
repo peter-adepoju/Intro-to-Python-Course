@@ -28,11 +28,12 @@ for (const p of course.phases) {
   const weeks = course.weeks.filter((w) => w.phase === p.id);
   const days = weeks.flatMap((w) => w.days);
   const pDone = days.filter(isDone).length;
-  const open = weeks.some((w) => w.week === target);
+  const open = weeks.some((w) => w.week === target) || location.hash === "#phase-" + p.id;
   const list = h("ol", { class: "weeks" });
   for (const w of weeks) {
     const li = h("li", { class: "week" + (w.rest ? " is-rest" : ""), id: "week-" + w.week },
-      h("div", { class: "week-t" }, h("span", { class: "week-n" }, `Week ${w.week}`), h("span", {}, w.title)));
+      h("div", { class: "week-t" }, h("span", { class: "week-n" }, `Week ${w.week}`), h("span", {}, w.title),
+        w.rest ? "" : h("span", { class: "week-meta" }, `${w.days.length} days · about ${w.days.length * 3} h` + (w.days.some(isDone) ? ` · ${w.days.filter(isDone).length} done` : ""))));
     if (w.rest) { li.append(h("p", { class: "muted week-rest" }, "No lessons. Rest, revisit anything shaky, or build something for fun.")); list.append(li); continue; }
     const row = h("ol", { class: "days" });
     for (const d of w.days) {
@@ -52,5 +53,6 @@ for (const p of course.phases) {
     h("p", { class: "muted phase-sum" }, p.summary),
     list));
 }
-document.getElementById("week-" + target)?.scrollIntoView({ block: "start" });
+if (location.hash.startsWith("#phase-")) document.querySelector(location.hash)?.scrollIntoView({ block: "start" });
+else document.getElementById("week-" + target)?.scrollIntoView({ block: "start" });
 if (!location.hash) scrollTo(0, 0);
