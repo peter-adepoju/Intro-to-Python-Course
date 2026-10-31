@@ -1,11 +1,11 @@
 // Runs on every page: account link, streak, review badge and the tutor.
-import { SITE, $, h } from "../site.js?v=29904b818c";
-import { displayName, firstName, avatar } from "../user.js?v=29904b818c";
-import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=29904b818c";
-import { mountTutor } from "../tutor.js?v=29904b818c";
-import { settings, update as updateSettings, onSettings } from "../settings.js?v=29904b818c";
-import { initSearch } from "../search.js?v=29904b818c";
-import { initInstall, install, onInstallable } from "../install.js?v=29904b818c";
+import { SITE, $, h } from "../site.js?v=9f904ce4cd";
+import { displayName, firstName, avatar } from "../user.js?v=9f904ce4cd";
+import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=9f904ce4cd";
+import { mountTutor } from "../tutor.js?v=9f904ce4cd";
+import { settings, update as updateSettings, onSettings } from "../settings.js?v=9f904ce4cd";
+import { initSearch } from "../search.js?v=9f904ce4cd";
+import { initInstall, install, onInstallable } from "../install.js?v=9f904ce4cd";
 
 let closeMenu = () => {};
 document.addEventListener("click", (e) => { const slot = document.getElementById("account-slot"); if (slot && !slot.contains(e.target)) closeMenu(); });

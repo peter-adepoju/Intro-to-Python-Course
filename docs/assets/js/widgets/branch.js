@@ -1,8 +1,8 @@
 // Which branch runs? An if/elif/else chain with a slider for the value being tested.
 // Shows which conditions Python checks, in order, which one wins, and (for numbers)
 // a strip of every value coloured by the branch it lands in, so boundaries stand out.
-import { h } from "../site.js?v=29904b818c";
-import { py } from "../runtime.js?v=29904b818c";
+import { h } from "../site.js?v=9f904ce4cd";
+import { py } from "../runtime.js?v=9f904ce4cd";
 
 const COLOURS = ["var(--blue)", "var(--green)", "var(--violet)", "#c97a1e", "var(--red)", "var(--ink-3)"];
 

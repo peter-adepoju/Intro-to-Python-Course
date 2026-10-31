@@ -4,7 +4,7 @@
 // signed in. Signing out removes the account's copy from the device (after saving anything
 // unsent), so the next person sees nothing of it. Progress made before signing in is added to
 // the account you sign in to, then cleared from the signed-out space.
-import { SITE, today } from "./site.js?v=29904b818c";
+import { SITE, today } from "./site.js?v=9f904ce4cd";
 
 const GUEST = "atlas.progress.v1";
 const userKey = (id) => "atlas.progress.u." + id;
