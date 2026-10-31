@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="d6acdb8fde">
+<title>Week 17 Day 2: Big-O notation | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=d6acdb8fde">
+<link rel="stylesheet" href="../assets/css/site.css?v=d6acdb8fde">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=d6acdb8fde"></script>
+<script src="../assets/vendor/codemirror.js?v=d6acdb8fde" defer></script>
+<meta name="description" content="Yesterday you counted steps exactly: n(n − 1)/2 comparisons, 2n + 3 assignments. Exact counts are fiddly, and most of the detail doesn’t matter: what...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w017d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 17 Day 2: Big-O notation">
+<meta property="og:description" content="Yesterday you counted steps exactly: n(n − 1)/2 comparisons, 2n + 3 assignments. Exact counts are fiddly, and most of the detail doesn’t matter: what...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w017d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x=".5" y=".5" width="31" height="31" rx="7.5"/><rect class="bm-frame" x="6.1" y="7.6" width="19.8" height="16.8" rx="3"/><path class="bm-prompt" d="M10.6 13.9l2.6 2.1-2.6 2.1"/><path class="bm-line" d="M15.4 18.4h6"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-17">Week 17: How fast is my program?</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#keep-the-biggest-term" data-sec="keep-the-biggest-term">Keep the biggest term</a></li><li><a href="#what-big-o-promises" data-sec="what-big-o-promises">What Big-O promises</a></li><li><a href="#hidden-costs-in-python" data-sec="hidden-costs-in-python">Hidden costs in Python</a></li><li><a href="#reading-big-o-off-code" data-sec="reading-big-o-off-code">Reading Big-O off code</a></li><li><a href="#small-inputs" data-sec="small-inputs">Small inputs</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w017d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-17">Week 17: How fast is my program?</a></li><li aria-current="page">Day 2 of 6</li></ol>
+      <p class="day-where"><span>Week 17, Day 2</span></p>
+      <h1>Big-O notation</h1>
+      <div class="day-intro"><p>Yesterday you counted steps exactly: n(n − 1)/2 comparisons, 2n + 3 assignments. Exact counts are fiddly, and most of the detail doesn&rsquo;t matter: what matters is how the count grows. Big-O notation is the shorthand programmers use for that growth. By the end of today you&rsquo;ll be able to look at a function and say &ldquo;that&rsquo;s O(n²)&rdquo;, and know why it&rsquo;s slow on big inputs even before running it.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Simplify a step count to its Big-O by keeping the fastest-growing term and dropping constants</li><li>Explain what O(f(n)) promises, and why it&rsquo;s about large n</li><li>Give the Big-O of common Python operations, including hidden costs like <code>in</code> on a list</li><li>Find the Big-O of a short function by looking at its loops and the operations inside them</li><li>Explain why a slower Big-O can still win for small inputs</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Keep the biggest term: 25 min"></span><span class="plan-seg s0" style="flex:20" title="What Big-O promises: 20 min"></span><span class="plan-seg s1" style="flex:25" title="Hidden costs in Python: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Reading Big-O off code: 25 min"></span><span class="plan-seg s1" style="flex:15" title="Small inputs: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Keep the biggest term</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">What Big-O promises</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">Hidden costs in Python</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">Reading Big-O off code</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Small inputs</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w017d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w017d2.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w017d2-p1"><textarea class="pc-src pc-code" hidden>for n in (10, 100, 1000, 10000):
+    exact = 3 * n * n + 50 * n + 200
+    print(n, exact, round(exact / (n * n), 3))</textarea></div>
+<p>The last column is the exact count divided by n². As n grows it settles at 3: for big n, the <code>50n + 200</code> part hardly matters. The count behaves like &ldquo;3 times n²&rdquo;, and the 3 depends on how you count steps. What&rsquo;s left is the <strong>shape</strong>: n².</p>
+<h2 id="keep-the-biggest-term">Keep the biggest term</h2>
+<p>To find the Big-O of a step count:</p>
+<ol>
+<li>Keep only the <strong>fastest-growing</strong> term: n² beats n, n beats log n, log n beats a constant.</li>
+<li>Drop its <strong>constant factor</strong>.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Exact count</th>
+<th>Biggest term</th>
+<th>Big-O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3n + 5</td>
+<td>3n</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>n(n − 1)/2 = n²/2 − n/2</td>
+<td>n²/2</td>
+<td>O(n²)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>7</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>2 log₂ n + 10</td>
+<td>2 log₂ n</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>4n² + 100n log n + n</td>
+<td>4n²</td>
+<td>O(n²)</td>
+</tr>
+<tr>
+<td>2ⁿ + n³</td>
+<td>2ⁿ</td>
+<td>O(2ⁿ)</td>
+</tr>
+</tbody>
+</table>
+<p>Read O(n²) as &ldquo;big O of n squared&rdquo;, or &ldquo;order n squared&rdquo;. O(1) means the steps don&rsquo;t grow with n at all: <strong>constant time</strong>.</p>
+<p>Why drop constants? Because they depend on details that change with the language, the computer, and how you choose to count, while the shape doesn&rsquo;t. An O(n) function and an O(n²) function can be compared on any computer, and for large enough n the O(n) one will win every time.</p>
+<p>The base of a logarithm doesn&rsquo;t matter either: log₂ n and log₁₀ n differ only by a constant factor (about 3.3), so both are just O(log n).</p>
+<h2 id="what-big-o-promises">What Big-O promises</h2>
+<p>Saying a function is O(f(n)) is a promise: <strong>for large enough n, its steps are at most a constant times f(n)</strong>. It&rsquo;s an upper bound on growth.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d2-e2"><textarea class="pc-src pc-code" hidden>def steps(n):
+    return 3 * n * n + 50 * n + 200
+
+# Claim: steps(n) is at most 4 * n * n once n is big enough.
+for n in (10, 30, 50, 60, 100):
+    print(n, steps(n), 4 * n * n, steps(n) &lt;= 4 * n * n)</textarea></div>
+<p>From n = 54 on, <code>steps(n)</code> stays below <code>4n²</code> for ever, and that&rsquo;s all the promise needs. The early sizes where it doesn&rsquo;t hold don&rsquo;t count: Big-O only cares about what happens as n grows without limit.</p>
+<p>Two consequences:</p>
+<ul>
+<li>Big-O tells you about <strong>growth</strong>, not speed at a particular size. It won&rsquo;t tell you whether a function takes 1 ms or 10 ms for n = 50.</li>
+<li>It&rsquo;s normally used for the <strong>worst case</strong>: a search that sometimes stops early is still O(n), because sometimes it doesn&rsquo;t.</li>
+</ul>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Big-O: keep the fastest-growing term of the step count and drop its constant. O(f(n)) promises that, for large n, the steps grow no faster than f(n).</p></aside>
+<p>Strictly, a function that is O(n) is also O(n²) (n² is a bigger upper bound), but that&rsquo;s an unhelpful thing to say. In practice, give the <strong>tightest</strong> Big-O you can.</p>
+<h2 id="hidden-costs-in-python">Hidden costs in Python</h2>
+<p>A single line of Python isn&rsquo;t always a single step. Many built-in operations loop over their data internally, so their cost grows with its size:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Big-O</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>items[i]</code>, <code>items[i] = x</code>, <code>len(items)</code></td>
+<td>O(1)</td>
+<td>a list knows where each item is, and its length</td>
+</tr>
+<tr>
+<td><code>items.append(x)</code>, <code>items.pop()</code></td>
+<td>O(1)</td>
+<td>at the end, nothing moves</td>
+</tr>
+<tr>
+<td><code>items.insert(0, x)</code>, <code>items.pop(0)</code></td>
+<td>O(n)</td>
+<td>every other item shifts along</td>
+</tr>
+<tr>
+<td><code>x in items</code>, <code>items.index(x)</code>, <code>items.count(x)</code></td>
+<td>O(n)</td>
+<td>checks the items one by one</td>
+</tr>
+<tr>
+<td><code>items[a:b]</code>, <code>items.copy()</code>, <code>list(items)</code></td>
+<td>O(length copied)</td>
+<td>builds a new list</td>
+</tr>
+<tr>
+<td><code>sum(items)</code>, <code>max(items)</code>, <code>min(items)</code></td>
+<td>O(n)</td>
+<td>looks at every item</td>
+</tr>
+<tr>
+<td><code>sorted(items)</code>, <code>items.sort()</code></td>
+<td>O(n log n)</td>
+<td>the sort (Week 19)</td>
+</tr>
+<tr>
+<td><code>x in s</code>, <code>s.add(x)</code> for a set; <code>d[k]</code>, <code>k in d</code> for a dict</td>
+<td>O(1) on average</td>
+<td>hashing (Week 10)</td>
+</tr>
+<tr>
+<td><code>text + other</code>, <code>text.replace(...)</code>, <code>"".join(parts)</code></td>
+<td>O(length of the result)</td>
+<td>builds a new string</td>
+</tr>
+</tbody>
+</table>
+<p>The one that catches people most is <code>in</code> on a <strong>list</strong> inside a loop:</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d2-e3"><textarea class="pc-src pc-code" hidden>import time
+
+def common_list(a, b):
+    return [x for x in a if x in b]          # `in b` is O(len(b)) each time
+
+def common_set(a, b):
+    lookup = set(b)
+    return [x for x in a if x in lookup]     # O(1) each time
+
+a = list(range(0, 20000, 2))
+b = list(range(0, 20000, 3))
+for f in (common_list, common_set):
+    start = time.perf_counter()
+    result = f(a, b)
+    print(f.__name__, len(result), f&quot;{time.perf_counter() - start:.4f} s&quot;)</textarea></div>
+<p>One line, one loop, and yet <code>common_list</code> is O(n × m): the comprehension loops over <code>a</code>, and <code>x in b</code> loops over <code>b</code> every time. <code>common_set</code> is O(n + m).</p>
+<h2 id="reading-big-o-off-code">Reading Big-O off code</h2>
+<p>To find the Big-O of a function:</p>
+<ol>
+<li>Work out the cost of each line, <strong>including hidden costs</strong>.</li>
+<li>A loop costs (the number of times it runs) × (the cost of its body).</li>
+<li>Steps one after another <strong>add</strong>; keep the biggest.</li>
+</ol>
+<div class="pc pc-example" data-kind="example" data-id="w017d2-e4"><textarea class="pc-src pc-code" hidden>def summary(items):
+    n = len(items)                 # O(1)
+    total = sum(items)             # O(n)
+    biggest = max(items)           # O(n)
+    ordered = sorted(items)        # O(n log n)
+    middle = ordered[n // 2]       # O(1)
+    return total, biggest, middle
+
+print(summary([5, 1, 9, 3, 7]))</textarea></div>
+<p>O(1) + O(n) + O(n) + O(n log n) + O(1): the biggest is <strong>O(n log n)</strong>, from the sort.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d2-e5"><textarea class="pc-src pc-code" hidden>def dedupe(items):
+    result = []
+    for x in items:                # runs n times
+        if x not in result:        # O(len(result)), up to O(n)
+            result.append(x)       # O(1)
+    return result
+
+print(dedupe([3, 1, 3, 2, 1, 4]))</textarea></div>
+<p>The loop runs n times and its body can cost up to O(n), so this is <strong>O(n²)</strong>. With a <code>seen</code> set beside the list, the body becomes O(1) and the whole thing O(n).</p>
+<p>Use the figure to see how far apart these classes get:</p>
+<figure class="widget" data-widget="growth"><script type="application/json">{"curves": ["1", "log", "n", "nlogn", "n2"], "n": 1000}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>O(n log n), the cost of sorting, sits just above O(n). O(n²) pulls away fast.</figcaption></figure>
+<h2 id="small-inputs">Small inputs</h2>
+<p>Big-O describes what happens for <strong>large</strong> n. For small n, the constants you dropped can decide which is quicker:</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d2-e6"><textarea class="pc-src pc-code" hidden>def steps_a(n):
+    return 100 * n          # O(n), but each item costs 100 steps
+
+def steps_b(n):
+    return n * n            # O(n²), but each step is cheap
+
+for n in (10, 50, 100, 200, 1000):
+    print(n, steps_a(n), steps_b(n), &quot;a wins&quot; if steps_a(n) &lt; steps_b(n) else &quot;b wins or ties&quot;)</textarea></div>
+<p>Below n = 100, the O(n²) version does less work. Above it, the O(n) version wins, and wins by more and more. This is why Python&rsquo;s own sort uses a simple O(n²) method for short stretches of a list and a cleverer one for the whole (you&rsquo;ll see this in Week 19). For most programs, though, the advice is simple: when inputs might be large, pick the better Big-O.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Big-O isn&rsquo;t a measure of time. &ldquo;O(1)&rdquo; doesn&rsquo;t mean &ldquo;fast&rdquo;: a dictionary lookup is O(1), and so is a function that always does a billion steps. It means the cost <strong>doesn&rsquo;t grow</strong> with n.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d2-simplify" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Simplify</div><div class="pc-prompt"><p>Each variable should hold the Big-O of the step count in its comment, as a string written like <code>"O(n)"</code>, <code>"O(n^2)"</code>, <code>"O(n^3)"</code>, <code>"O(1)"</code>, <code>"O(log n)"</code>, <code>"O(n log n)"</code> or <code>"O(2^n)"</code>.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # 5n + 12
+b = ___   # n^2/2 + 100n
+c = ___   # 1000
+d = ___   # 3 log n + 7
+e = ___   # n log n + 4n
+f = ___   # n^3 + 2^n
+g = ___   # (n + 1)(n + 2)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;O(n)&quot;, &quot;a&quot;
+    assert b == &quot;O(n^2)&quot;, &quot;b&quot;
+    assert c == &quot;O(1)&quot;, &quot;c&quot;
+    assert d == &quot;O(log n)&quot;, &quot;d&quot;
+    assert e == &quot;O(n log n)&quot;, &quot;e&quot;
+    assert f == &quot;O(2^n)&quot;, &quot;f&quot;
+    assert g == &quot;O(n^2)&quot;, &quot;g&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;O(n)&quot;
+b = &quot;O(n^2)&quot;
+c = &quot;O(1)&quot;
+d = &quot;O(log n)&quot;
+e = &quot;O(n log n)&quot;
+f = &quot;O(2^n)&quot;
+g = &quot;O(n^2)&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d2-poly" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Big-O of a polynomial</div><div class="pc-prompt"><p>Write <code>big_o(coefficients)</code> where <code>coefficients[k]</code> is the number multiplying nᵏ in a step count: <code>[200, 50, 3]</code> means 3n² + 50n + 200. Return its Big-O as a string: <code>"O(1)"</code> for a constant, <code>"O(n)"</code> for power 1, and <code>"O(n^k)"</code> for higher powers. Ignore zero coefficients at the end; an all-zero or empty list is <code>"O(1)"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert big_o([200, 50, 3]) == &quot;O(n^2)&quot;
+    assert big_o([7]) == &quot;O(1)&quot; and big_o([]) == &quot;O(1)&quot; and big_o([0, 0]) == &quot;O(1)&quot;
+    assert big_o([5, 1]) == &quot;O(n)&quot;
+    assert big_o([1, 0, 0, 2, 0, 0]) == &quot;O(n^3)&quot;</textarea><textarea class="pc-src pc-solution" hidden>def big_o(coefficients):
+    power = 0
+    for k, c in enumerate(coefficients):
+        if c != 0:
+            power = k
+    if power == 0:
+        return &quot;O(1)&quot;
+    if power == 1:
+        return &quot;O(n)&quot;
+    return f&quot;O(n^{power})&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d2-crossover" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Where the lines cross</div><div class="pc-prompt"><p>Write <code>crossover(f, g)</code> that takes two step-count functions and returns the smallest whole number <code>n</code> of 1 or more for which <code>f(n) &lt; g(n)</code> and stays that way for every <code>n</code> up to 10,000. Return <code>None</code> if there isn&rsquo;t one up to 10,000.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert crossover(lambda n: 100 * n, lambda n: n * n) == 101
+    assert crossover(lambda n: n, lambda n: n + 1) == 1
+    assert crossover(lambda n: n * n, lambda n: n) is None
+    assert crossover(lambda n: 50 * n + 1000, lambda n: n * n // 2) == 118</textarea><textarea class="pc-src pc-solution" hidden>def crossover(f, g):
+    last_bad = 0
+    for n in range(1, 10_001):
+        if not f(n) &lt; g(n):
+            last_bad = n
+    if last_bad == 10_000:
+        return None
+    return last_bad + 1</textarea><template class="pc-src pc-hint">Work backwards from 10,000: find the last <code>n</code> where <code>f(n) &lt; g(n)</code> is <strong>not</strong> true, and the answer is one more. If that&rsquo;s 10,000 itself, there&rsquo;s no crossover.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d2-classify" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Read it off the code</div><div class="pc-prompt"><p>Give the Big-O of each function, in the same string style as above, for a list <code>items</code> of length n.</p></div><textarea class="pc-src pc-code" hidden>def f1(items):
+    return items[0] + items[-1]
+
+def f2(items):
+    return [x * 2 for x in items if x in items[:10]]
+
+def f3(items):
+    total = 0
+    for x in items:
+        total += items.count(x)
+    return total
+
+def f4(items):
+    return sorted(items)[len(items) // 2]
+
+def f5(items):
+    n = len(items)
+    while n &gt; 1:
+        n //= 2
+    return n
+
+a1 = ___
+a2 = ___
+a3 = ___
+a4 = ___
+a5 = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a1 == &quot;O(1)&quot;, &quot;f1&quot;
+    assert a2 == &quot;O(n)&quot;, &quot;f2: items[:10] is at most 10 long&quot;
+    assert a3 == &quot;O(n^2)&quot;, &quot;f3&quot;
+    assert a4 == &quot;O(n log n)&quot;, &quot;f4&quot;
+    assert a5 == &quot;O(log n)&quot;, &quot;f5&quot;</textarea><textarea class="pc-src pc-solution" hidden>def f1(items):
+    return items[0] + items[-1]
+
+def f2(items):
+    return [x * 2 for x in items if x in items[:10]]
+
+def f3(items):
+    total = 0
+    for x in items:
+        total += items.count(x)
+    return total
+
+def f4(items):
+    return sorted(items)[len(items) // 2]
+
+def f5(items):
+    n = len(items)
+    while n &gt; 1:
+        n //= 2
+    return n
+
+a1 = &quot;O(1)&quot;
+a2 = &quot;O(n)&quot;
+a3 = &quot;O(n^2)&quot;
+a4 = &quot;O(n log n)&quot;
+a5 = &quot;O(log n)&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d2-second" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Second largest in O(n)</div><div class="pc-prompt"><p>Write <code>second_largest(items)</code> that returns the second largest <strong>different</strong> value in a list (so <code>[5, 5, 3]</code> gives 3), or <code>None</code> if there isn&rsquo;t one. It must be O(n): one pass, keeping the two best values, with no sorting and no <code>max</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert second_largest([3, 9, 2, 7]) == 7
+    assert second_largest([5, 5, 3]) == 3
+    assert second_largest([4, 4]) is None and second_largest([]) is None
+    assert second_largest([-1, -5, -3]) == -3
+    assert second_largest(list(range(100_000))) == 99_998
+    assert &quot;sort&quot; not in source and &quot;max(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def second_largest(items):
+    best = second = None
+    for x in items:
+        if best is None or x &gt; best:
+            if best is not None:
+                second = best
+            best = x
+        elif x != best and (second is None or x &gt; second):
+            second = x
+    return second</textarea><template class="pc-src pc-hint">Keep <code>best</code> and <code>second</code>, both starting as <code>None</code>. For each <code>x</code>: if it&rsquo;s bigger than <code>best</code>, the old <code>best</code> becomes <code>second</code>; otherwise, if it&rsquo;s different from <code>best</code> and bigger than <code>second</code>, it becomes <code>second</code>.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w017d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Quadratic by accident</div><div class="pc-prompt"><p><code>unique_words</code> is correct, but O(n²) because of one hidden cost: on a book of 100,000 words it takes minutes. Make it O(n) while still returning the words in the order they first appear.</p></div><textarea class="pc-src pc-code" hidden>def unique_words(words):
+    result = []
+    for w in words:
+        if w not in result:
+            result.append(w)
+    return result
+
+print(unique_words(&quot;the cat and the hat and the bat&quot;.split()))</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;fast and in order&quot;
+    expect_output(&quot;[&#x27;the&#x27;, &#x27;cat&#x27;, &#x27;and&#x27;, &#x27;hat&#x27;, &#x27;bat&#x27;]&quot;)
+    assert unique_words([str(i % 50_000) for i in range(100_000)])[-1] == &quot;49999&quot;
+    assert &quot;set(&quot; in source or &quot;{}&quot; in source or &quot;dict&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>def unique_words(words):
+    result = []
+    seen = set()
+    for w in words:
+        if w not in seen:
+            seen.add(w)
+            result.append(w)
+    return result
+
+print(unique_words(&quot;the cat and the hat and the bat&quot;.split()))</textarea><template class="pc-src pc-hint">Keep a set of the words seen so far beside the list, and check the set instead of the list.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w017d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A slow queue</div><div class="pc-prompt"><p>This processes jobs in the order they arrived, but <code>jobs.pop(0)</code> is O(n), so emptying a list of n jobs is O(n²). Rewrite the loop so it&rsquo;s O(n), still printing the jobs in order and leaving <code>jobs</code> empty at the end.</p></div><textarea class="pc-src pc-code" hidden>jobs = [&quot;print&quot;, &quot;email&quot;, &quot;backup&quot;]
+while jobs:
+    job = jobs.pop(0)
+    print(job)
+print(jobs)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;same output&quot;
+    expect_output(&quot;print\nemail\nbackup\n[]&quot;)
+    assert &quot;pop(0)&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>jobs = [&quot;print&quot;, &quot;email&quot;, &quot;backup&quot;]
+for job in jobs:
+    print(job)
+jobs.clear()
+print(jobs)</textarea><template class="pc-src pc-hint">Go through the list with a <code>for</code> loop, then empty it in one go with <code>jobs.clear()</code>. (In Week 20 you&rsquo;ll meet <code>collections.deque</code>, a queue whose <code>popleft</code> is O(1).)</template></div>
+<div class="parsons" data-id="w017d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">An O(n) duplicate check</div><div class="pc-prompt"><p>Arrange the lines for an O(n) <code>has_duplicate(items)</code>. One line is a trap that would make it O(n²).</p></div><script type="application/json">{"lines": ["def has_duplicate(items):", "    seen = set()", "    for x in items:", "        if x in seen:", "            return True", "        seen.add(x)", "    return False"], "distractors": ["        if x in items[:items.index(x)]:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # if an O(n^2) function takes 2 seconds for n = 10,000, roughly how many seconds for n = 30,000?
+b = ___   # True or False: an O(n) function is always faster than an O(n^2) one
+c = ___   # Big-O of `x in s` where s is a set, as a string
+d = ___   # Big-O of `items.insert(0, x)` for a list of n items, as a string</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 18 and b is False and c == &quot;O(1)&quot; and d == &quot;O(n)&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = 18
+b = False
+c = &quot;O(1)&quot;
+d = &quot;O(n)&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w017d2-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is the Big-O of 4n\u00b2 + 3n + 10?", "answer": 1, "explain": "Keep the biggest term, drop its constant.", "options": ["O(4n\u00b2)", "O(n\u00b2)", "O(n)", "O(n\u00b2 + n)"]}, {"type": "mc", "q": "Why are constant factors dropped?", "answer": 1, "explain": "Big-O is about growth.", "options": ["They&rsquo;re always small", "They depend on the computer and how you count, but the shape doesn&rsquo;t", "Python ignores them", "They&rsquo;re always 1"]}, {"type": "mc", "q": "What does O(1) mean?", "answer": 2, "explain": "Constant time.", "options": ["One step exactly", "Very fast", "The cost doesn&rsquo;t grow with n", "One loop"]}, {"type": "mc", "q": "What is the cost of <code>x in items</code> for a list?", "answer": 2, "explain": "It checks items one by one.", "options": ["O(1)", "O(log n)", "O(n)", "O(n\u00b2)"]}, {"type": "mc", "q": "What is the cost of <code>x in s</code> for a set?", "answer": 0, "explain": "Hashing.", "options": ["O(1) on average", "O(n)", "O(log n)", "O(n\u00b2)"]}, {"type": "mc", "q": "A loop runs n times and each time calls a function that is O(n). The total is&hellip;", "answer": 2, "explain": "Times, not plus.", "options": ["O(n)", "O(2n)", "O(n\u00b2)", "O(log n)"]}, {"type": "mc", "q": "Two steps one after another cost O(n) and O(n log n). The total is&hellip;", "answer": 1, "explain": "Add, then keep the biggest.", "options": ["O(n\u00b2 log n)", "O(n log n)", "O(n)", "O(2n log n)"]}, {"type": "text", "q": "What does <code>sorted</code> cost on n items? (write it like O(&hellip;))", "answer": ["O(n log n)", "O(nlogn)", "n log n"], "explain": "Faster than n\u00b2, slower than n."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: speed up a report</div><div class="pc-prompt"><p>A shop&rsquo;s report function is O(n × m) and too slow for a year of sales. <code>sales</code> is a list of <code>(product_id, quantity)</code> pairs (n of them); <code>products</code> is a list of <code>(product_id, name, price)</code> triples (m of them). Write <code>report(sales, products)</code> that returns a list of <code>(name, revenue)</code> pairs, revenue being the total quantity sold times the price, <strong>sorted</strong> by revenue from highest to lowest (ties by name), including only products that sold something. Sales of unknown product ids are ignored. It must be O(n + m log m) or better: build a dictionary from the products first.</p>
+<p>Then set <code>before</code> and <code>after</code> to the Big-O strings of the slow version below and of yours (using <code>n</code>, <code>m</code> in the style <code>"O(n*m)"</code> and <code>"O(n + m log m)"</code>).</p>
+<pre><code>def slow_report(sales, products):
+    rows = []
+    for pid, name, price in products:
+        total = 0
+        for sid, qty in sales:
+            if sid == pid:
+                total += qty
+        if total:
+            rows.append((name, total * price))
+    return sorted(rows, key=lambda r: (-r[1], r[0]))
+</code></pre></div><textarea class="pc-src pc-code" hidden>before = ___
+after = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_small():
+    &quot;small&quot;
+    products = [(1, &quot;tea&quot;, 3), (2, &quot;cake&quot;, 5), (3, &quot;jam&quot;, 4)]
+    sales = [(1, 2), (2, 1), (1, 1), (9, 5), (3, 2)]
+    assert report(sales, products) == [(&quot;tea&quot;, 9), (&quot;jam&quot;, 8), (&quot;cake&quot;, 5)]
+    assert report([], products) == []
+def test_big():
+    &quot;big&quot;
+    products = [(i, f&quot;p{i:05d}&quot;, i % 7 + 1) for i in range(20_000)]
+    sales = [(i % 25_000, 1) for i in range(100_000)]
+    r = report(sales, products)
+    assert len(r) == 20_000 and r[0] == (&quot;p00006&quot;, 28) and r[-1] == (&quot;p19999&quot;, 4)
+def test_answers():
+    &quot;Big-O&quot;
+    assert before.replace(&quot; &quot;, &quot;&quot;) in (&quot;O(n*m)&quot;, &quot;O(m*n)&quot;, &quot;O(nm)&quot;, &quot;O(mn)&quot;)
+    assert after.replace(&quot; &quot;, &quot;&quot;) == &quot;O(n+mlogm)&quot;</textarea><textarea class="pc-src pc-solution" hidden>def report(sales, products):
+    info = {pid: (name, price) for pid, name, price in products}
+    totals = {}
+    for pid, qty in sales:
+        if pid in info:
+            totals[pid] = totals.get(pid, 0) + qty
+    rows = [(info[pid][0], qty * info[pid][1]) for pid, qty in totals.items() if qty]
+    return sorted(rows, key=lambda r: (-r[1], r[0]))
+
+before = &quot;O(n*m)&quot;
+after = &quot;O(n + m log m)&quot;</textarea><template class="pc-src pc-hint"><code>prices = {pid: (name, price) for pid, name, price in products}</code>, then one pass over <code>sales</code> adding quantities into a dictionary of totals. The final sort is over at most m rows.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Go back to two programs from earlier weeks and write the Big-O beside each function, including the hidden costs of the built-ins they call. If any is O(n²) or worse where it needn&rsquo;t be, fix it. Tomorrow: the common complexity classes, one by one, with an example of each.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w017d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w017d2", "week": 17, "day": 2, "title": "Big-O notation", "exercises": [{"id": "w017d2-simplify", "title": "Simplify", "points": 10}, {"id": "w017d2-poly", "title": "Big-O of a polynomial", "points": 10}, {"id": "w017d2-crossover", "title": "Where the lines cross", "points": 15}, {"id": "w017d2-classify", "title": "Read it off the code", "points": 15}, {"id": "w017d2-second", "title": "Second largest in O(n)", "points": 15}, {"id": "w017d2-bug1", "title": "Quadratic by accident", "points": 10}, {"id": "w017d2-bug2", "title": "A slow queue", "points": 10}, {"id": "w017d2-trace", "title": "Predict them", "points": 15}, {"id": "w017d2-challenge", "title": "Challenge: speed up a report", "points": 25}], "points": 125}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=d6acdb8fde"></script>
+</body>
+</html>
