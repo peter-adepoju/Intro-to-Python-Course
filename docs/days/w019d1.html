@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="2cd5801d38">
+<title>Week 19 Day 1: Merge sort | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=2cd5801d38">
+<link rel="stylesheet" href="../assets/css/site.css?v=2cd5801d38">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=2cd5801d38"></script>
+<script src="../assets/vendor/codemirror.js?v=2cd5801d38" defer></script>
+<meta name="description" content="Last week’s sorts all need about n² steps, because they only ever fix one inversion at a time. Merge sort breaks that barrier. You first met it in Week 16...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w019d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 19 Day 1: Merge sort">
+<meta property="og:description" content="Last week’s sorts all need about n² steps, because they only ever fix one inversion at a time. Merge sort breaks that barrier. You first met it in Week 16...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w019d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-19">Week 19: Sorting II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#merge-sort-again" data-sec="merge-sort-again">Merge sort again</a></li><li><a href="#why-n-log-n" data-sec="why-n-log-n">Why n log n</a></li><li><a href="#without-the-copies" data-sec="without-the-copies">Without the copies</a></li><li><a href="#bottom-up" data-sec="bottom-up">Bottom up</a></li><li><a href="#merging-many-lists-and-the-speed-limit" data-sec="merging-many-lists-and-the-speed-limit">Merging many lists, and the speed limit</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w019d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-19">Week 19: Sorting II</a></li><li aria-current="page">Day 1 of 6</li></ol>
+      <p class="day-where"><span>Week 19, Day 1</span></p>
+      <h1>Merge sort</h1>
+      <div class="day-intro"><p>Last week&rsquo;s sorts all need about n² steps, because they only ever fix one inversion at a time. Merge sort breaks that barrier. You first met it in Week 16 as an example of divide and conquer; this week you&rsquo;ll study it properly as a sorting algorithm: exactly why it takes n log n steps, how to write it without making copies at every level, how to write it with no recursion at all, and why no sort that works by comparing items can ever do much better.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write merge sort with one shared buffer instead of slicing new lists at every level</li><li>Explain from the recursion tree why merge sort makes about n log₂ n comparisons in every case</li><li>Write bottom-up merge sort, which merges runs of 1, 2, 4, &hellip; with plain loops</li><li>Merge several sorted lists, and explain how data too big for memory is sorted</li><li>Explain why no comparison sort can beat about n log₂ n comparisons in the worst case</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="Merge sort again: 20 min"></span><span class="plan-seg s0" style="flex:25" title="Why n log n: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Without the copies: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Bottom up: 20 min"></span><span class="plan-seg s1" style="flex:20" title="Merging many lists, and the speed limit: 20 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Merge sort again</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">Why n log n</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">Without the copies</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">Bottom up</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">Merging many lists, and the speed limit</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w019d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w019d1.ipynb" download>download it</a>. Exercises today are worth 140 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w019d1-p1"><textarea class="pc-src pc-code" hidden>import math
+for n in (1_000, 1_000_000):
+    print(n, n * n, round(n * math.log2(n)))</textarea></div>
+<p>For a million items, n² is a million million, and n log₂ n is about twenty million: 50,000 times less. That gap is the difference between an hour and a fraction of a second, and it&rsquo;s what merge sort buys.</p>
+<h2 id="merge-sort-again">Merge sort again</h2>
+<p>The three steps, as you saw in Week 16:</p>
+<ol>
+<li><strong>Divide:</strong> split the list into two halves.</li>
+<li><strong>Conquer:</strong> sort each half, recursively. A list of 0 or 1 items is already sorted.</li>
+<li><strong>Combine:</strong> merge the two sorted halves, by repeatedly taking the smaller of the two front items.</li>
+</ol>
+<div class="pc pc-example" data-kind="example" data-id="w019d1-e2"><textarea class="pc-src pc-code" hidden>def merge(left, right):
+    result = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:          # &lt;= takes from the left on ties: stable
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+def merge_sort(items):
+    if len(items) &lt;= 1:
+        return items[:]
+    mid = len(items) // 2
+    return merge(merge_sort(items[:mid]), merge_sort(items[mid:]))
+
+print(merge_sort([38, 27, 43, 3, 9, 82, 10]))</textarea></div>
+<p>Step through it. The faded bars are outside the part being worked on:</p>
+<figure class="widget" data-widget="sortviz"><script type="application/json">{"algos": ["merge", "insertion"], "values": [5, 2, 9, 1, 7, 3, 8, 6]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Merge sort splits until pieces have one item, then merges pairs of sorted pieces into bigger sorted pieces. Compare the counts with last week&rsquo;s sorts on reversed data.</figcaption></figure>
+<h2 id="why-n-log-n">Why n log n</h2>
+<p>Picture every call as a node in a tree. The top call works on all n items; it makes two calls on n/2 each; those make four calls on n/4; and so on, down to n calls on single items.</p>
+<pre><code>level 0:            [ n ]                       1 merge of n items
+level 1:       [n/2]     [n/2]                  2 merges of n/2
+level 2:    [n/4] [n/4] [n/4] [n/4]             4 merges of n/4
+  ...
+level k:   n pieces of 1 item                   nothing to merge
+</code></pre>
+<ul>
+<li><strong>Work per level:</strong> merging pieces that add up to n items costs at most n comparisons, whatever the sizes of the pieces. Every level does about n work.</li>
+<li><strong>Number of levels:</strong> the pieces halve each level, so there are about log₂ n levels before they reach size 1.</li>
+</ul>
+<p>Total: about <strong>n log₂ n</strong> comparisons. And unlike insertion sort, that doesn&rsquo;t depend on the data: sorted, reversed or random, merge sort always splits the same way and always merges every level. It&rsquo;s <strong>O(n log n) in the best, worst and average case</strong>.</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d1-e3"><textarea class="pc-src pc-code" hidden>def merge_sort_counting(items):
+    &quot;&quot;&quot;Return (sorted list, comparisons made).&quot;&quot;&quot;
+    if len(items) &lt;= 1:
+        return items[:], 0
+    mid = len(items) // 2
+    left, a = merge_sort_counting(items[:mid])
+    right, b = merge_sort_counting(items[mid:])
+    result, i, j, c = [], 0, 0, 0
+    while i &lt; len(left) and j &lt; len(right):
+        c += 1
+        if left[i] &lt;= right[j]:
+            result.append(left[i]); i += 1
+        else:
+            result.append(right[j]); j += 1
+    result += left[i:] + right[j:]
+    return result, a + b + c
+
+import math, random
+for n in (16, 1024, 65536):
+    data = random.Random(1).sample(range(n), n)
+    print(n, merge_sort_counting(data)[1], round(n * math.log2(n)), n * (n - 1) // 2)</textarea></div>
+<p>The comparisons stay just under n log₂ n, against n(n − 1)/2 for selection sort.</p>
+<p>Merge sort&rsquo;s other properties:</p>
+<ul>
+<li><strong>Stable</strong>, as long as the merge takes from the left on ties (<code>&lt;=</code>).</li>
+<li><strong>Not in place:</strong> the merge needs somewhere to put its result, <strong>O(n) extra space</strong>. That&rsquo;s its main cost.</li>
+<li><strong>Predictable:</strong> no bad inputs, which is why it&rsquo;s used where a guaranteed time matters.</li>
+</ul>
+<h2 id="without-the-copies">Without the copies</h2>
+<p>The version above slices: <code>items[:mid]</code> and <code>items[mid:]</code> make new lists at every level, and <code>merge</code> builds another. That&rsquo;s correct and clear, but it allocates far more memory than needed. A faster version sorts <strong>positions</strong> <code>lo</code> to <code>hi</code> of one list, and merges through <strong>one</strong> spare list allocated once:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d1-e4"><textarea class="pc-src pc-code" hidden>def merge_sort(items):
+    buffer = items[:]                         # one spare list for the whole sort
+    def sort(lo, hi):                         # sort items[lo:hi] in place
+        if hi - lo &lt;= 1:
+            return
+        mid = (lo + hi) // 2
+        sort(lo, mid)
+        sort(mid, hi)
+        buffer[lo:hi] = items[lo:hi]          # copy the two sorted halves out...
+        i, j = lo, mid
+        for k in range(lo, hi):               # ...and merge them back into items
+            if j &gt;= hi or (i &lt; mid and buffer[i] &lt;= buffer[j]):
+                items[k] = buffer[i]
+                i += 1
+            else:
+                items[k] = buffer[j]
+                j += 1
+    sort(0, len(items))
+
+data = [38, 27, 43, 3, 9, 82, 10]
+merge_sort(data)
+print(data)</textarea></div>
+<p>The merge condition reads: take from the left half if the right half is used up, or if the left still has items and its front item is not bigger. It now sorts <strong>in place</strong> from the caller&rsquo;s point of view (the list passed in ends up sorted), though it still uses O(n) extra space inside.</p>
+<h2 id="bottom-up">Bottom up</h2>
+<p>Merge sort doesn&rsquo;t need recursion at all. Treat the list as n sorted runs of length 1. Merge neighbouring pairs into runs of 2, then runs of 2 into runs of 4, and so on, until one run covers everything:</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d1-e5"><textarea class="pc-src pc-code" hidden>def merge_runs(items, buffer, lo, mid, hi):
+    buffer[lo:hi] = items[lo:hi]
+    i, j = lo, mid
+    for k in range(lo, hi):
+        if j &gt;= hi or (i &lt; mid and buffer[i] &lt;= buffer[j]):
+            items[k] = buffer[i]; i += 1
+        else:
+            items[k] = buffer[j]; j += 1
+
+def merge_sort_bottom_up(items):
+    n = len(items)
+    buffer = items[:]
+    width = 1
+    while width &lt; n:
+        for lo in range(0, n, 2 * width):
+            mid = min(lo + width, n)
+            hi = min(lo + 2 * width, n)
+            if mid &lt; hi:
+                merge_runs(items, buffer, lo, mid, hi)
+        width *= 2
+
+data = [38, 27, 43, 3, 9, 82, 10]
+merge_sort_bottom_up(data)
+print(data)</textarea></div>
+<p>The <code>while</code> loop runs about log₂ n times (width doubles), and each pass merges across the whole list: n log n again, with no recursion and no risk of hitting the recursion limit. The <code>min(..., n)</code> calls handle a last run that&rsquo;s shorter than the others.</p>
+<h2 id="merging-many-lists-and-the-speed-limit">Merging many lists, and the speed limit</h2>
+<p><strong>Merging several sorted lists.</strong> The merge idea extends to any number of sorted lists: repeatedly take the smallest of the front items. Python&rsquo;s <code>heapq.merge</code> does this efficiently (Week 47 shows how):</p>
+<div class="pc pc-example" data-kind="example" data-id="w019d1-e6"><textarea class="pc-src pc-code" hidden>import heapq
+
+march = [3, 9, 14]
+april = [1, 10, 22]
+may = [5, 6, 30]
+print(list(heapq.merge(march, april, may)))</textarea></div>
+<p>This is how computers sort data <strong>too big for memory</strong> (external sorting): read a chunk that fits, sort it, write it out as a sorted file; repeat for every chunk; then merge all the sorted files, reading each a little at a time. Databases sort huge tables this way. Today&rsquo;s challenge builds a small version with real files.</p>
+<p><strong>The speed limit.</strong> Can any sort beat n log n? Not one that only learns about the data by <strong>comparing</strong> two items at a time. Here&rsquo;s the argument:</p>
+<ul>
+<li>A list of n different items could be in any of <strong>n!</strong> orders, and the sort must end up doing something different for each one.</li>
+<li>Each comparison has two outcomes, so it can at best halve the number of orders still possible.</li>
+<li>To get from n! possibilities down to 1 takes at least log₂(n!) comparisons, and log₂(n!) is about <strong>n log₂ n − 1.44n</strong>.</li>
+</ul>
+<div class="pc pc-example" data-kind="example" data-id="w019d1-e7"><textarea class="pc-src pc-code" hidden>import math
+for n in (10, 1000, 1_000_000):
+    print(n, round(math.log2(math.factorial(n)) if n &lt;= 1000 else n * math.log2(n) - 1.4427 * n), round(n * math.log2(n)))</textarea></div>
+<p>So merge sort is already within a whisker of the best possible comparison sort. The only way to go faster is to not compare at all, using what the values <strong>are</strong>: that&rsquo;s counting sort, on Day 3.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Merge sort: split in half, sort each half, merge. About n log₂ n comparisons in every case, stable, O(n) extra space. No comparison sort can do better than about n log₂ n in the worst case.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d1-ms" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Merge sort by slicing</div><div class="pc-prompt"><p>Write <code>merge(left, right)</code> and <code>merge_sort(items)</code> (returning a new sorted list, the original unchanged, stable). Don&rsquo;t use <code>sort</code> or <code>sorted</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_values():
+    &quot;several&quot;
+    for data in ([38, 27, 43, 3, 9, 82, 10], [], [1], [2, 1], [3, 3, 1], [&quot;kiwi&quot;, &quot;fig&quot;, &quot;apple&quot;]):
+        before = list(data)
+        assert merge_sort(data) == sorted(data) and data == before
+    rng = random.Random(4)
+    data = [rng.randint(-1000, 1000) for _ in range(20000)]
+    assert merge_sort(data) == sorted(data)
+    assert merge([1, 4], [2, 3, 5]) == [1, 2, 3, 4, 5]
+    import re
+    assert not re.search(r&quot;\bsorted\(|\.sort\(&quot;, source)</textarea><textarea class="pc-src pc-solution" hidden>def merge(left, right):
+    result = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    return result + left[i:] + right[j:]
+
+def merge_sort(items):
+    if len(items) &lt;= 1:
+        return items[:]
+    mid = len(items) // 2
+    return merge(merge_sort(items[:mid]), merge_sort(items[mid:]))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d1-count" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Count the comparisons</div><div class="pc-prompt"><p>Write <code>comparisons(items)</code> that merge sorts a copy and returns how many comparisons the merges made. Then set <code>sorted_1024</code> to the count for <code>list(range(1024))</code> and <code>reversed_1024</code> for <code>list(range(1024, 0, -1))</code> (run your function), and <code>levels_1024</code> to how many levels of splitting there are for 1,024 items.</p></div><textarea class="pc-src pc-code" hidden>sorted_1024 = ___
+reversed_1024 = ___
+levels_1024 = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert comparisons([2, 1]) == 1 and comparisons([]) == 0 and comparisons([1, 2, 3, 4]) == 4
+    assert sorted_1024 == comparisons(list(range(1024))) == 5120
+    assert reversed_1024 == comparisons(list(range(1024, 0, -1))) == 5120
+    assert levels_1024 == 10</textarea><textarea class="pc-src pc-solution" hidden>def comparisons(items):
+    def go(xs):
+        if len(xs) &lt;= 1:
+            return xs[:], 0
+        mid = len(xs) // 2
+        left, a = go(xs[:mid])
+        right, b = go(xs[mid:])
+        result, i, j, c = [], 0, 0, 0
+        while i &lt; len(left) and j &lt; len(right):
+            c += 1
+            if left[i] &lt;= right[j]:
+                result.append(left[i])
+                i += 1
+            else:
+                result.append(right[j])
+                j += 1
+        return result + left[i:] + right[j:], a + b + c
+    return go(items)[1]
+
+sorted_1024 = comparisons(list(range(1024)))
+reversed_1024 = comparisons(list(range(1024, 0, -1)))
+levels_1024 = 10</textarea><template class="pc-src pc-hint">On sorted input, each merge of two halves of size m makes m comparisons (the left half runs out first). 10 levels × 512 = 5120.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d1-buffer" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">One buffer</div><div class="pc-prompt"><p>Write <code>merge_sort_in_place(items, key=lambda x: x)</code> that sorts the list it&rsquo;s given (and returns nothing), using a recursive helper <code>sort(lo, hi)</code> on positions and <strong>one</strong> buffer list made once at the start: no slicing inside the recursion except copying into the buffer. It must be stable by <code>key</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_values():
+    &quot;several&quot;
+    for data in ([38, 27, 43, 3, 9, 82, 10], [], [1], [2, 1], [5, 5, 5]):
+        copy = list(data)
+        assert merge_sort_in_place(copy) is None and copy == sorted(data)
+    rng = random.Random(2)
+    recs = [(rng.randint(0, 9), i) for i in range(3000)]
+    copy = recs[:]
+    merge_sort_in_place(copy, key=lambda r: r[0])
+    assert copy == sorted(recs, key=lambda r: r[0])
+    big = [rng.random() for _ in range(50_000)]
+    copy = big[:]
+    merge_sort_in_place(copy)
+    assert copy == sorted(big)</textarea><textarea class="pc-src pc-solution" hidden>def merge_sort_in_place(items, key=lambda x: x):
+    buffer = items[:]
+    def sort(lo, hi):
+        if hi - lo &lt;= 1:
+            return
+        mid = (lo + hi) // 2
+        sort(lo, mid)
+        sort(mid, hi)
+        buffer[lo:hi] = items[lo:hi]
+        i, j = lo, mid
+        for k in range(lo, hi):
+            if j &gt;= hi or (i &lt; mid and key(buffer[i]) &lt;= key(buffer[j])):
+                items[k] = buffer[i]
+                i += 1
+            else:
+                items[k] = buffer[j]
+                j += 1
+    sort(0, len(items))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d1-bottom" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Bottom up</div><div class="pc-prompt"><p>Write <code>merge_sort_bottom_up(items)</code> that sorts the list in place without recursion: merge runs of width 1, 2, 4, &hellip; until the width reaches the length. Then set <code>passes_1000</code> to how many times the width loop runs for 1,000 items.</p></div><textarea class="pc-src pc-code" hidden>passes_1000 = ___</textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_values():
+    &quot;several&quot;
+    for n in (0, 1, 2, 3, 7, 8, 9, 100, 1000):
+        data = random.Random(n).sample(range(10 * n + 1), n)
+        copy = data[:]
+        merge_sort_bottom_up(copy)
+        assert copy == sorted(data), n
+    assert passes_1000 == 10
+    assert &quot;merge_sort_bottom_up(&quot; not in source.split(&quot;def merge_sort_bottom_up&quot;, 1)[1]</textarea><textarea class="pc-src pc-solution" hidden>def merge_sort_bottom_up(items):
+    n = len(items)
+    buffer = items[:]
+    width = 1
+    while width &lt; n:
+        for lo in range(0, n, 2 * width):
+            mid = min(lo + width, n)
+            hi = min(lo + 2 * width, n)
+            if mid &lt; hi:
+                buffer[lo:hi] = items[lo:hi]
+                i, j = lo, mid
+                for k in range(lo, hi):
+                    if j &gt;= hi or (i &lt; mid and buffer[i] &lt;= buffer[j]):
+                        items[k] = buffer[i]
+                        i += 1
+                    else:
+                        items[k] = buffer[j]
+                        j += 1
+        width *= 2
+
+passes_1000 = 10</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d1-kway" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Merge many</div><div class="pc-prompt"><p>Write <code>merge_all(lists)</code> that merges any number of sorted lists into one sorted list, by merging them in <strong>pairs</strong>, round after round (the first with the second, the third with the fourth, &hellip;), until one is left. Don&rsquo;t use <code>sort</code>, <code>sorted</code> or <code>heapq</code>. With k lists of n items in total, this is O(n log k).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_values():
+    &quot;several&quot;
+    assert merge_all([[3, 9, 14], [1, 10, 22], [5, 6, 30]]) == [1, 3, 5, 6, 9, 10, 14, 22, 30]
+    assert merge_all([]) == [] and merge_all([[], [2], []]) == [2]
+    rng = random.Random(6)
+    lists = []
+    for _ in range(37):
+        xs = [rng.randint(0, 999) for _ in range(rng.randint(0, 50))]
+        xs.sort()
+        lists.append(xs)
+    assert merge_all(lists) == sorted(x for xs in lists for x in xs)
+    import re
+    body = source
+    assert &quot;heapq&quot; not in body and not re.search(r&quot;\bsorted\(|\.sort\(&quot;, body)</textarea><textarea class="pc-src pc-solution" hidden>def merge(left, right):
+    result = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    return result + left[i:] + right[j:]
+
+def merge_all(lists):
+    if not lists:
+        return []
+    lists = [list(xs) for xs in lists]
+    while len(lists) &gt; 1:
+        paired = []
+        for i in range(0, len(lists), 2):
+            if i + 1 &lt; len(lists):
+                paired.append(merge(lists[i], lists[i + 1]))
+            else:
+                paired.append(lists[i])
+        lists = paired
+    return lists[0]</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w019d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Not stable</div><div class="pc-prompt"><p>This merge sort sorts correctly, but swaps the order of equal keys. It should print <code>[(1, 'b'), (2, 'a'), (2, 'c')]</code>. Fix the one character that makes it unstable.</p></div><textarea class="pc-src pc-code" hidden>def merge_sort(items, key):
+    if len(items) &lt;= 1:
+        return items[:]
+    mid = len(items) // 2
+    left, right = merge_sort(items[:mid], key), merge_sort(items[mid:], key)
+    result, i, j = [], 0, 0
+    while i &lt; len(left) and j &lt; len(right):
+        if key(left[i]) &lt; key(right[j]):
+            result.append(left[i]); i += 1
+        else:
+            result.append(right[j]); j += 1
+    return result + left[i:] + right[j:]
+
+print(merge_sort([(2, &quot;a&quot;), (1, &quot;b&quot;), (2, &quot;c&quot;)], key=lambda p: p[0]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;stable&quot;
+    expect_output(&quot;[(1, &#x27;b&#x27;), (2, &#x27;a&#x27;), (2, &#x27;c&#x27;)]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def merge_sort(items, key):
+    if len(items) &lt;= 1:
+        return items[:]
+    mid = len(items) // 2
+    left, right = merge_sort(items[:mid], key), merge_sort(items[mid:], key)
+    result, i, j = [], 0, 0
+    while i &lt; len(left) and j &lt; len(right):
+        if key(left[i]) &lt;= key(right[j]):
+            result.append(left[i]); i += 1
+        else:
+            result.append(right[j]); j += 1
+    return result + left[i:] + right[j:]
+
+print(merge_sort([(2, &quot;a&quot;), (1, &quot;b&quot;), (2, &quot;c&quot;)], key=lambda p: p[0]))</textarea><template class="pc-src pc-hint">On a tie, the item from the left half must go first.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w019d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Lost the leftovers</div><div class="pc-prompt"><p>This merge loses items: <code>merge([1, 5, 9], [2, 3])</code> gives <code>[1, 2, 3]</code>. Fix it so it prints <code>[1, 2, 3, 5, 9]</code>.</p></div><textarea class="pc-src pc-code" hidden>def merge(left, right):
+    result = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    return result
+
+print(merge([1, 5, 9], [2, 3]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;all items&quot;
+    expect_output(&quot;[1, 2, 3, 5, 9]&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def merge(left, right):
+    result = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    return result + left[i:] + right[j:]
+
+print(merge([1, 5, 9], [2, 3]))</textarea><template class="pc-src pc-hint">When one list runs out, whatever is left in the other is already sorted and bigger than everything taken so far.</template></div>
+<div class="parsons" data-id="w019d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Merge sort</div><div class="pc-prompt"><p>Arrange the lines for <code>merge_sort</code>, given a working <code>merge</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["def merge_sort(items):", "    if len(items) <= 1:", "        return items[:]", "    mid = len(items) // 2", "    left = merge_sort(items[:mid])", "    right = merge_sort(items[mid:])", "    return merge(left, right)"], "distractors": ["    return left + right"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # comparisons made by merge([1, 2, 3], [4, 5, 6])
+b = ___   # comparisons made by merge([1, 3, 5], [2, 4, 6])
+c = ___   # levels of splitting for 64 items
+d = ___   # True or False: merge sort is faster on already sorted data than on random data (in Big-O terms)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 3 and b == 5 and c == 6 and d is False</textarea><textarea class="pc-src pc-solution" hidden>a = 3
+b = 5
+c = 6
+d = False</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w019d1-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why does merge sort make about n log\u2082 n comparisons?", "answer": 1, "explain": "The recursion tree.", "options": ["It compares every pair", "About log\u2082 n levels of splitting, with about n work merging at each level", "It&rsquo;s recursive", "It uses binary search"]}, {"type": "mc", "q": "What is merge sort&rsquo;s best case?", "answer": 1, "explain": "It always splits and merges every level.", "options": ["O(n)", "O(n log n)", "O(n\u00b2)", "O(log n)"]}, {"type": "mc", "q": "How much extra space does merge sort need?", "answer": 2, "explain": "The merge needs somewhere to put the result.", "options": ["O(1)", "O(log n)", "O(n)", "O(n\u00b2)"]}, {"type": "mc", "q": "What makes merge sort stable?", "answer": 1, "explain": "Equal items keep their order.", "options": ["Recursion", "Taking from the left half on ties (&lt;=)", "Using a buffer", "Nothing; it isn&rsquo;t"]}, {"type": "mc", "q": "What&rsquo;s the advantage of bottom-up merge sort?", "answer": 1, "explain": "Plain loops over widths 1, 2, 4, &hellip;", "options": ["Fewer comparisons", "No recursion, so no recursion limit", "It&rsquo;s in place", "It&rsquo;s stable and the other isn&rsquo;t"]}, {"type": "mc", "q": "How are files too big for memory sorted?", "answer": 1, "explain": "External merge sort.", "options": ["They can&rsquo;t be", "Sort chunks that fit, write them out, then merge the sorted chunks", "Bubble sort on disk", "Binary search"]}, {"type": "mc", "q": "Why can&rsquo;t a comparison sort beat about n log\u2082 n comparisons?", "answer": 1, "explain": "log\u2082(n!) \u2248 n log\u2082 n.", "options": ["Computers are too slow", "There are n! possible orders and each comparison can at best halve them", "Recursion limits", "It can"]}, {"type": "text", "q": "How many levels of splitting does merge sort make for 1,024 items?", "answer": ["10"], "explain": "2\u00b9\u2070 = 1,024."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w019d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: sorting a file in chunks</div><div class="pc-prompt"><p><code>numbers.txt</code> holds one whole number per line. Pretend memory only holds <code>chunk</code> numbers at a time, and sort it the way databases sort huge tables. Write <code>external_sort(source, target, chunk)</code>:</p>
+<ol>
+<li>Read the source file <code>chunk</code> lines at a time; sort each chunk (you may use <code>sorted</code> here) and write it to its own file <code>run0.txt</code>, <code>run1.txt</code>, &hellip; (one number per line).</li>
+<li>Merge all the run files into <code>target</code>, one number per line, by reading <strong>one line at a time from each run</strong> (keep a list of open files and their current front numbers; repeatedly write the smallest front number and read the next line from that run).</li>
+<li>Return the number of runs.</li>
+</ol>
+<p>Don&rsquo;t read a whole run or the whole source into memory at once (the checks look for <code>.read()</code> and <code>.readlines()</code>).</p><details class="pc-file"><summary><code>numbers.txt</code></summary><pre class="pc-filetext">42
+7
+19
+3
+88
+25
+11
+64
+5
+30
+</pre></details></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_small():
+    &quot;small&quot;
+    runs = external_sort(&quot;numbers.txt&quot;, &quot;sorted.txt&quot;, 3)
+    assert runs == 4
+    assert read_file(&quot;sorted.txt&quot;).split() == [str(x) for x in sorted([42, 7, 19, 3, 88, 25, 11, 64, 5, 30])]
+    assert read_file(&quot;run0.txt&quot;).split() == [&quot;7&quot;, &quot;19&quot;, &quot;42&quot;]
+def test_big():
+    &quot;bigger&quot;
+    rng = random.Random(3)
+    nums = [rng.randint(-10_000, 10_000) for _ in range(5000)]
+    write_file(&quot;big.txt&quot;, &quot;\n&quot;.join(map(str, nums)) + &quot;\n&quot;)
+    assert external_sort(&quot;big.txt&quot;, &quot;big_sorted.txt&quot;, 700) == 8
+    assert [int(x) for x in read_file(&quot;big_sorted.txt&quot;).split()] == sorted(nums)
+def test_rules():
+    &quot;streams&quot;
+    assert &quot;.read()&quot; not in source and &quot;readlines&quot; not in source</textarea><textarea class="pc-src pc-files" hidden>{&quot;numbers.txt&quot;: &quot;42\n7\n19\n3\n88\n25\n11\n64\n5\n30\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>def external_sort(source, target, chunk):
+    runs = []
+    with open(source) as f:
+        while True:
+            block = []
+            for _ in range(chunk):
+                line = f.readline()
+                if not line:
+                    break
+                if line.strip():
+                    block.append(int(line))
+            if not block:
+                break
+            name = f&quot;run{len(runs)}.txt&quot;
+            with open(name, &quot;w&quot;) as out:
+                for x in sorted(block):
+                    out.write(f&quot;{x}\n&quot;)
+            runs.append(name)
+    files = [open(name) for name in runs]
+    fronts = []
+    for f in files:
+        line = f.readline()
+        fronts.append(int(line) if line.strip() else None)
+    with open(target, &quot;w&quot;) as out:
+        while True:
+            best = None
+            for i, x in enumerate(fronts):
+                if x is not None and (best is None or x &lt; fronts[best]):
+                    best = i
+            if best is None:
+                break
+            out.write(f&quot;{fronts[best]}\n&quot;)
+            line = files[best].readline()
+            fronts[best] = int(line) if line.strip() else None
+    for f in files:
+        f.close()
+    return len(runs)</textarea><template class="pc-src pc-hint">For the merge, open every run and read its first line into a list <code>fronts</code> (use <code>None</code> for a run that&rsquo;s finished). Loop: find the position of the smallest front that isn&rsquo;t <code>None</code> (a simple scan is fine for a few runs); if there isn&rsquo;t one, stop; write it, then read the next line of that run with <code>readline()</code>; an empty string means the run is finished.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Sort a shuffled deck of cards with merge sort: split into piles until each pile is one card, then merge pairs of piles, keeping each merged pile in order. Count the levels. Tomorrow: quicksort, which also splits the list in two, but does its hard work before the recursion instead of after.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w018d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w019d1", "week": 19, "day": 1, "title": "Merge sort", "exercises": [{"id": "w019d1-ms", "title": "Merge sort by slicing", "points": 15}, {"id": "w019d1-count", "title": "Count the comparisons", "points": 15}, {"id": "w019d1-buffer", "title": "One buffer", "points": 20}, {"id": "w019d1-bottom", "title": "Bottom up", "points": 15}, {"id": "w019d1-kway", "title": "Merge many", "points": 15}, {"id": "w019d1-bug1", "title": "Not stable", "points": 10}, {"id": "w019d1-bug2", "title": "Lost the leftovers", "points": 10}, {"id": "w019d1-trace", "title": "Predict them", "points": 15}, {"id": "w019d1-challenge", "title": "Challenge: sorting a file in chunks", "points": 25}], "points": 140}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=2cd5801d38"></script>
+</body>
+</html>

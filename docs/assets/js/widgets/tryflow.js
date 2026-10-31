@@ -1,7 +1,7 @@
 // try/except flow: a program with try and except, run on an input you choose. Lines that ran
 // are marked, lines that were skipped are faded, and the line that raised is flagged.
-import { h } from "../site.js?v=f2aeea61be";
-import { py } from "../runtime.js?v=f2aeea61be";
+import { h } from "../site.js?v=2cd5801d38";
+import { py } from "../runtime.js?v=2cd5801d38";
 
 const CODE = `text = input("Number: ")
 try:
