@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="d6acdb8fde">
+<title>Week 17 Day 3: The common complexity classes | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=d6acdb8fde">
+<link rel="stylesheet" href="../assets/css/site.css?v=d6acdb8fde">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=d6acdb8fde"></script>
+<script src="../assets/vendor/codemirror.js?v=d6acdb8fde" defer></script>
+<meta name="description" content="Almost every algorithm you’ll meet falls into one of a handful of growth classes: constant, logarithmic, linear, n log n, quadratic, cubic, exponential and...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w017d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 17 Day 3: The common complexity classes">
+<meta property="og:description" content="Almost every algorithm you’ll meet falls into one of a handful of growth classes: constant, logarithmic, linear, n log n, quadratic, cubic, exponential and...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w017d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x=".5" y=".5" width="31" height="31" rx="7.5"/><rect class="bm-frame" x="6.1" y="7.6" width="19.8" height="16.8" rx="3"/><path class="bm-prompt" d="M10.6 13.9l2.6 2.1-2.6 2.1"/><path class="bm-line" d="M15.4 18.4h6"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-17">Week 17: How fast is my program?</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#o-1-and-o-log-n" data-sec="o-1-and-o-log-n">O(1) and O(log n)</a></li><li><a href="#o-n-and-o-n-log-n" data-sec="o-n-and-o-n-log-n">O(n) and O(n log n)</a></li><li><a href="#o-n-and-o-n" data-sec="o-n-and-o-n">O(n²) and O(n³)</a></li><li><a href="#o-2-and-o-n" data-sec="o-2-and-o-n">O(2ⁿ) and O(n!)</a></li><li><a href="#how-big-can-n-be" data-sec="how-big-can-n-be">How big can n be?</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w017d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-17">Week 17: How fast is my program?</a></li><li aria-current="page">Day 3 of 6</li></ol>
+      <p class="day-where"><span>Week 17, Day 3</span></p>
+      <h1>The common complexity classes</h1>
+      <div class="day-intro"><p>Almost every algorithm you&rsquo;ll meet falls into one of a handful of growth classes: constant, logarithmic, linear, n log n, quadratic, cubic, exponential and factorial. Each has a typical shape of code that produces it, and each has a rough limit on how big an input it can handle in a second. Today you&rsquo;ll meet them one at a time, so that you can recognise each one in code and know which are practical for the size of input you have.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Name the common complexity classes and put them in order of growth</li><li>Recognise the shape of code that typically produces each class</li><li>Estimate the largest input each class can handle in about a second</li><li>Tell apart algorithms that scale (up to n log n) from those that don&rsquo;t</li><li>Improve an algorithm by moving it into a lower class</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">2 h 50 min</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="O(1) and O(log n): 20 min"></span><span class="plan-seg s0" style="flex:20" title="O(n) and O(n log n): 20 min"></span><span class="plan-seg s1" style="flex:20" title="O(n²) and O(n³): 20 min"></span><span class="plan-seg s0" style="flex:20" title="O(2ⁿ) and O(n!): 20 min"></span><span class="plan-seg s1" style="flex:20" title="How big can n be?: 20 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">O(1) and O(log n)</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">O(n) and O(n log n)</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:50</span><span class="plan-what">O(n²) and O(n³)</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:10</span><span class="plan-what">O(2ⁿ) and O(n!)</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">How big can n be?</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:40</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w017d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w017d3.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w017d3-p1"><textarea class="pc-src pc-code" hidden>from math import log2, factorial
+
+n = 20
+print(round(log2(n)), n, round(n * log2(n)), n ** 2, n ** 3, 2 ** n, factorial(n))</textarea></div>
+<p>For just 20 items, the classes range from 4 steps to more than 2 billion billion. Here they are, slowest-growing first:</p>
+<p><strong>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!)</strong></p>
+<h2 id="o-1-and-o-log-n">O(1) and O(log n)</h2>
+<p><strong>Constant, O(1):</strong> the work doesn&rsquo;t depend on n at all. No loop over the data, no hidden loop in a built-in.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d3-e2"><textarea class="pc-src pc-code" hidden>def first_and_last(items):
+    return items[0], items[-1]            # indexing: O(1)
+
+def price_of(prices, item):
+    return prices.get(item, 0)            # dictionary lookup: O(1) on average
+
+def is_even(n):
+    return n % 2 == 0                     # arithmetic: O(1)
+
+print(first_and_last([4, 8, 15]), price_of({&quot;tea&quot;: 3}, &quot;tea&quot;), is_even(10 ** 50))</textarea></div>
+<p>(Strictly, arithmetic on enormous whole numbers like 10⁵⁰ costs more than on small ones, since Python stores them digit by digit. For ordinary sizes, treat it as O(1).)</p>
+<p><strong>Logarithmic, O(log n):</strong> each step <strong>cuts the problem down by a fixed fraction</strong>, usually half. log₂ n is &ldquo;how many times can you halve n before reaching 1&rdquo;: about 10 for a thousand, 20 for a million, 30 for a billion. The classic example is guessing a number between 1 and n by always guessing the middle:</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d3-e3"><textarea class="pc-src pc-code" hidden>def guesses_needed(secret, low, high):
+    count = 0
+    while True:
+        count += 1
+        guess = (low + high) // 2
+        if guess == secret:
+            return count
+        if guess &lt; secret:
+            low = guess + 1
+        else:
+            high = guess - 1
+
+print(guesses_needed(1, 1, 100))
+print(guesses_needed(777_777, 1, 1_000_000))
+print(max(guesses_needed(s, 1, 1000) for s in range(1, 1001)))</textarea></div>
+<p>Never more than 10 guesses for a thousand numbers, and at most 20 for a million. This is binary search, the subject of next week&rsquo;s Day 2. Counting the digits of a number by dividing by 10 is also O(log n), with log base 10.</p>
+<h2 id="o-n-and-o-n-log-n">O(n) and O(n log n)</h2>
+<p><strong>Linear, O(n):</strong> a constant amount of work per item: one loop over the data, or a few loops one after another. Most &ldquo;go through the list and&hellip;&rdquo; tasks are O(n): adding up, finding the largest, counting, filtering, building a dictionary from a list.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d3-e4"><textarea class="pc-src pc-code" hidden>def stats(items):
+    total = 0
+    largest = items[0]
+    for x in items:                  # one pass
+        total += x
+        if x &gt; largest:
+            largest = x
+    return total / len(items), largest
+
+print(stats([3, 9, 4, 6]))</textarea></div>
+<p>You can&rsquo;t do better than O(n) for any task that must look at every item.</p>
+<p><strong>Linearithmic, O(n log n):</strong> typically &ldquo;split in half log n times, with O(n) work at each level&rdquo;. Merge sort, from last week&rsquo;s divide and conquer, is the example, and so is Python&rsquo;s <code>sorted</code>. O(n log n) is only a little more than O(n): for a million items, log₂ n is about 20.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d3-e5"><textarea class="pc-src pc-code" hidden>def has_close_pair(items, gap):
+    &quot;&quot;&quot;Are any two numbers within `gap` of each other?&quot;&quot;&quot;
+    ordered = sorted(items)                       # O(n log n)
+    for i in range(len(ordered) - 1):             # O(n)
+        if ordered[i + 1] - ordered[i] &lt;= gap:
+            return True
+    return False
+
+print(has_close_pair([40, 3, 19, 27, 11], 5), has_close_pair([40, 3, 19, 22], 5))</textarea></div>
+<p>Sorting first is a powerful trick: once the numbers are in order, the closest pair must be <strong>next to each other</strong>, so one pass finds it. Comparing every pair would be O(n²). &ldquo;Sort first, then one pass&rdquo; is O(n log n) and solves many problems.</p>
+<h2 id="o-n-and-o-n">O(n²) and O(n³)</h2>
+<p><strong>Quadratic, O(n²):</strong> usually a loop inside a loop over the same data, or a loop with an O(n) operation inside it (<code>in</code> on a list, <code>insert(0, ...)</code>, <code>count</code>). Comparing every pair, simple sorting methods (next week), and building a string by <code>+</code> in a loop all tend to be O(n²).</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d3-e6"><textarea class="pc-src pc-code" hidden>def closest_pair_slow(items):
+    best = None
+    for i in range(len(items)):
+        for j in range(i + 1, len(items)):        # every pair
+            d = abs(items[i] - items[j])
+            if best is None or d &lt; best:
+                best = d
+    return best
+
+print(closest_pair_slow([40, 3, 19, 27, 11]))</textarea></div>
+<p><strong>Cubic, O(n³):</strong> three nested loops, such as checking every triple, or multiplying two n by n tables of numbers the straightforward way.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d3-e7"><textarea class="pc-src pc-code" hidden>def zero_triples(items):
+    count = 0
+    n = len(items)
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):              # every triple
+                if items[i] + items[j] + items[k] == 0:
+                    count += 1
+    return count
+
+print(zero_triples([-5, 1, 4, 2, -3, 0, 3]))</textarea></div>
+<p>Polynomial classes like these are fine for hundreds or a few thousand items, but they don&rsquo;t scale to millions.</p>
+<h2 id="o-2-and-o-n">O(2ⁿ) and O(n!)</h2>
+<p><strong>Exponential, O(2ⁿ):</strong> usually &ldquo;try every subset&rdquo; or a tree recursion where each call makes two more and nothing is remembered. Each extra item <strong>doubles</strong> the work. Plain recursive <code>fib(n)</code> is close to this, and so is checking every subset to see if any adds up to a target.</p>
+<p><strong>Factorial, O(n!):</strong> &ldquo;try every ordering&rdquo;. The classic example is finding the shortest round trip through n towns by trying every route: with 15 towns there are over a trillion orderings.</p>
+<div class="pc pc-example" data-kind="example" data-id="w017d3-e8"><textarea class="pc-src pc-code" hidden>from itertools import permutations
+
+def shortest_tour(dist):
+    towns = range(1, len(dist))
+    best = None
+    for order in permutations(towns):             # (n - 1)! orderings
+        route = (0,) + order + (0,)
+        length = sum(dist[a][b] for a, b in zip(route, route[1:]))
+        if best is None or length &lt; best:
+            best = length
+    return best
+
+dist = [[0, 2, 9, 10],
+        [2, 0, 6, 4],
+        [9, 6, 0, 3],
+        [10, 4, 3, 0]]
+print(shortest_tour(dist))</textarea></div>
+<p>Exponential and factorial algorithms only work for very small n, roughly 25 and 10 respectively. When a problem seems to need one, look for memoisation (Week 16), a cleverer algorithm, or an answer that&rsquo;s good enough rather than perfect.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>O(1), O(log n), O(n) and O(n log n) <strong>scale</strong>: they handle millions of items. O(n²) and O(n³) handle thousands. O(2ⁿ) and O(n!) handle a few dozen at most.</p></aside>
+<h2 id="how-big-can-n-be">How big can n be?</h2>
+<p>Python does roughly 10 to 50 million simple steps a second. Using 10 million as a rough, cautious figure, here&rsquo;s the largest n each class can handle in about one second:</p>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Largest n in about a second</th>
+<th>Typical code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O(1)</td>
+<td>any</td>
+<td>no loop over the data</td>
+</tr>
+<tr>
+<td>O(log n)</td>
+<td>any</td>
+<td>halve each time</td>
+</tr>
+<tr>
+<td>O(n)</td>
+<td>about 10 million</td>
+<td>one loop</td>
+</tr>
+<tr>
+<td>O(n log n)</td>
+<td>about 500,000</td>
+<td>sort, then a loop</td>
+</tr>
+<tr>
+<td>O(n²)</td>
+<td>about 3,000</td>
+<td>a loop in a loop</td>
+</tr>
+<tr>
+<td>O(n³)</td>
+<td>about 200</td>
+<td>three nested loops</td>
+</tr>
+<tr>
+<td>O(2ⁿ)</td>
+<td>about 23</td>
+<td>every subset</td>
+</tr>
+<tr>
+<td>O(n!)</td>
+<td>about 10</td>
+<td>every ordering</td>
+</tr>
+</tbody>
+</table>
+<p>This table is how experienced programmers choose an approach: if the input could have a million items, an O(n²) idea is ruled out before writing any code.</p>
+<figure class="widget" data-widget="growth"><script type="application/json">{"curves": ["1", "log", "n", "nlogn", "n2", "n3", "2n"], "n": 64}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Slide n up and watch when each class stops being practical. The times are rough Python estimates.</figcaption></figure>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d3-order" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Put them in order</div><div class="pc-prompt"><p>Set <code>order</code> to the list of these class names sorted from slowest-growing to fastest-growing: <code>"O(n^2)"</code>, <code>"O(1)"</code>, <code>"O(n!)"</code>, <code>"O(n log n)"</code>, <code>"O(log n)"</code>, <code>"O(2^n)"</code>, <code>"O(n)"</code>, <code>"O(n^3)"</code>.</p></div><textarea class="pc-src pc-code" hidden>order = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;order&quot;
+    assert order == [&quot;O(1)&quot;, &quot;O(log n)&quot;, &quot;O(n)&quot;, &quot;O(n log n)&quot;, &quot;O(n^2)&quot;, &quot;O(n^3)&quot;, &quot;O(2^n)&quot;, &quot;O(n!)&quot;]</textarea><textarea class="pc-src pc-solution" hidden>order = [&quot;O(1)&quot;, &quot;O(log n)&quot;, &quot;O(n)&quot;, &quot;O(n log n)&quot;, &quot;O(n^2)&quot;, &quot;O(n^3)&quot;, &quot;O(2^n)&quot;, &quot;O(n!)&quot;]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d3-digits" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Counting digits in O(log n)</div><div class="pc-prompt"><p>Write <code>digit_count(n)</code> returning how many digits a whole number of 0 or more has, by repeatedly dividing by 10 with <code>//</code> (no <code>str</code> or <code>len</code>). 0 has 1 digit. Then set <code>steps_for_a_billion</code> to how many divisions your loop does for 1,000,000,000.</p></div><textarea class="pc-src pc-code" hidden>steps_for_a_billion = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert digit_count(0) == 1 and digit_count(7) == 1 and digit_count(10) == 2 and digit_count(999) == 3
+    assert digit_count(10 ** 50) == 51
+    assert &quot;str(&quot; not in source and &quot;len(&quot; not in source
+    assert steps_for_a_billion == 10</textarea><textarea class="pc-src pc-solution" hidden>def digit_count(n):
+    count = 1
+    while n &gt;= 10:
+        n //= 10
+        count += 1
+    return count
+
+steps_for_a_billion = 10</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d3-guesses" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Worst-case guesses</div><div class="pc-prompt"><p>Write <code>worst_guesses(n)</code> returning the largest number of guesses <code>guesses_needed(secret, 1, n)</code> (from the lesson, included in the starter) needs for any secret from 1 to n. Work it out <strong>without</strong> trying every secret: it&rsquo;s the number of times you can halve, which is <code>n.bit_length()</code> (the number of binary digits of n). Check your formula against the brute force for small n.</p></div><textarea class="pc-src pc-code" hidden>def guesses_needed(secret, low, high):
+    count = 0
+    while True:
+        count += 1
+        guess = (low + high) // 2
+        if guess == secret:
+            return count
+        if guess &lt; secret:
+            low = guess + 1
+        else:
+            high = guess - 1
+
+def worst_guesses(n):
+    ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;matches brute force&quot;
+    for n in range(1, 300):
+        assert worst_guesses(n) == max(guesses_needed(s, 1, n) for s in range(1, n + 1)), n
+    assert worst_guesses(1_000_000) == 20 and worst_guesses(10 ** 9) == 30</textarea><textarea class="pc-src pc-solution" hidden>def guesses_needed(secret, low, high):
+    count = 0
+    while True:
+        count += 1
+        guess = (low + high) // 2
+        if guess == secret:
+            return count
+        if guess &lt; secret:
+            low = guess + 1
+        else:
+            high = guess - 1
+
+def worst_guesses(n):
+    return n.bit_length()</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d3-max_n" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">How big can n be?</div><div class="pc-prompt"><p>Write <code>largest_n(kind, budget)</code> that returns the largest whole number n of 1 or more for which the step count of the given class is at most <code>budget</code>, where the step counts are: <code>"n"</code>: n; <code>"n2"</code>: n²; <code>"n3"</code>: n³; <code>"2n"</code>: 2ⁿ; <code>"nlogn"</code>: n × log₂ n (use <code>math.log2</code>). Search upwards by doubling to get past the answer, then halve the gap (binary search) to find it exactly, so it&rsquo;s fast even for a budget of 10¹⁸.</p></div><textarea class="pc-src pc-code" hidden>import math</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert largest_n(&quot;n&quot;, 10_000_000) == 10_000_000
+    assert largest_n(&quot;n2&quot;, 10_000_000) == 3162
+    assert largest_n(&quot;n3&quot;, 10_000_000) == 215
+    assert largest_n(&quot;2n&quot;, 10_000_000) == 23
+    assert largest_n(&quot;nlogn&quot;, 10_000_000) == 526_172
+    assert largest_n(&quot;n2&quot;, 10 ** 18) == 10 ** 9</textarea><textarea class="pc-src pc-solution" hidden>import math
+
+def largest_n(kind, budget):
+    steps = {
+        &quot;n&quot;: lambda n: n,
+        &quot;n2&quot;: lambda n: n * n,
+        &quot;n3&quot;: lambda n: n ** 3,
+        &quot;2n&quot;: lambda n: 2 ** n,
+        &quot;nlogn&quot;: lambda n: n * math.log2(n),
+    }[kind]
+    hi = 1
+    while steps(hi) &lt;= budget:
+        hi *= 2
+    lo = hi // 2
+    while hi - lo &gt; 1:
+        mid = (lo + hi) // 2
+        if steps(mid) &lt;= budget:
+            lo = mid
+        else:
+            hi = mid
+    return lo</textarea><template class="pc-src pc-hint"><code>steps = {"n": lambda n: n, "n2": lambda n: n * n, ...}[kind]</code>. Start with <code>hi = 1</code> and double it while <code>steps(hi) &lt;= budget</code>. Then the answer is between <code>hi // 2</code> and <code>hi - 1</code>: keep <code>lo</code> as a size that fits and <code>hi</code> as one that doesn&rsquo;t, and test the middle until they&rsquo;re next to each other.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d3-sort_first" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Sort first</div><div class="pc-prompt"><p>Write <code>min_gap(items)</code> returning the smallest difference between any two numbers in a list of at least two numbers. It must be O(n log n): sort, then one pass comparing neighbours. A list of 200,000 numbers must take well under a second.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_values():
+    &quot;several&quot;
+    assert min_gap([40, 3, 19, 27, 11]) == 8
+    assert min_gap([5, 5]) == 0 and min_gap([1, 100]) == 99
+    rng = random.Random(1)
+    data = rng.sample(range(10 ** 9), 200_000)
+    s = sorted(data)
+    assert min_gap(data) == min(b - a for a, b in zip(s, s[1:]))</textarea><textarea class="pc-src pc-solution" hidden>def min_gap(items):
+    ordered = sorted(items)
+    return min(b - a for a, b in zip(ordered, ordered[1:]))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w017d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Exponential inside a loop</div><div class="pc-prompt"><p>This prints the first 35 Fibonacci numbers, but it takes ages: each <code>fib(i)</code> is exponential, and it&rsquo;s called 35 times. Make it O(n) overall while keeping the output the same.</p></div><textarea class="pc-src pc-code" hidden>def fib(n):
+    return n if n &lt; 2 else fib(n - 1) + fib(n - 2)
+
+print([fib(i) for i in range(35)][-3:])</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;same output, without repeating work&quot;
+    expect_output(&quot;[2178309, 3524578, 5702887]&quot;)
+    assert &quot;cache&quot; in source or &quot;fib(n - 1) + fib(n - 2)&quot; not in source, &quot;fib still recomputes everything&quot;</textarea><textarea class="pc-src pc-solution" hidden>from functools import cache
+
+@cache
+def fib(n):
+    return n if n &lt; 2 else fib(n - 1) + fib(n - 2)
+
+print([fib(i) for i in range(35)][-3:])</textarea><template class="pc-src pc-hint">Either put <code>@cache</code> on <code>fib</code> (from <code>functools</code>), or build the list with a loop where each number is the sum of the two before.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w017d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Building a string</div><div class="pc-prompt"><p><code>stars(n)</code> builds a line of n stars with <code>+=</code> in a loop. In many languages this is O(n²), because each <code>+</code> copies the whole string so far. (CPython sometimes avoids the copy, but you can&rsquo;t rely on it.) Rewrite it so it&rsquo;s clearly O(n) without a loop: use string repetition. It must still return the same string.</p></div><textarea class="pc-src pc-code" hidden>def stars(n):
+    line = &quot;&quot;
+    for i in range(n):
+        line += &quot;*&quot;
+    return line
+
+print(stars(5))</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;same&quot;
+    expect_output(&quot;*****&quot;)
+    assert stars(0) == &quot;&quot; and len(stars(100_000)) == 100_000
+    assert &quot;for &quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def stars(n):
+    return &quot;*&quot; * n
+
+print(stars(5))</textarea></div>
+<div class="parsons" data-id="w017d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">O(n log n) duplicate check</div><div class="pc-prompt"><p>Arrange the lines so <code>has_duplicate</code> sorts first, then compares neighbours. One line is a trap.</p></div><script type="application/json">{"lines": ["def has_duplicate(items):", "    ordered = sorted(items)", "    for i in range(len(ordered) - 1):", "        if ordered[i] == ordered[i + 1]:", "            return True", "    return False"], "distractors": ["        if ordered[i] in ordered[i + 1:]:"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Which class?</div><div class="pc-prompt"><p>Give the class of each, as strings in the style of the first exercise.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # look up a word&#x27;s definition in a dict
+b = ___   # find the shortest round trip through n towns by trying every route
+c = ___   # count how many times you can halve n
+d = ___   # sorted(items), then one loop over the result
+e = ___   # list every subset of n items</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;O(1)&quot; and b == &quot;O(n!)&quot; and c == &quot;O(log n)&quot; and d == &quot;O(n log n)&quot; and e == &quot;O(2^n)&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;O(1)&quot;
+b = &quot;O(n!)&quot;
+c = &quot;O(log n)&quot;
+d = &quot;O(n log n)&quot;
+e = &quot;O(2^n)&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w017d3-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "Which class grows slowest (after constant)?", "answer": 1, "explain": "One more step each time n doubles.", "options": ["O(n)", "O(log n)", "O(n log n)", "O(n\u00b2)"]}, {"type": "mc", "q": "What code shape typically gives O(log n)?", "answer": 1, "explain": "Halving.", "options": ["One loop", "A loop that halves the problem each time", "Two nested loops", "Trying every subset"]}, {"type": "mc", "q": "What is the Big-O of Python&rsquo;s <code>sorted</code>?", "answer": 1, "explain": "Like merge sort.", "options": ["O(n)", "O(n log n)", "O(n\u00b2)", "O(log n)"]}, {"type": "mc", "q": "About how big can n be for an O(n\u00b2) algorithm in Python in a second?", "answer": 1, "explain": "3,000\u00b2 is about 10 million.", "options": ["About 20", "About 3,000", "About 10 million", "Any size"]}, {"type": "mc", "q": "Why does sorting first help find the closest pair?", "answer": 1, "explain": "O(n log n) instead of O(n\u00b2).", "options": ["Sorted lists are smaller", "The closest pair must then be neighbours, so one pass finds it", "It removes duplicates", "It doesn&rsquo;t"]}, {"type": "mc", "q": "What typically gives O(n!)?", "answer": 2, "explain": "n \u00d7 (n \u2212 1) \u00d7 &hellip;", "options": ["Every pair", "Every subset", "Every ordering", "Halving"]}, {"type": "mc", "q": "Which classes handle millions of items?", "answer": 1, "explain": "They scale.", "options": ["Only O(1)", "O(1), O(log n), O(n), O(n log n)", "Everything up to O(n\u00b3)", "All of them"]}, {"type": "text", "q": "How many halvings to get from about a billion down to 1?", "answer": ["30", "about 30"], "explain": "2\u00b3\u2070 is about a billion."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w017d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: from cubic to quadratic</div><div class="pc-prompt"><p><code>zero_triples</code> from the lesson is O(n³). Write <code>count_zero_triples(items)</code> that gives the same answer for a list of <strong>different</strong> whole numbers in O(n²): sort the list, then for each position <code>i</code>, use two positions <code>lo = i + 1</code> and <code>hi</code> at the end moving towards each other to find pairs that add up to <code>-items[i]</code> (like yesterday&rsquo;s challenge). It must handle 1,500 numbers in a few seconds or less, where the O(n³) version would take minutes.</p>
+<p>Also write <code>zero_triples_slow(items)</code> (the cubic version, for checking) and set <code>speedup</code> to how many times fewer triples-or-pairs the fast version looks at for n = 1,500, roughly: n³/6 divided by n²/2, as a whole number.</p></div><textarea class="pc-src pc-code" hidden>speedup = ___</textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_small():
+    &quot;small&quot;
+    assert count_zero_triples([-5, 1, 4, 2, -3, 0, 3]) == 4
+    assert count_zero_triples([1, 2, 3]) == 0 and count_zero_triples([]) == 0
+    rng = random.Random(3)
+    for _ in range(30):
+        data = rng.sample(range(-40, 41), rng.randint(0, 25))
+        assert count_zero_triples(data) == zero_triples_slow(data)
+def test_big():
+    &quot;big&quot;
+    rng = random.Random(7)
+    data = rng.sample(range(-100_000, 100_001), 1500)
+    assert count_zero_triples(data) == 2094
+    assert speedup == 500</textarea><textarea class="pc-src pc-solution" hidden>def zero_triples_slow(items):
+    count = 0
+    n = len(items)
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                if items[i] + items[j] + items[k] == 0:
+                    count += 1
+    return count
+
+def count_zero_triples(items):
+    data = sorted(items)
+    count = 0
+    for i in range(len(data)):
+        target = -data[i]
+        lo, hi = i + 1, len(data) - 1
+        while lo &lt; hi:
+            s = data[lo] + data[hi]
+            if s == target:
+                count += 1
+                lo += 1
+                hi -= 1
+            elif s &lt; target:
+                lo += 1
+            else:
+                hi -= 1
+    return count
+
+speedup = 500</textarea><template class="pc-src pc-hint">After sorting, for each <code>i</code> set <code>target = -items[i]</code>. While <code>lo &lt; hi</code>: if <code>items[lo] + items[hi] == target</code>, count one and move <strong>both</strong> inwards (the numbers are all different); if the sum is too small, move <code>lo</code> up; otherwise move <code>hi</code> down.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Without writing code, put each of these in a class: finding a name in a phone book by opening it in the middle each time; reading every page of a book; checking every pair of students for a shared birthday; trying every possible 4-digit PIN. Tomorrow: analysing loops in detail, including loops whose inner range changes and loops that don&rsquo;t simply count up by one.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w017d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w017d3", "week": 17, "day": 3, "title": "The common complexity classes", "exercises": [{"id": "w017d3-order", "title": "Put them in order", "points": 10}, {"id": "w017d3-digits", "title": "Counting digits in O(log n)", "points": 10}, {"id": "w017d3-guesses", "title": "Worst-case guesses", "points": 15}, {"id": "w017d3-max_n", "title": "How big can n be?", "points": 15}, {"id": "w017d3-sort_first", "title": "Sort first", "points": 15}, {"id": "w017d3-bug1", "title": "Exponential inside a loop", "points": 10}, {"id": "w017d3-bug2", "title": "Building a string", "points": 10}, {"id": "w017d3-trace", "title": "Which class?", "points": 15}, {"id": "w017d3-challenge", "title": "Challenge: from cubic to quadratic", "points": 25}], "points": 125}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=d6acdb8fde"></script>
+</body>
+</html>
