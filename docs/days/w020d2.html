@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="ee76f9a815">
+<title>Week 20 Day 2: Your own modules | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=ee76f9a815">
+<link rel="stylesheet" href="../assets/css/site.css?v=ee76f9a815">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=ee76f9a815"></script>
+<script src="../assets/vendor/codemirror.js?v=ee76f9a815" defer></script>
+<meta name="description" content="Once a program grows past a few hundred lines, one file becomes hard to find your way around. Splitting it into modules gives each part a name and a home:...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w020d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 20 Day 2: Your own modules">
+<meta property="og:description" content="Once a program grows past a few hundred lines, one file becomes hard to find your way around. Splitting it into modules gives each part a name and a home:...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w020d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-20">Week 20: Modules and the standard library</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#writing-a-module" data-sec="writing-a-module">Writing a module</a></li><li><a href="#name-and-main" data-sec="name-and-main">name and main</a></li><li><a href="#packages" data-sec="packages">Packages</a></li><li><a href="#splitting-a-program" data-sec="splitting-a-program">Splitting a program</a></li><li><a href="#module-style" data-sec="module-style">Module style</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w020d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-20">Week 20: Modules and the standard library</a></li><li aria-current="page">Day 2 of 6</li></ol>
+      <p class="day-where"><span>Week 20, Day 2</span></p>
+      <h1>Your own modules</h1>
+      <div class="day-intro"><p>Once a program grows past a few hundred lines, one file becomes hard to find your way around. Splitting it into modules gives each part a name and a home: the data in one file, the calculations in another, the menus and printing in a third. Today you&rsquo;ll write your own modules, learn the <code>if __name__ == "__main__":</code> line that lets a file be both a module and a program, and group modules into packages.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Write a module with a docstring, public functions and private helpers</li><li>Use <code>if __name__ == "__main__":</code> so a file can be imported without running its demo code</li><li>Make a package (a folder with <code>__init__.py</code>) and import from it with dots</li><li>Use relative imports inside a package, and choose what <code>__init__.py</code> exposes</li><li>Decide how to split a program into modules with clear jobs</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="Writing a module: 20 min"></span><span class="plan-seg s0" style="flex:30" title="__name__ and __main__: 30 min"></span><span class="plan-seg s1" style="flex:30" title="Packages: 30 min"></span><span class="plan-seg s0" style="flex:20" title="Splitting a program: 20 min"></span><span class="plan-seg s1" style="flex:10" title="Module style: 10 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Writing a module</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what"><strong>name</strong> and <strong>main</strong></span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Packages</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:30</span><span class="plan-what">Splitting a program</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:50</span><span class="plan-what">Module style</span><span class="plan-min">10 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w020d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w020d2.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w020d2-p1"><textarea class="pc-src pc-code" hidden>print(__name__)</textarea></div>
+<p>Every module has a <code>__name__</code>. When you run a file directly, as every program on this site is run, its <code>__name__</code> is <code>"__main__"</code>. When the same file is imported, <code>__name__</code> is the module&rsquo;s own name. That difference is today&rsquo;s most useful trick.</p>
+<h2 id="writing-a-module">Writing a module</h2>
+<p>There&rsquo;s nothing special about a module: write functions in a <code>.py</code> file, and another file in the same folder can import them. A good module has:</p>
+<ul>
+<li>a <strong>docstring</strong> at the top saying what it&rsquo;s for;</li>
+<li><strong>public</strong> functions and constants that other code is meant to use;</li>
+<li><strong>private</strong> helpers, named with a leading <code>_</code>, that are its own business;</li>
+<li><strong>no</strong> code at the top level that does things (printing, asking for input, changing files) when it&rsquo;s imported.</li>
+</ul>
+<div class="filebox"><div class="filebox-head">The file used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>units.py</code></summary><pre class="pc-filetext">&quot;&quot;&quot;Converting between units of measurement.
+
+    &gt;&gt;&gt; import units
+    &gt;&gt;&gt; units.c_to_f(100)
+    212.0
+&quot;&quot;&quot;
+
+KM_PER_MILE = 1.609344
+
+def c_to_f(celsius):
+    &quot;&quot;&quot;Celsius to Fahrenheit.&quot;&quot;&quot;
+    return celsius * 9 / 5 + 32
+
+def f_to_c(fahrenheit):
+    &quot;&quot;&quot;Fahrenheit to Celsius.&quot;&quot;&quot;
+    return (fahrenheit - 32) * 5 / 9
+
+def miles_to_km(miles):
+    return _round(miles * KM_PER_MILE)
+
+def km_to_miles(km):
+    return _round(km / KM_PER_MILE)
+
+def _round(x):
+    # one place to change how results are rounded
+    return round(x, 3)
+</pre></details><script type="application/json" class="page-files">{"units.py": "\"\"\"Converting between units of measurement.\n\n    >>> import units\n    >>> units.c_to_f(100)\n    212.0\n\"\"\"\n\nKM_PER_MILE = 1.609344\n\ndef c_to_f(celsius):\n    \"\"\"Celsius to Fahrenheit.\"\"\"\n    return celsius * 9 / 5 + 32\n\ndef f_to_c(fahrenheit):\n    \"\"\"Fahrenheit to Celsius.\"\"\"\n    return (fahrenheit - 32) * 5 / 9\n\ndef miles_to_km(miles):\n    return _round(miles * KM_PER_MILE)\n\ndef km_to_miles(km):\n    return _round(km / KM_PER_MILE)\n\ndef _round(x):\n    # one place to change how results are rounded\n    return round(x, 3)\n"}</script></div>
+<div class="pc pc-example" data-kind="example" data-id="w020d2-e2"><textarea class="pc-src pc-code" hidden>import units
+
+print(units.c_to_f(37), units.f_to_c(212))
+print(units.miles_to_km(26.2), units.km_to_miles(5))
+print(units.__doc__.splitlines()[0])</textarea></div>
+<p>The module is now reusable: any program that needs unit conversions imports it, and if a bug is found, it&rsquo;s fixed in one place for all of them.</p>
+<h2 id="name-and-main"><strong>name</strong> and <strong>main</strong></h2>
+<p>When you write a module, you often want a little demo or some quick tests at the bottom, to run when you work on it. But when another program imports the module, that demo shouldn&rsquo;t run. The answer:</p>
+<pre><code>def c_to_f(celsius):
+    return celsius * 9 / 5 + 32
+
+if __name__ == &quot;__main__&quot;:
+    # only runs when this file is run directly, not when it's imported
+    print(&quot;Testing c_to_f...&quot;)
+    print(c_to_f(100))
+</code></pre>
+<ul>
+<li>Run the file directly: <code>__name__</code> is <code>"__main__"</code>, so the demo runs.</li>
+<li>Import it: <code>__name__</code> is <code>"units"</code> (or whatever the module is called), so the demo is skipped.</li>
+</ul>
+<div class="filebox"><div class="filebox-head">The file used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>shopping.py</code></summary><pre class="pc-filetext">&quot;&quot;&quot;A shopping basket.&quot;&quot;&quot;
+
+def total(prices):
+    return round(sum(prices), 2)
+
+print(&quot;shopping.py: __name__ is&quot;, repr(__name__))
+
+if __name__ == &quot;__main__&quot;:
+    print(&quot;Demo: total of 1.5 and 2.25 is&quot;, total([1.5, 2.25]))
+</pre></details><script type="application/json" class="page-files">{"shopping.py": "\"\"\"A shopping basket.\"\"\"\n\ndef total(prices):\n    return round(sum(prices), 2)\n\nprint(\"shopping.py: __name__ is\", repr(__name__))\n\nif __name__ == \"__main__\":\n    print(\"Demo: total of 1.5 and 2.25 is\", total([1.5, 2.25]))\n"}</script></div>
+<div class="pc pc-example" data-kind="example" data-id="w020d2-e3"><textarea class="pc-src pc-code" hidden>import shopping
+
+print(&quot;main program: __name__ is&quot;, repr(__name__))
+print(shopping.total([3.99, 1.01]))</textarea></div>
+<p>Imported, <code>shopping.py</code> saw its <code>__name__</code> as <code>'shopping'</code>, so its demo didn&rsquo;t run (the unguarded <code>print</code> did, which is exactly why top-level actions in a module are a bad idea).</p>
+<p>Many programs put their whole top level in a <code>main()</code> function and finish with:</p>
+<pre><code>def main():
+    ...
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<p>That&rsquo;s the standard shape of a Python program you&rsquo;ll see everywhere, and you&rsquo;ll use it for every script from now on: it means every file can be imported (for testing or reuse) without side effects.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>A module should define things, not do things, when imported. Put demo code, tests and the program&rsquo;s start inside <code>if __name__ == "__main__":</code>, which is only true when the file is run directly.</p></aside>
+<h2 id="packages">Packages</h2>
+<p>A <strong>package</strong> is a folder of modules with a file called <code>__init__.py</code> in it. The folder name becomes the package name, and its modules are reached with dots:</p>
+<div class="filebox"><div class="filebox-head">The files used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>shop/__init__.py</code></summary><pre class="pc-filetext">&quot;&quot;&quot;A small shop: prices, baskets and receipts.&quot;&quot;&quot;
+from .basket import Basket_total
+</pre></details><details class="pc-file"><summary><code>shop/prices.py</code></summary><pre class="pc-filetext">PRICES = {&quot;tea&quot;: 2.50, &quot;jam&quot;: 3.10, &quot;bread&quot;: 1.20}
+VAT_RATE = 0.2
+
+def price_of(item):
+    return PRICES[item]
+</pre></details><details class="pc-file"><summary><code>shop/basket.py</code></summary><pre class="pc-filetext">from .prices import price_of, VAT_RATE
+
+def Basket_total(items):
+    &quot;&quot;&quot;Total for a list of item names, with VAT.&quot;&quot;&quot;
+    net = sum(price_of(i) for i in items)
+    return round(net * (1 + VAT_RATE), 2)
+</pre></details><details class="pc-file"><summary><code>shop/receipt.py</code></summary><pre class="pc-filetext">from . import basket
+
+def receipt(items):
+    lines = [f&quot;{i:&lt;8}&quot; for i in items]
+    lines.append(f&quot;TOTAL   {basket.Basket_total(items):.2f}&quot;)
+    return &quot;\n&quot;.join(lines)
+</pre></details><script type="application/json" class="page-files">{"shop/__init__.py": "\"\"\"A small shop: prices, baskets and receipts.\"\"\"\nfrom .basket import Basket_total\n", "shop/prices.py": "PRICES = {\"tea\": 2.50, \"jam\": 3.10, \"bread\": 1.20}\nVAT_RATE = 0.2\n\ndef price_of(item):\n    return PRICES[item]\n", "shop/basket.py": "from .prices import price_of, VAT_RATE\n\ndef Basket_total(items):\n    \"\"\"Total for a list of item names, with VAT.\"\"\"\n    net = sum(price_of(i) for i in items)\n    return round(net * (1 + VAT_RATE), 2)\n", "shop/receipt.py": "from . import basket\n\ndef receipt(items):\n    lines = [f\"{i:<8}\" for i in items]\n    lines.append(f\"TOTAL   {basket.Basket_total(items):.2f}\")\n    return \"\\n\".join(lines)\n"}</script></div>
+<div class="pc pc-example" data-kind="example" data-id="w020d2-e4"><textarea class="pc-src pc-code" hidden>import shop.prices
+from shop.receipt import receipt
+from shop import Basket_total
+
+print(shop.prices.price_of(&quot;jam&quot;))
+print(receipt([&quot;tea&quot;, &quot;bread&quot;, &quot;bread&quot;]))
+print(Basket_total([&quot;jam&quot;]))</textarea></div>
+<p>Inside the package, modules import each other with <strong>relative imports</strong>: <code>from .prices import price_of</code> means &ldquo;from the <code>prices</code> module in the same package as me&rdquo;, and <code>from . import basket</code> means &ldquo;the <code>basket</code> module in my package&rdquo;. Relative imports keep working if the whole package is renamed or moved.</p>
+<p><code>__init__.py</code> runs when the package is first imported. It can be empty, or it can import the most useful names so users can write the shorter <code>from shop import Basket_total</code> instead of <code>from shop.basket import Basket_total</code>. (The capital B is a poor name: functions should be lower case, as you&rsquo;ll fix in today&rsquo;s practice.)</p>
+<h2 id="splitting-a-program">Splitting a program</h2>
+<p>Good places to split a program:</p>
+<ul>
+<li><strong>Data and its rules</strong> (what a record is, how to validate it) in one module.</li>
+<li><strong>Calculations</strong> (pure functions: totals, statistics, searches) in another.</li>
+<li><strong>Input and output</strong> (reading files, printing reports, asking questions) in another.</li>
+<li><strong>The program itself</strong> (<code>main()</code>, which ties them together) in a small top file.</li>
+</ul>
+<p>The test of a good split: each module could be described in one sentence, and changing how reports are printed shouldn&rsquo;t mean touching the calculations. Modules that <strong>don&rsquo;t</strong> print or ask for input are also much easier to test, which is what Week 24 is about.</p>
+<h2 id="module-style">Module style</h2>
+<ul>
+<li>File and module names are short, lower case, with underscores if needed: <code>units.py</code>, <code>bank_rules.py</code>.</li>
+<li>Imports go at the top, after the docstring, in three groups: standard library, third-party, your own.</li>
+<li>Don&rsquo;t name a module after a standard one (<code>random.py</code>, <code>json.py</code>): it hides the real one.</li>
+<li>Constants (<code>KM_PER_MILE</code>) in capitals, near the top.</li>
+<li>If you use <code>from module import *</code> anywhere (in an <code>__init__.py</code>, say), list the public names in <code>__all__ = ["c_to_f", "f_to_c"]</code> so only those are exported.</li>
+</ul>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d2-write" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Write a module</div><div class="pc-prompt"><p>Write the code for a module <code>temperature.py</code> with: a docstring; <code>c_to_f(c)</code> and <code>f_to_c(f)</code> (rounded to 1 decimal place); a private helper <code>_check(t)</code> that raises <code>ValueError</code> if a Celsius temperature is below absolute zero (-273.15), called by <code>c_to_f</code>; and a demo inside <code>if __name__ == "__main__":</code> that prints <code>c_to_f(100)</code>. The checks save your code as <code>temperature.py</code> and import it.</p></div><textarea class="pc-src pc-code" hidden>&quot;&quot;&quot;___&quot;&quot;&quot;</textarea><textarea class="pc-src pc-tests" hidden>def test_module():
+    &quot;works as a module&quot;
+    write_file(&quot;temperature.py&quot;, source)
+    import importlib, sys
+    sys.modules.pop(&quot;temperature&quot;, None)
+    t = importlib.import_module(&quot;temperature&quot;)
+    assert t.c_to_f(100) == 212.0 and t.f_to_c(98.6) == 37.0 and t.c_to_f(-40) == -40.0
+    try:
+        t.c_to_f(-300)
+        assert False, &quot;below absolute zero should raise ValueError&quot;
+    except ValueError:
+        pass
+    assert t.__doc__ and t.__doc__.strip() and t.__doc__.strip() != &quot;___&quot;
+    assert hasattr(t, &quot;_check&quot;)
+def test_main():
+    &quot;the demo only runs as a program&quot;
+    expect_output(&quot;212.0&quot;)
+    assert &#x27;__name__ == &quot;__main__&quot;&#x27; in source or &quot;__name__ == &#x27;__main__&#x27;&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>&quot;&quot;&quot;Converting temperatures between Celsius and Fahrenheit.&quot;&quot;&quot;
+
+ABSOLUTE_ZERO_C = -273.15
+
+def _check(t):
+    if t &lt; ABSOLUTE_ZERO_C:
+        raise ValueError(f&quot;{t} is below absolute zero&quot;)
+
+def c_to_f(c):
+    _check(c)
+    return round(c * 9 / 5 + 32, 1)
+
+def f_to_c(f):
+    return round((f - 32) * 5 / 9, 1)
+
+if __name__ == &quot;__main__&quot;:
+    print(c_to_f(100))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d2-guard" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Guard the demo</div><div class="pc-prompt"><p><code>stats_tools.py</code> prints a demo every time it&rsquo;s imported, which clutters every program that uses it. Rewrite the code below so the demo only runs when the file is run directly. The program must still print the two demo lines when run.</p></div><textarea class="pc-src pc-code" hidden>def mean(xs):
+    return sum(xs) / len(xs)
+
+def spread(xs):
+    return max(xs) - min(xs)
+
+print(&quot;demo mean:&quot;, mean([2, 4, 9]))
+print(&quot;demo spread:&quot;, spread([2, 4, 9]))</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;guarded&quot;
+    expect_output(&quot;demo mean: 5.0\ndemo spread: 7&quot;)
+    write_file(&quot;stats_tools.py&quot;, source)
+    import importlib, sys, io, contextlib
+    sys.modules.pop(&quot;stats_tools&quot;, None)
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        m = importlib.import_module(&quot;stats_tools&quot;)
+    assert buf.getvalue() == &quot;&quot;, &quot;importing it still prints&quot;
+    assert m.mean([1, 3]) == 2</textarea><textarea class="pc-src pc-solution" hidden>def mean(xs):
+    return sum(xs) / len(xs)
+
+def spread(xs):
+    return max(xs) - min(xs)
+
+if __name__ == &quot;__main__&quot;:
+    print(&quot;demo mean:&quot;, mean([2, 4, 9]))
+    print(&quot;demo spread:&quot;, spread([2, 4, 9]))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d2-use_pkg" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Use a package</div><div class="pc-prompt"><p>Using the <code>shop</code> package on this page, set <code>a</code> to the price of bread (from <code>shop.prices</code>), <code>b</code> to the receipt text for <code>["jam", "tea"]</code> (from <code>shop.receipt</code>), and <code>c</code> to the VAT rate. Use at least one <code>from ... import ...</code> line and at least one plain <code>import</code> line.</p></div><textarea class="pc-src pc-code" hidden>a = ___
+b = ___
+c = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 1.2 and b == &quot;jam     \ntea     \nTOTAL   6.72&quot; and c == 0.2
+    assert &quot;from shop&quot; in source and any(l.strip().startswith(&quot;import shop&quot;) for l in source.splitlines())</textarea><textarea class="pc-src pc-solution" hidden>import shop.prices
+from shop.receipt import receipt
+
+a = shop.prices.price_of(&quot;bread&quot;)
+b = receipt([&quot;jam&quot;, &quot;tea&quot;])
+c = shop.prices.VAT_RATE</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d2-build_pkg" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Build a package</div><div class="pc-prompt"><p>Make a package <code>geometry</code> with two modules, by writing their code into files with the starter&rsquo;s <code>write_file</code> helper: <code>geometry/__init__.py</code> (which makes <code>area</code> available as <code>from geometry import area</code>), <code>geometry/shapes.py</code> with <code>circle(r)</code> and <code>rectangle(w, h)</code> returning areas (circle to 2 decimal places, using <code>math.pi</code>), and <code>geometry/calc.py</code> with <code>area(kind, *sizes)</code> that calls the right shape function (<code>"circle"</code> or <code>"rectangle"</code>), importing <code>shapes</code> with a <strong>relative</strong> import. Do all of it in a function <code>build()</code> that writes the three files.</p></div><textarea class="pc-src pc-code" hidden>import os
+
+def write_file(name, text):
+    &quot;&quot;&quot;Write text to a file, making its folder first if needed.&quot;&quot;&quot;
+    os.makedirs(os.path.dirname(name) or &quot;.&quot;, exist_ok=True)
+    with open(name, &quot;w&quot;) as f:
+        f.write(text)
+
+def build():
+    write_file(&quot;geometry/__init__.py&quot;, &quot;&quot;&quot;___&quot;&quot;&quot;)
+    write_file(&quot;geometry/shapes.py&quot;, &quot;&quot;&quot;___&quot;&quot;&quot;)
+    write_file(&quot;geometry/calc.py&quot;, &quot;&quot;&quot;___&quot;&quot;&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;the package works&quot;
+    import sys, importlib
+    for name in list(sys.modules):
+        if name == &quot;geometry&quot; or name.startswith(&quot;geometry.&quot;):
+            del sys.modules[name]
+    build()
+    importlib.invalidate_caches()
+    from geometry import area
+    from geometry.shapes import circle
+    assert area(&quot;circle&quot;, 1) == 3.14 and area(&quot;rectangle&quot;, 3, 4) == 12 and circle(2) == 12.57
+    calc = read_file(&quot;geometry/calc.py&quot;)
+    assert &quot;from .&quot; in calc or &quot;from .shapes&quot; in calc</textarea><textarea class="pc-src pc-solution" hidden>import os
+
+def write_file(name, text):
+    &quot;&quot;&quot;Write text to a file, making its folder first if needed.&quot;&quot;&quot;
+    os.makedirs(os.path.dirname(name) or &quot;.&quot;, exist_ok=True)
+    with open(name, &quot;w&quot;) as f:
+        f.write(text)
+
+def build():
+    write_file(&quot;geometry/__init__.py&quot;, &quot;&quot;&quot;from .calc import area
+&quot;&quot;&quot;)
+    write_file(&quot;geometry/shapes.py&quot;, &quot;&quot;&quot;import math
+
+def circle(r):
+    return round(math.pi * r * r, 2)
+
+def rectangle(w, h):
+    return w * h
+&quot;&quot;&quot;)
+    write_file(&quot;geometry/calc.py&quot;, &quot;&quot;&quot;from . import shapes
+
+def area(kind, *sizes):
+    if kind == &quot;circle&quot;:
+        return shapes.circle(*sizes)
+    if kind == &quot;rectangle&quot;:
+        return shapes.rectangle(*sizes)
+    raise ValueError(kind)
+&quot;&quot;&quot;)</textarea><template class="pc-src pc-hint">The starter&rsquo;s <code>write_file</code> helper creates the folder and the file; on your own computer you&rsquo;d simply create the files in your editor. In <code>calc.py</code>, <code>from . import shapes</code>; in <code>__init__.py</code>, <code>from .calc import area</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d2-main_shape" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">The shape of a script</div><div class="pc-prompt"><p>Rewrite this script into the standard shape: a function <code>read_scores(text)</code> that turns the text into a list of whole numbers, a function <code>summary(scores)</code> that returns the string shown, and a <code>main()</code> that does the printing, called from an <code>if __name__ == "__main__":</code> block. Nothing else at the top level except the <code>TEXT</code> constant and the functions.</p></div><textarea class="pc-src pc-code" hidden>TEXT = &quot;72 45 90 61&quot;
+
+scores = [int(t) for t in TEXT.split()]
+print(f&quot;{len(scores)} scores, best {max(scores)}, average {sum(scores) / len(scores):.1f}&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;shape&quot;
+    expect_output(&quot;4 scores, best 90, average 67.0&quot;)
+    assert read_scores(&quot;1 2 3&quot;) == [1, 2, 3]
+    assert summary([10, 20]) == &quot;2 scores, best 20, average 15.0&quot;
+    import ast
+    top = [type(n).__name__ for n in ast.parse(source).body]
+    assert set(top) &lt;= {&quot;Assign&quot;, &quot;FunctionDef&quot;, &quot;If&quot;, &quot;Expr&quot;, &quot;Import&quot;, &quot;ImportFrom&quot;}
+    assert top.count(&quot;Expr&quot;) &lt;= 1</textarea><textarea class="pc-src pc-solution" hidden>TEXT = &quot;72 45 90 61&quot;
+
+def read_scores(text):
+    return [int(t) for t in text.split()]
+
+def summary(scores):
+    return f&quot;{len(scores)} scores, best {max(scores)}, average {sum(scores) / len(scores):.1f}&quot;
+
+def main():
+    print(summary(read_scores(TEXT)))
+
+if __name__ == &quot;__main__&quot;:
+    main()</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w020d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">It asks for input when imported</div><div class="pc-prompt"><p><code>ages.py</code> asks for a name the moment it&rsquo;s imported, so the main program waits for typing. Fix <code>ages.py</code> (shown in the editor) so it only asks when run directly. The program run by the checks imports it and should print <code>adult</code> without asking anything.</p></div><textarea class="pc-src pc-code" hidden>def category(age):
+    return &quot;child&quot; if age &lt; 18 else &quot;adult&quot;
+
+name = input(&quot;Name? &quot;)
+print(name, &quot;is&quot;, category(int(input(&quot;Age? &quot;))))</textarea><textarea class="pc-src pc-tests" hidden>def test_import():
+    &quot;no input when imported&quot;
+    write_file(&quot;ages.py&quot;, source)
+    import sys, importlib, builtins
+    sys.modules.pop(&quot;ages&quot;, None)
+    real = builtins.input
+    def nope(*a):
+        raise AssertionError(&quot;ages.py asked for input when imported&quot;)
+    builtins.input = nope
+    try:
+        m = importlib.import_module(&quot;ages&quot;)
+    finally:
+        builtins.input = real
+    assert m.category(30) == &quot;adult&quot;</textarea><textarea class="pc-src pc-solution" hidden>def category(age):
+    return &quot;child&quot; if age &lt; 18 else &quot;adult&quot;
+
+if __name__ == &quot;__main__&quot;:
+    name = input(&quot;Name? &quot;)
+    print(name, &quot;is&quot;, category(int(input(&quot;Age? &quot;))))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w020d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A package that can&rsquo;t find its own module</div><div class="pc-prompt"><p>Inside the <code>money</code> package, <code>convert.py</code> does <code>import rates</code>, which fails: <code>rates</code> isn&rsquo;t on <code>sys.path</code>, it&rsquo;s inside the package. Fix the import in <code>convert.py</code> (shown in the starter, which writes it out) to a relative one so the program prints <code>12.5</code>.</p><details class="pc-file"><summary><code>money/__init__.py</code></summary><pre class="pc-filetext">
+</pre></details><details class="pc-file"><summary><code>money/rates.py</code></summary><pre class="pc-filetext">RATES = {&quot;GBP&quot;: 1.0, &quot;EUR&quot;: 1.25}
+</pre></details></div><textarea class="pc-src pc-code" hidden>write_text = &quot;&quot;&quot;import rates
+
+def to(amount, currency):
+    return amount * rates.RATES[currency]
+&quot;&quot;&quot;
+with open(&quot;money/convert.py&quot;, &quot;w&quot;) as f:
+    f.write(write_text)
+
+from money.convert import to
+print(to(10, &quot;EUR&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;12.5&quot;
+    expect_output(&quot;12.5&quot;)</textarea><textarea class="pc-src pc-files" hidden>{&quot;money/__init__.py&quot;: &quot;\n&quot;, &quot;money/rates.py&quot;: &quot;RATES = {\&quot;GBP\&quot;: 1.0, \&quot;EUR\&quot;: 1.25}\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>write_text = &quot;&quot;&quot;from . import rates
+
+def to(amount, currency):
+    return amount * rates.RATES[currency]
+&quot;&quot;&quot;
+with open(&quot;money/convert.py&quot;, &quot;w&quot;) as f:
+    f.write(write_text)
+
+from money.convert import to
+print(to(10, &quot;EUR&quot;))</textarea><template class="pc-src pc-hint"><code>from . import rates</code></template></div>
+<div class="parsons" data-id="w020d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">The shape of a program</div><div class="pc-prompt"><p>Arrange the lines into a well-shaped program. One line is a trap.</p></div><script type="application/json">{"lines": ["\"\"\"Greets the user.\"\"\"", "def greeting(name):", "    return f\"Hello, {name}!\"", "def main():", "    print(greeting(\"world\"))", "if __name__ == \"__main__\":", "    main()"], "distractors": ["main()"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # __name__ inside helpers.py when another program does `import helpers`
+b = ___   # __name__ in a file you run directly
+c = ___   # the file that makes a folder into a package (its name)
+d = ___   # in a package, what `from .prices import vat` means: the prices module in the same ___ (one word)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;helpers&quot; and b == &quot;__main__&quot; and c == &quot;__init__.py&quot; and d == &quot;package&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;helpers&quot;
+b = &quot;__main__&quot;
+c = &quot;__init__.py&quot;
+d = &quot;package&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w020d2-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is <strong>name</strong> in a file that&rsquo;s run directly?", "answer": 1, "explain": "When imported, it&rsquo;s the module&rsquo;s name.", "options": ["The file name", "&ldquo;<strong>main</strong>&ldquo;", "None", "&ldquo;main&rdquo;"]}, {"type": "mc", "q": "Why put demo code inside if <strong>name</strong> == &ldquo;<strong>main</strong>&rdquo;?", "answer": 1, "explain": "Modules should define, not do.", "options": ["Speed", "So it runs when the file is run, but not when it&rsquo;s imported", "Python requires it", "To make it private"]}, {"type": "mc", "q": "What marks a folder as a package?", "answer": 1, "explain": "It runs when the package is imported.", "options": ["A README", "An <strong>init</strong>.py file", "A setup.py", "Its name"]}, {"type": "mc", "q": "What does <code>from . import basket</code> mean inside a package?", "answer": 1, "explain": "A relative import.", "options": ["Import basket from the current folder of the program", "Import the basket module from the same package", "Import everything", "An error"]}, {"type": "mc", "q": "What does a leading underscore in _helper mean?", "answer": 1, "explain": "Python doesn&rsquo;t enforce it.", "options": ["It&rsquo;s faster", "It&rsquo;s private by convention: the module&rsquo;s own business", "It can&rsquo;t be called", "It&rsquo;s a constant"]}, {"type": "mc", "q": "Which shouldn&rsquo;t a module do at the top level?", "answer": 2, "explain": "Importing it would do those things.", "options": ["Define functions", "Define constants", "Ask for input or print", "Import other modules"]}, {"type": "mc", "q": "What does <strong>all</strong> control?", "answer": 1, "explain": "A list of public names.", "options": ["Everything in the module", "Which names from module import * brings in", "The module&rsquo;s name", "Its docstring"]}, {"type": "text", "q": "What is the usual name of the function that starts a program? (one word)", "answer": ["main", "main()"], "explain": "Called from the <strong>main</strong> check."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: split a program into a package</div><div class="pc-prompt"><p>Here&rsquo;s a working one-file program for a book club&rsquo;s reading log. Split it into a package called <code>club</code>, by writing these files with <code>write_file</code> from a function <code>split_up()</code>:</p>
+<ul>
+<li><code>club/records.py</code>: <code>parse(text)</code> (turns the log text into a list of <code>(member, book, pages)</code> tuples).</li>
+<li><code>club/stats.py</code>: <code>pages_by_member(records)</code> (a dictionary) and <code>top_reader(records)</code> (the member with the most pages, ties alphabetically). It must not print anything.</li>
+<li><code>club/report.py</code>: <code>report(text)</code>, returning the report string, using the other two modules through <strong>relative</strong> imports.</li>
+<li><code>club/__init__.py</code>: makes <code>report</code> importable as <code>from club import report</code>.</li>
+</ul>
+<p>The original program, for reference:</p>
+<pre><code>LOG = &quot;&quot;&quot;Ada,Kindred,264
+Ben,Dune,412
+Ada,Dawn,248
+Cy,Emma,474
+Ben,Emma,120&quot;&quot;&quot;
+
+totals = {}
+for line in LOG.splitlines():
+    member, book, pages = line.split(&quot;,&quot;)
+    totals[member] = totals.get(member, 0) + int(pages)
+best = sorted(totals, key=lambda m: (-totals[m], m))[0]
+print(&quot;\\n&quot;.join(f&quot;{m}: {totals[m]}&quot; for m in sorted(totals)))
+print(f&quot;Top reader: {best}&quot;)
+</code></pre></div><textarea class="pc-src pc-code" hidden>import os
+
+def write_file(name, text):
+    &quot;&quot;&quot;Write text to a file, making its folder first if needed.&quot;&quot;&quot;
+    os.makedirs(os.path.dirname(name) or &quot;.&quot;, exist_ok=True)
+    with open(name, &quot;w&quot;) as f:
+        f.write(text)
+
+def split_up():
+    write_file(&quot;club/__init__.py&quot;, &quot;&quot;&quot;___&quot;&quot;&quot;)
+    write_file(&quot;club/records.py&quot;, &quot;&quot;&quot;___&quot;&quot;&quot;)
+    write_file(&quot;club/stats.py&quot;, &quot;&quot;&quot;___&quot;&quot;&quot;)
+    write_file(&quot;club/report.py&quot;, &quot;&quot;&quot;___&quot;&quot;&quot;)</textarea><textarea class="pc-src pc-tests" hidden>LOG = &quot;Ada,Kindred,264\nBen,Dune,412\nAda,Dawn,248\nCy,Emma,474\nBen,Emma,120&quot;
+def fresh():
+    import sys, importlib
+    for name in list(sys.modules):
+        if name == &quot;club&quot; or name.startswith(&quot;club.&quot;):
+            del sys.modules[name]
+    split_up()
+    importlib.invalidate_caches()
+def test_parts():
+    &quot;modules&quot;
+    fresh()
+    from club.records import parse
+    from club.stats import pages_by_member, top_reader
+    recs = parse(LOG)
+    assert recs[0] == (&quot;Ada&quot;, &quot;Kindred&quot;, 264) and len(recs) == 5
+    assert pages_by_member(recs) == {&quot;Ada&quot;: 512, &quot;Ben&quot;: 532, &quot;Cy&quot;: 474}
+    assert top_reader(recs) == &quot;Ben&quot;
+def test_report():
+    &quot;report&quot;
+    fresh()
+    from club import report
+    assert report(LOG) == &quot;Ada: 512\nBen: 532\nCy: 474\nTop reader: Ben&quot;
+    rep = read_file(&quot;club/report.py&quot;)
+    assert &quot;from .&quot; in rep and &quot;print(&quot; not in read_file(&quot;club/stats.py&quot;)</textarea><textarea class="pc-src pc-solution" hidden>import os
+
+def write_file(name, text):
+    &quot;&quot;&quot;Write text to a file, making its folder first if needed.&quot;&quot;&quot;
+    os.makedirs(os.path.dirname(name) or &quot;.&quot;, exist_ok=True)
+    with open(name, &quot;w&quot;) as f:
+        f.write(text)
+
+def split_up():
+    write_file(&quot;club/__init__.py&quot;, &#x27;&#x27;&#x27;&quot;&quot;&quot;The book club&#x27;s reading log.&quot;&quot;&quot;
+from .report import report
+&#x27;&#x27;&#x27;)
+    write_file(&quot;club/records.py&quot;, &#x27;&#x27;&#x27;&quot;&quot;&quot;Reading the log.&quot;&quot;&quot;
+
+def parse(text):
+    records = []
+    for line in text.splitlines():
+        if line.strip():
+            member, book, pages = line.split(&quot;,&quot;)
+            records.append((member, book, int(pages)))
+    return records
+&#x27;&#x27;&#x27;)
+    write_file(&quot;club/stats.py&quot;, &#x27;&#x27;&#x27;&quot;&quot;&quot;Totals and rankings. No printing here.&quot;&quot;&quot;
+
+def pages_by_member(records):
+    totals = {}
+    for member, book, pages in records:
+        totals[member] = totals.get(member, 0) + pages
+    return totals
+
+def top_reader(records):
+    totals = pages_by_member(records)
+    return sorted(totals, key=lambda m: (-totals[m], m))[0]
+&#x27;&#x27;&#x27;)
+    write_file(&quot;club/report.py&quot;, &#x27;&#x27;&#x27;&quot;&quot;&quot;Turning the log into a report.&quot;&quot;&quot;
+from .records import parse
+from .stats import pages_by_member, top_reader
+
+def report(text):
+    records = parse(text)
+    totals = pages_by_member(records)
+    lines = [f&quot;{m}: {totals[m]}&quot; for m in sorted(totals)]
+    lines.append(f&quot;Top reader: {top_reader(records)}&quot;)
+    return &quot;\\n&quot;.join(lines)
+&#x27;&#x27;&#x27;)</textarea></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Take the longest program you&rsquo;ve written in this course and sketch how you&rsquo;d split it into modules: write down each module&rsquo;s name and its one-sentence job. Tomorrow: a tour of three standard modules you&rsquo;ll use constantly, <code>math</code>, <code>random</code> and <code>statistics</code>.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w020d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w020d2", "week": 20, "day": 2, "title": "Your own modules", "exercises": [{"id": "w020d2-write", "title": "Write a module", "points": 15}, {"id": "w020d2-guard", "title": "Guard the demo", "points": 10}, {"id": "w020d2-use_pkg", "title": "Use a package", "points": 10}, {"id": "w020d2-build_pkg", "title": "Build a package", "points": 20}, {"id": "w020d2-main_shape", "title": "The shape of a script", "points": 15}, {"id": "w020d2-bug1", "title": "It asks for input when imported", "points": 10}, {"id": "w020d2-bug2", "title": "A package that can't find its own module", "points": 10}, {"id": "w020d2-trace", "title": "Predict them", "points": 15}, {"id": "w020d2-challenge", "title": "Challenge: split a program into a package", "points": 25}], "points": 130}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=ee76f9a815"></script>
+</body>
+</html>
