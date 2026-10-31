@@ -1,7 +1,7 @@
 // Anatomy of a line of code: click each part to see what it is.
 // params: {code: "print('Hi', name)", parts: [{text: "print", label: "function name", explain: "..."}]}
-import { h } from "../site.js?v=d6acdb8fde";
-import { py } from "../runtime.js?v=d6acdb8fde";
+import { h } from "../site.js?v=d73b390728";
+import { py } from "../runtime.js?v=d73b390728";
 
 export default function anatomy(el, { code, parts = [], run = true, inputs = [] }) {
   const line = h("div", { style: "font:600 1.25rem/1.9 var(--f-code);padding:.6rem .8rem;background:var(--code-bg);border:1px solid var(--line);border-radius:6px;white-space:pre-wrap;overflow-x:auto" });

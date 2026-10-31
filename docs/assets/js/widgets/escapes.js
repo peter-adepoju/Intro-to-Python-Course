@@ -1,6 +1,6 @@
 // What's really inside a string literal: every character, escapes included.
-import { h } from "../site.js?v=d6acdb8fde";
-import { py } from "../runtime.js?v=d6acdb8fde";
+import { h } from "../site.js?v=d73b390728";
+import { py } from "../runtime.js?v=d73b390728";
 
 export default function escapes(el, { start = "'Name:\\tAda\\nAge:\\t36'", tries = ["'Name:\\tAda\\nAge:\\t36'", "\"It's fine\"", "'It\\'s fine'", "'C:\\\\Users\\\\ada'", "r'C:\\new\\table'", "'''two\nlines'''", "'café ✓'", "''"] }) {
   const input = h("textarea", { class: "w-input", rows: 2, spellcheck: "false", style: "width:100%;font-size:1.02rem", "aria-label": "A string literal" });
