@@ -1,11 +1,11 @@
 // Runs on every page: account link, streak, review badge and the tutor.
-import { SITE, $, h } from "../site.js?v=fa43378258";
-import { displayName, firstName, avatar } from "../user.js?v=fa43378258";
-import { progress, getClient, onAuth, onSync } from "../progress.js?v=fa43378258";
-import { mountTutor } from "../tutor.js?v=fa43378258";
-import { settings, update as updateSettings, onSettings } from "../settings.js?v=fa43378258";
-import { initSearch } from "../search.js?v=fa43378258";
-import { initInstall, install, onInstallable } from "../install.js?v=fa43378258";
+import { SITE, $, h } from "../site.js?v=46337dff29";
+import { displayName, firstName, avatar } from "../user.js?v=46337dff29";
+import { progress, getClient, onAuth, onSync } from "../progress.js?v=46337dff29";
+import { mountTutor } from "../tutor.js?v=46337dff29";
+import { settings, update as updateSettings, onSettings } from "../settings.js?v=46337dff29";
+import { initSearch } from "../search.js?v=46337dff29";
+import { initInstall, install, onInstallable } from "../install.js?v=46337dff29";
 
 let closeMenu = () => {};
 document.addEventListener("click", (e) => { const slot = document.getElementById("account-slot"); if (slot && !slot.contains(e.target)) closeMenu(); });

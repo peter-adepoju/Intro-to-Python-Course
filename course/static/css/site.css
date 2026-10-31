@@ -89,9 +89,13 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
   background: color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--ink); flex: none; }
 .brand-mark { width: 28px; height: 28px; }
-.bm-frame { fill: var(--ink); }
-.bm-line { stroke: var(--paper); stroke-width: 2.2; stroke-linecap: round; }
-.bm-ptr { fill: var(--yellow); }
+/* The logo: a terminal prompt on a dark navy tile. The tile stays dark in both themes;
+   in the dark theme a faint outline keeps it apart from the dark page. */
+.bm-tile { fill: #16213a; stroke: transparent; stroke-width: 1; }
+.bm-frame, .bm-prompt { fill: none; stroke: #f2c230; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.bm-line { stroke: #e6ecf5; stroke-width: 1.9; stroke-linecap: round; }
+:root[data-theme="dark"] .bm-tile { stroke: rgba(255, 255, 255, .22); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bm-tile { stroke: rgba(255, 255, 255, .22); } }
 .brand-name { font: 800 1.18rem/1 var(--f-head); letter-spacing: -.02em; }
 .top-nav { display: flex; gap: .25rem; align-items: center; }
 .nav-dd { position: relative; }

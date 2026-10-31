@@ -1,7 +1,7 @@
-import "./common.js?v=fa43378258";
-import { $, h, toast } from "../site.js?v=fa43378258";
-import { settings, update, reset, onSettings, DEFAULTS } from "../settings.js?v=fa43378258";
-import { mountConsoles } from "../console.js?v=fa43378258";
+import "./common.js?v=46337dff29";
+import { $, h, toast } from "../site.js?v=46337dff29";
+import { settings, update, reset, onSettings, DEFAULTS } from "../settings.js?v=46337dff29";
+import { mountConsoles } from "../console.js?v=46337dff29";
 
 const GROUPS = [
   ["Appearance", [
