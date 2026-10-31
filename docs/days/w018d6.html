@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="f2aeea61be">
+<title>Week 18 Day 6: Forge | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=f2aeea61be">
+<link rel="stylesheet" href="../assets/css/site.css?v=f2aeea61be">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=f2aeea61be"></script>
+<script src="../assets/vendor/codemirror.js?v=f2aeea61be" defer></script>
+<meta name="description" content="This week you wrote the classic searches and simple sorts, and learned to analyse, test and compare them. Today’s Forge is a catalogue for a small library:...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w018d6.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 18 Day 6: Forge">
+<meta property="og:description" content="This week you wrote the classic searches and simple sorts, and learned to analyse, test and compare them. Today’s Forge is a catalogue for a small library:...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w018d6.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-18">Week 18: Searching and sorting I</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#mixed-review" data-sec="mixed-review">Mixed review</a></li><li><a href="#forge-a-library-catalogue" data-sec="forge-a-library-catalogue">Forge: a library catalogue</a></li><li><a href="#forge-bonus-searching-a-rotated-list" data-sec="forge-bonus-searching-a-rotated-list">Forge bonus: searching a rotated list</a></li><li><a href="#weekly-quiz" data-sec="weekly-quiz">Weekly quiz</a></li><li><a href="#week-18-review" data-sec="week-18-review">Week 18 review</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w018d6.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-18">Week 18: Searching and sorting I</a></li><li aria-current="page">Day 6 of 6</li></ol>
+      <p class="day-where"><span>Week 18, Day 6</span><span class="forge-tag">Forge day</span></p>
+      <h1>Forge</h1>
+      <div class="day-intro"><p>This week you wrote the classic searches and simple sorts, and learned to analyse, test and compare them. Today&rsquo;s Forge is a catalogue for a small library: sort the books several ways with your own stable sort, find titles with binary search, list every title that starts with some letters, and pick out the most borrowed books. The bonus is a famous interview problem: binary search in a sorted list that has been rotated. The weekly quiz and review finish the week.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Combine your own sorting and searching functions into one small program</li><li>Sort records by several levels with a stable sort of your own</li><li>Use binary search for exact matches, prefixes and ranges</li><li>Adapt binary search to a list that is only sorted in two pieces</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:15" title="Warm-up: predict: 15 min"></span><span class="plan-seg s1" style="flex:30" title="Mixed review practice: 30 min"></span><span class="plan-seg s0" style="flex:60" title="Forge: a library catalogue: 60 min"></span><span class="plan-seg s1" style="flex:40" title="Forge bonus: searching a rotated list: 40 min"></span><span class="plan-seg s0" style="flex:25" title="Weekly quiz: 25 min"></span><span class="plan-seg s1" style="flex:10" title="Week 18 review: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up: predict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">0:15</span><span class="plan-what">Mixed review practice</span><span class="plan-min">30 min</span></li><li><span class="plan-at">0:45</span><span class="plan-what">Forge: a library catalogue</span><span class="plan-min">60 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Forge bonus: searching a rotated list</span><span class="plan-min">40 min</span></li><li><span class="plan-at">2:25</span><span class="plan-what">Weekly quiz</span><span class="plan-min">25 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Week 18 review</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w018d6.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w018d6.ipynb" download>download it</a>. Exercises today are worth 120 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w018d6-p1"><textarea class="pc-src pc-code" hidden>from bisect import bisect_left, bisect_right
+xs = [3, 5, 5, 5, 8, 13]
+print(bisect_left(xs, 5), bisect_right(xs, 5), bisect_left(xs, 6))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w018d6-p2"><textarea class="pc-src pc-code" hidden>items = [4, 1, 3]
+for i in range(1, len(items)):
+    current = items[i]
+    j = i - 1
+    while j &gt;= 0 and items[j] &gt; current:
+        items[j + 1] = items[j]
+        j -= 1
+    items[j + 1] = current
+    print(items)</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w018d6-p3"><textarea class="pc-src pc-code" hidden>pets = [(&quot;cat&quot;, 3), (&quot;dog&quot;, 1), (&quot;emu&quot;, 3), (&quot;ant&quot;, 1)]
+print(sorted(pets, key=lambda p: p[1]))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w018d6-p4"><textarea class="pc-src pc-code" hidden>def steps(n):
+    lo, hi, count = 0, n - 1, 0
+    while lo &lt;= hi:
+        mid = (lo + hi) // 2
+        count += 1
+        lo = mid + 1          # pretend the target is always bigger
+    return count
+
+print(steps(1), steps(8), steps(1000))</textarea></div>
+<div class="pc pc-predict" data-kind="predict" data-id="w018d6-p5"><textarea class="pc-src pc-code" hidden>data = [5, 1, 4, 2]
+swaps = 0
+for end in range(len(data) - 1, 0, -1):
+    for j in range(end):
+        if data[j] &gt; data[j + 1]:
+            data[j], data[j + 1] = data[j + 1], data[j]
+            swaps += 1
+print(data, swaps)</textarea></div>
+<p>If any surprised you, revisit <a href="w018d1.html">linear search</a>, <a href="w018d2.html">binary search</a>, <a href="w018d3.html">selection sort</a>, <a href="w018d4.html">insertion and bubble sort</a> or <a href="w018d5.html">stability</a>.</p>
+<h2 id="mixed-review">Mixed review</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w018d6-mix_count" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">How many below?</div><div class="pc-prompt"><p>Write <code>count_below(sorted_items, x)</code> returning how many items in a sorted list are strictly less than <code>x</code>, in O(log n), with your own binary search (no <code>bisect</code>).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    xs = [3, 5, 5, 5, 8, 13]
+    assert [count_below(xs, x) for x in (0, 3, 4, 5, 6, 13, 99)] == [0, 0, 1, 1, 4, 5, 6]
+    assert count_below([], 5) == 0
+    big = list(range(0, 3_000_000, 3))
+    assert count_below(big, 1_000_000) == 333_334
+    assert &quot;bisect&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def count_below(sorted_items, x):
+    lo, hi = 0, len(sorted_items)
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if sorted_items[mid] &lt; x:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo</textarea><template class="pc-src pc-hint">Keep <code>lo = 0</code>, <code>hi = len(items)</code>. While <code>lo &lt; hi</code>: if <code>items[mid] &lt; x</code>, the answer is past <code>mid</code> (<code>lo = mid + 1</code>); otherwise <code>hi = mid</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w018d6-mix_kth" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">The kth smallest</div><div class="pc-prompt"><p>Write <code>kth_smallest(items, k)</code> returning the kth smallest item (k = 1 is the smallest) by running only the first k rounds of selection sort on a copy. Don&rsquo;t use <code>sort</code>, <code>sorted</code> or <code>min</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    data = [42, 7, 19, 3, 88, 25, 11]
+    assert [kth_smallest(data, k) for k in (1, 2, 3, 7)] == [3, 7, 11, 88]
+    assert data == [42, 7, 19, 3, 88, 25, 11]
+    assert &quot;sorted&quot; not in source and &quot;.sort(&quot; not in source and &quot; min(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def kth_smallest(items, k):
+    items = items[:]
+    for i in range(k):
+        smallest = i
+        for j in range(i + 1, len(items)):
+            if items[j] &lt; items[smallest]:
+                smallest = j
+        items[i], items[smallest] = items[smallest], items[i]
+    return items[k - 1]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w018d6-mix_merge" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Merge two sorted lists</div><div class="pc-prompt"><p>Write <code>merge(a, b)</code> that merges two sorted lists into one sorted list in O(len(a) + len(b)), taking from <code>a</code> on ties so that it&rsquo;s stable. Don&rsquo;t use <code>sort</code> or <code>sorted</code>. (Next week, this is the heart of merge sort.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert merge([1, 4, 9], [2, 3, 10]) == [1, 2, 3, 4, 9, 10]
+    assert merge([], [1]) == [1] and merge([], []) == []
+    a = [(1, &quot;a&quot;), (3, &quot;a&quot;)]
+    b = [(1, &quot;b&quot;), (3, &quot;b&quot;)]
+    assert merge(a, b) == [(1, &quot;a&quot;), (1, &quot;b&quot;), (3, &quot;a&quot;), (3, &quot;b&quot;)]
+    assert merge(list(range(0, 200_000, 2)), list(range(1, 200_000, 2))) == list(range(200_000))
+    assert &quot;sorted&quot; not in source and &quot;.sort(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def merge(a, b):
+    result = []
+    i = j = 0
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            result.append(a[i])
+            i += 1
+        else:
+            result.append(b[j])
+            j += 1
+    return result + a[i:] + b[j:]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w018d6-mix_inv" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Nearly sorted?</div><div class="pc-prompt"><p>Write <code>nearly_sorted(items, limit)</code> returning <code>True</code> if insertion sort would make at most <code>limit</code> shifts on the list. Run insertion sort on a copy, counting shifts, and stop as soon as the count goes over <code>limit</code>, so it&rsquo;s fast on long lists that are far from sorted.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert nearly_sorted([1, 2, 4, 3, 5], 1) is True
+    assert nearly_sorted([3, 2, 1], 2) is False and nearly_sorted([3, 2, 1], 3) is True
+    assert nearly_sorted([], 0) is True
+    assert nearly_sorted(list(range(300_000, 0, -1)), 10) is False</textarea><textarea class="pc-src pc-solution" hidden>def nearly_sorted(items, limit):
+    items = items[:]
+    shifts = 0
+    for i in range(1, len(items)):
+        current = items[i]
+        j = i - 1
+        while j &gt;= 0 and items[j] &gt; current:
+            items[j + 1] = items[j]
+            shifts += 1
+            if shifts &gt; limit:
+                return False
+            j -= 1
+        items[j + 1] = current
+    return True</textarea></div>
+<h2 id="forge-a-library-catalogue">Forge: a library catalogue</h2>
+<p>A small community library keeps its books as records <code>(title, author, year, loans)</code>, where <code>loans</code> is how many times the book has been borrowed. Here is a sample:</p>
+<pre><code>BOOKS = [
+    (&quot;Things Fall Apart&quot;, &quot;Chinua Achebe&quot;, 1958, 41),
+    (&quot;Half of a Yellow Sun&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 2006, 37),
+    (&quot;The Famished Road&quot;, &quot;Ben Okri&quot;, 1991, 22),
+    (&quot;Purple Hibiscus&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 2003, 41),
+    (&quot;Arrow of God&quot;, &quot;Chinua Achebe&quot;, 1964, 15),
+    (&quot;The Joys of Motherhood&quot;, &quot;Buchi Emecheta&quot;, 1979, 22),
+    (&quot;Stay With Me&quot;, &quot;Ayobami Adebayo&quot;, 2017, 30),
+    (&quot;The Fishermen&quot;, &quot;Chigozie Obioma&quot;, 2015, 30),
+    (&quot;Americanah&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 2013, 52),
+    (&quot;No Longer at Ease&quot;, &quot;Chinua Achebe&quot;, 1960, 15),
+]
+</code></pre>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w018d6-forge" data-points="50"><div class="pc-label"><span>Exercise</span><span class="pc-pts">50 points</span></div><div class="pc-title">Forge: a library catalogue</div><div class="pc-prompt"><p>Write these functions. <strong>Don&rsquo;t use <code>sort</code>, <code>sorted</code>, <code>min</code>, <code>max</code> or <code>bisect</code> anywhere</strong>: you&rsquo;re building them yourself.</p>
+<ol>
+<li><code>stable_sort(records, key)</code>: return a <strong>new</strong> list sorted by <code>key(record)</code>, stable, using insertion sort.</li>
+<li><code>catalogue(books)</code>: the books sorted by author (the whole name as written, A to Z), then by year (oldest first), using <strong>two</strong> calls to <code>stable_sort</code>.</li>
+<li><code>title_index(books)</code>: the books sorted by title, ignoring capitals.</li>
+<li><code>find_title(index, title)</code>: binary search a <code>title_index</code> list for a title (ignoring capitals); return the record or <code>None</code>.</li>
+<li><code>starting_with(index, prefix)</code>: every record in a <code>title_index</code> list whose title starts with <code>prefix</code> (ignoring capitals), in index order. Use binary search to find the first title that is not less than the prefix, then go forward while titles still start with it, so the cost is O(log n + number found).</li>
+<li><code>most_borrowed(books, k)</code>: the <code>k</code> books with the most loans, highest first; ties go to the book that comes <strong>first</strong> in <code>books</code>. Use <code>k</code> rounds of a selection that picks the largest, on a copy (O(kn)), making sure ties are broken by original position.</li>
+</ol></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+BOOKS = [
+    (&quot;Things Fall Apart&quot;, &quot;Chinua Achebe&quot;, 1958, 41),
+    (&quot;Half of a Yellow Sun&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 2006, 37),
+    (&quot;The Famished Road&quot;, &quot;Ben Okri&quot;, 1991, 22),
+    (&quot;Purple Hibiscus&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 2003, 41),
+    (&quot;Arrow of God&quot;, &quot;Chinua Achebe&quot;, 1964, 15),
+    (&quot;The Joys of Motherhood&quot;, &quot;Buchi Emecheta&quot;, 1979, 22),
+    (&quot;Stay With Me&quot;, &quot;Ayobami Adebayo&quot;, 2017, 30),
+    (&quot;The Fishermen&quot;, &quot;Chigozie Obioma&quot;, 2015, 30),
+    (&quot;Americanah&quot;, &quot;Chimamanda Ngozi Adichie&quot;, 2013, 52),
+    (&quot;No Longer at Ease&quot;, &quot;Chinua Achebe&quot;, 1960, 15),
+]
+def test_stable():
+    &quot;stable_sort&quot;
+    rng = random.Random(1)
+    for _ in range(40):
+        recs = [(rng.randint(0, 5), i) for i in range(rng.randint(0, 25))]
+        before = recs[:]
+        assert stable_sort(recs, lambda r: r[0]) == sorted(recs, key=lambda r: r[0])
+        assert recs == before
+def test_catalogue():
+    &quot;catalogue&quot;
+    c = catalogue(BOOKS)
+    assert [b[0] for b in c] == [&quot;Stay With Me&quot;, &quot;The Famished Road&quot;, &quot;The Joys of Motherhood&quot;, &quot;The Fishermen&quot;, &quot;Purple Hibiscus&quot;,
+                                 &quot;Half of a Yellow Sun&quot;, &quot;Americanah&quot;, &quot;Things Fall Apart&quot;, &quot;No Longer at Ease&quot;, &quot;Arrow of God&quot;]
+def test_find():
+    &quot;title_index and find_title&quot;
+    idx = title_index(BOOKS)
+    assert [b[0] for b in idx][:3] == [&quot;Americanah&quot;, &quot;Arrow of God&quot;, &quot;Half of a Yellow Sun&quot;]
+    assert find_title(idx, &quot;purple hibiscus&quot;)[1] == &quot;Chimamanda Ngozi Adichie&quot;
+    assert find_title(idx, &quot;AMERICANAH&quot;)[2] == 2013 and find_title(idx, &quot;Things Fall Apart&quot;)[3] == 41
+    assert find_title(idx, &quot;Ulysses&quot;) is None and find_title([], &quot;x&quot;) is None
+def test_prefix():
+    &quot;starting_with&quot;
+    idx = title_index(BOOKS)
+    assert [b[0] for b in starting_with(idx, &quot;the &quot;)] == [&quot;The Famished Road&quot;, &quot;The Fishermen&quot;, &quot;The Joys of Motherhood&quot;]
+    assert [b[0] for b in starting_with(idx, &quot;A&quot;)] == [&quot;Americanah&quot;, &quot;Arrow of God&quot;]
+    assert starting_with(idx, &quot;Z&quot;) == [] and len(starting_with(idx, &quot;&quot;)) == 10
+def test_top():
+    &quot;most_borrowed&quot;
+    assert [b[0] for b in most_borrowed(BOOKS, 3)] == [&quot;Americanah&quot;, &quot;Things Fall Apart&quot;, &quot;Purple Hibiscus&quot;]
+    assert [b[0] for b in most_borrowed(BOOKS, 6)][3:] == [&quot;Half of a Yellow Sun&quot;, &quot;Stay With Me&quot;, &quot;The Fishermen&quot;]
+    assert most_borrowed(BOOKS, 0) == [] and len(most_borrowed(BOOKS, 20)) == 10
+def test_rules():
+    &quot;built yourself&quot;
+    import re
+    for banned in (r&quot;\bsorted\(&quot;, r&quot;\.sort\(&quot;, r&quot;(?&lt;![\w.])min\(&quot;, r&quot;(?&lt;![\w.])max\(&quot;, r&quot;\bbisect\b&quot;):
+        assert not re.search(banned, source), banned</textarea><textarea class="pc-src pc-solution" hidden>def stable_sort(records, key):
+    items = records[:]
+    for i in range(1, len(items)):
+        current = items[i]
+        k = key(current)
+        j = i - 1
+        while j &gt;= 0 and key(items[j]) &gt; k:
+            items[j + 1] = items[j]
+            j -= 1
+        items[j + 1] = current
+    return items
+
+def catalogue(books):
+    by_year = stable_sort(books, lambda b: b[2])
+    return stable_sort(by_year, lambda b: b[1])
+
+def title_index(books):
+    return stable_sort(books, lambda b: b[0].lower())
+
+def find_title(index, title):
+    target = title.lower()
+    lo, hi = 0, len(index) - 1
+    while lo &lt;= hi:
+        mid = (lo + hi) // 2
+        here = index[mid][0].lower()
+        if here == target:
+            return index[mid]
+        if here &lt; target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return None
+
+def starting_with(index, prefix):
+    p = prefix.lower()
+    lo, hi = 0, len(index)
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if index[mid][0].lower() &lt; p:
+            lo = mid + 1
+        else:
+            hi = mid
+    found = []
+    while lo &lt; len(index) and index[lo][0].lower().startswith(p):
+        found.append(index[lo])
+        lo += 1
+    return found
+
+def most_borrowed(books, k):
+    tagged = list(enumerate(books))
+    if k &gt; len(tagged):
+        k = len(tagged)
+    for i in range(k):
+        best = i
+        for j in range(i + 1, len(tagged)):
+            pj, bj = tagged[j]
+            pb, bb = tagged[best]
+            if bj[3] &gt; bb[3] or (bj[3] == bb[3] and pj &lt; pb):
+                best = j
+        tagged[i], tagged[best] = tagged[best], tagged[i]
+    return [book for pos, book in tagged[:k]]</textarea><template class="pc-src pc-hint"><code>catalogue</code>: sort by year first, then by author. Both sorts are stable, so books by the same author stay in year order.</template><template class="pc-src pc-hint"><code>find_title</code> and <code>starting_with</code>: compare <code>title.lower()</code> values. For <code>starting_with</code>, find the first position whose title is <code>&gt;=</code> the prefix (like <code>bisect_left</code>), then collect forward while <code>.startswith(prefix)</code> holds.</template><template class="pc-src pc-hint"><code>most_borrowed</code>: tag each book with its position, <code>[(i, book) for i, book in enumerate(books)]</code>. In each round, the &ldquo;largest&rdquo; is the one with more loans, or equal loans and a smaller position.</template></div>
+<aside class="callout c-think"><div class="callout-t">Choosing the right tool each time</div><p>Look at which algorithm each function used. A one-off sort of a small list: insertion sort is fine. Many title lookups: sort once, then O(log n) binary search each time. All titles with a prefix: binary search to the start, then a short walk. Just the top few: k rounds of selection instead of a whole sort. In real code you&rsquo;d use <code>sorted</code>, <code>bisect</code> and <code>heapq.nlargest</code>, but the reasons for choosing each are exactly the ones you&rsquo;ve just used.</p></aside>
+<h2 id="forge-bonus-searching-a-rotated-list">Forge bonus: searching a rotated list</h2>
+<p>A sorted list has been <strong>rotated</strong>: some number of items were moved from the front to the end, so <code>[1, 3, 5, 7, 9, 11]</code> might now be <code>[7, 9, 11, 1, 3, 5]</code>. It&rsquo;s no longer sorted, so ordinary binary search fails, and a linear search is O(n). But it&rsquo;s made of <strong>two sorted pieces</strong>, and that&rsquo;s enough for an O(log n) search.</p>
+<p>The key fact: if you cut the part you&rsquo;re searching in the middle, <strong>at least one half is properly sorted</strong>. You can tell which by comparing its ends, and for a sorted half you can tell at once whether the target lies inside it.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w018d6-forge2" data-points="30"><div class="pc-label"><span>Exercise</span><span class="pc-pts">30 points</span></div><div class="pc-title">Forge bonus: searching a rotated list</div><div class="pc-prompt"><p>The list holds different numbers. Write:</p>
+<ul>
+<li><code>find_rotation(items)</code>: the position of the smallest item (the number of places it was rotated), in O(log n). Compare the middle with the <strong>last</strong> item: if <code>items[mid] &gt; items[hi]</code>, the smallest is to the right of <code>mid</code>; otherwise it&rsquo;s at <code>mid</code> or to its left.</li>
+<li><code>rotated_search(items, target)</code>: the position of <code>target</code> or -1, in O(log n), with a single binary search: at each step decide which half is sorted (<code>items[lo] &lt;= items[mid]</code> means the left half is), check whether the target is inside the sorted half&rsquo;s range, and keep that half or the other.</li>
+</ul>
+<p>Both must handle a list that wasn&rsquo;t rotated at all, a single item and an empty list (<code>find_rotation([])</code> is 0).</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>import random
+def test_rotation():
+    &quot;find_rotation&quot;
+    assert find_rotation([7, 9, 11, 1, 3, 5]) == 3
+    assert find_rotation([1, 3, 5]) == 0 and find_rotation([5, 1, 3]) == 1 and find_rotation([3, 5, 1]) == 2
+    assert find_rotation([4]) == 0 and find_rotation([]) == 0
+def test_search():
+    &quot;rotated_search&quot;
+    xs = [7, 9, 11, 1, 3, 5]
+    for i, x in enumerate(xs):
+        assert rotated_search(xs, x) == i
+    assert rotated_search(xs, 4) == -1 and rotated_search([], 1) == -1 and rotated_search([2], 2) == 0
+    rng = random.Random(8)
+    for _ in range(200):
+        base = sorted(rng.sample(range(100), rng.randint(1, 20)))
+        r = rng.randint(0, len(base) - 1)
+        rot = base[r:] + base[:r]
+        assert find_rotation(rot) == (len(rot) - r) % len(rot)
+        for t in (rot[rng.randint(0, len(rot) - 1)], -1, 100, 50):
+            assert rotated_search(rot, t) == (rot.index(t) if t in rot else -1)
+def test_big():
+    &quot;big and fast&quot;
+    n = 1_000_000
+    rot = list(range(400_000, n)) + list(range(400_000))
+    assert find_rotation(rot) == 600_000
+    assert rotated_search(rot, 123) == 600_123 and rotated_search(rot, 999_999) == 599_999
+    assert &quot;.index(&quot; not in source and &quot; in items&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def find_rotation(items):
+    if not items:
+        return 0
+    lo, hi = 0, len(items) - 1
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if items[mid] &gt; items[hi]:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo
+
+def rotated_search(items, target):
+    lo, hi = 0, len(items) - 1
+    while lo &lt;= hi:
+        mid = (lo + hi) // 2
+        if items[mid] == target:
+            return mid
+        if items[lo] &lt;= items[mid]:
+            if items[lo] &lt;= target &lt; items[mid]:
+                hi = mid - 1
+            else:
+                lo = mid + 1
+        else:
+            if items[mid] &lt; target &lt;= items[hi]:
+                lo = mid + 1
+            else:
+                hi = mid - 1
+    return -1</textarea><template class="pc-src pc-hint"><code>find_rotation</code>: <code>lo, hi = 0, len(items) - 1</code>; while <code>lo &lt; hi</code>, set <code>mid</code>; if <code>items[mid] &gt; items[hi]</code> then <code>lo = mid + 1</code>, else <code>hi = mid</code>. The answer is <code>lo</code>.</template><template class="pc-src pc-hint"><code>rotated_search</code>: if <code>items[lo] &lt;= items[mid]</code> (left half sorted): if <code>items[lo] &lt;= target &lt; items[mid]</code>, search left (<code>hi = mid - 1</code>), else right. Otherwise the right half is sorted: if <code>items[mid] &lt; target &lt;= items[hi]</code>, search right, else left.</template></div>
+<h2 id="weekly-quiz">Weekly quiz</h2>
+<div class="quiz" data-id="w018d6-weekly"><div class="pc-label"><span>Quiz</span><span>15 questions</span></div><script type="application/json">[{"type": "mc", "q": "When should a linear search say &ldquo;not found&rdquo;?", "answer": 1, "explain": "Return -1 after the loop.", "options": ["When the first item doesn&rsquo;t match", "Only after checking every item", "Halfway through", "Never"]}, {"type": "mc", "q": "What does <code>items.index(x)</code> do if x is missing?", "answer": 1, "explain": "str.find returns -1 instead.", "options": ["Returns -1", "Raises ValueError", "Returns None", "Returns len(items)"]}, {"type": "mc", "q": "What does binary search need?", "answer": 0, "explain": "Otherwise halving gives wrong answers.", "options": ["Sorted data", "Numbers only", "No repeats", "An even length"]}, {"type": "mc", "q": "Binary search&rsquo;s worst case for a million items is about&hellip;", "answer": 0, "explain": "2\u00b2\u2070 is about a million.", "options": ["20 comparisons", "1,000 comparisons", "500,000 comparisons", "1,000,000 comparisons"]}, {"type": "mc", "q": "What does <code>bisect_right(xs, x) - bisect_left(xs, x)</code> give?", "answer": 1, "explain": "O(log n) counting.", "options": ["The position of x", "How many copies of x are in the sorted list", "Whether x is there", "The middle"]}, {"type": "mc", "q": "What does each round of selection sort do?", "answer": 1, "explain": "Select the smallest.", "options": ["Swaps neighbours", "Moves the smallest remaining item into the next place", "Inserts into a sorted part", "Halves the list"]}, {"type": "mc", "q": "Which simple sort is O(n) on already sorted data?", "answer": 1, "explain": "Each item is compared once and stays.", "options": ["Selection sort", "Insertion sort", "Both", "Neither"]}, {"type": "mc", "q": "How many shifts does insertion sort make?", "answer": 1, "explain": "Each neighbour move fixes one inversion.", "options": ["n", "One per inversion", "n log n", "Always n(n \u2212 1)/2"]}, {"type": "mc", "q": "When can bubble sort stop early?", "answer": 1, "explain": "Every neighbour pair is in order.", "options": ["Never", "After a pass with no swaps", "After n/2 passes", "When the first item is smallest"]}, {"type": "mc", "q": "Which of these is not stable?", "answer": 3, "explain": "Long-distance swaps.", "options": ["sorted()", "insertion sort", "bubble sort", "selection sort"]}, {"type": "mc", "q": "Sorting by several levels with repeated stable sorts, which level do you sort by first?", "answer": 1, "explain": "The last sort sets the main order.", "options": ["The most important", "The least important", "Any", "The longest"]}, {"type": "output", "q": "What does this print?", "answer": "[('b', 2), ('c', 2), ('a', 1)]", "explain": "Stable: b stays before c.", "code": "print(sorted([(\"b\", 2), (\"a\", 1), (\"c\", 2)], key=lambda p: -p[1]))"}, {"type": "mc", "q": "What&rsquo;s the best simple check that a sort worked?", "answer": 1, "explain": "Order and items at once.", "options": ["The first item is the smallest", "The result equals sorted(original)", "The length didn&rsquo;t change", "No errors"]}, {"type": "mc", "q": "In a rotated sorted list, what&rsquo;s true of the two halves around the middle?", "answer": 1, "explain": "That&rsquo;s what makes O(log n) search possible.", "options": ["Both are sorted", "At least one is sorted", "Neither is sorted", "They&rsquo;re equal"]}, {"type": "text", "q": "How many comparisons does selection sort make on 10 items? (a number)", "answer": ["45"], "explain": "10 \u00d7 9 / 2."}]</script></div>
+<h2 id="week-18-review">Week 18 review</h2>
+<p>Tick off each one honestly. If one feels shaky, go back and redo two exercises from that day.</p>
+<ul>
+<li>I can write linear search and its variations, and use Python&rsquo;s built-in searches safely. (<a href="w018d1.html">Day 1</a>)</li>
+<li>I can write binary search with correct boundaries, use <code>bisect</code>, and search for an answer. (<a href="w018d2.html">Day 2</a>)</li>
+<li>I can write selection sort and explain why it&rsquo;s always O(n²). (<a href="w018d3.html">Day 3</a>)</li>
+<li>I can write insertion sort and bubble sort, and connect their work to inversions. (<a href="w018d4.html">Day 4</a>)</li>
+<li>I can explain stability, sort by several levels, test a sort, and compare sorts by measuring. (<a href="w018d5.html">Day 5</a>)</li>
+<li>I built a library catalogue and searched a rotated list in O(log n). (Today)</li>
+</ul>
+<p>Tomorrow is a <strong>rest day</strong>. Next week: <strong>Sorting II</strong>. You&rsquo;ll write merge sort and quicksort, beat O(n²) at last, meet counting sort (which doesn&rsquo;t compare at all), and see how Python&rsquo;s own Timsort puts the ideas together.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w018d5.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w018d6", "week": 18, "day": 6, "title": "Forge", "exercises": [{"id": "w018d6-mix_count", "title": "How many below?", "points": 10}, {"id": "w018d6-mix_kth", "title": "The kth smallest", "points": 10}, {"id": "w018d6-mix_merge", "title": "Merge two sorted lists", "points": 10}, {"id": "w018d6-mix_inv", "title": "Nearly sorted?", "points": 10}, {"id": "w018d6-forge", "title": "Forge: a library catalogue", "points": 50}, {"id": "w018d6-forge2", "title": "Forge bonus: searching a rotated list", "points": 30}], "points": 120}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=f2aeea61be"></script>
+</body>
+</html>
