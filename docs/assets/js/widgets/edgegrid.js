@@ -1,7 +1,7 @@
 // Edge-case grid: several versions of the same function, run on awkward inputs.
 // Each cell shows what that version gave; red cells differ from the correct version.
-import { h } from "../site.js?v=ee76f9a815";
-import { py } from "../runtime.js?v=ee76f9a815";
+import { h } from "../site.js?v=8c61ea13ed";
+import { py } from "../runtime.js?v=8c61ea13ed";
 
 export default function edgegrid(el, { versions, cases, ref, title = "f" }) {
   const names = Object.keys(versions);

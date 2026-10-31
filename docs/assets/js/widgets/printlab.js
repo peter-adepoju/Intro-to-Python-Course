@@ -1,6 +1,6 @@
 // print() with sep and end: see every space and newline it writes.
-import { h } from "../site.js?v=ee76f9a815";
-import { py } from "../runtime.js?v=ee76f9a815";
+import { h } from "../site.js?v=8c61ea13ed";
+import { py } from "../runtime.js?v=8c61ea13ed";
 
 export default function printlab(el, { values = "'Ada', 36, 'London'", sep = "", end = "" } = {}) {
   const vIn = h("input", { class: "w-input", value: values, spellcheck: "false", style: "flex:1 1 220px", "aria-label": "Values to print" });

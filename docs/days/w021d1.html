@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="8c61ea13ed">
+<title>Week 21 Day 1: The shell | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=8c61ea13ed">
+<link rel="stylesheet" href="../assets/css/site.css?v=8c61ea13ed">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=8c61ea13ed"></script>
+<script src="../assets/vendor/codemirror.js?v=8c61ea13ed" defer></script>
+<meta name="description" content="So far every program has run in your browser. Real programming happens on your own computer, and a lot of it happens in a terminal: a window where you type...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w021d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 21 Day 1: The shell">
+<meta property="og:description" content="So far every program has run in your browser. Real programming happens on your own computer, and a lot of it happens in a terminal: a window where you type...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w021d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-21">Week 21: The command line and Git</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#terminals-and-shells" data-sec="terminals-and-shells">Terminals and shells</a></li><li><a href="#moving-around" data-sec="moving-around">Moving around</a></li><li><a href="#changing-things" data-sec="changing-things">Changing things</a></li><li><a href="#saving-typing" data-sec="saving-typing">Saving typing</a></li><li><a href="#on-your-own-computer" data-sec="on-your-own-computer">On your own computer</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w021d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-21">Week 21: The command line and Git</a></li><li aria-current="page">Day 1 of 6</li></ol>
+      <p class="day-where"><span>Week 21, Day 1</span></p>
+      <h1>The shell</h1>
+      <div class="day-intro"><p>So far every program has run in your browser. Real programming happens on your own computer, and a lot of it happens in a terminal: a window where you type commands instead of clicking. It looks old-fashioned, but it&rsquo;s fast, exact and scriptable, and every programming tool (Python, Git, pip, test runners, servers) is driven from it. Today you&rsquo;ll learn to move around your files and change them from the shell, first in a safe practice terminal on this page, then on your own computer.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Open a terminal on your own computer, and say what the shell, the prompt and a command are</li><li>Move around the file system with <code>pwd</code>, <code>ls</code> and <code>cd</code>, using absolute and relative paths, <code>~</code>, <code>.</code> and <code>..</code></li><li>Create, copy, move and delete files and folders, and know that <code>rm</code> has no recycle bin</li><li>Use wildcards, redirect output into files with <code>&gt;</code> and <code>&gt;&gt;</code>, and use tab completion and history</li><li>Work out where a path points, by hand and with Python&rsquo;s <code>os.path</code> and <code>pathlib</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="Terminals and shells: 20 min"></span><span class="plan-seg s0" style="flex:30" title="Moving around: 30 min"></span><span class="plan-seg s1" style="flex:25" title="Changing things: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Saving typing: 20 min"></span><span class="plan-seg s1" style="flex:15" title="On your own computer: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Terminals and shells</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">Moving around</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Changing things</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Saving typing</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">On your own computer</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w021d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w021d1.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w021d1-p1"><textarea class="pc-src pc-code" hidden>import posixpath
+
+here = &quot;/home/you/projects&quot;
+print(posixpath.normpath(posixpath.join(here, &quot;data&quot;)))
+print(posixpath.normpath(posixpath.join(here, &quot;..&quot;)))
+print(posixpath.normpath(posixpath.join(here, &quot;../photos/./lagos.jpg&quot;)))</textarea></div>
+<p>Folders nest inside folders, and a <strong>path</strong> says how to get somewhere: <code>..</code> means &ldquo;up one folder&rdquo; and <code>.</code> means &ldquo;this folder&rdquo;. The shell uses exactly these rules every time you type a command.</p>
+<h2 id="terminals-and-shells">Terminals and shells</h2>
+<p>A <strong>terminal</strong> is the window; the <strong>shell</strong> is the program inside it that reads what you type, runs it, and shows the result. The shell shows a <strong>prompt</strong> (often ending in <code>$</code> or <code>&gt;</code>) when it&rsquo;s ready for the next command.</p>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Terminal</th>
+<th>Usual shell</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>macOS</td>
+<td>Terminal (in Applications, Utilities)</td>
+<td>zsh</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>Terminal</td>
+<td>bash</td>
+</tr>
+<tr>
+<td>Windows</td>
+<td>Windows Terminal or PowerShell</td>
+<td>PowerShell</td>
+</tr>
+</tbody>
+</table>
+<p>A <strong>command</strong> is a program name followed by <strong>arguments</strong>, separated by spaces. Arguments starting with <code>-</code> are usually <strong>options</strong> that change what the command does:</p>
+<pre><code>ls -l projects
+</code></pre>
+<p>Here <code>ls</code> is the command (list files), <code>-l</code> is an option (long form), and <code>projects</code> is an argument (which folder to list).</p>
+<p>The commands today are the ones used on macOS and Linux. PowerShell on Windows understands most of them too (<code>ls</code>, <code>cd</code>, <code>pwd</code>, <code>mkdir</code>, <code>cp</code>, <code>mv</code>, <code>rm</code>, <code>cat</code>), with a few differences listed at the end. If you&rsquo;re on Windows, you can also install Git, which comes with &ldquo;Git Bash&rdquo;, a terminal that behaves like Linux.</p>
+<h2 id="moving-around">Moving around</h2>
+<p>The shell is always <strong>in</strong> some folder, called the <strong>working directory</strong>. Every command works relative to it.</p>
+<ul>
+<li><code>pwd</code> (<strong>p</strong>rint <strong>w</strong>orking <strong>d</strong>irectory) shows where you are.</li>
+<li><code>ls</code> lists what&rsquo;s in a folder (this one, unless you name another). <code>ls -l</code> gives a longer listing.</li>
+<li><code>cd folder</code> (<strong>c</strong>hange <strong>d</strong>irectory) moves you into a folder. <code>cd ..</code> moves up one; <code>cd</code> on its own, or <code>cd ~</code>, goes home.</li>
+</ul>
+<p>Paths come in two kinds:</p>
+<ul>
+<li><strong>Absolute</strong> paths start at the top of the file system, <code>/</code>: <code>/home/you/projects/hello.py</code>. They mean the same thing wherever you are.</li>
+<li><strong>Relative</strong> paths start from where you are: <code>projects/hello.py</code>, <code>../photos</code>. They&rsquo;re shorter, but depend on the working directory.</li>
+</ul>
+<p>Special names: <code>~</code> is your home folder, <code>.</code> is the current folder, <code>..</code> is the folder above.</p>
+<p>Try it in the practice terminal below. It has its own pretend files; nothing you type affects your computer. Press Tab to complete a name, and the up arrow to bring back an earlier command.</p>
+<figure class="widget" data-widget="terminal"><script type="application/json">{"tasks": [{"text": "Go into the projects folder, then into data", "check": "cwd === home + '/projects/data'"}, {"text": "Make a folder called notes inside projects", "check": "typeof node(home + '/projects/notes') === 'object'"}, {"text": "Write 'hello' into a new file called greet.txt in your home folder (echo hello > ~/greet.txt)", "check": "node(home + '/greet.txt') === 'hello\\n'"}, {"text": "Copy notes.txt into the notes folder", "check": "typeof node(home + '/projects/notes/notes.txt') === 'string'"}, {"text": "Delete both photos with one command (rm photos/*.jpg, from your home folder)", "check": "node(home + '/photos') && Object.keys(node(home + '/photos')).length === 0"}]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>A practice terminal with its own files. Try the tasks below it; each turns green when it&rsquo;s done.</figcaption></figure>
+<h2 id="changing-things">Changing things</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mkdir name</code></td>
+<td>make a folder</td>
+<td><code>mkdir reports</code></td>
+</tr>
+<tr>
+<td><code>touch name</code></td>
+<td>make an empty file (or update its time)</td>
+<td><code>touch todo.txt</code></td>
+</tr>
+<tr>
+<td><code>cat file</code></td>
+<td>print a file&rsquo;s contents</td>
+<td><code>cat notes.txt</code></td>
+</tr>
+<tr>
+<td><code>head -n 5 file</code></td>
+<td>the first 5 lines</td>
+<td><code>head -n 5 data.csv</code></td>
+</tr>
+<tr>
+<td><code>cp from to</code></td>
+<td>copy a file</td>
+<td><code>cp notes.txt backup.txt</code></td>
+</tr>
+<tr>
+<td><code>mv from to</code></td>
+<td>move or rename</td>
+<td><code>mv old.txt new.txt</code></td>
+</tr>
+<tr>
+<td><code>rm file</code></td>
+<td>delete a file</td>
+<td><code>rm backup.txt</code></td>
+</tr>
+<tr>
+<td><code>rm -r folder</code></td>
+<td>delete a folder and everything in it</td>
+<td><code>rm -r tmp</code></td>
+</tr>
+<tr>
+<td><code>echo text</code></td>
+<td>print text</td>
+<td><code>echo hello</code></td>
+</tr>
+</tbody>
+</table>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>rm</code> deletes <strong>at once and for good</strong>. There&rsquo;s no recycle bin and no &ldquo;are you sure?&rdquo;. <code>rm -r</code> deletes a whole folder tree. Before pressing Enter on any <code>rm</code>, read the command again, especially if it has a wildcard like <code>*</code>. Many people use <code>ls</code> with the same pattern first, to see exactly what would be deleted.</p></aside>
+<p><strong>Wildcards:</strong> <code>*</code> matches any run of characters and <code>?</code> any single character, so <code>*.py</code> means &ldquo;every file ending in .py&rdquo;. The shell expands the pattern into a list of names <strong>before</strong> the command runs: <code>rm *.txt</code> becomes <code>rm notes.txt todo.txt</code>.</p>
+<p><strong>Redirection:</strong> <code>&gt;</code> sends a command&rsquo;s output into a file instead of the screen, <strong>replacing</strong> the file; <code>&gt;&gt;</code> <strong>adds</strong> to the end. <code>echo "Buy milk" &gt;&gt; todo.txt</code> appends a line. (A third, <code>|</code>, the pipe, sends one command&rsquo;s output into another command; you&rsquo;ll use it tomorrow.)</p>
+<h2 id="saving-typing">Saving typing</h2>
+<ul>
+<li><strong>Tab completion:</strong> type the first few letters of a name and press Tab; the shell completes it (or lists the options). It saves time and avoids typos. Use it constantly.</li>
+<li><strong>History:</strong> the up arrow brings back earlier commands; <code>history</code> lists them.</li>
+<li><strong>Ctrl+C</strong> stops whatever is running (a program stuck in a loop, say). <strong>Ctrl+L</strong> or <code>clear</code> clears the screen.</li>
+<li><strong>Quotes:</strong> a name with a space in it must be quoted: <code>cd "My Documents"</code>. Better still, don&rsquo;t put spaces in names you&rsquo;ll type often.</li>
+</ul>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>The shell works in a current folder. <code>pwd</code>, <code>ls</code>, <code>cd</code> to look and move; <code>mkdir</code>, <code>touch</code>, <code>cp</code>, <code>mv</code>, <code>rm</code> to change things; <code>cat</code> and <code>head</code> to read. Paths are absolute (from <code>/</code>) or relative (from here), with <code>~</code>, <code>.</code> and <code>..</code>. <code>rm</code> is permanent. Use Tab and the up arrow.</p></aside>
+<h2 id="on-your-own-computer">On your own computer</h2>
+<p>Do these now, on your own computer, before the practice exercises:</p>
+<ol>
+<li>Open your terminal (see the table above). Type <code>pwd</code> and press Enter: you&rsquo;re in your home folder.</li>
+<li><code>mkdir atlas</code>, then <code>cd atlas</code>, then <code>pwd</code> again.</li>
+<li><code>python3 --version</code> (on Windows, <code>python --version</code> or <code>py --version</code>). If it says &ldquo;not found&rdquo;, install Python from python.org (tick &ldquo;Add Python to PATH&rdquo; on Windows) and open a new terminal.</li>
+<li><code>echo "print('Hello from the shell')" &gt; hello.py</code>, then <code>cat hello.py</code>, then <code>python3 hello.py</code>.</li>
+<li><code>ls</code>, then <code>cd ..</code>, then <code>ls</code> again: you can see your new <code>atlas</code> folder from its parent.</li>
+</ol>
+<p><strong>Windows PowerShell differences:</strong> paths use <code>\</code> (though <code>/</code> usually works too), home is <code>$HOME</code> (and <code>~</code> works), <code>rm -r folder</code> is <code>rm -Recurse folder</code>, <code>touch</code> is <code>New-Item name</code>, <code>head -n 5 file</code> is <code>Get-Content file -TotalCount 5</code>, and <code>cat</code> and <code>type</code> both print a file.</p>
+<h2 id="practice">Practice</h2>
+<p>The practice terminal is good for trying commands; the exercises below build the same ideas in Python, which is also how programs work with paths and files.</p>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d1-paths" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Where does it point?</div><div class="pc-prompt"><p>The working directory is <code>/home/you/projects</code> and home is <code>/home/you</code>. Work out the <strong>absolute</strong> path each of these points to, without running anything.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # data/marks.csv
+b = ___   # ..
+c = ___   # ../photos/lagos.jpg
+d = ___   # ./hello.py
+e = ___   # ~/notes.txt</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;/home/you/projects/data/marks.csv&quot;
+    assert b == &quot;/home/you&quot;
+    assert c == &quot;/home/you/photos/lagos.jpg&quot;
+    assert d == &quot;/home/you/projects/hello.py&quot;
+    assert e == &quot;/home/you/notes.txt&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;/home/you/projects/data/marks.csv&quot;
+b = &quot;/home/you&quot;
+c = &quot;/home/you/photos/lagos.jpg&quot;
+d = &quot;/home/you/projects/hello.py&quot;
+e = &quot;/home/you/notes.txt&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d1-resolve" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Resolve a path</div><div class="pc-prompt"><p>Write <code>resolve(cwd, path, home="/home/you")</code> that returns the absolute path that <code>path</code> points to, given the working directory <code>cwd</code>, handling <code>/</code> at the start, <code>~</code> at the start, <code>.</code>, <code>..</code> (going up from <code>/</code> stays at <code>/</code>) and repeated or trailing slashes. Don&rsquo;t use <code>os.path</code> or <code>pathlib</code>: split on <code>/</code> and keep a list of folder names.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert resolve(&quot;/home/you/projects&quot;, &quot;data&quot;) == &quot;/home/you/projects/data&quot;
+    assert resolve(&quot;/home/you/projects&quot;, &quot;../photos/./lagos.jpg&quot;) == &quot;/home/you/photos/lagos.jpg&quot;
+    assert resolve(&quot;/home/you/projects&quot;, &quot;/etc//hosts/&quot;) == &quot;/etc/hosts&quot;
+    assert resolve(&quot;/home/you/projects&quot;, &quot;~/notes.txt&quot;) == &quot;/home/you/notes.txt&quot;
+    assert resolve(&quot;/home/you/projects&quot;, &quot;~&quot;) == &quot;/home/you&quot;
+    assert resolve(&quot;/&quot;, &quot;../../..&quot;) == &quot;/&quot; and resolve(&quot;/a/b&quot;, &quot;.&quot;) == &quot;/a/b&quot; and resolve(&quot;/a/b&quot;, &quot;&quot;) == &quot;/a/b&quot;
+    assert &quot;os.path&quot; not in source and &quot;pathlib&quot; not in source and &quot;posixpath&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def resolve(cwd, path, home=&quot;/home/you&quot;):
+    if path.startswith(&quot;/&quot;):
+        parts = []
+    elif path.startswith(&quot;~&quot;):
+        parts = [p for p in home.split(&quot;/&quot;) if p]
+        path = path[1:]
+    else:
+        parts = [p for p in cwd.split(&quot;/&quot;) if p]
+    for seg in path.split(&quot;/&quot;):
+        if seg == &quot;&quot; or seg == &quot;.&quot;:
+            continue
+        if seg == &quot;..&quot;:
+            if parts:
+                parts.pop()
+        else:
+            parts.append(seg)
+    return &quot;/&quot; + &quot;/&quot;.join(parts)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d1-pathlib" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">pathlib</div><div class="pc-prompt"><p>Python&rsquo;s <code>pathlib</code> works with paths as objects. Using <code>PurePosixPath</code>, set each variable for <code>p = PurePosixPath("/home/you/projects/data/marks.csv")</code>.</p></div><textarea class="pc-src pc-code" hidden>from pathlib import PurePosixPath
+
+p = PurePosixPath(&quot;/home/you/projects/data/marks.csv&quot;)
+
+a = ___   # the file name, &quot;marks.csv&quot;   (p.name)
+b = ___   # the name without its ending, &quot;marks&quot;
+c = ___   # the ending, &quot;.csv&quot;
+d = ___   # the folder it&#x27;s in, as a string
+e = ___   # the path of &quot;report.txt&quot; in that same folder, as a string (use the / operator)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;marks.csv&quot; and b == &quot;marks&quot; and c == &quot;.csv&quot;
+    assert d == &quot;/home/you/projects/data&quot; and e == &quot;/home/you/projects/data/report.txt&quot;</textarea><textarea class="pc-src pc-solution" hidden>from pathlib import PurePosixPath
+
+p = PurePosixPath(&quot;/home/you/projects/data/marks.csv&quot;)
+
+a = p.name
+b = p.stem
+c = p.suffix
+d = str(p.parent)
+e = str(p.parent / &quot;report.txt&quot;)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d1-wild" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Wildcards</div><div class="pc-prompt"><p>Write <code>expand(pattern, names)</code> returning the sorted names that match a shell pattern where <code>*</code> matches any run of characters (even none) and <code>?</code> matches exactly one character. Write it yourself (no <code>fnmatch</code>, <code>glob</code> or <code>re</code>): a recursive helper <code>matches(pattern, name)</code> is the neat way.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    names = [&quot;notes.txt&quot;, &quot;todo.txt&quot;, &quot;hello.py&quot;, &quot;data.csv&quot;, &quot;t.py&quot;, &quot;test.py&quot;]
+    assert expand(&quot;*.txt&quot;, names) == [&quot;notes.txt&quot;, &quot;todo.txt&quot;]
+    assert expand(&quot;t*.py&quot;, names) == [&quot;t.py&quot;, &quot;test.py&quot;]
+    assert expand(&quot;?.py&quot;, names) == [&quot;t.py&quot;]
+    assert expand(&quot;*&quot;, names) == sorted(names) and expand(&quot;*.md&quot;, names) == []
+    assert expand(&quot;*o*&quot;, names) == [&quot;hello.py&quot;, &quot;notes.txt&quot;, &quot;todo.txt&quot;]
+    assert &quot;fnmatch&quot; not in source and &quot;glob&quot; not in source and &quot;import re&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def matches(pattern, name):
+    if not pattern:
+        return not name
+    if pattern[0] == &quot;*&quot;:
+        return matches(pattern[1:], name) or (bool(name) and matches(pattern, name[1:]))
+    if name and (pattern[0] == &quot;?&quot; or pattern[0] == name[0]):
+        return matches(pattern[1:], name[1:])
+    return False
+
+def expand(pattern, names):
+    return sorted(n for n in names if matches(pattern, n))</textarea><template class="pc-src pc-hint"><code>matches(p, n)</code>: if <code>p</code> is empty, the name must be empty too. If <code>p[0] == "*"</code>, either the star matches nothing (<code>matches(p[1:], n)</code>) or it eats one character (<code>n</code> not empty and <code>matches(p, n[1:])</code>). Otherwise the first characters must match (<code>?</code> matches any) and the rest must match.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d1-cmdline" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Split a command line</div><div class="pc-prompt"><p>The shell splits what you type into words at spaces, except inside quotes. Python&rsquo;s <code>shlex.split</code> does the same. Use it to write <code>parse(line)</code> returning <code>(command, options, arguments)</code>: the first word, a list of the words starting with <code>-</code>, and a list of the other words. Return <code>None</code> for an empty line.</p></div><textarea class="pc-src pc-code" hidden>import shlex</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert parse(&quot;ls -l -a projects&quot;) == (&quot;ls&quot;, [&quot;-l&quot;, &quot;-a&quot;], [&quot;projects&quot;])
+    assert parse(&#x27;cd &quot;My Documents&quot;&#x27;) == (&quot;cd&quot;, [], [&quot;My Documents&quot;])
+    assert parse(&quot;cp notes.txt &#x27;back up.txt&#x27;&quot;) == (&quot;cp&quot;, [], [&quot;notes.txt&quot;, &quot;back up.txt&quot;])
+    assert parse(&quot;pwd&quot;) == (&quot;pwd&quot;, [], []) and parse(&quot;   &quot;) is None</textarea><textarea class="pc-src pc-solution" hidden>import shlex
+
+def parse(line):
+    words = shlex.split(line)
+    if not words:
+        return None
+    command, rest = words[0], words[1:]
+    return command, [w for w in rest if w.startswith(&quot;-&quot;)], [w for w in rest if not w.startswith(&quot;-&quot;)]</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w021d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Going up too far</div><div class="pc-prompt"><p>This path resolver crashes with <code>IndexError</code> on <code>resolve("/a", "../../b")</code>, because it pops from an empty list. Going up from the top should simply stay at the top, as real shells do. Fix it so it prints <code>/b</code>.</p></div><textarea class="pc-src pc-code" hidden>def resolve(cwd, path):
+    parts = [p for p in cwd.split(&quot;/&quot;) if p]
+    for seg in path.split(&quot;/&quot;):
+        if seg == &quot;..&quot;:
+            parts.pop()
+        elif seg and seg != &quot;.&quot;:
+            parts.append(seg)
+    return &quot;/&quot; + &quot;/&quot;.join(parts)
+
+print(resolve(&quot;/a&quot;, &quot;../../b&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;fixed&quot;
+    expect_output(&quot;/b&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def resolve(cwd, path):
+    parts = [p for p in cwd.split(&quot;/&quot;) if p]
+    for seg in path.split(&quot;/&quot;):
+        if seg == &quot;..&quot;:
+            if parts:
+                parts.pop()
+        elif seg and seg != &quot;.&quot;:
+            parts.append(seg)
+    return &quot;/&quot; + &quot;/&quot;.join(parts)
+
+print(resolve(&quot;/a&quot;, &quot;../../b&quot;))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w021d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Overwritten</div><div class="pc-prompt"><p>This should keep a log of three lines, but the file ends up with only the last one, because each write <strong>replaces</strong> the file, like <code>&gt;</code> in the shell. Make it append, like <code>&gt;&gt;</code>, so it prints the three lines.</p></div><textarea class="pc-src pc-code" hidden>for event in [&quot;start&quot;, &quot;working&quot;, &quot;done&quot;]:
+    with open(&quot;log.txt&quot;, &quot;w&quot;) as f:
+        f.write(event + &quot;\n&quot;)
+
+with open(&quot;log.txt&quot;) as f:
+    print(f.read().strip())</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;three lines&quot;
+    reset_files()
+    expect_output(&quot;start\nworking\ndone&quot;)</textarea><textarea class="pc-src pc-solution" hidden>for event in [&quot;start&quot;, &quot;working&quot;, &quot;done&quot;]:
+    with open(&quot;log.txt&quot;, &quot;a&quot;) as f:
+        f.write(event + &quot;\n&quot;)
+
+with open(&quot;log.txt&quot;) as f:
+    print(f.read().strip())</textarea><template class="pc-src pc-hint">Open the file in mode <code>"a"</code> (append) instead of <code>"w"</code>.</template></div>
+<div class="parsons" data-id="w021d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Make a project folder</div><div class="pc-prompt"><p>Arrange the shell commands to make a folder <code>quiz</code> in your home folder, move into it, create <code>main.py</code> containing one line, and run it. One line is a trap.</p></div><script type="application/json">{"lines": ["cd ~", "mkdir quiz", "cd quiz", "echo \"print('ready')\" > main.py", "python3 main.py"], "distractors": ["cd main.py"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Answer from what you know about the shell.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # the command that shows the working directory
+b = ___   # True or False: rm moves files to the recycle bin
+c = ___   # after `echo a &gt; f.txt` then `echo b &gt;&gt; f.txt`, how many lines does f.txt have?
+d = ___   # after `echo a &gt; f.txt` then `echo b &gt; f.txt`, how many lines does f.txt have?</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;pwd&quot; and b is False and c == 2 and d == 1</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;pwd&quot;
+b = False
+c = 2
+d = 1</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w021d1-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What&rsquo;s the difference between a terminal and a shell?", "answer": 1, "explain": "zsh, bash and PowerShell are shells.", "options": ["None", "The terminal is the window; the shell is the program that reads and runs commands", "The shell is the window", "Shells are only on Linux"]}, {"type": "mc", "q": "What does <code>cd ..</code> do?", "answer": 1, "explain": ".. is the folder above.", "options": ["Goes home", "Moves up one folder", "Lists the folder", "Deletes the folder"]}, {"type": "mc", "q": "What&rsquo;s an absolute path?", "answer": 1, "explain": "It means the same wherever you are.", "options": ["A short path", "A path from the top of the file system, starting with /", "A path from here", "A path with no folders"]}, {"type": "mc", "q": "What does <code>ls *.py</code> do?", "answer": 1, "explain": "The shell expands the wildcard first.", "options": ["Lists files literally named *.py", "Lists every file ending in .py", "Deletes Python files", "Runs them"]}, {"type": "mc", "q": "What&rsquo;s the difference between &gt; and &gt;&gt;?", "answer": 1, "explain": "Redirection.", "options": ["None", "<blockquote>\n<p>replaces the file; &gt;&gt; adds to its end</p>\n</blockquote>", "<blockquote>\n<blockquote>\n<p>replaces</p>\n</blockquote>\n</blockquote>", "<blockquote>\n<p>is for folders</p>\n</blockquote>"]}, {"type": "mc", "q": "Why be careful with rm?", "answer": 1, "explain": "Check with ls first.", "options": ["It&rsquo;s slow", "It deletes immediately and permanently, with no recycle bin", "It needs a password", "It asks for confirmation"]}, {"type": "mc", "q": "What does pressing Tab do in a shell?", "answer": 1, "explain": "Use it constantly.", "options": ["Indents", "Completes a command or file name", "Runs the command", "Clears the screen"]}, {"type": "text", "q": "Which key combination stops a running program in the terminal? (like Ctrl+X)", "answer": ["Ctrl+C", "ctrl+c", "Ctrl-C", "ctrl-c", "control-c", "Control+C"], "explain": "Ctrl+C interrupts it."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a tiny shell</div><div class="pc-prompt"><p>Write a small shell in Python that works on a pretend file system made of nested dictionaries (a folder is a <code>dict</code>, a file is a <code>str</code> of its contents). Write <code>shell(commands)</code>, which starts with the file system below and the working directory <code>/home/you</code>, runs each command line in the list, and returns the list of output lines (one string per line of output; commands with no output add nothing). Support:</p>
+<ul>
+<li><code>pwd</code>; <code>ls</code> (names in the working directory, sorted, folders shown with a trailing <code>/</code>, all on one line separated by two spaces); <code>cd path</code> (with <code>..</code>, <code>~</code>, absolute and relative paths; <code>cd</code> alone goes home);</li>
+<li><code>mkdir name</code>; <code>echo words... &gt; file</code> (write the words, joined by spaces, plus a newline, into a file in the working directory); <code>cat file</code> (each line of the file as an output line);</li>
+<li>an unknown command gives the line <code>name: command not found</code>; a bad <code>cd</code> gives <code>cd: path: No such file or directory</code>.</li>
+</ul>
+<pre><code>FS = {&quot;home&quot;: {&quot;you&quot;: {&quot;notes.txt&quot;: &quot;Buy eggs\nCall Ada\n&quot;, &quot;projects&quot;: {&quot;hello.py&quot;: &quot;print('hi')\n&quot;}}}}
+</code></pre></div><textarea class="pc-src pc-code" hidden>import copy
+
+FS = {&quot;home&quot;: {&quot;you&quot;: {&quot;notes.txt&quot;: &quot;Buy eggs\nCall Ada\n&quot;, &quot;projects&quot;: {&quot;hello.py&quot;: &quot;print(&#x27;hi&#x27;)\n&quot;}}}}</textarea><textarea class="pc-src pc-tests" hidden>def test_basics():
+    &quot;pwd, ls, cd&quot;
+    assert shell([&quot;pwd&quot;, &quot;ls&quot;]) == [&quot;/home/you&quot;, &quot;notes.txt  projects/&quot;]
+    assert shell([&quot;cd projects&quot;, &quot;pwd&quot;, &quot;ls&quot;, &quot;cd ..&quot;, &quot;pwd&quot;, &quot;cd /&quot;, &quot;ls&quot;, &quot;cd&quot;, &quot;pwd&quot;]) == [&quot;/home/you/projects&quot;, &quot;hello.py&quot;, &quot;/home/you&quot;, &quot;home/&quot;, &quot;/home/you&quot;]
+    assert shell([&quot;cd nowhere&quot;, &quot;pwd&quot;]) == [&quot;cd: nowhere: No such file or directory&quot;, &quot;/home/you&quot;]
+def test_files():
+    &quot;mkdir, echo, cat&quot;
+    assert shell([&quot;mkdir tmp&quot;, &quot;cd tmp&quot;, &quot;echo hello there &gt; a.txt&quot;, &quot;ls&quot;, &quot;cat a.txt&quot;, &quot;cd ~&quot;, &quot;cat notes.txt&quot;, &quot;ls&quot;]) == [&quot;a.txt&quot;, &quot;hello there&quot;, &quot;Buy eggs&quot;, &quot;Call Ada&quot;, &quot;notes.txt  projects/  tmp/&quot;]
+    assert shell([&quot;sing&quot;]) == [&quot;sing: command not found&quot;]
+    assert FS[&quot;home&quot;][&quot;you&quot;].get(&quot;tmp&quot;) is None, &quot;run must work on a copy of FS&quot;</textarea><textarea class="pc-src pc-solution" hidden>import copy
+
+FS = {&quot;home&quot;: {&quot;you&quot;: {&quot;notes.txt&quot;: &quot;Buy eggs\nCall Ada\n&quot;, &quot;projects&quot;: {&quot;hello.py&quot;: &quot;print(&#x27;hi&#x27;)\n&quot;}}}}
+HOME = [&quot;home&quot;, &quot;you&quot;]
+
+def shell(commands):
+    root = copy.deepcopy(FS)
+    cwd = list(HOME)
+    out = []
+
+    def walk(parts):
+        node = root
+        for p in parts:
+            if not isinstance(node, dict) or p not in node:
+                return None
+            node = node[p]
+        return node
+
+    def target(path):
+        if path.startswith(&quot;/&quot;):
+            parts = []
+        elif path.startswith(&quot;~&quot;):
+            parts, path = list(HOME), path[1:]
+        else:
+            parts = list(cwd)
+        for seg in path.split(&quot;/&quot;):
+            if seg in (&quot;&quot;, &quot;.&quot;):
+                continue
+            if seg == &quot;..&quot;:
+                if parts:
+                    parts.pop()
+            else:
+                parts.append(seg)
+        return parts
+
+    for line in commands:
+        words = line.split()
+        if not words:
+            continue
+        cmd, args = words[0], words[1:]
+        here = walk(cwd)
+        if cmd == &quot;pwd&quot;:
+            out.append(&quot;/&quot; + &quot;/&quot;.join(cwd))
+        elif cmd == &quot;ls&quot;:
+            out.append(&quot;  &quot;.join(n + &quot;/&quot; if isinstance(here[n], dict) else n for n in sorted(here)))
+        elif cmd == &quot;cd&quot;:
+            parts = target(args[0]) if args else list(HOME)
+            if isinstance(walk(parts), dict):
+                cwd = parts
+            else:
+                out.append(f&quot;cd: {args[0]}: No such file or directory&quot;)
+        elif cmd == &quot;mkdir&quot;:
+            here.setdefault(args[0], {})
+        elif cmd == &quot;echo&quot;:
+            if &quot;&gt;&quot; in args:
+                i = args.index(&quot;&gt;&quot;)
+                here[args[i + 1]] = &quot; &quot;.join(args[:i]) + &quot;\n&quot;
+            else:
+                out.append(&quot; &quot;.join(args))
+        elif cmd == &quot;cat&quot;:
+            out.extend(here[args[0]].splitlines())
+        else:
+            out.append(f&quot;{cmd}: command not found&quot;)
+    return out</textarea><template class="pc-src pc-hint">Keep <code>cwd</code> as a list of folder names. A helper <code>walk(parts)</code> follows the names from the top of the file system and returns the dictionary (or <code>None</code>). For <code>cd</code>, work out the new list of names (as in the <code>resolve</code> exercise) and check that it leads to a folder.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>On your own computer, make a folder for this course&rsquo;s work, <code>atlas</code>, and in it a folder for each week from now on (<code>mkdir week21</code>). From tomorrow you&rsquo;ll run your Python scripts from the shell there. Tomorrow: running scripts, passing them arguments, and pipes.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w020d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w021d1", "week": 21, "day": 1, "title": "The shell", "exercises": [{"id": "w021d1-paths", "title": "Where does it point?", "points": 10}, {"id": "w021d1-resolve", "title": "Resolve a path", "points": 15}, {"id": "w021d1-pathlib", "title": "pathlib", "points": 10}, {"id": "w021d1-wild", "title": "Wildcards", "points": 15}, {"id": "w021d1-cmdline", "title": "Split a command line", "points": 15}, {"id": "w021d1-bug1", "title": "Going up too far", "points": 10}, {"id": "w021d1-bug2", "title": "Overwritten", "points": 10}, {"id": "w021d1-trace", "title": "Predict them", "points": 15}, {"id": "w021d1-challenge", "title": "Challenge: a tiny shell", "points": 25}], "points": 125}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=8c61ea13ed"></script>
+</body>
+</html>
