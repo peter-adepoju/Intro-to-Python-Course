@@ -7,6 +7,7 @@ Lessons are Markdown files in course/content/wNNN/dD.md with a few extra blocks
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import re
@@ -443,6 +444,13 @@ def seo_head(path: str, title: str, desc: str, index: bool) -> str:
     return "\n".join(tags)
 
 
+def icon(name):
+    """An icon's URL with a fingerprint of its contents, so a changed icon gets a new address
+    and no browser, phone or service worker keeps showing the old one."""
+    digest = hashlib.md5((STATIC / "img" / name).read_bytes()).hexdigest()[:10]
+    return f"assets/img/{name}?v={digest}"
+
+
 def page(title, body, depth=0, extra_head="", scripts="", page_class="", path="", desc="", index=True):
     root = "../" * depth
     base = template("base.html")
@@ -451,6 +459,9 @@ def page(title, body, depth=0, extra_head="", scripts="", page_class="", path=""
     return (base.replace("{{title}}", esc(title))
             .replace("{{root}}", root)
             .replace("{{version}}", VERSION)
+            .replace("{{icon_svg}}", icon("icon.svg"))
+            .replace("{{icon_apple}}", icon("apple-touch-icon.png"))
+            .replace("{{manifest_v}}", hashlib.md5(json.dumps([icon(n) for n in ("app-192.png", "app-512.png", "app-maskable-512.png")]).encode()).hexdigest()[:10])
             .replace("{{extra_head}}", extra_head)
             .replace("{{page_class}}", page_class)
             .replace("{{scripts}}", scripts)
@@ -659,14 +670,14 @@ def build():
         "start_url": "./index.html?source=app", "scope": "./", "display": "standalone", "orientation": "any",
         "background_color": "#16213a", "theme_color": "#16213a", "lang": "en-GB", "categories": ["education"],
         "icons": [
-            {"src": "assets/img/app-192.png", "sizes": "192x192", "type": "image/png"},
-            {"src": "assets/img/app-512.png", "sizes": "512x512", "type": "image/png"},
-            {"src": "assets/img/app-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+            {"src": icon("app-192.png"), "sizes": "192x192", "type": "image/png", "purpose": "any"},
+            {"src": icon("app-512.png"), "sizes": "512x512", "type": "image/png", "purpose": "any"},
+            {"src": icon("app-maskable-512.png"), "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
         ],
         "shortcuts": [
-            {"name": "Course map", "url": "./map.html", "icons": [{"src": "assets/img/app-192.png", "sizes": "192x192"}]},
-            {"name": "Daily review", "url": "./review.html", "icons": [{"src": "assets/img/app-192.png", "sizes": "192x192"}]},
-            {"name": "Playground", "url": "./playground.html", "icons": [{"src": "assets/img/app-192.png", "sizes": "192x192"}]},
+            {"name": "Course map", "url": "./map.html", "icons": [{"src": icon("app-192.png"), "sizes": "192x192"}]},
+            {"name": "Daily review", "url": "./review.html", "icons": [{"src": icon("app-192.png"), "sizes": "192x192"}]},
+            {"name": "Playground", "url": "./playground.html", "icons": [{"src": icon("app-192.png"), "sizes": "192x192"}]},
         ],
     }, indent=1))
     (OUT / "404.html").write_text(page("Page not found", template("pages/404.html"), depth=0, path="404.html", index=False,

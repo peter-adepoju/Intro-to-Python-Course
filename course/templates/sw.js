@@ -5,7 +5,7 @@ const VERSION = "{{version}}";
 const SITE = "atlas-site-" + VERSION;
 const PYTHON = "atlas-python-v1";
 const CORE = ["./", "index.html", "map.html", "review.html", "playground.html", "offline.html",
-  "assets/css/site.css?v=" + VERSION, "assets/config.js?v=" + VERSION, "assets/img/icon.svg", "assets/img/app-192.png",
+  "assets/css/site.css?v=" + VERSION, "assets/config.js?v=" + VERSION,
   "assets/data/course.json", "assets/data/search.json"];
 
 self.addEventListener("install", (e) => {
@@ -46,5 +46,6 @@ self.addEventListener("fetch", (e) => {
   if (url.origin !== location.origin) return;
   if (req.mode === "navigate" || url.pathname.endsWith(".html") || url.pathname.endsWith("/")) { e.respondWith(networkFirst(req)); return; }
   if (url.pathname.endsWith(".json") && url.pathname.includes("/data/")) { e.respondWith(networkFirst(req)); return; }
+  if (url.pathname.endsWith(".webmanifest") || url.pathname.includes("/img/app-") || url.pathname.includes("/img/apple-touch")) { e.respondWith(networkFirst(req)); return; }
   e.respondWith(cacheFirst(req, SITE));
 });
