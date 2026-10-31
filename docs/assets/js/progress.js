@@ -1,16 +1,36 @@
 // Progress is stored on this device first and copied to your account when signed in.
-import { SITE, today } from "./site.js?v=46337dff29";
+//
+// Each account has its own space on the device, separate from the space used when nobody is
+// signed in. Signing out removes the account's copy from the device (after saving anything
+// unsent), so the next person sees nothing of it. Progress made before signing in is added to
+// the account you sign in to, then cleared from the signed-out space.
+import { SITE, today } from "./site.js?v=c379bb1874";
 
-const KEY = "atlas.progress.v1";
+const GUEST = "atlas.progress.v1";
+const userKey = (id) => "atlas.progress.u." + id;
 const subs = new Set();
-let state = load();
+let KEY = GUEST;
 let client = null;
 let user = null;
 let pushTimer = null;
 const dirty = new Set();
 
-function load() {
-  try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; }
+// Who is signed in, read straight from the saved session so the right progress shows at once.
+(function guessUser() {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (/^sb-.*-auth-token$/.test(k)) {
+        const id = JSON.parse(localStorage.getItem(k))?.user?.id;
+        if (id) KEY = userKey(id);
+      }
+    }
+  } catch { /* no saved session */ }
+})();
+let state = load();
+
+function load(key = KEY) {
+  try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; }
 }
 function save() {
   try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* storage full or blocked */ }
@@ -65,7 +85,7 @@ export const progress = {
 // with a request the browser finishes even after the page has gone. Whenever the page comes
 // back into view, it fetches what other devices have saved.
 
-const DIRTY_KEY = "atlas.progress.dirty";
+const dirtyKey = () => KEY + ".dirty";
 let session = null;
 let pulling = null;
 let lastPull = 0;
@@ -73,10 +93,10 @@ const sync = { status: "off", last: 0, error: "" };
 const syncSubs = new Set();
 
 (function loadDirty() {
-  try { (JSON.parse(localStorage.getItem(DIRTY_KEY)) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ }
+  try { (JSON.parse(localStorage.getItem(dirtyKey())) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ }
 })();
 function saveDirty() {
-  try { localStorage.setItem(DIRTY_KEY, JSON.stringify([...dirty])); } catch { /* ignore */ }
+  try { localStorage.setItem(dirtyKey(), JSON.stringify([...dirty])); } catch { /* ignore */ }
 }
 function setSync(status, error = "") {
   sync.status = status;
@@ -182,6 +202,45 @@ async function pull(force = false) {
   try { await pulling; } finally { pulling = null; }
 }
 
+/** Use the space for this account (or the signed-out space), bringing signed-out progress along. */
+function switchTo(newUser) {
+  const key = newUser ? userKey(newUser.id) : GUEST;
+  if (key !== KEY) {
+    KEY = key;
+    state = load();
+    dirty.clear();
+    try { (JSON.parse(localStorage.getItem(dirtyKey())) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ }
+  }
+  if (newUser) {
+    // Progress made while signed out joins the account, and leaves the signed-out space.
+    const guest = load(GUEST);
+    const keys = Object.keys(guest);
+    if (keys.length) {
+      for (const k of keys) if (!state[k] || state[k].t < guest[k].t) { state[k] = guest[k]; dirty.add(k); }
+      try { localStorage.removeItem(GUEST); localStorage.removeItem(GUEST + ".dirty"); localStorage.removeItem("atlas.progress.dirty"); } catch { /* ignore */ }
+      saveDirty();
+    }
+    save();
+  }
+  emit("*");
+}
+
+/** Sign out: save anything unsent, then remove this account's progress from the device. */
+export async function signOut() {
+  if (!client) return;
+  if (user) {
+    await push();
+    if (dirty.size && !confirm(`${dirty.size} recent change${dirty.size === 1 ? " hasn't" : "s haven't"} reached your account yet (you may be offline). If you sign out now, ${dirty.size === 1 ? "it" : "they"} will be lost. Sign out anyway?`)) return;
+    const mine = KEY;
+    try { localStorage.removeItem(mine); localStorage.removeItem(mine + ".dirty"); } catch { /* ignore */ }
+  }
+  await client.auth.signOut();
+  user = null; session = null;
+  switchTo(null);
+  setSync("off");
+  authSubs.forEach((f) => f(null));
+}
+
 /** Fetch from the account and send anything waiting, now. */
 export async function syncNow() { await pull(true); }
 
@@ -197,14 +256,22 @@ export async function getClient() {
     const was = user && user.id;
     session = s;
     user = s ? s.user : null;
+    if (user && user.id !== was) switchTo(user);
+    if (!user && was) {
+      // Signed out somewhere else (another tab, or the session ended): clear this account's copy.
+      try { localStorage.removeItem(userKey(was)); localStorage.removeItem(userKey(was) + ".dirty"); } catch { /* ignore */ }
+      switchTo(null);
+      setSync("off");
+    }
     authSubs.forEach((f) => f(user));
     if (user && user.id !== was) pull(true);
-    if (!user && was) setSync("off");
   });
   const { data } = await client.auth.getSession();
   session = data.session;
   const was = user && user.id;
   user = session ? session.user : null;
+  if (user && user.id !== was) switchTo(user);
+  if (!user && KEY !== GUEST) switchTo(null); // a saved session that is no longer valid
   authSubs.forEach((f) => f(user));
   if (user && user.id !== was) pull(true);
   return client;
@@ -220,6 +287,6 @@ addEventListener("online", () => pull(true));
 // Another tab on this device saved something: take it from shared storage.
 addEventListener("storage", (e) => {
   if (e.key === KEY) { state = load(); emit("*"); }
-  if (e.key === DIRTY_KEY) { try { (JSON.parse(e.newValue) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ } }
+  if (e.key === dirtyKey()) { try { (JSON.parse(e.newValue) || []).forEach((k) => dirty.add(k)); } catch { /* ignore */ } }
 });
 setInterval(() => { if (document.visibilityState === "visible") pull(); }, 120000);

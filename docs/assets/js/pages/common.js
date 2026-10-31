@@ -1,11 +1,11 @@
 // Runs on every page: account link, streak, review badge and the tutor.
-import { SITE, $, h } from "../site.js?v=46337dff29";
-import { displayName, firstName, avatar } from "../user.js?v=46337dff29";
-import { progress, getClient, onAuth, onSync } from "../progress.js?v=46337dff29";
-import { mountTutor } from "../tutor.js?v=46337dff29";
-import { settings, update as updateSettings, onSettings } from "../settings.js?v=46337dff29";
-import { initSearch } from "../search.js?v=46337dff29";
-import { initInstall, install, onInstallable } from "../install.js?v=46337dff29";
+import { SITE, $, h } from "../site.js?v=c379bb1874";
+import { displayName, firstName, avatar } from "../user.js?v=c379bb1874";
+import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=c379bb1874";
+import { mountTutor } from "../tutor.js?v=c379bb1874";
+import { settings, update as updateSettings, onSettings } from "../settings.js?v=c379bb1874";
+import { initSearch } from "../search.js?v=c379bb1874";
+import { initInstall, install, onInstallable } from "../install.js?v=c379bb1874";
 
 let closeMenu = () => {};
 document.addEventListener("click", (e) => { const slot = document.getElementById("account-slot"); if (slot && !slot.contains(e.target)) closeMenu(); });
@@ -99,7 +99,7 @@ export function initCommon() {
       h("a", { role: "menuitem", href: SITE.root + "account.html" }, "Your profile"),
       h("a", { role: "menuitem", href: SITE.root + "settings.html" }, "Settings"),
       installItem,
-      h("button", { type: "button", role: "menuitem", onclick: async () => { const c = await getClient(); c && c.auth.signOut(); } }, "Sign out"));
+      h("button", { type: "button", role: "menuitem", onclick: () => { closeMenu(); signOut(); } }, "Sign out"));
     const btn = h("button", { type: "button", class: "user-btn", "aria-haspopup": "menu", "aria-expanded": "false" },
       avatar(user), h("span", { class: "user-first" }, firstName(user)),
       h("span", { class: "chev", "aria-hidden": "true", html: '<svg viewBox="0 0 24 24" width="14" height="14" class="ico"><path d="M6 9l6 6 6-6"/></svg>' }));

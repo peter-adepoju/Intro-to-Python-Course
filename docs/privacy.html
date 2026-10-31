@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="site-root" content="">
-<meta name="site-version" content="46337dff29">
+<meta name="site-version" content="c379bb1874">
 <title>Privacy | Python Atlas</title>
 <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
@@ -18,11 +18,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
-<link rel="stylesheet" href="assets/vendor/codemirror.css?v=46337dff29">
-<link rel="stylesheet" href="assets/css/site.css?v=46337dff29">
+<link rel="stylesheet" href="assets/vendor/codemirror.css?v=c379bb1874">
+<link rel="stylesheet" href="assets/css/site.css?v=c379bb1874">
 <script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
-<script src="assets/config.js?v=46337dff29"></script>
-<script src="assets/vendor/codemirror.js?v=46337dff29" defer></script>
+<script src="assets/config.js?v=c379bb1874"></script>
+<script src="assets/vendor/codemirror.js?v=c379bb1874" defer></script>
 <meta name="description" content="What Python Atlas stores about you, where it is kept, and how to delete it.">
 <link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/privacy.html">
 <meta property="og:site_name" content="Python Atlas">
@@ -84,6 +84,7 @@
     <li>your learning progress: the same items listed above, so they appear on every device you use.</li>
   </ul>
   <p>This is stored by our database provider, Supabase. Your password is never visible to us. Each learner can only read and change their own progress.</p>
+  <p>On each device, your account's progress is kept apart from progress made while signed out, and from other accounts. When you sign out, your progress is removed from that device (anything not yet saved to your account is sent first), so the next person to use it sees none of it. Progress you made before signing in is added to the account you sign in to.</p>
 
   <h2>The AI tutor</h2>
   <p>When you ask the tutor a question, we send your question, the name of the lesson you're on, and any code or error you chose to share to an AI service (Google Gemini) to write an answer. Please don't include personal information in tutor questions. On the free service, Google may use these messages to improve its products.</p>
@@ -126,6 +127,6 @@
     <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
   </nav>
 </footer>
-<script type="module" src="assets/js/pages/common.js?v=46337dff29"></script>
+<script type="module" src="assets/js/pages/common.js?v=c379bb1874"></script>
 </body>
 </html>

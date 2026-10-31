@@ -1,6 +1,6 @@
 import "./common.js";
 import { $, h, SITE } from "../site.js";
-import { progress, getClient, onAuth, onSync, syncNow } from "../progress.js";
+import { progress, getClient, onAuth, onSync, syncNow, signOut } from "../progress.js";
 import { displayName, avatar } from "../user.js";
 
 const client = await getClient().catch(() => null);
@@ -110,7 +110,7 @@ if (!client) {
     const { toast } = await import("../site.js");
     toast(error ? "Couldn't save your name. Try again." : "Name saved", error ? "info" : "ok");
   };
-  $("#signout").onclick = () => client.auth.signOut();
+  $("#signout").onclick = () => signOut();
   if (location.hash === "#create") setMode("up");
 }
 

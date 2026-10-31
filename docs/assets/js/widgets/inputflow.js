@@ -1,6 +1,6 @@
 // age = int(input("Age? ")) in slow motion: prompt, wait, text comes back, conversion, name.
-import { h } from "../site.js?v=46337dff29";
-import { py } from "../runtime.js?v=46337dff29";
+import { h } from "../site.js?v=c379bb1874";
+import { py } from "../runtime.js?v=c379bb1874";
 
 export default function inputflow(el) {
   const field = h("input", { class: "w-input", value: "17", style: "width:8em", "aria-label": "What the user types" });
