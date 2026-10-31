@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="16f4a90763">
+<title>Week 16 Day 3: Memoisation | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=16f4a90763">
+<link rel="stylesheet" href="../assets/css/site.css?v=16f4a90763">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=16f4a90763"></script>
+<script src="../assets/vendor/codemirror.js?v=16f4a90763" defer></script>
+<meta name="description" content="Yesterday’s tree recursions were correct but explosive: paths(40) makes hundreds of millions of calls, most of them repeats of calls already made....">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w016d3.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 16 Day 3: Memoisation">
+<meta property="og:description" content="Yesterday’s tree recursions were correct but explosive: paths(40) makes hundreds of millions of calls, most of them repeats of calls already made....">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w016d3.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x=".5" y=".5" width="31" height="31" rx="7.5"/><rect class="bm-frame" x="6.1" y="7.6" width="19.8" height="16.8" rx="3"/><path class="bm-prompt" d="M10.6 13.9l2.6 2.1-2.6 2.1"/><path class="bm-line" d="M15.4 18.4h6"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-16">Week 16: Recursion II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#remembering-answers" data-sec="remembering-answers">Remembering answers</a></li><li><a href="#functools-cache" data-sec="functools-cache">functools.cache</a></li><li><a href="#what-can-be-memoised" data-sec="what-can-be-memoised">What can be memoised</a></li><li><a href="#bottom-up" data-sec="bottom-up">Bottom up</a></li><li><a href="#measuring" data-sec="measuring">Measuring</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w016d3.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-16">Week 16: Recursion II</a></li><li aria-current="page">Day 3 of 6</li></ol>
+      <p class="day-where"><span>Week 16, Day 3</span></p>
+      <h1>Memoisation</h1>
+      <div class="day-intro"><p>Yesterday&rsquo;s tree recursions were correct but explosive: <code>paths(40)</code> makes hundreds of millions of calls, most of them repeats of calls already made. Memoisation fixes that with one idea: remember every answer the first time you work it out, and look it up after that. Today you&rsquo;ll add memoisation by hand with a dictionary, then with Python&rsquo;s <code>functools.cache</code>, and learn the bottom-up alternative, filling in a table from the smallest case upwards.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Spot repeated calls in a call tree, and explain why they make tree recursion slow</li><li>Memoise a recursive function by hand with a dictionary of answers already found</li><li>Use <code>functools.cache</code> (and <code>lru_cache</code>), and say which functions can safely be memoised</li><li>Turn a memoised recursion into a bottom-up table filled with a loop</li><li>Measure the difference in calls and time</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Remembering answers: 25 min"></span><span class="plan-seg s0" style="flex:20" title="functools.cache: 20 min"></span><span class="plan-seg s1" style="flex:20" title="What can be memoised: 20 min"></span><span class="plan-seg s0" style="flex:30" title="Bottom up: 30 min"></span><span class="plan-seg s1" style="flex:15" title="Measuring: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Remembering answers</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">functools.cache</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:55</span><span class="plan-what">What can be memoised</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:15</span><span class="plan-what">Bottom up</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Measuring</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w016d3.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w016d3.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w016d3-p1"><textarea class="pc-src pc-code" hidden>calls = 0
+def fib(n):
+    global calls
+    calls += 1
+    return n if n &lt; 2 else fib(n - 1) + fib(n - 2)
+
+fib(20)
+print(calls)</textarea></div>
+<p>Over 20,000 calls to work out 21 different values (<code>fib(0)</code> to <code>fib(20)</code>). Every value after the first few is worked out hundreds or thousands of times. If each one were worked out <strong>once</strong>, <code>fib(20)</code> would need about 20 calls of real work.</p>
+<h2 id="remembering-answers">Remembering answers</h2>
+<p><strong>Memoisation</strong> (from &ldquo;memo&rdquo;, a note to yourself) means: keep a dictionary from arguments to answers. Before doing any work, look the arguments up; if they&rsquo;re there, return the saved answer. Otherwise work it out, save it, and return it.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d3-e2"><textarea class="pc-src pc-code" hidden>memo = {}
+
+def fib(n):
+    if n in memo:
+        return memo[n]
+    answer = n if n &lt; 2 else fib(n - 1) + fib(n - 2)
+    memo[n] = answer
+    return answer
+
+print(fib(20), fib(90))
+print(len(memo), &quot;answers remembered&quot;)</textarea></div>
+<p><code>fib(90)</code> is instant now, where the plain version would take longer than a lifetime. Step through both and compare the trees:</p>
+<figure class="widget" data-widget="calltree"><script type="application/json">{"code": "memo = {}\n\ndef fib(n):\n    if n in memo:\n        return memo[n]\n    answer = n if n < 2 else fib(n - 1) + fib(n - 2)\n    memo[n] = answer\n    return answer", "call": "fib(6)", "calls": ["fib(6)", "fib(10)"]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>With memoisation, a call that has been made before returns at once: its subtree is never explored again. Compare fib(6) here with yesterday&rsquo;s tree.</figcaption></figure>
+<p>(If you trace twice, the second trace starts with the memo already filled from the first, so it returns at once. Edit the code, or press Trace after changing the call, to start fresh.)</p>
+<p>The memo usually belongs <strong>inside</strong> a function, so separate uses don&rsquo;t share it by accident. A helper does it neatly:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d3-e3"><textarea class="pc-src pc-code" hidden>def count_paths(n):
+    memo = {}
+    def go(k):
+        if k == 0:
+            return 1
+        if k &lt; 0:
+            return 0
+        if k not in memo:
+            memo[k] = go(k - 1) + go(k - 2)
+        return memo[k]
+    return go(n)
+
+print(count_paths(80))</textarea></div>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Memoisation: before working anything out, check a dictionary of answers already found; after working it out, save it there. Each different argument is then worked out exactly once.</p></aside>
+<h2 id="functools-cache">functools.cache</h2>
+<p>Memoisation is so useful that Python has it built in. Put <code>@cache</code> (from the <code>functools</code> module) on the line above the function, and Python keeps the memo dictionary for you:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d3-e4"><textarea class="pc-src pc-code" hidden>from functools import cache
+
+@cache
+def ways(amount, coins):
+    if amount == 0:
+        return 1
+    if amount &lt; 0 or not coins:
+        return 0
+    return ways(amount - coins[0], coins) + ways(amount, coins[1:])
+
+print(ways(200, (1, 2, 5, 10, 20, 50, 100, 200)))</textarea></div>
+<p>The <code>@cache</code> line is a <strong>decorator</strong>: it wraps the function in another that does the looking up and saving. You&rsquo;ll learn to write decorators in Phase 4; for now, use this one.</p>
+<p>Two things to notice in that example. The coins are a <strong>tuple</strong>, not a list: the arguments become a dictionary key, so they must be hashable. And <code>ways(200, ...)</code> (the ways to make two pounds) answers instantly; without the cache it makes over 22 million calls.</p>
+<p><code>lru_cache(maxsize=1000)</code> is the same, but it forgets the least recently used answers once it holds <code>maxsize</code> of them, which matters when there are millions of possible arguments and memory is limited.</p>
+<h2 id="what-can-be-memoised">What can be memoised</h2>
+<p>Memoisation saves the answer the <strong>first</strong> time and returns it ever after. That&rsquo;s only correct when the answer depends on nothing but the arguments:</p>
+<ul>
+<li><strong>Pure functions</strong>: same arguments, same answer, no side effects. <code>fib</code>, <code>ways</code>, <code>routes</code>: perfect.</li>
+<li><strong>Not</strong>: functions that read the time, a file, user input, a random number, or a global variable that changes. A cached <code>roll_dice()</code> would return the same roll for ever.</li>
+<li><strong>Not</strong>: functions whose job is an effect, like printing or appending to a list. The effect would only happen once.</li>
+<li><strong>Arguments must be hashable</strong>: numbers, strings, tuples. Not lists or dictionaries (convert to a tuple first).</li>
+</ul>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>@cache</code> on a function that takes a list fails with <code>TypeError: unhashable type: 'list'</code>. Pass <code>tuple(items)</code> instead, or memoise on something hashable that describes the problem, such as a position in the list.</p></aside>
+<p>A common, efficient pattern is to memoise on <strong>positions</strong> rather than slices: instead of <code>ways(amount, coins[1:])</code>, use <code>ways(amount, i)</code> meaning &ldquo;using coins from position <code>i</code> onwards&rdquo;. Positions are numbers, so they&rsquo;re hashable, and no slices are copied.</p>
+<h2 id="bottom-up">Bottom up</h2>
+<p>Memoisation works <strong>top-down</strong>: start from the big problem, and only the smaller problems that are actually needed get solved. The other way is <strong>bottom-up</strong>: solve the smallest problems first, in a table, then use them to build the next ones, with a plain loop and no recursion.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d3-e5"><textarea class="pc-src pc-code" hidden>def fib_table(n):
+    table = [0, 1] + [0] * max(0, n - 1)
+    for k in range(2, n + 1):
+        table[k] = table[k - 1] + table[k - 2]
+    return table[n]
+
+print(fib_table(90), fib_table(0), fib_table(1))</textarea></div>
+<p>Each entry is filled from entries already filled. This style is called <strong>dynamic programming</strong>, a name Richard Bellman chose in the 1950s; memoisation and bottom-up tables are its two forms.</p>
+<p>Here&rsquo;s counting change bottom-up. <code>table[a]</code> is the number of ways to make amount <code>a</code>; adding coin types one at a time keeps the &ldquo;order doesn&rsquo;t matter&rdquo; rule:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d3-e6"><textarea class="pc-src pc-code" hidden>def ways_table(amount, coins):
+    table = [1] + [0] * amount
+    for coin in coins:
+        for a in range(coin, amount + 1):
+            table[a] += table[a - coin]
+    return table[amount]
+
+print(ways_table(500, [1, 2, 5, 10, 20, 50, 100, 200]))</textarea></div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Top-down (memoised recursion)</th>
+<th>Bottom-up (table)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Written as</td>
+<td>the recursive definition, plus a memo</td>
+<td>a loop filling a table</td>
+</tr>
+<tr>
+<td>Solves</td>
+<td>only the subproblems that are needed</td>
+<td>every subproblem up to n</td>
+</tr>
+<tr>
+<td>Depth</td>
+<td>can hit the recursion limit for large n</td>
+<td>no recursion at all</td>
+</tr>
+<tr>
+<td>Usually easier to</td>
+<td>write first</td>
+<td>make fast and small</td>
+</tr>
+</tbody>
+</table>
+<p>A good habit: write the plain recursion, add <code>@cache</code>, and only write a table if you need to avoid the recursion limit or save memory.</p>
+<h2 id="measuring">Measuring</h2>
+<div class="pc pc-example" data-kind="example" data-id="w016d3-e7"><textarea class="pc-src pc-code" hidden>import time
+from functools import cache
+
+def slow(n):
+    return n if n &lt; 2 else slow(n - 1) + slow(n - 2)
+
+@cache
+def fast(n):
+    return n if n &lt; 2 else fast(n - 1) + fast(n - 2)
+
+for f in (slow, fast):
+    start = time.perf_counter()
+    f(25)
+    print(f.__name__, f&quot;{time.perf_counter() - start:.5f} s&quot;)</textarea></div>
+<p>From exponential to linear: <code>slow(25)</code> makes about 240,000 calls and <code>fast(25)</code> makes 26. The bigger n gets, the more dramatic the gap.</p>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d3-memo_hand" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Memoise by hand</div><div class="pc-prompt"><p>Add memoisation to <code>trib(n)</code> (the tribonacci numbers: each is the sum of the three before, starting 0, 0, 1) with a dictionary, <strong>without</strong> using <code>functools</code>. <code>trib(200)</code> must be quick.</p></div><textarea class="pc-src pc-code" hidden>def trib(n):
+    if n &lt; 2:
+        return 0
+    if n == 2:
+        return 1
+    return trib(n - 1) + trib(n - 2) + trib(n - 3)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;fast and right&quot;
+    assert [trib(n) for n in range(10)] == [0, 0, 1, 1, 2, 4, 7, 13, 24, 44]
+    assert trib(200) % 1000 == 832
+    assert &quot;functools&quot; not in source and &quot;cache&quot; not in source.replace(&quot;memo&quot;, &quot;&quot;)</textarea><textarea class="pc-src pc-solution" hidden>memo = {}
+
+def trib(n):
+    if n in memo:
+        return memo[n]
+    if n &lt; 2:
+        answer = 0
+    elif n == 2:
+        answer = 1
+    else:
+        answer = trib(n - 1) + trib(n - 2) + trib(n - 3)
+    memo[n] = answer
+    return answer</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d3-grid_cache" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Big grids</div><div class="pc-prompt"><p>Use <code>@cache</code> to make <code>routes(rows, cols)</code> (the number of right-and-down routes through a grid, from yesterday) fast enough for a 17 by 17 grid.</p></div><textarea class="pc-src pc-code" hidden>from functools import cache
+
+def routes(rows, cols):
+    if rows == 1 or cols == 1:
+        return 1
+    return routes(rows - 1, cols) + routes(rows, cols - 1)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;big grids&quot;
+    assert routes(3, 3) == 6 and routes(17, 17) == 601080390 and routes(1, 50) == 1
+    assert &quot;@cache&quot; in source or &quot;lru_cache&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>from functools import cache
+
+@cache
+def routes(rows, cols):
+    if rows == 1 or cols == 1:
+        return 1
+    return routes(rows - 1, cols) + routes(rows, cols - 1)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d3-positions" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Positions, not slices</div><div class="pc-prompt"><p>Rewrite <code>ways(amount, coins)</code> so that it memoises on a position: write a helper <code>go(a, i)</code> that counts the ways to make <code>a</code> using coins from position <code>i</code> onwards, decorated with <code>@cache</code>. <code>ways</code> takes a list and must work for <code>ways(200, [1, 2, 5, 10, 20, 50, 100, 200])</code>, the number of ways to make two pounds from British coins.</p></div><textarea class="pc-src pc-code" hidden>from functools import cache</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert ways(10, [1, 2, 5]) == 10
+    assert ways(0, [3]) == 1 and ways(7, []) == 0
+    assert ways(200, [1, 2, 5, 10, 20, 50, 100, 200]) == 73682</textarea><textarea class="pc-src pc-solution" hidden>from functools import cache
+
+def ways(amount, coins):
+    @cache
+    def go(a, i):
+        if a == 0:
+            return 1
+        if a &lt; 0 or i == len(coins):
+            return 0
+        return go(a - coins[i], i) + go(a, i + 1)
+    return go(amount, 0)</textarea><template class="pc-src pc-hint">Define <code>go</code> inside <code>ways</code>, so it can see <code>coins</code>. Base cases: <code>a == 0</code> gives 1; <code>a &lt; 0</code> or <code>i == len(coins)</code> gives 0. Then <code>go(a - coins[i], i) + go(a, i + 1)</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d3-table_climb" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Bottom up</div><div class="pc-prompt"><p>Write <code>climb_table(n, steps)</code> that counts the ways to climb <code>n</code> stairs using any of the step sizes in <code>steps</code> (order matters), bottom-up with a table and no recursion. <code>climb_table(4, [1, 2])</code> is 5.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert climb_table(4, [1, 2]) == 5
+    assert [climb_table(n, [1, 2, 3]) for n in range(8)] == [1, 1, 2, 4, 7, 13, 24, 44]
+    assert climb_table(10, [3, 5]) == 1 and climb_table(0, [2]) == 1
+    assert climb_table(1000, [1, 2]) % 10 ** 6 == 403501
+    assert &quot;climb_table(&quot; not in source.split(&quot;def climb_table&quot;, 1)[1]</textarea><textarea class="pc-src pc-solution" hidden>def climb_table(n, steps):
+    table = [1] + [0] * n
+    for k in range(1, n + 1):
+        table[k] = sum(table[k - s] for s in steps if s &lt;= k)
+    return table[n]</textarea><template class="pc-src pc-hint"><code>table[0] = 1</code> (one way to climb nothing). Then for each <code>k</code> from 1 to <code>n</code>, <code>table[k]</code> is the sum of <code>table[k - s]</code> for each step size <code>s</code> with <code>s &lt;= k</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d3-lcs" data-points="20"><div class="pc-label"><span>Exercise</span><span class="pc-pts">20 points</span></div><div class="pc-title">Longest common subsequence</div><div class="pc-prompt"><p>A <strong>subsequence</strong> of a string keeps some of its characters in order, perhaps with gaps: <code>"ace"</code> is a subsequence of <code>"abcde"</code>. The longest common subsequence of two strings is used in <code>diff</code> tools, spell checkers and DNA comparison. Write <code>lcs_length(a, b)</code> with memoised recursion on positions <code>i</code> and <code>j</code>: if <code>a[i] == b[j]</code>, the answer is 1 plus the answer for <code>i + 1, j + 1</code>; otherwise it&rsquo;s the larger of skipping a character from <code>a</code> or from <code>b</code>.</p></div><textarea class="pc-src pc-code" hidden>from functools import cache</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert lcs_length(&quot;abcde&quot;, &quot;ace&quot;) == 3
+    assert lcs_length(&quot;abc&quot;, &quot;def&quot;) == 0
+    assert lcs_length(&quot;&quot;, &quot;abc&quot;) == 0
+    assert lcs_length(&quot;AGGTAB&quot;, &quot;GXTXAYB&quot;) == 4
+    assert lcs_length(&quot;python&quot; * 30, &quot;typhon&quot; * 30) &gt; 100</textarea><textarea class="pc-src pc-solution" hidden>from functools import cache
+
+def lcs_length(a, b):
+    @cache
+    def go(i, j):
+        if i == len(a) or j == len(b):
+            return 0
+        if a[i] == b[j]:
+            return 1 + go(i + 1, j + 1)
+        return max(go(i + 1, j), go(i, j + 1))
+    return go(0, 0)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w016d3-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A cache that lies</div><div class="pc-prompt"><p><code>next_ticket()</code> should give a new ticket number every time it&rsquo;s called: 1, 2, 3. Someone added <code>@cache</code> to &ldquo;speed it up&rdquo;, and now it gives 1 every time. Fix it.</p></div><textarea class="pc-src pc-code" hidden>from functools import cache
+
+counter = [0]
+
+@cache
+def next_ticket():
+    counter[0] += 1
+    return counter[0]
+
+print(next_ticket(), next_ticket(), next_ticket())</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;new numbers&quot;
+    expect_output(&quot;1 2 3&quot;)</textarea><textarea class="pc-src pc-solution" hidden>counter = [0]
+
+def next_ticket():
+    counter[0] += 1
+    return counter[0]
+
+print(next_ticket(), next_ticket(), next_ticket())</textarea><template class="pc-src pc-hint">A cached function with the same (no) arguments returns its first answer for ever. This function has a side effect, so it mustn&rsquo;t be cached.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w016d3-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Unhashable</div><div class="pc-prompt"><p>This crashes with <code>TypeError: unhashable type: 'list'</code>. Fix it so the call works, without removing the cache.</p></div><textarea class="pc-src pc-code" hidden>from functools import cache
+
+@cache
+def total(values):
+    if not values:
+        return 0
+    return values[0] + total(values[1:])
+
+print(total([3, 4, 5]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;12&quot;
+    expect_output(&quot;12&quot;)
+    assert &quot;@cache&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>from functools import cache
+
+@cache
+def total(values):
+    if not values:
+        return 0
+    return values[0] + total(values[1:])
+
+print(total((3, 4, 5)))</textarea></div>
+<div class="parsons" data-id="w016d3-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Memoised climbing</div><div class="pc-prompt"><p>Arrange the lines for a memoised <code>paths(n)</code>, counting climbs of 1 or 2 stairs at a time. One line is a trap.</p></div><script type="application/json">{"lines": ["memo = {}", "def paths(n):", "    if n <= 1:", "        return 1", "    if n not in memo:", "        memo[n] = paths(n - 1) + paths(n - 2)", "    return memo[n]"], "distractors": ["    memo[n] = paths(n - 1) + paths(n - 2)", "    return paths(n)"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d3-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # with memoisation, how many different values of n does fib(30) work out? (0 to 30 inclusive)
+b = ___   # ways_table(5, [1, 2])
+c = ___   # True or False: a function that returns random.randint(1, 6) is safe to cache
+d = ___   # fib_table(10)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 31 and b == 3 and c is False and d == 55</textarea><textarea class="pc-src pc-solution" hidden>a = 31
+b = 3
+c = False
+d = 55</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w016d3-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is memoisation?", "answer": 1, "explain": "Each different argument is worked out once.", "options": ["Writing notes in code", "Saving each answer the first time it&rsquo;s worked out, and looking it up after that", "Running code twice", "A kind of loop"]}, {"type": "mc", "q": "Why is plain recursive fib slow?", "answer": 1, "explain": "Repeated subproblems.", "options": ["Addition is slow", "It works out the same values again and again", "Recursion is always slow", "The numbers are big"]}, {"type": "mc", "q": "What does <code>@cache</code> need of the arguments?", "answer": 1, "explain": "They become dictionary keys.", "options": ["Nothing", "They must be hashable", "They must be numbers", "There must be one"]}, {"type": "mc", "q": "Which function is safe to memoise?", "answer": 2, "explain": "Same arguments, same answer, no side effects.", "options": ["One that prints", "One that reads the time", "One that returns the number of routes through a grid", "One that rolls a dice"]}, {"type": "mc", "q": "What does bottom-up mean?", "answer": 1, "explain": "No recursion needed.", "options": ["Recursion from the top", "Filling a table from the smallest cases upwards with a loop", "Sorting backwards", "Reading code from the bottom"]}, {"type": "mc", "q": "What advantage does bottom-up have over memoised recursion?", "answer": 1, "explain": "It&rsquo;s just a loop.", "options": ["It&rsquo;s always shorter", "It can&rsquo;t hit the recursion limit", "It solves fewer subproblems", "None"]}, {"type": "mc", "q": "What&rsquo;s <code>lru_cache(maxsize=1000)</code> for?", "answer": 1, "explain": "Limits memory.", "options": ["Faster than cache", "Keeping at most 1000 answers, forgetting the least recently used", "Caching lists", "Counting calls"]}, {"type": "text", "q": "What name covers both memoisation and bottom-up tables?", "answer": ["dynamic programming"], "explain": "Richard Bellman&rsquo;s term."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d3-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: edit distance</div><div class="pc-prompt"><p>The <strong>edit distance</strong> (Levenshtein distance) between two words is the fewest single-character edits (insert, delete or replace a character) that turn one into the other. &ldquo;kitten&rdquo; to &ldquo;sitting&rdquo; takes 3: replace k with s, replace e with i, insert g. Spell checkers use it to suggest the nearest real word. Write <code>edit_distance(a, b)</code> with memoised recursion on positions, then <code>closest(word, dictionary)</code> that returns the dictionary word with the smallest edit distance from <code>word</code> (the alphabetically first if tied).</p>
+<p>The rule, for positions <code>i</code> in <code>a</code> and <code>j</code> in <code>b</code>: if either word is used up, the answer is the number of characters left in the other. If <code>a[i] == b[j]</code>, the answer is the answer for <code>i + 1, j + 1</code>. Otherwise it&rsquo;s 1 plus the smallest of: delete (<code>i + 1, j</code>), insert (<code>i, j + 1</code>), replace (<code>i + 1, j + 1</code>).</p></div><textarea class="pc-src pc-code" hidden>from functools import cache</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;distances&quot;
+    assert edit_distance(&quot;kitten&quot;, &quot;sitting&quot;) == 3
+    assert edit_distance(&quot;&quot;, &quot;abc&quot;) == 3 and edit_distance(&quot;abc&quot;, &quot;abc&quot;) == 0
+    assert edit_distance(&quot;flaw&quot;, &quot;lawn&quot;) == 2
+    assert edit_distance(&quot;intention&quot;, &quot;execution&quot;) == 5
+def test_closest():
+    &quot;closest&quot;
+    words = [&quot;python&quot;, &quot;pythons&quot;, &quot;typhoon&quot;, &quot;pylon&quot;, &quot;piston&quot;]
+    assert closest(&quot;pythn&quot;, words) == &quot;python&quot;
+    assert closest(&quot;pyton&quot;, words) == &quot;pylon&quot;
+    assert closest(&quot;pistol&quot;, words) == &quot;piston&quot;
+    assert closest(&quot;pylo&quot;, words) == &quot;pylon&quot;</textarea><textarea class="pc-src pc-solution" hidden>from functools import cache
+
+def edit_distance(a, b):
+    @cache
+    def go(i, j):
+        if i == len(a):
+            return len(b) - j
+        if j == len(b):
+            return len(a) - i
+        if a[i] == b[j]:
+            return go(i + 1, j + 1)
+        return 1 + min(go(i + 1, j), go(i, j + 1), go(i + 1, j + 1))
+    return go(0, 0)
+
+def closest(word, dictionary):
+    return min(dictionary, key=lambda w: (edit_distance(word, w), w))</textarea></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Take two tree-recursive functions from yesterday and add <code>@cache</code> to each; then write one of them bottom-up with a table. Time all three versions on a big input. Tomorrow: permutations and subsets, where the number of answers really is enormous, and no cache can help.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w016d2.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w016d3", "week": 16, "day": 3, "title": "Memoisation", "exercises": [{"id": "w016d3-memo_hand", "title": "Memoise by hand", "points": 10}, {"id": "w016d3-grid_cache", "title": "Big grids", "points": 10}, {"id": "w016d3-positions", "title": "Positions, not slices", "points": 15}, {"id": "w016d3-table_climb", "title": "Bottom up", "points": 15}, {"id": "w016d3-lcs", "title": "Longest common subsequence", "points": 20}, {"id": "w016d3-bug1", "title": "A cache that lies", "points": 10}, {"id": "w016d3-bug2", "title": "Unhashable", "points": 10}, {"id": "w016d3-trace", "title": "Predict them", "points": 15}, {"id": "w016d3-challenge", "title": "Challenge: edit distance", "points": 25}], "points": 130}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=16f4a90763"></script>
+</body>
+</html>
