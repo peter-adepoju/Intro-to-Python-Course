@@ -1,7 +1,7 @@
-import "./common.js?v=2cd5801d38";
-import { $, h, SITE } from "../site.js?v=2cd5801d38";
-import { progress } from "../progress.js?v=2cd5801d38";
-import { renderQuestion } from "../quiz.js?v=2cd5801d38";
+import "./common.js?v=e25f86ac0b";
+import { $, h, SITE } from "../site.js?v=e25f86ac0b";
+import { progress } from "../progress.js?v=e25f86ac0b";
+import { renderQuestion } from "../quiz.js?v=e25f86ac0b";
 
 const cards = await (await fetch(SITE.root + "assets/data/cards.json")).json();
 const byId = new Map(cards.map((c) => [c.id, c]));
