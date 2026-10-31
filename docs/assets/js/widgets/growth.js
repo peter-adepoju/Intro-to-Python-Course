@@ -1,6 +1,6 @@
 // Growth rates: how many steps each kind of algorithm takes as n grows, and roughly how long
 // that would take in Python. Doubling n shows the pattern that names each class.
-import { h } from "../site.js?v=ebb833fa95";
+import { h } from "../site.js?v=f2aeea61be";
 
 const CURVES = {
   "1": { name: "constant, O(1)", f: () => 1, eg: "look up a list item by index" },

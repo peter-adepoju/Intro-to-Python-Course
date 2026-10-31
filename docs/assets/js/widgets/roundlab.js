@@ -1,6 +1,6 @@
 // round, int, floor and ceil on a number line. Python computes every value.
-import { h, svg } from "../site.js?v=ebb833fa95";
-import { py } from "../runtime.js?v=ebb833fa95";
+import { h, svg } from "../site.js?v=f2aeea61be";
+import { py } from "../runtime.js?v=f2aeea61be";
 
 export default function roundlab(el, { start = 2.5 } = {}) {
   const slider = h("input", { type: "range", min: -4, max: 4, step: 0.1, value: start, style: "flex:1", "aria-label": "x" });

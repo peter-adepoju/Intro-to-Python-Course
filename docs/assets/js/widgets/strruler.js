@@ -1,6 +1,6 @@
 // The string ruler: positive and negative indices, and slices you can drag. Python checks every answer.
-import { h } from "../site.js?v=ebb833fa95";
-import { py } from "../runtime.js?v=ebb833fa95";
+import { h } from "../site.js?v=f2aeea61be";
+import { py } from "../runtime.js?v=f2aeea61be";
 
 export default function strruler(el, { text = "Python", mode = "slice" } = {}) {
   const tIn = h("input", { class: "w-input", value: text, spellcheck: "false", style: "width:12em", "aria-label": "The string" });

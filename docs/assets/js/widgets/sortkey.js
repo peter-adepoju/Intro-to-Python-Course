@@ -1,6 +1,6 @@
 // Sort lab: a list, a key expression, and the result, with every item's key shown beside it.
-import { h } from "../site.js?v=ebb833fa95";
-import { py } from "../runtime.js?v=ebb833fa95";
+import { h } from "../site.js?v=f2aeea61be";
+import { py } from "../runtime.js?v=f2aeea61be";
 
 export default function sortkey(el, { items = '["banana", "Fig", "apple", "Cherry", "kiwi"]', key = "x.lower()", keys = ["x", "len(x)", "x.lower()", "x[-1]", "(len(x), x.lower())", "-len(x)"] } = {}) {
   const itIn = h("input", { class: "w-input", value: items, spellcheck: "false", style: "flex:1 1 280px", "aria-label": "Items" });

@@ -1,5 +1,5 @@
 // How a signed-in learner is shown: name and avatar.
-import { h } from "./site.js?v=ebb833fa95";
+import { h } from "./site.js?v=f2aeea61be";
 
 export function displayName(user) {
   if (!user) return "";

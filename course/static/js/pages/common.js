@@ -76,7 +76,7 @@ export function initCommon() {
     const st = $("#streak");
     if (st) { st.hidden = s < 1; st.textContent = `${s}-day streak`; }
     const due = progress.all("srs:").filter(([, v]) => v.due <= Date.now()).length;
-    for (const b of [$("#tab-due"), $("#dd-due")]) if (b) { b.hidden = !due; b.textContent = due > 99 ? "99+" : due; }
+    for (const b of [$("#due-badge"), $("#tab-due")]) if (b) { b.hidden = !due; b.textContent = due > 99 ? "99+" : due; }
   };
   refresh();
   progress.subscribe(() => { refresh(); setContinue(); });

@@ -1,6 +1,6 @@
 // Truth-table builder: type a condition using a, b and c, and see its value for every combination.
-import { h } from "../site.js?v=ebb833fa95";
-import { py } from "../runtime.js?v=ebb833fa95";
+import { h } from "../site.js?v=f2aeea61be";
+import { py } from "../runtime.js?v=f2aeea61be";
 
 export default function truthtable(el, { expr = "a and b", tries = ["a and b", "a or b", "not a", "not (a and b)", "not a or not b", "a and not b or b and not a"], compare = "" } = {}) {
   const input = h("input", { class: "w-input", value: expr, spellcheck: "false", style: "flex:1 1 260px", "aria-label": "Condition" });

@@ -1,5 +1,5 @@
 // Every arithmetic operator at once: drag the numbers and watch all the results change.
-import { h } from "../site.js?v=ebb833fa95";
+import { h } from "../site.js?v=f2aeea61be";
 
 // Python's rules, not JavaScript's: // rounds down, % takes the sign of the divisor.
 const pyFloorDiv = (a, b) => Math.floor(a / b);

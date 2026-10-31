@@ -1,6 +1,6 @@
 // Sorting, step by step: bars for the values, the two being compared, swaps and the part known
 // to be sorted. Counts comparisons and moves so the algorithms can be compared on the same data.
-import { h } from "../site.js?v=ebb833fa95";
+import { h } from "../site.js?v=f2aeea61be";
 
 function framesFor(algo, start) {
   const a = start.slice(), out = [];

@@ -1,7 +1,7 @@
 // Comprehension lab: build a list comprehension from its parts, see the loop it stands for,
 // and follow each item through the condition and the expression.
-import { h } from "../site.js?v=ebb833fa95";
-import { py } from "../runtime.js?v=ebb833fa95";
+import { h } from "../site.js?v=f2aeea61be";
+import { py } from "../runtime.js?v=f2aeea61be";
 
 const PRESETS = [
   ["n * n", "n", "range(1, 7)", ""],
