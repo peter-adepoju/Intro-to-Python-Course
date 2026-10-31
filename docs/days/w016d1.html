@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="site-root" content="../">
+<meta name="site-version" content="66b439a87a">
+<title>Week 16 Day 1: Divide and conquer | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=66b439a87a">
+<link rel="stylesheet" href="../assets/css/site.css?v=66b439a87a">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=66b439a87a"></script>
+<script src="../assets/vendor/codemirror.js?v=66b439a87a" defer></script>
+<meta name="description" content="Last week’s recursion mostly peeled off one item at a time: the first, and the rest. Divide and conquer splits a problem into halves instead, solves each...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w016d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 16 Day 1: Divide and conquer">
+<meta property="og:description" content="Last week’s recursion mostly peeled off one item at a time: the first, and the rest. Divide and conquer splits a problem into halves instead, solves each...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w016d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="5" width="26" height="22" rx="4" class="bm-frame"/><path d="M8 13h4M8 19h9" class="bm-line"/><path d="M5 16l3-2.2v4.4z" class="bm-ptr"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <a href="../map.html">Course map</a>
+    <a href="../playground.html">Playground</a>
+    <a href="../review.html">Review <span class="badge" id="due-badge" hidden></span></a>
+    <a href="../guide.html">How it works</a>
+  </nav>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <a class="gear" href="../settings.html" title="Settings" aria-label="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-16">Week 16: Recursion II</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#divide-conquer-combine" data-sec="divide-conquer-combine">Divide, conquer, combine</a></li><li><a href="#binary-search" data-sec="binary-search">Binary search</a></li><li><a href="#merge-sort" data-sec="merge-sort">Merge sort</a></li><li><a href="#how-deep-does-it-go" data-sec="how-deep-does-it-go">How deep does it go?</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w016d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <p class="day-where">Phase 2: Thinking like a programmer <span>Week 16, Day 1</span></p>
+      <h1>Divide and conquer</h1>
+      <div class="day-intro"><p>Last week&rsquo;s recursion mostly peeled off one item at a time: the first, and the rest. Divide and conquer splits a problem into halves instead, solves each half recursively, and combines the two answers. It&rsquo;s the idea behind the fastest sorting algorithms, binary search, and much of how computers handle large problems. Today you&rsquo;ll learn its three steps and use them on searching, sorting and more.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Describe the three steps of divide and conquer, divide, conquer and combine</li><li>Split a list into halves and solve a problem on each half recursively</li><li>Write recursive binary search, passing the part still to search as bounds</li><li>Write merge sort, and explain why splitting in half keeps the recursion shallow</li><li>Design the combine step for a new problem</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Divide, conquer, combine: 25 min"></span><span class="plan-seg s0" style="flex:30" title="Binary search: 30 min"></span><span class="plan-seg s1" style="flex:35" title="Merge sort: 35 min"></span><span class="plan-seg s0" style="flex:20" title="How deep does it go?: 20 min"></span><span class="plan-seg s1" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s0" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Divide, conquer, combine</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Binary search</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:05</span><span class="plan-what">Merge sort</span><span class="plan-min">35 min</span></li><li><span class="plan-at">1:40</span><span class="plan-what">How deep does it go?</span><span class="plan-min">20 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w016d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w016d1.ipynb" download>download it</a>. Exercises today are worth 115 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<p>Think of a number from 1 to 1,000. If I may ask &ldquo;is it bigger than&hellip;?&rdquo;, how many questions do I need, at most? Not 1,000, and not 500: <strong>10</strong>. Each question halves the numbers still possible: 1,000, 500, 250, 125, 63, 32, 16, 8, 4, 2, 1. Halving shrinks problems astonishingly fast, and that&rsquo;s the power behind today&rsquo;s idea.</p>
+<div class="pc pc-predict" data-kind="predict" data-id="w016d1-p1"><textarea class="pc-src pc-code" hidden>n, steps = 1000, 0
+while n &gt; 1:
+    n = (n + 1) // 2
+    steps += 1
+print(steps)</textarea></div>
+<h2 id="divide-conquer-combine">Divide, conquer, combine</h2>
+<p><strong>Divide and conquer</strong> solves a problem in three steps:</p>
+<ol>
+<li><strong>Divide</strong> it into smaller problems of the same kind, usually two halves.</li>
+<li><strong>Conquer</strong> each smaller problem recursively (the leap of faith again). Very small problems are solved directly: the base case.</li>
+<li><strong>Combine</strong> the answers to the smaller problems into the answer for the whole.</li>
+</ol>
+<p>Here&rsquo;s the largest item of a list, divided and conquered:</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d1-e2"><textarea class="pc-src pc-code" hidden>def largest(items):
+    if len(items) == 1:
+        return items[0]
+    mid = len(items) // 2
+    left = largest(items[:mid])
+    right = largest(items[mid:])
+    return left if left &gt; right else right
+
+print(largest([3, 9, 4, 1, 7, 2, 8]))</textarea></div>
+<p>The combine step is easy here: the largest of the whole list is the larger of the two halves&rsquo; largests. Step through it and see the tree of calls, two branches at each level:</p>
+<figure class="widget" data-widget="calltree"><script type="application/json">{"code": "def largest(items):\n    if len(items) == 1:\n        return items[0]\n    mid = len(items) // 2\n    left = largest(items[:mid])\n    right = largest(items[mid:])\n    return left if left > right else right", "call": "largest([3, 9, 4, 1, 7, 2, 8])", "calls": ["largest([3, 9, 4, 1, 7, 2, 8])", "largest([5])", "largest([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])"]}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Each call splits its list in two and waits for both halves. The tree is only about log2(n) levels deep, however long the list.</figcaption></figure>
+<p>For finding the largest, a loop is simpler and just as fast. Divide and conquer earns its keep when the halves make the problem <strong>easier</strong>, as in the next two sections.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Divide and conquer: split the problem (usually in half), solve each part recursively, and combine the answers. The hard part, and the part to think about first, is usually the <strong>combine</strong> step.</p></aside>
+<h2 id="binary-search">Binary search</h2>
+<p>To find a value in a <strong>sorted</strong> list, look at the middle item. If it&rsquo;s the one, done. If the target is smaller, it can only be in the left half; if larger, only in the right half. Search that half the same way. This is <strong>binary search</strong>, the number game from the warm-up, on a list.</p>
+<p>Copying half the list each time would waste the speed, so instead pass the <strong>bounds</strong> of the part still to search: <code>lo</code> and <code>hi</code>, the first and last positions it could be in.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d1-e3"><textarea class="pc-src pc-code" hidden>def search(items, target, lo=0, hi=None):
+    &quot;&quot;&quot;The position of target in the sorted list, or -1.&quot;&quot;&quot;
+    if hi is None:
+        hi = len(items) - 1
+    if lo &gt; hi:
+        return -1
+    mid = (lo + hi) // 2
+    if items[mid] == target:
+        return mid
+    if target &lt; items[mid]:
+        return search(items, target, lo, mid - 1)
+    return search(items, target, mid + 1, hi)
+
+primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+print(search(primes, 31), search(primes, 2), search(primes, 47), search(primes, 20))</textarea></div>
+<p>The base case is <code>lo &gt; hi</code>: the part still to search is empty, so the target isn&rsquo;t there. Each call halves the part left, so a million sorted items take at most 20 calls. Here, there&rsquo;s no combine step at all: only one half needs searching.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Binary search only works on <strong>sorted</strong> data. On an unsorted list it quietly gives wrong answers, because &ldquo;the target must be in the left half&rdquo; is no longer true. You&rsquo;ll study it, and its famously tricky off-by-one details, in Week 18.</p></aside>
+<h2 id="merge-sort">Merge sort</h2>
+<p>Here&rsquo;s divide and conquer at its most powerful. To sort a list:</p>
+<ol>
+<li><strong>Divide</strong> it into two halves.</li>
+<li><strong>Conquer</strong>: sort each half (recursively).</li>
+<li><strong>Combine</strong>: <strong>merge</strong> the two sorted halves into one sorted list, which you did in the Phase 1 exam: repeatedly take the smaller of the two front items.</li>
+</ol>
+<p>A list of 0 or 1 items is already sorted: the base case.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d1-e4"><textarea class="pc-src pc-code" hidden>def merge(a, b):
+    result, i, j = [], 0, 0
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            result.append(a[i])
+            i += 1
+        else:
+            result.append(b[j])
+            j += 1
+    return result + a[i:] + b[j:]
+
+def merge_sort(items):
+    if len(items) &lt;= 1:
+        return list(items)
+    mid = len(items) // 2
+    return merge(merge_sort(items[:mid]), merge_sort(items[mid:]))
+
+print(merge_sort([38, 27, 43, 3, 9, 82, 10]))</textarea></div>
+<p>This is <strong>merge sort</strong>, invented by John von Neumann in 1945. It sorts a million items in about 20 million steps, where the simple sorts you&rsquo;ll meet in Week 18 need around a million million. Week 19 looks at exactly why; for now, notice the shape. The hard work happens in the <strong>combine</strong> step, and it&rsquo;s easy only because the halves are already sorted.</p>
+<h2 id="how-deep-does-it-go">How deep does it go?</h2>
+<p>Halving is what keeps divide and conquer practical. Each level of calls halves the size, so the depth of the recursion is about <strong>log2(n)</strong>: the number of times you can halve n before reaching 1.</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>levels (about log2 n)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8</td>
+<td>3</td>
+</tr>
+<tr>
+<td>1,000</td>
+<td>10</td>
+</tr>
+<tr>
+<td>1,000,000</td>
+<td>20</td>
+</tr>
+<tr>
+<td>1,000,000,000</td>
+<td>30</td>
+</tr>
+</tbody>
+</table>
+<p>So divide and conquer never gets anywhere near Python&rsquo;s recursion limit: a billion items need only 30 levels. Compare last week&rsquo;s <code>items[0] + total(items[1:])</code>, which needed one level per item.</p>
+<div class="pc pc-example" data-kind="example" data-id="w016d1-e5"><textarea class="pc-src pc-code" hidden>import math
+for n in [8, 1000, 10 ** 6, 10 ** 9]:
+    print(f&quot;{n:&gt;13,}  {math.ceil(math.log2(n))} levels&quot;)</textarea></div>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d1-dc_sum" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Sum by halves</div><div class="pc-prompt"><p>Write <code>dc_sum(items)</code> that adds up a list by divide and conquer: split in half, add up each half recursively, and add the two results. The empty list sums to 0.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert dc_sum([3, 9, 4, 1, 7]) == 24 and dc_sum([]) == 0 and dc_sum([5]) == 5
+    assert dc_sum(list(range(10000))) == sum(range(10000))
+    import re
+    assert not re.search(r&quot;\bsum\(&quot;, source) and &quot;for &quot; not in source and &quot;while &quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def dc_sum(items):
+    if not items:
+        return 0
+    if len(items) == 1:
+        return items[0]
+    mid = len(items) // 2
+    return dc_sum(items[:mid]) + dc_sum(items[mid:])</textarea><template class="pc-src pc-hint">You need two base cases: an empty list gives 0, and a one-item list gives its item (otherwise a one-item list splits into an empty half and itself, for ever).</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d1-dc_count" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Count by halves</div><div class="pc-prompt"><p>Write <code>dc_count(items, target)</code> that counts how many times <code>target</code> appears, by divide and conquer, passing bounds <code>lo</code> and <code>hi</code> instead of slicing.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert dc_count([1, 2, 1, 1, 3], 1) == 3 and dc_count([], 1) == 0 and dc_count([2], 2) == 1 and dc_count([2], 3) == 0
+    assert dc_count(list(range(5000)) * 2, 7) == 2
+    assert &quot;.count(&quot; not in source and &quot;for &quot; not in source and &quot;while &quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def dc_count(items, target, lo=0, hi=None):
+    if hi is None:
+        hi = len(items)
+    if hi - lo == 0:
+        return 0
+    if hi - lo == 1:
+        return 1 if items[lo] == target else 0
+    mid = (lo + hi) // 2
+    return dc_count(items, target, lo, mid) + dc_count(items, target, mid, hi)</textarea><template class="pc-src pc-hint"><code>def dc_count(items, target, lo=0, hi=None)</code>, with <code>hi</code> meaning &ldquo;one past the last position&rdquo; (<code>len(items)</code> to start). If <code>hi - lo</code> is 0, return 0; if it&rsquo;s 1, compare <code>items[lo]</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d1-bsearch" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">First position</div><div class="pc-prompt"><p>Write <code>first_at_least(items, target)</code> for a <strong>sorted</strong> list: the position of the first item that&rsquo;s greater than or equal to <code>target</code>, or <code>len(items)</code> if there isn&rsquo;t one. Use recursive binary search with bounds. (This is where <code>target</code> would be inserted to keep the list sorted.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    v = [1, 3, 3, 3, 7, 9]
+    assert [first_at_least(v, t) for t in (0, 1, 2, 3, 4, 9, 10)] == [0, 0, 1, 1, 4, 5, 6]
+    assert first_at_least([], 5) == 0
+    import bisect
+    big = list(range(0, 100000, 3))
+    assert all(first_at_least(big, t) == bisect.bisect_left(big, t) for t in range(-2, 100002, 997))
+    assert &quot;bisect&quot; not in source and &quot;for &quot; not in source and &quot;while &quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def first_at_least(items, target, lo=0, hi=None):
+    if hi is None:
+        hi = len(items)
+    if lo == hi:
+        return lo
+    mid = (lo + hi) // 2
+    if items[mid] &lt; target:
+        return first_at_least(items, target, mid + 1, hi)
+    return first_at_least(items, target, lo, mid)</textarea><template class="pc-src pc-hint">Search between <code>lo</code> and <code>hi</code> (one past the end). If <code>lo == hi</code>, that&rsquo;s the answer. Otherwise look at <code>mid</code>: if <code>items[mid] &lt; target</code>, the answer is to the right of mid; otherwise it&rsquo;s mid or something to its left, so keep mid in the range: search <code>lo</code> to <code>mid</code>.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d1-msort" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Merge sort, by key</div><div class="pc-prompt"><p>Write <code>merge_sort(items, key)</code> that sorts a list using merge sort, comparing <code>key(item)</code> instead of the items themselves, and keeping items with equal keys in their original order (a <strong>stable</strong> sort). Use <code>&lt;=</code> in the merge so that, on a tie, the item from the left half comes first. Don&rsquo;t use <code>sort</code> or <code>sorted</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    words = [&quot;pear&quot;, &quot;Fig&quot;, &quot;apple&quot;, &quot;kiwi&quot;, &quot;date&quot;, &quot;banana&quot;]
+    assert merge_sort(words, len) == [&quot;Fig&quot;, &quot;pear&quot;, &quot;kiwi&quot;, &quot;date&quot;, &quot;apple&quot;, &quot;banana&quot;]
+    assert merge_sort([3, 1, 2], lambda x: -x) == [3, 2, 1]
+    assert merge_sort([], len) == []
+    import random
+    r = random.Random(4)
+    data = [(r.randint(0, 9), i) for i in range(500)]
+    assert merge_sort(data, lambda p: p[0]) == sorted(data, key=lambda p: p[0])
+    assert &quot;sort(&quot; not in source.replace(&quot;merge_sort(&quot;, &quot;&quot;) and &quot;sorted(&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def merge_sort(items, key):
+    if len(items) &lt;= 1:
+        return list(items)
+    mid = len(items) // 2
+    left = merge_sort(items[:mid], key)
+    right = merge_sort(items[mid:], key)
+    result, i, j = [], 0, 0
+    while i &lt; len(left) and j &lt; len(right):
+        if key(left[i]) &lt;= key(right[j]):
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    return result + left[i:] + right[j:]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d1-minmax" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Both at once</div><div class="pc-prompt"><p>Write <code>min_max(items)</code> that returns a tuple <code>(smallest, largest)</code> of a non-empty list by divide and conquer, combining the two halves&rsquo; tuples. Raise a <code>ValueError</code> for an empty list.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert min_max([3, 9, 4, 1, 7]) == (1, 9) and min_max([5]) == (5, 5) and min_max([2, 1]) == (1, 2)
+    try:
+        min_max([])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError(&quot;an empty list should raise a ValueError&quot;)
+    import re
+    assert not re.search(r&quot;\b(min|max)\(&quot;, source), &quot;don&#x27;t use min or max&quot;</textarea><textarea class="pc-src pc-solution" hidden>def min_max(items):
+    if not items:
+        raise ValueError(&quot;no items&quot;)
+    if len(items) == 1:
+        return items[0], items[0]
+    mid = len(items) // 2
+    lo1, hi1 = min_max(items[:mid])
+    lo2, hi2 = min_max(items[mid:])
+    return (lo1 if lo1 &lt; lo2 else lo2), (hi1 if hi1 &gt; hi2 else hi2)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w016d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">It never ends</div><div class="pc-prompt"><p>This binary search goes into infinite recursion (a <code>RecursionError</code>) when the target isn&rsquo;t in the list, and sometimes even when it is. Fix the two recursive calls.</p></div><textarea class="pc-src pc-code" hidden>def search(items, target, lo=0, hi=None):
+    if hi is None:
+        hi = len(items) - 1
+    if lo &gt; hi:
+        return -1
+    mid = (lo + hi) // 2
+    if items[mid] == target:
+        return mid
+    if target &lt; items[mid]:
+        return search(items, target, lo, mid)
+    return search(items, target, mid, hi)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;found and not found&quot;
+    v = [2, 4, 6, 8, 10]
+    assert [search(v, t) for t in (2, 4, 6, 8, 10)] == [0, 1, 2, 3, 4]
+    assert search(v, 5) == -1 and search(v, 11) == -1 and search([], 1) == -1</textarea><textarea class="pc-src pc-solution" hidden>def search(items, target, lo=0, hi=None):
+    if hi is None:
+        hi = len(items) - 1
+    if lo &gt; hi:
+        return -1
+    mid = (lo + hi) // 2
+    if items[mid] == target:
+        return mid
+    if target &lt; items[mid]:
+        return search(items, target, lo, mid - 1)
+    return search(items, target, mid + 1, hi)</textarea><template class="pc-src pc-hint">After checking <code>mid</code>, it can&rsquo;t be the answer, so leave it out of the next search: <code>mid - 1</code> and <code>mid + 1</code>.</template></div>
+<div class="parsons" data-id="w016d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Merge sort</div><div class="pc-prompt"><p>Arrange the lines for <code>merge_sort</code>, given a working <code>merge</code>. One line is a trap.</p></div><script type="application/json">{"lines": ["def merge_sort(items):", "    if len(items) <= 1:", "        return items", "    mid = len(items) // 2", "    left = merge_sort(items[:mid])", "    right = merge_sort(items[mid:])", "    return merge(left, right)"], "distractors": ["    return left + right"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # the most calls binary search makes on a sorted list of 1,000 items (base case included): 10, 11, 500 or 1000?
+b = ___   # merge([1, 5, 9], [2, 3, 10])
+c = ___   # how many levels of calls deep does merge_sort go for a list of 16 items, counting the first call as level 1?
+d = ___   # search([1, 3, 5, 7], 7): how many calls, counting the first?</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 11
+    assert b == [1, 2, 3, 5, 9, 10]
+    assert c == 5
+    assert d == 3</textarea><textarea class="pc-src pc-solution" hidden>a = 11
+b = [1, 2, 3, 5, 9, 10]
+c = 5
+d = 3</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w016d1-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What are the three steps of divide and conquer?", "answer": 1, "explain": "The combine step is usually the hard one.", "options": ["Read, process, write", "Divide, conquer, combine", "Split, sort, search", "Plan, code, test"]}, {"type": "mc", "q": "How many questions find a number from 1 to 1,000 by halving?", "answer": 2, "explain": "2 to the 10 is 1,024.", "options": ["1,000", "500", "About 10", "2"]}, {"type": "mc", "q": "Why pass <code>lo</code> and <code>hi</code> in binary search instead of slicing?", "answer": 1, "explain": "Bounds describe the part still to search, without copying.", "options": ["Slicing is wrong", "Slicing copies half the list each time, which would waste the speed", "It&rsquo;s shorter", "Python requires it"]}, {"type": "mc", "q": "What must be true for binary search to work?", "answer": 1, "explain": "Otherwise &lsquo;it must be in this half&rsquo; is false.", "options": ["The list is short", "The list is sorted", "The list has no duplicates", "The target is in it"]}, {"type": "mc", "q": "In merge sort, where does the real work happen?", "answer": 2, "explain": "Combine.", "options": ["Dividing", "The base case", "Merging the sorted halves", "Choosing mid"]}, {"type": "mc", "q": "About how deep does divide and conquer recurse on a million items?", "answer": 2, "explain": "log2 of a million is about 20.", "options": ["A million levels", "1,000 levels", "About 20 levels", "2 levels"]}, {"type": "mc", "q": "What makes a sort stable?", "answer": 1, "explain": "Merge sort with <code>&lt;=</code> in the merge is stable.", "options": ["It&rsquo;s fast", "Items with equal keys keep their original order", "It never crashes", "It sorts in place"]}, {"type": "mc", "q": "What&rsquo;s the base case of merge sort?", "answer": 1, "explain": "Nothing to sort.", "options": ["An empty list only", "A list of 0 or 1 items, already sorted", "A list of 2 items", "A sorted list"]}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w016d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: the best stretch</div><div class="pc-prompt"><p>Given daily profits and losses, what&rsquo;s the best total you could have made over any stretch of <strong>consecutive</strong> days (at least one day)? For <code>[2, -5, 6, -2, 3, -9, 4]</code> it&rsquo;s 7 (days 2 to 4: 6 - 2 + 3). Solve it by divide and conquer: the best stretch is entirely in the left half, entirely in the right half, or it <strong>crosses the middle</strong>. The first two are recursive calls. For the crossing one, find the best total ending exactly at the middle (going left from it) and the best total starting just after it (going right), and add them. Write <code>best_stretch(values)</code>, raising a <code>ValueError</code> for an empty list.</p>
+<p>(There&rsquo;s also a famous one-pass method, Kadane&rsquo;s algorithm, which you could write as a check; but the point here is the divide and conquer.)</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def brute(v):
+    return max(sum(v[i:j]) for i in range(len(v)) for j in range(i + 1, len(v) + 1))
+def test_values():
+    &quot;several&quot;
+    assert best_stretch([2, -5, 6, -2, 3, -9, 4]) == 7
+    assert best_stretch([-3, -1, -7]) == -1 and best_stretch([5]) == 5 and best_stretch([1, 2, 3]) == 6
+    import random
+    r = random.Random(7)
+    for _ in range(100):
+        v = [r.randint(-20, 20) for _ in range(r.randint(1, 30))]
+        assert best_stretch(v) == brute(v), v
+    try:
+        best_stretch([])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError(&quot;an empty list should raise a ValueError&quot;)</textarea><textarea class="pc-src pc-solution" hidden>def best_stretch(values):
+    if not values:
+        raise ValueError(&quot;no values&quot;)
+    return _best(values, 0, len(values))
+
+def _best(v, lo, hi):
+    if hi - lo == 1:
+        return v[lo]
+    mid = (lo + hi) // 2
+    total, left_best = 0, None
+    for i in range(mid - 1, lo - 1, -1):
+        total += v[i]
+        left_best = total if left_best is None or total &gt; left_best else left_best
+    total, right_best = 0, None
+    for i in range(mid, hi):
+        total += v[i]
+        right_best = total if right_best is None or total &gt; right_best else right_best
+    return max(_best(v, lo, mid), _best(v, mid, hi), left_best + right_best)</textarea><template class="pc-src pc-hint">For a slice <code>lo</code> to <code>hi</code> (one past the end) with <code>mid = (lo + hi) // 2</code>: the left half is <code>lo</code> to <code>mid</code>, the right is <code>mid</code> to <code>hi</code>. For the crossing stretch, walk left from <code>mid - 1</code> down to <code>lo</code>, keeping a running total and its best; walk right from <code>mid</code> up to <code>hi - 1</code> the same way. The crossing best is the sum of the two bests.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>For each of today&rsquo;s problems, name the three steps: how it divides, what the recursive calls solve, and how it combines. Then think of a real task you do by halving (finding a page in a book, a word in a dictionary, a bad step in a recipe that went wrong). Tomorrow: tree recursion, where a function makes several recursive calls and explores every possibility.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w015d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w016d1", "week": 16, "day": 1, "title": "Divide and conquer", "exercises": [{"id": "w016d1-dc_sum", "title": "Sum by halves", "points": 10}, {"id": "w016d1-dc_count", "title": "Count by halves", "points": 10}, {"id": "w016d1-bsearch", "title": "First position", "points": 15}, {"id": "w016d1-msort", "title": "Merge sort, by key", "points": 15}, {"id": "w016d1-minmax", "title": "Both at once", "points": 15}, {"id": "w016d1-bug1", "title": "It never ends", "points": 10}, {"id": "w016d1-trace", "title": "Predict them", "points": 15}, {"id": "w016d1-challenge", "title": "Challenge: the best stretch", "points": 25}], "points": 115}</script>
+
+</main>
+<footer class="foot">
+  <p>© 2026 Peter Oluwafemi Adepoju. All rights reserved. Free for your own learning; please don't copy or republish it.</p>
+  <p><a href="../settings.html">Settings</a> <a href="../guide.html">How this course works</a> <a href="../map.html">Course map</a> <a href="../privacy.html">Privacy</a></p>
+</footer>
+<script type="module" src="../assets/js/pages/day.js"></script>
+</body>
+</html>
