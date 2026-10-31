@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="ee76f9a815">
+<title>Week 20 Day 5: The collections module | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=ee76f9a815">
+<link rel="stylesheet" href="../assets/css/site.css?v=ee76f9a815">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=ee76f9a815"></script>
+<script src="../assets/vendor/codemirror.js?v=ee76f9a815" defer></script>
+<meta name="description" content="You’ve written the same few patterns many times: counting things in a dictionary, grouping items into lists by a key, taking items off the front of a list....">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w020d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 20 Day 5: The collections module">
+<meta property="og:description" content="You’ve written the same few patterns many times: counting things in a dictionary, grouping items into lists by a key, taking items off the front of a list....">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w020d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-20">Week 20: Modules and the standard library</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#counter" data-sec="counter">Counter</a></li><li><a href="#defaultdict" data-sec="defaultdict">defaultdict</a></li><li><a href="#deque" data-sec="deque">deque</a></li><li><a href="#namedtuple" data-sec="namedtuple">namedtuple</a></li><li><a href="#ordereddict" data-sec="ordereddict">OrderedDict</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w020d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-20">Week 20: Modules and the standard library</a></li><li aria-current="page">Day 5 of 6</li></ol>
+      <p class="day-where"><span>Week 20, Day 5</span></p>
+      <h1>The collections module</h1>
+      <div class="day-intro"><p>You&rsquo;ve written the same few patterns many times: counting things in a dictionary, grouping items into lists by a key, taking items off the front of a list. The <code>collections</code> module has a ready-made container for each, faster and shorter than doing it by hand. Today you&rsquo;ll learn the five you&rsquo;ll use most: <code>Counter</code>, <code>defaultdict</code>, <code>deque</code>, <code>namedtuple</code> and <code>OrderedDict</code>.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Count things with <code>Counter</code>, find the most common, and add and subtract counts</li><li>Group and accumulate with <code>defaultdict</code>, without checking whether a key exists first</li><li>Use <code>deque</code> as a fast queue, and as a window over the last n items with <code>maxlen</code></li><li>Give tuple fields names with <code>namedtuple</code>, so records are readable</li><li>Use <code>OrderedDict</code> to keep things in order of use, as in a least-recently-used cache</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Counter: 25 min"></span><span class="plan-seg s0" style="flex:25" title="defaultdict: 25 min"></span><span class="plan-seg s1" style="flex:25" title="deque: 25 min"></span><span class="plan-seg s0" style="flex:20" title="namedtuple: 20 min"></span><span class="plan-seg s1" style="flex:15" title="OrderedDict: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Counter</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">defaultdict</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">deque</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">namedtuple</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">OrderedDict</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w020d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w020d5.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w020d5-p1"><textarea class="pc-src pc-code" hidden>from collections import Counter
+
+votes = [&quot;Ada&quot;, &quot;Ben&quot;, &quot;Ada&quot;, &quot;Cy&quot;, &quot;Ada&quot;, &quot;Ben&quot;]
+c = Counter(votes)
+print(c)
+print(c[&quot;Ada&quot;], c[&quot;Zoe&quot;])
+print(c.most_common(2))</textarea></div>
+<p>One line does what took a loop and an <code>if</code> in Week 10. And asking for a name that was never counted gives 0, not a <code>KeyError</code>.</p>
+<h2 id="counter">Counter</h2>
+<p>A <code>Counter</code> is a dictionary from things to how many times they occurred. Make one from any iterable (a list, a string, a generator), or add counts as you go:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d5-e2"><textarea class="pc-src pc-code" hidden>from collections import Counter
+
+letters = Counter(&quot;mississippi&quot;)
+print(letters)
+print(letters.most_common(1), letters.total())
+
+words = Counter()
+for line in [&quot;the cat sat&quot;, &quot;the cat ran&quot;, &quot;a dog sat&quot;]:
+    words.update(line.split())       # add each word&#x27;s count
+print(words.most_common(3))
+words[&quot;the&quot;] += 10
+print(words[&quot;the&quot;])</textarea></div>
+<p>Counters can be added, subtracted and compared:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d5-e3"><textarea class="pc-src pc-code" hidden>from collections import Counter
+
+stock = Counter(tea=5, jam=2, bread=4)
+sold = Counter(tea=3, bread=4)
+print(stock - sold)            # subtraction drops anything that reaches 0 or below
+print(stock + sold)
+print(Counter(&quot;listen&quot;) == Counter(&quot;silent&quot;))    # same letters: an anagram
+print(sorted(Counter(&quot;banana&quot;).elements()))</textarea></div>
+<ul>
+<li><code>most_common(k)</code> gives the k most common <code>(item, count)</code> pairs; with no argument, all of them, most common first.</li>
+<li><code>total()</code> adds up all the counts.</li>
+<li><code>elements()</code> repeats each item as many times as its count.</li>
+<li>Comparing two Counters for equality is the quickest anagram test there is.</li>
+</ul>
+<h2 id="defaultdict">defaultdict</h2>
+<p>A <code>defaultdict</code> is a dictionary that creates a missing key <strong>automatically</strong>, with a starting value from a function you give it. It&rsquo;s built for grouping and accumulating:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d5-e4"><textarea class="pc-src pc-code" hidden>from collections import defaultdict
+
+words = [&quot;apple&quot;, &quot;avocado&quot;, &quot;banana&quot;, &quot;blueberry&quot;, &quot;cherry&quot;, &quot;apricot&quot;]
+
+by_letter = defaultdict(list)          # a missing key starts as []
+for w in words:
+    by_letter[w[0]].append(w)
+print(dict(by_letter))
+
+lengths = defaultdict(int)             # a missing key starts as 0
+for w in words:
+    lengths[len(w)] += 1
+print(dict(lengths))
+
+towns = defaultdict(set)               # a missing key starts as set()
+for name, town in [(&quot;Ada&quot;, &quot;Leeds&quot;), (&quot;Ben&quot;, &quot;Bath&quot;), (&quot;Ada&quot;, &quot;York&quot;), (&quot;Ada&quot;, &quot;Leeds&quot;)]:
+    towns[name].add(town)
+print({k: sorted(v) for k, v in towns.items()})</textarea></div>
+<p>The argument is a <strong>function that makes the starting value</strong>: <code>list</code>, <code>int</code>, <code>set</code>, or your own (<code>defaultdict(lambda: "unknown")</code>). Pass the function itself, without brackets.</p>
+<p>Compare the same grouping without it:</p>
+<pre><code>groups = {}
+for w in words:
+    if w[0] not in groups:
+        groups[w[0]] = []
+    groups[w[0]].append(w)
+</code></pre>
+<p>(<code>groups.setdefault(w[0], []).append(w)</code> does the same in one line on an ordinary dictionary, without the import.)</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>Just <strong>reading</strong> a missing key from a <code>defaultdict</code> creates it: <code>by_letter["z"]</code> adds an empty list under <code>"z"</code>. To check whether a key exists without creating it, use <code>"z" in by_letter</code>.</p></aside>
+<h2 id="deque">deque</h2>
+<p>A <code>deque</code> (pronounced &ldquo;deck&rdquo;, short for &ldquo;double-ended queue&rdquo;) is a list-like container that&rsquo;s fast at <strong>both ends</strong>. Adding or removing at the front of a list is O(n), because everything else shifts along (Week 17); on a deque it&rsquo;s O(1).</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d5-e5"><textarea class="pc-src pc-code" hidden>from collections import deque
+
+queue = deque([&quot;Ada&quot;, &quot;Ben&quot;])
+queue.append(&quot;Cy&quot;)               # join at the back
+queue.appendleft(&quot;VIP&quot;)          # jump in at the front
+print(queue)
+print(queue.popleft(), queue.popleft())   # served from the front
+print(queue, len(queue))</textarea></div>
+<p>Use a deque for any <strong>queue</strong>: jobs waiting to be done, people waiting in line, squares to visit in a search (you&rsquo;ll use this for breadth-first search in Phase 3).</p>
+<p><strong><code>maxlen</code></strong> makes a deque that keeps only the most recent items: when it&rsquo;s full, adding at one end drops an item off the other. Perfect for &ldquo;the last n&rdquo;:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d5-e6"><textarea class="pc-src pc-code" hidden>from collections import deque
+
+recent = deque(maxlen=3)
+for reading in [21, 22, 25, 24, 30, 29]:
+    recent.append(reading)
+    print(list(recent), &quot;average&quot;, round(sum(recent) / len(recent), 1))</textarea></div>
+<p><code>rotate(k)</code> moves items round in a circle, k places to the right (or left, if negative), which is handy for taking turns:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d5-e7"><textarea class="pc-src pc-code" hidden>from collections import deque
+
+players = deque([&quot;Ada&quot;, &quot;Ben&quot;, &quot;Cy&quot;])
+for turn in range(4):
+    print(&quot;turn&quot;, turn + 1, &quot;goes to&quot;, players[0])
+    players.rotate(-1)</textarea></div>
+<p>Deques support indexing (<code>players[0]</code>), but indexing the middle of a long deque is O(n); if you need fast access by position, use a list.</p>
+<h2 id="namedtuple">namedtuple</h2>
+<p>A tuple like <code>("Ada", 31, "Leeds")</code> works, but <code>person[2]</code> doesn&rsquo;t say what it means. A <strong>namedtuple</strong> gives the positions names, while still being a tuple:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d5-e8"><textarea class="pc-src pc-code" hidden>from collections import namedtuple
+
+Member = namedtuple(&quot;Member&quot;, [&quot;name&quot;, &quot;age&quot;, &quot;town&quot;])
+
+m = Member(&quot;Ada&quot;, 31, &quot;Leeds&quot;)
+print(m)
+print(m.name, m.town, m[1])
+name, age, town = m                  # still unpacks like a tuple
+print(m._replace(town=&quot;York&quot;))       # tuples can&#x27;t change, so this makes a new one
+print(m._asdict())
+
+people = [Member(&quot;Ben&quot;, 25, &quot;Bath&quot;), m, Member(&quot;Cy&quot;, 40, &quot;York&quot;)]
+print([p.name for p in sorted(people, key=lambda p: p.age)])</textarea></div>
+<p><code>namedtuple("Member", ["name", "age", "town"])</code> makes a new <strong>type</strong>, conventionally given a capitalised name. Records made from it are immutable, compare and sort like tuples, and take no more memory than plain tuples. When you need records that can change, or that have their own behaviour, you&rsquo;ll write classes (Phase 3), and Python&rsquo;s <code>dataclasses</code> make that just as quick.</p>
+<h2 id="ordereddict">OrderedDict</h2>
+<p>Ordinary dictionaries keep keys in the order they were added, so you rarely need <code>OrderedDict</code> for that any more. What it adds is <strong>reordering</strong>: <code>move_to_end(key)</code> moves a key to the end (or the start, with <code>last=False</code>), and <code>popitem(last=False)</code> removes the <strong>oldest</strong>. Together they make a <strong>least recently used (LRU) cache</strong>: a memo with limited room, which forgets whatever was used longest ago:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d5-e9"><textarea class="pc-src pc-code" hidden>from collections import OrderedDict
+
+cache = OrderedDict()
+LIMIT = 3
+
+def remember(key, value):
+    cache[key] = value
+    cache.move_to_end(key)             # most recently used goes to the end
+    if len(cache) &gt; LIMIT:
+        cache.popitem(last=False)      # forget the least recently used
+
+for k in [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]:
+    remember(k, k.upper())
+cache.move_to_end(&quot;a&quot;)                 # &quot;a&quot; was just used again
+remember(&quot;d&quot;, &quot;D&quot;)                     # full: &quot;b&quot; is forgotten
+print(list(cache))</textarea></div>
+<p>This is exactly what <code>functools.lru_cache(maxsize=...)</code> from Week 16 does for you.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>Counter</code> for counting, <code>defaultdict</code> for grouping and accumulating, <code>deque</code> for queues and &ldquo;the last n&rdquo;, <code>namedtuple</code> for readable fixed records, and <code>OrderedDict</code> when the order of use matters. All come from <code>from collections import ...</code>.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d5-counter" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Word counts</div><div class="pc-prompt"><p>Write <code>top_words(text, k)</code> returning the k most common words (lower case, split on spaces, ignoring the punctuation <code>.,!?</code> at the ends of words) as <code>(word, count)</code> pairs, using <code>Counter</code>. Ties keep the order of first appearance, which <code>most_common</code> does for you.</p></div><textarea class="pc-src pc-code" hidden>from collections import Counter</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    t = &quot;The cat sat. The cat ran! A dog sat, the end.&quot;
+    assert top_words(t, 2) == [(&quot;the&quot;, 3), (&quot;cat&quot;, 2)]
+    assert top_words(t, 4) == [(&quot;the&quot;, 3), (&quot;cat&quot;, 2), (&quot;sat&quot;, 2), (&quot;ran&quot;, 1)]
+    assert top_words(&quot;&quot;, 3) == []</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+
+def top_words(text, k):
+    words = [w.strip(&quot;.,!?&quot;).lower() for w in text.split()]
+    return Counter(w for w in words if w).most_common(k)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d5-stock" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Stock and orders</div><div class="pc-prompt"><p>Write <code>can_fulfil(stock, order)</code> that returns <code>True</code> if every item in <code>order</code> (a list of item names, with repeats) is available in <code>stock</code> (a dictionary of counts), and <code>left_after(stock, order)</code> returning a plain dictionary of what&rsquo;s left (items that reach 0 are dropped). Use <code>Counter</code> arithmetic, not loops.</p></div><textarea class="pc-src pc-code" hidden>from collections import Counter</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    stock = {&quot;tea&quot;: 3, &quot;jam&quot;: 1, &quot;bread&quot;: 2}
+    assert can_fulfil(stock, [&quot;tea&quot;, &quot;tea&quot;, &quot;jam&quot;]) is True
+    assert can_fulfil(stock, [&quot;jam&quot;, &quot;jam&quot;]) is False and can_fulfil(stock, [&quot;milk&quot;]) is False
+    assert left_after(stock, [&quot;tea&quot;, &quot;jam&quot;]) == {&quot;tea&quot;: 2, &quot;bread&quot;: 2}
+    assert &quot;for &quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>from collections import Counter
+
+def can_fulfil(stock, order):
+    return not (Counter(order) - Counter(stock))
+
+def left_after(stock, order):
+    return dict(Counter(stock) - Counter(order))</textarea><template class="pc-src pc-hint"><code>Counter(order) - Counter(stock)</code> is empty exactly when the stock covers the order.</template></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d5-group" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Group by</div><div class="pc-prompt"><p>Write <code>group_by(items, key)</code> returning a plain dictionary from each <code>key(item)</code> to the list of items with that key, in their original order, using <code>defaultdict(list)</code>. Then use it to set <code>by_length</code> (the words in <code>WORDS</code> grouped by length) and <code>by_first</code> (grouped by first letter, lower case).</p></div><textarea class="pc-src pc-code" hidden>from collections import defaultdict
+
+WORDS = [&quot;Kiwi&quot;, &quot;fig&quot;, &quot;date&quot;, &quot;Apple&quot;, &quot;lime&quot;, &quot;pear&quot;, &quot;avocado&quot;]
+
+by_length = ___
+by_first = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert by_length == {4: [&quot;Kiwi&quot;, &quot;date&quot;, &quot;lime&quot;, &quot;pear&quot;], 3: [&quot;fig&quot;], 5: [&quot;Apple&quot;], 7: [&quot;avocado&quot;]}
+    assert by_first == {&quot;k&quot;: [&quot;Kiwi&quot;], &quot;f&quot;: [&quot;fig&quot;], &quot;d&quot;: [&quot;date&quot;], &quot;a&quot;: [&quot;Apple&quot;, &quot;avocado&quot;], &quot;l&quot;: [&quot;lime&quot;], &quot;p&quot;: [&quot;pear&quot;]}
+    assert group_by([], len) == {} and type(group_by([1], str)) is dict</textarea><textarea class="pc-src pc-solution" hidden>from collections import defaultdict
+
+WORDS = [&quot;Kiwi&quot;, &quot;fig&quot;, &quot;date&quot;, &quot;Apple&quot;, &quot;lime&quot;, &quot;pear&quot;, &quot;avocado&quot;]
+
+def group_by(items, key):
+    groups = defaultdict(list)
+    for item in items:
+        groups[key(item)].append(item)
+    return dict(groups)
+
+by_length = group_by(WORDS, len)
+by_first = group_by(WORDS, lambda w: w[0].lower())</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d5-queue" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A printer queue</div><div class="pc-prompt"><p>Write <code>run_queue(jobs)</code> where each job is <code>(name, pages)</code>, and the printer does at most 5 pages of a job per turn: if a job has more left, the rest goes to the <strong>back</strong> of the queue. Return the list of names in the order their jobs <strong>finish</strong>. Use a <code>deque</code>.</p></div><textarea class="pc-src pc-code" hidden>from collections import deque</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert run_queue([(&quot;A&quot;, 3), (&quot;B&quot;, 12), (&quot;C&quot;, 5), (&quot;D&quot;, 6)]) == [&quot;A&quot;, &quot;C&quot;, &quot;D&quot;, &quot;B&quot;]
+    assert run_queue([]) == [] and run_queue([(&quot;X&quot;, 20)]) == [&quot;X&quot;]</textarea><textarea class="pc-src pc-solution" hidden>from collections import deque
+
+def run_queue(jobs):
+    q = deque(jobs)
+    finished = []
+    while q:
+        name, pages = q.popleft()
+        if pages &gt; 5:
+            q.append((name, pages - 5))
+        else:
+            finished.append(name)
+    return finished</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d5-moving" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A moving average</div><div class="pc-prompt"><p>Write <code>moving_averages(readings, n)</code> returning, for each reading, the average of the last <code>n</code> readings up to and including it (fewer at the start), rounded to 2 decimal places. Use <code>deque(maxlen=n)</code> and keep a running total, so each step is O(1).</p></div><textarea class="pc-src pc-code" hidden>from collections import deque</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert moving_averages([21, 22, 25, 24, 30, 29], 3) == [21.0, 21.5, 22.67, 23.67, 26.33, 27.67]
+    assert moving_averages([], 3) == [] and moving_averages([5, 7], 1) == [5.0, 7.0]
+    import random
+    data = [random.Random(1).randint(0, 100) for _ in range(100_000)]
+    assert len(moving_averages(data, 50)) == 100_000</textarea><textarea class="pc-src pc-solution" hidden>from collections import deque
+
+def moving_averages(readings, n):
+    window = deque(maxlen=n)
+    total = 0
+    result = []
+    for r in readings:
+        if len(window) == n:
+            total -= window[0]
+        window.append(r)
+        total += r
+        result.append(round(total / len(window), 2))
+    return result</textarea><template class="pc-src pc-hint">Before appending to a full deque, subtract the item about to fall off (<code>window[0]</code>) from the total.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w020d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Calling the factory</div><div class="pc-prompt"><p>This crashes with <code>TypeError: first argument must be callable or None</code>. Fix it so it prints <code>{'a': ['ant', 'ape'], 'b': ['bee']}</code>.</p></div><textarea class="pc-src pc-code" hidden>from collections import defaultdict
+
+groups = defaultdict(list())
+for w in [&quot;ant&quot;, &quot;bee&quot;, &quot;ape&quot;]:
+    groups[w[0]].append(w)
+print(dict(groups))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;fixed&quot;
+    expect_output(&quot;{&#x27;a&#x27;: [&#x27;ant&#x27;, &#x27;ape&#x27;], &#x27;b&#x27;: [&#x27;bee&#x27;]}&quot;)</textarea><textarea class="pc-src pc-solution" hidden>from collections import defaultdict
+
+groups = defaultdict(list)
+for w in [&quot;ant&quot;, &quot;bee&quot;, &quot;ape&quot;]:
+    groups[w[0]].append(w)
+print(dict(groups))</textarea><template class="pc-src pc-hint"><code>defaultdict</code> needs the function that makes a new list, not a list.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w020d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Tuples don&rsquo;t change</div><div class="pc-prompt"><p>This crashes with <code>AttributeError: can't set attribute</code>, because namedtuples can&rsquo;t be changed. Fix it, without changing the first three lines, so it prints <code>Point(x=3, y=10)</code>.</p></div><textarea class="pc-src pc-code" hidden>from collections import namedtuple
+Point = namedtuple(&quot;Point&quot;, [&quot;x&quot;, &quot;y&quot;])
+p = Point(3, 4)
+p.y = 10
+print(p)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;fixed&quot;
+    expect_output(&quot;Point(x=3, y=10)&quot;)</textarea><textarea class="pc-src pc-solution" hidden>from collections import namedtuple
+Point = namedtuple(&quot;Point&quot;, [&quot;x&quot;, &quot;y&quot;])
+p = Point(3, 4)
+p = p._replace(y=10)
+print(p)</textarea><template class="pc-src pc-hint"><code>_replace</code> makes a new namedtuple with some fields changed.</template></div>
+<div class="parsons" data-id="w020d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Count, then rank</div><div class="pc-prompt"><p>Arrange the lines so the program prints the two most common colours. One line is a trap.</p></div><script type="application/json">{"lines": ["from collections import Counter", "colours = [\"red\", \"blue\", \"red\", \"green\", \"blue\", \"red\"]", "counts = Counter(colours)", "print(counts.most_common(2))"], "distractors": ["counts = Counter(colours).most_common"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # Counter(&quot;aab&quot;)[&quot;c&quot;]
+b = ___   # list(deque([1, 2, 3], maxlen=2))
+c = ___   # Counter(a=3, b=1) - Counter(a=1, b=2), as a plain dict
+d = ___   # namedtuple(&quot;P&quot;, [&quot;x&quot;, &quot;y&quot;])(1, 2)[1]</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == 0 and b == [2, 3] and c == {&quot;a&quot;: 2} and d == 2</textarea><textarea class="pc-src pc-solution" hidden>a = 0
+b = [2, 3]
+c = {&quot;a&quot;: 2}
+d = 2</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w020d5-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What does Counter return for an item it has never seen?", "answer": 1, "explain": "Missing counts are zero.", "options": ["KeyError", "0", "None", "-1"]}, {"type": "mc", "q": "What does defaultdict(list) do with a missing key?", "answer": 1, "explain": "The argument makes the starting value.", "options": ["Raises KeyError", "Creates it with an empty list", "Returns None", "Returns list"]}, {"type": "mc", "q": "Why use a deque for a queue rather than a list?", "answer": 1, "explain": "popleft is fast.", "options": ["It&rsquo;s sorted", "Removing from the front is O(1) instead of O(n)", "It uses less memory", "Lists can&rsquo;t be queues"]}, {"type": "mc", "q": "What does deque(maxlen=3) do when a fourth item is appended?", "answer": 1, "explain": "It keeps the last 3.", "options": ["Raises an error", "Drops the item at the other end", "Grows", "Ignores the new item"]}, {"type": "mc", "q": "What is a namedtuple?", "answer": 1, "explain": "Readable, immutable records.", "options": ["A dictionary", "A tuple whose positions also have names", "A class you can change", "A list"]}, {"type": "mc", "q": "How do you change a field of a namedtuple?", "answer": 1, "explain": "Tuples are immutable.", "options": ["Assign to it", "Make a new one with _replace", "Use setattr", "You can&rsquo;t do anything"]}, {"type": "mc", "q": "What does OrderedDict add over an ordinary dict now?", "answer": 1, "explain": "Ordinary dicts already keep insertion order.", "options": ["Order", "Reordering with move_to_end and popitem(last=False)", "Speed", "Sorting"]}, {"type": "text", "q": "Which Counter method gives the k most common items? (method name)", "answer": ["most_common", "most_common()"], "explain": "As (item, count) pairs."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: shortest route through a maze</div><div class="pc-prompt"><p>In Week 16 you found <strong>a</strong> path through a maze with backtracking, but not the shortest. Breadth-first search (BFS) finds the shortest: explore squares in order of distance from the start, using a <code>deque</code> as the queue of squares still to visit. Write <code>shortest(maze)</code> returning the number of steps on the shortest path from <code>"S"</code> to <code>"E"</code> (up, down, left, right, never through <code>"#"</code>), or <code>-1</code> if there is none, and <code>path(maze)</code> returning the list of squares <code>(row, col)</code> on one shortest path, start to end (empty if none).</p>
+<p>Keep a dictionary <code>came_from</code> from each square reached to the square you reached it from; following it backwards from <code>"E"</code> gives the path.</p></div><textarea class="pc-src pc-code" hidden>from collections import deque</textarea><textarea class="pc-src pc-tests" hidden>M = [&quot;S.#.....&quot;,
+     &quot;.##.###.&quot;,
+     &quot;....#...&quot;,
+     &quot;###.#.#.&quot;,
+     &quot;....#.#E&quot;]
+def test_shortest():
+    &quot;shortest&quot;
+    assert shortest(M) == 15
+    assert shortest([&quot;S#E&quot;]) == -1 and shortest([&quot;SE&quot;]) == 1
+def test_path():
+    &quot;path&quot;
+    p = path(M)
+    assert p[0] == (0, 0) and p[-1] == (4, 7) and len(p) == 16
+    for (r1, c1), (r2, c2) in zip(p, p[1:]):
+        assert abs(r1 - r2) + abs(c1 - c2) == 1 and M[r2][c2] != &quot;#&quot;
+    assert path([&quot;S#E&quot;]) == []</textarea><textarea class="pc-src pc-solution" hidden>from collections import deque
+
+def _search(maze):
+    for r, row in enumerate(maze):
+        for c, ch in enumerate(row):
+            if ch == &quot;S&quot;:
+                start = (r, c)
+            elif ch == &quot;E&quot;:
+                end = (r, c)
+    came_from = {start: None}
+    q = deque([start])
+    while q:
+        r, c = q.popleft()
+        if (r, c) == end:
+            break
+        for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            nr, nc = r + dr, c + dc
+            if 0 &lt;= nr &lt; len(maze) and 0 &lt;= nc &lt; len(maze[0]) and maze[nr][nc] != &quot;#&quot; and (nr, nc) not in came_from:
+                came_from[(nr, nc)] = (r, c)
+                q.append((nr, nc))
+    return came_from, end
+
+def path(maze):
+    came_from, end = _search(maze)
+    if end not in came_from:
+        return []
+    route = []
+    square = end
+    while square is not None:
+        route.append(square)
+        square = came_from[square]
+    return route[::-1]
+
+def shortest(maze):
+    p = path(maze)
+    return len(p) - 1 if p else -1</textarea><template class="pc-src pc-hint">Start the queue with the start square and <code>came_from = {start: None}</code>. Each time you take a square off the front, look at its four neighbours; any that&rsquo;s inside the maze, not a wall and not yet in <code>came_from</code> gets <code>came_from[nb] = square</code> and goes on the back of the queue.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Go back to two programs from Weeks 10 and 11 that counted or grouped things with plain dictionaries, and rewrite them with <code>Counter</code> or <code>defaultdict</code>. Count how many lines you saved. Tomorrow is the Forge: a small program built from your own modules and this week&rsquo;s standard library.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w020d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w020d5", "week": 20, "day": 5, "title": "The collections module", "exercises": [{"id": "w020d5-counter", "title": "Word counts", "points": 10}, {"id": "w020d5-stock", "title": "Stock and orders", "points": 10}, {"id": "w020d5-group", "title": "Group by", "points": 15}, {"id": "w020d5-queue", "title": "A printer queue", "points": 15}, {"id": "w020d5-moving", "title": "A moving average", "points": 15}, {"id": "w020d5-bug1", "title": "Calling the factory", "points": 10}, {"id": "w020d5-bug2", "title": "Tuples don't change", "points": 10}, {"id": "w020d5-trace", "title": "Predict them", "points": 15}, {"id": "w020d5-challenge", "title": "Challenge: shortest route through a maze", "points": 25}], "points": 125}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=ee76f9a815"></script>
+</body>
+</html>
