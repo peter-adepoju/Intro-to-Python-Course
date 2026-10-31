@@ -1,11 +1,11 @@
 // Runs on every page: account link, streak, review badge and the tutor.
-import { SITE, $, h } from "../site.js?v=1a3afd0dc2";
-import { displayName, firstName, avatar } from "../user.js?v=1a3afd0dc2";
-import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=1a3afd0dc2";
-import { mountTutor } from "../tutor.js?v=1a3afd0dc2";
-import { settings, update as updateSettings, onSettings } from "../settings.js?v=1a3afd0dc2";
-import { initSearch } from "../search.js?v=1a3afd0dc2";
-import { initInstall, install, onInstallable } from "../install.js?v=1a3afd0dc2";
+import { SITE, $, h } from "../site.js?v=29904b818c";
+import { displayName, firstName, avatar } from "../user.js?v=29904b818c";
+import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=29904b818c";
+import { mountTutor } from "../tutor.js?v=29904b818c";
+import { settings, update as updateSettings, onSettings } from "../settings.js?v=29904b818c";
+import { initSearch } from "../search.js?v=29904b818c";
+import { initInstall, install, onInstallable } from "../install.js?v=29904b818c";
 
 let closeMenu = () => {};
 document.addEventListener("click", (e) => { const slot = document.getElementById("account-slot"); if (slot && !slot.contains(e.target)) closeMenu(); });

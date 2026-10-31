@@ -1,6 +1,6 @@
 // Loop counter: pick a loop shape, see how many times its body runs for n = 8, 16, 32, ...
 // and what happens to the count each time n doubles.
-import { h } from "../site.js?v=1a3afd0dc2";
+import { h } from "../site.js?v=29904b818c";
 
 const PRESETS = {
   single: { code: "for i in range(n):\n    body()", f: n => n, cls: "O(n)" },

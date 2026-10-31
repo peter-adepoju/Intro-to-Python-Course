@@ -1,5 +1,5 @@
 // One shared Python runtime for the whole page, living in a Web Worker.
-import { SITE } from "./site.js?v=1a3afd0dc2";
+import { SITE } from "./site.js?v=29904b818c";
 
 const listeners = new Set();
 let worker = null;

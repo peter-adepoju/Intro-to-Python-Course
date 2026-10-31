@@ -88,14 +88,12 @@ kbd { font-family: var(--f-code); font-size: .82em; border: 1px solid var(--line
 .top { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 1.6rem; height: 60px; padding: 0 clamp(1rem, 3vw, 2rem);
   background: color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--ink); flex: none; }
-.brand-mark { width: 28px; height: 28px; }
+.brand-mark { width: 32px; height: 32px; }
 /* The logo: a terminal prompt on a dark navy tile. The tile stays dark in both themes;
    in the dark theme a faint outline keeps it apart from the dark page. */
-.bm-tile { fill: #16213a; stroke: transparent; stroke-width: 1; }
-.bm-frame, .bm-prompt { fill: none; stroke: #f2c230; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.bm-line { stroke: #e6ecf5; stroke-width: 1.9; stroke-linecap: round; }
-:root[data-theme="dark"] .bm-tile { stroke: rgba(255, 255, 255, .22); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bm-tile { stroke: rgba(255, 255, 255, .22); } }
+.bm-tile { fill: #16213a; stroke: #f2c230; stroke-width: 3.2; }
+.bm-prompt { fill: none; stroke: #f2c230; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.bm-line { stroke: #e6ecf5; stroke-width: 3; stroke-linecap: round; }
 .brand-name { font: 800 1.18rem/1 var(--f-head); letter-spacing: -.02em; }
 .top-nav { display: flex; gap: .25rem; align-items: center; }
 .nav-dd { position: relative; }
@@ -824,7 +822,7 @@ pre { max-width: 100%; overflow-x: auto; }
   /* header: one compact row; the tab bar does the navigating */
   .top { flex-wrap: nowrap; height: 54px; padding: 0 .9rem; padding-top: env(safe-area-inset-top); gap: .6rem; }
   .top-nav { display: none; }
-  .brand-mark { width: 26px; height: 26px; }
+  .brand-mark { width: 30px; height: 30px; }
   .brand-name { font-size: 1.08rem; }
   .search-btn { width: 40px; height: 40px; justify-content: center; padding: 0; border-radius: 10px; margin-left: auto; }
   .user-btn { padding: .15rem; border-radius: 50%; }
