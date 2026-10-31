@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="e002563bcd">
+<title>Week 21 Day 5: GitHub and pull requests | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=e002563bcd">
+<link rel="stylesheet" href="../assets/css/site.css?v=e002563bcd">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=e002563bcd"></script>
+<script src="../assets/vendor/codemirror.js?v=e002563bcd" defer></script>
+<meta name="description" content="Git keeps history on your computer. GitHub keeps a copy of the repository online, so your work is backed up, available on any computer, and shareable. It’s...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w021d5.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 21 Day 5: GitHub and pull requests">
+<meta property="og:description" content="Git keeps history on your computer. GitHub keeps a copy of the repository online, so your work is backed up, available on any computer, and shareable. It’s...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w021d5.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-21">Week 21: The command line and Git</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#remotes" data-sec="remotes">Remotes</a></li><li><a href="#push-and-pull" data-sec="push-and-pull">Push and pull</a></li><li><a href="#pull-requests" data-sec="pull-requests">Pull requests</a></li><li><a href="#reviewing-code" data-sec="reviewing-code">Reviewing code</a></li><li><a href="#on-your-own-computer" data-sec="on-your-own-computer">On your own computer</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w021d5.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-21">Week 21: The command line and Git</a></li><li aria-current="page">Day 5 of 6</li></ol>
+      <p class="day-where"><span>Week 21, Day 5</span></p>
+      <h1>GitHub and pull requests</h1>
+      <div class="day-intro"><p>Git keeps history on your computer. GitHub keeps a copy of the repository online, so your work is backed up, available on any computer, and shareable. It&rsquo;s also where most open-source software lives (Python itself is developed on GitHub), and where teams review each other&rsquo;s changes through pull requests. This course&rsquo;s own website is a GitHub repository. Today you&rsquo;ll connect your Git to GitHub, push and pull, and learn the pull request workflow that teams use every day.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain what a remote is, and use <code>git clone</code>, <code>git push</code>, <code>git pull</code> and <code>git fetch</code></li><li>Read &ldquo;ahead&rdquo; and &ldquo;behind&rdquo; in <code>git status</code>, and handle a rejected push</li><li>Create a repository on GitHub, connect it to a local one, and keep secrets out of it</li><li>Open a pull request from a branch, and review someone else&rsquo;s with useful comments</li><li>Explain forks, issues, READMEs and licences</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="Remotes: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Push and pull: 25 min"></span><span class="plan-seg s1" style="flex:25" title="Pull requests: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Reviewing code: 20 min"></span><span class="plan-seg s1" style="flex:15" title="On your own computer: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Remotes</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Push and pull</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">Pull requests</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Reviewing code</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">On your own computer</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w021d5.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w021d5.ipynb" download>download it</a>. Exercises today are worth 130 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w021d5-p1"><textarea class="pc-src pc-code" hidden>mine = [&quot;c1&quot;, &quot;c2&quot;, &quot;y3&quot;, &quot;y4&quot;]
+github = [&quot;c1&quot;, &quot;c2&quot;, &quot;t3&quot;]
+
+ahead = [c for c in mine if c not in github]
+behind = [c for c in github if c not in mine]
+print(&quot;ahead:&quot;, ahead)
+print(&quot;behind:&quot;, behind)</textarea></div>
+<p>You have two commits GitHub doesn&rsquo;t, and GitHub has one you don&rsquo;t. Git calls that <strong>ahead by 2, behind by 1</strong>, and that one line in <code>git status</code> tells you exactly what to do: get theirs, then send yours.</p>
+<h2 id="remotes">Remotes</h2>
+<p>A <strong>remote</strong> is another copy of the same repository, somewhere else: usually on GitHub (or GitLab, or Bitbucket). The usual name for the main remote is <strong><code>origin</code></strong>.</p>
+<ul>
+<li><code>git clone URL</code> copies a repository from GitHub to your computer, with all its history, and sets up <code>origin</code> automatically.</li>
+<li><code>git remote -v</code> lists the remotes and their URLs.</li>
+<li><code>git remote add origin URL</code> connects an existing local repository to a new, empty GitHub one.</li>
+</ul>
+<p>Repository URLs come in two forms, and both point to the same repository:</p>
+<pre><code>https://github.com/peter-adepoju/python-atlas.git
+git@github.com:peter-adepoju/python-atlas.git
+</code></pre>
+<p>The first uses HTTPS (you sign in with a <strong>personal access token</strong>, not your password); the second uses SSH (you add an SSH key to your GitHub account once). Either is fine.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p>A token or key is as powerful as your password. Never paste one into code, a commit, a chat or a public place. If one is ever exposed, delete it on GitHub at once and make a new one. The same goes for any API key: keep it in an environment variable or a <code>.env</code> file that&rsquo;s listed in <code>.gitignore</code>.</p></aside>
+<h2 id="push-and-pull">Push and pull</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git push</code></td>
+<td>sends your new commits on this branch to the remote</td>
+</tr>
+<tr>
+<td><code>git push -u origin name</code></td>
+<td>the first push of a new branch, linking it to the remote (later, just <code>git push</code>)</td>
+</tr>
+<tr>
+<td><code>git fetch</code></td>
+<td>downloads new commits from the remote, without changing your files</td>
+</tr>
+<tr>
+<td><code>git pull</code></td>
+<td><code>git fetch</code>, then merge the remote branch into yours</td>
+</tr>
+</tbody>
+</table>
+<p>Your computer and GitHub are two copies that only meet when you push or pull. Try it here: commit, push, have a teammate push, and see what happens when you both have new work:</p>
+<figure class="widget" data-widget="pushpull"><script type="application/json">{}</script><div class="widget-body"><p class="widget-loading">Loading interactive figure…</p></div><figcaption>Your branch and its copy on GitHub. Try pushing when GitHub has a commit you don&rsquo;t.</figcaption></figure>
+<p>The key rule: <strong>if the remote has commits you don&rsquo;t, Git refuses your push</strong> (&ldquo;rejected, fetch first&rdquo;), so that nobody&rsquo;s work is silently overwritten. Pull first, which merges their work with yours (fix any conflicts as you learned yesterday), then push.</p>
+<p>A good habit when working with others: <code>git pull</code> before you start work each day, and push when you finish.</p>
+<h2 id="pull-requests">Pull requests</h2>
+<p>A <strong>pull request</strong> (PR) is a request to merge one branch into another, with a page on GitHub to discuss it. It&rsquo;s how almost every team makes changes:</p>
+<ol>
+<li><code>git switch -c fix-empty-file</code> and make your change in commits.</li>
+<li><code>git push -u origin fix-empty-file</code>.</li>
+<li>On GitHub, open a pull request from your branch into <code>main</code>, with a title and a description: <strong>what</strong> changed, <strong>why</strong>, and how you checked it.</li>
+<li>Teammates <strong>review</strong> it: they read the changes (GitHub shows the diff), comment on lines, and approve or ask for changes. Automated checks (tests) often run too.</li>
+<li>You push more commits to the same branch to answer the review; the pull request updates by itself.</li>
+<li>When approved, it&rsquo;s merged on GitHub, and the branch is deleted.</li>
+<li>Everyone does <code>git pull</code> on <code>main</code> to get it.</li>
+</ol>
+<p>Pull requests catch bugs before they reach <code>main</code>, spread knowledge around the team, and leave a written record of why each change was made.</p>
+<p><strong>Forks.</strong> To suggest a change to a project you can&rsquo;t push to (most open-source projects), you <strong>fork</strong> it: GitHub makes your own copy under your account. You push a branch to your fork and open a pull request from it to the original. That&rsquo;s how you&rsquo;ll contribute to open source later in this course.</p>
+<p><strong>Issues</strong> are GitHub&rsquo;s to-do lists and bug reports, one page per problem or idea. A pull request can close an issue automatically by writing &ldquo;Fixes #42&rdquo; in its description.</p>
+<p><strong>README and licence.</strong> Every repository should have a <code>README.md</code> at the top level: what the project is, how to install and run it, and how to contribute. GitHub shows it on the repository&rsquo;s front page. A <strong>licence</strong> file says what others may do with your code; without one, others legally can&rsquo;t reuse it. The MIT licence is a short, common choice for open source.</p>
+<h2 id="reviewing-code">Reviewing code</h2>
+<p>Reviewing is a skill. Good review comments are:</p>
+<ul>
+<li><strong>specific:</strong> point at the line, and say what and why: &ldquo;This divides by <code>len(marks)</code>, which crashes for an empty list. Could we return 0 there?&rdquo;</li>
+<li><strong>kind and about the code</strong>, not the person: &ldquo;this function&rdquo; rather than &ldquo;you&rdquo;.</li>
+<li><strong>sorted by importance:</strong> bugs and unclear design first; style last (and leave style to automatic tools where possible, Week 22).</li>
+<li><strong>questions where you&rsquo;re unsure:</strong> &ldquo;Is there a reason for copying the list here?&rdquo; Often there is.</li>
+</ul>
+<p>And as the author: keep pull requests <strong>small</strong> (a few hundred lines at most; a reviewer can&rsquo;t check 3,000 lines properly), describe them well, and treat review comments as help, not criticism.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>A remote is another copy of the repository, usually <code>origin</code> on GitHub. <code>git push</code> sends your commits, <code>git pull</code> fetches and merges theirs; a push is rejected if the remote has work you don&rsquo;t, so pull first. Teams change <code>main</code> through pull requests: push a branch, open a PR, get it reviewed, merge. Keep tokens and keys out of every repository.</p></aside>
+<h2 id="on-your-own-computer">On your own computer</h2>
+<ol>
+<li>Create a free account at github.com.</li>
+<li>On GitHub, click <strong>New repository</strong>, name it <code>atlas</code>, leave it <strong>empty</strong> (no README), and create it.</li>
+<li>In your terminal, in your <code>atlas</code> folder (which already has commits from Day 3):
+   <code>git remote add origin https://github.com/YOUR-NAME/atlas.git
+   git push -u origin main</code>
+   When asked to sign in, follow GitHub&rsquo;s instructions to use a browser sign-in or a personal access token (Settings, Developer settings, Personal access tokens). Never type the token anywhere but the sign-in prompt.</li>
+<li>Refresh the GitHub page: your files and history are there.</li>
+<li>Make a branch, commit a small change to a <code>README.md</code>, push the branch with <code>git push -u origin your-branch</code>, and open a pull request to <code>main</code> on GitHub. Review your own pull request, then merge it, and <code>git pull</code> on <code>main</code> locally.</li>
+</ol>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d5-urls" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Who and what</div><div class="pc-prompt"><p>Write <code>owner_and_repo(url)</code> returning <code>(owner, repo)</code> from a GitHub URL in either form: <code>https://github.com/OWNER/REPO.git</code>, <code>https://github.com/OWNER/REPO</code> (no <code>.git</code>), or <code>git@github.com:OWNER/REPO.git</code>. Return <code>None</code> for anything that isn&rsquo;t a GitHub repository URL.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert owner_and_repo(&quot;https://github.com/peter-adepoju/python-atlas.git&quot;) == (&quot;peter-adepoju&quot;, &quot;python-atlas&quot;)
+    assert owner_and_repo(&quot;https://github.com/python/cpython&quot;) == (&quot;python&quot;, &quot;cpython&quot;)
+    assert owner_and_repo(&quot;git@github.com:python/cpython.git&quot;) == (&quot;python&quot;, &quot;cpython&quot;)
+    assert owner_and_repo(&quot;https://gitlab.com/a/b.git&quot;) is None and owner_and_repo(&quot;https://github.com/onlyowner&quot;) is None</textarea><textarea class="pc-src pc-solution" hidden>def owner_and_repo(url):
+    for prefix in (&quot;https://github.com/&quot;, &quot;git@github.com:&quot;):
+        if url.startswith(prefix):
+            rest = url[len(prefix):]
+            if rest.endswith(&quot;.git&quot;):
+                rest = rest[:-4]
+            parts = rest.strip(&quot;/&quot;).split(&quot;/&quot;)
+            if len(parts) == 2 and all(parts):
+                return parts[0], parts[1]
+    return None</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d5-ahead" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Ahead and behind</div><div class="pc-prompt"><p>Write <code>ahead_behind(local, remote)</code> where each argument is a list of commit IDs from oldest to newest, and return <code>(ahead, behind)</code>: how many local commits the remote doesn&rsquo;t have, and how many remote commits the local doesn&rsquo;t have. Then <code>advice(local, remote)</code> returning one of <code>"up to date"</code>, <code>"push"</code>, <code>"pull"</code> or <code>"pull, then push"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert ahead_behind([&quot;c1&quot;, &quot;c2&quot;, &quot;y3&quot;, &quot;y4&quot;], [&quot;c1&quot;, &quot;c2&quot;, &quot;t3&quot;]) == (2, 1)
+    assert advice([&quot;c1&quot;, &quot;c2&quot;, &quot;y3&quot;, &quot;y4&quot;], [&quot;c1&quot;, &quot;c2&quot;, &quot;t3&quot;]) == &quot;pull, then push&quot;
+    assert advice([&quot;c1&quot;], [&quot;c1&quot;]) == &quot;up to date&quot; and advice([&quot;c1&quot;, &quot;y2&quot;], [&quot;c1&quot;]) == &quot;push&quot; and advice([&quot;c1&quot;], [&quot;c1&quot;, &quot;t2&quot;]) == &quot;pull&quot;</textarea><textarea class="pc-src pc-solution" hidden>def ahead_behind(local, remote):
+    r, l = set(remote), set(local)
+    return sum(1 for c in local if c not in r), sum(1 for c in remote if c not in l)
+
+def advice(local, remote):
+    ahead, behind = ahead_behind(local, remote)
+    if ahead and behind:
+        return &quot;pull, then push&quot;
+    if ahead:
+        return &quot;push&quot;
+    if behind:
+        return &quot;pull&quot;
+    return &quot;up to date&quot;</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d5-push" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Rejected!</div><div class="pc-prompt"><p>Model a remote as a list of commit IDs. Write <code>push(local, remote)</code> that returns the remote&rsquo;s new list: if every remote commit is already in <code>local</code>, the remote becomes a copy of <code>local</code>; otherwise raise <code>ValueError("rejected: pull first")</code>. Then <code>pull(local, remote, merge_id)</code>: if the local has nothing the remote lacks, return a copy of <code>remote</code> (a fast-forward); if the remote has nothing new, return <code>local</code> unchanged; otherwise return the remote&rsquo;s commits, then the local-only commits, then <code>merge_id</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert push([&quot;c1&quot;, &quot;y2&quot;], [&quot;c1&quot;]) == [&quot;c1&quot;, &quot;y2&quot;]
+    try:
+        push([&quot;c1&quot;, &quot;y2&quot;], [&quot;c1&quot;, &quot;t2&quot;])
+        assert False, &quot;should be rejected&quot;
+    except ValueError as e:
+        assert &quot;pull first&quot; in str(e)
+    assert pull([&quot;c1&quot;], [&quot;c1&quot;, &quot;t2&quot;], &quot;m&quot;) == [&quot;c1&quot;, &quot;t2&quot;]
+    assert pull([&quot;c1&quot;, &quot;y2&quot;], [&quot;c1&quot;], &quot;m&quot;) == [&quot;c1&quot;, &quot;y2&quot;]
+    merged = pull([&quot;c1&quot;, &quot;y2&quot;], [&quot;c1&quot;, &quot;t2&quot;], &quot;m3&quot;)
+    assert merged == [&quot;c1&quot;, &quot;t2&quot;, &quot;y2&quot;, &quot;m3&quot;] and push(merged, [&quot;c1&quot;, &quot;t2&quot;]) == merged</textarea><textarea class="pc-src pc-solution" hidden>def push(local, remote):
+    if all(c in local for c in remote):
+        return list(local)
+    raise ValueError(&quot;rejected: pull first&quot;)
+
+def pull(local, remote, merge_id):
+    mine = [c for c in local if c not in remote]
+    theirs = [c for c in remote if c not in local]
+    if not mine:
+        return list(remote)
+    if not theirs:
+        return list(local)
+    return list(remote) + mine + [merge_id]</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d5-pr" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A pull request checklist</div><div class="pc-prompt"><p>Write <code>pr_problems(title, description, changed_lines, branch)</code> returning a list of problems with a pull request (an empty list if it&rsquo;s fine), in this order: <code>"title too long"</code> if the title is over 72 characters; <code>"title is vague"</code> if, ignoring case, it&rsquo;s one of <code>"update"</code>, <code>"fix"</code>, <code>"changes"</code>, <code>"wip"</code>; <code>"no description"</code> if the description is empty or only spaces; <code>"too big to review"</code> if more than 400 lines changed; <code>"merging from main"</code> if the branch is <code>"main"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert pr_problems(&quot;Fix crash on empty marks file&quot;, &quot;Return 0 when there are no marks.&quot;, 12, &quot;fix-empty&quot;) == []
+    assert pr_problems(&quot;fix&quot;, &quot; &quot;, 900, &quot;main&quot;) == [&quot;title is vague&quot;, &quot;no description&quot;, &quot;too big to review&quot;, &quot;merging from main&quot;]
+    assert pr_problems(&quot;x&quot; * 73, &quot;ok&quot;, 1, &quot;b&quot;) == [&quot;title too long&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def pr_problems(title, description, changed_lines, branch):
+    problems = []
+    if len(title) &gt; 72:
+        problems.append(&quot;title too long&quot;)
+    if title.strip().lower() in {&quot;update&quot;, &quot;fix&quot;, &quot;changes&quot;, &quot;wip&quot;}:
+        problems.append(&quot;title is vague&quot;)
+    if not description.strip():
+        problems.append(&quot;no description&quot;)
+    if changed_lines &gt; 400:
+        problems.append(&quot;too big to review&quot;)
+    if branch == &quot;main&quot;:
+        problems.append(&quot;merging from main&quot;)
+    return problems</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d5-secrets_scan" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Catch a secret before it&rsquo;s pushed</div><div class="pc-prompt"><p>Before pushing, some teams scan changes for secrets. Write <code>find_secrets(files)</code> taking a dictionary from file name to contents and returning a sorted list of <code>(file, line_number)</code> pairs (lines counted from 1) where a line contains <code>"api_key"</code>, <code>"password"</code> or <code>"token"</code> (ignoring case) followed somewhere by <code>=</code> and then a quoted string of at least 8 characters, using the regular expression in the starter. Files named <code>.env</code> are skipped, since they&rsquo;re meant to hold secrets (and must be in <code>.gitignore</code>).</p></div><textarea class="pc-src pc-code" hidden>import re
+
+PATTERN = re.compile(r&quot;(api_key|password|token)\s*=\s*[&#x27;\&quot;][^&#x27;\&quot;]{8,}[&#x27;\&quot;]&quot;, re.IGNORECASE)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    files = {
+        &quot;app.py&quot;: &quot;import os\nAPI_KEY = &#x27;sk-123456789abc&#x27;\nkey = os.environ[&#x27;API_KEY&#x27;]\n&quot;,
+        &quot;db.py&quot;: &quot;password = \&quot;short\&quot;\nPassword=&#x27;longer-than-8&#x27;\n&quot;,
+        &quot;.env&quot;: &quot;TOKEN=&#x27;abcdefghijklmnop&#x27;\n&quot;,
+        &quot;README.md&quot;: &quot;Set your token = in the environment.\n&quot;,
+    }
+    assert find_secrets(files) == [(&quot;app.py&quot;, 2), (&quot;db.py&quot;, 2)]
+    assert find_secrets({}) == []</textarea><textarea class="pc-src pc-solution" hidden>import re
+
+PATTERN = re.compile(r&quot;(api_key|password|token)\s*=\s*[&#x27;\&quot;][^&#x27;\&quot;]{8,}[&#x27;\&quot;]&quot;, re.IGNORECASE)
+
+def find_secrets(files):
+    found = []
+    for name, text in files.items():
+        if name == &quot;.env&quot;:
+            continue
+        for number, line in enumerate(text.splitlines(), start=1):
+            if PATTERN.search(line):
+                found.append((name, number))
+    return sorted(found)</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w021d5-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Overwriting the team&rsquo;s work</div><div class="pc-prompt"><p>This model of <code>push</code> lets a push through even when the remote has a commit you don&rsquo;t, which would throw away the teammate&rsquo;s work. It should print <code>rejected</code>. Fix the check.</p></div><textarea class="pc-src pc-code" hidden>def push(local, remote):
+    if len(local) &gt;= len(remote):
+        return list(local)
+    raise ValueError(&quot;rejected&quot;)
+
+try:
+    print(push([&quot;c1&quot;, &quot;y2&quot;], [&quot;c1&quot;, &quot;t2&quot;]))
+except ValueError as e:
+    print(e)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;rejected&quot;
+    expect_output(&quot;rejected&quot;)
+    assert push([&quot;c1&quot;, &quot;y2&quot;], [&quot;c1&quot;]) == [&quot;c1&quot;, &quot;y2&quot;]</textarea><textarea class="pc-src pc-solution" hidden>def push(local, remote):
+    if all(c in local for c in remote):
+        return list(local)
+    raise ValueError(&quot;rejected&quot;)
+
+try:
+    print(push([&quot;c1&quot;, &quot;y2&quot;], [&quot;c1&quot;, &quot;t2&quot;]))
+except ValueError as e:
+    print(e)</textarea><template class="pc-src pc-hint">What matters isn&rsquo;t the length but whether every remote commit is in the local list.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w021d5-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">A key in the code</div><div class="pc-prompt"><p>This script has an API key written into it, so it would be published with the code. Change it to read the key from the environment variable <code>WEATHER_KEY</code> with <code>os.environ.get</code>, using <code>"missing"</code> when it isn&rsquo;t set, so it prints <code>key set: False</code> here (where the variable isn&rsquo;t set). The key&rsquo;s text must not appear anywhere in the code.</p></div><textarea class="pc-src pc-code" hidden>import os
+
+API_KEY = &quot;wk-4f9a77c2d8e14b2a&quot;
+print(&quot;key set:&quot;, API_KEY != &quot;missing&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;from the environment&quot;
+    expect_output(&quot;key set: False&quot;)
+    assert &quot;wk-4f9a77c2d8e14b2a&quot; not in source and &quot;WEATHER_KEY&quot; in source</textarea><textarea class="pc-src pc-solution" hidden>import os
+
+API_KEY = os.environ.get(&quot;WEATHER_KEY&quot;, &quot;missing&quot;)
+print(&quot;key set:&quot;, API_KEY != &quot;missing&quot;)</textarea></div>
+<div class="parsons" data-id="w021d5-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Contributing a fix</div><div class="pc-prompt"><p>Arrange the commands to contribute a fix through a pull request. One line is a trap.</p></div><script type="application/json">{"lines": ["git pull", "git switch -c fix-typo", "git add README.md", "git commit -m \"Fix a typo in the install steps\"", "git push -u origin fix-typo"], "distractors": ["git push --force origin main"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d5-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Answer from what you know.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # the usual name of the main remote
+b = ___   # the command that downloads new commits without changing your files (two words)
+c = ___   # True or False: git refuses a push when the remote has commits you don&#x27;t have
+d = ___   # the file GitHub shows on a repository&#x27;s front page (its name)</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;origin&quot; and b == &quot;git fetch&quot; and c is True and d == &quot;README.md&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = &quot;origin&quot;
+b = &quot;git fetch&quot;
+c = True
+d = &quot;README.md&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w021d5-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is a remote?", "answer": 1, "explain": "Usually called origin.", "options": ["A branch", "Another copy of the repository somewhere else, such as GitHub", "A commit", "A backup file"]}, {"type": "mc", "q": "What does git pull do?", "answer": 1, "explain": "fetch, then merge.", "options": ["Uploads commits", "Fetches the remote&rsquo;s new commits and merges them into your branch", "Deletes a branch", "Clones"]}, {"type": "mc", "q": "Why would git push be rejected?", "answer": 1, "explain": "Pull first.", "options": ["Bad password only", "The remote has commits you don&rsquo;t have, so pushing would lose them", "The branch is too big", "It never is"]}, {"type": "mc", "q": "What is a pull request?", "answer": 1, "explain": "How teams change main.", "options": ["A git pull", "A request on GitHub to merge one branch into another, with review and discussion", "A bug report", "A download"]}, {"type": "mc", "q": "What is a fork?", "answer": 1, "explain": "For contributing to projects you can&rsquo;t push to.", "options": ["A branch", "Your own copy of someone else&rsquo;s repository on GitHub", "A merge conflict", "A tag"]}, {"type": "mc", "q": "Where should an API key live?", "answer": 1, "explain": "Never in the repository.", "options": ["In the code", "In an environment variable or a .env file listed in .gitignore", "In the README", "In a commit message"]}, {"type": "mc", "q": "Which is a good review comment?", "answer": 2, "explain": "Specific, kind, about the code.", "options": ["This is bad.", "Why would you do this?", "This crashes when marks is empty; could we return 0 there?", "Rewrite it all."]}, {"type": "text", "q": "What do you write in a pull request description to close issue 42 when it&rsquo;s merged? (two words)", "answer": ["Fixes #42", "fixes #42", "Closes #42", "closes #42", "Resolves #42", "resolves #42"], "explain": "GitHub links and closes the issue."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d5-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a review helper</div><div class="pc-prompt"><p>GitHub shows changes as a <strong>unified diff</strong>. Write a helper that reads one and finds things worth a reviewer&rsquo;s attention. Write <code>changed_lines(diff_text)</code> returning a list of <code>(file, line_number, text)</code> for every <strong>added</strong> line, where <code>file</code> comes from the <code>+++ b/NAME</code> line and the line numbers come from the hunk headers <code>@@ -a,b +c,d @@</code> (the new file&rsquo;s lines start at <code>c</code>; added lines <code>+</code> and unchanged lines (starting with a space) count up the new file&rsquo;s line number; removed lines <code>-</code> don&rsquo;t). Then <code>review(diff_text)</code> returning a list of comments <code>"file:line: message"</code> for added lines that contain <code>print(</code> (<code>"debug print left in?"</code>), <code>TODO</code> (<code>"unfinished TODO"</code>) or are longer than 79 characters (<code>"line too long"</code>), in that order of checks, one comment per problem.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>DIFF = &quot;&quot;&quot;diff --git a/stats.py b/stats.py
+--- a/stats.py
++++ b/stats.py
+@@ -1,4 +1,6 @@
+ def mean(xs):
+-    return sum(xs) / len(xs)
++    if not xs:
++        return 0
++    print(&quot;debug&quot;, xs)
++    return sum(xs) / len(xs)
+ 
+ def spread(xs):
+@@ -10,2 +12,3 @@
+ # end
++# TODO: add median
+diff --git a/README.md b/README.md
+--- a/README.md
++++ b/README.md
+@@ -1,1 +1,2 @@
+ # Stats
++&quot;&quot;&quot; + &quot;x&quot; * 85 + &quot;\n&quot;
+def test_lines():
+    &quot;changed_lines&quot;
+    lines = changed_lines(DIFF)
+    assert lines[0] == (&quot;stats.py&quot;, 2, &quot;    if not xs:&quot;)
+    assert (&quot;stats.py&quot;, 4, &#x27;    print(&quot;debug&quot;, xs)&#x27;) in lines
+    assert (&quot;stats.py&quot;, 13, &quot;# TODO: add median&quot;) in lines
+    assert (&quot;README.md&quot;, 2, &quot;x&quot; * 85) in lines and len(lines) == 6
+def test_review():
+    &quot;review&quot;
+    assert review(DIFF) == [&quot;stats.py:4: debug print left in?&quot;, &quot;stats.py:13: unfinished TODO&quot;, &quot;README.md:2: line too long&quot;]</textarea><textarea class="pc-src pc-solution" hidden>import re
+
+HUNK = re.compile(r&quot;^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@&quot;)
+
+def changed_lines(diff_text):
+    out = []
+    current, number = None, 0
+    for line in diff_text.splitlines():
+        if line.startswith(&quot;+++ &quot;):
+            current = line[4:]
+            if current.startswith(&quot;b/&quot;):
+                current = current[2:]
+        elif line.startswith(&quot;--- &quot;) or line.startswith(&quot;diff &quot;):
+            continue
+        elif HUNK.match(line):
+            number = int(HUNK.match(line).group(1))
+        elif line.startswith(&quot;+&quot;):
+            out.append((current, number, line[1:]))
+            number += 1
+        elif line.startswith(&quot; &quot;) or line == &quot;&quot;:
+            number += 1
+    return out
+
+def review(diff_text):
+    comments = []
+    for name, number, text in changed_lines(diff_text):
+        if &quot;print(&quot; in text:
+            comments.append(f&quot;{name}:{number}: debug print left in?&quot;)
+        if &quot;TODO&quot; in text:
+            comments.append(f&quot;{name}:{number}: unfinished TODO&quot;)
+        if len(text) &gt; 79:
+            comments.append(f&quot;{name}:{number}: line too long&quot;)
+    return comments</textarea></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>Look at this course&rsquo;s own repository, peter-adepoju/python-atlas on GitHub: open the commit history, click into a commit to see its diff, and look at how the files are organised. Every page you&rsquo;ve studied on is there as plain text. Tomorrow is the Forge: you&rsquo;ll build a small version-control tool that brings the whole week together.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w021d4.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w021d5", "week": 21, "day": 5, "title": "GitHub and pull requests", "exercises": [{"id": "w021d5-urls", "title": "Who and what", "points": 10}, {"id": "w021d5-ahead", "title": "Ahead and behind", "points": 15}, {"id": "w021d5-push", "title": "Rejected!", "points": 15}, {"id": "w021d5-pr", "title": "A pull request checklist", "points": 15}, {"id": "w021d5-secrets_scan", "title": "Catch a secret before it's pushed", "points": 15}, {"id": "w021d5-bug1", "title": "Overwriting the team's work", "points": 10}, {"id": "w021d5-bug2", "title": "A key in the code", "points": 10}, {"id": "w021d5-trace", "title": "Predict them", "points": 15}, {"id": "w021d5-challenge", "title": "Challenge: a review helper", "points": 25}], "points": 130}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=e002563bcd"></script>
+</body>
+</html>

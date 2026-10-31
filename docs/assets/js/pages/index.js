@@ -1,7 +1,7 @@
-import "./common.js?v=b5658a22af";
-import { $, h, pageData, reducedMotion, SITE } from "../site.js?v=b5658a22af";
-import { progress } from "../progress.js?v=b5658a22af";
-import { loadCourse, nextDay } from "../resume.js?v=b5658a22af";
+import "./common.js?v=e002563bcd";
+import { $, h, pageData, reducedMotion, SITE } from "../site.js?v=e002563bcd";
+import { progress } from "../progress.js?v=e002563bcd";
+import { loadCourse, nextDay } from "../resume.js?v=e002563bcd";
 
 // ---------- hero: a recorded trace replayed with the yellow pointer
 const trace = pageData("hero-trace");
