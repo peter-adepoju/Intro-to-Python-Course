@@ -1,6 +1,6 @@
 // What Python does with your code: tokens → tree → bytecode → output. All computed live.
-import { h } from "../site.js?v=d73b390728";
-import { py } from "../runtime.js?v=d73b390728";
+import { h } from "../site.js?v=1a3afd0dc2";
+import { py } from "../runtime.js?v=1a3afd0dc2";
 
 const KIND_COLOURS = {
   NAME: "var(--blue)", KEYWORD: "var(--violet)", NUMBER: "#b5480f", STRING: "var(--green)", OP: "var(--ink-2)", COMMENT: "var(--ink-3)",

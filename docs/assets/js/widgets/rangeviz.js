@@ -1,5 +1,5 @@
 // range(start, stop, step) on a number line: which values are produced, and why stop is never one of them.
-import { h, svg } from "../site.js?v=d73b390728";
+import { h, svg } from "../site.js?v=1a3afd0dc2";
 
 export default function rangeviz(el, { start = 0, stop = 10, step = 1 } = {}) {
   const mk = (v, label) => h("input", { type: "number", class: "w-input", value: v, style: "width:5.5em", "aria-label": label });

@@ -1,6 +1,6 @@
 // The X-ray: steps through a program and draws names, frames and objects.
-import { h, svg, reducedMotion } from "./site.js?v=d73b390728";
-import { settings } from "./settings.js?v=d73b390728";
+import { h, svg, reducedMotion } from "./site.js?v=1a3afd0dc2";
+import { settings } from "./settings.js?v=1a3afd0dc2";
 
 export class XRay {
   constructor(parent, editor, { onClose } = {}) {
