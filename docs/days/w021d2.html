@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="8c61ea13ed">
+<title>Week 21 Day 2: Running scripts | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=8c61ea13ed">
+<link rel="stylesheet" href="../assets/css/site.css?v=8c61ea13ed">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=8c61ea13ed"></script>
+<script src="../assets/vendor/codemirror.js?v=8c61ea13ed" defer></script>
+<meta name="description" content="A Python file you run from the shell is a script, and scripts are how most real Python gets used: to rename a folder of photos, check a spreadsheet, or...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w021d2.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 21 Day 2: Running scripts">
+<meta property="og:description" content="A Python file you run from the shell is a script, and scripts are how most real Python gets used: to rename a folder of photos, check a spreadsheet, or...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w021d2.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-21">Week 21: The command line and Git</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#running-a-script" data-sec="running-a-script">Running a script</a></li><li><a href="#sys-argv" data-sec="sys-argv">sys.argv</a></li><li><a href="#argparse" data-sec="argparse">argparse</a></li><li><a href="#input-output-errors-and-exit-codes" data-sec="input-output-errors-and-exit-codes">Input, output, errors and exit codes</a></li><li><a href="#environment-variables" data-sec="environment-variables">Environment variables</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w021d2.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-21">Week 21: The command line and Git</a></li><li aria-current="page">Day 2 of 6</li></ol>
+      <p class="day-where"><span>Week 21, Day 2</span></p>
+      <h1>Running scripts</h1>
+      <div class="day-intro"><p>A Python file you run from the shell is a script, and scripts are how most real Python gets used: to rename a folder of photos, check a spreadsheet, or process last night&rsquo;s logs. Today you&rsquo;ll run scripts from your own terminal, give them information on the command line instead of with <code>input()</code>, report success or failure with exit codes, and connect scripts to other commands with pipes.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Run a Python script from the shell, and run modules with <code>python -m</code></li><li>Read command-line arguments with <code>sys.argv</code>, and build a proper interface with <code>argparse</code></li><li>Write to standard output and standard error, and end a script with a meaningful exit code</li><li>Read from standard input, so a script can sit in a pipe like <code>cat data.txt | python3 count.py</code></li><li>Read settings from environment variables with <code>os.environ</code></li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:20" title="Running a script: 20 min"></span><span class="plan-seg s0" style="flex:20" title="sys.argv: 20 min"></span><span class="plan-seg s1" style="flex:30" title="argparse: 30 min"></span><span class="plan-seg s0" style="flex:25" title="Input, output, errors and exit codes: 25 min"></span><span class="plan-seg s1" style="flex:15" title="Environment variables: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">Running a script</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:30</span><span class="plan-what">sys.argv</span><span class="plan-min">20 min</span></li><li><span class="plan-at">0:50</span><span class="plan-what">argparse</span><span class="plan-min">30 min</span></li><li><span class="plan-at">1:20</span><span class="plan-what">Input, output, errors and exit codes</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Environment variables</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w021d2.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w021d2.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w021d2-p1"><textarea class="pc-src pc-code" hidden>import sys
+print(sys.argv)
+print(len(sys.argv))</textarea></div>
+<p><code>sys.argv</code> is the list of words that were typed to start the program. Here, in the browser, there&rsquo;s only one: the program&rsquo;s own name. Run from a terminal as <code>python3 greet.py Ada --loud</code>, it would be <code>["greet.py", "Ada", "--loud"]</code>.</p>
+<h2 id="running-a-script">Running a script</h2>
+<p>On your own computer, in the folder you made yesterday:</p>
+<pre><code>cd ~/atlas/week21
+echo &quot;print('Hello from a script')&quot; &gt; hello.py
+python3 hello.py
+</code></pre>
+<p>(On Windows: <code>python hello.py</code> or <code>py hello.py</code>.) Python runs the file from top to bottom, exactly as the site does, and prints to the terminal. Write longer scripts in a code editor (Visual Studio Code is free and widely used; Week 22 sets one up properly), save them, and run them from the terminal.</p>
+<p>A few useful ways of starting Python:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>python3 script.py</code></td>
+<td>runs a script</td>
+</tr>
+<tr>
+<td><code>python3</code></td>
+<td>starts the interactive prompt <code>&gt;&gt;&gt;</code> (leave with <code>exit()</code>)</td>
+</tr>
+<tr>
+<td><code>python3 -c "print(2 ** 100)"</code></td>
+<td>runs one line</td>
+</tr>
+<tr>
+<td><code>python3 -m module</code></td>
+<td>runs a module as a script, e.g. <code>python3 -m http.server</code> serves the current folder as a website, <code>python3 -m json.tool data.json</code> pretty-prints JSON</td>
+</tr>
+<tr>
+<td><code>python3 -i script.py</code></td>
+<td>runs a script, then stays at the <code>&gt;&gt;&gt;</code> prompt with its variables, for exploring</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sys-argv">sys.argv</h2>
+<p>Scripts that ask questions with <code>input()</code> can&rsquo;t be automated: someone has to sit and type. Instead, scripts usually take their information from the <strong>command line</strong>:</p>
+<pre><code>python3 convert.py 100 c
+</code></pre>
+<p><code>sys.argv</code> holds the words: <code>["convert.py", "100", "c"]</code>. Every item is a <strong>string</strong>, so numbers must be converted.</p>
+<div class="pc pc-example" data-kind="example" data-id="w021d2-e2"><textarea class="pc-src pc-code" hidden>def main(argv):
+    if len(argv) != 3:
+        print(&quot;usage: convert.py TEMPERATURE UNIT&quot;)
+        return 2
+    value, unit = float(argv[1]), argv[2]
+    if unit == &quot;c&quot;:
+        print(f&quot;{value}°C is {value * 9 / 5 + 32:.1f}°F&quot;)
+    else:
+        print(f&quot;{value}°F is {(value - 32) * 5 / 9:.1f}°C&quot;)
+    return 0
+
+# On your computer the last line would be: sys.exit(main(sys.argv))
+main([&quot;convert.py&quot;, &quot;100&quot;, &quot;c&quot;])
+main([&quot;convert.py&quot;, &quot;98.6&quot;, &quot;f&quot;])
+main([&quot;convert.py&quot;])</textarea></div>
+<p>Writing <code>main(argv)</code> to take the list as an argument, rather than reading <code>sys.argv</code> inside, means you can call it with any list you like, which is how the examples here (and tests) can try it out without a terminal.</p>
+<h2 id="argparse">argparse</h2>
+<p>Handling arguments by hand gets messy fast: optional flags, defaults, checking types, help messages. The standard <code>argparse</code> module does all of it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w021d2-e3"><textarea class="pc-src pc-code" hidden>import argparse
+
+def make_parser():
+    parser = argparse.ArgumentParser(prog=&quot;convert&quot;, description=&quot;Convert temperatures.&quot;)
+    parser.add_argument(&quot;value&quot;, type=float, help=&quot;the temperature to convert&quot;)
+    parser.add_argument(&quot;--to&quot;, choices=[&quot;c&quot;, &quot;f&quot;], default=&quot;f&quot;, help=&quot;unit to convert to (default: f)&quot;)
+    parser.add_argument(&quot;--places&quot;, type=int, default=1, help=&quot;decimal places&quot;)
+    parser.add_argument(&quot;-v&quot;, &quot;--verbose&quot;, action=&quot;store_true&quot;, help=&quot;explain the working&quot;)
+    return parser
+
+parser = make_parser()
+args = parser.parse_args([&quot;37&quot;, &quot;--places&quot;, &quot;2&quot;, &quot;-v&quot;])   # on your computer: parser.parse_args()
+print(args)
+print(args.value, args.to, args.places, args.verbose)
+print(parser.format_help())</textarea></div>
+<ul>
+<li><strong>Positional</strong> arguments (<code>"value"</code>) are required and given in order.</li>
+<li><strong>Optional</strong> arguments start with <code>--</code> (a long name) or <code>-</code> (a short one), can have a <code>default</code>, and can be restricted with <code>choices</code>.</li>
+<li><code>type=float</code> converts the text, and gives a clear error if it can&rsquo;t.</li>
+<li><code>action="store_true"</code> makes a <strong>flag</strong>: <code>True</code> if it&rsquo;s given, <code>False</code> if not.</li>
+<li><code>--help</code> (or <code>-h</code>) prints the help text automatically.</li>
+</ul>
+<p><code>parse_args()</code> with no list reads <code>sys.argv</code>. Given bad input, argparse prints a usage message and stops the script with exit code 2. In the browser that shows up as <code>SystemExit</code>:</p>
+<div class="pc pc-example" data-kind="example" data-id="w021d2-e4"><textarea class="pc-src pc-code" hidden>import argparse
+
+parser = argparse.ArgumentParser(prog=&quot;convert&quot;)
+parser.add_argument(&quot;value&quot;, type=float)
+try:
+    parser.parse_args([&quot;hot&quot;])
+except SystemExit as e:
+    print(&quot;argparse stopped the program with exit code&quot;, e.code)</textarea></div>
+<h2 id="input-output-errors-and-exit-codes">Input, output, errors and exit codes</h2>
+<p>Every program has three standard streams:</p>
+<ul>
+<li><strong>standard input</strong> (stdin): what&rsquo;s typed, or piped in;</li>
+<li><strong>standard output</strong> (stdout): <code>print</code> writes here;</li>
+<li><strong>standard error</strong> (stderr): for error messages and warnings, kept separate so they don&rsquo;t get mixed into the real output. Write to it with <code>print(..., file=sys.stderr)</code>.</li>
+</ul>
+<p><strong>Exit codes.</strong> When a program ends, it hands the shell a number: <strong>0 means success</strong>, anything else means something went wrong (by convention, 1 for a general error and 2 for bad usage). <code>sys.exit(code)</code> ends the script with that code. Other programs and scripts check it to decide what to do next; in a shell, <code>echo $?</code> shows the last one.</p>
+<p><strong>Pipes.</strong> The shell&rsquo;s <code>|</code> connects one program&rsquo;s standard output to the next program&rsquo;s standard input:</p>
+<pre><code>cat marks.txt | python3 average.py
+python3 make_report.py &gt; report.txt
+python3 check.py 2&gt; errors.txt
+</code></pre>
+<p>To read standard input in Python, loop over <code>sys.stdin</code>, which gives one line at a time:</p>
+<pre><code>import sys
+total = count = 0
+for line in sys.stdin:
+    total += float(line)
+    count += 1
+print(total / count)
+</code></pre>
+<p>To make code like this testable, write the work in a function that takes <strong>any</strong> stream of lines, and pass it <code>sys.stdin</code> on the real command line, or an <code>io.StringIO</code> (a string that behaves like a file) in a test:</p>
+<div class="pc pc-example" data-kind="example" data-id="w021d2-e5"><textarea class="pc-src pc-code" hidden>import io
+
+def average(lines):
+    numbers = [float(line) for line in lines if line.strip()]
+    return sum(numbers) / len(numbers)
+
+fake_stdin = io.StringIO(&quot;71\n64\n\n90\n&quot;)
+print(average(fake_stdin))
+# On your computer: print(average(sys.stdin))</textarea></div>
+<h2 id="environment-variables">Environment variables</h2>
+<p>The shell keeps a set of named settings called <strong>environment variables</strong>, which every program it starts can read: <code>HOME</code> (your home folder), <code>PATH</code> (the folders searched for commands), <code>USER</code> and many more. Scripts often read their own settings this way, especially secrets like API keys that must never be written into the code:</p>
+<pre><code>export DATA_DIR=/home/you/data      (macOS and Linux)
+$env:DATA_DIR = &quot;C:\data&quot;           (PowerShell)
+</code></pre>
+<div class="pc pc-example" data-kind="example" data-id="w021d2-e6"><textarea class="pc-src pc-code" hidden>import os
+
+data_dir = os.environ.get(&quot;DATA_DIR&quot;, &quot;./data&quot;)     # a default if it isn&#x27;t set
+print(&quot;reading from&quot;, data_dir)
+print(&quot;HOME is set:&quot;, &quot;HOME&quot; in os.environ)</textarea></div>
+<p><code>os.environ</code> is a dictionary-like object. Use <code>.get(name, default)</code>, since a missing variable is common.</p>
+<p><strong><code>PATH</code></strong> explains a puzzle you may have met yesterday: typing <code>python3</code> works because the folder containing the <code>python3</code> program is listed in <code>PATH</code>. &ldquo;command not found&rdquo; usually means it isn&rsquo;t.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p>Run scripts with <code>python3 script.py</code>. Take information from the command line with <code>argparse</code> (or <code>sys.argv</code>), not <code>input()</code>. <code>print</code> goes to standard output; send errors to <code>sys.stderr</code>; end with <code>sys.exit(0)</code> for success or a non-zero code for failure. Read pipes from <code>sys.stdin</code>, and settings from <code>os.environ</code>. Put the work in functions that take their inputs as arguments, so they can be tested.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d2-argv" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Arguments by hand</div><div class="pc-prompt"><p>Write <code>main(argv)</code> for a script <code>repeat.py</code> used as <code>repeat.py WORD COUNT</code>: it returns the word repeated COUNT times, separated by spaces. If the number of arguments is wrong, or COUNT isn&rsquo;t a whole number, return the string <code>"usage: repeat.py WORD COUNT"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert main([&quot;repeat.py&quot;, &quot;hip&quot;, &quot;3&quot;]) == &quot;hip hip hip&quot;
+    assert main([&quot;repeat.py&quot;, &quot;go&quot;, &quot;1&quot;]) == &quot;go&quot;
+    assert main([&quot;repeat.py&quot;]) == &quot;usage: repeat.py WORD COUNT&quot;
+    assert main([&quot;repeat.py&quot;, &quot;x&quot;, &quot;three&quot;]) == &quot;usage: repeat.py WORD COUNT&quot;
+    assert main([&quot;repeat.py&quot;, &quot;a&quot;, &quot;2&quot;, &quot;extra&quot;]) == &quot;usage: repeat.py WORD COUNT&quot;</textarea><textarea class="pc-src pc-solution" hidden>USAGE = &quot;usage: repeat.py WORD COUNT&quot;
+
+def main(argv):
+    if len(argv) != 3 or not argv[2].isdigit():
+        return USAGE
+    return &quot; &quot;.join([argv[1]] * int(argv[2]))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d2-parser" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">An argparse interface</div><div class="pc-prompt"><p>Write <code>make_parser()</code> returning an <code>ArgumentParser</code> for a script that resizes images: a positional <code>files</code> (one or more file names: <code>nargs="+"</code>), <code>--width</code> (a whole number, required: <code>required=True</code>), <code>--format</code> (one of <code>jpg</code>, <code>png</code>, <code>webp</code>, default <code>jpg</code>) and a flag <code>--dry-run</code> (<code>store_true</code>). Argparse turns <code>--dry-run</code> into <code>args.dry_run</code>.</p></div><textarea class="pc-src pc-code" hidden>import argparse</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    p = make_parser()
+    a = p.parse_args([&quot;a.png&quot;, &quot;b.png&quot;, &quot;--width&quot;, &quot;800&quot;])
+    assert a.files == [&quot;a.png&quot;, &quot;b.png&quot;] and a.width == 800 and a.format == &quot;jpg&quot; and a.dry_run is False
+    b = p.parse_args([&quot;--width&quot;, &quot;300&quot;, &quot;c.jpg&quot;, &quot;--format&quot;, &quot;webp&quot;, &quot;--dry-run&quot;])
+    assert b.files == [&quot;c.jpg&quot;] and b.format == &quot;webp&quot; and b.dry_run is True
+    for bad in ([&quot;a.png&quot;], [&quot;a.png&quot;, &quot;--width&quot;, &quot;big&quot;], [&quot;a.png&quot;, &quot;--width&quot;, &quot;5&quot;, &quot;--format&quot;, &quot;gif&quot;], [&quot;--width&quot;, &quot;5&quot;]):
+        try:
+            p.parse_args(bad)
+            assert False, f&quot;{bad} should be rejected&quot;
+        except SystemExit as e:
+            assert e.code == 2</textarea><textarea class="pc-src pc-solution" hidden>import argparse
+
+def make_parser():
+    p = argparse.ArgumentParser(prog=&quot;resize&quot;, description=&quot;Resize images.&quot;)
+    p.add_argument(&quot;files&quot;, nargs=&quot;+&quot;, help=&quot;images to resize&quot;)
+    p.add_argument(&quot;--width&quot;, type=int, required=True, help=&quot;new width in pixels&quot;)
+    p.add_argument(&quot;--format&quot;, choices=[&quot;jpg&quot;, &quot;png&quot;, &quot;webp&quot;], default=&quot;jpg&quot;)
+    p.add_argument(&quot;--dry-run&quot;, action=&quot;store_true&quot;, help=&quot;show what would happen&quot;)
+    return p</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d2-stdin" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">A filter for pipes</div><div class="pc-prompt"><p>Write <code>count_words(lines)</code> that takes any stream of lines (a list, <code>sys.stdin</code>, or an <code>io.StringIO</code>) and returns a tuple <code>(lines, words, characters)</code>, like the shell&rsquo;s <code>wc</code> command: characters counts everything, including the newlines. Then write <code>main(lines)</code> that returns the three numbers as one string, separated by spaces.</p></div><textarea class="pc-src pc-code" hidden>import io</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    import io
+    assert count_words(io.StringIO(&quot;the cat sat\non the mat\n&quot;)) == (2, 6, 23)
+    assert count_words([&quot;one\n&quot;, &quot;\n&quot;, &quot;two three\n&quot;]) == (3, 3, 15)
+    assert count_words(io.StringIO(&quot;&quot;)) == (0, 0, 0)
+    assert main(io.StringIO(&quot;a b\n&quot;)) == &quot;1 2 4&quot;</textarea><textarea class="pc-src pc-solution" hidden>import io
+
+def count_words(lines):
+    n_lines = n_words = n_chars = 0
+    for line in lines:
+        n_lines += 1
+        n_words += len(line.split())
+        n_chars += len(line)
+    return n_lines, n_words, n_chars
+
+def main(lines):
+    return &quot; &quot;.join(str(n) for n in count_words(lines))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d2-exitcodes" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Success or failure</div><div class="pc-prompt"><p>Write <code>check_csv(lines)</code> that checks lines of a CSV file where every line must have the same number of comma-separated fields as the first (the header). It returns a tuple <code>(exit_code, messages)</code>: <code>(0, [])</code> if all is well; otherwise <code>1</code> and a list of messages like <code>"line 3: expected 3 fields, found 2"</code> (counting lines from 1). An empty file is an error with the message <code>"empty file"</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    good = [&quot;name,age,town\n&quot;, &quot;Ada,31,Leeds\n&quot;, &quot;Ben,25,Bath\n&quot;]
+    assert check_csv(good) == (0, [])
+    bad = [&quot;name,age,town\n&quot;, &quot;Ada,31\n&quot;, &quot;Ben,25,Bath\n&quot;, &quot;Cy,40,York,UK\n&quot;]
+    assert check_csv(bad) == (1, [&quot;line 2: expected 3 fields, found 2&quot;, &quot;line 4: expected 3 fields, found 4&quot;])
+    assert check_csv([]) == (1, [&quot;empty file&quot;])</textarea><textarea class="pc-src pc-solution" hidden>def check_csv(lines):
+    lines = list(lines)
+    if not lines:
+        return 1, [&quot;empty file&quot;]
+    expected = len(lines[0].rstrip(&quot;\n&quot;).split(&quot;,&quot;))
+    messages = []
+    for number, line in enumerate(lines, start=1):
+        found = len(line.rstrip(&quot;\n&quot;).split(&quot;,&quot;))
+        if found != expected:
+            messages.append(f&quot;line {number}: expected {expected} fields, found {found}&quot;)
+    return (1 if messages else 0), messages</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d2-env" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Settings from the environment</div><div class="pc-prompt"><p>Write <code>settings(environ)</code> that takes a dictionary of environment variables and returns a dictionary with <code>"data_dir"</code> (from <code>ATLAS_DATA</code>, default <code>"./data"</code>), <code>"debug"</code> (<code>True</code> if <code>ATLAS_DEBUG</code> is <code>"1"</code>, <code>"true"</code> or <code>"yes"</code>, ignoring case; otherwise <code>False</code>) and <code>"workers"</code> (from <code>ATLAS_WORKERS</code> as a whole number, default 4). Passing the dictionary in (rather than reading <code>os.environ</code> inside) makes it testable; the real script would call <code>settings(os.environ)</code>.</p></div><textarea class="pc-src pc-code" hidden></textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    assert settings({}) == {&quot;data_dir&quot;: &quot;./data&quot;, &quot;debug&quot;: False, &quot;workers&quot;: 4}
+    assert settings({&quot;ATLAS_DATA&quot;: &quot;/srv/d&quot;, &quot;ATLAS_DEBUG&quot;: &quot;Yes&quot;, &quot;ATLAS_WORKERS&quot;: &quot;8&quot;}) == {&quot;data_dir&quot;: &quot;/srv/d&quot;, &quot;debug&quot;: True, &quot;workers&quot;: 8}
+    assert settings({&quot;ATLAS_DEBUG&quot;: &quot;0&quot;})[&quot;debug&quot;] is False</textarea><textarea class="pc-src pc-solution" hidden>def settings(environ):
+    return {
+        &quot;data_dir&quot;: environ.get(&quot;ATLAS_DATA&quot;, &quot;./data&quot;),
+        &quot;debug&quot;: environ.get(&quot;ATLAS_DEBUG&quot;, &quot;&quot;).lower() in (&quot;1&quot;, &quot;true&quot;, &quot;yes&quot;),
+        &quot;workers&quot;: int(environ.get(&quot;ATLAS_WORKERS&quot;, &quot;4&quot;)),
+    }</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w021d2-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Strings, not numbers</div><div class="pc-prompt"><p><code>add.py</code> should add up the numbers given on the command line, but it joins them into one long string: for <code>add.py 2 3 4</code> it gives <code>234</code>. Fix <code>main</code> so it returns <code>9</code> for that.</p></div><textarea class="pc-src pc-code" hidden>def main(argv):
+    total = &quot;&quot;
+    for word in argv[1:]:
+        total += word
+    return total
+
+print(main([&quot;add.py&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;]))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;9&quot;
+    expect_output(&quot;9&quot;)
+    assert main([&quot;add.py&quot;]) == 0 and main([&quot;add.py&quot;, &quot;1.5&quot;, &quot;2&quot;]) == 3.5</textarea><textarea class="pc-src pc-solution" hidden>def main(argv):
+    total = 0
+    for word in argv[1:]:
+        total += float(word)
+    return int(total) if total == int(total) else total
+
+print(main([&quot;add.py&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;]))</textarea><template class="pc-src pc-hint">Command-line arguments are always strings. Start from 0 and add <code>float(word)</code>; to print <code>9</code> rather than <code>9.0</code>, convert whole results back with <code>int</code>.</template></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w021d2-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Errors in the output</div><div class="pc-prompt"><p>This script prints its error message to standard output, so when someone runs <code>python3 grades.py &gt; report.txt</code>, the error ends up hidden inside the report. Send the error line to standard error instead (the report line must stay on standard output), so that only <code>Ada: 71</code> goes to standard output. (On this site, both streams appear in the output panel; the checks look at them separately.)</p></div><textarea class="pc-src pc-code" hidden>import sys
+
+marks = {&quot;Ada&quot;: &quot;71&quot;, &quot;Ben&quot;: &quot;absent&quot;}
+for name, mark in marks.items():
+    if mark.isdigit():
+        print(f&quot;{name}: {mark}&quot;)
+    else:
+        print(f&quot;warning: no mark for {name}&quot;)</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;only the report on stdout&quot;
+    import io, contextlib, sys
+    out, err = io.StringIO(), io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+        exec(compile(source, &quot;&lt;program&gt;&quot;, &quot;exec&quot;), {&quot;__name__&quot;: &quot;__main__&quot;})
+    assert out.getvalue().strip() == &quot;Ada: 71&quot;, &quot;standard output should hold only the report&quot;
+    assert &quot;warning: no mark for Ben&quot; in err.getvalue(), &quot;the warning should go to standard error&quot;</textarea><textarea class="pc-src pc-solution" hidden>import sys
+
+marks = {&quot;Ada&quot;: &quot;71&quot;, &quot;Ben&quot;: &quot;absent&quot;}
+for name, mark in marks.items():
+    if mark.isdigit():
+        print(f&quot;{name}: {mark}&quot;)
+    else:
+        print(f&quot;warning: no mark for {name}&quot;, file=sys.stderr)</textarea></div>
+<div class="parsons" data-id="w021d2-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">The shape of a script</div><div class="pc-prompt"><p>Arrange the lines into a script that greets the name given on the command line, with a proper exit code. One line is a trap.</p></div><script type="application/json">{"lines": ["import argparse", "import sys", "def main(argv=None):", "    parser = argparse.ArgumentParser()", "    parser.add_argument(\"name\")", "    args = parser.parse_args(argv)", "    print(f\"Hello, {args.name}!\")", "    return 0", "if __name__ == \"__main__\":", "    sys.exit(main())"], "distractors": ["    name = input(\"Name? \")"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d2-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Answer from what you know.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # sys.argv for: python3 tool.py --fast data.csv  (a list)
+b = ___   # the exit code that means success
+c = ___   # the type of every item in sys.argv (as a word: &quot;str&quot;, &quot;int&quot; ...)
+d = ___   # the shell symbol that sends one program&#x27;s output into another&#x27;s input</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == [&quot;tool.py&quot;, &quot;--fast&quot;, &quot;data.csv&quot;] and b == 0 and c == &quot;str&quot; and d == &quot;|&quot;</textarea><textarea class="pc-src pc-solution" hidden>a = [&quot;tool.py&quot;, &quot;--fast&quot;, &quot;data.csv&quot;]
+b = 0
+c = &quot;str&quot;
+d = &quot;|&quot;</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w021d2-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "Why do scripts take command-line arguments rather than use input()?", "answer": 1, "explain": "Scripts get automated.", "options": ["It&rsquo;s faster", "They can be run automatically, with no one typing answers", "input() is deprecated", "Arguments are numbers"]}, {"type": "mc", "q": "What is sys.argv[0]?", "answer": 1, "explain": "Real arguments start at sys.argv[1].", "options": ["The first argument", "The script&rsquo;s own name", "The number of arguments", "Python&rsquo;s version"]}, {"type": "mc", "q": "What does action=&rdquo;store_true&rdquo; make in argparse?", "answer": 1, "explain": "Like &ndash;verbose.", "options": ["A required argument", "A flag that is True if given, False if not", "A number", "A list"]}, {"type": "mc", "q": "What exit code means success?", "answer": 1, "explain": "Anything else signals a problem.", "options": ["1", "0", "-1", "200"]}, {"type": "mc", "q": "Where should error messages go?", "answer": 1, "explain": "So they don&rsquo;t mix with the real output.", "options": ["Standard output", "Standard error", "A file always", "Nowhere"]}, {"type": "mc", "q": "What does <code>cat data.txt | python3 count.py</code> do?", "answer": 1, "explain": "A pipe.", "options": ["Runs both separately", "Sends the file&rsquo;s contents to count.py&rsquo;s standard input", "Copies the file", "Deletes it"]}, {"type": "mc", "q": "How should a script read an API key?", "answer": 1, "explain": "Never put secrets in code.", "options": ["Write it in the code", "From an environment variable", "Ask with input() every time", "From sys.argv"]}, {"type": "text", "q": "What does <code>python3 -m http.server</code> do? (in a few words)", "answer": ["serves the current folder", "a web server", "serves files", "starts a web server", "web server", "serve the folder as a website", "runs a web server"], "explain": "It serves the current folder as a website on your machine."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w021d2-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: a complete command-line tool</div><div class="pc-prompt"><p>Build <code>todo</code>, a to-do list tool, as a function <code>main(argv, store)</code> that works like a real script. <code>argv</code> is the list of arguments <strong>after</strong> the program name, and <code>store</code> is a list of task strings (the &ldquo;file&rdquo; the tool keeps its tasks in; the function changes it in place). Use <code>argparse</code> with <strong>subcommands</strong> (<code>parser.add_subparsers(dest="command", required=True)</code>):</p>
+<ul>
+<li><code>add TEXT...</code> adds one task (the words joined by spaces); output <code>Added 3: buy eggs</code> (its number, counting from 1).</li>
+<li><code>list</code> outputs each task as <code>1. buy eggs</code>, or <code>Nothing to do.</code> if empty.</li>
+<li><code>done N</code> removes task N; output <code>Done: buy eggs</code>. If N doesn&rsquo;t exist, output <code>No task N</code> with exit code 1.</li>
+<li><code>clear --yes</code> removes everything (without <code>--yes</code>, output <code>Add --yes to really clear</code> with exit code 1).</li>
+</ul>
+<p><code>main</code> returns <code>(exit_code, output_lines)</code>. Bad usage (like an unknown command) must give exit code 2, which argparse produces by raising <code>SystemExit(2)</code>: catch it and return <code>(2, [])</code>. (argparse also prints a usage message; that&rsquo;s fine.)</p></div><textarea class="pc-src pc-code" hidden>import argparse</textarea><textarea class="pc-src pc-tests" hidden>def test_flow():
+    &quot;a session&quot;
+    store = []
+    assert main([&quot;list&quot;], store) == (0, [&quot;Nothing to do.&quot;])
+    assert main([&quot;add&quot;, &quot;buy&quot;, &quot;eggs&quot;], store) == (0, [&quot;Added 1: buy eggs&quot;])
+    assert main([&quot;add&quot;, &quot;call&quot;, &quot;Ada&quot;], store) == (0, [&quot;Added 2: call Ada&quot;])
+    assert main([&quot;list&quot;], store) == (0, [&quot;1. buy eggs&quot;, &quot;2. call Ada&quot;])
+    assert main([&quot;done&quot;, &quot;1&quot;], store) == (0, [&quot;Done: buy eggs&quot;]) and store == [&quot;call Ada&quot;]
+    assert main([&quot;done&quot;, &quot;5&quot;], store) == (1, [&quot;No task 5&quot;])
+    assert main([&quot;clear&quot;], store) == (1, [&quot;Add --yes to really clear&quot;]) and store == [&quot;call Ada&quot;]
+    assert main([&quot;clear&quot;, &quot;--yes&quot;], store) == (0, [&quot;Cleared 1 task(s)&quot;]) and store == []
+def test_usage():
+    &quot;bad usage&quot;
+    assert main([&quot;fly&quot;], []) == (2, [])
+    assert main([], []) == (2, [])
+    assert main([&quot;done&quot;, &quot;two&quot;], []) == (2, [])</textarea><textarea class="pc-src pc-solution" hidden>import argparse
+
+def make_parser():
+    parser = argparse.ArgumentParser(prog=&quot;todo&quot;)
+    sub = parser.add_subparsers(dest=&quot;command&quot;, required=True)
+    a = sub.add_parser(&quot;add&quot;)
+    a.add_argument(&quot;text&quot;, nargs=&quot;+&quot;)
+    sub.add_parser(&quot;list&quot;)
+    d = sub.add_parser(&quot;done&quot;)
+    d.add_argument(&quot;number&quot;, type=int)
+    c = sub.add_parser(&quot;clear&quot;)
+    c.add_argument(&quot;--yes&quot;, action=&quot;store_true&quot;)
+    return parser
+
+def main(argv, store):
+    try:
+        args = make_parser().parse_args(argv)
+    except SystemExit as e:
+        return e.code, []
+    if args.command == &quot;add&quot;:
+        store.append(&quot; &quot;.join(args.text))
+        return 0, [f&quot;Added {len(store)}: {store[-1]}&quot;]
+    if args.command == &quot;list&quot;:
+        if not store:
+            return 0, [&quot;Nothing to do.&quot;]
+        return 0, [f&quot;{i}. {t}&quot; for i, t in enumerate(store, start=1)]
+    if args.command == &quot;done&quot;:
+        if not 1 &lt;= args.number &lt;= len(store):
+            return 1, [f&quot;No task {args.number}&quot;]
+        task = store.pop(args.number - 1)
+        return 0, [f&quot;Done: {task}&quot;]
+    if not args.yes:
+        return 1, [&quot;Add --yes to really clear&quot;]
+    n = len(store)
+    store.clear()
+    return 0, [f&quot;Cleared {n} task(s)&quot;]</textarea><template class="pc-src pc-hint"><code>sub = parser.add_subparsers(dest="command", required=True)</code>, then <code>a = sub.add_parser("add")</code> with <code>a.add_argument("text", nargs="+")</code>, <code>d = sub.add_parser("done")</code> with <code>d.add_argument("number", type=int)</code>, and so on. Wrap <code>parser.parse_args(argv)</code> in <code>try ... except SystemExit as e: return e.code, []</code>.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>On your own computer, save today&rsquo;s <code>todo</code> tool as <code>todo.py</code>, with its tasks kept in a real file (<code>tasks.txt</code>, one per line), and end it with <code>sys.exit(code)</code> after printing the output lines. Use it from your terminal for a day. Tomorrow: Git, which records every version of your work so you can never lose it.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w021d1.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w021d2", "week": 21, "day": 2, "title": "Running scripts", "exercises": [{"id": "w021d2-argv", "title": "Arguments by hand", "points": 10}, {"id": "w021d2-parser", "title": "An argparse interface", "points": 15}, {"id": "w021d2-stdin", "title": "A filter for pipes", "points": 15}, {"id": "w021d2-exitcodes", "title": "Success or failure", "points": 15}, {"id": "w021d2-env", "title": "Settings from the environment", "points": 10}, {"id": "w021d2-bug1", "title": "Strings, not numbers", "points": 10}, {"id": "w021d2-bug2", "title": "Errors in the output", "points": 10}, {"id": "w021d2-trace", "title": "Predict them", "points": 15}, {"id": "w021d2-challenge", "title": "Challenge: a complete command-line tool", "points": 25}], "points": 125}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=8c61ea13ed"></script>
+</body>
+</html>
