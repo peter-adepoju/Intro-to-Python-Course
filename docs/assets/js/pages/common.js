@@ -1,12 +1,12 @@
 // Runs on every page: account link, streak, review badge and the tutor.
-import { SITE, $, h } from "../site.js?v=e25f86ac0b";
-import { displayName, firstName, avatar } from "../user.js?v=e25f86ac0b";
-import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=e25f86ac0b";
-import { mountTutor } from "../tutor.js?v=e25f86ac0b";
-import { settings, update as updateSettings, onSettings } from "../settings.js?v=e25f86ac0b";
-import { initSearch } from "../search.js?v=e25f86ac0b";
-import { initInstall, install, onInstallable } from "../install.js?v=e25f86ac0b";
-import { loadCourse, nextDay } from "../resume.js?v=e25f86ac0b";
+import { SITE, $, h } from "../site.js?v=ee76f9a815";
+import { displayName, firstName, avatar } from "../user.js?v=ee76f9a815";
+import { progress, getClient, onAuth, onSync, signOut } from "../progress.js?v=ee76f9a815";
+import { mountTutor } from "../tutor.js?v=ee76f9a815";
+import { settings, update as updateSettings, onSettings } from "../settings.js?v=ee76f9a815";
+import { initSearch } from "../search.js?v=ee76f9a815";
+import { initInstall, install, onInstallable } from "../install.js?v=ee76f9a815";
+import { loadCourse, nextDay } from "../resume.js?v=ee76f9a815";
 
 let closeMenu = () => {};
 document.addEventListener("click", (e) => { const slot = document.getElementById("account-slot"); if (slot && !slot.contains(e.target)) closeMenu(); });

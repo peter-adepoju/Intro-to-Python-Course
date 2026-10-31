@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-root" content="../">
+<meta name="site-version" content="ee76f9a815">
+<title>Week 20 Day 1: How import works | Python Atlas</title>
+<link rel="icon" href="../assets/img/icon.svg?v=e4efbcf1e7" type="image/svg+xml">
+<link rel="manifest" href="../manifest.webmanifest?v=482f5997e4">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png?v=76b58fcd51">
+<meta name="theme-color" content="#e7ecf2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1627" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Python Atlas">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/codemirror.css?v=ee76f9a815">
+<link rel="stylesheet" href="../assets/css/site.css?v=ee76f9a815">
+<script>try { const s = JSON.parse(localStorage.getItem("atlas.settings") || "{}"), r = document.documentElement; if (s.theme && s.theme !== "auto") r.dataset.theme = s.theme; if (s.textSize) r.style.setProperty("--text-scale", s.textSize); if (s.codeSize) r.style.setProperty("--code-scale", s.codeSize); if (s.motion === "reduce") r.classList.add("reduce-motion"); } catch (e) {}</script>
+<script src="../assets/config.js?v=ee76f9a815"></script>
+<script src="../assets/vendor/codemirror.js?v=ee76f9a815" defer></script>
+<meta name="description" content="Every program so far has lived in one file, and you’ve already used import for math, random, functools and others. Real programs are split across many...">
+<link rel="canonical" href="https://peter-adepoju.github.io/python-atlas/days/w020d1.html">
+<meta property="og:site_name" content="Python Atlas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Week 20 Day 1: How import works">
+<meta property="og:description" content="Every program so far has lived in one file, and you’ve already used import for math, random, functools and others. Real programs are split across many...">
+<meta property="og:url" content="https://peter-adepoju.github.io/python-atlas/days/w020d1.html">
+<meta property="og:image" content="https://peter-adepoju.github.io/python-atlas/assets/img/share.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-day">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Python Atlas home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect class="bm-tile" x="1.6" y="3.6" width="28.8" height="24.8" rx="6"/><path class="bm-prompt" d="M8.4 11.4l4.8 4.6-4.8 4.6"/><path class="bm-line" d="M16.6 20.6h7"/></svg>
+    <span class="brand-name">Python Atlas</span>
+  </a>
+  <nav class="top-nav" aria-label="Main">
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Learn <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item dd-continue" href="../map.html" id="dd-continue"><strong>Continue learning</strong><span>Pick up where you left off</span></a>
+        <a class="dd-item" href="../map.html"><strong>Course map</strong><span>All 104 weeks, phase by phase</span></a>
+        <a class="dd-item" href="../guide.html"><strong>How it works</strong><span>The plan, the pace, and how to learn faster</span></a>
+      </div>
+    </div>
+    <div class="nav-dd">
+      <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Practise <span class="badge" id="due-badge" hidden></span> <svg class="dd-chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd-menu" hidden>
+        <a class="dd-item" href="../review.html"><strong>Daily review</strong><span>Quiz cards due today, spaced for memory</span></a>
+        <a class="dd-item" href="../playground.html"><strong>Playground</strong><span>Write, run and X-ray your own Python</span></a>
+      </div>
+    </div>
+  </nav>
+  <button type="button" class="search-btn" id="search-open" aria-label="Search the course">
+    <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <span class="search-label">Search</span><kbd class="search-kbd">Ctrl K</kbd>
+  </button>
+  <div class="top-right">
+    <span class="streak" id="streak" title="Days in a row you've practised" hidden></span>
+    <div class="account-slot" id="account-slot"><a class="btn btn-quiet btn-sm" href="../account.html">Sign in</a></div>
+  </div>
+</header>
+<main id="main">
+<div class="day">
+  <aside class="day-rail" aria-label="Today's outline">
+    <div class="rail-inner">
+      <a class="rail-week" href="../map.html#week-20">Week 20: Modules and the standard library</a>
+      <ol class="rail-toc"><li><a href="#warm-up" data-sec="warm-up">Warm-up</a></li><li><a href="#a-module-is-a-file" data-sec="a-module-is-a-file">A module is a file</a></li><li><a href="#four-ways-to-import" data-sec="four-ways-to-import">Four ways to import</a></li><li><a href="#what-happens-on-import" data-sec="what-happens-on-import">What happens on import</a></li><li><a href="#exploring-a-module" data-sec="exploring-a-module">Exploring a module</a></li><li><a href="#classic-mistakes" data-sec="classic-mistakes">Classic mistakes</a></li><li><a href="#practice" data-sec="practice">Practice</a></li><li><a href="#quiz" data-sec="quiz">Quiz</a></li><li><a href="#daily-challenge" data-sec="daily-challenge">Daily challenge</a></li><li><a href="#before-you-go" data-sec="before-you-go">Before you go</a></li></ol>
+      <div class="rail-meter"><div class="meter"><span id="day-meter"></span></div><span id="day-meter-label">0% done</span></div>
+      <a class="btn btn-quiet rail-colab" href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w020d1.ipynb" target="_blank" rel="noopener">Open notebook in Colab</a>
+    </div>
+  </aside>
+  <article class="day-main">
+    <header class="day-head">
+      <ol class="crumbs" aria-label="You are here"><li><a href="../map.html">Course map</a></li><li><a href="../map.html#phase-2">Phase 2: Thinking like a programmer</a></li><li><a href="../map.html#week-20">Week 20: Modules and the standard library</a></li><li aria-current="page">Day 1 of 6</li></ol>
+      <p class="day-where"><span>Week 20, Day 1</span></p>
+      <h1>How import works</h1>
+      <div class="day-intro"><p>Every program so far has lived in one file, and you&rsquo;ve already used <code>import</code> for <code>math</code>, <code>random</code>, <code>functools</code> and others. Real programs are split across many files, and Python comes with hundreds of ready-made modules. This week is about both. Today you&rsquo;ll find out exactly what happens when Python runs an <code>import</code> line: where it looks, what it runs, what it remembers, and the different ways of writing imports and when to use each.</p></div>
+      <div class="day-cards">
+        <section class="day-goals">
+          <div class="card-head"><h2 class="mini">By the end of today you can</h2></div>
+          <ul class="goal-list"><li>Explain that a module is a Python file, and that importing it runs it once and gives you its names</li><li>Use <code>import x</code>, <code>import x as y</code>, <code>from x import a, b</code>, and say why <code>from x import *</code> is best avoided</li><li>Explain how Python finds a module (<code>sys.path</code>) and why a second import doesn&rsquo;t run the file again (<code>sys.modules</code>)</li><li>Explore a module with <code>dir</code>, <code>help</code> and its attributes</li><li>Avoid the classic import mistakes, such as naming your own file after a module you use</li></ul>
+        </section>
+        <section class="day-plan">
+          <div class="card-head"><h2 class="mini">Today's plan</h2><span class="card-total">3 h</span></div>
+          <div class="plan-bar" aria-hidden="true"><span class="plan-seg s0" style="flex:10" title="Warm-up: 10 min"></span><span class="plan-seg s1" style="flex:25" title="A module is a file: 25 min"></span><span class="plan-seg s0" style="flex:25" title="Four ways to import: 25 min"></span><span class="plan-seg s1" style="flex:25" title="What happens on import: 25 min"></span><span class="plan-seg s0" style="flex:20" title="Exploring a module: 20 min"></span><span class="plan-seg s1" style="flex:15" title="Classic mistakes: 15 min"></span><span class="plan-seg s0" style="flex:50" title="Practice: 50 min"></span><span class="plan-seg s1" style="flex:10" title="Quiz and daily challenge: 10 min"></span></div><ol class="plan-list"><li><span class="plan-at">0:00</span><span class="plan-what">Warm-up</span><span class="plan-min">10 min</span></li><li><span class="plan-at">0:10</span><span class="plan-what">A module is a file</span><span class="plan-min">25 min</span></li><li><span class="plan-at">0:35</span><span class="plan-what">Four ways to import</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:00</span><span class="plan-what">What happens on import</span><span class="plan-min">25 min</span></li><li><span class="plan-at">1:25</span><span class="plan-what">Exploring a module</span><span class="plan-min">20 min</span></li><li><span class="plan-at">1:45</span><span class="plan-what">Classic mistakes</span><span class="plan-min">15 min</span></li><li><span class="plan-at">2:00</span><span class="plan-what">Practice</span><span class="plan-min">50 min</span></li><li><span class="plan-at">2:50</span><span class="plan-what">Quiz and daily challenge</span><span class="plan-min">10 min</span></li></ol>
+        </section>
+      </div>
+      <p class="day-links"><a href="https://colab.research.google.com/github/peter-adepoju/python-atlas/blob/main/docs/notebooks/w020d1.ipynb" target="_blank" rel="noopener">Open today's notebook in Google Colab</a> or <a href="../notebooks/w020d1.ipynb" download>download it</a>. Exercises today are worth 125 points.</p>
+    </header>
+    <div class="day-body">
+<h2 id="warm-up">Warm-up</h2>
+<div class="pc pc-predict" data-kind="predict" data-id="w020d1-p1"><textarea class="pc-src pc-code" hidden>import math
+import math as m
+from math import sqrt
+
+print(math.sqrt(16), m.sqrt(25), sqrt(36))
+print(math is m)</textarea></div>
+<p>Three different ways of writing an import, all reaching the same <code>sqrt</code>. And <code>math is m</code> is <code>True</code>: there&rsquo;s only one <code>math</code> module object, which both names refer to. By the end of today you&rsquo;ll know why.</p>
+<h2 id="a-module-is-a-file">A module is a file</h2>
+<p>A <strong>module</strong> is just a Python file. The file <code>helpers.py</code> is the module <code>helpers</code>. Everything defined at the top level of the file (functions, variables, classes) becomes a name inside the module, which you reach with a dot.</p>
+<p>This page has a file called <code>greetings.py</code>. Open it to see what&rsquo;s inside:</p>
+<div class="filebox"><div class="filebox-head">The file used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>greetings.py</code></summary><pre class="pc-filetext">&quot;&quot;&quot;Friendly messages, in a few languages.&quot;&quot;&quot;
+
+DEFAULT = &quot;en&quot;
+HELLO = {&quot;en&quot;: &quot;Hello&quot;, &quot;yo&quot;: &quot;Ẹ n lẹ&quot;, &quot;fr&quot;: &quot;Bonjour&quot;, &quot;ha&quot;: &quot;Sannu&quot;}
+
+def greet(name, lang=DEFAULT):
+    return f&quot;{HELLO.get(lang, HELLO[DEFAULT])}, {name}!&quot;
+
+def farewell(name):
+    return f&quot;Goodbye, {name}.&quot;
+</pre></details><script type="application/json" class="page-files">{"greetings.py": "\"\"\"Friendly messages, in a few languages.\"\"\"\n\nDEFAULT = \"en\"\nHELLO = {\"en\": \"Hello\", \"yo\": \"\u1eb8 n l\u1eb9\", \"fr\": \"Bonjour\", \"ha\": \"Sannu\"}\n\ndef greet(name, lang=DEFAULT):\n    return f\"{HELLO.get(lang, HELLO[DEFAULT])}, {name}!\"\n\ndef farewell(name):\n    return f\"Goodbye, {name}.\"\n"}</script></div>
+<p>Any program on this page can import it:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d1-e2"><textarea class="pc-src pc-code" hidden>import greetings
+
+print(greetings.greet(&quot;Ada&quot;))
+print(greetings.greet(&quot;Tunde&quot;, &quot;yo&quot;))
+print(greetings.HELLO[&quot;ha&quot;])
+print(greetings.DEFAULT)</textarea></div>
+<p><code>greetings.greet</code> reads as &ldquo;the <code>greet</code> that lives in <code>greetings</code>&rdquo;. The dot keeps names from different modules apart: <code>greetings.greet</code> and a <code>greet</code> of your own can&rsquo;t clash.</p>
+<p>Modules come from three places:</p>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Examples</th>
+<th>Where from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Built into the language</td>
+<td><code>sys</code>, <code>math</code>, <code>builtins</code></td>
+<td>part of Python itself</td>
+</tr>
+<tr>
+<td>The <strong>standard library</strong></td>
+<td><code>random</code>, <code>datetime</code>, <code>json</code>, <code>collections</code>, <code>pathlib</code></td>
+<td>installed with every copy of Python</td>
+</tr>
+<tr>
+<td><strong>Third-party</strong> packages</td>
+<td><code>requests</code>, <code>numpy</code>, <code>pandas</code></td>
+<td>installed separately with <code>pip</code> (Week 22)</td>
+</tr>
+<tr>
+<td>Your own</td>
+<td><code>greetings</code>, <code>helpers</code></td>
+<td>files you write</td>
+</tr>
+</tbody>
+</table>
+<p>A <strong>package</strong> is a folder of modules, imported with dots: <code>os.path</code>, <code>email.mime.text</code>. You&rsquo;ll make one tomorrow.</p>
+<h2 id="four-ways-to-import">Four ways to import</h2>
+<p><strong><code>import module</code></strong>: the whole module, under its own name. The safest and clearest: every use says where the name came from.</p>
+<pre><code>import random
+random.choice([&quot;a&quot;, &quot;b&quot;])
+</code></pre>
+<p><strong><code>import module as alias</code></strong>: the same, under a shorter or clearer name. Some aliases are conventions everyone uses: <code>import numpy as np</code>, <code>import pandas as pd</code>.</p>
+<p><strong><code>from module import name1, name2</code></strong>: copy particular names into your program, so you can use them without the dot. Good for a few names you use often:</p>
+<pre><code>from math import sqrt, pi
+from collections import Counter
+</code></pre>
+<p><strong><code>from module import *</code></strong>: copy <strong>every</strong> public name in. Avoid it in programs: you can&rsquo;t tell where a name came from, and it can silently replace your own names.</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d1-e3"><textarea class="pc-src pc-code" hidden>def floor(x):
+    return &quot;my own floor function&quot;
+
+from math import *             # quietly replaces floor with math.floor
+
+print(floor(2.7))</textarea></div>
+<p>You&rsquo;ve seen a <code>from</code> import go wrong here too: <code>from math import sqrt</code> copies the name <code>sqrt</code>, but if you later do <code>sqrt = 5</code>, only your copy changes; <code>math.sqrt</code> is untouched.</p>
+<aside class="callout c-key"><div class="callout-t">Key idea</div><p><code>import x</code> and use <code>x.name</code> by default. Use <code>from x import name</code> for a few names you use a lot. Avoid <code>from x import *</code>. Put imports at the top of the file, standard library first, then third-party, then your own modules.</p></aside>
+<h2 id="what-happens-on-import">What happens on import</h2>
+<p>When Python meets <code>import greetings</code> for the first time, it:</p>
+<ol>
+<li><strong>Finds</strong> the file: it looks through the folders listed in <code>sys.path</code>, in order. The first is the folder of the program being run, so your own files are found first.</li>
+<li><strong>Runs</strong> the file, top to bottom, in a fresh namespace. Every <code>def</code> creates a function, every assignment creates a variable, and any <code>print</code> actually prints.</li>
+<li><strong>Remembers</strong> the result as a module object in <code>sys.modules</code>, a dictionary from module names to modules.</li>
+<li><strong>Binds</strong> a name in your program to the module object.</li>
+</ol>
+<p>The second time anything imports the same module, step 1 to 3 are skipped: Python finds it in <code>sys.modules</code> and hands back the same object. A module&rsquo;s top-level code runs <strong>once</strong> per program, however many times it&rsquo;s imported. That&rsquo;s why <code>math is m</code> was <code>True</code> in the warm-up.</p>
+<div class="filebox"><div class="filebox-head">The file used on this page<span>Every program on this page starts with a fresh copy. Click a name to see what's inside.</span></div><details class="pc-file"><summary><code>noisy.py</code></summary><pre class="pc-filetext">print(&quot;noisy.py is running!&quot;)
+COUNT = 0
+
+def bump():
+    global COUNT
+    COUNT += 1
+    return COUNT
+</pre></details><script type="application/json" class="page-files">{"noisy.py": "print(\"noisy.py is running!\")\nCOUNT = 0\n\ndef bump():\n    global COUNT\n    COUNT += 1\n    return COUNT\n"}</script></div>
+<div class="pc pc-example" data-kind="example" data-id="w020d1-e4"><textarea class="pc-src pc-code" hidden>import sys
+
+import noisy
+import noisy            # nothing printed: already imported
+import noisy as n
+
+print(noisy.bump(), n.bump(), noisy.COUNT)
+print(&quot;noisy&quot; in sys.modules, sys.modules[&quot;noisy&quot;] is noisy)</textarea></div>
+<p><code>noisy</code> and <code>n</code> are two names for the <strong>same</strong> module, so they share <code>COUNT</code>.</p>
+<p>To see where Python looks:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d1-e5"><textarea class="pc-src pc-code" hidden>import sys
+
+for folder in sys.path[:4]:
+    print(folder)</textarea></div>
+<p>(In the browser the folders look unusual; on your own computer you&rsquo;ll see your project folder, then the standard library&rsquo;s folder, then <code>site-packages</code>, where <code>pip</code> puts third-party packages.)</p>
+<h2 id="exploring-a-module">Exploring a module</h2>
+<p>A module is an object like any other. <code>dir</code> lists its names, <code>help</code> shows its documentation (from docstrings), and a few attributes say where it came from:</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d1-e6"><textarea class="pc-src pc-code" hidden>import greetings
+
+print(greetings.__name__)
+print(greetings.__doc__)
+print([name for name in dir(greetings) if not name.startswith(&quot;_&quot;)])
+print(greetings.__file__.split(&quot;/&quot;)[-1])</textarea></div>
+<p>Names starting with <code>_</code> are private by convention: the module&rsquo;s own business. <code>from module import *</code> leaves them out.</p>
+<p>For the standard library, <code>help(module)</code> works in any Python session, and the official documentation at docs.python.org describes every module, with examples. Learning to read it is part of this week&rsquo;s work.</p>
+<div class="pc pc-example" data-kind="example" data-id="w020d1-e7"><textarea class="pc-src pc-code" hidden>import statistics
+
+print(statistics.__doc__.splitlines()[0])
+print([n for n in dir(statistics) if not n.startswith(&quot;_&quot;)][:12])</textarea></div>
+<h2 id="classic-mistakes">Classic mistakes</h2>
+<p><strong>Naming your file after a module.</strong> If you save your own experiment as <code>random.py</code> and then <code>import random</code> in it, Python finds <strong>your</strong> file first (its folder is first in <code>sys.path</code>), and <code>random.randint</code> doesn&rsquo;t exist. The error is confusing: <code>AttributeError: module 'random' has no attribute 'randint'</code>. Never name your files <code>random.py</code>, <code>math.py</code>, <code>statistics.py</code>, <code>string.py</code>, <code>csv.py</code> and so on.</p>
+<p><strong>Importing a name that isn&rsquo;t there:</strong> <code>from math import squareroot</code> raises <code>ImportError: cannot import name 'squareroot' from 'math'</code>, which at least tells you exactly what&rsquo;s wrong.</p>
+<p><strong>Expecting an edit to take effect without rerunning:</strong> because modules are imported once, a running program keeps the old version of a module you&rsquo;ve edited. Run the program again (or, in an interactive session, restart it).</p>
+<p><strong>Circular imports:</strong> if <code>a.py</code> imports <code>b</code> and <code>b.py</code> imports <code>a</code>, one of them runs while the other is only half finished, and names may be missing. The fix is to reorganise: move what both need into a third module.</p>
+<aside class="callout c-mistake"><div class="callout-t">Common mistake</div><p><code>import greetings.py</code> is wrong: a module&rsquo;s name doesn&rsquo;t include <code>.py</code>. Write <code>import greetings</code>.</p></aside>
+<h2 id="practice">Practice</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d1-use" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Use a module</div><div class="pc-prompt"><p>Using the <code>greetings</code> module from this page, set <code>a</code> to a greeting for <code>"Kemi"</code> in French, <code>b</code> to a farewell for <code>"Ben"</code>, and <code>c</code> to the number of languages <code>greetings</code> knows (its <code>HELLO</code> dictionary). Use <code>import greetings</code>, not <code>from</code>.</p><details class="pc-file"><summary><code>greetings.py</code></summary><pre class="pc-filetext">&quot;&quot;&quot;Friendly messages, in a few languages.&quot;&quot;&quot;
+
+DEFAULT = &quot;en&quot;
+HELLO = {&quot;en&quot;: &quot;Hello&quot;, &quot;yo&quot;: &quot;Ẹ n lẹ&quot;, &quot;fr&quot;: &quot;Bonjour&quot;, &quot;ha&quot;: &quot;Sannu&quot;}
+
+def greet(name, lang=DEFAULT):
+    return f&quot;{HELLO.get(lang, HELLO[DEFAULT])}, {name}!&quot;
+
+def farewell(name):
+    return f&quot;Goodbye, {name}.&quot;
+</pre></details></div><textarea class="pc-src pc-code" hidden>import greetings
+
+a = ___
+b = ___
+c = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a == &quot;Bonjour, Kemi!&quot; and b == &quot;Goodbye, Ben.&quot; and c == 4
+    assert &quot;from greetings&quot; not in source</textarea><textarea class="pc-src pc-files" hidden>{&quot;greetings.py&quot;: &quot;\&quot;\&quot;\&quot;Friendly messages, in a few languages.\&quot;\&quot;\&quot;\n\nDEFAULT = \&quot;en\&quot;\nHELLO = {\&quot;en\&quot;: \&quot;Hello\&quot;, \&quot;yo\&quot;: \&quot;\u1eb8 n l\u1eb9\&quot;, \&quot;fr\&quot;: \&quot;Bonjour\&quot;, \&quot;ha\&quot;: \&quot;Sannu\&quot;}\n\ndef greet(name, lang=DEFAULT):\n    return f\&quot;{HELLO.get(lang, HELLO[DEFAULT])}, {name}!\&quot;\n\ndef farewell(name):\n    return f\&quot;Goodbye, {name}.\&quot;\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>import greetings
+
+a = greetings.greet(&quot;Kemi&quot;, &quot;fr&quot;)
+b = greetings.farewell(&quot;Ben&quot;)
+c = len(greetings.HELLO)</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d1-styles" data-points="10"><div class="pc-label"><span>Exercise</span><span class="pc-pts">10 points</span></div><div class="pc-title">Three styles</div><div class="pc-prompt"><p>Rewrite the program so it uses <strong>one</strong> import line of each kind: <code>import statistics</code>, <code>import random as rnd</code> and <code>from math import pi, sqrt</code>. It must still print the same three lines.</p></div><textarea class="pc-src pc-code" hidden>import statistics, random, math
+
+print(statistics.mean([2, 4, 9]))
+print(random.Random(1).randint(1, 6))
+print(round(math.pi * math.sqrt(4), 3))</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;same output, three styles&quot;
+    expect_output(&quot;5\n2\n6.283&quot;)
+    lines = [l.strip() for l in source.splitlines()]
+    assert &quot;import statistics&quot; in lines and &quot;import random as rnd&quot; in lines and &quot;from math import pi, sqrt&quot; in lines</textarea><textarea class="pc-src pc-solution" hidden>import statistics
+import random as rnd
+from math import pi, sqrt
+
+print(statistics.mean([2, 4, 9]))
+print(rnd.Random(1).randint(1, 6))
+print(round(pi * sqrt(4), 3))</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d1-once" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Imported once</div><div class="pc-prompt"><p><code>counter.py</code> prints a message when it runs and keeps a count. Predict, then check: set <code>printed</code> to how many times the message is printed by the program in the starter, <code>value</code> to what the last line prints, and <code>same</code> to whether <code>c1</code> and <code>c2</code> are the same object.</p><details class="pc-file"><summary><code>counter.py</code></summary><pre class="pc-filetext">print(&quot;loading counter&quot;)
+total = 0
+
+def add(n):
+    global total
+    total += n
+    return total
+</pre></details></div><textarea class="pc-src pc-code" hidden>import counter as c1
+import counter as c2
+c1.add(5)
+c2.add(3)
+print(c1.total)
+
+printed = ___
+value = ___
+same = ___</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert printed == 1 and value == 8 and same is True</textarea><textarea class="pc-src pc-files" hidden>{&quot;counter.py&quot;: &quot;print(\&quot;loading counter\&quot;)\ntotal = 0\n\ndef add(n):\n    global total\n    total += n\n    return total\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>import counter as c1
+import counter as c2
+c1.add(5)
+c2.add(3)
+print(c1.total)
+
+printed = 1
+value = 8
+same = True</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d1-explore" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Explore a module</div><div class="pc-prompt"><p>Write <code>public_names(module)</code> that returns a sorted list of the names in a module that don&rsquo;t start with <code>_</code>, and <code>functions_in(module)</code> that returns a sorted list of just those public names whose value is a function you can call (<code>callable(...)</code>) but isn&rsquo;t a class (<code>not isinstance(value, type)</code>). Use <code>dir</code> and <code>getattr</code>.</p><details class="pc-file"><summary><code>shapes.py</code></summary><pre class="pc-filetext">&quot;&quot;&quot;Areas of simple shapes.&quot;&quot;&quot;
+import math
+
+PI_ISH = 3.14
+_cache = {}
+
+def circle(r):
+    return math.pi * r * r
+
+def square(s):
+    return s * s
+
+def _helper():
+    return None
+</pre></details></div><textarea class="pc-src pc-code" hidden>import shapes</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    import shapes
+    assert public_names(shapes) == [&quot;PI_ISH&quot;, &quot;circle&quot;, &quot;math&quot;, &quot;square&quot;]
+    assert functions_in(shapes) == [&quot;circle&quot;, &quot;square&quot;]
+    import statistics
+    assert &quot;mean&quot; in functions_in(statistics) and &quot;StatisticsError&quot; not in functions_in(statistics)</textarea><textarea class="pc-src pc-files" hidden>{&quot;shapes.py&quot;: &quot;\&quot;\&quot;\&quot;Areas of simple shapes.\&quot;\&quot;\&quot;\nimport math\n\nPI_ISH = 3.14\n_cache = {}\n\ndef circle(r):\n    return math.pi * r * r\n\ndef square(s):\n    return s * s\n\ndef _helper():\n    return None\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>import shapes
+
+def public_names(module):
+    return sorted(n for n in dir(module) if not n.startswith(&quot;_&quot;))
+
+def functions_in(module):
+    result = []
+    for n in public_names(module):
+        value = getattr(module, n)
+        if callable(value) and not isinstance(value, type):
+            result.append(n)
+    return result</textarea></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d1-where" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Is it loaded?</div><div class="pc-prompt"><p>Write <code>loaded(name)</code> returning <code>True</code> if a module of that name has already been imported in this program (look in <code>sys.modules</code>), without importing it. Then <code>import_count_demo()</code> that returns a tuple: whether <code>"fractions"</code> is loaded before you import it inside the function, and whether it&rsquo;s loaded after.</p></div><textarea class="pc-src pc-code" hidden>import sys</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;several&quot;
+    import sys
+    assert loaded(&quot;sys&quot;) is True
+    sys.modules.pop(&quot;fractions&quot;, None)
+    assert import_count_demo() == (False, True)
+    assert loaded(&quot;this_module_does_not_exist&quot;) is False</textarea><textarea class="pc-src pc-solution" hidden>import sys
+
+def loaded(name):
+    return name in sys.modules
+
+def import_count_demo():
+    before = loaded(&quot;fractions&quot;)
+    import fractions
+    after = loaded(&quot;fractions&quot;)
+    return before, after</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w020d1-bug1" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">The star import</div><div class="pc-prompt"><p>This program should print <code>4</code> and then <code>my own floor function</code>, but a star import quietly replaces the program&rsquo;s own <code>floor</code> with <code>math.floor</code>. Replace the star import with one that brings in only what the program needs.</p></div><textarea class="pc-src pc-code" hidden>def floor(x):
+    return &quot;my own floor function&quot;
+
+from math import *
+
+print(int(sqrt(16)))
+print(floor(2.7))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;fixed&quot;
+    expect_output(&quot;4\nmy own floor function&quot;)
+    assert &quot;import *&quot; not in source</textarea><textarea class="pc-src pc-solution" hidden>def floor(x):
+    return &quot;my own floor function&quot;
+
+from math import sqrt
+
+print(int(sqrt(16)))
+print(floor(2.7))</textarea></div>
+<div class="pc pc-exercise pc-bughunt" data-kind="bughunt" data-id="w020d1-bug2" data-points="10"><div class="pc-label"><span>Bug hunt</span><span class="pc-pts">10 points</span></div><div class="pc-title">Two import mistakes</div><div class="pc-prompt"><p>This program crashes on its first line, and would crash on its second line too. Fix both import lines so it prints <code>Sannu, Musa!</code> and <code>Goodbye, Musa.</code></p><details class="pc-file"><summary><code>greetings.py</code></summary><pre class="pc-filetext">&quot;&quot;&quot;Friendly messages, in a few languages.&quot;&quot;&quot;
+
+DEFAULT = &quot;en&quot;
+HELLO = {&quot;en&quot;: &quot;Hello&quot;, &quot;yo&quot;: &quot;Ẹ n lẹ&quot;, &quot;fr&quot;: &quot;Bonjour&quot;, &quot;ha&quot;: &quot;Sannu&quot;}
+
+def greet(name, lang=DEFAULT):
+    return f&quot;{HELLO.get(lang, HELLO[DEFAULT])}, {name}!&quot;
+
+def farewell(name):
+    return f&quot;Goodbye, {name}.&quot;
+</pre></details></div><textarea class="pc-src pc-code" hidden>from greetings import great
+import greetings.py
+
+print(greet(&quot;Musa&quot;, &quot;ha&quot;))
+print(greetings.farewell(&quot;Musa&quot;))</textarea><textarea class="pc-src pc-tests" hidden>def test_output():
+    &quot;both lines&quot;
+    expect_output(&quot;Sannu, Musa!\nGoodbye, Musa.&quot;)</textarea><textarea class="pc-src pc-files" hidden>{&quot;greetings.py&quot;: &quot;\&quot;\&quot;\&quot;Friendly messages, in a few languages.\&quot;\&quot;\&quot;\n\nDEFAULT = \&quot;en\&quot;\nHELLO = {\&quot;en\&quot;: \&quot;Hello\&quot;, \&quot;yo\&quot;: \&quot;\u1eb8 n l\u1eb9\&quot;, \&quot;fr\&quot;: \&quot;Bonjour\&quot;, \&quot;ha\&quot;: \&quot;Sannu\&quot;}\n\ndef greet(name, lang=DEFAULT):\n    return f\&quot;{HELLO.get(lang, HELLO[DEFAULT])}, {name}!\&quot;\n\ndef farewell(name):\n    return f\&quot;Goodbye, {name}.\&quot;\n&quot;}</textarea><textarea class="pc-src pc-solution" hidden>from greetings import greet
+import greetings
+
+print(greet(&quot;Musa&quot;, &quot;ha&quot;))
+print(greetings.farewell(&quot;Musa&quot;))</textarea><template class="pc-src pc-hint">Check the spelling of the function&rsquo;s name in <code>greetings.py</code>, and remember that a module&rsquo;s name doesn&rsquo;t include <code>.py</code>.</template></div>
+<div class="parsons" data-id="w020d1-pz1"><div class="pc-label"><span>Puzzle</span></div><div class="pc-title">Tidy imports</div><div class="pc-prompt"><p>Arrange these imports in the conventional order: standard library first (alphabetically), then your own module. One line is a trap.</p></div><script type="application/json">{"lines": ["import json", "import random", "from collections import Counter", "import greetings"], "distractors": ["from greetings import *"]}</script></div>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d1-trace" data-points="15"><div class="pc-label"><span>Exercise</span><span class="pc-pts">15 points</span></div><div class="pc-title">Predict them</div><div class="pc-prompt"><p>Work these out without running them.</p></div><textarea class="pc-src pc-code" hidden>a = ___   # True or False: a module&#x27;s top-level code runs every time it is imported
+b = ___   # the error (its type name, as a string) from: from math import squareroot
+c = ___   # the name you&#x27;d write to import the file helpers.py
+d = ___   # True or False: after `from math import pi` then `pi = 3`, math.pi is also 3</textarea><textarea class="pc-src pc-tests" hidden>def test_values():
+    &quot;each&quot;
+    assert a is False and b == &quot;ImportError&quot; and c == &quot;helpers&quot; and d is False</textarea><textarea class="pc-src pc-solution" hidden>a = False
+b = &quot;ImportError&quot;
+c = &quot;helpers&quot;
+d = False</textarea></div>
+<h2 id="quiz">Quiz</h2>
+<div class="quiz" data-id="w020d1-quiz"><div class="pc-label"><span>Quiz</span><span>8 questions</span></div><script type="application/json">[{"type": "mc", "q": "What is a module?", "answer": 1, "explain": "helpers.py is the module helpers.", "options": ["A function", "A Python file whose top-level names you can import", "A class", "A folder only"]}, {"type": "mc", "q": "What does Python do the first time it imports a module?", "answer": 1, "explain": "Find, run, remember, bind.", "options": ["Copies it", "Finds the file on sys.path, runs it once, remembers it in sys.modules", "Compiles it only", "Nothing"]}, {"type": "mc", "q": "What happens on a second import of the same module?", "answer": 1, "explain": "Top-level code runs once.", "options": ["It runs again", "Python returns the same module object from sys.modules", "An error", "A copy is made"]}, {"type": "mc", "q": "Why avoid from module import *?", "answer": 1, "explain": "Explicit is better than implicit.", "options": ["It&rsquo;s slow", "You can&rsquo;t tell where names came from, and it can replace your own names", "It doesn&rsquo;t work", "It imports private names"]}, {"type": "mc", "q": "Where does Python look first for a module?", "answer": 1, "explain": "Which is why naming a file random.py causes trouble.", "options": ["The internet", "The folder of the program being run", "site-packages", "The standard library"]}, {"type": "mc", "q": "What does dir(module) give?", "answer": 1, "explain": "Names starting with _ are private by convention.", "options": ["Its file", "A list of the names inside it", "Its documentation", "Its size"]}, {"type": "mc", "q": "What is a package?", "answer": 1, "explain": "Like os.path.", "options": ["A module", "A folder of modules, imported with dots", "A zip file", "A third-party module only"]}, {"type": "text", "q": "Which dictionary holds every module already imported? (write it as module.name)", "answer": ["sys.modules"], "explain": "Module name to module object."}]</script></div>
+<h2 id="daily-challenge">Daily challenge</h2>
+<div class="pc pc-exercise pc-exercise" data-kind="exercise" data-id="w020d1-challenge" data-points="25"><div class="pc-label"><span>Exercise</span><span class="pc-pts">25 points</span></div><div class="pc-title">Challenge: who imports whom</div><div class="pc-prompt"><p>A project has several <code>.py</code> files (given as a dictionary from file name to its source code). Write:</p>
+<ul>
+<li><code>imports_of(source)</code>: the sorted list of <strong>module names</strong> a piece of source code imports, from lines like <code>import a</code>, <code>import a, b</code>, <code>import a as x</code>, <code>from a import b</code> and <code>from a.b import c</code> (give the top-level name, <code>a</code>). Use the <code>ast</code> module: <code>ast.parse(source)</code> gives a tree; walk it with <code>ast.walk</code> and look for <code>ast.Import</code> nodes (each has <code>.names</code>, whose items have <code>.name</code>) and <code>ast.ImportFrom</code> nodes (with <code>.module</code>).</li>
+<li><code>local_graph(files)</code>: a dictionary from each module name (file name without <code>.py</code>) to the sorted list of <strong>other files in the project</strong> it imports.</li>
+<li><code>has_cycle(graph)</code>: <code>True</code> if some module imports itself through a chain (a imports b, b imports a), using the flood-fill style search from Week 16 from every module.</li>
+</ul></div><textarea class="pc-src pc-code" hidden>import ast</textarea><textarea class="pc-src pc-tests" hidden>FILES = {
+    &quot;main.py&quot;: &quot;import os\nfrom shop import basket\nimport prices as p, reports\n&quot;,
+    &quot;shop.py&quot;: &quot;from prices import vat\nimport json\n&quot;,
+    &quot;prices.py&quot;: &quot;import math\nVAT = 0.2\n&quot;,
+    &quot;reports.py&quot;: &quot;import shop\nfrom collections import Counter\n&quot;,
+}
+def test_imports():
+    &quot;imports_of&quot;
+    assert imports_of(FILES[&quot;main.py&quot;]) == [&quot;os&quot;, &quot;prices&quot;, &quot;reports&quot;, &quot;shop&quot;]
+    assert imports_of(&quot;from a.b.c import d\nimport x.y\n&quot;) == [&quot;a&quot;, &quot;x&quot;]
+    assert imports_of(&quot;print(&#x27;no imports&#x27;)&quot;) == []
+def test_graph():
+    &quot;local_graph&quot;
+    assert local_graph(FILES) == {&quot;main&quot;: [&quot;prices&quot;, &quot;reports&quot;, &quot;shop&quot;], &quot;shop&quot;: [&quot;prices&quot;], &quot;prices&quot;: [], &quot;reports&quot;: [&quot;shop&quot;]}
+def test_cycle():
+    &quot;has_cycle&quot;
+    assert has_cycle(local_graph(FILES)) is False
+    loop = dict(FILES)
+    loop[&quot;prices.py&quot;] = &quot;import reports\n&quot;
+    assert has_cycle(local_graph(loop)) is True
+    assert has_cycle({&quot;a&quot;: [&quot;a&quot;]}) is True and has_cycle({}) is False</textarea><textarea class="pc-src pc-solution" hidden>import ast
+
+def imports_of(source):
+    found = set()
+    for node in ast.walk(ast.parse(source)):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                found.add(alias.name.split(&quot;.&quot;)[0])
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            found.add(node.module.split(&quot;.&quot;)[0])
+    return sorted(found)
+
+def local_graph(files):
+    names = {f[:-3] for f in files if f.endswith(&quot;.py&quot;)}
+    return {f[:-3]: [m for m in imports_of(src) if m in names] for f, src in files.items() if f.endswith(&quot;.py&quot;)}
+
+def has_cycle(graph):
+    for start in graph:
+        seen = set()
+        stack = list(graph[start])
+        while stack:
+            m = stack.pop()
+            if m == start:
+                return True
+            if m in seen:
+                continue
+            seen.add(m)
+            stack.extend(graph.get(m, []))
+    return False</textarea><template class="pc-src pc-hint">For <code>has_cycle</code>: for each module <code>start</code>, search from its imports, keeping a <code>seen</code> set; if the search ever reaches <code>start</code> again, there&rsquo;s a cycle.</template></div>
+<h2 id="before-you-go">Before you go</h2>
+<p>On your own computer, open a Python session and type <code>import this</code>. It prints &ldquo;The Zen of Python&rdquo;, a short list of Python&rsquo;s design principles. Try importing it twice and notice the second import prints nothing. Tomorrow: writing your own modules and packages, and the <code>if __name__ == "__main__":</code> line you&rsquo;ve probably seen in other people&rsquo;s code.</p>
+    </div>
+    <nav class="day-nav" aria-label="Day navigation"><a class="btn btn-quiet" href="w019d6.html">Previous day</a><button type="button" class="btn btn-run" id="mark-done">Mark today complete</button></nav>
+  </article>
+</div>
+<script type="application/json" id="day-data">{"id": "w020d1", "week": 20, "day": 1, "title": "How import works", "exercises": [{"id": "w020d1-use", "title": "Use a module", "points": 10}, {"id": "w020d1-styles", "title": "Three styles", "points": 10}, {"id": "w020d1-once", "title": "Imported once", "points": 15}, {"id": "w020d1-explore", "title": "Explore a module", "points": 15}, {"id": "w020d1-where", "title": "Is it loaded?", "points": 15}, {"id": "w020d1-bug1", "title": "The star import", "points": 10}, {"id": "w020d1-bug2", "title": "Two import mistakes", "points": 10}, {"id": "w020d1-trace", "title": "Predict them", "points": 15}, {"id": "w020d1-challenge", "title": "Challenge: who imports whom", "points": 25}], "points": 125}</script>
+
+</main>
+<nav class="tabbar" aria-label="App">
+  <a class="tab" data-tab="home" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Home</span></a>
+  <a class="tab" data-tab="learn" href="../map.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span>Course</span></a>
+  <a class="tab" data-tab="review" href="../review.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="13" height="14" rx="2"/><path d="M8 3h10a2 2 0 0 1 2 2v12"/></svg><span>Review</span><span class="badge tab-badge" id="tab-due" hidden></span></a>
+  <a class="tab" data-tab="play" href="../playground.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span>Playground</span></a>
+  <a class="tab" data-tab="me" href="../account.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Me</span></a>
+</nav>
+<footer class="foot">
+  <p class="foot-copy">© 2026 Peter Oluwafemi Adepoju. All rights reserved.</p>
+  <nav class="foot-links" aria-label="Footer">
+    <a href="../guide.html">How it works</a>
+    <a href="../map.html">Course map</a>
+    <a href="../settings.html">Settings</a>
+    <a href="../privacy.html">Privacy</a>
+    <a href="#" class="install-link" data-install hidden>Get the app</a>
+    <button type="button" class="theme-btn" id="theme-btn" aria-label="Colour theme"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" class="ico"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="theme-label">Auto</span></button>
+  </nav>
+</footer>
+<script type="module" src="../assets/js/pages/day.js?v=ee76f9a815"></script>
+</body>
+</html>

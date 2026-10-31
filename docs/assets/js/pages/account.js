@@ -1,7 +1,7 @@
-import "./common.js?v=e25f86ac0b";
-import { $, h, SITE } from "../site.js?v=e25f86ac0b";
-import { progress, getClient, onAuth, onSync, syncNow, signOut } from "../progress.js?v=e25f86ac0b";
-import { displayName, avatar } from "../user.js?v=e25f86ac0b";
+import "./common.js?v=ee76f9a815";
+import { $, h, SITE } from "../site.js?v=ee76f9a815";
+import { progress, getClient, onAuth, onSync, syncNow, signOut } from "../progress.js?v=ee76f9a815";
+import { displayName, avatar } from "../user.js?v=ee76f9a815";
 
 const client = await getClient().catch(() => null);
 let mode = "in"; // "in" or "up"
@@ -107,7 +107,7 @@ if (!client) {
     e.preventDefault();
     const full_name = $("#name-edit").value.trim();
     const { error } = await client.auth.updateUser({ data: { full_name } });
-    const { toast } = await import("../site.js?v=e25f86ac0b");
+    const { toast } = await import("../site.js?v=ee76f9a815");
     toast(error ? "Couldn't save your name. Try again." : "Name saved", error ? "info" : "ok");
   };
   $("#signout").onclick = () => signOut();
@@ -122,6 +122,6 @@ $("#export").onclick = () => {
 $("#import").onchange = async (e) => {
   const f = e.target.files[0];
   if (!f) return;
-  const { toast } = await import("../site.js?v=e25f86ac0b");
+  const { toast } = await import("../site.js?v=ee76f9a815");
   try { progress.import(await f.text()); toast("Progress loaded", "ok"); } catch { toast("That file couldn't be read."); }
 };

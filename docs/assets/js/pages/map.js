@@ -1,6 +1,6 @@
-import "./common.js?v=e25f86ac0b";
-import { $, h, SITE } from "../site.js?v=e25f86ac0b";
-import { progress } from "../progress.js?v=e25f86ac0b";
+import "./common.js?v=ee76f9a815";
+import { $, h, SITE } from "../site.js?v=ee76f9a815";
+import { progress } from "../progress.js?v=ee76f9a815";
 
 const course = await (await fetch(SITE.root + "assets/data/course.json")).json();
 const built = new Set(course.built);

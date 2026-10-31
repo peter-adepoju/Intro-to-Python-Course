@@ -14,6 +14,8 @@ import tempfile
 import keyword
 import random
 import sys
+
+sys.dont_write_bytecode = True   # keep the working folder free of __pycache__
 import tokenize
 import traceback
 import types
@@ -188,7 +190,23 @@ def set_files(files_json):
     _FILES = json.loads(files_json or "{}")
 
 
+def _forget_work_modules():
+    """Modules imported from the working folder are forgotten before each run, so a learner's
+    edited helpers.py is imported fresh, and the folder is first on the import path."""
+    import importlib
+    for name, mod in list(sys.modules.items()):
+        f = getattr(mod, "__file__", None) or ""
+        if f and os.path.abspath(f).startswith(_WORK + os.sep):
+            del sys.modules[name]
+    if not sys.path or sys.path[0] != _WORK:
+        while _WORK in sys.path:
+            sys.path.remove(_WORK)
+        sys.path.insert(0, _WORK)
+    importlib.invalidate_caches()
+
+
 def _reset_fs():
+    _forget_work_modules()
     shutil.rmtree(_WORK, ignore_errors=True)
     os.makedirs(_WORK, exist_ok=True)
     for name, text in _FILES.items():
